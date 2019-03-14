@@ -3,7 +3,7 @@ Essa página que vocês estão vendo aqui agora, é uma coleção de código, qu
 
 O Código-fonte foi separado em 3 partes, essa separação é pra seguir um certo padrão de uma arquitetura chamada "Layered Architecture" ou Architectura em Camadas, explicações do porque disso mais abaixo. 
 Sobre as camadas...
-## UI/Presentation 
+## Web 
 Se Refere a camada de apresentação do projeto, nosso front-end. Aqui vai estar toda parte da aplicação que precisa ficar com o usuario. 
 ## Core
 Essa é a parte onde vai realmente acontecer a lógica da aplicação, a parte chata, como o do sistema de pagamento,Controle de estoque,Cadastro e afins. 
