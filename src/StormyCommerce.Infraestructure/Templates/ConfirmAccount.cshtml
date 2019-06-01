@@ -1,0 +1,22 @@
+
+<!-- Percebi agora: Preciso saber tambem qual dispositivo tentou entrar na conta -->
+@using System.Text.Encodings.Web
+@model WitthoeftStore.Infraestructure.Templates.ConfirmationAccountModel
+
+<!DOCTYPE html> 
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Please,Confirm your Email</title>
+    </head> 
+    <body> 
+        <p>
+            <h2>Olá @Model.Username !</h2>
+        </p>
+        <p> 
+            Coloque esse código @Model.DateCreated no campo especificado <a href='@Model.LinkToCheckPage'> nesse Link </a> para confirmar sua identidade 
+            Uma tentativa para se logar em sua conta foi feita em @Model.DateCreated, 
+            por segurança, temos que confirmar sua identidade             
+        </p>
+    </body>
+</html>
