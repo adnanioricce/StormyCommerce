@@ -23,9 +23,8 @@ namespace StormyCommerce.Module.Catalog.Test.Should
         public ProductServiceTest()
         {                    
             var context = TestContext.GetDbContext();                                  
-            context.AddRange(GetListData());
-            Repository = new StormyRepository<StormyProduct>(context);
-            
+            context.AddRange(GetListData());            
+            Repository = new StormyRepository<StormyProduct>(context);            
             //Repository = new Mock<IStormyRepository<StormyProduct>>();
             //Repository.Setup(x => x.GetAllAsync())
             //    .ReturnsAsync(collection);
@@ -54,7 +53,8 @@ namespace StormyCommerce.Module.Catalog.Test.Should
         public async void GetProductByIdAsync(int id)
         {                        
             //Act
-            var entity =  await ProductService.GetProductByIdAsync(id);            
+            var entity =  await ProductService.GetProductByIdAsync(id);
+            Console.WriteLine(entity);
             //Assert
             Assert.Equal(id,entity.Id);
         }
@@ -94,7 +94,7 @@ namespace StormyCommerce.Module.Catalog.Test.Should
         {
             return new StormyProduct
                 {
-                    SKU = "33E386EE-40A9-4AAA-9FA4-E0A196DC10ED",
+                    SKU = "33E353EE-40A9-4AAA-9FA4-E0A196DC10ED",
                     AllowCustomerReview = true,
                     ApprovedRatingSum = 5,
                     ApprovedTotalReviews = 32,
@@ -220,19 +220,25 @@ namespace StormyCommerce.Module.Catalog.Test.Should
                     UnitsInStock = 30,                                        
                 },
                 new StormyProduct{
-                    Id = 7
+                    Id = 7,
+                    Ranking = 7,
+                    SKU = "33E386EE-40A9-4AAA-9FA4-E0A196DC10ED"
                 },
                 new StormyProduct{
-                    Id = 5
+                    Id = 5,
+                    Ranking = 6,
                 },
                 new StormyProduct{
-                    Id = 4
+                    Id = 4,
+                    Ranking = 5,
                 },
                 new StormyProduct{
-                    Id = 3
+                    Id = 3,
+                    Ranking = 4,
                 },
                 new StormyProduct{
-                    Id = 9
+                    Id = 9,
+                    Ranking = 3,
                 }
             };
         }

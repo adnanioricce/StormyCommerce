@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using StormyCommerce.Core.Entities.Product;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
+
 namespace StormyCommerce.Core.Services
 {
     public class ProductService : IProductService
@@ -22,9 +24,11 @@ namespace StormyCommerce.Core.Services
         {
             productRepository.DeleteCollection(products);
         }
-        public Task<ICollection<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit)
+        public async Task<ICollection<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit)
         {
-            throw new NotImplementedException();
+            var productCollection = await productRepository.GetAllAsync();
+            var homePageProducts = productCollection.Where(f => f.Ranking < 15 && f.ProductAvailable == true);
+            return (ICollection<StormyProduct>)homePageProducts;
         }
 
         public int GetNumberOfProductsByVendorId(int vendorId)

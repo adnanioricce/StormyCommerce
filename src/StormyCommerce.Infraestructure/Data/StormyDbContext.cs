@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Models;
+using StormyCommerce.Core.Entities.Product;
+using StormyCommerce.Infraestructure.Data.Mapping.Catalog;
 
 namespace StormyCommerce.Infraestructure.Data
 {
@@ -16,8 +18,9 @@ namespace StormyCommerce.Infraestructure.Data
     {
         public StormyDbContext(DbContextOptions options) : base(options)
         {
-            
+              
         }
+       
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             ValidateEntities();
@@ -29,16 +32,14 @@ namespace StormyCommerce.Infraestructure.Data
             return base.SaveChangesAsync(acceptAllChangesOnSuccess,cancellationToken);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            List<Type> typeToRegisters = new List<Type>();
-            foreach(var module in GlobalConfiguration.Modules)
+        {            
+            var typeConfigurations = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(type => (type.BaseType?.IsGenericType ?? false) && (type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>)));
+            typeConfigurations.ToList().ForEach(func =>
             {
-                typeToRegisters.AddRange(module.Assembly.DefinedTypes.Select(t => t.AsType()));
-            }
-            RegisterEntities(modelBuilder,typeToRegisters);
-            RegisterConvention(modelBuilder);
-            base.OnModelCreating(modelBuilder);
-            RegisterCustomMappings(modelBuilder,typeToRegisters);
+                var configuration = (IMappingConfiguration)Activator.CreateInstance(func);
+                configuration.ApplyConfiguration(modelBuilder);
+            });
         }
         //TODO:Move this to a helper class
         private void ValidateEntities()
