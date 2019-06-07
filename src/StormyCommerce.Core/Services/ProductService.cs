@@ -24,11 +24,11 @@ namespace StormyCommerce.Core.Services
         {
             productRepository.DeleteCollection(products);
         }
-        public async Task<ICollection<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit)
+        public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit)
         {
             var productCollection = await productRepository.GetAllAsync();
             var homePageProducts = productCollection.Where(f => f.Ranking < 15 && f.ProductAvailable == true);
-            return (ICollection<StormyProduct>)homePageProducts;
+            return homePageProducts.ToList();
         }
 
         public int GetNumberOfProductsByVendorId(int vendorId)
@@ -48,7 +48,7 @@ namespace StormyCommerce.Core.Services
 
         public Task<StormyProduct> GetProductBySkuAsync(string sku)
         {
-            throw new NotImplementedException();
+            // var product = productRepository.Table
         }
 
         public async Task<ICollection<StormyProduct>> GetProductsByIdsAsync(int[] productIds)

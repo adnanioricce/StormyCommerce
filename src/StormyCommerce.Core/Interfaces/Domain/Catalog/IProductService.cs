@@ -9,7 +9,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
     {        
         void DeleteProduct(StormyProduct product);        
         void DeleteProducts(IList<StormyProduct> products);       
-        Task<ICollection<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit = null);                
+        Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit = null);                
         Task<StormyProduct> GetProductByIdAsync(int productId);        
         Task<ICollection<StormyProduct>> GetProductsByIdsAsync(int[] productIds);        
         Task InsertProductAsync(StormyProduct product);        
