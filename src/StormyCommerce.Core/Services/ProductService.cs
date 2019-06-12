@@ -32,6 +32,12 @@ namespace StormyCommerce.Core.Services
                 .Where(f => f.Ranking < limit && f.ProductAvailable == true)
                 .Select(f => f.Id)
                 .ToArray());
+	}
+        public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit)
+        {
+            var productCollection = await productRepository.GetAllAsync();
+            var homePageProducts = productCollection.Where(f => f.Ranking < 15 && f.ProductAvailable == true);
+            return homePageProducts.ToList();
         }
 
         public int GetNumberOfProductsByVendorId(int vendorId)
