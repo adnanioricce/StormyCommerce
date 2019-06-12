@@ -9,5 +9,7 @@
         public string FileName { get; set; }
 
         public MediaType MediaType { get; set; }
+	    public string SeoFileName { get; set; }
+	
     }
 }

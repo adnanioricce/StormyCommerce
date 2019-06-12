@@ -3,13 +3,16 @@ using Microsoft.Extensions.DependencyInjection;
 using StormyCommerce.Infraestructure.Data;
 using System;
 
-namespace StormyCommerce.Core.Test
+namespace StormyCommerce.Module.Catalog.Test
 {
     public class TestContext
     {
-        public StormyCommerce.Infraestructure.Data.StormyDbContext GetDbContext(DbContextOptions<StormyDbContext> dbContextOptions)
-        {            
-            var dbContext = new StormyDbContext(dbContextOptions);
+        public StormyCommerce.Infraestructure.Data.StormyDbContext GetDbContext()
+        {                             
+            var builder = new DbContextOptionsBuilder<StormyDbContext>();
+            builder.UseInMemoryDatabase($"{Guid.NewGuid().ToString("N")}-FakeStormyDatabase");
+            builder.EnableSensitiveDataLogging();
+            var dbContext = new StormyDbContext(builder.Options);
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
             return dbContext;
