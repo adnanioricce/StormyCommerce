@@ -9,20 +9,20 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
     {        
         void DeleteProduct(StormyProduct product);        
         void DeleteProducts(IList<StormyProduct> products);       
-        Task<ICollection<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit = null);                
+        Task<ICollection<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit = 0);                
         Task<StormyProduct> GetProductByIdAsync(int productId);        
         Task<ICollection<StormyProduct>> GetProductsByIdsAsync(int[] productIds);        
         Task InsertProductAsync(StormyProduct product);        
         Task UpdateProductAsync(StormyProduct product);                
         Task UpdateProductsAsync(IList<StormyProduct> products);        
-        int GetNumberOfProductsInCategory(IList<int> categoryIds = null, int storeId = 0);                        
-        void UpdateProductReviewTotals(StormyProduct product);                  
+        int GetNumberOfProductsInCategory(IList<int> categoryIds = null, int storeId = 0);                                       
         Task<StormyProduct> GetProductBySkuAsync(string sku);        
         Task<ICollection<StormyProduct>> GetProductsBySkuAsync(string[] skuArray, int vendorId = 0);                      
-        int GetNumberOfProductsByVendorId(int vendorId);                   
-        bool ProductIsAvailable(StormyProduct product, DateTime? dateTime = null);              
+        int GetNumberOfProductsByVendorId(int vendorId);                                 
         //TODO: Still have to create a tag entities
         //bool ProductTagExists(StormyProduct product, int productTagId);                      
-        int GetTotalStockQuantity(StormyProduct product, bool useReservedQuantity = true, int warehouseId = 0);                        
+        int GetTotalStockQuantity();
+        int GetTotalStockQuantityOfProduct(StormyProduct product);
+        Task InsertProductsAsync(IList<StormyProduct> products);
     }
 }

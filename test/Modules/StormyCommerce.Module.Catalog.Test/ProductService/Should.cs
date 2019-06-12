@@ -1,7 +1,6 @@
 ﻿using System;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using Xunit;
-using Moq;
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Product;
 using StormyCommerce.Core.Entities.Vendor;
@@ -14,81 +13,155 @@ using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
 
-namespace StormyCommerce.Module.Catalog.Test.Should
+namespace StormyCommerce.Core.Test.ProductService
 {
-    public class ProductServiceTest
-    {
-        private IStormyRepository<StormyProduct> Repository { get; }
-        private IProductService ProductService { get; }        
-        public ProductServiceTest()
-        {                    
-            var context = TestContext.GetDbContext();                                  
-            context.AddRange(GetListData());            
-            Repository = new StormyRepository<StormyProduct>(context);            
-            //Repository = new Mock<IStormyRepository<StormyProduct>>();
-            //Repository.Setup(x => x.GetAllAsync())
-            //    .ReturnsAsync(collection);
-            //Repository.Setup(x => x.GetByIdAsync(It.IsAny<int>()))
-            //    .ReturnsAsync(sampleProduct);
-            //Repository.Setup(x => x.AddAsync(It.IsAny<StormyProduct>()))
-            //    .Returns(Task.FromResult(Task.CompletedTask));
-            //Repository.Setup(x => x.AddCollectionAsync(It.IsAny<IEnumerable<StormyProduct>>()))
-            //    .Returns(Task.FromResult(Task.CompletedTask));
-            //Repository.Setup(x => x.Delete(It.IsAny<StormyProduct>()))
-            //    .Callback((StormyProduct entity) => collection.Add(entity));
-            //Repository.Setup(x => x.DeleteCollection(It.IsAny<IEnumerable<StormyProduct>>()))
-            //    .Callback((IEnumerable<StormyProduct> entities) => collection.RemoveRange(entities));
-            //Repository.Setup(x => x.UpdateAsync(It.IsAny<StormyProduct>()))
-            //    .Returns(Task.FromResult(Task.CompletedTask));
-            //Repository.Setup(x => x.UpdateCollectionAsync(It.IsAny<IEnumerable<StormyProduct>>()))
-            //    .Returns(Task.FromResult(Task.CompletedTask));
-            //Repository.Setup(x => x.Table)
-            //    .Returns(collection);
-            //var productService = new ProductService(Repository.Object);                     
-            ProductService = new ProductService(Repository);
-        }
-
+    public class Should
+    {        
         [Theory]
         [InlineData(1)]
-        public async void GetProductByIdAsync(int id)
-        {                        
-            //Act
-            var entity =  await ProductService.GetProductByIdAsync(id);
-            Console.WriteLine(entity);
-            //Assert
-            Assert.Equal(id,entity.Id);
+        public async Task GetProductByIdAsync(int id)
+        {
+            //?this can give a lot of exceptions, should I throw something
+            //Arrange
+            using (var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
+            {
+                dbContext.AddRange(GetListData());
+                dbContext.SaveChanges();
+                var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
+                //Act
+                var entity = await service.GetProductByIdAsync(id);
+                //Assert
+                Assert.Equal(id, entity.Id);
+            }
         }
         [Theory]
         [InlineData("33E386EE-40A9-4AAA-9FA4-E0A196DC10ED")]
-        public async void GetProductBySkuAsync(string sku)
+        public async Task GetProductBySkuAsync(string sku)
         {
-            //Act
-            var entity = await ProductService.GetProductBySkuAsync(sku);
-            //Assert
-            Assert.Equal(sku,entity.SKU);
+            //Arrange 
+            using (var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
+            {
+                dbContext.AddRange(GetListData());
+                dbContext.SaveChanges();
+                var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
+                //Act
+                var entity = await service.GetProductBySkuAsync(sku);
+                //Assert
+                Assert.Equal(sku, entity.SKU);
+            }  
         }
         [Fact]
-        public async void GetListProducts()
+        public async Task GetListProducts()
         {
-            //Act
-            var entities = await ProductService.GetAllProductsDisplayedOnHomepageAsync(30);
-            //Assert
-            Assert.Equal(30,entities.Count);
+            //Arrange 
+            using (var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
+            {
+                dbContext.AddRange(GetListData());
+                dbContext.SaveChanges();
+                var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
+                //Act
+                var entities = await service.GetAllProductsDisplayedOnHomepageAsync(6);
+                //Assert
+                Assert.Equal(6, entities.Count);
+            }            
         }
 
         [Theory]
-        [InlineData(new int[] {7,5,4,1,3,9})]
-        public async void GetProductsByIds(int[] ids)
-        {            
-            //Act
-            var entities = await ProductService.GetProductsByIdsAsync(ids);
-            //Assert
-            Assert.Equal(1,entities.First(entity => entity.Id == 1).Id);
-            Assert.Equal(7,entities.First(entity => entity.Id == 7).Id);
-            Assert.Equal(4,entities.First(entity => entity.Id == 4).Id);
-            Assert.Equal(3,entities.First(entity => entity.Id == 3).Id);
-            Assert.Equal(9,entities.First(entity => entity.Id == 9).Id);
-            Assert.Equal(5,entities.First(entity => entity.Id == 5).Id);
+        [InlineData(new int[] { 7, 5, 4, 1, 3, 9 })]
+        public async Task GetProductsByIdColletion(int[] ids)
+        {
+            using (var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
+            {
+                dbContext.AddRange(GetListData());
+                dbContext.SaveChanges();
+                var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
+                //Act
+                var entities = await service.GetProductsByIdsAsync(ids);
+                //Assert
+                Assert.Equal(1, entities.First(entity => entity.Id == 1).Id);
+                Assert.Equal(7, entities.First(entity => entity.Id == 7).Id);
+                Assert.Equal(4, entities.First(entity => entity.Id == 4).Id);
+                Assert.Equal(3, entities.First(entity => entity.Id == 3).Id);
+                Assert.Equal(9, entities.First(entity => entity.Id == 9).Id);
+                Assert.Equal(5, entities.First(entity => entity.Id == 5).Id);
+            }                        
+        }        
+        [Fact]
+        public void GetTotalStockQuantity()
+        {
+            //Arrange 
+            using(var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
+            {
+                dbContext.AddRangeAsync(GetListData());
+                dbContext.SaveChanges();
+                var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
+                //Act 
+                var stockQuantity = service.GetTotalStockQuantity();
+                //Assert 
+                Assert.Equal(58, stockQuantity);
+            }
+        }
+        [Fact]
+        public void GetTotalStockQuantityOfProduct()
+        {
+            //Arrange 
+            using (var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
+            {
+                var product = GetSampleData();
+                dbContext.AddAsync(product);
+                dbContext.SaveChanges();
+                var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
+                //Act 
+                var stockQuantity = service.GetTotalStockQuantityOfProduct(product);
+                //Assert 
+                Assert.Equal(30, stockQuantity);
+            }
+        }
+        [Fact]
+        public void GetNumberOfProductsOfVendorByItsId()
+        {
+            //Arrange 
+            using (var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
+            {                
+                dbContext.AddRange(GetListData());
+                dbContext.SaveChanges();
+                var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
+                //Act 
+                var numberOfProducts = service.GetNumberOfProductsByVendorId(1);
+                //Assert 
+                Assert.Equal(2, numberOfProducts);
+            }
+        }
+        [Fact]
+        public async Task InsertProductAsync()
+        {
+            using (var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
+            {                
+                var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
+                //Act 
+                var sampleProduct = GetSampleData();
+                await service.InsertProductAsync(sampleProduct);
+                var product = await service.GetProductByIdAsync(sampleProduct.Id);
+                Console.WriteLine(product);
+                //Assert                 
+                Assert.Equal(sampleProduct,product);
+            }
+        }
+        [Fact]
+        public async Task InsertProductsAsync()
+        {
+            using (var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
+            {
+                var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
+                //Act 
+                var sampleProducts = GetListData();
+                await service.InsertProductsAsync(sampleProducts);
+                var products = await service.GetProductsByIdsAsync(sampleProducts
+                    .Select(f => f.Id)
+                    .ToArray());                
+                //Assert                 
+                Assert.Equal(sampleProducts, products);
+            }
         }
         private StormyProduct GetSampleData()
         {
@@ -217,28 +290,40 @@ namespace StormyCommerce.Module.Catalog.Test.Should
                         Note = "Sample Data"
                     },
                     UnitPrice = (decimal)49.99,
-                    UnitsInStock = 30,                                        
+                    UnitsInStock = 30,
                 },
                 new StormyProduct{
                     Id = 7,
                     Ranking = 7,
-                    SKU = "33E386EE-40A9-4AAA-9FA4-E0A196DC10ED"
+                    SKU = "33E386EE-40A9-4AAA-9FA4-E0A196DC10ED",
+                    UnitsInStock = 4,
+                    VendorId = 1,                    
+
                 },
                 new StormyProduct{
                     Id = 5,
                     Ranking = 6,
+                    ProductAvailable = true,
+                    UnitsInStock = 10
+                    
                 },
                 new StormyProduct{
                     Id = 4,
                     Ranking = 5,
+                    ProductAvailable = true,
+                    UnitsInStock = 2
                 },
                 new StormyProduct{
                     Id = 3,
                     Ranking = 4,
+                    ProductAvailable = true,
+                    UnitsInStock = 4
                 },
                 new StormyProduct{
                     Id = 9,
                     Ranking = 3,
+                    ProductAvailable = true,
+                    UnitsInStock = 8
                 }
             };
         }

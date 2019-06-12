@@ -7,7 +7,7 @@ namespace StormyCommerce.Core.Entities.Product
 	public class StormyProduct : BaseEntity
 	{
 		public string SKU { get; set;}				
-		public string ProductName { get; set; }
+		public string ProductName { get; set; }        
         public int BrandId { get; set; }
         [NotMapped]
         public Brand Brand { get; set; }
