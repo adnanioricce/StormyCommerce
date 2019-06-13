@@ -12,7 +12,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		public CatalogController(IProductService _productService,IMapper _mapper)
 		{
 			productService = _productService;
-			mapper = _mapper;
+			mapper = _mapper;			
 		}
 		[HttpGet]
 		public async Task<IList<ProductDto>> GetAllProductsOnHomepage(int limit)
@@ -28,7 +28,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		[HttpPost("catalog/product/create")]
 		public async Task<SomeReturnType> CreateProduct(CreateProductRequest _model)
 		{
-//			var model = mapper<StormyProduct>( _model);
+			return await productService.InsertAsync(mapper<StormyProduct>(_model));
 		}
 	}
 }
