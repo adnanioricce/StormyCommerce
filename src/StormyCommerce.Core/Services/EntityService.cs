@@ -63,7 +63,7 @@ namespace StormyCommerce.Core.Services
 	            if (entity != null)
         	    {
                 	 await _mediator.Publish(new EntityDeleting { EntityId = entity.Id });
-	                entityRepository.Remove(entity);
+	                entityRepository.Delete(entity);
         	    }
 	        }
 	}

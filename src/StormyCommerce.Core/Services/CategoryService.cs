@@ -24,19 +24,20 @@ namespace StormyCommerce.Core.Services
 			entity.Slug = entityService.ToSafeSlug(entity.Slug,entity.Id,entityTypeId);
 			await categoryService.AddAsync(entity);
 		}
-		public Task UpdateAsync(Category entity)
+		public async Task UpdateAsync(Category entity)
 		{
 			entity.Slug = entityService.ToSafeSlug(entity.Slug,entity.Id,entityTypeId);
 			entityService.Update(entity.Name,entity.Slug,entity.Id,entityTypeId);
+			await categoryRepository.UpdateAsync(entity);
 
 		} 
-		public Task DeleteAsync(long id)
+		public async Task DeleteAsync(long id)
 		{
-			throw new NotImplementedException();
+			await entityService.Remove(categoryRepository.GetById(id),entityTypeId);
 		}
-		public Task DeleteAsync(Category entity)
+		public async Task DeleteAsync(Category entity)
 		{
-			throw new NotImplementedException();
+			await entityService.Remove(entity.Id,entityTypeId);
 		}
 
 	}
