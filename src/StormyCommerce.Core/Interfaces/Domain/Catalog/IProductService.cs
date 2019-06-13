@@ -8,12 +8,8 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
     public interface IProductService
     {        
         void DeleteProduct(StormyProduct product);        
-        void DeleteProducts(IList<StormyProduct> products);       
-<<<<<<< HEAD
-        Task<ICollection<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit = 0);                
-=======
-        Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit = null);                
->>>>>>> 8b17fc71e1dba81609e1b396ebfc7ef510bc1d04
+        void DeleteProducts(IList<StormyProduct> products);                      
+        Task<ICollection<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit = 0);                           
         Task<StormyProduct> GetProductByIdAsync(int productId);        
         Task<ICollection<StormyProduct>> GetProductsByIdsAsync(int[] productIds);        
         Task InsertProductAsync(StormyProduct product);        

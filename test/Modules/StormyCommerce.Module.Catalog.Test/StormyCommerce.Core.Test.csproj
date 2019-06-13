@@ -8,12 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.4" />
-<<<<<<< HEAD:test/Modules/StormyCommerce.Module.Catalog.Test/StormyCommerce.Core.Test.csproj
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />    
-=======
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
-    
->>>>>>> 8b17fc71e1dba81609e1b396ebfc7ef510bc1d04:test/Modules/StormyCommerce.Module.Catalog.Test/StormyCommerce.Module.Catalog.Test.csproj
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
