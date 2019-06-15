@@ -1,4 +1,5 @@
-using StormyCommerce.Core.Entities.Media; 
+﻿using StormyCommerce.Core.Entities.Media;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace StormyCommerce.Core.Entities.Catalog
 {
@@ -37,8 +38,7 @@ namespace StormyCommerce.Core.Entities.Catalog
 
 	        public IList<Category> Children { get; protected set; } = new List<Category>();
 
-        	public Media ThumbnailImage { get; set; }
-    
+        	public Media.Media ThumbnailImage { get; set; }                     
 
-	}
+    }
 }

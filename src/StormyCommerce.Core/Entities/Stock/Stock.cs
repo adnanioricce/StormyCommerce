@@ -1,5 +1,5 @@
-//!This Code probably Will be deleted
-using StormyCommerce.Core.Entities.Product;
+﻿//!This Code probably Will be deleted
+using StormyCommerce.Core.Entities.Catalog.Product;
 using System.Collections.Generic; 
 namespace StormyCommerce.Core.Entities 
 {

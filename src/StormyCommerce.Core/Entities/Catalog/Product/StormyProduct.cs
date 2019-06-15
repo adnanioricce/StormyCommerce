@@ -1,20 +1,20 @@
-﻿using StormyCommerce.Core.Entities.Vendor;
+﻿using StormyCommerce.Core.Entities.Product;
+using StormyCommerce.Core.Entities.Vendor;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace StormyCommerce.Core.Entities.Product
+namespace StormyCommerce.Core.Entities.Catalog.Product
 {
 	public class StormyProduct : BaseEntity
 	{
 		public string SKU { get; set;}				
 		public string ProductName { get; set; }        
-        	public int BrandId { get; set; }
-	        [NotMapped]
-        	public Brand Brand { get; set; }
+        public int BrandId { get; set; }	       
+        public Brand Brand { get; set; }
 		public string TypeName { get; set; }
 		public int QuantityPerUnity {get;set;}
-	        public int VendorId { get; set; }
-        	[NotMapped]
+	    public int VendorId { get; set; }     
 		public StormyVendor Vendor {get;set;}
 		public string UnitSize {get;set;}
 		public decimal UnitPrice {get;set;}
@@ -25,10 +25,17 @@ namespace StormyCommerce.Core.Entities.Product
 		public bool ProductAvailable {get;set;}
 		public bool DiscountAvailable {get;set;}
 		public bool CurrentOrder {get; set;}
-	        public int ProductPicturesId { get; set; }
-        	[NotMapped]
-	        public ProductPictures Pictures {get;set;}
-		public int Ranking {get;set;}
+	    public int ProductMediasId { get; set; }
+        public IList<ProductMedia> Medias { get; protected set; } = new List<ProductMedia>();
+
+        public IList<ProductLink> Links { get; protected set; } = new List<ProductLink>();
+
+        public IList<ProductLink> LinkedProductLinks { get; protected set; } = new List<ProductLink>();
+
+        public IList<ProductAttributeValue> AttributeValues { get; protected set; } = new List<ProductAttributeValue>();
+
+        public IList<ProductOptionValue> OptionValues { get; protected set; } = new List<ProductOptionValue>();
+        public int Ranking {get;set;}
 		public string Note {get;set;}
 		public decimal Price {get;set;}
         	public decimal OldPrice { get; set; }
@@ -47,16 +54,10 @@ namespace StormyCommerce.Core.Entities.Product
 	        public int NotApprovedRatingSum { get; set; }
 	        public int ApprovedTotalReviews { get; set; }
 	        public int NotApprovedTotalReviews { get; set; }        
-		public IList<ProductAttribute> ProductAttributes { get; set;}
-		public void AddCategory(ProductCategory category)
-	        {
-        	    category.Product = this;
-	            Categories.Add(category);
-	        }
+		public IList<ProductAttribute> ProductAttributes { get; set;}		
 
         public void AddMedia(ProductMedia media)
-        {
-            media.Product = this;
+        {            
             Medias.Add(media);
         }
 
@@ -75,7 +76,7 @@ namespace StormyCommerce.Core.Entities.Product
         public void AddProductLinks(ProductLink productLink)
         {
             productLink.Product = this;
-            ProductLinks.Add(productLink);
+            Links.Add(productLink);
         }
 
 

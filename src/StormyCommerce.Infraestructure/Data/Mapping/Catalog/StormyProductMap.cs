@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StormyCommerce.Core.Entities.Product;
+using StormyCommerce.Core.Entities.Catalog.Product;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
 {
@@ -14,8 +14,8 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             builder.Property(product => product.BrandId).HasColumnName("Brand_Id");
             builder.Property(product => product.VendorId).HasColumnName("Vendor_Id");
             builder.HasOne(product => product.Vendor).WithMany().HasForeignKey(p => p.VendorId).HasConstraintName("Vendor_Fk");
-            builder.Property(product => product.ProductPicturesId).HasColumnName("Product_Pictures_Id");
-            builder.HasOne(product => product.Pictures).WithMany().HasForeignKey(p => p.ProductPicturesId).HasConstraintName("Product_Pictures_Fk");
+            builder.Property(product => product.ProductMediasId).HasColumnName("Product_Pictures_Id");
+            builder.HasOne(product => product.Medias).WithMany().HasForeignKey(p => p.ProductMediasId).HasConstraintName("Product_Pictures_Fk");
             builder.Property(product => product.SKU).IsRequired();
             builder.Property(product => product.ProductName).HasMaxLength(400).IsRequired();
             builder.Property(product => product.AllowCustomerReview);

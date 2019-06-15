@@ -83,9 +83,9 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<ICollection<TEntity>> GetAllAsync() => await DbSet.ToListAsync();
+        public async Task<IList<TEntity>> GetAllAsync() => await DbSet.ToListAsync();
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(long id)
         {
             return await DbSet.FindAsync(id);
         }
@@ -119,7 +119,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<ICollection<TEntity>> GetAllByIdsAsync(int[] ids)
+        public async Task<IList<TEntity>> GetAllByIdsAsync(long[] ids)
         {
             if (ids == null)
                 throw new NullReferenceException("Given argument is null");

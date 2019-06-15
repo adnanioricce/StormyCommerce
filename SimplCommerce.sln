@@ -152,6 +152,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SimplLibraries", "SimplLibr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StormyLibraries", "StormyLibraries", "{C4BFCCAC-F9F3-4B0A-B55A-7BA8D87A28EC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StormyCommerce.Api.Framework", "src\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj", "{8132424D-8A37-48FC-9ED7-38C68F176411}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -786,6 +788,18 @@ Global
 		{489DAEBC-04BA-43D1-AE40-BEF6BBC5736B}.Release|x64.Build.0 = Release|Any CPU
 		{489DAEBC-04BA-43D1-AE40-BEF6BBC5736B}.Release|x86.ActiveCfg = Release|Any CPU
 		{489DAEBC-04BA-43D1-AE40-BEF6BBC5736B}.Release|x86.Build.0 = Release|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Debug|x64.Build.0 = Debug|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Debug|x86.Build.0 = Debug|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Release|x64.ActiveCfg = Release|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Release|x64.Build.0 = Release|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Release|x86.ActiveCfg = Release|Any CPU
+		{8132424D-8A37-48FC-9ED7-38C68F176411}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -849,6 +863,7 @@ Global
 		{C6DE44D6-01AC-49E8-B074-799C1F0FB92F} = {D9FD9ABA-AE5E-4427-AA6B-6285BE2E212D}
 		{89043F2C-38D5-40BB-8369-DA6D429BB2D1} = {D9FD9ABA-AE5E-4427-AA6B-6285BE2E212D}
 		{C4BFCCAC-F9F3-4B0A-B55A-7BA8D87A28EC} = {D9FD9ABA-AE5E-4427-AA6B-6285BE2E212D}
+		{8132424D-8A37-48FC-9ED7-38C68F176411} = {C9BFDDC4-5671-47A3-B57D-197C2A51FA8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B9D0D8F0-1AB9-44DD-839F-ED8CEE7DDB10}

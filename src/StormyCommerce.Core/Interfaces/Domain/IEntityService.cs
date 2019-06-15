@@ -1,3 +1,5 @@
+﻿using StormyCommerce.Core.Entities;
+
 namespace StormyCommerce.Core.Interfaces.Domain
 {
 	public interface IEntityService

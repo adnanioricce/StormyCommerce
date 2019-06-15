@@ -1,3 +1,4 @@
+﻿using StormyCommerce.Core.Entities.Media;
 using System.IO;
 using System.Threading.Tasks; 
 namespace StormyCommerce.Core.Interfaces

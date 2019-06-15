@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using StormyCommerce.Core.Entities.Catalog;
-
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductOption : EntityBase
+    public class ProductOption : BaseEntity
     {
         public ProductOption()
         {

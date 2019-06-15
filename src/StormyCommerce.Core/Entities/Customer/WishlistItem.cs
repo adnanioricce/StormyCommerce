@@ -1,14 +1,14 @@
-﻿using StormyCommerce.Core.Entities.Product;
+﻿using StormyCommerce.Core.Entities.Catalog.Product;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StormyCommerce.Core.Entities.Customer
 {
     public class WishlistItem : BaseEntity
     {
-        public int ProductInt { get; set; }
-        [NotMapped]
+        public int ProductId { get; set; }               
         public StormyProduct Product { get; set; }
+        public int WishlistId { get; set; }
+        public Wishlist Wishlist { get; set; }
         public DateTime AddedAt { get; set; }
         public bool Deleted { get; set; }
     }

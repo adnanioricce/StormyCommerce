@@ -2,7 +2,7 @@
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using Xunit;
 using StormyCommerce.Core.Entities.Common;
-using StormyCommerce.Core.Entities.Product;
+using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Interfaces;
 using System.Threading.Tasks;
@@ -12,6 +12,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
+using StormyCommerce.Core.Services;
+using StormyCommerce.Module.Catalog.Test;
 
 namespace StormyCommerce.Core.Test.ProductService
 {
@@ -67,8 +69,8 @@ namespace StormyCommerce.Core.Test.ProductService
         }
 
         [Theory]
-        [InlineData(new int[] { 7, 5, 4, 1, 3, 9 })]
-        public async Task GetProductsByIdColletion(int[] ids)
+        [InlineData(new long[] { 7, 5, 4, 1, 3, 9 })]
+        public async Task GetProductsByIdColletion(long[] ids)
         {
             using (var dbContext = new StormyDbContext(TestContext.GetDbOptions()))
             {

@@ -11,7 +11,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             CreatedOn = DateTimeOffset.Now;
         }
 
-        public Product Product { get; set; }
+        public StormyProduct Product { get; set; }
 
         public long CreatedById { get; set; }
 
