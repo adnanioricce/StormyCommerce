@@ -25,7 +25,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
         public CatalogController(INotificationHandler<DomainNotification> notification,IMediatorHandler mediator,IProductService _productService, IMapper _mapper) : base(notification,mediator)
 		{
 			productService = _productService;
-			mapper = _mapper;
+			mapper = _mapper;			
 		}
 		[HttpGet]
 		public async Task<IList<ProductDto>> GetAllProductsOnHomepage(int limit)
@@ -41,8 +41,13 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		[HttpPost("catalog/product/create")]
 		public async Task CreateProduct(CreateProductRequest _model)
 		{
+<<<<<<< HEAD
 			var model = mapper.Map<StormyProduct>( _model);
 			await productService.InsertProductAsync(model);
 		}		
+=======
+			return await productService.InsertAsync(mapper<StormyProduct>(_model));
+		}
+>>>>>>> 47a39faf229a993d618c257eb64ec139bf5f976f
 	}
 }

@@ -16,6 +16,7 @@ namespace StormyCommerce.Core.Interfaces
 		void DeleteCollection(IEnumerable<T> entities);	
 		Task AddAsync(T entity); 
 		Task AddCollectionAsync(IEnumerable<T> entities);			
-		IQueryable<T> Table {get;}		
+		IQueryable<T> Table {get;}
+		IDbContextTransaction BeginTransaction(); 
 	}
 }

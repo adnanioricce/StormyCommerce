@@ -4,17 +4,24 @@ using System.Threading.Tasks;
 using System.Linq;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
+<<<<<<< HEAD
 using StormyCommerce.Core.Entities.Catalog.Product;
 
+=======
+>>>>>>> 47a39faf229a993d618c257eb64ec139bf5f976f
 namespace StormyCommerce.Core.Services
 {
     public class ProductService : IProductService
     {
+	private const string ProductEntityTypeId = "Product";
         private readonly IStormyRepository<StormyProduct> productRepository;
+	private readonly IEntityService entityService;
 
-        public ProductService(IStormyRepository<StormyProduct> _productRepository)
+        public ProductService(IStormyRepository<StormyProduct> _productRepository,IEntityService _entityService)
         {
             productRepository = _productRepository;
+	    entityService = _entityService;
+
         }
         public void DeleteProduct(StormyProduct product)
         {
@@ -36,7 +43,7 @@ namespace StormyCommerce.Core.Services
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit)
         {
             var productCollection = await productRepository.GetAllAsync();
-            var homePageProducts = productCollection.Where(f => f.Ranking < 15 && f.ProductAvailable == true);
+            var homePageProducts = productCollection.Where(f => f.Ranking < limit && f.ProductAvailable == true);
             return homePageProducts.ToList();
         }
 
@@ -84,7 +91,8 @@ namespace StormyCommerce.Core.Services
         }
         public async Task InsertProductAsync(StormyProduct product)
         {
-            await productRepository.AddAsync(product);            
+		product.Slug = entityService.ToSafeSlug(product.Slug,product.Id,);
+		await productRepository.AddAsync(product);            
         }
         public async Task InsertProductsAsync(IList<StormyProduct> products)
         {
