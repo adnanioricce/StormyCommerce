@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Catalog;
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductOptionValue : EntityBase
+    public class ProductOptionValue : BaseEntity
     {
         public long OptionId { get; set; }
 
@@ -12,7 +10,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 
         public long ProductId { get; set; }
 
-        public Product Product { get; set; }
+        public StormyProduct Product { get; set; }
 
         [StringLength(450)]
         public string Value { get; set; }

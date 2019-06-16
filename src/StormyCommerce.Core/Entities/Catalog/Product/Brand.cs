@@ -1,4 +1,4 @@
-namespace StormyCommerce.Core.Entities.Product
+﻿namespace StormyCommerce.Core.Entities.Catalog.Product
 {
     public class Brand : BaseEntity
     {        

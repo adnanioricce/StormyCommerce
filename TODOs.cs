@@ -1,5 +1,7 @@
 ﻿////TODO:Implement IProductService [DONE]
-////TODO:define basic tests for ProductService [DONE]
+////define basic tests for ProductService [DONE]
+//TODO:Create a basic test project to use here, I think will be necessary.
+    //? 
 //TODO:Write the mappings for the model builder of ef
 //TODO:Write Controllers for basic Catalog Interaction (note: avoid recreating the well, use the simplCommerce classes too);
 //TODO:Write the Integration Tests to check "Consistency" 

@@ -1,32 +1,44 @@
+﻿using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Entities.Payments;
+using StormyCommerce.Core.Entities.Shipping;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StormyCommerce.Core.Entities
 {
 	public class StormyOrder : BaseEntity
-	{		
-		public int CustomerId {get;set;}
+	{
+        public Guid OrderUniqueKey { get; set; }
+        public int CustomerId {get;set;}
         public int StatusId { get; set; }
         public int ShippingId { get; set; }
+        public int ShippingStatusId { get; set; }
         public int PaymentId { get; set; }
-        public Basket OrderBasket { get; set; }
-        [NotMapped]
-		public Payment Payment {get;set;}
-        [NotMapped]
-		public Ship Shipping { get; set; }
-		public DateTime OrderDate {get;set;}
+        public int PaymentStatusId { get; set; }
+        public bool PickUpInStore { get; set; }
+        public bool IsDeleted { get; set; }
+        public string ShippingMethod { get; set; }
+        public decimal Discount { get; set; }
+        public decimal Tax { get; set; }
+        public decimal Total { get; set; }
+        //public Payment Payment {get;set;}
+        public StormyCustomer Customer { get; set; }
+        public Address ShippingAddress { get; set; }        
+        public DateTime OrderDate {get;set;}
 		public DateTime RequiredDate {get;set;}
 		public DateTime ShipDate {get;set;}
-        
+        public DateTime? PaidDate { get; set; }
+        public IList<OrderItem> Items { get; set; }
+        public IList<OrderNote> Notes { get; set; }
+        public IList<Shipment> Shipments { get; set; }
         public OrderStatus Status { get; set; }
-		public decimal GetTotalOrderPrice()
+        public ShippingStatus ShippingStatus { get; set; }
+        public decimal GetTotalOrderPrice()
 		{
-			//?Ok, maybe I need learn LINQ for real...What select will do in detail here
-			var result = OrderBasket.Items.Select(f => f.Price - f.Discount).Sum();
-			return result;
+            throw new NotImplementedException();
 		}
 	}
 }

@@ -582,7 +582,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 product.AddProductLinks(productLink);
             }
         }
-
+        //TODO:Move This to some type of CategoryController?
         private void AddOrDeleteCategories(ProductForm model, Product product)
         {
             foreach (var categoryId in model.Product.CategoryIds)
@@ -598,11 +598,11 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 };
                 product.AddCategory(productCategory);
             }
-
+            //Get all Product without a category added before
             var deletedProductCategories =
                 product.Categories.Where(productCategory => !model.Product.CategoryIds.Contains(productCategory.CategoryId))
                     .ToList();
-
+            //Delete all categories on the product object and ProductCategoryRepository
             foreach (var deletedProductCategory in deletedProductCategories)
             {
                 deletedProductCategory.Product = null;

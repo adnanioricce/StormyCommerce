@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Product;
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
@@ -8,7 +9,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
     {
         public long ProductId { get; set; }
 
-        public Product Product { get; set; }
+        public StormyProduct Product { get; set; }
 
         public long OptionId { get; set; }
 

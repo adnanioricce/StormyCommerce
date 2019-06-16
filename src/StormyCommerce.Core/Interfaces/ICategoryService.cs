@@ -1,3 +1,5 @@
+﻿using StormyCommerce.Core.Entities.Catalog;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace StormyCommerce.Core.Interfaces
 {

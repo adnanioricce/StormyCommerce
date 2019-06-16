@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using StormyCommerce.Core.Entities.Customer;
 using System.Collections.Generic;
 namespace StormyCommerce.Core.Interfaces.Infraestructure.Settings

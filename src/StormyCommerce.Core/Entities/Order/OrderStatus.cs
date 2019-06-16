@@ -1,14 +1,29 @@
-using System;
-
-namespace StormyCommerce.Core.Entities
+﻿namespace StormyCommerce.Core.Entities.Order
 {
-    public class OrderStatus
+    public enum OrderStatus
     {
-        public int id { get; set; }
-        public string StatusName { get; set; }
-        public int ShipId { get; set; }
-        public int OrderId { get; set; }        
-        public DateTime LastModified { get; set; }
-        public Rating OrderRating { get; set; }
+        New = 1,
+
+        OnHold = 10,
+
+        PendingPayment = 20,
+
+        PaymentReceived = 30,
+
+        PaymentFailed = 35,
+
+        Invoiced = 40,
+
+        Shipping = 50,
+
+        Shipped = 60,
+
+        Complete = 70,
+
+        Canceled = 80,
+
+        Refunded = 90,
+
+        Closed = 100
     }
 }

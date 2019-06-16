@@ -1,5 +1,7 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using StormyCommerce.Core.Entities.Catalog;
+using StormyCommerce.Core.Entities.Catalog.Product;
+
 namespace StormyCommerce.Core.Interfaces
 {
 	//!Why? This seem like a duplicate logic 

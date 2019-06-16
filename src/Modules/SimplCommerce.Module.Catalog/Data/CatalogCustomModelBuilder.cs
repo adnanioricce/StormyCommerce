@@ -10,6 +10,8 @@ namespace SimplCommerce.Module.Catalog.Data
     {
         public void Build(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ProductMedia>()
+            .HasKey(media => media.Id);
             modelBuilder.Entity<ProductLink>()
                 .HasOne(x => x.Product)
                 .WithMany(p => p.ProductLinks)

@@ -7,40 +7,57 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
-using SimplCommerce.Infrastructure.Models;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Product;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Mapping.Catalog;
 
 namespace StormyCommerce.Infraestructure.Data
 {
     //TODO: Methods to execute sql     
-    public class StormyDbContext : DbContext
-    {
+    public class StormyDbContext : DbContext, IStormyDbContext
+    {        
         public StormyDbContext(DbContextOptions options) : base(options)
         {
               
         }
-       
+        public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
+        {
+            return base.Set<TEntity>();
+        }       
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             ValidateEntities();
             return base.SaveChanges(acceptAllChangesOnSuccess);
-        }
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,CancellationToken cancellationToken = default(CancellationToken))
+        }        
+
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,CancellationToken cancellationToken)
         {
             ValidateEntities();
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess,cancellationToken);
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess,cancellationToken);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
+            List<Type> typeToRegisters = new List<Type>();
+            foreach (var module in GlobalConfiguration.Modules)
+            {
+                typeToRegisters.AddRange(module.Assembly.DefinedTypes.Select(t => t.AsType()));
+            }
             var typeConfigurations = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(type => (type.BaseType?.IsGenericType ?? false) && (type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>)));
+            
+            // RegisterEntities(modelBuilder,typeToRegisters);                               
+            // RegisterConvention(modelBuilder);
+            // RegisterCustomMappings(modelBuilder,typeConfigurations);     
             typeConfigurations.ToList().ForEach(func =>
             {
                 var configuration = (IMappingConfiguration)Activator.CreateInstance(func);
                 configuration.ApplyConfiguration(modelBuilder);
             });
-        }
+            base.OnModelCreating(modelBuilder);
+        }        
+
         //TODO:Move this to a helper class
         private void ValidateEntities()
         {
@@ -54,47 +71,46 @@ namespace StormyCommerce.Infraestructure.Data
                     var validationResults = validatableObject.Validate();
                     if (validationResults.Any())
                     {
-                        throw new ValidationException(entity.Entity.GetType(), validationResults);
-                    }
+                        throw new ValidationException(entity.Entity.GetType(), validationResults);                    }
                 }
             }
         }
-        private static void RegisterConvention(ModelBuilder modelBuilder)
-        {
-            foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            {
-                if (entity.ClrType.Namespace != null)
-                {
-                    var nameParts = entity.ClrType.Namespace.Split('.');
-                    var tableName = string.Concat(nameParts[2], "_", entity.ClrType.Name);
-                    modelBuilder.Entity(entity.Name).ToTable(tableName);
-                }
-            }
+        // private static void RegisterConvention(ModelBuilder modelBuilder)
+        // {
+        //     foreach (var entity in modelBuilder.Model.GetEntityTypes())
+        //     {
+        //         if (entity.ClrType.Namespace != null)
+        //         {
+        //             var nameParts = entity.ClrType.Namespace.Split('.');
+        //             var tableName = string.Concat(nameParts[2], "_", entity.ClrType.Name);
+        //             modelBuilder.Entity(entity.Name).ToTable(tableName);
+        //         }
+        //     }
 
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
-        }
-        private static void RegisterEntities(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
-        {
-            var entityTypes = typeToRegisters.Where(x => x.GetTypeInfo().IsSubclassOf(typeof(EntityBase)) && !x.GetTypeInfo().IsAbstract);
-            foreach (var type in entityTypes)
-            {
-                modelBuilder.Entity(type);
-            }
-        }
-        private static void RegisterCustomMappings(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
-        {
-            var customModelBuilderTypes = typeToRegisters.Where(x => typeof(ICustomModelBuilder).IsAssignableFrom(x));
-            foreach (var builderType in customModelBuilderTypes)
-            {
-                if (builderType != null && builderType != typeof(ICustomModelBuilder))
-                {
-                    var builder = (ICustomModelBuilder)Activator.CreateInstance(builderType);
-                    builder.Build(modelBuilder);
-                }
-            }
-        }
+        //     foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        //     {
+        //         relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        //     }
+        // }
+        // private static void RegisterEntities(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
+        // {
+        //     var entityTypes = typeToRegisters.Where(x => x.GetTypeInfo().IsSubclassOf(typeof(BaseEntity)));
+        //     foreach (var type in entityTypes)
+        //     {
+        //         modelBuilder.Entity(type);
+        //     }
+        // }
+        // private static void RegisterCustomMappings(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
+        // {
+        //     var customModelBuilderTypes = typeToRegisters.Where(x => typeof(ICustomModelBuilder).IsAssignableFrom(x));
+        //     foreach (var builderType in customModelBuilderTypes)
+        //     {
+        //         if (builderType != null && builderType != typeof(ICustomModelBuilder))
+        //         {
+        //             var builder = (ICustomModelBuilder)Activator.CreateInstance(builderType);
+        //             builder.Build(modelBuilder);
+        //         }
+        //     }
+        // }
     }
 }

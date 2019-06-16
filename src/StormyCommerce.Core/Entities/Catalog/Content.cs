@@ -1,3 +1,7 @@
+﻿using StormyCommerce.Core.Entities.Customer;
+using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace StormyCommerce.Core.Entities.Catalog
 {
 	public abstract class Content : BaseEntity 
@@ -49,7 +53,7 @@ namespace StormyCommerce.Core.Entities.Catalog
 
 	        public long CreatedById { get; set; }
 
-        	public User CreatedBy { get; set; }
+        	public StormyCustomer CreatedBy { get; set; }
 
 	        public DateTimeOffset CreatedOn { get; set; }
 
@@ -57,7 +61,7 @@ namespace StormyCommerce.Core.Entities.Catalog
 
 	        public long LatestUpdatedById { get; set; }
 
-        	public User LatestUpdatedBy { get; set; }
+        	public StormyCustomer LatestUpdatedBy { get; set; }
 
 	}
 }
