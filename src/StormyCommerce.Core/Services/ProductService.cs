@@ -4,24 +4,19 @@ using System.Threading.Tasks;
 using System.Linq;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
-<<<<<<< HEAD
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Interfaces.Domain;
 
-=======
->>>>>>> 47a39faf229a993d618c257eb64ec139bf5f976f
 namespace StormyCommerce.Core.Services
 {
     public class ProductService : IProductService
     {
-	private const string ProductEntityTypeId = "Product";
-        private readonly IStormyRepository<StormyProduct> productRepository;
-	private readonly IEntityService entityService;
+	    private const string ProductEntityTypeId = "Product";
+        private readonly IStormyRepository<StormyProduct> productRepository;	    
 
-        public ProductService(IStormyRepository<StormyProduct> _productRepository,IEntityService _entityService)
+        public ProductService(IStormyRepository<StormyProduct> _productRepository)
         {
-            productRepository = _productRepository;
-	    entityService = _entityService;
-
+            productRepository = _productRepository;	        
         }
         public void DeleteProduct(StormyProduct product)
         {
@@ -89,10 +84,10 @@ namespace StormyCommerce.Core.Services
                 .Where(p => p.VendorId == product.VendorId)
                 .Sum(p => p.UnitsInStock);
         }
+        //TODO:Create slugs with EntityService
         public async Task InsertProductAsync(StormyProduct product)
-        {
-		product.Slug = entityService.ToSafeSlug(product.Slug,product.Id,);
-		await productRepository.AddAsync(product);            
+        {		    
+		    await productRepository.AddAsync(product);            
         }
         public async Task InsertProductsAsync(IList<StormyProduct> products)
         {

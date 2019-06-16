@@ -33,21 +33,16 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 			return mapper.Map<IList<StormyProduct>,IList<ProductDto>>(await productService.GetAllProductsDisplayedOnHomepageAsync(limit));
 		}
 		[HttpGet("catalog/product/{0}")]
-		public async Task<ProductDto> GetProduct(GetProductRequest _model)
+		public async Task<ProductDto> GetProduct(DomainNotification _model)
 		{
 			var model = mapper.Map<StormyProduct>(_model);
 			return mapper.Map<StormyProduct, ProductDto>(await productService.GetProductByIdAsync(model.Id));
 		}
 		[HttpPost("catalog/product/create")]
-		public async Task CreateProduct(CreateProductRequest _model)
+		public async Task CreateProduct(DomainNotification _model)
 		{
-<<<<<<< HEAD
 			var model = mapper.Map<StormyProduct>( _model);
 			await productService.InsertProductAsync(model);
 		}		
-=======
-			return await productService.InsertAsync(mapper<StormyProduct>(_model));
-		}
->>>>>>> 47a39faf229a993d618c257eb64ec139bf5f976f
 	}
 }

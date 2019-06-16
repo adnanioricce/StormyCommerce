@@ -1,6 +1,6 @@
 ﻿namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductMedia
+    public class ProductMedia : BaseEntity
     {
         public long ProductId { get; set; }
 

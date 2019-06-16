@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace StormyCommerce.Core.Tests
+namespace StormyCommerce.Module.Catalog.Tests
 {
     public class UnitTest1
     {
