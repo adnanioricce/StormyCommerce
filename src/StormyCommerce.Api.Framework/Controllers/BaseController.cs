@@ -9,9 +9,10 @@ using System.Linq;
 
 namespace StormyCommerce.Api.Framework.Controllers
 {
-
-	
-	public class BaseApiController : Controller 
+    
+    [ApiController]
+    [Route("api/[controller]/[action]")]
+    public abstract class BaseApiController : Controller 
 	{
         private readonly DomainNotificationHandler notifications;
         private readonly IMediatorHandler mediator;

@@ -14,13 +14,11 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public long BrandId { get; set; }	       
         public long MediasId { get; set; }
         public long VendorId { get; set; }     
-        public long ProductLinksId { get; set; }
-        public long Product { get; set; }
+        public long ProductLinksId { get; set; }        
         public StormyVendor Vendor {get;set;}
         public Brand Brand { get; set; }
 		public string TypeName { get; set; }
-		public int QuantityPerUnity {get;set;}	            
-		
+		public int QuantityPerUnity {get;set;}	            		
 		public string UnitSize {get;set;}
 		public decimal UnitPrice {get;set;}
 		public decimal Discount {get;set;}

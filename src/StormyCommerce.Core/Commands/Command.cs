@@ -1,7 +1,6 @@
 ﻿using StormyCommerce.Core.Events;
 using System;
-using System.ComponentModel.DataAnnotations;
-
+using FluentValidation.Results;
 namespace StormyCommerce.Core.Commands
 {
     public abstract class Command : Message

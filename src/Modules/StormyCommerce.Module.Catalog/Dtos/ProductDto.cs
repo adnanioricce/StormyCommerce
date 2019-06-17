@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 namespace StormyCommerce.Module.Catalog.Dtos
 {
-	//DTO or ViewModel
+	//!Actually,make a DTO to each situation.
+    //DTOs should have only the needed data
+    //Remember to use the same names on the entities to use AutoMapper easily
 	public class ProductDto
 	{
-		public string Name { get; set;}
-		public string Description { get; set;}
-		public decimal Price { get; set; }
-		public IList<ProductMediaDto> ProductMediaList { get; set; } 
-		public bool IsAvailable { get; set;}
-		public BrandDto Brand { get; set; }
-		public CategoryDto Category { get; set;} 
-	}
+		
+
+    }
 }

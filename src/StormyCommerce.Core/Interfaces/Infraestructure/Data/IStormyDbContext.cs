@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +6,7 @@ using StormyCommerce.Core.Entities;
 
 namespace StormyCommerce.Core.Interfaces.Infraestructure.Data
 {
-    public interface IStormyDbContext
+    public interface IStormyDbContext : IDisposable
     {
         DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity; 
         int SaveChanges(bool acceptAllChangesOnSuccess); 
