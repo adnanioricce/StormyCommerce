@@ -11,7 +11,7 @@ namespace StormyCommerce.Core.Services
 {
     public class ProductService : IProductService
     {
-	    private const string ProductEntityTypeId = "Product";
+	private const string ProductEntityTypeId = "Product";
         private readonly IStormyRepository<StormyProduct> productRepository;	    
 
         public ProductService(IStormyRepository<StormyProduct> _productRepository)
@@ -32,7 +32,7 @@ namespace StormyCommerce.Core.Services
             return await GetProductsByIdsAsync(productRepository
                 .Table
                 .Where(f => f.Ranking < limit && f.ProductAvailable == true)
-                .Select(f => f.Id)
+                .Select(p => p.Id)
                 .ToArray());
 	}
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit)

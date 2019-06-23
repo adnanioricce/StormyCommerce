@@ -1,31 +1,20 @@
-﻿using System.Threading.Tasks;
-using StormyCommerce.Api.Framework.Controllers;
-using StormyCommerce.Core.Services;
-using AutoMapper;
-using StormyCommerce.Core.Entities.Catalog.Product;
-using Microsoft.AspNetCore.Mvc;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
-using System.Collections.Generic;
-using StormyCommerce.Module.Catalog.Dtos;
-using StormyCommerce.Core.Interfaces.Infraestructure;
-using MediatR;
-using StormyCommerce.Core.Notifications;
-
 namespace StormyCommerce.Module.Catalog.Area.Controllers
 {
-	[Route("/catalog")]
-	public class CatalogController : BaseApiController
+	[Route("[Controller]")]
+	public class CatalogController
 	{
 		private readonly IProductService productService;
 		private readonly IMapper mapper;
-        private readonly INotificationHandler<DomainNotification> notification;
-        private readonly IMediatorHandler mediator;
-        //TODO:Change the notification type
+        	//TODO:Change the notification type
 
-        public CatalogController(INotificationHandler<DomainNotification> notification,IMediatorHandler mediator,IProductService _productService, IMapper _mapper) : base(notification,mediator)
+        	public CatalogController(IProductService _productService, IMapper _mapper) 
 		{
 			productService = _productService;
 			mapper = _mapper;			
+		}
+		public async Task<ProductOverviewDto> GetProductOverviewAsync(long id)
+		{
+			pro
 		}
 		[HttpGet]
 		public async Task<IList<ProductDto>> GetAllProductsOnHomepage(int limit)
@@ -43,6 +32,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		{
 			var model = mapper.Map<StormyProduct>( _model);
 			await productService.InsertProductAsync(model);
-		}		
+		}
+
 	}
 }

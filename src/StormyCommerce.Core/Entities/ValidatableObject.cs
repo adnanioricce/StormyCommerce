@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StormyCommerce.Core.Entities
 {
+    //TODO:Change this to FluentValidation;
     public abstract class ValidatableObject
     {
         public virtual bool IsValid()
