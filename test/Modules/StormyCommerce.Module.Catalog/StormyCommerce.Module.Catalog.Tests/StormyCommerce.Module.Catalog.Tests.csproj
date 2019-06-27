@@ -22,4 +22,8 @@
     <ProjectReference Include="..\..\..\..\src\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UnitTest\" />
+  </ItemGroup>
+
 </Project>

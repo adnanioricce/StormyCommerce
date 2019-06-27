@@ -12,16 +12,21 @@ namespace StormyCommerce.Core.Services
 	{
 		private const string entityTypeId = "Category";
 		private readonly IStormyRepository<Category> categoryRepository;
+        //private readonly IStormyRepository<ProductCategory>
 		private readonly IEntityService entityService;
 		public CategoryService(IStormyRepository<Category> _categoryRepository,IEntityService _entityService)
 		{
 			categoryRepository = _categoryRepository;
 			entityService = _entityService;
-		}
-		public async Task<IList<Category>> GetAllAsync()
+		}        
+        public async Task<IList<Category>> GetAllCategoriesAsync()
 		{
 			return await categoryRepository.GetAllAsync();
 		}
+        public async Task<Category> GetCategoryByIdAsync(long id)
+        {
+            return await categoryRepository.GetByIdAsync(id);
+        }
 		//!INCOMPLETE METHOD
 		public async Task AddAsync(Category entity)
 		{
@@ -33,7 +38,6 @@ namespace StormyCommerce.Core.Services
 			entity.Slug = entityService.ToSafeSlug(entity.Slug,entity.Id,entityTypeId);
 			entityService.Update(entity.Name,entity.Slug,entity.Id,entityTypeId);
 			await categoryRepository.UpdateAsync(entity);
-
 		} 
 		public async Task DeleteAsync(long id)
 		{

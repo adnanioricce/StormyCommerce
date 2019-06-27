@@ -36,7 +36,7 @@ namespace StormyCommerce.Core.Entities.Catalog
 
         	public Category Parent { get; set; }
 
-	        public IList<Category> Children { get; protected set; } = new List<Category>();
+	        public IList<Category> Childrens { get; protected set; } = new List<Category>();
 
         	public Media.Media ThumbnailImage { get; set; }                     
 

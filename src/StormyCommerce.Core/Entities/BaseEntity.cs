@@ -1,7 +1,7 @@
 ﻿using System;
 namespace StormyCommerce.Core.Entities
 {
-	public class BaseEntity : EntityBaseWithTypedId<long> 
+	public class BaseEntity : EntityWithBaseTypeId<long> 
 	{
 		public DateTime LastModified { get; set; }
 		public override bool Equals(object obj)
@@ -31,7 +31,7 @@ namespace StormyCommerce.Core.Entities
 		{
 			return (GetType().GetHashCode() * 907) + Id.GetHashCode();
 		}
-		public override int ToString()
+		public override string ToString()
 		{
 			return GetType().Name + "[Id = " + Id + "]";
 		}

@@ -6,14 +6,7 @@ using System.Linq;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Test.Helpers;
-using Moq;
-using StormyCommerce.Core.Services;
-using StormyCommerce.Core.Interfaces.Domain;
-using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Entities;
-using MediatR;
-
-namespace StormyCommerce.Core.Test.ProductService
+namespace StormyCommerce.Core.Test.UnitTests.ProductService
 {
     public class Should    
     {   
