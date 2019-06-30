@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Tests.Helpers
 {
-    public static class SampleCategoryData
+    public static class SampleCategoryDataHelper
     {
         public static List<Category> GetSampleCategoryData()
         {

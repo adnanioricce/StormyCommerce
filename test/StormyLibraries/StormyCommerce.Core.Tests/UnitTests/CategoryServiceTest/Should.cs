@@ -15,9 +15,9 @@ namespace StormyCommerce.Core.Tests.UnitTests.CategoryServiceTest
         [Fact]
         public async Task GetCategoryByIdAsync()
         {
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleCategoryData.GetSampleCategoryData());
+                dbContext.AddRange(SampleCategoryDataHelper.GetSampleCategoryData());
                 dbContext.SaveChanges();
                 
                 var service = new Core.Services.CategoryService(new StormyRepository<Category>(dbContext),null);
@@ -30,9 +30,9 @@ namespace StormyCommerce.Core.Tests.UnitTests.CategoryServiceTest
         [Fact]
         public async Task GetAllCategories()
         {
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleCategoryData.GetSampleCategoryData());
+                dbContext.AddRange(SampleCategoryDataHelper.GetSampleCategoryData());
                 dbContext.SaveChanges();
                 
                 var service = new Core.Services.CategoryService(new StormyRepository<Category>(dbContext), null);

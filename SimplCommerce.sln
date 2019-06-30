@@ -144,7 +144,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StormyCommerce.Infraestruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StormyCommerce.Module.Catalog", "src\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj", "{BBC7FFB7-F8BB-44E9-83B7-CD1F089A60CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StormyCommerce.Core.Test", "test\StormyLibraries\StormyCommerce.Core.Tests\StormyCommerce.Core.Tests.csproj", "{489DAEBC-04BA-43D1-AE40-BEF6BBC5736B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StormyCommerce.Core.Tests", "test\StormyLibraries\StormyCommerce.Core.Tests\StormyCommerce.Core.Tests.csproj", "{489DAEBC-04BA-43D1-AE40-BEF6BBC5736B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SimplModules", "SimplModules", "{C6DE44D6-01AC-49E8-B074-799C1F0FB92F}"
 EndProject
@@ -158,7 +158,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{DFD3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StormyCommerce.Module.Catalog", "StormyCommerce.Module.Catalog", "{D07BC008-3658-43BE-A5F2-CFB1456F5B58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StormyCommerce.Module.Catalog.Tests", "test\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.Tests\StormyCommerce.Module.Catalog.Tests.csproj", "{84790A90-DF92-4C59-BE48-31EDDBF8EA31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StormyCommerce.Module.Catalog.Tests", "test\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.Tests\StormyCommerce.Module.Catalog.Tests.csproj", "{84790A90-DF92-4C59-BE48-31EDDBF8EA31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraestructure", "{AB2DE606-3691-493A-A3A3-759D7C36E665}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHelperLibrary", "TestHelperLibrary\TestHelperLibrary.csproj", "{47F2FCC8-E242-4BA2-B50E-6729A9830018}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -818,6 +822,18 @@ Global
 		{84790A90-DF92-4C59-BE48-31EDDBF8EA31}.Release|x64.Build.0 = Release|Any CPU
 		{84790A90-DF92-4C59-BE48-31EDDBF8EA31}.Release|x86.ActiveCfg = Release|Any CPU
 		{84790A90-DF92-4C59-BE48-31EDDBF8EA31}.Release|x86.Build.0 = Release|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Debug|x64.Build.0 = Debug|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Debug|x86.Build.0 = Debug|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Release|x64.ActiveCfg = Release|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Release|x64.Build.0 = Release|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Release|x86.ActiveCfg = Release|Any CPU
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -885,6 +901,8 @@ Global
 		{DFD3D72C-7560-48C0-BD21-7DFDB2A8F7BA} = {D9FD9ABA-AE5E-4427-AA6B-6285BE2E212D}
 		{D07BC008-3658-43BE-A5F2-CFB1456F5B58} = {DFD3D72C-7560-48C0-BD21-7DFDB2A8F7BA}
 		{84790A90-DF92-4C59-BE48-31EDDBF8EA31} = {D07BC008-3658-43BE-A5F2-CFB1456F5B58}
+		{AB2DE606-3691-493A-A3A3-759D7C36E665} = {D9FD9ABA-AE5E-4427-AA6B-6285BE2E212D}
+		{47F2FCC8-E242-4BA2-B50E-6729A9830018} = {AB2DE606-3691-493A-A3A3-759D7C36E665}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B9D0D8F0-1AB9-44DD-839F-ED8CEE7DDB10}

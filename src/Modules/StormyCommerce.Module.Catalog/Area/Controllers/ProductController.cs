@@ -20,6 +20,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 			_productService = productService;
 			_mapper = mapper;			
 		}
+        [HttpGet("product/product-overview/{0}")]
 		public async Task<ActionResult<ProductOverviewDto>> GetProductOverviewAsync(long id)
 		{
             var product = await _productService.GetProductByIdAsync(id);
@@ -37,7 +38,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
             return Ok(_mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products));
 		}
-		[HttpGet("catalog/product/{0}")]
+		[HttpGet("product/{0}")]
 		public async Task<ActionResult<ProductDto>> GetProductById(long id)
 		{
             var product = await _productService.GetProductByIdAsync(id);
@@ -46,7 +47,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
             return Ok(_mapper.Map<StormyProduct, ProductDto>(product));
 		}
-		[HttpPost("catalog/product/create")]
+		[HttpPost("product/create")]
 		public async Task CreateProduct(ProductDto _model)
 		{
 			var model = _mapper.Map<StormyProduct>( _model);
