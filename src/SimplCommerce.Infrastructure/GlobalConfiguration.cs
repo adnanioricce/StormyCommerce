@@ -4,6 +4,7 @@ using SimplCommerce.Infrastructure.Modules;
 
 namespace SimplCommerce.Infrastructure
 {
+    //need a better way to do this...
     public static class GlobalConfiguration
     {
         public static IList<ModuleInfo> Modules { get; set; } = new List<ModuleInfo>();

@@ -20,6 +20,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
+    <ProjectReference Include="..\..\..\..\TestHelperLibrary\TestHelperLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UnitTest\" />
   </ItemGroup>
 
 </Project>

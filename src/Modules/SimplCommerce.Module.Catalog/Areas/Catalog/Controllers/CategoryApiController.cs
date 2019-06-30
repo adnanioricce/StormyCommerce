@@ -27,7 +27,10 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IMediaService _mediaService;
 
-        public CategoryApiController(IRepository<Category> categoryRepository, IRepository<ProductCategory> productCategoryRepository, ICategoryService categoryService, IMediaService mediaService)
+        public CategoryApiController(IRepository<Category> categoryRepository,
+            IRepository<ProductCategory> productCategoryRepository,
+            ICategoryService categoryService,
+            IMediaService mediaService)
         {
             _categoryRepository = categoryRepository;
             _productCategoryRepository = productCategoryRepository;

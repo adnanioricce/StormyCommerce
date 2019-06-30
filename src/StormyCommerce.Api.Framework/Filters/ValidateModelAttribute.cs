@@ -1,3 +1,6 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+
 namespace StormyCommerce.Api.Framework.Filters
 {
 	public class ValidateModelAttribute : ActionFilterAttribute

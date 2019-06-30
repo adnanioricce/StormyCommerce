@@ -3,7 +3,7 @@ FROM microsoft/dotnet:2.2-sdk AS build-env
 WORKDIR /app
 COPY . ./
 
-RUN sed -i 's#<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.3" />#<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />#' src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj
+RUN sed -i 's#<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />#<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />#' src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj
 RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Program.cs
 RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Extensions/ServiceCollectionExtensions.cs
 

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,9 +12,10 @@ namespace StormyCommerce.Api.Framework
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IConfiguration _configuration;
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration,IHostingEnvironment hostingEnvironment)
         {
             _configuration = configuration;
+            _hostingEnvironment = hostingEnvironment;
         }
         public virtual void ConfigureServices(IServiceCollection services)
         {

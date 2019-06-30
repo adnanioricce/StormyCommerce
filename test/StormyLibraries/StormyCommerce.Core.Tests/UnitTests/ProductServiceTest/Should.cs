@@ -6,14 +6,9 @@ using System.Linq;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Test.Helpers;
-using Moq;
-using StormyCommerce.Core.Services;
-using StormyCommerce.Core.Interfaces.Domain;
-using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Entities;
-using MediatR;
+using StormyCommerce.Core.Tests.Helpers;
 
-namespace StormyCommerce.Core.Test.ProductService
+namespace StormyCommerce.Core.Test.UnitTests.ProductService
 {
     public class Should    
     {   
@@ -23,9 +18,9 @@ namespace StormyCommerce.Core.Test.ProductService
         {
             //?this can give a lot of exceptions, should I throw something
             //Arrange
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleDataHelpers.GetListData());
+                dbContext.AddRange(SampleProductDataHelper.GetListData());
                 dbContext.SaveChanges();                
                 // var entityService = new Mock<EntityService>(new Mock<IStormyRepository<Entity>>().Object,new Mock<IMediator>().Object);                
                 var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
@@ -40,9 +35,9 @@ namespace StormyCommerce.Core.Test.ProductService
         public async Task GetProductBySkuAsync(string sku)
         {
             //Arrange 
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleDataHelpers.GetListData());
+                dbContext.AddRange(SampleProductDataHelper.GetListData());
                 dbContext.SaveChanges();                
                 var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act
@@ -55,9 +50,9 @@ namespace StormyCommerce.Core.Test.ProductService
         public async Task GetListProducts()
         {
             //Arrange 
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleDataHelpers.GetListData());
+                dbContext.AddRange(SampleProductDataHelper.GetListData());
                 dbContext.SaveChanges();                
                 var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act
@@ -71,9 +66,9 @@ namespace StormyCommerce.Core.Test.ProductService
         [InlineData(new long[] { 1, 2, 3, 4, 5, 6 })]
         public async Task GetProductsByIdColletion(long[] ids)
         {
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleDataHelpers.GetListData());
+                dbContext.AddRange(SampleProductDataHelper.GetListData());
                 dbContext.SaveChanges();                
                 var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act
@@ -93,9 +88,9 @@ namespace StormyCommerce.Core.Test.ProductService
         public void GetTotalStockQuantity()
         {
             //Arrange 
-            using(var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using(var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRangeAsync(SampleDataHelpers.GetListData());
+                dbContext.AddRangeAsync(SampleProductDataHelper.GetListData());
                 dbContext.SaveChanges();                
                 var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act 
@@ -108,9 +103,9 @@ namespace StormyCommerce.Core.Test.ProductService
         public void GetTotalStockQuantityOfProduct()
         {            
             //Arrange 
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                var product = SampleDataHelpers.GetSampleData();
+                var product = SampleProductDataHelper.GetSampleData();
                 dbContext.AddAsync(product);
                 dbContext.SaveChanges();                
                 var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
@@ -124,9 +119,9 @@ namespace StormyCommerce.Core.Test.ProductService
         public void GetNumberOfProductsOfVendorByItsId()
         {
             //Arrange 
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {                
-                dbContext.AddRange(SampleDataHelpers.GetListData());
+                dbContext.AddRange(SampleProductDataHelper.GetListData());
                 dbContext.SaveChanges();                
                 var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act 
@@ -138,11 +133,11 @@ namespace StormyCommerce.Core.Test.ProductService
         [Fact]
         public async Task InsertProductAsync()
         {
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {                               
                 var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act 
-                var sampleProduct = SampleDataHelpers.GetSampleData();
+                var sampleProduct = SampleProductDataHelper.GetSampleData();
                 await service.InsertProductAsync(sampleProduct);
                 var product = await service.GetProductByIdAsync(sampleProduct.Id);
                 Console.WriteLine(product);
@@ -153,11 +148,11 @@ namespace StormyCommerce.Core.Test.ProductService
         [Fact]
         public async Task InsertProductsAsync()
         {
-            using (var dbContext = new StormyDbContext(SampleDataHelpers.GetDbOptions()))
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {                
                 var service = new Core.Services.ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act 
-                var sampleProducts = SampleDataHelpers.GetListData();
+                var sampleProducts = SampleProductDataHelper.GetListData();
                 await service.InsertProductsAsync(sampleProducts);
                 var products = await service.GetProductsByIdsAsync(sampleProducts
                     .Select(f => f.Id)

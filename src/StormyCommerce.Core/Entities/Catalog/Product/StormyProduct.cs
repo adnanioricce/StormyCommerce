@@ -33,7 +33,6 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public List<ProductLink> LinkedProductLinks { get; protected set; } = new List<ProductLink>();
         public List<ProductAttribute> ProductAttributes { get; set;}	
         public List<ProductAttributeValue> AttributeValues { get; protected set; } = new List<ProductAttributeValue>();
-
         public List<ProductOptionValue> OptionValues { get; protected set; } = new List<ProductOptionValue>();
         public int Ranking {get;set;}
 		public string Note {get;set;}

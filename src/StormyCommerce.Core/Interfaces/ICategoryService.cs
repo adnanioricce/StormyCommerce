@@ -6,7 +6,8 @@ namespace StormyCommerce.Core.Interfaces
 	public interface ICategoryService
 	{
 		//TODO:Get Categories by category type
-		Task<IList<Category>> GetAllAsync();
+		Task<IList<Category>> GetAllCategoriesAsync();
+        Task<Category> GetCategoryByIdAsync(long id);
 		Task AddAsync(Category entity);
 		Task UpdateAsync(Category entity); 
 		Task DeleteAsync(long id); 

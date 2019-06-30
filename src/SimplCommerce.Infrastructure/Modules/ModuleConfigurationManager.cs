@@ -26,5 +26,28 @@ namespace SimplCommerce.Infrastructure.Modules
                 }
             }
         }
+        //same thing that you see above, but for just one module. I Created this for testing
+        public ModuleInfo GetSingleModule(string moduleId)
+        {
+            var modulePath = Path.Combine(GlobalConfiguration.ContentRootPath, ModulesFilename);
+            using(var reader = new StreamReader(modulePath))
+            {
+                string content = reader.ReadToEnd();
+                dynamic moduleData = JsonConvert.DeserializeObject(content);
+                foreach (dynamic module in moduleData)
+                {
+                    if (module.Id != moduleId)
+                        continue;
+
+                    return new ModuleInfo
+                    {
+                       Id = module.id, 
+                       Version = Version.Parse(module.version.ToString())
+                    };                    
+
+                }
+            }
+            throw new DirectoryNotFoundException();
+        }
     }
 }

@@ -37,6 +37,32 @@ namespace SimplCommerce.WebHost.Extensions
     public static class ServiceCollectionExtensions
     {
         private static readonly IModuleConfigurationManager _modulesConfig = new ModuleConfigurationManager();
+        public static IServiceCollection AddSingleModule(this IServiceCollection services,string contentRootPath,string moduleId)
+        {
+            const string moduleManifestName = "module.json";
+            var module = _modulesConfig.GetSingleModule(moduleId);
+            var moduleFolder = new DirectoryInfo(Path.Combine(contentRootPath, "Modules", module.Id));
+            var moduleManifestPath = Path.Combine(moduleFolder.FullName, moduleManifestName);
+            if (!File.Exists(moduleManifestPath))
+            {
+                throw new MissingModuleManifestException($"The manifest for the module '{moduleFolder.Name}' was not found", module.Id);
+            }
+            if (!module.IsBundledWithHost)
+            {
+                TryLoadModuleAssembly(moduleFolder.FullName, module);
+                if(module.Assembly == null)
+                {
+                    throw new Exception($"Cannot find main assembly for module {module.Id}");
+                }
+                else
+                {
+                    module.Assembly = Assembly.Load(new AssemblyName(moduleFolder.Name));
+                }
+            }
+            GlobalConfiguration.Modules.Add(module);
+            RegisterModuleInitializerServices(module, ref services);                                        
+            return services;
+        }
 
         public static IServiceCollection AddModules(this IServiceCollection services, string contentRootPath)
         {

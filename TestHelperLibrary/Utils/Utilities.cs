@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StormyCommerce.Infraestructure.Data;
-namespace StormyCommerce.Module.Catalog.Tests.Utils
+namespace Infraestructure.Utils
 {
     public static class Utilities
     {

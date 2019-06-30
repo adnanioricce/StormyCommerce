@@ -1,5 +1,4 @@
-﻿using StormyCommerce.Core.Events.Entity;
-using MediatR;
+﻿using MediatR;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
@@ -68,7 +67,7 @@ namespace StormyCommerce.Core.Services
 
 	        if (entity != null)
         	{
-                mediator.Publish(new EntityDeleting { EntityId = entity.Id });
+                //mediator.Publish(new EntityDeleting { EntityId = entity.Id });
 	            entityRepository.Delete(entity);
         	}
 	    }

@@ -7,10 +7,15 @@ using Microsoft.Extensions.Logging;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data;
 
-namespace StormyCommerce.Module.Catalog.Tests.Infraestructure
+namespace Infraestructure
 {
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
+        protected override IWebHostBuilder CreateWebHostBuilder()
+        {                                
+            return base.CreateWebHostBuilder()
+                .UseStartup<TStartup>();
+        }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.ConfigureServices(services => 
@@ -23,7 +28,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Infraestructure
                 //Add a database context using a in-memory
                 //database for testing
                 services.AddDbContext<IStormyDbContext,StormyDbContext>(options => 
-                {
+                {                    
                     options.UseInMemoryDatabase("InMemoryTestDb" + Guid.NewGuid().ToString("N"));
                     options.UseInternalServiceProvider(serviceProvider);
                 });
