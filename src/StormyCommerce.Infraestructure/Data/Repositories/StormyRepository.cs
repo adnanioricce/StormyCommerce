@@ -13,9 +13,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
     {
         //? I ask myself:what is the difference between this and a readonly field? and Why Protected?
         private readonly StormyDbContext context;
-
         protected DbSet<TEntity> DbSet => _dbSet ?? (_dbSet = context.Set<TEntity>());
-
         private DbSet<TEntity> _dbSet;
         public StormyRepository(StormyDbContext _context)
         {
@@ -24,9 +22,8 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         }
 
         public IQueryable<TEntity> Table => DbSet;
-
         public async Task AddAsync(TEntity _entity)
-        {
+        {                                                                        
             var entity = _entity ?? throw new NullReferenceException($"Given argument was null:{_entity.ToString()}");
 
             try
@@ -87,10 +84,10 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         public async Task<IList<TEntity>> GetAllAsync() => await DbSet.ToListAsync();
 
         public async Task<TEntity> GetByIdAsync(long id)
-        {
-            return await DbSet.FindAsync(id);
-        }
-
+        {            
+            var entity = await DbSet.FindAsync(id) ??  throw new NullReferenceException($"Requested entity id Don't exist");
+            return entity;
+        }        
         public async Task UpdateAsync(TEntity _entity)
         {
             var entity = _entity ?? throw new NullReferenceException($"Given argument was null:{_entity.ToString()}");

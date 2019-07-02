@@ -5,9 +5,7 @@ using StormyCommerce.Core.Entities;
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
     public class ProductTemplate : BaseEntity
-    {
-        [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(450)]
+    {        
         public string Name { get; set; }
 
         public IList<ProductTemplateProductAttribute> ProductAttributes { get; protected set; } = new List<ProductTemplateProductAttribute>();

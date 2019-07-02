@@ -5,7 +5,7 @@ using StormyCommerce.Core.Interfaces.Domain;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StormyCommerce.Core.Services
+namespace StormyCommerce.Core.Services.Catalog
 {
 	public class EntityService : IEntityService
 	{

@@ -6,7 +6,7 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Entities.Catalog;
 
-namespace StormyCommerce.Core.Services
+namespace StormyCommerce.Core.Services.Catalog
 {
 	public class CategoryService : ICategoryService
 	{

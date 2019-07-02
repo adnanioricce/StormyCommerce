@@ -4,7 +4,7 @@ using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Infraestructure.Data;
-namespace Infraestructure.Utils
+namespace TestHelperLibrary.Utils
 {
     public class StormyDbContextInitializer 
     {

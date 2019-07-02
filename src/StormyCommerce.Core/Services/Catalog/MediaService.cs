@@ -4,7 +4,7 @@ using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Core.Entities.Media;
 using System.IO;
 
-namespace StormyCommerce.Core.Services
+namespace StormyCommerce.Core.Services.Catalog
 {
     public class MediaService : IMediaService
     {

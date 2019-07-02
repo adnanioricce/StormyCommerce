@@ -10,8 +10,7 @@ using Xunit;
 namespace StormyCommerce.Core.Tests.UnitTests.CategoryServiceTest
 {
     public class Should
-    {
-        
+    {        
         [Fact]
         public async Task GetCategoryByIdAsync()
         {

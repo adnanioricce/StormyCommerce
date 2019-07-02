@@ -5,7 +5,7 @@ using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
 
-namespace StormyCommerce.Core.Services
+namespace StormyCommerce.Core.Services.Catalog
 {
     public class BrandService : IBrandService
     {

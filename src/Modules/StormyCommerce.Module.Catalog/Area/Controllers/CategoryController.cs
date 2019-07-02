@@ -19,7 +19,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
             _categoryService = categoryService;
             _mapper = mapper;
         }
-        [HttpGet]
+        [HttpGet("list")]
         public async Task<ActionResult<IList<CategoryDto>>> GetAll()
         {
             var categories = await _categoryService.GetAllCategoriesAsync();

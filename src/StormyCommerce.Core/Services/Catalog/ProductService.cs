@@ -6,14 +6,14 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces.Domain;
+using Microsoft.EntityFrameworkCore;
 
-namespace StormyCommerce.Core.Services
+namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductService : IProductService
     {
-	private const string ProductEntityTypeId = "Product";
+	    private const string ProductEntityTypeId = "Product";
         private readonly IStormyRepository<StormyProduct> productRepository;	    
-
         public ProductService(IStormyRepository<StormyProduct> _productRepository)
         {
             productRepository = _productRepository;	        
@@ -28,18 +28,23 @@ namespace StormyCommerce.Core.Services
         }
         //!this look very lazy
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
-        {                        
+        {                               
             return await GetProductsByIdsAsync(productRepository
                 .Table
                 .Where(f => f.Ranking < limit && f.ProductAvailable == true)
-                .Select(p => p.Id)
+                .Select(p => p.Id)                
                 .ToArray());
-	}
-        public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int? limit)
-        {
-            var productCollection = await productRepository.GetAllAsync();
-            var homePageProducts = productCollection.Where(f => f.Ranking < limit && f.ProductAvailable == true);
-            return homePageProducts.ToList();
+	    }   
+        public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 0,long endIndex = 15)
+        {                        
+            return await productRepository.Table                
+                .Include(product => product.Medias)
+                .Include(product => product.Brand)
+                .Include(product => product.Links)
+                .Include(product => product.ProductAttributes)            
+                .Include(product => product.Vendor)
+                .Where(product => product.Id >= startIndex && product.Id <= endIndex)
+                .ToListAsync();                                                                                
         }
 
         public int GetNumberOfProductsByVendorId(int vendorId)

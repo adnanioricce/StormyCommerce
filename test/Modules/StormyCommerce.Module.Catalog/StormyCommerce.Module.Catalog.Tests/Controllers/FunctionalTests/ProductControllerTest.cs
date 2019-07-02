@@ -1,11 +1,10 @@
 ﻿using Xunit;
 using SimplCommerce.Module.Catalog.Services;
-using Infraestructure;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
-
-namespace StormyCommerce.Module.Catalog.Tests.Controllers.UnitTest
+using TestHelperLibrary;
+namespace StormyCommerce.Module.Catalog.Tests.Controllers.FunctionalTests
 {
     public class ProductControllerTest : IClassFixture<CustomWebApplicationFactory<FakeStartup>>
     {
@@ -16,7 +15,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Controllers.UnitTest
         {
             _factory = factory;
             var clientOptions = new WebApplicationFactoryClientOptions();
-            clientOptions.BaseAddress = new System.Uri("http://localhost");                        
+            clientOptions.BaseAddress = new System.Uri("http://localhost/api/");                        
             _httpClient = _factory.CreateClient(clientOptions);
             _productService = productService;
         }

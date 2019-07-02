@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data;
 
-namespace Infraestructure
+namespace TestHelperLibrary
 {
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {

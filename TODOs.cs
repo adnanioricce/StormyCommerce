@@ -8,4 +8,5 @@
 //TODO:Write a CI/CD Pipeline with Docker and Jenkins 
 //TODO:Implement the Stripe Payment System 
 //TODO:Copy or Write a Wrapper for Payment Systems
-
+//!Por algum motivo eu nao consigo chamar o metodo Include() nas LINQ queries quando estou nos servicos 
+//
