@@ -9,4 +9,4 @@
 //TODO:Implement the Stripe Payment System 
 //TODO:Copy or Write a Wrapper for Payment Systems
 //!Por algum motivo eu nao consigo chamar o metodo Include() nas LINQ queries quando estou nos servicos 
-//
+//!Pelo que esta escrito no registerServiceWorker.js [::] e o localhost do IPv6;

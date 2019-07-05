@@ -13,7 +13,7 @@ namespace TestHelperLibrary
     {
         protected override IWebHostBuilder CreateWebHostBuilder()
         {                                
-            return base.CreateWebHostBuilder()
+            return base.CreateWebHostBuilder()                
                 .UseStartup<TStartup>();
         }
         protected override void ConfigureWebHost(IWebHostBuilder builder)
