@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -11,24 +11,24 @@ namespace StormyCommerce.Infraestructure.Repositories
 {
     public class UserIdentityRepository : IUserIdentityRepository
     {
-        private readonly UserManager<AppUser> userManager;
-        public UserIdentityRepository(UserManager<AppUser> _userManager)
+        private readonly UserManager<ApplicationUser> userManager;
+        public UserIdentityRepository(UserManager<ApplicationUser> _userManager)
         {
             userManager = _userManager;
         }
-        public async Task<IdentityResult> Create(AppUser user, string password)
+        public async Task<IdentityResult> Create(ApplicationUser user, string password)
         {
             return await userManager.CreateAsync(user,password);
         }
-        public async Task<IdentityResult> Delete(AppUser user)
+        public async Task<IdentityResult> Delete(ApplicationUser user)
         {
             return await userManager.DeleteAsync(user);
         }
-        public IQueryable<AppUser> Get() => userManager.Users;        
-        public AppUser GetByEmail(string Email) => userManager.Users.FirstOrDefault(usr => usr.Email == Email);        
+        public IQueryable<ApplicationUser> Get() => userManager.Users;        
+        public ApplicationUser GetByEmail(string Email) => userManager.Users.FirstOrDefault(usr => usr.Email == Email);        
 
-        public UserManager<AppUser> GetUserManager() => userManager;
-        public async Task<IdentityResult> Update(AppUser user)
+        public UserManager<ApplicationUser> GetUserManager() => userManager;
+        public async Task<IdentityResult> Update(ApplicationUser user)
         {
             return await userManager.UpdateAsync(user);
         }

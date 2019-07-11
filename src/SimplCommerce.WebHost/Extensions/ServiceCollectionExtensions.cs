@@ -31,6 +31,7 @@ using SimplCommerce.Module.Core.Models;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore.Extensions;
 using Microsoft.Extensions.Localization;
+using StormyCommerce.Infraestructure.Data;
 
 namespace SimplCommerce.WebHost.Extensions
 {
@@ -271,7 +272,13 @@ namespace SimplCommerce.WebHost.Extensions
                     b => b.MigrationsAssembly("SimplCommerce.WebHost")));
             return services;
         }
-
+        public static IServiceCollection AddStormyDataStore(this IServiceCollection services,IConfiguration configuration)
+        {            
+            services.AddDbContextPool<StormyDbContext>(options => {
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+            });
+            return services;
+        }
         private static void TryLoadModuleAssembly(string moduleFolderPath, ModuleInfo module)
         {
             const string binariesFolderName = "bin";

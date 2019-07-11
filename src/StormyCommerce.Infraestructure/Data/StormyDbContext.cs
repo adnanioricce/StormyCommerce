@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
@@ -15,9 +17,9 @@ using StormyCommerce.Infraestructure.Data.Mapping.Catalog;
 namespace StormyCommerce.Infraestructure.Data
 {
     //TODO: Methods to execute sql     
-    public class StormyDbContext : DbContext, IStormyDbContext
+    public class StormyDbContext : IdentityDbContext
     {        
-        public StormyDbContext(DbContextOptions options) : base(options)
+        public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)
         {
               
         }
@@ -45,15 +47,23 @@ namespace StormyCommerce.Infraestructure.Data
                 typeToRegisters.AddRange(module.Assembly.DefinedTypes.Select(t => t.AsType()));
             }
             var typeConfigurations = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(type => (type.BaseType?.IsGenericType ?? false) && (type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>)));
+                .Where(type => (type.BaseType?.IsGenericType ?? false) && (type.BaseType.GetGenericTypeDefinition() == typeof(ICustomModelBuilder)));
             
             // RegisterEntities(modelBuilder,typeToRegisters);                               
             // RegisterConvention(modelBuilder);
             // RegisterCustomMappings(modelBuilder,typeConfigurations);     
             typeConfigurations.ToList().ForEach(func =>
             {
-                var configuration = (IMappingConfiguration)Activator.CreateInstance(func);
-                configuration.ApplyConfiguration(modelBuilder);
+                if (Activator.CreateInstance(func) is ICustomModelBuilder)
+                {
+                    var modelBuilderConfiguration = (ICustomModelBuilder)Activator.CreateInstance(func);
+                    modelBuilderConfiguration.Build(modelBuilder);
+                }
+                if (Activator.CreateInstance(func) is IMappingConfiguration)
+                {
+                    var mappingConfiguration = (IMappingConfiguration)Activator.CreateInstance(func);
+                    mappingConfiguration.ApplyConfiguration(modelBuilder);
+                }
             });
             base.OnModelCreating(modelBuilder);
         }        

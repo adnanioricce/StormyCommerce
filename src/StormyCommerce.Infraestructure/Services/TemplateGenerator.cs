@@ -5,7 +5,6 @@ using StormyCommerce.Infraestructure.Helpers;
 using StormyCommerce.Infraestructure.Models;
 using StormyCommerce.Infraestructure.Extensions;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Infraestructure.Templates;
 
 namespace StormyCommerce.Infraestructure.Services
 {

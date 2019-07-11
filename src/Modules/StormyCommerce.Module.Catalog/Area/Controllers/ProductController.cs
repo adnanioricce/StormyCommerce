@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Controllers;
-using StormyCommerce.Api.Framework.Dtos;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

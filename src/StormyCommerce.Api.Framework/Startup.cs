@@ -10,8 +10,8 @@ namespace StormyCommerce.Api.Framework
     //!I Planned to use to Test, but I chose to put virtual methods on the Startup on WebHost
     public class Startup
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly IConfiguration _configuration;
+        protected readonly IHostingEnvironment _hostingEnvironment;
+        protected readonly IConfiguration _configuration;
         public Startup(IConfiguration configuration,IHostingEnvironment hostingEnvironment)
         {
             _configuration = configuration;

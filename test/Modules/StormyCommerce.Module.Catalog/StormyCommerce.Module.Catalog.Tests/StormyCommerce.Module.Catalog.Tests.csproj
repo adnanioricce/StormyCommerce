@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -14,19 +14,14 @@
 
   <ItemGroup>    
     <ProjectReference Include="..\..\..\..\src\SimplCommerce.WebHost\SimplCommerce.WebHost.csproj" />
-    <ProjectReference Include="..\..\..\..\test\Infraestructure\TestHelperLibrary\TestHelperLibrary.csproj"/>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
-    <ProjectReference Include="..\..\..\..\TestHelperLibrary\TestHelperLibrary.csproj" />
     <ProjectReference Include="..\..\..\..\src\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="UnitTest\" />
+    <ProjectReference Include="..\..\..\Infraestructure\TestHelperLibrary\TestHelperLibrary.csproj" />
   </ItemGroup>
 
 </Project>

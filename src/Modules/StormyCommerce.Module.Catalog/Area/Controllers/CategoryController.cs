@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Controllers;
-using StormyCommerce.Api.Framework.Dtos;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using StormyCommerce.Api.Framework.Filters;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+
 namespace StormyCommerce.Module.Catalog.Area.Controllers
 {
     public class CategoryController : BaseApiController

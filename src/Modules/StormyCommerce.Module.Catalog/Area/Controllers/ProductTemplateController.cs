@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using StormyCommerce.Api.Framework.Controllers;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 
@@ -13,8 +13,6 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
         {
             _productTemplateService = productTemplateService;
             _mapper = mapper;
-        }
-        
-        
+        }                
     }
 }

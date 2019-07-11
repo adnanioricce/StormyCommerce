@@ -4,6 +4,6 @@ namespace StormyCommerce.Infraestructure.Data
 {
     public interface IMappingConfiguration
     {
-        void ApplyConfiguration(ModelBuilder modelBuilder);
+        void ApplyConfiguration(ModelBuilder modelBuilder);        
     }
 }

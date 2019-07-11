@@ -1,7 +1,9 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Domain.Catalog;
 
 namespace StormyCommerce.Core.Services.Catalog
 {

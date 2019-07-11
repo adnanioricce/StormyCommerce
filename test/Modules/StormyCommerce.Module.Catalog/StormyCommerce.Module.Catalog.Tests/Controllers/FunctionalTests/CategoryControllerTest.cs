@@ -1,12 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Module.Catalog.Dtos;
-using TestHelperLibrary;
 using Xunit;
-
+using TestHelperLibrary;
 namespace StormyCommerce.Module.Catalog.Tests.Controllers.FunctionalTests
 {
     //TODO:Create/Get sample data 
@@ -24,7 +23,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Controllers.FunctionalTests
         [Theory]
         [InlineData("category/list")]
         [InlineData("category/{1}")]
-        public async Task<List<CategoryDto>> Get_EndpointReturnSuccess_And_CorrectContentType(string url)
+        public async Task Get_EndpointReturnSuccess_And_CorrectContentType(string url)
         {
             
         }

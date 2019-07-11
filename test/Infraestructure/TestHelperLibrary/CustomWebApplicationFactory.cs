@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
+using StormyCommerce.Core.Tests.Helpers;
 using StormyCommerce.Infraestructure.Data;
 
 namespace TestHelperLibrary
@@ -24,11 +25,16 @@ namespace TestHelperLibrary
                 var serviceProvider = new ServiceCollection()
                     .AddEntityFrameworkInMemoryDatabase()
                     .BuildServiceProvider();
-                
+
                 //Add a database context using a in-memory
                 //database for testing
-                services.AddDbContext<IStormyDbContext,StormyDbContext>(options => 
-                {                    
+                //options =>
+                //{
+                //    options.UseInMemoryDatabase("InMemoryTestDb" + Guid.NewGuid().ToString("N"));
+                //    options.UseInternalServiceProvider(serviceProvider);
+                //}
+                services.AddDbContext<StormyDbContext>(options =>
+                {
                     options.UseInMemoryDatabase("InMemoryTestDb" + Guid.NewGuid().ToString("N"));
                     options.UseInternalServiceProvider(serviceProvider);
                 });

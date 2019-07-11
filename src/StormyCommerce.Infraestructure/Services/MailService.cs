@@ -12,21 +12,16 @@ namespace StormyCommerce.Infraestructure.Services
 	//TODO:5-Cancelling order Email 
 	
 	public class MailService : IEmailService
-	{
+	{        
 		private readonly IEmailSender emailSender; 		
 		public MailService(IEmailSender _emailSender)
 		{
 			emailSender = _emailSender; 
 		}
         //TODO: Make a better message Model, the actual is not really useful
-        public async Task SendConfirmationEmailAsync(BaseMailMessage message, string username, string link)
-        {
-            //message.Message = TemplateGenerator.CreateConfirmationEmail(username, link);
+        public async Task SendEmailAsync(BaseMailMessage message)
+        {            
             await emailSender.SendEmailAsync(message.To, message.Subject, message.Message);
-        }
-        public Task SendContactEmailAsync(BaseMailMessage messageModel,string username,string code)
-        {
-            throw new System.NotImplementedException();
-        }
+        }       
     }
 }
