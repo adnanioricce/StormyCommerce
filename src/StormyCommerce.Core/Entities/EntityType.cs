@@ -28,5 +28,6 @@ namespace StormyCommerce.Core.Entities
 
         [StringLength(450)]
         public string RoutingAction { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

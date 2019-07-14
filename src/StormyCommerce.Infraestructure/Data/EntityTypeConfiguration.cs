@@ -17,6 +17,6 @@ namespace StormyCommerce.Infraestructure.Data
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
             CustomConfiguration(builder);
-        }
+        }       
     }
 }

@@ -11,11 +11,13 @@ namespace StormyCommerce.Core.Tests.Helpers
             {
                 new Category
                 {
+                    Slug = "categoria-camisas",
                     Name = "Camisas",
                     Description = "Descrição Camisas",
                     IsPublished = true,
                     Parent = new Category
                     {
+                        Slug = "categoria-vestimentas",
                         ParentId = 1,
                         Name = "Roupas",
                         IsPublished = true
@@ -28,12 +30,14 @@ namespace StormyCommerce.Core.Tests.Helpers
             return new Category
             {
                 Name = "Camisas",
+                Slug = "categoria-roupas-camisas",
                 Description = "Descrição Camisas",
                 IsPublished = true,
                 Parent = new Category
                 {
                     ParentId = 1,
-                    Name = "Roupas",
+                    Name = "roupas",
+                    Slug = "categoria-roupas",
                     IsPublished = true
                 },
             };

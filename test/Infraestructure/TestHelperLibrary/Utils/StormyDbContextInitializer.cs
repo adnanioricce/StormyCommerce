@@ -32,7 +32,7 @@ namespace TestHelperLibrary.Utils
                     AvailableForPreorder = false,
                     Brand = new Brand
                     {
-                        Deleted = false,
+                        IsDeleted = false,
                         Description = "description",                        
                         LastModified = new DateTime(2019,03,02),
                         LogoImage = "no Image",
@@ -41,7 +41,7 @@ namespace TestHelperLibrary.Utils
                     BrandId = 1,
                     CreatedAt = new DateTime(2019,05,10),
                     CurrentOrder = false,
-                    Deleted = false,
+                    IsDeleted = false,
                     Discount = (decimal)9.99,
                     DiscountAvailable = false,
                     HasDiscountApplied = false,

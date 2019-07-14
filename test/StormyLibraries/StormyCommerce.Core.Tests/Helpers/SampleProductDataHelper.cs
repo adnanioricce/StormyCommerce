@@ -22,7 +22,7 @@ namespace StormyCommerce.Module.Catalog.Test.Helpers
                     AvailableForPreorder = false,
                     Brand = new Brand
                     {
-                        Deleted = false,
+                        IsDeleted = false,
                         Description = "description",                        
                         LastModified = new DateTime(2019,03,02),
                         LogoImage = "no Image",
@@ -31,7 +31,7 @@ namespace StormyCommerce.Module.Catalog.Test.Helpers
                     BrandId = 1,
                     CreatedAt = new DateTime(2019,05,10),
                     CurrentOrder = false,
-                    Deleted = false,
+                    IsDeleted = false,
                     Discount = (decimal)9.99,
                     DiscountAvailable = false,
                     HasDiscountApplied = false,
@@ -85,7 +85,7 @@ namespace StormyCommerce.Module.Catalog.Test.Helpers
                     AvailableForPreorder = false,
                     Brand = new Brand
                     {
-                        Deleted = false,
+                        IsDeleted = false,
                         Description = "description",                        
                         LastModified = new DateTime(2019,03,02),
                         LogoImage = "no Image",
@@ -94,7 +94,7 @@ namespace StormyCommerce.Module.Catalog.Test.Helpers
                     BrandId = 1,
                     CreatedAt = new DateTime(2019,05,10),
                     CurrentOrder = false,
-                    Deleted = false,
+                    IsDeleted = false,
                     Discount = (decimal)9.99,
                     DiscountAvailable = false,
                     HasDiscountApplied = false,
@@ -129,7 +129,8 @@ namespace StormyCommerce.Module.Catalog.Test.Helpers
                         Logo = "no image",
                         Phone = "8887445512-11",
                         SizeUrl = "www.sizes.com",
-                        Note = "Sample Data"
+                        Note = "Sample Data",
+                        
                     },
                     UnitPrice = (decimal)49.99,
                     UnitsInStock = 30,
@@ -139,9 +140,10 @@ namespace StormyCommerce.Module.Catalog.Test.Helpers
                     SKU = "33E386EE-40A9-4AAA-9FA4-E0A196DC10ED",
                     UnitsInStock = 4,
                     VendorId = 1,
+                    IsDeleted = false,
                     Vendor = new StormyVendor{
                         
-                    }                  
+                    }                       
 
                 },
                 new StormyProduct{                    

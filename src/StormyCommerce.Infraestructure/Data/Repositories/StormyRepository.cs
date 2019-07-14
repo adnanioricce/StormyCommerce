@@ -121,7 +121,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         {
             if (ids == null)
                 throw new NullReferenceException("Given argument is null");
-
+            
             var entities = new List<TEntity>();
             await DbSet.ForEachAsync(f =>
             {

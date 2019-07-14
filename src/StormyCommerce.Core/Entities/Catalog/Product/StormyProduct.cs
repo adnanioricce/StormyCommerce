@@ -12,7 +12,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 		public string ProductName { get; set; }
         public string Slug { get; set; }
         public long BrandId { get; set; }	       
-        public long MediasId { get; set; }
+        public long MediaId { get; set; }
         public long VendorId { get; set; }     
         public long ProductLinksId { get; set; }        
         public StormyVendor Vendor {get;set;}
@@ -28,7 +28,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 		public bool ProductAvailable {get;set;}
 		public bool DiscountAvailable {get;set;}
 		public bool CurrentOrder {get; set;}
-        public List<Media.Media> Medias { get; protected set; }
+        public List<Media.Media> Media { get; protected set; } = new List<Media.Media>();
         public List<ProductLink> Links { get; protected set; } = new List<ProductLink>();
         public List<ProductLink> LinkedProductLinks { get; protected set; } = new List<ProductLink>();
         public List<ProductAttribute> ProductAttributes { get; set;}	
@@ -39,7 +39,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 		public decimal Price {get;set;}
         public decimal OldPrice { get; set; }
 	    public bool HasDiscountApplied { get; set; }
-        public bool Deleted { get; set; }
+        public bool IsDeleted { get; set; }
 	    public bool Published { get; set; }        
 	    public string Status {get;set;}
 	    public bool NotReturnable { get; set; }
@@ -56,7 +56,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 			
         public void AddMedia(Media.Media media)
         {            
-            Medias.Add(media);
+            Media.Add(media);
         }
         public void AddAttributeValue(ProductAttributeValue attributeValue)
         {

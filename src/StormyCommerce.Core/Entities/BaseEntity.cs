@@ -4,7 +4,8 @@ namespace StormyCommerce.Core.Entities
 	public class BaseEntity : EntityWithBaseTypeId<long> 
 	{
 		public DateTime LastModified { get; set; }
-		public override bool Equals(object obj)
+        public bool IsDeleted { get; set; }
+        public override bool Equals(object obj)
 		{
 			var compareTo = obj as BaseEntity;
 			if(ReferenceEquals(this,compareTo))

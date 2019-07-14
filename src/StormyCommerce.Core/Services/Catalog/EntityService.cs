@@ -9,12 +9,10 @@ namespace StormyCommerce.Core.Services.Catalog
 {
 	public class EntityService : IEntityService
 	{
-		private readonly IStormyRepository<Entity> entityRepository;
-		private readonly IMediator mediator;
-		public EntityService(IStormyRepository<Entity> _entityRepository,IMediator _mediator)
+		private readonly IStormyRepository<Entity> entityRepository;		
+		public EntityService(IStormyRepository<Entity> _entityRepository)
 		{
-            entityRepository = _entityRepository;
-			mediator = _mediator;
+            entityRepository = _entityRepository;		
 		}
 		//Wtf this do?
 		public string ToSafeSlug(string slug, long entityId, string entityTypeId)
@@ -61,14 +59,14 @@ namespace StormyCommerce.Core.Services.Catalog
         	entity.Slug = newSlug;
 	    }
 
-        public void Delete(long entityId, string entityTypeId)
+        public async Task DeleteAsync(long entityId, string entityTypeId)
 	    {
-        	var entity = entityRepository.Table.FirstOrDefault(x => x.EntityId == entityId && x.EntityTypeId == entityTypeId);
+        	var entity = entityRepository.Table.Where(x => x.EntityId == entityId && x.EntityTypeId == entityTypeId).FirstOrDefault();
 
 	        if (entity != null)
         	{
                 //mediator.Publish(new EntityDeleting { EntityId = entity.Id });
-	            entityRepository.Delete(entity);
+	            await entityRepository.UpdateAsync(entity);
         	}
 	    }
 	}

@@ -38,7 +38,7 @@ namespace StormyCommerce.Core.Services.Catalog
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 0,long endIndex = 15)
         {                        
             return await productRepository.Table                
-                .Include(product => product.Medias)
+                .Include(product => product.Media)
                 .Include(product => product.Brand)
                 .Include(product => product.Links)
                 .Include(product => product.ProductAttributes)            

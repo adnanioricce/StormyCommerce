@@ -18,5 +18,6 @@ namespace StormyCommerce.Core.Entities
         public string EntityTypeId { get; set; }
 
         public EntityType EntityType { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

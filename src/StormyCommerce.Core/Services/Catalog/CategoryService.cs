@@ -5,6 +5,7 @@ using System;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Entities.Catalog;
+using Microsoft.EntityFrameworkCore;
 
 namespace StormyCommerce.Core.Services.Catalog
 {
@@ -12,7 +13,6 @@ namespace StormyCommerce.Core.Services.Catalog
 	{
 		private const string entityTypeId = "Category";
 		private readonly IStormyRepository<Category> categoryRepository;
-        //private readonly IStormyRepository<ProductCategory>
 		private readonly IEntityService entityService;
 		public CategoryService(IStormyRepository<Category> _categoryRepository,IEntityService _entityService)
 		{
@@ -25,9 +25,9 @@ namespace StormyCommerce.Core.Services.Catalog
 		}
         public async Task<Category> GetCategoryByIdAsync(long id)
         {
-            return await categoryRepository.GetByIdAsync(id);
-        }
-		//!INCOMPLETE METHOD
+            var category = await categoryRepository.GetByIdAsync(id);
+            return category;
+        }		
 		public async Task AddAsync(Category entity)
 		{
 			entity.Slug = entityService.ToSafeSlug(entity.Slug,entity.Id,entityTypeId);
@@ -42,13 +42,14 @@ namespace StormyCommerce.Core.Services.Catalog
 		public async Task DeleteAsync(long id)
 		{
             var category = await categoryRepository.GetByIdAsync(id);
-            entityService.Delete(category.Id,entityTypeId);
+            category.IsDeleted = true;
+            await entityService.DeleteAsync(category.Id,entityTypeId);
             categoryRepository.Delete(category);
 		}
 		public async Task DeleteAsync(Category entity)
 		{
             var category = await categoryRepository.GetByIdAsync(entity.Id) ?? throw new NullReferenceException();
-			entityService.Delete(category.Id,entityTypeId);
+			await entityService.DeleteAsync(category.Id,entityTypeId);
             categoryRepository.Delete(entity);
 		}
 
