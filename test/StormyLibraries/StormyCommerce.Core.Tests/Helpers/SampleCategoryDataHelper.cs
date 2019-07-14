@@ -32,14 +32,16 @@ namespace StormyCommerce.Core.Tests.Helpers
                 Name = "Camisas",
                 Slug = "categoria-roupas-camisas",
                 Description = "Descrição Camisas",
-                IsPublished = true,
-                Parent = new Category
-                {
-                    ParentId = 1,
-                    Name = "roupas",
-                    Slug = "categoria-roupas",
-                    IsPublished = true
-                },
+                IsPublished = true,                
+            };
+        }
+        public static Category GetSingleCategoryForUpdateOperations(long id)
+        {
+            return new Category(id)
+            {
+                Slug = "categoria-vestimentas-camisas",
+                Description = "Descrição Camisas",
+                IsPublished = true,                
             };
         }
     }

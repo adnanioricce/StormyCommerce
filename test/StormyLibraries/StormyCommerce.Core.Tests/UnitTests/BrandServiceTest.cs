@@ -68,7 +68,7 @@ namespace StormyCommerce.Core.Tests.UnitTests
                 await service.UpdateAsync(newBrand);
                 var brand = service.GetBrandByIdAsync(1);
                 //Then
-                Assert.NotSame(newBrand,oldBrand);
+                Assert.NotSame(brand,oldBrand);
             }
         }
     }

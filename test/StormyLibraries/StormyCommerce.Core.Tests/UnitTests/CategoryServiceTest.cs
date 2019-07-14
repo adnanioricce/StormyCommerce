@@ -20,7 +20,9 @@ namespace StormyCommerce.Core.Tests.UnitTests
         {
             FakeEntityService = new Mock<IEntityService>();
             FakeEntityService.Setup(x => x.Add(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<long>(), It.IsAny<string>()))
-                .Callback(() => Console.WriteLine("fake callback delegate log"));
+                .Callback(() => Console.WriteLine("fake callback delegate log(add method)"));
+            FakeEntityService.Setup(x => x.Update(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<long>(), It.IsAny<string>()))
+                .Callback(() => Console.WriteLine("fake callback delegate log(update method)"));
             FakeEntityService.Setup(x => x.ToSafeSlug(It.IsAny<string>(), It.IsAny<long>(), It.IsAny<string>())).Returns("fake-slug");
         }
         [Fact]
@@ -59,17 +61,34 @@ namespace StormyCommerce.Core.Tests.UnitTests
         {
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                //Arrange                
+                //Given                
                 var service = new CategoryService(new StormyRepository<Category>(dbContext),FakeEntityService.Object);                
-                //Act
+                //When
                 await service.AddAsync(SampleCategoryDataHelper.GetSingleCategoryData());
                 var entities = await service.GetAllCategoriesAsync();
-                //Assert
-                Assert.Equal(2, entities.Count);                
+                //Then
+                Assert.Equal(1, entities.Count);                
             }
         }
-        
-        //[Fact]
-        //public async Task Get
+
+        [Fact]
+        public async Task UpdateCategoryAsync_WithValidEntityAndExistingEntity_ShouldReplaceOldEntityByProvidedEntity()
+        {
+            using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
+            {
+                //Given 
+                dbContext.AddRange(SampleCategoryDataHelper.GetSampleCategoryData());
+                dbContext.SaveChanges();
+                var service = new CategoryService(new StormyRepository<Category>(dbContext), FakeEntityService.Object);
+                var oldCategory = await service.GetCategoryByIdAsync(1);
+                var newCategory = new Category(oldCategory);
+                newCategory.Description = "Updated Description";
+                //When 
+                await service.UpdateAsync(newCategory);
+                var currentCategory = await service.GetCategoryByIdAsync(1);
+                //Then                 
+                Assert.NotEqual(newCategory.Description, currentCategory.Description);
+            }
+        }
     }
 }
