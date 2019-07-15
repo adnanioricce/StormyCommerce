@@ -5,6 +5,6 @@ namespace StormyCommerce.Core.Interfaces
 {
 	public interface IEmailService
 	{
-		Task SendEmailAsync(BaseMailMessage message); 		
+		Task SendEmailAsync(string to,string subject,string message); 		
 	}
 }

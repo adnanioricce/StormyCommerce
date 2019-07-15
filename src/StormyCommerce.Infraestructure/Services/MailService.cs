@@ -19,9 +19,9 @@ namespace StormyCommerce.Infraestructure.Services
 			emailSender = _emailSender; 
 		}
         //TODO: Make a better message Model, the actual is not really useful
-        public async Task SendEmailAsync(BaseMailMessage message)
+        public async Task SendEmailAsync(string to,string subject,string message)
         {            
-            await emailSender.SendEmailAsync(message.To, message.Subject, message.Message);
+            await emailSender.SendEmailAsync(to,subject, message);
         }       
     }
 }

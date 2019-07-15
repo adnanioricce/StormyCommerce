@@ -9,7 +9,7 @@ using StormyCommerce.Module.Catalog.Test.Helpers;
 using StormyCommerce.Core.Tests.Helpers;
 using StormyCommerce.Core.Services.Catalog;
 
-namespace StormyCommerce.Core.Test.UnitTests
+namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
 {
     public class ProductServiceTest    
     {   

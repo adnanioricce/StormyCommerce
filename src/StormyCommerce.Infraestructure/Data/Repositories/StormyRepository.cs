@@ -92,7 +92,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         {
             var entity = _entity ?? throw new NullReferenceException($"Given argument was null:{_entity.ToString()}");
             try
-            {
+            {                               
                 DbSet.Update(entity);
                 await context.SaveChangesAsync();
             }

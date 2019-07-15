@@ -3,7 +3,11 @@ namespace StormyCommerce.Core.Entities
 {
 	public class BaseEntity : EntityWithBaseTypeId<long> 
 	{
-		public DateTime LastModified { get; set; }
+        public BaseEntity(bool isDeleted = false) 
+        {            
+            IsDeleted = isDeleted;
+        }
+        public DateTimeOffset LastModified { get; set; } = DateTimeOffset.UtcNow;
         public bool IsDeleted { get; set; }
         public override bool Equals(object obj)
 		{
@@ -19,7 +23,7 @@ namespace StormyCommerce.Core.Entities
 		{
 			if(ReferenceEquals(a,null) && ReferenceEquals(b,null))
 				return true;
-			if(ReferenceEquals(a,null) && ReferenceEquals(b,null))
+			if(ReferenceEquals(a,null) || ReferenceEquals(b,null))
 				return false;
 
 			return a.Equals(b);
@@ -35,7 +39,6 @@ namespace StormyCommerce.Core.Entities
 		public override string ToString()
 		{
 			return GetType().Name + "[Id = " + Id + "]";
-		}
-
+		}                
 	}
 }

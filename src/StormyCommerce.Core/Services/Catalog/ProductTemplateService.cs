@@ -34,7 +34,8 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             var _template = _productTemplateRepository.Table
             .Include(attributes => attributes.ProductAttributes)
-            .FirstOrDefault(template => template.Id == id);
+            .Where(template => template.Id == id)
+            .FirstOrDefault();
             _template.Name = productTemplate.Name;
             foreach(var _attribute in _template.ProductAttributes){
                 if(productTemplate.ProductAttributes.Any(attrib => attrib.ProductAttributeId == _attribute.ProductAttributeId))
@@ -50,14 +51,12 @@ namespace StormyCommerce.Core.Services.Catalog
             {
                 deletedAttribute.ProductTemplate = null;
                 //!s NOT IMPLEMENTED
-                _productTemplateProductAttributeRepository.Remove(deletedAttribute);
+                await _productTemplateProductAttributeRepository.UpdateAsync(deletedAttribute);
             }
         }        
         public async Task DeleteProductTemplate(long id)
         {
-            var productTemplate = _productTemplateRepository
-            .Table
-            .FirstOrDefault(product => product.Id == id); 
+            var productTemplate = await _productTemplateRepository.GetByIdAsync(id); 
             if(productTemplate == null)
                 return;
 

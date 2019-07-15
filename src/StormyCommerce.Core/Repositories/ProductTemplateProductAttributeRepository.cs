@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Threading.Tasks;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
@@ -15,6 +16,11 @@ namespace StormyCommerce.Core.Repositories
         public void Remove(ProductTemplateProductAttribute item)
         {
             // _dbContext.Set<ProductTemplateProductAttribute>().Remove(item);
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(ProductTemplateProductAttribute item)
+        {
             throw new NotImplementedException();
         }
     }

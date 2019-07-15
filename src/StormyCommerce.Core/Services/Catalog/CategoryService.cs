@@ -6,6 +6,7 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Entities.Catalog;
 using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Core.Models;
 
 namespace StormyCommerce.Core.Services.Catalog
 {
@@ -33,18 +34,37 @@ namespace StormyCommerce.Core.Services.Catalog
 			entity.Slug = entityService.ToSafeSlug(entity.Slug,entity.Id,entityTypeId);
 			await categoryRepository.AddAsync(entity);
 		}
-		public async Task UpdateAsync(Category entity)
+		public async Task<Result> UpdateAsync(Category entry)
 		{
-			entity.Slug = entityService.ToSafeSlug(entity.Slug,entity.Id,entityTypeId);
-			entityService.Update(entity.Name,entity.Slug,entity.Id,entityTypeId);
-			await categoryRepository.UpdateAsync(entity);
+            if (entry == null)
+            {
+                var error = new Error("404", "given request is can't be null", new ArgumentNullException("request object is null"));
+                return new Result<Error>(error, false, error.Description);
+            }
+
+            var category = await categoryRepository.GetByIdAsync(entry.Id);
+
+            if (category == null)
+            {
+                var error = new Error("404", "Category don't exist", new ArgumentNullException("requested category is null"));
+                return new Result<Error>(error,false,error.Description);
+            }
+            
+            if (category.Equals(entry))
+                return Result.Ok("data don't have modifications,no update performed");
+
+            category = entry;
+            category.Slug = entityService.ToSafeSlug(entry.Slug, entry.Id,entityTypeId);
+			entityService.Update(category.Name, category.Slug, category.Id,entityTypeId);
+            await categoryRepository.UpdateAsync(category);
+            return Result.Ok();
 		} 
 		public async Task DeleteAsync(long id)
 		{
             var category = await categoryRepository.GetByIdAsync(id);
             category.IsDeleted = true;
             await entityService.DeleteAsync(category.Id,entityTypeId);
-            categoryRepository.Delete(category);
+            await categoryRepository.UpdateAsync(category);
 		}
 		public async Task DeleteAsync(Category entity)
 		{

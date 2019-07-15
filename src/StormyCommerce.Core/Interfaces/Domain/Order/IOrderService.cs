@@ -1,3 +1,5 @@
+﻿using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -5,11 +7,11 @@ namespace StormyCommerce.Core.Interfaces.Domain.Order
 {
     public interface IOrderService
     {
-        Task CreateOrder(object entry);
-        Task EditOrder(int id,object entity);
-        Task CancelOrder(int id);        
-        Task<object> GetOrderById(int id);
-        Task<IList<object>> GetOrders();
-        Task<object> GetOrderHistory();
+        Task<Result> CreateOrder(object entry);
+        Task<Result> EditOrder(int id,object entity);
+        Task<Result> CancelOrder(int id);        
+        Task<OrderDto> GetOrderById(int id);
+        Task<IList<OrderDto>> GetOrders();
+        Task<OrderHistoryDto> GetOrderHistory();
     }
 }

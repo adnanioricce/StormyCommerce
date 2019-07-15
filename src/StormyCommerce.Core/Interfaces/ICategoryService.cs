@@ -1,4 +1,5 @@
 ﻿using StormyCommerce.Core.Entities.Catalog;
+using StormyCommerce.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace StormyCommerce.Core.Interfaces
@@ -9,7 +10,7 @@ namespace StormyCommerce.Core.Interfaces
 		Task<IList<Category>> GetAllCategoriesAsync();
         Task<Category> GetCategoryByIdAsync(long id);
 		Task AddAsync(Category entity);
-		Task UpdateAsync(Category entity); 
+		Task<Result> UpdateAsync(Category entry); 
 		Task DeleteAsync(long id); 
 		Task DeleteAsync(Category entity);
 	}
