@@ -7,11 +7,11 @@ namespace StormyCommerce.Core.Interfaces.Domain.Order
 {
     public interface IOrderService
     {
-        Task<Result> CreateOrder(object entry);
+        Task<Result> CreateOrder(OrderDto entry);
         Task<Result> EditOrder(int id,object entity);
         Task<Result> CancelOrder(int id);        
         Task<OrderDto> GetOrderById(int id);
         Task<IList<OrderDto>> GetOrders();
-        Task<OrderHistoryDto> GetOrderHistory();
+        Task<OrderHistoryDto> GetOrderHistory();        
     }
 }

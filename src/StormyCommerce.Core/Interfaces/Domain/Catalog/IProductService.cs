@@ -6,8 +6,8 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
 {
     public interface IProductService
     {        
-        void DeleteProduct(StormyProduct product);        
-        void DeleteProducts(IList<StormyProduct> products);                      
+        Task DeleteProductAsync(StormyProduct product);        
+        Task DeleteProductsAsync(IList<StormyProduct> products);                      
         Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit = 0);                           
         Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex,long endIndex);
         Task<StormyProduct> GetProductByIdAsync(long productId);        

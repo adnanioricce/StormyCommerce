@@ -8,6 +8,11 @@ namespace StormyCommerce.Core.Services.Orders
 {
     public class OrderService : IOrderService
     {
+        private readonly IStormyRepository<StormyOrder> _orderRepository;        
+        public OrderService(IStormyRepository<StormyOrder> orderRepository)
+        {
+            _orderRepository = orderRepository;
+        }
         public Task<Result> CancelOrder(int id)
         {
             throw new System.NotImplementedException();

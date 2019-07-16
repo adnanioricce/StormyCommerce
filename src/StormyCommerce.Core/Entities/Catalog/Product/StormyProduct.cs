@@ -14,9 +14,11 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public long BrandId { get; set; }	       
         public long MediaId { get; set; }
         public long VendorId { get; set; }     
-        public long ProductLinksId { get; set; }        
+        public int CategoryId { get; set; }        
+        public long ProductLinksId { get; set; }                
         public StormyVendor Vendor {get;set;}
         public Brand Brand { get; set; }
+        public Category Category { get; set; }
 		public string TypeName { get; set; }
 		public int QuantityPerUnity {get;set;}	            		
 		public string UnitSize {get;set;}
@@ -26,8 +28,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 		public int UnitsInStock {get;set;}
 		public int UnitsOnOrder {get;set;}
 		public bool ProductAvailable {get;set;}
-		public bool DiscountAvailable {get;set;}
-		public bool CurrentOrder {get; set;}
+		public bool DiscountAvailable {get;set;}		
         public List<Media.Media> Media { get; protected set; } = new List<Media.Media>();
         public List<ProductLink> Links { get; protected set; } = new List<ProductLink>();
         public List<ProductLink> LinkedProductLinks { get; protected set; } = new List<ProductLink>();

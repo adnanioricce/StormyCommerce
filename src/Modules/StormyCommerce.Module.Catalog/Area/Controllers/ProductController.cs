@@ -63,11 +63,35 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		}
 		[HttpPost("product/create")]
 		[ValidateModel]
-		public async Task CreateProduct(ProductDto _model)
+		public async Task CreateProduct([FromBody]ProductDto _model)
 		{
 			var model = _mapper.Map<StormyProduct>( _model);
 			await _productService.InsertProductAsync(model);
 		}
-		
+		[HttpPut("product/edit")]
+		[ValidateModel]
+		public async Task EditProduct([FromBody]ProductDto _model)
+		{
+			var model = _mapper.map<StormyProduct>(_model);
+			await _productService.UpdateProductAsync(model);
+			if(!result.Success){
+				return Result.Ok();
+			}
+
+		}
+		[HttpGet("product/number_products_in_category")]
+		[ValidateModel]
+		public ActionResult<List<Int>> GetProductsInCategory([FromBody]IList<int> categoryIds,int storeId)
+		{
+			var model = _productService.GetNumberOfProductsInCategory(categoryIds,storeId);
+			return model;
+		}
+		[HttpGet]
+		[ValidateModel]
+		public async Task<List<ProductDto>> GetAllProductsOnCategory(int categoryId,int limit)
+		{
+			var model = _productService.GetAllProductsByCategory(categoryId,limit);
+			return model;
+		}		
 	}
 }

@@ -18,13 +18,19 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             productRepository = _productRepository;	        
         }
-        public void DeleteProduct(StormyProduct product)
-        {
-            productRepository.Delete(product);
+        //TODO:write failing test cases
+        public Task<Result<IList<ProductDto>>> GetAllProductsByCategory(int categoryId,int limit = 15)
+        {            
+            return _productRepository.Table.Where(product => product.CategoryId == categoryId && product.Id <= limit);            
         }
-        public void DeleteProducts(IList<StormyProduct> products)
+        public async Task DeleteProduct(StormyProduct product)
         {
-            productRepository.DeleteCollection(products);
+            product.IsDeleted = true;
+            await productRepository.UpdateAsync(product);
+        }
+        public async Task DeleteProducts(IList<StormyProduct> products)
+        {            
+            await UpdateCollectionAsync(products);            
         }
         //!this look very lazy
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
@@ -43,6 +49,7 @@ namespace StormyCommerce.Core.Services.Catalog
                 .Include(product => product.Links)
                 .Include(product => product.ProductAttributes)            
                 .Include(product => product.Vendor)
+                .Include(product => product.Category)
                 .Where(product => product.Id >= startIndex && product.Id <= endIndex)
                 .ToListAsync();                                                                                
         }
@@ -106,7 +113,5 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             await productRepository.UpdateCollectionAsync(products);
         }       
-        
-        
     }
 }
