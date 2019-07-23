@@ -3,7 +3,7 @@ using StormyCommerce.Core.Entities;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping
 {
-    public class EntityMap : EntityTypeConfiguration<Entity>, IStormyModelBuilder
+    public class EntityMap : IStormyModelBuilder
     {
         public void Build(ModelBuilder modelBuilder)
         {            

@@ -1,4 +1,5 @@
 ﻿using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,7 +8,8 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
     public interface IProductService
     {        
         Task DeleteProductAsync(StormyProduct product);        
-        Task DeleteProductsAsync(IList<StormyProduct> products);                      
+        Task DeleteProductsAsync(IList<StormyProduct> products);
+        Task<Result<IList<StormyProduct>>> GetAllProductsByCategory(int categoryId, int limit = 15);
         Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit = 0);                           
         Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex,long endIndex);
         Task<StormyProduct> GetProductByIdAsync(long productId);        

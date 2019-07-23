@@ -39,8 +39,7 @@ namespace TestHelperLibrary.Utils
                         Name = "A brand"
                     },
                     BrandId = 1,
-                    CreatedAt = new DateTime(2019,05,10),
-                    CurrentOrder = false,
+                    CreatedAt = new DateTime(2019,05,10),                  
                     IsDeleted = false,
                     Discount = (decimal)9.99,
                     DiscountAvailable = false,
@@ -64,7 +63,7 @@ namespace TestHelperLibrary.Utils
                             SecondAddress = "Second Address",
                             State = "Hell",
                             Street = "Mcdonalds",
-                            ParentId = 1
+                            OwnerId = 1
                         },
                         AddressId = 1,
                         CompanyName = "SimpleCompany",

@@ -6,7 +6,6 @@
         public string Slug { get; set; }
         public string Description { get; set; }
         public string Website { get; set; }
-        public string LogoImage { get; set; }
-        public bool IsDeleted { get; set; }
+        public string LogoImage { get; set; }      
     }
 }

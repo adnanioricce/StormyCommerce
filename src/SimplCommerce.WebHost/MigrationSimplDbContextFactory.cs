@@ -3,15 +3,16 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Design;
-using SimplCommerce.Module.Core.Data;
 using SimplCommerce.WebHost.Extensions;
 using SimplCommerce.Infrastructure;
+using StormyCommerce.Infraestructure.Data;
 
 namespace SimplCommerce.WebHost
 {
-    public class MigrationSimplDbContextFactory : IDesignTimeDbContextFactory<SimplDbContext>
+    //just edit to my dbContext
+    public class MigrationStormyDbContextFactory : IDesignTimeDbContextFactory<StormyDbContext>
     {
-        public SimplDbContext CreateDbContext(string[] args)
+        public StormyDbContext CreateDbContext(string[] args)
         {
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -22,7 +23,7 @@ namespace SimplCommerce.WebHost
                             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                             .AddJsonFile($"appsettings.{environmentName}.json", true);
 
-            builder.AddUserSecrets(typeof(MigrationSimplDbContextFactory).Assembly, optional: true);
+            builder.AddUserSecrets(typeof(MigrationStormyDbContextFactory).Assembly, optional: true);
             builder.AddEnvironmentVariables();
             var _configuration = builder.Build();
 
@@ -30,10 +31,10 @@ namespace SimplCommerce.WebHost
             IServiceCollection services = new ServiceCollection();
             GlobalConfiguration.ContentRootPath = contentRootPath;
             services.AddModules(contentRootPath);
-            services.AddCustomizedDataStore(_configuration);
+            services.AddStormyDataStore(_configuration);
             var _serviceProvider = services.BuildServiceProvider();
 
-            return _serviceProvider.GetRequiredService<SimplDbContext>();
+            return _serviceProvider.GetRequiredService<StormyDbContext>();
         }
     }
 }

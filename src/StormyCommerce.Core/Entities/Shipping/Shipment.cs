@@ -11,8 +11,7 @@ namespace StormyCommerce.Core.Entities
 		public DateTime? ShippedDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public string Comment { get; set; }
-        public decimal Price {get;set;}
-		//TODO:In the case that the cost and price for the end user being different
+        public decimal Price { get; set; }		
 		public decimal DeliveryCost { get; set; }
 	}
 }

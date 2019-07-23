@@ -15,10 +15,9 @@ using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web;
-using SimplCommerce.Module.Core.Data;
-using SimplCommerce.Module.Localization.Extensions;
-using SimplCommerce.Module.Localization.TagHelpers;
 using SimplCommerce.WebHost.Extensions;
+using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Infraestructure.Data.Repositories;
 
 namespace SimplCommerce.WebHost
 {
@@ -46,13 +45,12 @@ namespace SimplCommerce.WebHost
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddCustomizedDataStore(_configuration);
-            services.AddCustomizedIdentity(_configuration);
+            services.AddStormyDataStore(_configuration);
+            //services.AddCustomizedIdentity(_configuration);
             services.AddHttpClient();
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient(typeof(IRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
+            services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));            
 
-            services.AddCustomizedLocalization();
+            //services.AddCustomizedLocalization();
 
             services.AddCustomizedMvc(GlobalConfiguration.Modules);
             services.Configure<RazorViewEngineOptions>(
@@ -60,9 +58,7 @@ namespace SimplCommerce.WebHost
             services.Configure<WebEncoderOptions>(options =>
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
-            });
-            services.AddScoped<ITagHelperComponent, LanguageDirectionTagHelperComponent>();
-            services.AddTransient<IRazorViewRenderer, RazorViewRenderer>();
+            });            
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-Token");
             services.AddSingleton<AutoValidateAntiforgeryTokenAuthorizationFilter, CookieOnlyAutoValidateAntiforgeryTokenAuthorizationFilter>();
             services.AddCloudscribePagination();
@@ -74,8 +70,7 @@ namespace SimplCommerce.WebHost
                 moduleInitializer.ConfigureServices(services);
             }
 
-            services.AddScoped<ServiceFactory>(p => p.GetService);
-            services.AddScoped<IMediator, Mediator>();
+            //services.AddScoped<ServiceFactory>(p => p.GetService);
 
             services.AddSwaggerGen(c =>
             {
@@ -114,8 +109,8 @@ namespace SimplCommerce.WebHost
 
             app.UseCookiePolicy();
             app.UseCustomizedIdentity();
-            app.UseCustomizedRequestLocalization();
-            app.UseCustomizedMvc();
+            //app.UseCustomizedRequestLocalization();
+            //app.UseCustomizedMvc();
 
             var moduleInitializers = app.ApplicationServices.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)

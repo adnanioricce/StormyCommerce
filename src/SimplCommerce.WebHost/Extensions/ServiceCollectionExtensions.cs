@@ -25,9 +25,6 @@ using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.Infrastructure.Web.ModelBinders;
-using SimplCommerce.Module.Core.Data;
-using SimplCommerce.Module.Core.Extensions;
-using SimplCommerce.Module.Core.Models;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore.Extensions;
 using Microsoft.Extensions.Localization;
@@ -115,20 +112,20 @@ namespace SimplCommerce.WebHost.Extensions
                     o.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
                     o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 })
-                .AddRazorOptions(o =>
-                {
-                    foreach (var module in modules.Where(x => !x.IsBundledWithHost))
-                    {
-                        o.AdditionalCompilationReferences.Add(MetadataReference.CreateFromFile(module.Assembly.Location));
-                    }
-                })
-                .AddViewLocalization()
-                .AddModelBindingMessagesLocalizer(services)
-                .AddDataAnnotationsLocalization(o => {
-                    var factory = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
-                    var L = factory.Create(null);
-                    o.DataAnnotationLocalizerProvider = (t,f) => L;
-                })                
+                //.AddRazorOptions(o =>
+                //{
+                //    foreach (var module in modules.Where(x => !x.IsBundledWithHost))
+                //    {
+                //        o.AdditionalCompilationReferences.Add(MetadataReference.CreateFromFile(module.Assembly.Location));
+                //    }
+                //})
+                //.AddViewLocalization()
+                //.AddModelBindingMessagesLocalizer(services)
+                //.AddDataAnnotationsLocalization(o => {
+                //    var factory = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
+                //    var L = factory.Create(null);
+                //    o.DataAnnotationLocalizerProvider = (t,f) => L;
+                //})                
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             foreach (var module in modules.Where(x => !x.IsBundledWithHost))
@@ -185,97 +182,11 @@ namespace SimplCommerce.WebHost.Extensions
                     mvcBuilder.PartManager.ApplicationParts.Add(part);
                 }
             }
-        }
-
-        public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services, IConfiguration configuration)
-        {
-            services
-                .AddIdentity<User, Role>(options =>
-                {
-                    options.Password.RequireDigit = false;
-                    options.Password.RequiredLength = 4;
-                    options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireLowercase = false;
-                    options.Password.RequiredUniqueChars = 0;
-                })
-                .AddRoleStore<SimplRoleStore>()
-                .AddUserStore<SimplUserStore>()
-                .AddDefaultTokenProviders();
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie()
-                .AddFacebook(x =>
-                {
-                    x.AppId = configuration["Authentication:Facebook:AppId"];
-                    x.AppSecret = configuration["Authentication:Facebook:AppSecret"];
-
-                    x.Events = new OAuthEvents
-                    {
-                        OnRemoteFailure = ctx => HandleRemoteLoginFailure(ctx)
-                    };
-                })
-                .AddGoogle(x =>
-                {
-                    x.ClientId = configuration["Authentication:Google:ClientId"];
-                    x.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-                    x.Events = new OAuthEvents
-                    {
-                        OnRemoteFailure = ctx => HandleRemoteLoginFailure(ctx)
-                    };
-                })
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = configuration["Authentication:Jwt:Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Authentication:Jwt:Key"]))
-                    };
-                });
-            services.ConfigureApplicationCookie(x =>
-            {
-                x.LoginPath = new PathString("/login");
-                x.Events.OnRedirectToLogin = context =>
-                {
-                    if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == (int)HttpStatusCode.OK)
-                    {
-                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        return Task.CompletedTask;
-                    }
-
-                    context.Response.Redirect(context.RedirectUri);
-                    return Task.CompletedTask;
-                };
-                x.Events.OnRedirectToAccessDenied = context =>
-                {
-                    if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == (int)HttpStatusCode.OK)
-                    {
-                        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                        return Task.CompletedTask;
-                    }
-
-                    context.Response.Redirect(context.RedirectUri);
-                    return Task.CompletedTask;
-                };
-            });
-            return services;
-        }
-
-        public static IServiceCollection AddCustomizedDataStore(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContextPool<SimplDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("SimplCommerce.WebHost")));
-            return services;
-        }
+        }        
         public static IServiceCollection AddStormyDataStore(this IServiceCollection services,IConfiguration configuration)
         {            
             services.AddDbContextPool<StormyDbContext>(options => {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
             });
             return services;
         }

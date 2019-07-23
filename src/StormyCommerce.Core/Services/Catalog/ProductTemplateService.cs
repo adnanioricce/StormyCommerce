@@ -7,7 +7,7 @@ using StormyCommerce.Core.Interfaces.Domain.Catalog;
 
 namespace StormyCommerce.Core.Services.Catalog
 {
-    public class ProductTemplateService
+    public class ProductTemplateService : IProductTemplateService
     {
         private readonly IStormyRepository<ProductTemplate> _productTemplateRepository; 
         private readonly IStormyRepository<ProductAttribute> _productAttributeRepository;

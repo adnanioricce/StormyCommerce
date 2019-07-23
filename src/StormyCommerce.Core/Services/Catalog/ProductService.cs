@@ -7,35 +7,37 @@ using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces.Domain;
 using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 
 namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductService : IProductService
     {
 	    private const string ProductEntityTypeId = "Product";
-        private readonly IStormyRepository<StormyProduct> productRepository;	    
-        public ProductService(IStormyRepository<StormyProduct> _productRepository)
+        private readonly IStormyRepository<StormyProduct> _productRepository;	    
+        public ProductService(IStormyRepository<StormyProduct> productRepository)
         {
-            productRepository = _productRepository;	        
+            _productRepository = productRepository;	        
         }
         //TODO:write failing test cases
-        public Task<Result<IList<ProductDto>>> GetAllProductsByCategory(int categoryId,int limit = 15)
+        public async Task<Result<IList<StormyProduct>>> GetAllProductsByCategory(int categoryId,int limit = 15)
         {            
-            return _productRepository.Table.Where(product => product.CategoryId == categoryId && product.Id <= limit);            
+            return new Result<IList<StormyProduct>>(await _productRepository.Table.Where(product => product.CategoryId == categoryId && product.Id <= limit).ToListAsync(),true,"none");            
         }
         public async Task DeleteProduct(StormyProduct product)
         {
             product.IsDeleted = true;
-            await productRepository.UpdateAsync(product);
+            await _productRepository.UpdateAsync(product);
         }
         public async Task DeleteProducts(IList<StormyProduct> products)
         {            
-            await UpdateCollectionAsync(products);            
+            await UpdateProductsAsync(products);            
         }
         //!this look very lazy
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
         {                               
-            return await GetProductsByIdsAsync(productRepository
+            return await GetProductsByIdsAsync(_productRepository
                 .Table
                 .Where(f => f.Ranking < limit && f.ProductAvailable == true)
                 .Select(p => p.Id)                
@@ -43,8 +45,8 @@ namespace StormyCommerce.Core.Services.Catalog
 	    }   
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 0,long endIndex = 15)
         {                        
-            return await productRepository.Table                
-                .Include(product => product.Media)
+            return await _productRepository.Table                
+                .Include(product => product.Medias)
                 .Include(product => product.Brand)
                 .Include(product => product.Links)
                 .Include(product => product.ProductAttributes)            
@@ -56,7 +58,7 @@ namespace StormyCommerce.Core.Services.Catalog
 
         public int GetNumberOfProductsByVendorId(int vendorId)
         {
-            return productRepository.Table.Where(f => f.VendorId == vendorId).Count();
+            return _productRepository.Table.Where(f => f.VendorId == vendorId).Count();
         }
         /// <summary>
         /// NOT IMPLEMENTED, DONT USE
@@ -70,28 +72,28 @@ namespace StormyCommerce.Core.Services.Catalog
         }
         public async Task<StormyProduct> GetProductByIdAsync(long productId)
         {
-            return await productRepository.GetByIdAsync(productId);
+            return await _productRepository.GetByIdAsync(productId);
         }
         public async Task<StormyProduct> GetProductBySkuAsync(string sku)
         {
-            return await Task.Run(() => productRepository.Table.FirstOrDefault(entity => entity.SKU == sku));
+            return await Task.Run(() => _productRepository.Table.FirstOrDefault(entity => entity.SKU == sku));
         }
         public async Task<IList<StormyProduct>> GetProductsByIdsAsync(long[] productIds)
         {
-            return await productRepository.GetAllByIdsAsync(productIds);
+            return await _productRepository.GetAllByIdsAsync(productIds);
         }
         public async Task<IList<StormyProduct>> GetProductsBySkuAsync(string[] skuArray, int vendorId = 0)
         {
-            var products = productRepository.Table.Select(entity => GetProductBySkuAsync(entity.SKU));
+            var products = _productRepository.Table.Select(entity => GetProductBySkuAsync(entity.SKU));
             return await Task.WhenAll(products);
         }
         public int GetTotalStockQuantity()
         {
-            return productRepository.Table.Sum(f => f.UnitsInStock);
+            return _productRepository.Table.Sum(f => f.UnitsInStock);
         }
         public int GetTotalStockQuantityOfProduct(StormyProduct product)
         {
-           return productRepository
+           return _productRepository
                 .Table
                 .Where(p => p.VendorId == product.VendorId)
                 .Sum(p => p.UnitsInStock);
@@ -99,19 +101,29 @@ namespace StormyCommerce.Core.Services.Catalog
         //TODO:Create slugs with EntityService
         public async Task InsertProductAsync(StormyProduct product)
         {		    
-		    await productRepository.AddAsync(product);            
+		    await _productRepository.AddAsync(product);            
         }
         public async Task InsertProductsAsync(IList<StormyProduct> products)
         {
-            await productRepository.AddCollectionAsync(products);
+            await _productRepository.AddCollectionAsync(products);
         }
         public async Task UpdateProductAsync(StormyProduct product)
         {
-            await productRepository.UpdateAsync(product);
+            await _productRepository.UpdateAsync(product);
         }        
         public async Task UpdateProductsAsync(IList<StormyProduct> products)
         {
-            await productRepository.UpdateCollectionAsync(products);
-        }       
+            await _productRepository.UpdateCollectionAsync(products);
+        }
+
+        public Task DeleteProductAsync(StormyProduct product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteProductsAsync(IList<StormyProduct> products)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

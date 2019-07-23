@@ -39,13 +39,15 @@ namespace StormyCommerce.Infraestructure.Data
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess,cancellationToken);
         }        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {                                          
-            var typeConfigurations = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(type => (type.BaseType?.IsGenericType ?? false) 
-                && (type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>)));            
-            RegisterEntities(modelBuilder, typeConfigurations);
-            RegisterConvention(modelBuilder);
-            RegisterCustomMappings(modelBuilder,typeConfigurations);            
+        {
+            Type baseType = typeof(IStormyModelBuilder);
+            var typeConfigurations = Assembly.GetExecutingAssembly()
+                .GetTypes()                
+                .Where(type => baseType.IsAssignableFrom(type) && !type.IsInterface);
+            Console.Out.WriteLine($"Number of types:{typeConfigurations.Count()}");
+            //RegisterEntities(modelBuilder, typeConfigurations);
+            //RegisterConvention(modelBuilder);
+            RegisterCustomMappings(modelBuilder, typeConfigurations);
             base.OnModelCreating(modelBuilder);
         }        
 
@@ -86,7 +88,9 @@ namespace StormyCommerce.Infraestructure.Data
         }
         private static void RegisterEntities(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
         {
-            var entityTypes = typeToRegisters.Where(x => x.GetTypeInfo().IsSubclassOf(typeof(BaseEntity)));
+            var entityTypes = typeToRegisters.Where(x => x.GetTypeInfo()
+            .IsSubclassOf(typeof(BaseEntity)) || 
+            x.GetTypeInfo().IsSubclassOf(typeof(EntityWithBaseTypeId<>)));
             foreach (var type in entityTypes)
             {
                 modelBuilder.Entity(type);
@@ -95,14 +99,12 @@ namespace StormyCommerce.Infraestructure.Data
         private static void RegisterCustomMappings(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
         {
             var customModelBuilderTypes = typeToRegisters.Where(x => typeof(IStormyModelBuilder).IsAssignableFrom(x));
+            //var customModelBuilderTypes = typeToRegisters;
             foreach (var builderType in customModelBuilderTypes)
-            {
-                if (builderType != null && builderType != typeof(IStormyModelBuilder))
-                {
+            {               
                     var builder = (IStormyModelBuilder)Activator.CreateInstance(builderType);
                     builder.Build(modelBuilder);
-                }
-
+                         
             }
         }
     }

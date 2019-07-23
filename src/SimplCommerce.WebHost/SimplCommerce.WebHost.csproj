@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Modules\SimplCommerce.Module.ActivityLog\SimplCommerce.Module.ActivityLog.csproj" />
+    <!--<ProjectReference Include="..\Modules\SimplCommerce.Module.ActivityLog\SimplCommerce.Module.ActivityLog.csproj" />
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Catalog\SimplCommerce.Module.Catalog.csproj" />
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Cms\SimplCommerce.Module.Cms.csproj" />
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Comments\SimplCommerce.Module.Comments.csproj" />
@@ -51,13 +51,15 @@
     <ProjectReference Include="..\Modules\SimplCommerce.Module.ShoppingCart\SimplCommerce.Module.ShoppingCart.csproj" />
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Tax\SimplCommerce.Module.Tax.csproj" />
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Vendors\SimplCommerce.Module.Vendors.csproj" />
-    <ProjectReference Include="..\Modules\SimplCommerce.Module.WishList\SimplCommerce.Module.WishList.csproj" />
+    <ProjectReference Include="..\Modules\SimplCommerce.Module.WishList\SimplCommerce.Module.WishList.csproj" />-->
+    <ProjectReference Include="..\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
+    <ProjectReference Include="..\Modules\StormyCommerce.Module.Orders\StormyCommerce.Module.Orders.csproj" />
     <ProjectReference Include="..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
-    <ProjectReference Include="..\Modules\SimplCommerce.Module.Core\SimplCommerce.Module.Core.csproj" />
+    <!--<ProjectReference Include="..\Modules\SimplCommerce.Module.Core\SimplCommerce.Module.Core.csproj" />
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Localization\SimplCommerce.Module.Localization.csproj" />
 
     <ProjectReference Include="..\Modules\SimplCommerce.Module.EmailSenderSmtp\SimplCommerce.Module.EmailSenderSmtp.csproj" />
-    <ProjectReference Include="..\Modules\SimplCommerce.Module.StorageLocal\SimplCommerce.Module.StorageLocal.csproj" />
+    <ProjectReference Include="..\Modules\SimplCommerce.Module.StorageLocal\SimplCommerce.Module.StorageLocal.csproj" />-->
     <ProjectReference Include="..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
   </ItemGroup>
 
@@ -72,6 +74,10 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <Target Name="CopyModule" AfterTargets="Build">

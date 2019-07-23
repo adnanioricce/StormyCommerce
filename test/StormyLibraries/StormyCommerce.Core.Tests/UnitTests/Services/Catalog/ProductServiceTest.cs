@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
-using StormyCommerce.Module.Catalog.Test.Helpers;
 using StormyCommerce.Core.Tests.Helpers;
 using StormyCommerce.Core.Services.Catalog;
 
@@ -21,7 +20,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Arrange
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleProductDataHelper.GetListData());
+                dbContext.AddRange(ProductDataSeeder.GetListData());
                 dbContext.SaveChanges();                
                 // var entityService = new Mock<EntityService>(new Mock<IStormyRepository<Entity>>().Object,new Mock<IMediator>().Object);                
                 var service = new ProductService(new StormyRepository<StormyProduct>(dbContext));
@@ -38,7 +37,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Arrange 
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleProductDataHelper.GetListData());
+                dbContext.AddRange(ProductDataSeeder.GetListData());
                 dbContext.SaveChanges();                
                 var service = new ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act
@@ -53,7 +52,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Arrange 
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleProductDataHelper.GetListData());
+                dbContext.AddRange(ProductDataSeeder.GetListData());
                 dbContext.SaveChanges();                
                 var service = new ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act
@@ -69,7 +68,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
         {
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleProductDataHelper.GetListData());
+                dbContext.AddRange(ProductDataSeeder.GetListData());
                 dbContext.SaveChanges();                
                 var service = new ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act
@@ -91,7 +90,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Arrange 
             using(var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRangeAsync(SampleProductDataHelper.GetListData());
+                dbContext.AddRangeAsync(ProductDataSeeder.GetListData());
                 dbContext.SaveChanges();                
                 var service = new ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act 
@@ -106,7 +105,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Arrange 
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                var product = SampleProductDataHelper.GetSampleData();
+                var product = ProductDataSeeder.GetSampleData();
                 dbContext.AddAsync(product);
                 dbContext.SaveChanges();                
                 var service = new ProductService(new StormyRepository<StormyProduct>(dbContext));
@@ -122,7 +121,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Arrange 
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {                
-                dbContext.AddRange(SampleProductDataHelper.GetListData());
+                dbContext.AddRange(ProductDataSeeder.GetListData());
                 dbContext.SaveChanges();                
                 var service = new ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act 
@@ -138,7 +137,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             {                               
                 var service = new ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act 
-                var sampleProduct = SampleProductDataHelper.GetSampleData();
+                var sampleProduct = ProductDataSeeder.GetSampleData();
                 await service.InsertProductAsync(sampleProduct);
                 var product = await service.GetProductByIdAsync(sampleProduct.Id);
                 Console.WriteLine(product);
@@ -153,7 +152,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             {                
                 var service = new ProductService(new StormyRepository<StormyProduct>(dbContext));
                 //Act 
-                var sampleProducts = SampleProductDataHelper.GetListData();
+                var sampleProducts = ProductDataSeeder.GetListData();
                 await service.InsertProductsAsync(sampleProducts);
                 var products = await service.GetProductsByIdsAsync(sampleProducts
                     .Select(f => f.Id)

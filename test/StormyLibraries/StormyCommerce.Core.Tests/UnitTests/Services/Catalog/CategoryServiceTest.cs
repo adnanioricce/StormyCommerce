@@ -6,7 +6,6 @@ using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Tests.Helpers;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
-using StormyCommerce.Module.Catalog.Test.Helpers;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -30,7 +29,7 @@ namespace StormyCommerce.Core.Tests.UnitTests
         {
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
-                dbContext.AddRange(SampleCategoryDataHelper.GetSampleCategoryData());
+                dbContext.AddRange(CategoryDataSeeder.GetSampleCategoryData());
                 dbContext.SaveChanges();
                 
                 var service = new CategoryService(new StormyRepository<Category>(dbContext),null);
@@ -46,7 +45,7 @@ namespace StormyCommerce.Core.Tests.UnitTests
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
                 //Arrange
-                dbContext.AddRange(SampleCategoryDataHelper.GetSampleCategoryData());
+                dbContext.AddRange(CategoryDataSeeder.GetSampleCategoryData());
                 dbContext.SaveChanges();
                 
                 var service = new CategoryService(new StormyRepository<Category>(dbContext), null);
@@ -64,7 +63,7 @@ namespace StormyCommerce.Core.Tests.UnitTests
                 //Given                
                 var service = new CategoryService(new StormyRepository<Category>(dbContext),FakeEntityService.Object);                
                 //When
-                await service.AddAsync(SampleCategoryDataHelper.GetSingleCategoryData());
+                await service.AddAsync(CategoryDataSeeder.GetSingleCategoryData());
                 var entities = await service.GetAllCategoriesAsync();
                 //Then
                 Assert.Equal(1, entities.Count);                
@@ -77,7 +76,7 @@ namespace StormyCommerce.Core.Tests.UnitTests
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
                 //Given 
-                dbContext.AddRange(SampleCategoryDataHelper.GetSampleCategoryData());
+                dbContext.AddRange(CategoryDataSeeder.GetSampleCategoryData());
                 dbContext.SaveChanges();
                 var service = new CategoryService(new StormyRepository<Category>(dbContext), FakeEntityService.Object);
                 var oldCategory = await service.GetCategoryByIdAsync(1);

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using SimplCommerce.Module.Core.Extensions;
+using StormyCommerce.Infraestructure.Extensions;
 
 namespace SimplCommerce.WebHost
 {
@@ -35,7 +35,7 @@ namespace SimplCommerce.WebHost
             var env = hostingContext.HostingEnvironment;
             var configuration = configBuilder.Build();
             configBuilder.AddEntityFrameworkConfig(options =>
-                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
             );
             Log.Logger = new LoggerConfiguration()
                        .ReadFrom.Configuration(configuration)

@@ -7,8 +7,7 @@ namespace StormyCommerce.Core.Entities.Customer
     public class StormyCustomer : BaseEntity
     {
         public string UserId { get; set; }
-        public char Gender { get; set; }
-		public string DateOfBirth { get; set; }                	
+        public string CPF { get; set; }
         public IList<CustomerAddress> CustomerAddresses { get; set; } = new List<CustomerAddress>();
         public CustomerAddress DefaultShippingAddress { get; set; }
         public long? DefaultShippingAddressId { get; set; }
@@ -16,8 +15,7 @@ namespace StormyCommerce.Core.Entities.Customer
         public long? DefaultBillingAddressId { get; set; }                      
         public string Username { get; set; }
         public string FullName { get; set; }
-        public string Email { get; set; }                
-        public bool IsDeleted { get; set; }
+        public string Email { get; set; }                        
         public DateTimeOffset CreatedOn { get; set; }                 
     }
 }

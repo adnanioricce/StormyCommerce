@@ -15,14 +15,18 @@ namespace StormyCommerce.Module.Catalog.Tests.Controllers.UnitTest
         [Fact]
         public async Task ShouldGetAllCategoriesDatabase()
         {
-            Assert.NotNull(null);
+            //Arrange             
+            //Act 
+            var response = await _categoryController.GetAll();           
+            //Assert
+            Assert.Equal(0,response.Value.Count);
         }
         [Theory]
         [InlineData(null)]
         [InlineData(1)]
         public async Task ShouldGetCategoryById_OtherwiseReturnNotFound(long id)
         {
-            Assert.NotNull(true);
+            Assert.NotNull(null);
         }
         [Theory]
         [InlineData(null)]

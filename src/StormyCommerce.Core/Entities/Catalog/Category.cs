@@ -1,6 +1,8 @@
 ﻿using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 namespace StormyCommerce.Core.Entities.Catalog
 {
 	//TODO:Change DataAnotation mapping to FluentAPI mapping
@@ -31,6 +33,10 @@ namespace StormyCommerce.Core.Entities.Catalog
             Parent = category.Parent;
             Childrens = category.Childrens;
             ThumbnailImage = category.ThumbnailImage;
+        }
+        public List<CategoryDto> ToCategoryDtoChildrens()
+        {
+            return this.Childrens.Select(children => new CategoryDto(children)).ToList();
         }
 	    [Required(ErrorMessage = "The {0} field is required.")]
         [StringLength(450)]

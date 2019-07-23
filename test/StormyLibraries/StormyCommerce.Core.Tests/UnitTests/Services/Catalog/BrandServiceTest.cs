@@ -29,7 +29,7 @@ namespace StormyCommerce.Core.Tests.UnitTests
             {                
                 var service = new BrandService(new StormyRepository<Brand>(dbContext),fakeEntityService.Object);
                 //When
-                await service.AddAsync(SampleBrandDataHelper.GetSampleData());
+                await service.AddAsync(BrandDataSeeder.GetSampleData());
                 var entity = await service.GetBrandByIdAsync(1);
                 //Then
                 Assert.Equal(1,entity.Id);
@@ -41,7 +41,7 @@ namespace StormyCommerce.Core.Tests.UnitTests
             using(var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
                 //Given
-                dbContext.Add(SampleBrandDataHelper.GetSampleData());
+                dbContext.Add(BrandDataSeeder.GetSampleData());
                 dbContext.SaveChanges();
                 var service = new BrandService(new StormyRepository<Brand>(dbContext),null);
                 var brands = await service.GetAllBrandsAsync();
@@ -59,11 +59,11 @@ namespace StormyCommerce.Core.Tests.UnitTests
             using (var dbContext = new StormyDbContext(DbContextHelper.GetDbOptions()))
             {
                 //Given
-                dbContext.Add(SampleBrandDataHelper.GetSampleData());
+                dbContext.Add(BrandDataSeeder.GetSampleData());
                 dbContext.SaveChanges();
                 var service = new BrandService(new StormyRepository<Brand>(dbContext), fakeEntityService.Object);
                 var oldBrand = await service.GetBrandByIdAsync(1);
-                var newBrand = SampleBrandDataHelper.GetSingleBrandData();
+                var newBrand = BrandDataSeeder.GetSingleBrandData();
                 //When
                 await service.UpdateAsync(newBrand);
                 var brand = service.GetBrandByIdAsync(1);

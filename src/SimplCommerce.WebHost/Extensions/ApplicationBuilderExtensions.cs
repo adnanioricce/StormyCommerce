@@ -8,12 +8,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Localization;
-using SimplCommerce.Module.Localization;
-
 namespace SimplCommerce.WebHost.Extensions
 {
     public static class ApplicationBuilderExtensions
@@ -51,7 +48,7 @@ namespace SimplCommerce.WebHost.Extensions
         {
             app.UseMvc(routes =>
             {
-                routes.Routes.Add(new UrlSlugRoute(routes.DefaultHandler));
+                routes.Routes.Add(new StormyCommerce.Api.Framework.Extensions.UrlSlugRoute(routes.DefaultHandler));
 
                 routes.MapRoute(
                     name: "areaRoute",
@@ -114,8 +111,7 @@ namespace SimplCommerce.WebHost.Extensions
             options
                 .AddSupportedCultures(supportedCultures)
                 .AddSupportedUICultures(supportedCultures)
-                .SetDefaultCulture(GlobalConfiguration.DefaultCulture)
-                .RequestCultureProviders.Insert(0, new EfRequestCultureProvider())
+                .SetDefaultCulture(GlobalConfiguration.DefaultCulture)                
             );
 
             return app;

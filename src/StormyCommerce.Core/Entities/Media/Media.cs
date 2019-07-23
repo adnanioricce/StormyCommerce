@@ -1,4 +1,6 @@
-﻿namespace StormyCommerce.Core.Entities.Media
+﻿using StormyCommerce.Module.Catalog.Dtos;
+
+namespace StormyCommerce.Core.Entities.Media
 {
     public class Media : BaseEntity
     {
@@ -10,6 +12,10 @@
 
         public MediaType MediaType { get; set; }
 	    public string SeoFileName { get; set; }
+        public MediaDto ToMediaDto()
+        {
+            return new MediaDto(this);
+        }
 	
     }
 }

@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using StormyCommerce.Core.Entities.Catalog.Product;
 
 namespace StormyCommerce.Core.Interfaces.Domain.Catalog
@@ -7,6 +7,6 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
     {
         Task<ProductTemplate> GetProductTemplateByIdAsync(long id);
         Task CreateProductTemplateAsync(ProductTemplate productTemplate);
-        void EditProductTemplateAsync(long id,ProductTemplate productTemplate);
+        Task EditProductTemplateAsync(long id,ProductTemplate productTemplate);
     }    
 }
