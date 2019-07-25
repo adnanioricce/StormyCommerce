@@ -25,6 +25,7 @@ namespace SimplCommerce.WebHost
     {
         protected readonly IHostingEnvironment _hostingEnvironment;
         protected readonly IConfiguration _configuration;
+        private string _moviesApiKey = null;
 
         public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
@@ -36,6 +37,7 @@ namespace SimplCommerce.WebHost
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
             GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;
+            string _connectionString = _configuration["ConnectionStrings:DefaultConnection"];
             services.AddModules(_hostingEnvironment.ContentRootPath);
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -80,6 +82,8 @@ namespace SimplCommerce.WebHost
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var result = string.IsNullOrEmpty(_moviesApiKey) ? "Null" : "Not Null";
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

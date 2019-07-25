@@ -120,6 +120,8 @@ ClientBin/
 *.[Pp]ublish.xml
 *.pfx
 *.publishsettings
+.devcontainer
+.vscode
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -161,3 +163,6 @@ $RECYCLE.BIN/
 src/Modules/**/launchSettings.json
 PublishProfiles/
 logs/
+
+# SimplCommerce.WebHost
+src/SimplCommerce.WebHost/appsettings.json
