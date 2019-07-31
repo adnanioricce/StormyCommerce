@@ -17,7 +17,7 @@ namespace StormyCommerce.Core.Tests.Helpers
         }
         public static Shipment GetShipmentSeed()
         {
-            return new Shipment
+            return new Shipment(2)
             {
                 TrackNumber = sampleTrackNumber,
                 Comment = "a single comment",

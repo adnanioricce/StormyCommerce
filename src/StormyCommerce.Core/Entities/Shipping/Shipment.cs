@@ -4,7 +4,15 @@ namespace StormyCommerce.Core.Entities
 {
 	//! Is to little info, should this exist?
 	public class Shipment : BaseEntity
-	{				
+	{
+        public Shipment(int id)
+        {
+            Id = id;
+        }
+        public Shipment()
+        {
+
+        }
         public string TrackNumber { get; set; }
         public decimal TotalWeight { get; set; }       
         public DateTime CreatedOn { get; set; }

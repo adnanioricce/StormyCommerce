@@ -6,7 +6,7 @@ namespace StormyCommerce.Core.Entities
         public BaseEntity(bool isDeleted = false) 
         {            
             IsDeleted = isDeleted;
-        }
+        }        
         public virtual DateTimeOffset LastModified { get; set; } = DateTimeOffset.UtcNow;
         public virtual bool IsDeleted { get; set; }
         public override bool Equals(object obj)

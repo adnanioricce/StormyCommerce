@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,8 +44,7 @@ namespace StormyCommerce.Infraestructure.Data
             Type baseType = typeof(IStormyModelBuilder);
             var typeConfigurations = Assembly.GetExecutingAssembly()
                 .GetTypes()                
-                .Where(type => baseType.IsAssignableFrom(type) && !type.IsInterface);
-            Console.Out.WriteLine($"Number of types:{typeConfigurations.Count()}");
+                .Where(type => baseType.IsAssignableFrom(type) && !type.IsInterface);            
             //RegisterEntities(modelBuilder, typeConfigurations);
             //RegisterConvention(modelBuilder);
             RegisterCustomMappings(modelBuilder, typeConfigurations);
@@ -103,8 +103,7 @@ namespace StormyCommerce.Infraestructure.Data
             foreach (var builderType in customModelBuilderTypes)
             {               
                     var builder = (IStormyModelBuilder)Activator.CreateInstance(builderType);
-                    builder.Build(modelBuilder);
-                         
+                    builder.Build(modelBuilder);                         
             }
         }
     }

@@ -10,7 +10,15 @@ using System.Linq;
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
 	public class StormyProduct : BaseEntity
-	{        
+	{
+        public StormyProduct(int id) 
+        {
+            Id = id;
+        }
+        public StormyProduct()
+        {
+
+        }
 		public string SKU { get; set;}				
 		public string ProductName { get; set; }
         public string Slug { get; set; }

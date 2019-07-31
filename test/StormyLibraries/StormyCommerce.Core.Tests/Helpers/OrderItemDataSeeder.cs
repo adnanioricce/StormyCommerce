@@ -8,14 +8,14 @@ namespace StormyCommerce.Core.Tests.Helpers
     {
         public static OrderItem GetOrderItemData()
         {
-            return new OrderItem
+            return new OrderItem(new Random().Next())
             {
                 Product = ProductDataSeeder.GetSampleData(),
                 Quantity = 2,
                 IsDeleted = false,
                 StormyOrderId = 1,
                 StormyProductId = 1,
-                Order = null,
+                Order = new Entities.StormyOrder(1),
                 LastModified = DateTimeOffset.UtcNow
             };
         }

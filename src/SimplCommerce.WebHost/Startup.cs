@@ -36,8 +36,7 @@ namespace SimplCommerce.WebHost
         public virtual void ConfigureServices(IServiceCollection services)
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
-            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;
-            string _connectionString = _configuration["ConnectionStrings:DefaultConnection"];
+            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;            
             services.AddModules(_hostingEnvironment.ContentRootPath);
 
             services.Configure<CookiePolicyOptions>(options =>

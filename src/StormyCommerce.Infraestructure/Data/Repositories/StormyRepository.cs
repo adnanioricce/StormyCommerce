@@ -24,11 +24,12 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         public IQueryable<TEntity> Table => DbSet;
         public async Task AddAsync(TEntity _entity)
         {                                                                        
-            var entity = _entity ?? throw new NullReferenceException($"Given argument was null:{_entity.ToString()}");
-
+            var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");
+            //if(IsItNew(context, entity))
+                
             try
             {
-                DbSet.Add(entity);
+                DbSet.Update(entity);
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateException exception)
@@ -40,7 +41,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         public async Task AddCollectionAsync(IEnumerable<TEntity> _entities)
         {
             var entities = _entities ??
-                           throw new NullReferenceException($"Given argument was null:{_entities.ToString()}");
+                           throw new ArgumentNullException($"Given argument was null:{_entities.ToString()}");
             try
             {
                 DbSet.AddRange(entities);
@@ -54,7 +55,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
 
         public void Delete(TEntity _entity)
         {
-            var entity = _entity ?? throw new NullReferenceException($"Given argument was null:{_entity.ToString()}");
+            var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");
             try
             {
                 DbSet.Remove(entity);
@@ -69,7 +70,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         public void DeleteCollection(IEnumerable<TEntity> _entities)
         {
             var entities = _entities ??
-                           throw new NullReferenceException($"Given argument was null:{_entities.ToString()}");
+                           throw new ArgumentNullException($"Given argument was null:{_entities.ToString()}");
             try
             {
                 DbSet.RemoveRange(entities);
@@ -85,15 +86,16 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
 
         public async Task<TEntity> GetByIdAsync(long id)
         {            
-            var entity = await DbSet.FindAsync(id) ??  throw new NullReferenceException($"Requested entity id Don't exist");
+            var entity = await DbSet.FindAsync(id) ??  throw new ArgumentNullException($"Requested entity id Don't exist");
+            context.Entry(entity).State = EntityState.Detached;
             return entity;
         }        
         public async Task UpdateAsync(TEntity _entity)
         {
-            var entity = _entity ?? throw new NullReferenceException($"Given argument was null:{_entity.ToString()}");
+            var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");
             try
-            {                               
-                DbSet.Update(entity);
+            {                
+                context.Attach(entity);                
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateException exception)
@@ -119,8 +121,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
 
         public async Task<IList<TEntity>> GetAllByIdsAsync(long[] ids)
         {
-            if (ids == null)
-                throw new NullReferenceException("Given argument is null");
+            if (ids == null) throw new ArgumentNullException("Given argument is null");
             
             var entities = new List<TEntity>();
             await DbSet.ForEachAsync(f =>
@@ -134,5 +135,6 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         {
             throw new NotImplementedException();
         }
+        public static bool IsItNew(StormyDbContext context, TEntity entity) => !context.Entry(entity).IsKeySet;
     }
 }

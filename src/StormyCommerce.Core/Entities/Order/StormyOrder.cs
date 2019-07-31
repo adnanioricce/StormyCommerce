@@ -12,11 +12,38 @@ using System.Linq;
 namespace StormyCommerce.Core.Entities
 {
 	public class StormyOrder : BaseEntity
-	{        
+	{
+        public StormyOrder(long id)
+        {
+            Id = id;
+        }
+        public StormyOrder(long id,OrderDto orderDto)
+        {
+            Id = id;
+            Comment = orderDto.Comment;
+            DeliveryCost = orderDto.DeliveryCost;
+            DeliveryDate = orderDto.DeliveryDate;
+            Discount = orderDto.Discount;
+            IsCancelled = orderDto.IsCancelled;
+            Items = orderDto.Items.Select(item => item.ToOrderItem()).ToList();
+            OrderUniqueKey = orderDto.OrderUniqueKey;
+            //ShippingAddress = orderDto.ShippingAddress;
+            PaymentMethod = orderDto.ShippingMethod;
+            TrackNumber = orderDto.TrackNumber;
+            Tax = orderDto.Tax;
+            Status = orderDto.Status;
+            OrderDate = orderDto.OrderDate;
+            //orderDto.
+        }
+        public StormyOrder()
+        {
+
+        }
         public Guid OrderUniqueKey { get; set; }
         public long CustomerId { get; set;}                
         public long PaymentId { get; set; }                        
-        public bool PickUpInStore { get; set; }        
+        public bool PickUpInStore { get; set; }
+        public bool IsCancelled { get; set; }
         public string ShippingMethod { get; set; }
         public string PaymentMethod { get; set; }
         public string TrackNumber { get; set; }

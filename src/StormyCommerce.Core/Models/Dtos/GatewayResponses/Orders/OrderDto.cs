@@ -14,7 +14,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
     public class OrderDto
     {
         public OrderDto(StormyOrder product)
-        {
+        {            
             OrderUniqueKey = product.OrderUniqueKey;
             ShippingMethod = product.ShippingMethod;
             TrackNumber = product.TrackNumber;
@@ -23,13 +23,14 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
             TotalWeight = product.TotalWeight;
             TotalPrice = product.TotalPrice;
             DeliveryCost = product.DeliveryCost;
-            ShippingAddress = product.ShippingAddress.Address;
+            ShippingAddress = product.ShippingAddress;
             OrderDate = product.OrderDate;
             ShippedDate = product.ShippedDate;
             DeliveryDate = product.DeliveryDate;
             PaymentDate = product.PaymentDate;            
             Status = product.Status;
             ShippingStatus = product.ShippingStatus;
+            IsCancelled = IsCancelled;
             product.Items.ToList().ForEach(p => Items.Add(p.ToOrderItemDto()));
         }
         public Guid OrderUniqueKey { get; private set; }                
@@ -49,5 +50,6 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         public IList<OrderItemDto> Items { get; private set; } = new List<OrderItemDto>();        
         public OrderStatus Status { get; private set; }
         public ShippingStatus ShippingStatus { get; private set; }
+        public bool IsCancelled { get; set; }               
     }
 }

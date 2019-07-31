@@ -22,5 +22,21 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         //public StormyVendor Vendor { get; set; }
         //public Brand Brand { get; set; }
         //public Category Category { get; set; }
+        public StormyProduct ToStormyProduct()
+        {
+            return new StormyProduct
+            {
+                ProductName = this.ProductName,
+                Slug = this.Slug,
+                QuantityPerUnity = this.QuantityPerUnity,
+                UnitSize = this.UnitSize,
+                UnitPrice = this.UnitPrice,
+                Discount = this.Discount,
+                UnitWeight = this.UnitWeight,
+                UnitsInStock = this.UnitsInStock,
+                UnitsOnOrder = this.UnitsOnOrder,
+                Price = this.Price
+            };
+        }
     }
 }

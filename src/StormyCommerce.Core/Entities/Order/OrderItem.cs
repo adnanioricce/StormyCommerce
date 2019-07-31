@@ -5,8 +5,17 @@ namespace StormyCommerce.Core.Entities.Order
 {
     public class OrderItem : BaseEntity
     {
+        public OrderItem(int id)
+        {
+            Id = id;
+        }
+        public OrderItem()
+        {
+
+        }
         public int Quantity { get; set; }
         public StormyProduct Product { get; set; }
+        public decimal Price { get; set; }
         public long StormyProductId { get; set; }
         public long StormyOrderId { get; set; }
         public StormyOrder Order { get; set; }

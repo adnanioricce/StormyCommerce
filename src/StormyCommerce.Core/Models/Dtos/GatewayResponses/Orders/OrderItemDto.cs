@@ -16,5 +16,15 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         public decimal Price { get; private set; }
         public int Quantity { get; private set; }
         public ProductDto Product { get; private set; }
+        public OrderItem ToOrderItem()
+        {
+            return new OrderItem
+            {
+                ProductName = this.ProductName,
+                Quantity = this.Quantity,
+                Product = this.Product.ToStormyProduct(),    
+                Price = this.Price
+            };
+        }
     }
 }

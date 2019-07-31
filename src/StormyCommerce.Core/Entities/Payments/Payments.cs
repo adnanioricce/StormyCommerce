@@ -3,7 +3,15 @@
 namespace StormyCommerce.Core.Entities.Payments
 {
     public class Payment : BaseEntity
-    {        
+    {
+        public Payment(long id)
+        {
+            Id = id;
+        }
+        public Payment()
+        {
+
+        }
         public long StormyOrderId { get; set; }
         public StormyOrder Order { get; set; }
         public DateTimeOffset CreatedOn { get; set; }

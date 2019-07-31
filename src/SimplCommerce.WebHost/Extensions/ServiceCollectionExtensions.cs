@@ -185,11 +185,9 @@ namespace SimplCommerce.WebHost.Extensions
             }
         }        
         public static IServiceCollection AddStormyDataStore(this IServiceCollection services,IConfiguration configuration)
-        {
-            var passwordBuilder = new SqlConnectionStringBuilder(configuration.GetConnectionString("ConnectionStrings"));
-            passwordBuilder.Password = configuration["DbPassword"];
+        {            
             services.AddDbContextPool<StormyDbContext>(options => {
-                options.UseNpgsql(passwordBuilder.ConnectionString,b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
             });
             return services;
         }

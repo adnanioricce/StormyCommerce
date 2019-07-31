@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SimplCommerce.Infrastructure.Data;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Entities.Vendor;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -25,43 +28,99 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             //    var lambda = Expression.Lambda(compareExpression, parameter);
             //    modelBuilder.Entity(entity.ClrType).HasQueryFilter(lambda);
             //});
-            modelBuilder.Entity<ProductMedia>()
-                .HasKey(productMedia => productMedia.Id)
-                .HasName("product_media_Id");
-            modelBuilder.Entity<ProductLink>()
-                .HasOne(x => x.Product)
+            modelBuilder.Entity<ProductMedia>(entity =>
+            {
+                entity.HasKey(productMedia => productMedia.Id);                
+            });
+            modelBuilder.Entity<ProductLink>(entity =>
+            {
+                entity.HasOne(x => x.Product)
                 .WithMany(p => p.Links)
                 .HasForeignKey(x => x.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ProductLink>()
-                .HasOne(x => x.LinkedProduct)
+            });
+            modelBuilder.Entity<ProductLink>(entity =>
+            {
+                entity.HasOne(x => x.Product)
+                .WithMany(p => p.Links)
+                .HasForeignKey(x => x.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+            modelBuilder.Entity<ProductLink>(entity => {
+                entity.HasOne(x => x.LinkedProduct)
                 .WithMany(p => p.LinkedProductLinks)
                 .HasForeignKey(x => x.LinkedProductId)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ProductTemplateProductAttribute>()
-                .HasKey(t => new { t.ProductTemplateId, t.ProductAttributeId });
-            modelBuilder.Entity<ProductTemplateProductAttribute>()
-                .HasOne(pt => pt.ProductTemplate)
+            });
+            modelBuilder.Entity<ProductTemplateProductAttribute>(entity => 
+            {
+                entity.HasKey(t => new { t.ProductTemplateId, t.ProductAttributeId });
+            });
+            modelBuilder.Entity<ProductTemplateProductAttribute>(entity => {
+                entity.HasOne(pt => pt.ProductTemplate)
                 .WithMany(p => p.ProductAttributes)
                 .HasForeignKey(pt => pt.ProductTemplateId)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<ProductTemplateProductAttribute>()
-                .HasOne(pt => pt.ProductAttribute)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
+            modelBuilder.Entity<ProductTemplateProductAttribute>(entity =>
+            {
+                entity.HasOne(pt => pt.ProductAttribute)
                 .WithMany(t => t.ProductTemplates)
                 .HasForeignKey(pt => pt.ProductAttributeId)
                 .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<StormyProduct>().HasQueryFilter(product => product.IsDeleted == false);
-            modelBuilder.Entity<EntityType>().HasData(
-                new EntityType("Category") { IsDeleted = false, AreaName = "Catalog", RoutingController = "Category", RoutingAction = "CategoryDetail", IsMenuable = true },
-                new EntityType("Brand") { IsDeleted = false, AreaName = "Catalog", RoutingController = "Brand", RoutingAction = "BrandDetail", IsMenuable = true },
-                new EntityType("Product") { IsDeleted = false, AreaName = "Catalog", RoutingController = "Product", RoutingAction = "ProductDetail", IsMenuable = false }
-            );
-            modelBuilder.Entity<ProductOption>().HasData(
-                new ProductOption(1) { Name = "Color" },
-                new ProductOption(2) { Name = "Size" }
-            );
-            modelBuilder.Entity<Media>().HasKey(media => media.Id);            
-            modelBuilder.Entity<Brand>().HasQueryFilter(brand => brand.IsDeleted == false).Property(brand => brand.Slug).HasMaxLength(450).IsRequired();
+            });
+            modelBuilder.Entity<StormyProduct>(entity =>
+            {
+                entity.HasQueryFilter(product => product.IsDeleted == false);
+                entity.HasData(new StormyProduct(1)
+                {
+                    SKU = "33E353EE-40A9-4AAA-9FA4-E0A196DC10ED",
+                    AllowCustomerReview = true,
+                    ApprovedRatingSum = 5,
+                    ApprovedTotalReviews = 32,
+                    AvailableForPreorder = false,
+                    BrandId = 1,
+                    CreatedAt = new DateTime(2019, 05, 10),
+                    IsDeleted = false,
+                    Discount = (decimal)9.99,
+                    DiscountAvailable = false,
+                    HasDiscountApplied = false,
+                    PreOrderAvailabilityStartDate = null,
+                    ProductAvailable = true,
+                    NotApprovedRatingSum = 2,
+                    NotApprovedTotalReviews = 10,
+                    VendorId = 1,
+                    UnitPrice = (decimal)49.99,
+                    UnitsInStock = 30,
+                });                
+            });
+            
+            modelBuilder.Entity<ProductOption>(entity =>
+            {
+                entity.HasData(new ProductOption(1) { Name = "Color" },
+                new ProductOption(2) { Name = "Size" });                
+            });
+            modelBuilder.Entity<Media>(entity => 
+            {
+                entity.HasKey(prop => prop.Id);                
+            });
+            modelBuilder.Entity<Brand>(entity =>
+            {
+                entity.HasQueryFilter(brand => brand.IsDeleted == false)
+                .Property(brand => brand.Slug)
+                .HasMaxLength(450)
+                .IsRequired();
+                entity.HasData(new Brand(2)
+                {
+                    IsDeleted = false,
+                    Description = "description",
+                    LastModified = new DateTime(2019, 03, 02),
+                    LogoImage = "no Image",
+                    Name = "A brand",
+                    Slug = "my-awesome-brand"
+                });                
+            });
+
             //modelBuilder.Entity<StormyProduct>().OwnsOne(f => f.Medias) ;
             //Configure(modelBuilder.Entity<StormyProduct>());
             

@@ -1,7 +1,15 @@
 ﻿namespace StormyCommerce.Core.Entities.Common
 {
 	public class Address : BaseEntity
-	{		
+	{
+        public Address(int id)
+        {
+            Id = id;
+        }
+        public Address()
+        {
+
+        }
 		public string Street {get;set;}
 		public string FirstAddress {get;set;}
 		public string SecondAddress {get;set;}

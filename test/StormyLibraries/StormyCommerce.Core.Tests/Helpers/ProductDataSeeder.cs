@@ -20,14 +20,14 @@ namespace StormyCommerce.Core.Tests.Helpers
                     ApprovedRatingSum = 5,
                     ApprovedTotalReviews = 32,
                     AvailableForPreorder = false,
-                    Brand = new Brand
-                    {
-                        IsDeleted = false,
-                        Description = "description",                        
-                        LastModified = new DateTime(2019,03,02),
-                        LogoImage = "no Image",
-                        Name = "A brand"
-                    },
+                    //Brand = new Brand
+                    //{
+                    //    IsDeleted = false,
+                    //    Description = "description",                        
+                    //    LastModified = new DateTime(2019,03,02),
+                    //    LogoImage = "no Image",
+                    //    Name = "A brand"
+                    //},
                     BrandId = 1,
                     CreatedAt = new DateTime(2019,05,10),                    
                     IsDeleted = false,
@@ -39,33 +39,33 @@ namespace StormyCommerce.Core.Tests.Helpers
                     NotApprovedRatingSum = 2,
                     NotApprovedTotalReviews = 10,
                     VendorId = 1,
-                    Vendor = new StormyVendor
-                    {
-                        Address = new Address
-                        {
-                            City = "NoWhere",
-                            Complement = "A simple complement",
-                            FirstAddress = "first Address",                            
-                            LastModified = DateTime.UtcNow,
-                            Number = Guid.NewGuid().ToString("N"),
-                            PhoneNumber = "9999999-11",
-                            PostalCode = "12345678-9",
-                            SecondAddress = "Second Address",
-                            State = "Hell",
-                            Street = "Mcdonalds",                            
-                        },
-                        AddressId = 1,
-                        CompanyName = "SimpleCompany",
-                        ContactTitle = "Simple and a bit trustful",
-                        TypeGoods = "Fashion",
-                        WebSite = "www.simplecompanyonweb.com",
-                        Email = "simplecompany@simpl.com",                        
-                        LastModified = DateTime.UtcNow,
-                        Logo = "no image",
-                        Phone = "8887445512-11",
-                        SizeUrl = "www.sizes.com",
-                        Note = "Sample Data"
-                    },
+                    //Vendor = new StormyVendor
+                    //{
+                    //    Address = new Address
+                    //    {
+                    //        City = "NoWhere",
+                    //        Complement = "A simple complement",
+                    //        FirstAddress = "first Address",                            
+                    //        LastModified = DateTime.UtcNow,
+                    //        Number = Guid.NewGuid().ToString("N"),
+                    //        PhoneNumber = "9999999-11",
+                    //        PostalCode = "12345678-9",
+                    //        SecondAddress = "Second Address",
+                    //        State = "Hell",
+                    //        Street = "Mcdonalds",                            
+                    //    },
+                    //    AddressId = 1,
+                    //    CompanyName = "SimpleCompany",
+                    //    ContactTitle = "Simple and a bit trustful",
+                    //    TypeGoods = "Fashion",
+                    //    WebSite = "www.simplecompanyonweb.com",
+                    //    Email = "simplecompany@simpl.com",                        
+                    //    LastModified = DateTime.UtcNow,
+                    //    Logo = "no image",
+                    //    Phone = "8887445512-11",
+                    //    SizeUrl = "www.sizes.com",
+                    //    Note = "Sample Data"
+                    //},
                     UnitPrice = (decimal)49.99,
                     UnitsInStock = 30,                                        
                 };           
