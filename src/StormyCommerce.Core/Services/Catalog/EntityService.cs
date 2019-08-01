@@ -61,11 +61,11 @@ namespace StormyCommerce.Core.Services.Catalog
 
         public async Task DeleteAsync(long entityId, string entityTypeId)
 	    {
-        	var entity = entityRepository.Table.Where(x => x.EntityId == entityId && x.EntityTypeId == entityTypeId).FirstOrDefault();
-
+        	var entity = entityRepository.Table.Where(x => x.EntityId == entityId && x.EntityTypeId == entityTypeId).FirstOrDefault();			
 	        if (entity != null)
         	{
                 //mediator.Publish(new EntityDeleting { EntityId = entity.Id });
+				entity.IsDeleted = true;
 	            await entityRepository.UpdateAsync(entity);
         	}
 	    }

@@ -40,8 +40,9 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
             dbContext.SaveChanges();
             return new EntityService(new StormyRepository<Entity>(dbContext));
         }
+        //How do I Test this?
         [Fact]
-        public void ToSafeSlug_StateUnderTest_ExpectedBehavior()
+        public void ToSafeSlug_SlugEqualWomanEntityIdEqualOneEntityTypeIdEqualCategory_ASlugWithTheGivenSlugStringAndCategory()
         {
             // Arrange
             var service = this.CreateService();
@@ -54,12 +55,12 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
             var storedSlug = service.Get(entityId, entityTypeId);
 
             // Assert
-            Assert.Equal(result, storedSlug.Slug);
-            Assert.NotNull(storedSlug);
+            Assert.True(String.Equals(result,storedSlug.Slug,StringComparison.Ordinal));            
+            Assert.NotNull(result);
         }
 
         [Fact]
-        public void Get_StateUnderTest_ExpectedBehavior()
+        public void Get_entityIdEqual1AndEntityTypeIdEqualCategory_ReturnEntryEqualEntityIdAndEntityTypeId()
         {
             // Arrange
             var service = this.CreateServiceWithData();
@@ -71,19 +72,19 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
 
             // Assert
             Assert.Equal(entityId, result.EntityId);
-            Assert.Equal(entityTypeId, result.EntityTypeId);
-            Assert.True(String.IsNullOrEmpty(result.Slug));
+            Assert.True(String.Equals(entityTypeId,result.EntityTypeId,StringComparison.Ordinal));
+            Assert.True(!String.IsNullOrEmpty(result.Slug));
         }
 
         [Fact]
-        public void Add_StateUnderTest_ExpectedBehavior()
+        public void Add_SlugForNameWoman_ReturnASlugWithCategoryAndNameOfEntity()
         {
             // Arrange
             var service = this.CreateService();
-            string name = null;
-            string slug = null;
-            long entityId = 0;
-            string entityTypeId = null;
+            string name = "Woman";
+            string slug = "woman";
+            long entityId = 1;
+            string entityTypeId = "Category";
 
             // Act
             service.Add(
@@ -91,20 +92,21 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
                 slug,
                 entityId,
                 entityTypeId);
-
+            var result = service.Get(entityId,entityTypeId);
             // Assert
-            Assert.True(false);
+            Assert.Equal(entityId,result.EntityId);
+            Assert.Equal(entityTypeId,result.EntityTypeId);
         }
 
         [Fact]
-        public void Update_StateUnderTest_ExpectedBehavior()
+        public void Update_NewNameAndSlugEntityIdEqual1_EditEntryWithGivenEntityId()
         {
             // Arrange
-            var service = this.CreateService();
-            string newName = null;
-            string newSlug = null;
-            long entityId = 0;
-            string entityTypeId = null;
+            var service = this.CreateServiceWithData();
+            string newName = "Men";
+            string newSlug = "men";
+            long entityId = 1;
+            string entityTypeId = "Category";
 
             // Act
             service.Update(
@@ -112,26 +114,27 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
                 newSlug,
                 entityId,
                 entityTypeId);
-
+            var result = service.Get(entityId,entityTypeId);
             // Assert
-            Assert.True(false);
+            Assert.Equal(entityId,result.EntityId);
+            Assert.Equal(entityTypeId,result.EntityTypeId);
         }
 
         [Fact]
-        public async Task DeleteAsync_StateUnderTest_ExpectedBehavior()
+        public async Task DeleteAsync_EntityIdEqualOneAndEntityTypeEqualCategory_ShouldDeleteEntryWithGivenValues()
         {
             // Arrange
-            var service = this.CreateService();
-            long entityId = 0;
-            string entityTypeId = null;
+            var service = this.CreateServiceWithData();
+            long entityId = 1;
+            string entityTypeId = "Category";
 
             // Act
             await service.DeleteAsync(
                 entityId,
                 entityTypeId);
-
+            var result = service.Get(entityId,entityTypeId);
             // Assert
-            Assert.True(false);
+            Assert.Null(result);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping
                 entity.Property(prop => prop.AreaName).HasMaxLength(450);
                 entity.Property(prop => prop.RoutingController).HasMaxLength(450);
                 entity.Property(prop => prop.RoutingAction).HasMaxLength(450);                
-                
+                entity.HasQueryFilter(prop => prop.IsDeleted == false);  
             });
             modelBuilder.Entity<Entity>(entity =>
             {                
@@ -24,7 +24,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping
                 entity.Property(prop => prop.Slug).HasMaxLength(450).IsRequired();
                 entity.Property(prop => prop.Name).HasMaxLength(450).IsRequired();
                 entity.Property(prop => prop.EntityTypeId).HasMaxLength(450).IsRequired();
-                entity.HasQueryFilter(prop => prop.IsDeleted);                
+                entity.HasQueryFilter(prop => prop.IsDeleted == false);                
             });
         }
     }
