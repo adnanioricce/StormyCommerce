@@ -1,0 +1,22 @@
+@import 'colors.scss';
+html, body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: 100%;
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  min-height: 100%;
+  background-color: $secondary-color;
+}
+@import '_fonts.scss';
+@import './components/nav';
+@import './components/menu';
+@import './components/slides';
+@import './components/header';
+@import './components/products';

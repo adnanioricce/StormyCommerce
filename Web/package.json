@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
+    "next": "^9.0.3",
+    "next-images": "^1.1.2",
+    "node-sass": "^4.12.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "name": "GitHub",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}
