@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Modules.Test": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
