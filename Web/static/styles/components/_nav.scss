@@ -4,6 +4,10 @@ nav{
   display: flex;
   justify-content: space-around;
   padding: 20px 0;
+  height: 10%;
+  position: fixed;
+  z-index: 10;
+  top: 0;
   img{
     @media all and (hover:hover) and (pointer: fine){
       cursor: pointer;

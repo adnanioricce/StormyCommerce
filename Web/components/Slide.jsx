@@ -55,14 +55,14 @@ export default ()=>{
     
   }, [index])
   
-  const modifier = width<=425 ? 0 : (-0.12*slideWidth)
+  // const modifier = width<=425 ? 0 : (-0.12*slideWidth)
   return (
     <div className="overflow-not-allower">
-      <div className="Slide" style={{transform: `translateX(${((index*slideWidth)+modifier)*-1}px)`}}>
+      <div className="Slide" style={{transform: `translateX(${((index*slideWidth))*-1}px)`}}>
           
         {slides}
       </div>
-      <div className="slide-controller" style={{width: slideWidth, height: slideHeight}}>
+      <div className="slide-controller" style={{height: slideHeight}}>
         <img onClick={handlePreviousSlide} src={previousSlideSVG} alt=""/>
         <img onClick={handleNextSlide} src={nextSlideSVG} alt=""/>
       </div>
