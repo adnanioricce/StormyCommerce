@@ -1,5 +1,6 @@
 import * as React from 'react';
 import favoriteSVG from '../static/assets/icons/favorite.svg'
+import Header from './Header';
 export default ()=>{
   const [products, setProducts] = React.useState([])
   React.useEffect(()=>{
@@ -8,9 +9,12 @@ export default ()=>{
     .then(res=>setProducts(res))
   }, [])
   return (
-    <div className='products-container'>
-      {products.map(product)}
-    </div>
+    <>
+      <Header label='Destaques'/>
+      <div className='products-container'>
+        {products.map(product)}
+      </div>
+    </>
   )
 }
 const product=( product, index)=>{

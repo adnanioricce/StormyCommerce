@@ -5,8 +5,10 @@ import hamburguerCloseMenuSVG from '../static/assets/icons/hamburguerCloseMenu.s
 import shoppingCartSVG from '../static/assets/icons/shoppingCart.svg'
 import Menu from './Menu';
 import {useClickAway} from 'react-use';
+import ShopCartMenu from './ShopCartMenu';
 const Nav = () => {
   const [isMenuActive, setIsMenuActive] = React.useState(false);
+  const [isShopCartMenuActive, setIsShopCartMenuActive] = React.useState(false)
   const menuRef = React.useRef()
   const navRef = React.useRef()
   const hamburguerMenuRef = React.useRef();
@@ -14,31 +16,35 @@ const Nav = () => {
     e.preventDefault()
     setIsMenuActive(!isMenuActive);
   }
+  function handleShopCartMenu(e){
+    setIsShopCartMenuActive(!isShopCartMenuActive)
+  }
   React.useEffect(()=>{
     if(document){
       document.body.style.paddingTop = '10vh';
     }
   }, [])
-  React.useEffect(()=>{
-    // Não executa o resto se o documento não estiver disponivel
-    if(!document) return  
-    const {body} = document
-    if(isMenuActive){
-      body.style.overflow = 'hidden';
-    }else{
-      body.style.overflow = 'auto';
-    }
-  }, [isMenuActive])
-  useClickAway(menuRef, (e) => {
-    if(isMenuActive && e.target!== navRef.current && e.target !== hamburguerMenuRef.current){
-      setIsMenuActive(false)
-    }else{
-      // setIsMenuActive(true)
-    }
-  }, ['mousedown']);
+  // React.useEffect(()=>{
+  //   // Não executa o resto se o documento não estiver disponivel
+  //   if(!document) return  
+  //   const {body} = document
+  //   if(isMenuActive){
+  //     body.style.overflow = 'hidden';
+  //   }else{
+  //     body.style.overflow = 'auto';
+  //   }
+  // }, [isMenuActive])
+  // useClickAway(menuRef, (e) => {
+  //   if(isMenuActive && e.target!== navRef.current && e.target !== hamburguerMenuRef.current){
+  //     setIsMenuActive(false)
+  //   }else{
+  //     // setIsMenuActive(true)
+  //   }
+  // }, ['mousedown']);
   return (
     <nav ref={navRef}> 
       <Menu ref={menuRef} isActive={isMenuActive}/>
+      <ShopCartMenu isActive={isShopCartMenuActive}/>
       <img 
         ref={hamburguerMenuRef}
         className='hamburguer-menu' 
@@ -46,7 +52,10 @@ const Nav = () => {
         src={isMenuActive?hamburguerCloseMenuSVG:hamburguerMenuSVG}
       />
       <img className='logo' src={logoSVG}/>
-      <img className='shopping-cart' src={shoppingCartSVG}/>
+      <img 
+        onClick={handleShopCartMenu} 
+        className='shopping-cart' 
+        src={isShopCartMenuActive?hamburguerCloseMenuSVG:shoppingCartSVG}/>
     </nav>
   )
 }

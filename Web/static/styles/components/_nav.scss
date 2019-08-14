@@ -3,7 +3,7 @@ nav{
   background-color: $primary-color;
   display: flex;
   justify-content: space-around;
-  padding: 20px 0;
+  padding: 15px 0;
   height: 10%;
   position: fixed;
   z-index: 10;
@@ -11,11 +11,15 @@ nav{
   img{
     @media all and (hover:hover) and (pointer: fine){
       cursor: pointer;
-      will-change: transform;
-      transition: transform .3s ease-in-out;
+      // will-change: transform;
+      // transition: transform .3s ease-in-out;
       &:hover{
         transform: scale(1.1);
       }
+    }
+    transition: transform .05s ease-in-out;
+    &:active{
+      transform: scale(.85);
     }
   }
 }

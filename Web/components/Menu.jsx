@@ -1,22 +1,7 @@
 import * as React from 'react'
 import {useRouter} from 'next/router';
-const itensMenu = [
-  {
-    label: "Acessar"
-  }
-  ,
-  {
-    label: 'Produtos',
-    subItems: [
-      { label: "Camisetas", prefix: 'produtos' },
-      { label: "Bermudas", prefix: 'produtos' },
-      { label: "Acessorios", prefix: 'produtos' }
-    ]
-  },
-  {
-    label: 'Contato'
-  }
-]
+import menuToggleArrowSVG from '../static/assets/icons/menuToggleArrow.svg'
+import menuItems from '../static/consts/menuItems';
 export default React.forwardRef(({ isActive  }, ref) => {
   const [translateXValue, setTranslateXValue] = React.useState(-100);
   const Router = useRouter();
@@ -27,14 +12,14 @@ export default React.forwardRef(({ isActive  }, ref) => {
       setTranslateXValue(-100);
     }
   }, [isActive])
-  const itens = itensMenu.map((e, index) => {
+  const itens = menuItems.map((menuItem, index) => {
     const [ subMenuIsActive, setSubMenuIsActive ] = React.useState(false)
     function handleClick(e){
       if(e.subItems){
         setSubMenuIsActive(!subMenuIsActive);
       }else{
         const {prefix, label} = e
-        const link = prefix?`${prefix}/${label.toLowerCase()}`:'/'+label.toLowerCase()
+        const link = prefix?`/${prefix}/${label.toLowerCase()}`:'/'+label.toLowerCase()
 
         Router.push(link)
       }
@@ -42,11 +27,14 @@ export default React.forwardRef(({ isActive  }, ref) => {
     return (
       <div className="menu-item"  key={index}>
         
-        <p className='label' onClick={()=>handleClick(e)}>{e.label}</p>
-        {(e.subItems && subMenuIsActive) && (
+        <p className='label' onClick={()=>handleClick(menuItem)}>{menuItem.label}{menuItem.subItems && (
+          <img className='menu-toggle-arrow' src={menuToggleArrowSVG} style={{transform: `rotate(${subMenuIsActive?180:0}deg)`}}/>
+        )}</p>
+        {(menuItem.subItems && subMenuIsActive) && (
           <div className='menu-sub-item-container'>
           {
-            e.subItems.map((e, index) => {
+            menuItem.subItems.map((e, index) => {
+              e.prefix = menuItem.prefix;
               return (
                 <div className="menu-sub-item" onClick={()=>handleClick(e)} key={index}>
                   <p className='label'>{e.label}</p>

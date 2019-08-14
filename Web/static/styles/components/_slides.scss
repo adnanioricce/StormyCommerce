@@ -4,9 +4,11 @@
   flex-direction: row;
   align-items: center;
   // justify-content: center;
-  height: 50vmax;
+  // height: ;
   // overflow: hidden;
   transition: transform .3s ease-in-out;
+  width: 60%;
+  margin: 0 auto;
   .image{
     flex-shrink: 0;
     // width: auto;
@@ -64,6 +66,7 @@
   }
   .Slide{
     height: unset;
+    width: 100%;
     .image, .image.main{
       width: 100%;
       img{
