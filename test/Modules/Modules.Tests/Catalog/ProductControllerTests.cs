@@ -10,81 +10,80 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
 {
     public class ProductControllerTests
     {
+	    	    
+        private ProductController CreateController() => new ProductController(ServiceTestFactory.GetProductService(), ServiceTestFactory.GetCategoryService());
         [Fact]
-        public async Task GetProductOverviewAsync_StateUnderTest_ExpectedBehavior()
+        public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
         {
             // Arrange
-            var productController = new ProductController(null, null);
-            long id = 0;
+            var productController = CreateController();
+            long id = 1;
 
             // Act
-            var result = await productController.GetProductOverviewAsync(
-                id);
+            ProductOverviewDto result = await productController.GetProductOverviewAsync(id);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(1,result.Id);
         }
 
         [Fact]
-        public async Task GetAllProducts_StateUnderTest_ExpectedBehavior()
+        public async Task GetAllProducts_StartIndexEqual1AndEndIndexEqual15_ReturnEntitiesBetweenThesesValues()
         {
             // Arrange
-            var productController = new ProductController(null,null);
-            long startIndex = 0;
-            long endIndex = 0;
+            var productController = CreateController();
+            long startIndex = 1;
+            long endIndex = 15;
 
             // Act
-            var result = await productController.GetAllProducts(
-                startIndex,
-                endIndex);
+            List<ProductDto> result = await productController.GetAllProducts(startIndex,endIndex);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(15,result.Count);
         }
 
         [Fact]
-        public async Task GetAllProductsOnHomepage_StateUnderTest_ExpectedBehavior()
+        public async Task GetAllProductsOnHomepage_LimitEqual15_ReturnProductsWhileRankingIsLessThanLimit()
         {
             // Arrange
-            var productController = new ProductController(null, null);
-            int limit = 0;
+            var productController = CreateController();
+            int limit = 15;
 
             // Act
-            var result = await productController.GetAllProductsOnHomepage(
-                limit);
+            var result = await productController.GetAllProductsOnHomepage(limit);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(limit,result.Count);
         }
 
         [Fact]
-        public async Task GetProductById_StateUnderTest_ExpectedBehavior()
+        public async Task GetProductById_GivenIdEqual1_ReturnEntityWithGivenId()
         {
             // Arrange
-            var productController = new ProductController(null,null);
-            long id = 0;
+            var productController = CreateController();
+            long id = 1;
 
             // Act
-            var result = await productController.GetProductById(
-                id);
+            var result = await productController.GetProductById(id);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(id,result.Id);
         }
 
         [Fact]
-        public async Task CreateProduct_StateUnderTest_ExpectedBehavior()
+        public async Task CreateProduct_GivenModelIsValidDto_CreateNewEntryOnDatabase()
         {
             // Arrange
-            var productController = new ProductController(null, null);
-            ProductDto _model = null;
+            var productController = CreateController();
+            var model = new ProductDto 
+            {
+
+            }
 
             // Act
-            await productController.CreateProduct(
-                _model);
-
+            await productController.CreateProduct(_model);
+            var createdEntry = productController.GetProductById(model.Id);
             // Assert
-            Assert.True(false);
+            Assert.Equal(model.Id,createdEntry.Id);
         }
     }
 }

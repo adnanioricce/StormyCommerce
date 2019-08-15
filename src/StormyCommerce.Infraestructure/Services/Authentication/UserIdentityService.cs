@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using System;

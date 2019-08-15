@@ -10,11 +10,14 @@ namespace StormyCommerce.Module.Customer
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
+	    serviceCollection.AddTransient<ITokenService,TokenService>();
+	    serviceCollection.AddTransient<IEmailSender,EmailSender>();
+	    serviceCollection.AddScoped<IUserIdentityService,UserIdentityService>();
             serviceCollection.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
