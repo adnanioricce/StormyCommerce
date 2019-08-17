@@ -4,15 +4,10 @@ import previousSlideSVG from '../static/assets/slides/previousSlide.svg';
 export default ()=>{
   const [index, setIndex] = React.useState(2);
   const imgRef = React.useRef();
-  const [width, setWidth] = React.useState(0)
   const [images, setImages] = React.useState([0, 1, 2, 3, 4]);
   const [slideWidth, setSlideWidth] = React.useState(0);
-  const [slideHeight, setSlideHeight] = React.useState(0);
   const [slides, setSlides] = React.useState(null);
   const timer = React.useRef()
-  React.useEffect(()=>{
-    setWidth(window.innerWidth);
-  }, [])
   React.useEffect(()=>{
     const newSlides = images.map((e, eIndex)=>(
       <div ref={imgRef} key={e} className={eIndex === index ? 'main image' : 'image'}>
@@ -24,7 +19,6 @@ export default ()=>{
   React.useEffect(()=>{
     if(imgRef.current){
       setSlideWidth(imgRef.current.offsetWidth);
-      setSlideHeight(imgRef.current.offsetHeight);
     }
   })
 
@@ -52,7 +46,7 @@ export default ()=>{
       }
       
     }, 4000)
-    
+    return ()=>clearTimeout(timer.current)
   }, [index])
   
   // const modifier = width<=425 ? 0 : (-0.12*slideWidth)
@@ -62,7 +56,7 @@ export default ()=>{
           
         {slides}
       </div>
-      <div className="slide-controller" style={{height: slideHeight}}>
+      <div className="slide-controller">
         <img onClick={handlePreviousSlide} src={previousSlideSVG} alt=""/>
         <img onClick={handleNextSlide} src={nextSlideSVG} alt=""/>
       </div>

@@ -6,7 +6,9 @@ import shoppingCartSVG from '../static/assets/icons/shoppingCart.svg'
 import Menu from './Menu';
 import {useClickAway} from 'react-use';
 import ShopCartMenu from './ShopCartMenu';
+import { useRouter } from 'next/router';
 const Nav = () => {
+  const Router = useRouter();
   const [isMenuActive, setIsMenuActive] = React.useState(false);
   const [isShopCartMenuActive, setIsShopCartMenuActive] = React.useState(false)
   const menuRef = React.useRef()
@@ -24,6 +26,16 @@ const Nav = () => {
       document.body.style.paddingTop = '10vh';
     }
   }, [])
+  function handleLogoClick(){
+    if (Router.pathname==='/' ){
+      window &&  window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }else{
+      Router.replace('/')
+    }
+  }
   // React.useEffect(()=>{
   //   // Não executa o resto se o documento não estiver disponivel
   //   if(!document) return  
@@ -51,7 +63,7 @@ const Nav = () => {
         onClick={handleHamburguerMenu} 
         src={isMenuActive?hamburguerCloseMenuSVG:hamburguerMenuSVG}
       />
-      <img className='logo' src={logoSVG}/>
+      <img className='logo' onClick={handleLogoClick} src={logoSVG}/>
       <img 
         onClick={handleShopCartMenu} 
         className='shopping-cart' 

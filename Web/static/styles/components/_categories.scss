@@ -9,6 +9,16 @@
     border: 1px solid $primary-color;
     height: 300px;
     margin: 15px 0;
+    transition: transform .05s ease-in-out;
+    @media all and (hover:hover) and (pointer: fine){
+      cursor: pointer;
+      &:hover{
+        transform: scale(1.05);
+      }
+    }
+    &:active{
+      transform: scale(0.90);
+    }
     .photo{
       height: 100%;
     }
