@@ -10,7 +10,7 @@ namespace StormyCommerce.Core.Entities.Catalog
 	{
         public Category()
         {
-
+            
         }
         public Category(long id)
         {
