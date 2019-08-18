@@ -23,3 +23,34 @@ nav{
     }
   }
 }
+
+.search-bar{
+  position: absolute;
+  bottom: 0;
+  transform: translateY(100%);
+  width: 100%;
+  height: 5vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $primary-color;
+  border-top: none;
+  input{
+    width: calc(100% - 64px);
+    // font-size: 16px;
+    padding: 0 8px;
+    border: none;
+    height: calc(100% - 2px);
+  }
+  img{
+    flex:1;
+    width: 64px;
+    height: 100%;
+    padding: 5px;
+    border: none;
+  }
+  @media all and (max-width: 425px ){
+    border-bottom: none;
+  }
+}

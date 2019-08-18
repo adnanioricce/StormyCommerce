@@ -57,7 +57,7 @@
     cursor: pointer;
     transition: transform .05s ease-in-out;
     &:active{
-      transform: scaleY(0.5);
+      transform: scaleY(0.8);
     }
   }
 }

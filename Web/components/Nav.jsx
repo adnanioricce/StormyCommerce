@@ -3,6 +3,7 @@ import logoSVG from '../static/assets/logo.svg'
 import hamburguerMenuSVG from '../static/assets/icons/hamburguerMenu.svg';
 import hamburguerCloseMenuSVG from '../static/assets/icons/hamburguerCloseMenu.svg';
 import shoppingCartSVG from '../static/assets/icons/shoppingCart.svg'
+import searchSVG from '../static/assets/icons/search.svg';
 import Menu from './Menu';
 import {useClickAway} from 'react-use';
 import ShopCartMenu from './ShopCartMenu';
@@ -23,7 +24,7 @@ const Nav = () => {
   }
   React.useEffect(()=>{
     if(document){
-      document.body.style.paddingTop = '10vh';
+      document.body.style.paddingTop = '15vh';
     }
   }, [])
   function handleLogoClick(){
@@ -68,6 +69,10 @@ const Nav = () => {
         onClick={handleShopCartMenu} 
         className='shopping-cart' 
         src={isShopCartMenuActive?hamburguerCloseMenuSVG:shoppingCartSVG}/>
+      <div className="search-bar">
+        <input type='search' placeholder='Digite Aqui'/>
+        <img src={searchSVG} alt='Pesquisar'/>
+      </div>
     </nav>
   )
 }
