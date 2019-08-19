@@ -33,7 +33,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 		public string TypeName { get; set; }
         //QuantityPerUnity? Why I put this here
 		public int QuantityPerUnity { get; set; }	            		
-		public string UnitSize { get; set; }
+		public decimal UnitSize { get; set; }
 		public decimal UnitPrice { get; set; }
 		public decimal Discount { get; set; }
 		public double UnitWeight  {get; set; }
