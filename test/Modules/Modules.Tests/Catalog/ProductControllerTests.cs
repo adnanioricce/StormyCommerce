@@ -1,9 +1,15 @@
 ﻿using AutoMapper;
+using Moq;
+using SimplCommerce.Module.SampleData;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+using StormyCommerce.Infraestructure.Helpers;
 using StormyCommerce.Module.Catalog.Area.Controllers;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using TestHelperLibrary.Mocks;
 using Xunit;
 
 namespace StormyCommerce.Modules.Test.Area.Controllers
@@ -11,7 +17,8 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
     public class ProductControllerTests
     {
 	    	    
-        private ProductController CreateController() => new ProductController(ServiceTestFactory.GetProductService(), ServiceTestFactory.GetCategoryService());
+        //! I think this will fail, define some logic to the mock
+        private ProductController CreateController() => new ProductController(ServiceTestFactory.GetProductService(), new Mock<IMapper>().Object);
         [Fact]
         public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
         {
@@ -20,10 +27,10 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             long id = 1;
 
             // Act
-            ProductOverviewDto result = await productController.GetProductOverviewAsync(id);
+            var result = await productController.GetProductOverviewAsync(id);
 
             // Assert
-            Assert.Equal(1,result.Id);
+            Assert.Equal(1,result.Value.Id);
         }
 
         [Fact]
@@ -35,10 +42,10 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             long endIndex = 15;
 
             // Act
-            List<ProductDto> result = await productController.GetAllProducts(startIndex,endIndex);
+            var result = await productController.GetAllProducts(startIndex,endIndex);
 
             // Assert
-            Assert.Equal(15,result.Count);
+            Assert.Equal(15,result.Value.Count);
         }
 
         [Fact]
@@ -49,10 +56,10 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             int limit = 15;
 
             // Act
-            var result = await productController.GetAllProductsOnHomepage(limit);
+            var result = (await productController.GetAllProductsOnHomepage(limit));
 
-            // Assert
-            Assert.Equal(limit,result.Count);
+            // Assert            
+            Assert.Equal(limit,result.Value.Count);
         }
 
         [Fact]
@@ -66,7 +73,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             var result = await productController.GetProductById(id);
 
             // Assert
-            Assert.Equal(id,result.Id);
+            Assert.Equal(id,result.Value.Id);
         }
 
         [Fact]
@@ -74,13 +81,13 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         {
             // Arrange
             var productController = CreateController();
-            var model = new ProductDto 
-            {
+            var product = Seeders.StormyProductSeed(1).FirstOrDefault();
 
-            }
+            var model = new ProductDto(product);
+            
 
             // Act
-            await productController.CreateProduct(_model);
+            await productController.CreateProduct(model);
             var createdEntry = productController.GetProductById(model.Id);
             // Assert
             Assert.Equal(model.Id,createdEntry.Id);

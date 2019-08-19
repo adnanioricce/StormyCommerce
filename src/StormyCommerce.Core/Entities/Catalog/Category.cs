@@ -32,43 +32,24 @@ namespace StormyCommerce.Core.Entities.Catalog
             ParentId = category.ParentId;
             Parent = category.Parent;
             Childrens = category.Childrens;
-            ThumbnailImage = category.ThumbnailImage;
+            ThumbnailImageUrl = category.ThumbnailImageUrl;
         }
         public List<CategoryDto> ToCategoryDtoChildrens()
         {
             return this.Childrens.Select(children => new CategoryDto(children)).ToList();
-        }
-	    [Required(ErrorMessage = "The {0} field is required.")]
-        [StringLength(450)]
-	    public string Name { get; set; }
-
-        [Required(ErrorMessage = "The {0} field is required.")]
-	    [StringLength(450)]
-        public string Slug { get; set; }
-
-	    [StringLength(450)]
+        }	    
+	    public string Name { get; set; }       
+        public string Slug { get; set; }	    
         public string MetaTitle { get; set; }
-
-	    [StringLength(450)]
         public string MetaKeywords { get; set; }
-
 	    public string MetaDescription { get; set; }
-
         public string Description { get; set; }
-
 	    public int DisplayOrder { get; set; }
-
         public bool IsPublished { get; set; }
-
 	    public bool IncludeInMenu { get; set; }     
-
 	    public long? ParentId { get; set; }
-
         public Category Parent { get; set; }
-
 	    public IList<Category> Childrens { get; protected set; } = new List<Category>();
-
-        public Media.Media ThumbnailImage { get; set; }                     
-
+        public string ThumbnailImageUrl { get; set; }                     
     }
 }

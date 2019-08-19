@@ -2,7 +2,11 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using SimplCommerce.Infrastructure.Modules;
+using SimplCommerce.Module.Core.Services;
+using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.Infraestructure.Interfaces;
+using StormyCommerce.Infraestructure.Services.Authentication;
 
 namespace StormyCommerce.Module.Customer
 {
@@ -15,9 +19,9 @@ namespace StormyCommerce.Module.Customer
 
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
-	    serviceCollection.AddTransient<ITokenService,TokenService>();
-	    serviceCollection.AddTransient<IEmailSender,EmailSender>();
-	    serviceCollection.AddScoped<IUserIdentityService,UserIdentityService>();
+	        serviceCollection.AddTransient<ITokenService,TokenService>();
+	        serviceCollection.AddTransient<IEmailSender,EmailSender>();
+	        serviceCollection.AddScoped<IUserIdentityService,UserIdentityService>();
             serviceCollection.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;

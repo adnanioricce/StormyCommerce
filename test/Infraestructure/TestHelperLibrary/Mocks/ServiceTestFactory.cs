@@ -1,3 +1,9 @@
+﻿using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Catalog;
+using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Services.Catalog;
+using StormyCommerce.Core.Tests.Helpers;
+
 namespace TestHelperLibrary.Mocks
 {
     public static class ServiceTestFactory
@@ -8,7 +14,11 @@ namespace TestHelperLibrary.Mocks
         }
         public static CategoryService GetCategoryService()
         {
-            return new GetCategoryService(RepositoryHelper.GetRepository<Category>());
+            return new CategoryService(RepositoryHelper.GetRepository<Category>(),GetEntityService());
+        }
+        public static EntityService GetEntityService()
+        {
+            return new EntityService(RepositoryHelper.GetRepository<Entity>());
         }
     }
 }

@@ -1,3 +1,9 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using StormyCommerce.Api.Framework.Filters;
+using StormyCommerce.Core.Interfaces.Domain.Order;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using System.Threading.Tasks;
+
 namespace StormyCommerce.Module.Orders.Controllers
 {
 	[ApiController]
@@ -15,7 +21,7 @@ namespace StormyCommerce.Module.Orders.Controllers
 		public async Task CreateOrder([FromBody] OrderDto orderDto)
 		{
 
-			_orderService.CreateOrderAsync(orderDto);
+			//_orderService.CreateOrderAsync(orderDto);
 			
 		}
 	}

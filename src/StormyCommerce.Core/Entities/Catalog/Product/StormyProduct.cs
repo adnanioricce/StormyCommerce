@@ -51,8 +51,8 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public List<ProductOptionValue> OptionValues { get; protected set; } = new List<ProductOptionValue>();
         public int Ranking { get; set;}
 		public string Note { get; set;}
-		public decimal Price { get; set;}
-        public decimal OldPrice { get; set; }
+		public string Price { get; set;}
+        public string OldPrice { get; set; }
 	    public bool HasDiscountApplied { get; set; }       
 	    public bool Published { get; set; }        
 	    public string Status { get; set; }

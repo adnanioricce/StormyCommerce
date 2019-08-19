@@ -27,11 +27,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             //    BinaryExpression compareExpression = Expression.MakeBinary(ExpressionType.Equal, isDeletedProperty, Expression.Constant(false));
             //    var lambda = Expression.Lambda(compareExpression, parameter);
             //    modelBuilder.Entity(entity.ClrType).HasQueryFilter(lambda);
-            //});
-            modelBuilder.Entity<ProductMedia>(entity =>
-            {
-                entity.HasKey(productMedia => productMedia.Id);                
-            });
+            //});            
             modelBuilder.Entity<ProductLink>(entity =>
             {
                 entity.HasOne(x => x.Product)
@@ -71,28 +67,30 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             });
             modelBuilder.Entity<StormyProduct>(entity =>
             {
-                entity.HasQueryFilter(product => product.IsDeleted == false);
-                entity.HasData(new StormyProduct(1)
-                {
-                    SKU = "33E353EE-40A9-4AAA-9FA4-E0A196DC10ED",
-                    AllowCustomerReview = true,
-                    ApprovedRatingSum = 5,
-                    ApprovedTotalReviews = 32,
-                    AvailableForPreorder = false,
-                    BrandId = 1,
-                    CreatedAt = new DateTime(2019, 05, 10),
-                    IsDeleted = false,
-                    Discount = (decimal)9.99,
-                    DiscountAvailable = false,
-                    HasDiscountApplied = false,
-                    PreOrderAvailabilityStartDate = null,
-                    ProductAvailable = true,
-                    NotApprovedRatingSum = 2,
-                    NotApprovedTotalReviews = 10,
-                    VendorId = 1,
-                    UnitPrice = (decimal)49.99,
-                    UnitsInStock = 30,
-                });                
+                entity.HasQueryFilter(product => !product.IsDeleted);
+                entity.Property(p => p.Price);
+                entity.Property(p => p.OldPrice);
+                //entity.HasData(new StormyProduct(1)
+                //{
+                //    SKU = "33E353EE-40A9-4AAA-9FA4-E0A196DC10ED",
+                //    AllowCustomerReview = true,
+                //    ApprovedRatingSum = 5,
+                //    ApprovedTotalReviews = 32,
+                //    AvailableForPreorder = false,
+                //    BrandId = 1,
+                //    CreatedAt = new DateTime(2019, 05, 10),
+                //    IsDeleted = false,
+                //    Discount = (decimal)9.99,
+                //    DiscountAvailable = false,
+                //    HasDiscountApplied = false,
+                //    PreOrderAvailabilityStartDate = null,
+                //    ProductAvailable = true,
+                //    NotApprovedRatingSum = 2,
+                //    NotApprovedTotalReviews = 10,
+                //    VendorId = 1,
+                //    UnitPrice = (decimal)49.99,
+                //    UnitsInStock = 30,
+                //});                
             });
             
             modelBuilder.Entity<ProductOption>(entity =>
