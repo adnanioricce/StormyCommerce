@@ -13,7 +13,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
             Product = orderItem.Product.ToProductDto();
         }
         public string ProductName { get; private set; }
-        public decimal Price { get; private set; }
+        public string Price { get; private set; }
         public int Quantity { get; private set; }
         public ProductDto Product { get; private set; }
         public OrderItem ToOrderItem()

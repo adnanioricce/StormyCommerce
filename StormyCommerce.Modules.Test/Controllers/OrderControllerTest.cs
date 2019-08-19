@@ -1,4 +1,10 @@
-using xunit;
+﻿using SimplCommerce.WebHost;
+using StormyCommerce.Core.Interfaces.Domain.Order;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Modules.IntegrationTest;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Xunit;
 namespace StormyCommerce.Module.Test.Controllers
 {
 	//TODO:Maybe a more DRY way of use the HttpClient Instance?
@@ -9,15 +15,17 @@ namespace StormyCommerce.Module.Test.Controllers
 		private readonly HttpClient _httpClient;
 		public OrderControllerTest(TestFixture<Startup> factory)
 		{
-			_orderService = factory.Test.Server.Service.GetService<IOrderService>();
-			httpClient = factory.CreateClient();
+            _orderService = (IOrderService)factory.Server.Host.Services.GetService(typeof(IOrderService));
+			_httpClient = factory.CreateClient();
 		}
 		[Fact]
 		public async Task CreateOrder_ValidOrderDto_ShouldCreateNewOrder()
 		{
-			//Arrange 
-			var order = new OrderDto();
-			Assert.Equal("application/json; charset=utf-8;");
+			//Arrange             
+			var order = new OrderDto(null);
+            //Act
+            //Assert
+			Assert.Equal("application/json; charset=utf-8;","");
 		}
 	}
 }

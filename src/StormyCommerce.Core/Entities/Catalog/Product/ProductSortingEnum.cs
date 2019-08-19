@@ -1,4 +1,4 @@
-﻿namespace StormyCommerce.Core.Entities.Product
+﻿namespace StormyCommerce.Core.Entities.Catalog.Product
 {
     //Make this just to make sure that I Core don't Depend on Nopcommerce
     public enum StormyProductSortingEnum

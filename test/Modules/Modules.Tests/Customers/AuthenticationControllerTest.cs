@@ -1,28 +1,44 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using SimplCommerce.Module.Core.Services;
+using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Infraestructure.Entities;
-using StormyCommerce.Module.Customers.Area.Controllers;
+using StormyCommerce.Infraestructure.Helpers;
+using StormyCommerce.Infraestructure.Services.Authentication;
+using StormyCommerce.Module.Customer.Area.ViewModels;
+using StormyCommerce.Module.Customer.Controllers;
+using Xunit;
+
 namespace Modules.Test.Customers
 {
     public class AuthenticationControllerTest
     {
         public AuthenticationController CreateController()
-        {     
-	        var fakeIdentityService = new Mock<UserIdentityService>();
+        {
+            var appUser = Seeders.ApplicationUserSeed().FirstOrDefault();
+
+            var fakeIdentityService = new Mock<UserIdentityService>();
             
             fakeIdentityService
-                .Setup(f => f.GetUserByEmail(It.Any<string>()))
-                .Returns("myemail@example.com");
+                .Setup(f => f.GetUserByEmail(It.IsAny<string>()))
+                .Returns(appUser);
             fakeIdentityService
                 //maybe this don't work,if the password policies is beign applied
-                .Setup(f => f.PasswordSignInAsync(It.Any<ApplicationUser>(),It.Any<string>()));                
-                //Return? 
-            fakeIdentityService
-            var fakeTokenService = new Mock<ITokenService>();            
+                .Setup(f => f.PasswordSignInAsync(appUser, appUser.PasswordHash, true, false))
+                .ReturnsAsync(SignInResult.Success);
+        //fakeIdentityService
+        var fakeTokenService = new Mock<ITokenService>();            
             fakeTokenService
-                .Setup(f => f.GenerateAccessToken(It.Any<IEnumerable<Claims>>()))
-                .Returns(It.Any<string>());             
+                .Setup(f => f.GenerateAccessToken(It.IsAny<IEnumerable<Claim>>()))
+                .Returns(It.IsAny<string>());             
             //TODO:Create the EmailSender mock
-            var controller = new AuthenticationController(fakeIdentityService,null,fakeTokenService);
+            var controller = new AuthenticationController(fakeIdentityService.Object, fakeTokenService.Object,null);
             return controller;
         }
         [Fact]
@@ -37,25 +53,26 @@ namespace Modules.Test.Customers
                 Password = "!Tr27gh43"
 	        };
             //Act
-	        var result = controller.LoginAsync(loginVm);
+	        var result = (await controller.LoginAsync(loginVm)) as OkObjectResult;
             //Assert
-            Assert.True(!string.IsNullOrEmpty(result));
+            //How do I test it?
+            Assert.NotNull(result);
         }
         [Fact]
         public async Task RegisterAsync_ReceivedValidVm_ShouldReturnSuccessMessage()
         {
             //Arrange
-            var controller = CreateController(); 
-            var registerVm = new SignUpVm{
+            var controller = CreateController();
+            var registerVm = new SignUpVm
+            {
                 //TODO:research -> Why we need to Confirm password?
                 Email = "myemail@example.com",
-                Password = "!Tr27gh43",
-                ConfirmPassword = "!Tr27gh43"
-            } 
+                Password = "!Tr27gh43"                
+            }; 
             //Act 
-            var result = controller.RegisterAsync(registerVm);             
+            var result = (await controller.RegisterAsync(registerVm)) as OkObjectResult;             
             //Assert 
-            Assert.True(false);
+            Assert.NotNull(result);
         }        
     }
 }

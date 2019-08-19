@@ -1,3 +1,4 @@
+﻿using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Tests.Helpers;
 namespace TestHelperLibrary.Seeders
 {
@@ -5,7 +6,7 @@ namespace TestHelperLibrary.Seeders
 	{
 		public static OrderDto CreateOrderData()
 		{
-			return new OrderDto(OrderDataSeeder.GetOrderData());
+			return new OrderDto(null);
 		}
 	}
 }

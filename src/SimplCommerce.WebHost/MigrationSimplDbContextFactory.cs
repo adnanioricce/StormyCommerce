@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Design;
 using SimplCommerce.WebHost.Extensions;
 using SimplCommerce.Infrastructure;
 using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.Infraestructure.Extensions;
+using SimplCommerce.Module.SampleData.Extensions;
 
 namespace SimplCommerce.WebHost
 {
@@ -33,8 +35,9 @@ namespace SimplCommerce.WebHost
             services.AddModules(contentRootPath);
             services.AddStormyDataStore(_configuration);
             var _serviceProvider = services.BuildServiceProvider();
-
-            return _serviceProvider.GetRequiredService<StormyDbContext>();
+            var dbContext = _serviceProvider.GetRequiredService<StormyDbContext>();
+            dbContext.SeedDbContext();
+            return dbContext;
         }
     }
 }
