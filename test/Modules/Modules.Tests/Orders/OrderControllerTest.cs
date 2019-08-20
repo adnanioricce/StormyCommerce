@@ -8,6 +8,7 @@ namespace Modules.Test.Orders
 	    public async Task CheckoutBoleto_ValidInputFromAuthenticatedUser_ShouldReturnOrderAndBoletoToUser()
 	    {
 		    //Arrange 
+			var controller = new OrderController();
 		    //Act
 		    //Assert
 		    Assert.True(false);

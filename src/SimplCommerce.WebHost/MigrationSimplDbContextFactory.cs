@@ -22,7 +22,7 @@ namespace SimplCommerce.WebHost
 
             var builder = new ConfigurationBuilder()
                             .SetBasePath(contentRootPath)
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
                             .AddJsonFile($"appsettings.{environmentName}.json", true);
 
             builder.AddUserSecrets(typeof(MigrationStormyDbContextFactory).Assembly, optional: true);

@@ -20,5 +20,9 @@ namespace TestHelperLibrary.Mocks
         {
             return new EntityService(RepositoryHelper.GetRepository<Entity>());
         }
+        public static IMapper GetFakeMapper()
+        {
+            return new Mock<IMapper>().Object;
+        }
     }
 }

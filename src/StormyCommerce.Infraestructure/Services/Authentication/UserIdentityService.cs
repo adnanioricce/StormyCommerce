@@ -3,7 +3,7 @@ using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+// using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -58,8 +58,8 @@ namespace StormyCommerce.Infraestructure.Services.Authentication
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                // new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                // new Claim(JwtRegisteredClaimNames.Email, user.Email),
             };
 
             var userRoles = await _userManager.GetRolesAsync(user);

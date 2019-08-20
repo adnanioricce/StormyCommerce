@@ -1,4 +1,5 @@
 ﻿using StormyCommerce.Core.Entities.Catalog.Product;
+using System;
 using System.Collections.Generic;
 namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
 {	
@@ -14,7 +15,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             ProductName = product.ProductName;
             Slug = product.Slug;
             QuantityPerUnity = product.QuantityPerUnity;
-            UnitSize = product.UnitSize;
+            UnitSize = product.UnitSize.ToString();
             Discount = product.Discount;
             UnitWeight = product.UnitWeight;
             UnitsInStock = product.UnitsInStock;
@@ -28,6 +29,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public long Id { get; set; }
         public string ProductName { get; set; }
         public string Slug { get; set; }
+        public string[] Colors { get; set; }
+        public string[] Tags { get; set; }
         public int QuantityPerUnity { get; set; }
         public string UnitSize { get; set; }
         public decimal UnitPrice { get; set; }
@@ -51,7 +54,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
                 ProductName = this.ProductName,
                 Slug = this.Slug,
                 QuantityPerUnity = this.QuantityPerUnity,
-                UnitSize = this.UnitSize,
+                UnitSize = Convert.ToDecimal(this.UnitSize),
                 UnitPrice = this.UnitPrice,
                 Discount = this.Discount,
                 UnitWeight = this.UnitWeight,
