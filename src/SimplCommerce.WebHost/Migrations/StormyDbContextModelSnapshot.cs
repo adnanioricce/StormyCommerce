@@ -246,18 +246,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brand");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2L,
-                            Description = "description",
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)),
-                            LogoImage = "no Image",
-                            Name = "A brand",
-                            Slug = "my-awesome-brand"
-                        });
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductAttribute", b =>
@@ -366,22 +354,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductOption");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 455, DateTimeKind.Unspecified).AddTicks(6267), new TimeSpan(0, 0, 0, 0, 0)),
-                            Name = "Color"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 455, DateTimeKind.Unspecified).AddTicks(6982), new TimeSpan(0, 0, 0, 0, 0)),
-                            Name = "Size"
-                        });
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductOptionValue", b =>
@@ -494,7 +466,9 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long>("ProductLinksId");
 
-                    b.Property<string>("ProductName");
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(400);
 
                     b.Property<bool>("Published");
 
@@ -502,19 +476,23 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<int>("Ranking");
 
-                    b.Property<string>("SKU");
+                    b.Property<string>("SKU")
+                        .IsRequired();
 
                     b.Property<string>("Slug");
 
-                    b.Property<string>("Status");
+                    b.Property<string>("Status")
+                        .IsRequired();
 
                     b.Property<bool>("StockTrackingIsEnabled");
 
-                    b.Property<string>("TypeName");
+                    b.Property<string>("TypeName")
+                        .IsRequired();
 
                     b.Property<decimal>("UnitPrice");
 
-                    b.Property<string>("UnitSize");
+                    b.Property<string>("UnitSize")
+                        .IsRequired();
 
                     b.Property<double>("UnitWeight");
 
@@ -561,8 +539,6 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("Number");
 
-                    b.Property<long>("OwnerId");
-
                     b.Property<string>("PhoneNumber");
 
                     b.Property<string>("PostalCode");
@@ -578,24 +554,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.ToTable("Address");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Address");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2L,
-                            City = "NoWhere",
-                            Complement = "A simple complement",
-                            FirstAddress = "first Address",
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 438, DateTimeKind.Unspecified).AddTicks(9832), new TimeSpan(0, 0, 0, 0, 0)),
-                            Number = "01872d886c26424b9e7d944ce16fbf99",
-                            OwnerId = 0L,
-                            PhoneNumber = "9999999-11",
-                            PostalCode = "12345678-9",
-                            SecondAddress = "Second Address",
-                            State = "Hell",
-                            Street = "Mcdonalds"
-                        });
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.StormyCustomer", b =>
@@ -613,7 +571,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<string>("FullName");
+                    b.Property<string>("FullName")
+                        .HasMaxLength(450);
 
                     b.Property<bool>("IsDeleted");
 
@@ -630,19 +589,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasIndex("DefaultShippingAddressId");
 
                     b.ToTable("StormyCustomer");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreatedOn = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                            Email = "aguinaldo@sieu.com",
-                            FullName = "Aguinobaldo de Arimateia",
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 437, DateTimeKind.Unspecified).AddTicks(1942), new TimeSpan(0, 0, 0, 0, 0)),
-                            UserId = "TODO",
-                            Username = "usernamequalquer"
-                        });
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Entity", b =>
@@ -753,17 +699,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasIndex("StormyProductId");
 
                     b.ToTable("OrderItem");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 427, DateTimeKind.Unspecified).AddTicks(5492), new TimeSpan(0, 0, 0, 0, 0)),
-                            Quantity = 2,
-                            StormyOrderId = 1L,
-                            StormyProductId = 1L
-                        });
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Payments.Payment", b =>
@@ -837,15 +772,15 @@ namespace SimplCommerce.WebHost.Migrations
                         {
                             Id = 2L,
                             Comment = "a single comment",
-                            CreatedOn = new DateTime(2019, 8, 18, 1, 0, 40, 235, DateTimeKind.Utc).AddTicks(5188),
+                            CreatedOn = new DateTime(2019, 8, 20, 12, 35, 16, 524, DateTimeKind.Utc).AddTicks(60),
                             DeliveryCost = 22.29m,
-                            DeliveryDate = new DateTime(2019, 8, 20, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveryDate = new DateTime(2019, 8, 23, 0, 0, 0, 0, DateTimeKind.Local),
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 235, DateTimeKind.Unspecified).AddTicks(5180), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 12, 35, 16, 524, DateTimeKind.Unspecified).AddTicks(51), new TimeSpan(0, 0, 0, 0, 0)),
                             Price = 20.99m,
-                            ShippedDate = new DateTime(2019, 8, 16, 0, 0, 0, 0, DateTimeKind.Local),
+                            ShippedDate = new DateTime(2019, 8, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             TotalWeight = 0.400m,
-                            TrackNumber = "320d6976-e3b4-4973-a0a2-a7ccba109834"
+                            TrackNumber = "4ababf0e-1d8c-4aa1-b342-5f352c4dc3b1"
                         });
                 });
 
@@ -914,36 +849,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasIndex("ShippingAddressId");
 
                     b.ToTable("StormyOrder");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2L,
-                            Comment = "meramente demonstrativo",
-                            CustomerId = 1L,
-                            DeliveryCost = 24.99m,
-                            DeliveryDate = new DateTime(2019, 8, 24, 0, 0, 0, 0, DateTimeKind.Local),
-                            Discount = 0.00m,
-                            IsCancelled = false,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 426, DateTimeKind.Unspecified).AddTicks(4020), new TimeSpan(0, 0, 0, 0, 0)),
-                            Note = "a simple note",
-                            OrderDate = new DateTime(2019, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            OrderUniqueKey = new Guid("16a74211-7773-424b-996e-bc57770a9ceb"),
-                            PaymentDate = new DateTime(2019, 8, 20, 0, 0, 0, 0, DateTimeKind.Local),
-                            PaymentId = 2L,
-                            PaymentMethod = "boleto",
-                            PickUpInStore = false,
-                            RequiredDate = new DateTime(2019, 8, 31, 0, 0, 0, 0, DateTimeKind.Local),
-                            ShippedDate = new DateTime(2019, 8, 17, 0, 0, 0, 0, DateTimeKind.Local),
-                            ShippingMethod = "Sedex",
-                            ShippingStatus = 15,
-                            Status = 1,
-                            Tax = 1.01m,
-                            TotalPrice = 34.99m,
-                            TotalWeight = 0.100m,
-                            TrackNumber = "f574965e9699415e911443ab19585b5b"
-                        });
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Vendor.StormyVendor", b =>
@@ -992,7 +897,7 @@ namespace SimplCommerce.WebHost.Migrations
                             ContactTitle = "Simple and a bit trustful",
                             Email = "simplecompany@simpl.com",
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 228, DateTimeKind.Unspecified).AddTicks(5604), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 12, 35, 16, 517, DateTimeKind.Unspecified).AddTicks(3654), new TimeSpan(0, 0, 0, 0, 0)),
                             Logo = "no image",
                             Note = "Sample Data",
                             Phone = "8887445512-11",
@@ -1013,16 +918,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasDiscriminator().HasValue("CustomerAddress");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 437, DateTimeKind.Unspecified).AddTicks(8027), new TimeSpan(0, 0, 0, 0, 0)),
-                            OwnerId = 0L,
-                            CustomerId = 1L
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1166,11 +1061,11 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.StormyCustomer", b =>
                 {
-                    b.HasOne("StormyCommerce.Core.Entities.Customer.CustomerAddress", "DefaultBillingAddress")
+                    b.HasOne("StormyCommerce.Core.Entities.Common.Address", "DefaultBillingAddress")
                         .WithMany()
                         .HasForeignKey("DefaultBillingAddressId");
 
-                    b.HasOne("StormyCommerce.Core.Entities.Customer.CustomerAddress", "DefaultShippingAddress")
+                    b.HasOne("StormyCommerce.Core.Entities.Common.Address", "DefaultShippingAddress")
                         .WithMany()
                         .HasForeignKey("DefaultShippingAddressId");
                 });
@@ -1240,7 +1135,7 @@ namespace SimplCommerce.WebHost.Migrations
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.CustomerAddress", b =>
                 {
                     b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Customer")
-                        .WithMany("CustomerAddresses")
+                        .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

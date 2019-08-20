@@ -4,10 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SimplCommerce.WebHost.Migrations
 {
-    public partial class initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
-        {            
+        {
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -301,7 +301,7 @@ namespace SimplCommerce.WebHost.Migrations
                     DefaultShippingAddressId = table.Column<long>(nullable: true),
                     DefaultBillingAddressId = table.Column<long>(nullable: true),
                     Username = table.Column<string>(nullable: true),
-                    FullName = table.Column<string>(nullable: true),
+                    FullName = table.Column<string>(maxLength: 450, nullable: true),
                     Email = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false)
                 },
@@ -328,7 +328,6 @@ namespace SimplCommerce.WebHost.Migrations
                     Complement = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Country = table.Column<string>(nullable: true),
-                    OwnerId = table.Column<long>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     CustomerId = table.Column<long>(nullable: true),
                     LastUsedOn = table.Column<DateTimeOffset>(nullable: true)
@@ -489,17 +488,17 @@ namespace SimplCommerce.WebHost.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    SKU = table.Column<string>(nullable: true),
-                    ProductName = table.Column<string>(nullable: true),
+                    SKU = table.Column<string>(nullable: false),
+                    ProductName = table.Column<string>(maxLength: 400, nullable: false),
                     Slug = table.Column<string>(nullable: true),
                     BrandId = table.Column<long>(nullable: false),
                     MediaId = table.Column<long>(nullable: false),
                     VendorId = table.Column<long>(nullable: false),
                     CategoryId = table.Column<long>(nullable: false),
                     ProductLinksId = table.Column<long>(nullable: false),
-                    TypeName = table.Column<string>(nullable: true),
+                    TypeName = table.Column<string>(nullable: false),
                     QuantityPerUnity = table.Column<int>(nullable: false),
-                    UnitSize = table.Column<string>(nullable: true),
+                    UnitSize = table.Column<string>(nullable: false),
                     UnitPrice = table.Column<decimal>(nullable: false),
                     Discount = table.Column<decimal>(nullable: false),
                     UnitWeight = table.Column<double>(nullable: false),
@@ -514,7 +513,7 @@ namespace SimplCommerce.WebHost.Migrations
                     OldPrice = table.Column<string>(nullable: true),
                     HasDiscountApplied = table.Column<bool>(nullable: false),
                     Published = table.Column<bool>(nullable: false),
-                    Status = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: false),
                     NotReturnable = table.Column<bool>(nullable: false),
                     AvailableForPreorder = table.Column<bool>(nullable: false),
                     ProductCost = table.Column<decimal>(nullable: false),
@@ -747,56 +746,7 @@ namespace SimplCommerce.WebHost.Migrations
                         principalTable: "ProductTemplate",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Address",
-                columns: new[] { "Id", "City", "Complement", "Country", "Discriminator", "FirstAddress", "IsDeleted", "LastModified", "Number", "OwnerId", "PhoneNumber", "PostalCode", "SecondAddress", "State", "Street" },
-                values: new object[] { 2L, "NoWhere", "A simple complement", null, "Address", "first Address", false, new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 438, DateTimeKind.Unspecified).AddTicks(9832), new TimeSpan(0, 0, 0, 0, 0)), "01872d886c26424b9e7d944ce16fbf99", 0L, "9999999-11", "12345678-9", "Second Address", "Hell", "Mcdonalds" });
-
-            migrationBuilder.InsertData(
-                table: "Brand",
-                columns: new[] { "Id", "Description", "IsDeleted", "LastModified", "LogoImage", "Name", "Slug", "Website" },
-                values: new object[] { 2L, "description", false, new DateTimeOffset(new DateTime(2019, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, -3, 0, 0, 0)), "no Image", "A brand", "my-awesome-brand", null });
-
-            migrationBuilder.InsertData(
-                table: "OrderItem",
-                columns: new[] { "Id", "IsDeleted", "LastModified", "Price", "ProductName", "Quantity", "StormyOrderId", "StormyProductId" },
-                values: new object[] { 1L, false, new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 427, DateTimeKind.Unspecified).AddTicks(5492), new TimeSpan(0, 0, 0, 0, 0)), null, null, 2, 1L, 1L });
-
-            migrationBuilder.InsertData(
-                table: "ProductOption",
-                columns: new[] { "Id", "IsDeleted", "LastModified", "Name" },
-                values: new object[,]
-                {
-                    { 1L, false, new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 455, DateTimeKind.Unspecified).AddTicks(6267), new TimeSpan(0, 0, 0, 0, 0)), "Color" },
-                    { 2L, false, new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 455, DateTimeKind.Unspecified).AddTicks(6982), new TimeSpan(0, 0, 0, 0, 0)), "Size" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Shipment",
-                columns: new[] { "Id", "Comment", "CreatedOn", "DeliveryCost", "DeliveryDate", "IsDeleted", "LastModified", "Price", "ShippedDate", "StormyOrderId", "TotalWeight", "TrackNumber" },
-                values: new object[] { 2L, "a single comment", new DateTime(2019, 8, 18, 1, 0, 40, 235, DateTimeKind.Utc).AddTicks(5188), 22.29m, new DateTime(2019, 8, 20, 0, 0, 0, 0, DateTimeKind.Local), false, new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 235, DateTimeKind.Unspecified).AddTicks(5180), new TimeSpan(0, 0, 0, 0, 0)), 20.99m, new DateTime(2019, 8, 16, 0, 0, 0, 0, DateTimeKind.Local), null, 0.400m, "320d6976-e3b4-4973-a0a2-a7ccba109834" });
-
-            migrationBuilder.InsertData(
-                table: "StormyCustomer",
-                columns: new[] { "Id", "CPF", "CreatedOn", "DefaultBillingAddressId", "DefaultShippingAddressId", "Email", "FullName", "IsDeleted", "LastModified", "UserId", "Username" },
-                values: new object[] { 1L, null, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), null, null, "aguinaldo@sieu.com", "Aguinobaldo de Arimateia", false, new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 437, DateTimeKind.Unspecified).AddTicks(1942), new TimeSpan(0, 0, 0, 0, 0)), "TODO", "usernamequalquer" });
-
-            migrationBuilder.InsertData(
-                table: "StormyVendor",
-                columns: new[] { "Id", "AddressId", "AddressId1", "CompanyName", "ContactTitle", "Email", "IsDeleted", "LastModified", "Logo", "Note", "Phone", "SizeUrl", "TypeGoods", "WebSite" },
-                values: new object[] { 1L, 1, null, "SimpleCompany", "Simple and a bit trustful", "simplecompany@simpl.com", false, new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 228, DateTimeKind.Unspecified).AddTicks(5604), new TimeSpan(0, 0, 0, 0, 0)), "no image", "Sample Data", "8887445512-11", "www.sizes.com", "Fashion", "www.simplecompanyonweb.com" });
-
-            migrationBuilder.InsertData(
-                table: "Address",
-                columns: new[] { "Id", "City", "Complement", "Country", "Discriminator", "FirstAddress", "IsDeleted", "LastModified", "Number", "OwnerId", "PhoneNumber", "PostalCode", "SecondAddress", "State", "Street", "CustomerId", "LastUsedOn" },
-                values: new object[] { 1L, null, null, null, "CustomerAddress", null, false, new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 437, DateTimeKind.Unspecified).AddTicks(8027), new TimeSpan(0, 0, 0, 0, 0)), null, 0L, null, null, null, null, null, 1L, null });
-
-            migrationBuilder.InsertData(
-                table: "StormyOrder",
-                columns: new[] { "Id", "Comment", "CustomerId", "DeliveryCost", "DeliveryDate", "Discount", "IsCancelled", "IsDeleted", "LastModified", "Note", "OrderDate", "OrderUniqueKey", "PaymentDate", "PaymentId", "PaymentMethod", "PickUpInStore", "RequiredDate", "ShippedDate", "ShippingAddressId", "ShippingMethod", "ShippingStatus", "Status", "Tax", "TotalPrice", "TotalWeight", "TrackNumber" },
-                values: new object[] { 2L, "meramente demonstrativo", 1L, 24.99m, new DateTime(2019, 8, 24, 0, 0, 0, 0, DateTimeKind.Local), 0.00m, false, false, new DateTimeOffset(new DateTime(2019, 8, 18, 1, 0, 40, 426, DateTimeKind.Unspecified).AddTicks(4020), new TimeSpan(0, 0, 0, 0, 0)), "a simple note", new DateTime(2019, 8, 17, 0, 0, 0, 0, DateTimeKind.Local), new Guid("16a74211-7773-424b-996e-bc57770a9ceb"), new DateTime(2019, 8, 20, 0, 0, 0, 0, DateTimeKind.Local), 2L, "boleto", false, new DateTime(2019, 8, 31, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2019, 8, 17, 0, 0, 0, 0, DateTimeKind.Local), null, "Sedex", 15, 1, 1.01m, 34.99m, 0.100m, "f574965e9699415e911443ab19585b5b" });
+                });            
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_CustomerId",

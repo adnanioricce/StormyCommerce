@@ -16,6 +16,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 	{
 		private readonly IProductService _productService;
 		private readonly IMapper _mapper;
+        
         //TODO:Change the notification type
 
         public ProductController(IProductService productService, IMapper mapper) 
@@ -36,7 +37,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		[HttpGet("admin/product/")]
 		[ValidateModel]
 		//TODO:Check if request is from Admin
-		public async Task<ActionResult<List<ProductDto>>> GetAllProducts(long startIndex = 0,long endIndex = 15)
+		public async Task<ActionResult<List<ProductDto>>> GetAllProducts(long startIndex = 1,long endIndex = 15)
 		{			
 			var products = await _productService.GetAllProductsAsync(startIndex,endIndex);			
 			return Ok(_mapper.Map<IList<StormyProduct>,List<ProductDto>>(products));
@@ -47,8 +48,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		{
             var products = await _productService.GetAllProductsDisplayedOnHomepageAsync(limit);			
             if (products == null)
-                return BadRequest("Don't was possible to retrieve products");
-
+                return BadRequest("Don't was possible to retrieve products");            
             return Ok(_mapper.Map<IList<StormyProduct>, List<ProductDto>>(products));
 		}
 		[HttpGet("product/{0}")]
@@ -63,10 +63,12 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		}
 		[HttpPost("product/create")]
 		[ValidateModel]
-		public async Task CreateProduct([FromBody]ProductDto _model)
+		public async Task<ActionResult> CreateProduct([FromBody]ProductDto _model)
 		{
-			var model = _mapper.Map<StormyProduct>( _model);
+            //var model = _mapper.Map<StormyProduct>( _model);
+            var model = new StormyProduct(_model);
 			await _productService.InsertProductAsync(model);
+            return Ok();
 		}
 		[HttpPut("product/edit")]
 		[ValidateModel]

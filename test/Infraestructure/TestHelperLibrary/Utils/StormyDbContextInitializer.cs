@@ -62,8 +62,7 @@ namespace TestHelperLibrary.Utils
                             PostalCode = "12345678-9",
                             SecondAddress = "Second Address",
                             State = "Hell",
-                            Street = "Mcdonalds",
-                            OwnerId = 1
+                            Street = "Mcdonalds",                            
                         },
                         AddressId = 1,
                         CompanyName = "SimpleCompany",

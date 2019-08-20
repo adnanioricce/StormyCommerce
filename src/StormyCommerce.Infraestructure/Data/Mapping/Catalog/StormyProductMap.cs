@@ -70,53 +70,52 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.HasQueryFilter(product => !product.IsDeleted);
                 entity.Property(p => p.Price);
                 entity.Property(p => p.OldPrice);
-                //entity.HasData(new StormyProduct(1)
-                //{
-                //    SKU = "33E353EE-40A9-4AAA-9FA4-E0A196DC10ED",
-                //    AllowCustomerReview = true,
-                //    ApprovedRatingSum = 5,
-                //    ApprovedTotalReviews = 32,
-                //    AvailableForPreorder = false,
-                //    BrandId = 1,
-                //    CreatedAt = new DateTime(2019, 05, 10),
-                //    IsDeleted = false,
-                //    Discount = (decimal)9.99,
-                //    DiscountAvailable = false,
-                //    HasDiscountApplied = false,
-                //    PreOrderAvailabilityStartDate = null,
-                //    ProductAvailable = true,
-                //    NotApprovedRatingSum = 2,
-                //    NotApprovedTotalReviews = 10,
-                //    VendorId = 1,
-                //    UnitPrice = (decimal)49.99,
-                //    UnitsInStock = 30,
-                //});                
+                entity.HasOne(product => product.Brand).WithMany().HasForeignKey(p => p.BrandId);
+                entity.Property(product => product.BrandId);
+                entity.Property(product => product.VendorId);
+                entity.HasOne(product => product.Vendor).WithMany().HasForeignKey(p => p.VendorId);
+                //entity.Property(product => product.MediaId);
+                //entity.HasOne(product => product.Medias).WithMany().HasForeignKey(p => p.MediaId);
+                entity.Property(product => product.SKU).IsRequired();
+                entity.Property(product => product.ProductName).HasMaxLength(400).IsRequired();
+                entity.Property(product => product.UnitsOnOrder).IsRequired();
+                entity.Property(product => product.QuantityPerUnity).IsRequired();
+                entity.Property(product => product.ProductCost).IsRequired();
+                entity.Property(product => product.OldPrice);
+                entity.Property(product => product.Price);
+                entity.Property(product => product.Discount);
+                entity.Property(product => product.UnitSize).IsRequired();
+                entity.Property(product => product.UnitPrice).IsRequired();
+                entity.Property(product => product.UnitsInStock).IsRequired();
+                entity.Property(product => product.TypeName).IsRequired();
+                entity.Property(product => product.Status).IsRequired();
             });
             
             modelBuilder.Entity<ProductOption>(entity =>
             {
-                entity.HasData(new ProductOption(1) { Name = "Color" },
-                new ProductOption(2) { Name = "Size" });                
+                //entity.HasData(new ProductOption(1) { Name = "Color" },
+                //new ProductOption(2) { Name = "Size" });                
             });
             modelBuilder.Entity<Media>(entity => 
             {
-                entity.HasKey(prop => prop.Id);                
+                //entity.HasKey(prop => prop.Id);                
             });
             modelBuilder.Entity<Brand>(entity =>
             {
+                entity.HasKey(prop => prop.Id);
                 entity.HasQueryFilter(brand => brand.IsDeleted == false)
                 .Property(brand => brand.Slug)
                 .HasMaxLength(450)
                 .IsRequired();
-                entity.HasData(new Brand(2)
-                {
-                    IsDeleted = false,
-                    Description = "description",
-                    LastModified = new DateTime(2019, 03, 02),
-                    LogoImage = "no Image",
-                    Name = "A brand",
-                    Slug = "my-awesome-brand"
-                });                
+                //entity.HasData(new Brand(2)
+                //{
+                //    IsDeleted = false,
+                //    Description = "description",
+                //    LastModified = new DateTime(2019, 03, 02),
+                //    LogoImage = "no Image",
+                //    Name = "A brand",
+                //    Slug = "my-awesome-brand"
+                //});                
             });
 
             //modelBuilder.Entity<StormyProduct>().OwnsOne(f => f.Medias) ;

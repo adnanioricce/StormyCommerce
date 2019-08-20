@@ -15,6 +15,20 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         {
             Id = id;
         }
+        public StormyProduct(ProductDto productDto)
+        {
+            Slug = productDto.Slug;
+            ProductName = productDto.ProductName;
+            OldPrice = productDto.OldPrice;
+            Price = productDto.Price;
+            QuantityPerUnity = productDto.QuantityPerUnity;
+            UnitPrice = productDto.UnitPrice;
+            UnitsInStock = productDto.UnitsInStock;
+            UnitSize = productDto.UnitSize;
+            UnitsOnOrder = productDto.UnitsOnOrder;
+            UnitWeight = productDto.UnitWeight;
+            
+        }
         public StormyProduct()
         {
 
@@ -90,7 +104,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public ProductDto ToProductDto()
         {
             return new ProductDto(this);
-        }
+        }        
         public List<MediaDto> ToMediasDtos()
         {
             var medias = this.Medias;

@@ -31,7 +31,7 @@ namespace Modules.Test.Customers
             fakeIdentityService
                 //maybe this don't work,if the password policies is beign applied
                 .Setup(f => f.PasswordSignInAsync(appUser, appUser.PasswordHash, true, false))
-                .ReturnsAsync(SignInResult.Success);
+                .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
         //fakeIdentityService
         var fakeTokenService = new Mock<ITokenService>();            
             fakeTokenService

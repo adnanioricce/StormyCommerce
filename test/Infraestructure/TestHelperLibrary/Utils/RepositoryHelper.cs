@@ -1,7 +1,7 @@
 ﻿using StormyCommerce.Core.Entities;
 using StormyCommerce.Infraestructure.Data.Repositories;
 
-namespace StormyCommerce.Core.Tests.Helpers
+namespace TestHelperLibrary.Utils
 {
     public static class RepositoryHelper
     {

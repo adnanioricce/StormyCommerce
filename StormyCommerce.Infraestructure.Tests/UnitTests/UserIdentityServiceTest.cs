@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Moq;
-using StormyCommerce.Core.Tests.Helpers;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Infraestructure.Services.Authentication;

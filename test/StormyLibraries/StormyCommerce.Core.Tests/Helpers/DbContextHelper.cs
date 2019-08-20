@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Infraestructure.Data;
 using System;
 
@@ -12,8 +13,7 @@ namespace StormyCommerce.Core.Tests.Helpers
             var builder = new DbContextOptionsBuilder<StormyDbContext>();
             builder.UseInMemoryDatabase($"{Guid.NewGuid().ToString("N")}-FakeStormyDatabase");
             builder.EnableSensitiveDataLogging();
-            var dbContext = new StormyDbContext(GetDbOptions());
-
+            var dbContext = new StormyDbContext(GetDbOptions());            
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
             return dbContext;
