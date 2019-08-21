@@ -22,8 +22,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             UnitsOnOrder = product.UnitsOnOrder;
             Price = product.Price;
             OldPrice = product.OldPrice;
-            Brand = new BrandDto(product.Brand);
-            Category = new CategoryDto(product.Category);
+            //Brand = new BrandDto(product.Brand);
+            //Category = new CategoryDto(product.Category);
             //Vendor = new VendorDto(product.Vendor);
         }
         public long Id { get; set; }

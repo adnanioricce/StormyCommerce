@@ -16,7 +16,7 @@ namespace StormyCommerce.Infraestructure.Interfaces
         UserManager<ApplicationUser> GetUserManager();
         Task SignOutAsync();
         Task<List<Claim>> BuildClaims(ApplicationUser user);
-
+        Task<string> CreateEmailVerificationCode(ApplicationUser user,string email);        
 
     }
 }

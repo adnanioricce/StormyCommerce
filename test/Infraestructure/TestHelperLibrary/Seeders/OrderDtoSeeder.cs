@@ -1,5 +1,4 @@
 ﻿using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Core.Tests.Helpers;
 namespace TestHelperLibrary.Seeders
 {
 	public static class OrderDtoSeeder

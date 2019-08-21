@@ -1,4 +1,5 @@
 ﻿using Moq;
+using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Order;
@@ -42,29 +43,28 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
                 new StormyRepository<StormyOrder>(dbContext),
                this.mockStormyRepositoryOrderHistory.Object);                      
         }
-        //private OrderService CreateServiceWithSampleData()
-        //{
-        //    var dbContext = DbContextHelper.GetDbContext();
-        //    dbContext.Add(StormyOrderDataSeeder.GetOrderData(Guid.NewGuid()));
-        //    dbContext.SaveChanges();
-        //    return new OrderService(new StormyRepository<StormyOrder>(dbContext),this.mockStormyRepositoryOrderHistory.Object);
-        //}
+        private OrderService CreateServiceWithSampleData()
+        {
+            var dbContext = DbContextHelper.GetDbContext();
+            var fakeOrders = Seeders.StormyOrderSeed(5);         
+            dbContext.AddRange(fakeOrders);
+            dbContext.SaveChanges();
+            return new OrderService(new StormyRepository<StormyOrder>(dbContext), this.mockStormyRepositoryOrderHistory.Object);
+        }
 
         [Fact]
         public async Task CancelOrderAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var service = this.CreateService();
+            var service = this.CreateServiceWithSampleData();
             long id = 2;
-
             // Act
             var result = await service.CancelOrderAsync(
                 id);
             var order = await service.GetOrderByIdAsync(id);                                 
             // Assert
             Assert.True(result.Success);
-            Assert.Equal(order.Value.IsCancelled, result.Value.IsCancelled);
-            //Assert.Equal(0,order.Value.Items.Count)
+            Assert.Equal(order.Value.IsCancelled, result.Value.IsCancelled);           
         }        
         //TODO:Check Integrity of the entry
         [Fact]
@@ -102,8 +102,6 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
                     
                 },                
             };
-
-
             // Act
             Result<OrderDto> result = await service.CreateOrderAsync(
                 entry);
@@ -117,7 +115,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
         public async Task EditOrderAsync_ValidInputToUpdateExistingEntityWithIdEqual1_ShouldUpdateEntityAndReturnTrue()
         {
             // Arrange
-            var service = this.CreateService();
+            var service = this.CreateServiceWithSampleData();
             long id = 2;
             var orderUniqueKey = Guid.NewGuid();
             StormyOrder entity = new StormyOrder(2)
@@ -144,35 +142,29 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
                 Note = "a simple note",
                 ShippedDate = DateTime.Today,
                 ShippingStatus = Entities.Shipping.ShippingStatus.Shipped
-
             };
 
             // Act
-            var result = await service.EditOrderAsync(
-                id,
-                entity);
+            var result = await service.EditOrderAsync(id,entity);
 
             // Assert
-            Assert.True(result.Success);
-            //Assert.Equal(result)
+            Assert.True(result.Success);            
         }
 
         [Fact]
         public async Task GetOrderByIdAsync_ExistingEntityWithIdEqual1_ReturnDtoForGivenEntity()
         {
             // Arrange
-            var service = this.CreateService();
-            long id = 2;
+            var service = this.CreateServiceWithSampleData();
+            long id = 5;
 
             // Act
-            var result = await service.GetOrderByIdAsync(
-                id);
+            var result = await service.GetOrderByIdAsync(id);
 
             // Assert
-            Assert.True(result.Success);
+            Assert.True(result.Success);            
             //Assert.Equal(sampleOrder.OrderUniqueKey,result.Value.OrderUniqueKey);
-        }
-        //!Not Implemented
+        }       
         [Fact]
         public async Task GetOrderHistoryAsync_ExistingStormyOrderWithIdEqual1_GetAllChangesRecordsOfTheOrder()
         {
@@ -190,12 +182,12 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
         public async Task GetOrdersAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var service = this.CreateService();
+            var service = this.CreateServiceWithSampleData();            
             // Act
             var result = await service.GetOrdersAsync();
             // Assert
             Assert.True(result.Success);
-            Assert.Equal(1,result.Value.Count);            
+            Assert.Equal(5,result.Value.Count);            
             //Assert.
         }
     }

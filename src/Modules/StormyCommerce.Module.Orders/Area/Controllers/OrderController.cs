@@ -4,7 +4,7 @@ using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using System.Threading.Tasks;
 
-namespace StormyCommerce.Module.Orders.Controllers
+namespace StormyCommerce.Module.Orders.Area.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]

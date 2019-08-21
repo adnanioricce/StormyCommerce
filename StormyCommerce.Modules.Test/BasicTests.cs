@@ -16,7 +16,7 @@ namespace StormyCommerce.Modules.IntegrationTest
             _httpClient = _factory.CreateClient();
         }
         [Theory]
-        [InlineData("http://localhost:49209/catalog/product/")]
+        [InlineData("http://localhost:49209/catalog/product/1")]
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             //Arrange

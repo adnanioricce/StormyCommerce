@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
-using StormyCommerce.Core.Tests.Helpers;
 using StormyCommerce.Infraestructure.Data;
 
 namespace TestHelperLibrary
@@ -33,6 +33,7 @@ namespace TestHelperLibrary
                 //    options.UseInMemoryDatabase("InMemoryTestDb" + Guid.NewGuid().ToString("N"));
                 //    options.UseInternalServiceProvider(serviceProvider);
                 //}
+                //services.AddModules();
                 services.AddDbContext<StormyDbContext>(options =>
                 {
                     options.UseInMemoryDatabase("InMemoryTestDb" + Guid.NewGuid().ToString("N"));
@@ -52,7 +53,7 @@ namespace TestHelperLibrary
                     concreteContext.Database.EnsureCreated();                    
                     try
                     {
-                        Utils.Utilities.InitializeTestDb(concreteContext);
+                        concreteContext.SeedDbContext();                        
                     }
                     catch(Exception ex)
                     {

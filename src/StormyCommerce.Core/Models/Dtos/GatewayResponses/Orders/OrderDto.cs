@@ -35,13 +35,14 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         }
         public Guid OrderUniqueKey { get; private set; }                
         public string ShippingMethod { get; private set; }
+        public string PaymentMethod { get; private set; }
         public string TrackNumber { get; private set; }
         public string Comment { get; private set; }
         public decimal Discount { get; private set; }
         public decimal Tax { get; private set; }
         public decimal TotalWeight { get; private set; }
         public decimal TotalPrice { get; private set; }
-        public decimal DeliveryCost { get; private set; }              
+        public decimal DeliveryCost { get; private set; }                      
         public Address ShippingAddress { get; private set; }
         public DateTime OrderDate { get; private set; }        
         public DateTime ShippedDate { get; private set; }
@@ -49,7 +50,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         public DateTime? PaymentDate { get; private set; }
         public IList<OrderItemDto> Items { get; private set; } = new List<OrderItemDto>();        
         public OrderStatus Status { get; private set; }
-        public ShippingStatus ShippingStatus { get; private set; }
+        public ShippingStatus ShippingStatus { get; private set; }        
         public bool IsCancelled { get; set; }               
     }
 }

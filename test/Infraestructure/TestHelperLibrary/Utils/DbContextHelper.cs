@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StormyCommerce.Infraestructure.Data;
 using System;
 
-namespace StormyCommerce.Core.Tests.Helpers
+namespace TestHelperLibrary.Utils
 {
     public static class DbContextHelper 
     {

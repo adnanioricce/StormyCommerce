@@ -12,19 +12,19 @@ namespace StormyCommerce.Infraestructure.Services.Authentication
 {
     public class UserIdentityService : IUserIdentityService
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;        
+        private readonly IUserIdentityRepository _identityRepository;
         
-        public UserIdentityService(SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+        public UserIdentityService(SignInManager<ApplicationUser> signInManager,            
+            IUserIdentityRepository identityRepository)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
-           
+            _signInManager = signInManager;            
+            _identityRepository = identityRepository;
         }
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password)
         {           
-            var result = await _userManager.CreateAsync(user, password);
+            
+            var result = await _identityRepository.Create(user,password);
             if (result == null)
             {
                 throw new ArgumentNullException($"was not possible to create user,result is null {result}, on {nameof(CreateUserAsync)}");
@@ -33,8 +33,9 @@ namespace StormyCommerce.Infraestructure.Services.Authentication
             {
                 result.Errors.ToList().ForEach(error => Console.WriteLine($"Error creating user: code:{error.Code},{error.Description}"));
             }
-            if(result.Succeeded == true)
+            if(!result.Succeeded)
             {                
+                //TODO:Throw a error?
                 return result;
             }
             return result;
@@ -42,14 +43,18 @@ namespace StormyCommerce.Infraestructure.Services.Authentication
                      
         }
         public ApplicationUser GetUserByEmail(string email)
-        {
-            return _userManager.Users.FirstOrDefault(user => user.Email == email);
+        {            
+            return _identityRepository.GetByEmail(email);
         }
-        public UserManager<ApplicationUser> GetUserManager() => _userManager;        
+        public UserManager<ApplicationUser> GetUserManager() => _identityRepository.GetUserManager();        
         public async Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password,bool isPersistent = true,bool lockoutInFailure = false)
-        {
+        {            
             return await _signInManager.PasswordSignInAsync(user, password, isPersistent, lockoutInFailure);
         }        
+        public async Task<string> CreateEmailConfirmationCode(ApplicationUser user,string email)
+        {
+            return String.Empty;
+        }
         public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
@@ -61,8 +66,8 @@ namespace StormyCommerce.Infraestructure.Services.Authentication
                 // new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 // new Claim(JwtRegisteredClaimNames.Email, user.Email),
             };
-
-            var userRoles = await _userManager.GetRolesAsync(user);
+            var userManager = _identityRepository.GetUserManager();
+            var userRoles = await  userManager.GetRolesAsync(user);
             foreach (var userRole in userRoles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, userRole));

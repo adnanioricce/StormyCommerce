@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StormyCommerce.Core.Entities.Common;
+using System;
 using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Entities.Customer
@@ -10,20 +11,20 @@ namespace StormyCommerce.Core.Entities.Customer
         {
 
         }
-        public StormyCustomer(int id)
+        public StormyCustomer(long id)
         {
             Id = id;
         }
         public string UserId { get; set; }
         public string CPF { get; set; }
-        public IList<CustomerAddress> CustomerAddresses { get; set; } = new List<CustomerAddress>();
-        public CustomerAddress DefaultShippingAddress { get; set; }
+        public IList<Address> CustomerAddresses { get; set; } = new List<Address>();
+        public Address DefaultShippingAddress { get; set; }
         public long? DefaultShippingAddressId { get; set; }
-        public CustomerAddress DefaultBillingAddress { get; set; }
+        public Address DefaultBillingAddress { get; set; }
         public long? DefaultBillingAddressId { get; set; }                      
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public string FullName { get; set; }
-        public string Email { get; set; }                        
+        public string Email { get; set; }                                
         public DateTimeOffset CreatedOn { get; set; }                 
     }
 }

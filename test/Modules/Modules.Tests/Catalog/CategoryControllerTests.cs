@@ -57,7 +57,7 @@ namespace Modules.Test
             // Assert
             //TODO: Actually, you need to return something that's verifable
             // Assert.Equal(categoryDto.Name,result.);
-            Assert.True(false)
+            Assert.True(false);
         }
 
         [Fact]

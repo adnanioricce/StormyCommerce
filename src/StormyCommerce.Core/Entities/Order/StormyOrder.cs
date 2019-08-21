@@ -27,13 +27,13 @@ namespace StormyCommerce.Core.Entities
             IsCancelled = orderDto.IsCancelled;
             Items = orderDto.Items.Select(item => item.ToOrderItem()).ToList();
             OrderUniqueKey = orderDto.OrderUniqueKey;
-            //ShippingAddress = orderDto.ShippingAddress;
-            PaymentMethod = orderDto.ShippingMethod;
+            ShippingAddress = orderDto.ShippingAddress;
+            PaymentMethod = orderDto.PaymentMethod;
+            ShippingMethod = orderDto.ShippingMethod;
             TrackNumber = orderDto.TrackNumber;
             Tax = orderDto.Tax;
             Status = orderDto.Status;
-            OrderDate = orderDto.OrderDate;
-            //orderDto.
+            OrderDate = orderDto.OrderDate;            
         }
         public StormyOrder()
         {
@@ -56,7 +56,7 @@ namespace StormyCommerce.Core.Entities
         public decimal DeliveryCost { get; set; }
         public Payment Payment { get; set; }
         public StormyCustomer Customer { get; set; }
-        public CustomerAddress ShippingAddress { get; set; }                
+        public Address ShippingAddress { get; set; }                
         public DateTime OrderDate {get;set; }
 		public DateTime RequiredDate {get;set; }
 		public DateTime ShippedDate {get;set; }

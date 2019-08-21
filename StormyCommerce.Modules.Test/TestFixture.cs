@@ -10,7 +10,7 @@ using System.IO;
 namespace StormyCommerce.Modules.IntegrationTest
 {
     public class TestFixture<TStartup> : WebApplicationFactory<Startup>
-    {
+    {        
         protected override TestServer CreateServer(IWebHostBuilder builder)
         {
             return new TestServer(builder);
@@ -34,7 +34,7 @@ namespace StormyCommerce.Modules.IntegrationTest
                 .AddEntityFrameworkInMemoryDatabase()
                 .BuildServiceProvider();
                 services.AddDbContext<StormyDbContext>(options =>
-                {
+                {                    
                     options.UseInMemoryDatabase("InMemoryDatabaseTesting");
                     options.UseInternalServiceProvider(serviceProvider);
                 });

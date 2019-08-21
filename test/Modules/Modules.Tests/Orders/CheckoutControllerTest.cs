@@ -2,16 +2,18 @@
 using Xunit;
 namespace Modules.Test.Orders
 {
-    public class OrderControllerTest
+    public class CheckoutControllerTest
     {
 	    [Fact]
 	    public async Task CheckoutBoleto_ValidInputFromAuthenticatedUser_ShouldReturnOrderAndBoletoToUser()
 	    {
 		    //Arrange 
-			var controller = new OrderController();
+			var controller = new CheckoutController();
+			var checkoutObj = new BoletoCheckoutViewModel();			
 		    //Act
+			var result = controller.CheckoutBoleto(checkoutObj);
 		    //Assert
-		    Assert.True(false);
+		    Assert.Equal(200,result.Value.StatusCode);
 	    }
 	    [Fact]
 	    public async Task Checkout_ValidInputFromAuthenticatedUser_ReturnOrderToUser()
