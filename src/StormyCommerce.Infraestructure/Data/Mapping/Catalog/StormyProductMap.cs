@@ -1,15 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SimplCommerce.Infrastructure.Data;
-using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog.Product;
-using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Media;
-using StormyCommerce.Core.Entities.Vendor;
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-
 namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
 {
     //!I Decided not use Widgets for now, maybe I change my mind
@@ -97,6 +88,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             });
             modelBuilder.Entity<Media>(entity => 
             {                              
+                // entity.HasData();
             });
             modelBuilder.Entity<Brand>(entity =>
             {

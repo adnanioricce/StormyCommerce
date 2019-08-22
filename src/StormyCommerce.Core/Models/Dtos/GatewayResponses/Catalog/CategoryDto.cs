@@ -11,7 +11,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
 
         }
         public CategoryDto(Category category)
-        {
+        {            
             Id = category.Id;
             Name = category.Name;
             Slug = category.Slug;

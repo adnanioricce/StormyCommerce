@@ -34,13 +34,13 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         {
             var dbContext = DbContextHelper.GetDbContext();            
             dbContext.AddRange(Seeders.StormyProductSeed(15));
-            dbContext.AddRange(Seeders.BrandSeed());
-            dbContext.AddRange(Seeders.CategorySeed());
-            dbContext.AddRange(Seeders.MediaSeed());
-            dbContext.AddRange(Seeders.ProductLinkSeed());
-            dbContext.AddRange(Seeders.StormyVendorSeed());
-            dbContext.AddRange(Seeders.ProductAttributeSeed());
-            dbContext.AddRange(Seeders.ProductAttributeGroupSeed());
+            dbContext.AddRange(Seeders.BrandSeed(15));
+            dbContext.AddRange(Seeders.CategorySeed(15));
+            dbContext.AddRange(Seeders.MediaSeed(15));
+            dbContext.AddRange(Seeders.ProductLinkSeed(15));
+            dbContext.AddRange(Seeders.StormyVendorSeed(15));
+            dbContext.AddRange(Seeders.ProductAttributeSeed(15));
+            dbContext.AddRange(Seeders.ProductAttributeGroupSeed(15));
             dbContext.SaveChanges();
             var repository = new StormyRepository<StormyProduct>(dbContext);
 
@@ -55,13 +55,13 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
         {
             // Arrange                                
-            long id = 2;
+            long id = 1;
 
             // Act
             var result = await _productController.GetProductOverviewAsync(id);
 
             // Assert
-            Assert.Equal(2,result.Value.Id);
+            Assert.Equal(1,result.Value.Id);
         }
 
         [Fact]
@@ -74,12 +74,8 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             // Act
             var result = await _productController.GetAllProducts(startIndex,endIndex);
 
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(15, result.Value.Count);
-            //var returnResult = Assert.IsAssignableFrom<OkObjectResult>(result);
-            //Assert.Equal(200,returnResult.StatusCode);
-            //var products = Assert.IsAssignableFrom<List<ProductDto>>(returnResult);
+            // Assert            
+            Assert.Equal(15,result.Value.Count);            
 
         }
 
@@ -94,26 +90,20 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
 
             // Assert          
             Assert.NotNull(result);
-            var returnResult = Assert.IsAssignableFrom<OkObjectResult>(result);
-            var returnedValue = returnResult.Value as List<ProductDto>;
-            Assert.Equal(200,returnResult.StatusCode);
-            Assert.Equal(15,returnedValue.Count);
+            Assert.Equal(15,result.Value.Count);
         }
 
         [Fact]
         public async Task GetProductById_GivenIdEqual1_ReturnEntityWithGivenId()
         {
             // Arrange            
-            long id = 10;
+            long id = 1;
 
             // Act
-            var result = await _productController.GetProductById(id);
-            //var returnResult = Assert.IsType<OkObjectResult>(result);
-            //var valueResult = Assert.IsType<ProductDto>(result);
-            // Assert
-            //Assert.Equal(200, returnResult.StatusCode);
-            //Assert.NotNull(valueResult);
-            Assert.Equal(id, result.Id);
+            var result = (await _productController.GetProductById(id));
+
+            //Assert                         
+            Assert.Equal(1,result.Value.Id);                        
         }
 
         [Fact]

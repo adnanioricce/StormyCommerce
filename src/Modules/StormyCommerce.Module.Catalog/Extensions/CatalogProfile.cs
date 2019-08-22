@@ -2,8 +2,10 @@
 using AutoMapper.Configuration;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+using StormyCommerce.Module.Catalog.Dtos;
 using System.Collections.Generic;
 
 namespace StormyCommerce.Module.Catalog.Extensions
@@ -15,15 +17,20 @@ namespace StormyCommerce.Module.Catalog.Extensions
             CreateMap<StormyProduct, ProductDto>()
                 .ForMember(dto => dto.Brand, opt => opt.MapFrom(src => src.Brand))
                 .ForMember(dto => dto.Category, opt => opt.MapFrom(src => src.Category))
-                .ForMember(dto => dto.Vendor, opt => opt.MapFrom(src => src.Vendor));
-                            
+                .ForMember(dto => dto.Vendor, opt => opt.MapFrom(src => src.Vendor));                
+                
+            CreateMap<StormyProduct,VendorDto>();
+            CreateMap<StormyProduct,BrandDto>();
+            CreateMap<StormyProduct,CategoryDto>();                            
+            CreateMap<StormyProduct,MediaDto>();
             CreateMap<StormyProduct, ProductOverviewDto>()
                 .ForMember(dto => dto.Category, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dto => dto.Medias, opt => opt.MapFrom(src => src.Medias))
-                .ForMember(dto => dto.ThumbnailImage, opt => opt.MapFrom(src => src.ThumbnailImage));
+                .ForMember(dto => dto.ThumbnailImage, opt => opt.MapFrom(src => src.ThumbnailImage));                
             CreateMap<Brand, BrandDto>();
             CreateMap<Category, CategoryDto>();                
             CreateMap<StormyVendor, VendorDto>();
+            CreateMap<Media,MediaDto>();
             CreateMap<VendorDto, StormyVendor>();
             CreateMap<CategoryDto, Category>();
             CreateMap<BrandDto, Brand>();

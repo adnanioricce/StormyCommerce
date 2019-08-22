@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+using System.Linq;
 
 namespace StormyCommerce.Module.Catalog.Area.Controllers
 {
@@ -22,10 +23,9 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
         }
         [HttpGet("list")]
         public async Task<ActionResult<IList<CategoryDto>>> GetAll()
-        {
-            var categories = await _categoryService.GetAllCategoriesAsync();
-
-            return Ok(_mapper.Map<IList<Category>, IList<CategoryDto>>(categories));
+        {            
+            var categories = _mapper.Map<IList<Category>,IList<CategoryDto>>(await _categoryService.GetAllCategoriesAsync());
+            return categories.ToList();
         }
         [HttpGet("{id}")]
         [ValidateModel]
@@ -33,28 +33,27 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
         {
             var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
-                return BadRequest("Don't was possible Category");
+                return BadRequest("Don't was possible get Category,Id don't exist");
 
-            return Ok(category);
+            return _mapper.Map<Category,CategoryDto>(category);
         }        
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ValidateModel]
-        public async Task<IActionResult> CreateCategory(CategoryDto categoryDto)
+        public async Task<IActionResult> CreateCategory(Category category)
         {
             //TODO:Add validations
-            //TODO:Add Generic Response Type
-            await _categoryService.AddAsync(_mapper.Map<CategoryDto, Category>(categoryDto));
+            //TODO:Add Generic Response Type            
+            await _categoryService.AddAsync(category);
             return Ok("Category Created");
         }
         [HttpPut("{id}")]
         [Authorize(Roles = "admin")]
         [ValidateModel]
-        public async Task<IActionResult> EditCategory(CategoryDto categoryDto)
-        {
-            var category = _mapper.Map<Category>(categoryDto);
+        public async Task<IActionResult> EditCategory(Category category)
+        {            
             await _categoryService.UpdateAsync(category);
-            return Ok("Updated With Sucess");            
+            return Ok("Updated With Success");            
         }
     }
 }

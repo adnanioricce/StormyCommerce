@@ -7,38 +7,62 @@ using System.Threading.Tasks;
 using System.Linq;
 using Xunit;
 using SimplCommerce.Module.SampleData.Extensions;
+using StormyCommerce.Module.Catalog.Extensions;
+using StormyCommerce.Infraestructure.Data.Repositories;
+using StormyCommerce.Core.Entities.Catalog;
+using AutoMapper;
+using StormyCommerce.Core.Services.Catalog;
+using TestHelperLibrary.Utils;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Modules.Test
 {
     public class CategoryControllerTests
     {        
+        private readonly CategoryController _categoryController;
+        private readonly List<Category> _data = Seeders.CategorySeed(15);
+        public CategoryControllerTests()
+        {
+            _categoryController = CreateController();
+        }
         private CategoryController CreateController()
         {
-            return new CategoryController(ServiceTestFactory.GetCategoryService(),ServiceTestFactory.GetFakeMapper());
+            //Creating fake data
+            var dbContext = DbContextHelper.GetDbContext();                        
+            dbContext.AddRange(_data);            
+            dbContext.SaveChanges();
+            //Creating Repository
+            var repository = new StormyRepository<Category>(dbContext);
+            //Creating the CategoryService
+            var categoryService = new CategoryService(repository,null);
+            //Creating the profile for AutoMapper
+            var profile = new CatalogProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
+            //Creating a AutoMapper instance
+            var mapper = configuration.CreateMapper();
+            //Finnaly, creating the controller
+            return new CategoryController(categoryService, mapper);
         }
         [Fact]
         public async Task GetAll_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var categoryController = CreateController();
-
+        {            
             // Act
-            var result = await categoryController.GetAll();
+            var result = await _categoryController.GetAll();
 
             // Assert
             //TODO: Change to check against a defined length
-            Assert.True(result.Value.Count() > 0);
+            Assert.Equal(15,result.Value.Count);
         }
 
         [Fact]
-        public async Task GetCategoryById_StateUnderTest_ExpectedBehavior()
+        public async Task GetCategoryById_IdEqualOneExistingEntity_ReturnEntityWithIdEqualOne()
         {
-            // Arrange
-            var categoryController = CreateController();
+            // Arrange            
             long id = 1;
 
             // Act
-            var result = await categoryController.GetCategoryById(id);
+            var result = await _categoryController.GetCategoryById(id);
 
             // Assert
             Assert.Equal(id,result.Value.Id);
@@ -47,32 +71,28 @@ namespace Modules.Test
         [Fact]
         public async Task CreateCategory_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var categoryController = CreateController();
-            CategoryDto categoryDto = new CategoryDto(Seeders.CategorySeed(1).FirstOrDefault());
-
+            // Arrange            
+            var category = _data.Find(f => f.Id == 6);            
             // Act
-            var result = await categoryController.CreateCategory(categoryDto);
-
+            var result = await _categoryController.CreateCategory(category);            
             // Assert
-            //TODO: Actually, you need to return something that's verifable
-            // Assert.Equal(categoryDto.Name,result.);
-            Assert.True(false);
+            var returnResult = Assert.IsAssignableFrom<OkObjectResult>(result);
+            Assert.Equal(200,returnResult.StatusCode);            
         }
 
         [Fact]
         public async Task EditCategory_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var categoryController = CreateController();
-            CategoryDto categoryDto = new CategoryDto(Seeders.CategorySeed(1).FirstOrDefault());
-            var service = ServiceTestFactory.GetCategoryService();
+            // Arrange            
+            var category = _data.FirstOrDefault(f => f.Id == 1);            
+            category.Parent = _data.FirstOrDefault(f => f.Id == 2);
+            category.AddChildren(Seeders.CategorySeed(4).GetRange(2,2));
+            category.Name += " Updated";            
             // Act
-            var result = await categoryController.EditCategory(categoryDto);
-
-            // Assert
-            // Assert.NotEqual()
-            Assert.True(false);
+            var result = await _categoryController.EditCategory(category);
+            var returnResult = Assert.IsAssignableFrom<OkObjectResult>(result);            
+            // Assert            
+            
         }
     }
 }

@@ -51,5 +51,13 @@ namespace StormyCommerce.Core.Entities.Catalog
         public Category Parent { get; set; }
 	    public IList<Category> Childrens { get; protected set; } = new List<Category>();
         public string ThumbnailImageUrl { get; set; }                     
+        public void AddChildren(Category category)
+        {
+            Childrens.Add(category);            
+        }
+        public void AddChildren(List<Category> categories)
+        {            
+            categories.ForEach(c => Childrens.Add(c));
+        }
     }
 }

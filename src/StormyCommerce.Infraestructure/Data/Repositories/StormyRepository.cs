@@ -24,8 +24,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         public IQueryable<TEntity> Table => DbSet;
         public async Task AddAsync(TEntity _entity)
         {                                                                        
-            var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");
-            //if(IsItNew(context, entity))
+            var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");            
                 
             try
             {

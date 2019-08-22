@@ -50,10 +50,10 @@ namespace SimplCommerce.Module.SampleData.Extensions
                 .RuleFor(v => v.CreatedAt, f => f.Date.Past())
                 .RuleFor(v => v.UpdatedOnUtc, f => f.Date.Between(f.Date.Recent(), f.Date.Soon()))
                 .RuleFor(v => v.PreOrderAvailabilityStartDate, f => f.Date.Future())
-                .RuleFor(v => v.BrandId, f => f.Random.Int(1, count))
-                .RuleFor(v => v.CategoryId, f => f.Random.Int(1, count))
-                .RuleFor(v => v.VendorId, f => f.Random.Int(1, count))
-                .RuleFor(v => v.MediaId, f => f.Random.Int(1, count));                
+                .RuleFor(v => v.BrandId, f => ids)
+                .RuleFor(v => v.CategoryId, f => ids)
+                .RuleFor(v => v.VendorId, f => ids)
+                .RuleFor(v => v.MediaId, f => ids);                
             var products = fakeProduct.Generate(count);
             return products;
         }

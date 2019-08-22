@@ -15,7 +15,8 @@ namespace StormyCommerce.Core.Services.Catalog
 		private const string entityTypeId = "Category";
 		private readonly IStormyRepository<Category> categoryRepository;
 		private readonly IEntityService entityService;
-		public CategoryService(IStormyRepository<Category> _categoryRepository,IEntityService _entityService)
+		public CategoryService(IStormyRepository<Category> _categoryRepository,
+		IEntityService _entityService)
 		{
 			categoryRepository = _categoryRepository;
 			entityService = _entityService;

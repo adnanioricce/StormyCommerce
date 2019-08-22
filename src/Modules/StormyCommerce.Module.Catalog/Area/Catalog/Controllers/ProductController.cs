@@ -18,7 +18,6 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		private readonly IMapper _mapper;
         
         //TODO:Change the notification type
-
         public ProductController(IProductService productService, IMapper mapper) 
 		{
 			_productService = productService;
@@ -32,7 +31,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
             if (product == null)
                 return BadRequest("Requested product didn't exist");
 
-            return Ok(_mapper.Map<StormyProduct, ProductOverviewDto>(product));
+            return _mapper.Map<StormyProduct, ProductOverviewDto>(product);
         }
 		[HttpGet("admin/product/")]
 		[ValidateModel]
@@ -40,32 +39,33 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		public async Task<ActionResult<IList<ProductDto>>> GetAllProducts(long startIndex = 1,long endIndex = 15)
 		{			
 			var products = await _productService.GetAllProductsAsync(startIndex,endIndex);
-            if (products == null)
-                return NotFound("Products not found");
+            
+			if (products == null) return NotFound("Products not found");
+
             var result = _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products);            
 
-            return Ok(result);
+            return result.ToList();
 		}
 		[HttpGet("product/")]
 		[ValidateModel]
-		public async Task<IActionResult> GetAllProductsOnHomepage(int limit)
+		public async Task<ActionResult<IList<ProductDto>>> GetAllProductsOnHomepage(int limit)
 		{
             var products = await _productService.GetAllProductsDisplayedOnHomepageAsync(limit);		
             
             if (products == null)
                 return BadRequest("Don't was possible to retrieve products");
             var mappedProducts = _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products);
-            return Ok(mappedProducts);
+            return mappedProducts.ToList();
 		}
 		[HttpGet("product/{0}")]
 		[ValidateModel]
-		public async Task<StormyProduct> GetProductById(long id)
+		public async Task<ActionResult<ProductDto>> GetProductById(long id)
 		{
-            return await _productService.GetProductByIdAsync(id);
-            //if (product == null)
-            //    return BadRequest("Don't was possible to get product");
+            var product = _mapper.Map<StormyProduct,ProductDto>(await _productService.GetProductByIdAsync(id));
+            if (product == null)
+               return BadRequest("Don't was possible to get product");
 
-            //return Ok(_mapper.Map<StormyProduct, ProductDto>(product));
+            return product;
 		}
 		[HttpPost("product/create")]
 		[ValidateModel]
@@ -100,6 +100,6 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		{
 			var model = await _productService.GetAllProductsByCategory(categoryId,limit);
 			return _mapper.Map<IList<StormyProduct>,IList<ProductDto>>(model.Value);
-		}		
+		}				
 	}
 }
