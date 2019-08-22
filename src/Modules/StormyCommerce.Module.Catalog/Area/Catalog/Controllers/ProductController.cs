@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using StormyCommerce.Api.Framework.Controllers;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
@@ -10,9 +9,11 @@ using System.Linq;
 using System.Threading.Tasks;
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Area.Controllers
-{	
-	
-	public class ProductController : BaseApiController
+{
+
+    [ApiController]
+    [Route("api/[controller]/[action]")]
+    public class ProductController : Controller
 	{
 		private readonly IProductService _productService;
 		private readonly IMapper _mapper;
@@ -28,12 +29,11 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		public async Task<ActionResult<ProductOverviewDto>> GetProductOverviewAsync(long id)
 		{
             var product = await _productService.GetProductByIdAsync(id);			
-            if (product == null)
-                return BadRequest("Requested product didn't exist");
+            if (product == null) return BadRequest("Requested product didn't exist");
 
             return _mapper.Map<StormyProduct, ProductOverviewDto>(product);
         }
-		[HttpGet("admin/product/")]
+		[HttpGet("admin/product/list")]
 		[ValidateModel]
 		//TODO:Check if request is from Admin
 		public async Task<ActionResult<IList<ProductDto>>> GetAllProducts(long startIndex = 1,long endIndex = 15)
@@ -46,14 +46,13 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
             return result.ToList();
 		}
-		[HttpGet("product/")]
+		[HttpGet("product/homepage")]
 		[ValidateModel]
 		public async Task<ActionResult<IList<ProductDto>>> GetAllProductsOnHomepage(int limit)
 		{
             var products = await _productService.GetAllProductsDisplayedOnHomepageAsync(limit);		
             
-            if (products == null)
-                return BadRequest("Don't was possible to retrieve products");
+            if (products == null) return BadRequest("Don't was possible to retrieve products");
             var mappedProducts = _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products);
             return mappedProducts.ToList();
 		}
@@ -62,8 +61,8 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		public async Task<ActionResult<ProductDto>> GetProductById(long id)
 		{
             var product = _mapper.Map<StormyProduct,ProductDto>(await _productService.GetProductByIdAsync(id));
-            if (product == null)
-               return BadRequest("Don't was possible to get product");
+
+            if (product == null) return BadRequest("Don't was possible to get product");
 
             return product;
 		}

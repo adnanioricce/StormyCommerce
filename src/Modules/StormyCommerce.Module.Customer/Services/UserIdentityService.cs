@@ -27,7 +27,8 @@ namespace StormyCommerce.Module.Customer.Services
             _customerRepository = customerRepository;
         }
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password)
-        {                       
+        {
+            if (user == null || password == null) throw new ArgumentNullException("was not possible to create user, the given arguments was null");                
             var result = await _userManager.CreateAsync(user,password);
             if (result == null)
             {

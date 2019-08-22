@@ -4,6 +4,7 @@ using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,19 +15,21 @@ namespace Modules.Test.Customers
 {
     public class UserIdentityServiceTest
     {
-        public IUserIdentityService Service { get; set; }     
-        private ApplicationUser _sampleAppUser = Seeders.ApplicationUserSeed().FirstOrDefault();
+        public IUserIdentityService Service { get; set; }
+        private readonly FakeUserManager _fakeUserManager;        
+        private readonly ApplicationUser _sampleAppUser = Seeders.ApplicationUserSeed().FirstOrDefault();
         public UserIdentityServiceTest()
         {            
-            var fakeUserManager = new FakeUserManager();
+            _fakeUserManager = new FakeUserManager();
             var fakeSigninManager = new FakeSignInManager();            
-            Service = new UserIdentityService(fakeSigninManager,fakeUserManager,null);
+            Service = new UserIdentityService(fakeSigninManager, _fakeUserManager, null);
         }
         [Fact]        
         public async Task CreateUserAsync_ValidUserNameAndPassword_ShouldCreateUserWithSuccess()
-        {                      
-           //Arrange            
-           var user = new ApplicationUser { UserName = "a simple user",Email = "simpleEmail@email.com" };
+        {
+            //Arrange            
+            var user = Seeders.ApplicationUserSeed(1).FirstOrDefault();
+            user.PasswordHash = "";
            //Act 
            var result = await Service.CreateUserAsync(user, "Ty22f@7#32!");
            //Assert
@@ -37,28 +40,26 @@ namespace Modules.Test.Customers
         {
             //Arrange
             var user = new ApplicationUser { UserName = null, Email = null };
-            //Act
-            var result = await Service.CreateUserAsync(user, null);
-            //Assert           
-            Assert.False(result.Succeeded);
+            //Act & Assert
+            var result = Assert.ThrowsAsync<ArgumentNullException>(async () => await Service.CreateUserAsync(user, null));
+            
         }
         [Fact]
         public void GetByEmail_ExistingEmail_ShouldReturnApplicationUser()
         {
             //Arrange
-            var username = "adnanioricce";
-            var email = "sample@email.com";
-            //Act
-            var user = Service.GetUserByEmail(email);
+            var user = _fakeUserManager.Users.First();
+            //Act 
+            var retrievedUser = Service.GetUserByEmail(user.Email);
             //Assert
-            Assert.Equal(username, user.UserName);
-            Assert.Equal(email,user.Email);
+            Assert.Equal(user.UserName, retrievedUser.UserName);
+            Assert.Equal(user.Email, retrievedUser.Email);
         }
         [Fact]
         public async Task PasswordSignIn_ValidInputAndExistingUser_ShouldReturnTrue()
-        {
+        {        
             //Arrange 
-            var user = new ApplicationUser { UserName = "adnanioricce", Email = "sample@email.com" };
+            var user = _fakeUserManager.Users.First();
             //Act
             var result = await Service.PasswordSignInAsync(user, "Ty22f@7#32!", true, true);
             //Assert 
@@ -68,7 +69,7 @@ namespace Modules.Test.Customers
         public async Task CreateEmailVerificationCode_UserSignUpSucceededEmailNotConfirmed_CreateEmailConfirmationLink()
         {
             //Arrange
-            var user = new ApplicationUser { UserName = "adnanioricce", Email = "sample@email.com" };
+            var user = _fakeUserManager.Users.First();
             //Act
             var result = await Service.CreateEmailConfirmationCode(user,user.Email);
             //Assert

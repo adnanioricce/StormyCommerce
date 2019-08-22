@@ -26,6 +26,6 @@ namespace TestHelperLibrary.Mocks
         public static IMapper GetFakeMapper()
         {
             return new Mock<IMapper>().Object;
-        }
+        }        
     }
 }

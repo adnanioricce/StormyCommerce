@@ -25,7 +25,7 @@ namespace TestHelperLibrary.Mocks
         }
         public override Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent, bool lockoutOnFailure)
         {
-            return base.PasswordSignInAsync(user, password, isPersistent, lockoutOnFailure);
+            return Task.FromResult(SignInResult.Success);
         }
     }
 }

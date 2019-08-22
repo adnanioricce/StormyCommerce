@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -12,6 +12,7 @@ namespace TestHelperLibrary.Mocks
 {
     public class FakeUserManager : UserManager<ApplicationUser>
     {
+        private readonly IQueryable<ApplicationUser> _users;
         public FakeUserManager() : base(
             new Mock<IUserStore<ApplicationUser>>().Object,
             new Mock<IOptions<IdentityOptions>>().Object,
@@ -22,9 +23,10 @@ namespace TestHelperLibrary.Mocks
                   new Mock<IdentityErrorDescriber>().Object,
                   new Mock<IServiceProvider>().Object,
                   new Mock<ILogger<UserManager<ApplicationUser>>>().Object)
-        {           
-        }        
-        public override IQueryable<ApplicationUser> Users => base.Users.AsQueryable();
+        {
+            _users = SimplCommerce.Module.SampleData.Extensions.Seeders.ApplicationUserSeed(4).AsQueryable();
+        }
+        public override IQueryable<ApplicationUser> Users => _users;          
         public override Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
         {
             return Task.FromResult(IdentityResult.Success);
@@ -38,6 +40,10 @@ namespace TestHelperLibrary.Mocks
         public override Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
         {
             return Task.FromResult(Guid.NewGuid().ToString());
+        }
+        public override Task<ApplicationUser> FindByNameAsync(string userName)
+        {
+            return Task.FromResult(Users.FirstOrDefault(u => u.UserName == userName));
         }
     }
 }

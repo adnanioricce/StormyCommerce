@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SimplCommerce.Module.Core.Services;
-using StormyCommerce.Api.Framework.Controllers;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Entities;
@@ -14,7 +13,9 @@ using System.Threading.Tasks;
 namespace StormyCommerce.Module.Customer.Controllers
 {
     [Area("Customer")]
-    public class AuthenticationController : BaseApiController
+    [ApiController]
+    [Route("api/[Controller]/[Action]")]
+    public class AuthenticationController : Controller
     {
         private IUserIdentityService _identityService;
         private IEmailSender _emailSender;        
@@ -31,7 +32,8 @@ namespace StormyCommerce.Module.Customer.Controllers
 	    [ValidateModel]
         public async Task<IActionResult> LoginAsync([FromBody]SignInVm signInVm)
         {
-	        var user = _identityService.GetUserByEmail(signInVm.Email);	    
+	        var user = _identityService.GetUserByEmail(signInVm.Email);	  
+            
 	        if(user == null) return BadRequest("User don't exists");
 	    
     	    var signInResult = await _identityService.PasswordSignInAsync(user,signInVm.Password,true,true);
@@ -44,6 +46,7 @@ namespace StormyCommerce.Module.Customer.Controllers
             return Ok(new {token = token});
         }
         [HttpPost("signup")]
+        [ValidateModel]
         public async Task<IActionResult> RegisterAsync(SignUpVm signUpVm)
         {            
             var user = _identityService.GetUserByEmail(signUpVm.Email);

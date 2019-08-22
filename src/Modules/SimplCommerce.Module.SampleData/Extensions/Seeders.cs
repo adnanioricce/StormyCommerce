@@ -174,7 +174,12 @@ namespace SimplCommerce.Module.SampleData.Extensions
                 .RuleFor(v => v.Email, f => f.Internet.Email())
                 .RuleFor(v => v.UserName, f => f.Person.UserName)
                 .RuleFor(v => v.PasswordHash, f => f.Internet.Password().HashPassword())
-                .RuleFor(v => v.PhoneNumber, f => f.Phone.PhoneNumber());
+                .RuleFor(v => v.PhoneNumber, f => f.Phone.PhoneNumber())
+                .RuleFor(v => v.EmailConfirmed,true)
+                .RuleFor(v => v.TwoFactorEnabled,false)
+                .RuleFor(v => v.SecurityStamp,Guid.NewGuid().ToString())
+                .RuleFor(v => v.LockoutEnabled,false)
+                .RuleFor(v => v.LockoutEnd,DateTime.UtcNow);
             return fakeAppUser.Generate(count);
         }
         public static List<Address> AddressSeed(int count = 1)

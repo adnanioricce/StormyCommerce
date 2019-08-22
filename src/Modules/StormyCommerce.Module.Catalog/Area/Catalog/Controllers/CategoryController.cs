@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StormyCommerce.Api.Framework.Controllers;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Interfaces;
 using System.Collections.Generic;
@@ -12,7 +11,8 @@ using System.Linq;
 
 namespace StormyCommerce.Module.Catalog.Area.Controllers
 {
-    public class CategoryController : BaseApiController
+    [ApiController]
+    public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
