@@ -10,7 +10,7 @@ namespace StormyCommerce.Core.Tests.Helpers
         {
             return new StormyCustomer
             {
-                Username = "joaocraftgameplayshd",
+                UserName = "joaocraftgameplayshd",
                 Email = "joaozinhogameplays@uol.com",
                 CreatedOn = DateTimeOffset.UtcNow,
                 CPF = "40028922",

@@ -19,7 +19,9 @@ namespace StormyCommerce.Module.Customer.Controllers
         private IUserIdentityService _identityService;
         private IEmailSender _emailSender;        
 	    private ITokenService _tokenService;
-        public AuthenticationController(IUserIdentityService identityService,ITokenService tokenService,IEmailSender emailSender)
+        public AuthenticationController(IUserIdentityService identityService,
+        ITokenService tokenService,
+        IEmailSender emailSender)
         {
             _identityService = identityService;
             _emailSender = emailSender;
@@ -48,7 +50,7 @@ namespace StormyCommerce.Module.Customer.Controllers
             
             if(user != null) return BadRequest("User already exists");
             
-            var appUser = new ApplicationUser{
+            var appUser = new ApplicationUser {
                 //Actually, maybe is better have a username
                 UserName = signUpVm.Username,
                 Email = signUpVm.Email,                
@@ -57,7 +59,9 @@ namespace StormyCommerce.Module.Customer.Controllers
             var result = await _identityService.CreateUserAsync(appUser, signUpVm.Password);
 
             if(!result.Succeeded) return BadRequest("Don't was possible to create user");
-            //TODO:You are really done?
+            //TODO:You are really done?            
+            var verificationCode = _identityService.CreateEmailConfirmationCode(appUser,appUser.Email);
+            await _emailSender.SendEmailAsync(appUser.Email,"Email Confirmation",$"click on the link to confirm your account<a>{verificationCode}</a>",true);
             return Ok();
         }        		    	
     }

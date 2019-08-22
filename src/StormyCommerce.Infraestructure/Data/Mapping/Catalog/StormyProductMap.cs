@@ -93,12 +93,10 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             
             modelBuilder.Entity<ProductOption>(entity =>
             {
-                //entity.HasData(new ProductOption(1) { Name = "Color" },
-                //new ProductOption(2) { Name = "Size" });                
+                               
             });
             modelBuilder.Entity<Media>(entity => 
-            {
-                //entity.HasKey(prop => prop.Id);                
+            {                              
             });
             modelBuilder.Entity<Brand>(entity =>
             {
@@ -106,44 +104,10 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.HasQueryFilter(brand => brand.IsDeleted == false)
                 .Property(brand => brand.Slug)
                 .HasMaxLength(450)
-                .IsRequired();
-                //entity.HasData(new Brand(2)
-                //{
-                //    IsDeleted = false,
-                //    Description = "description",
-                //    LastModified = new DateTime(2019, 03, 02),
-                //    LogoImage = "no Image",
-                //    Name = "A brand",
-                //    Slug = "my-awesome-brand"
-                //});                
+                .IsRequired();                            
             });
-
-            //modelBuilder.Entity<StormyProduct>().OwnsOne(f => f.Medias) ;
-            //Configure(modelBuilder.Entity<StormyProduct>());
             
-        }
-        //public override void Configure(EntityTypeBuilder<StormyProduct> builder)
-        //{
-        //    builder.HasOne(product => product.Brand).WithMany().HasForeignKey(p => p.BrandId);
-        //    builder.Property(product => product.BrandId);
-        //    builder.Property(product => product.VendorId);
-        //    builder.HasOne(product => product.Vendor).WithMany().HasForeignKey(p => p.VendorId);
-        //    builder.Property(product => product.MediaId);
-        //    builder.HasOne(product => product.Medias).WithMany().HasForeignKey(p => p.MediaId);
-        //    builder.Property(product => product.SKU).IsRequired();
-        //    builder.Property(product => product.ProductName).HasMaxLength(400).IsRequired();            
-        //    builder.Property(product => product.UnitsOnOrder).IsRequired();
-        //    builder.Property(product => product.QuantityPerUnity).IsRequired();
-        //    builder.Property(product => product.ProductCost).HasColumnType("decimal(18,4)").IsRequired();
-        //    builder.Property(product => product.OldPrice).HasColumnType("decimal(18,4)");
-        //    builder.Property(product => product.Price).HasColumnType("decimal(18,4)"); ;
-        //    builder.Property(product => product.Discount).HasColumnType("decimal(18,4)"); ;                  
-        //    builder.Property(product => product.UnitSize).IsRequired();           
-        //    builder.Property(product => product.UnitPrice).HasColumnType("decimal(18,4)").IsRequired();
-        //    builder.Property(product => product.UnitsInStock).IsRequired();
-        //    builder.Property(product => product.TypeName).IsRequired();
-        //    builder.Property(product => product.Status).IsRequired();            
-        //    base.Configure(builder);
-        //}             
+            
+        }                  
     }
 }

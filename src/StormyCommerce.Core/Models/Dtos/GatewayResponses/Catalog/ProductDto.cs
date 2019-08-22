@@ -1,4 +1,5 @@
 ﻿using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Module.Catalog.Dtos;
 using System;
 using System.Collections.Generic;
 namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
@@ -42,11 +43,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public string OldPrice { get; set; }        
         public CategoryDto Category { get; set; }
         public BrandDto Brand { get; set; }
-        //public VendorDto Vendor { get; set; }
-        //TODO:
-        //public StormyVendor Vendor { get; set; }
-        //public Brand Brand { get; set; }
-        //public Category Category { get; set; }
+        public VendorDto Vendor { get; set; }
+        //public List<MediaDto> Medias { get; set; }
         public StormyProduct ToStormyProduct()
         {
             return new StormyProduct

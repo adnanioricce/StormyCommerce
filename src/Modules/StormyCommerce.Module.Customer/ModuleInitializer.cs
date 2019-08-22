@@ -4,9 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.EmailSenderSendgrid;
-using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Interfaces;
-using StormyCommerce.Infraestructure.Services.Authentication;
+using StormyCommerce.Module.Customer.Services;
 
 namespace StormyCommerce.Module.Customer
 {

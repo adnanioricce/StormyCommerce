@@ -59,7 +59,11 @@ namespace StormyCommerce.Modules.IntegrationTest.Controllers
             var result = (await _productController.GetAllProductsOnHomepage(limit));
 
             // Assert            
-            Assert.Equal(limit, result.Value.Count);
+            var returnResult = Assert.IsAssignableFrom<OkObjectResult>(result);
+            var returnedValue = returnResult.Value as List<ProductDto>;
+            Assert.Equal(200, returnResult.StatusCode);
+            Assert.NotNull(returnedValue);
+            Assert.Equal(15,returnedValue.Count);
         }
 
         [Fact]

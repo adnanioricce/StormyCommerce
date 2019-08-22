@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Stormycommerce.Module.Orders.Area.ViewModels;
+using StormyCommerce.Module.Orders.Area.Controllers;
+using System.Threading.Tasks;
 using Xunit;
 namespace Modules.Test.Orders
 {
@@ -8,12 +11,13 @@ namespace Modules.Test.Orders
 	    public async Task CheckoutBoleto_ValidInputFromAuthenticatedUser_ShouldReturnOrderAndBoletoToUser()
 	    {
 		    //Arrange 
-			var controller = new CheckoutController();
+			var controller = new CheckoutController(null,null,null);
 			var checkoutObj = new BoletoCheckoutViewModel();			
 		    //Act
-			var result = controller.CheckoutBoleto(checkoutObj);
-		    //Assert
-		    Assert.Equal(200,result.Value.StatusCode);
+			var result = await controller.CheckoutBoleto(checkoutObj);
+            //Assert
+            var returnResult = Assert.IsAssignableFrom<OkResult>(result);
+            Assert.Equal(200, returnResult.StatusCode);
 	    }
 	    [Fact]
 	    public async Task Checkout_ValidInputFromAuthenticatedUser_ReturnOrderToUser()

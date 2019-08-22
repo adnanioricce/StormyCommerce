@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bogus;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SimplCommerce.Module.SampleData;
@@ -24,101 +25,106 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
     public class ProductControllerTests
     {
         //! I think this will fail, define some logic to the mock        
+        private readonly ProductController _productController;        
+        public ProductControllerTests()
+        {
+            _productController = CreateController();
+        }
         private ProductController CreateController()
         {
-            var dbContext = DbContextHelper.GetDbContext();
-            dbContext.AddRange(Seeders.StormyProductSeed(50));
+            var dbContext = DbContextHelper.GetDbContext();            
+            dbContext.AddRange(Seeders.StormyProductSeed(15));
+            dbContext.AddRange(Seeders.BrandSeed());
+            dbContext.AddRange(Seeders.CategorySeed());
+            dbContext.AddRange(Seeders.MediaSeed());
+            dbContext.AddRange(Seeders.ProductLinkSeed());
+            dbContext.AddRange(Seeders.StormyVendorSeed());
+            dbContext.AddRange(Seeders.ProductAttributeSeed());
+            dbContext.AddRange(Seeders.ProductAttributeGroupSeed());
             dbContext.SaveChanges();
             var repository = new StormyRepository<StormyProduct>(dbContext);
+
             var productService = new ProductService(repository);
+
             var profile = new CatalogProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             var mapper = configuration.CreateMapper();
             return new ProductController(productService, mapper);
-        }
-        //! You are violating DRY again
-        //private ProductController CreateControllerForProductOverview()
-        //{
-        //    var dbContext = DbContextHelper.GetDbContext();
-        //    dbContext.AddRange(Seeders.StormyProductSeed(50));
-        //    dbContext.SaveChanges();
-        //    var repository = new StormyRepository<StormyProduct>(dbContext);
-        //    var productService = new ProductService(repository);
-        //    var profile = new CatalogProfile();
-        //    var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
-        //    var mapper = new Mapper(configuration);
-        //    return new ProductController(productService, mapper);
-        //}
+        }                
         [Fact]
         public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
         {
-            // Arrange                    
-            var productController = CreateController();
-            long id = 8;
+            // Arrange                                
+            long id = 2;
 
             // Act
-            var result = await productController.GetProductOverviewAsync(id);
+            var result = await _productController.GetProductOverviewAsync(id);
 
             // Assert
-            Assert.Equal(8,result.Value.Id);
+            Assert.Equal(2,result.Value.Id);
         }
 
         [Fact]
         public async Task GetAllProducts_StartIndexEqual1AndEndIndexEqual15_ReturnEntitiesBetweenThesesValues()
         {
-            // Arrange            
-            var productController = CreateController();
+            // Arrange                        
             long startIndex = 1;
             long endIndex = 15;
 
             // Act
-            var result = await productController.GetAllProducts(startIndex,endIndex);
+            var result = await _productController.GetAllProducts(startIndex,endIndex);
 
             // Assert
-            Assert.Equal(15,result.Value.Count);
+            Assert.NotNull(result);
+            Assert.Equal(15, result.Value.Count);
+            //var returnResult = Assert.IsAssignableFrom<OkObjectResult>(result);
+            //Assert.Equal(200,returnResult.StatusCode);
+            //var products = Assert.IsAssignableFrom<List<ProductDto>>(returnResult);
+
         }
 
         [Fact]
         public async Task GetAllProductsOnHomepage_LimitEqual15_ReturnProductsWhileRankingIsLessThanLimit()
         {
-            // Arrange
-            var productController = CreateController();
+            // Arrange            
             int limit = 15;
 
             // Act
-            var result = (await productController.GetAllProductsOnHomepage(limit));
+            var result = (await _productController.GetAllProductsOnHomepage(limit));
 
-            // Assert            
-            Assert.Equal(limit,result.Value.Count);
+            // Assert          
+            Assert.NotNull(result);
+            var returnResult = Assert.IsAssignableFrom<OkObjectResult>(result);
+            var returnedValue = returnResult.Value as List<ProductDto>;
+            Assert.Equal(200,returnResult.StatusCode);
+            Assert.Equal(15,returnedValue.Count);
         }
 
         [Fact]
         public async Task GetProductById_GivenIdEqual1_ReturnEntityWithGivenId()
         {
-            // Arrange
-            var productController = CreateController();
-            long id = 1;
+            // Arrange            
+            long id = 10;
 
             // Act
-            var result = await productController.GetProductById(id);
+            var result = await _productController.GetProductById(id);
             //var returnResult = Assert.IsType<OkObjectResult>(result);
             //var valueResult = Assert.IsType<ProductDto>(result);
             // Assert
             //Assert.Equal(200, returnResult.StatusCode);
             //Assert.NotNull(valueResult);
-            Assert.Equal(id, result.Value.Id);
+            Assert.Equal(id, result.Id);
         }
 
         [Fact]
         public async Task CreateProduct_GivenModelIsValidDto_CreateNewEntryOnDatabase()
         {
-            // Arrange
-            var productController = CreateController();
+            // Arrange            
             var product = Seeders.StormyProductSeed(1).FirstOrDefault();
 
             var model = new ProductDto(product);            
             // Act
-            var result = await productController.CreateProduct(model);           
+            var result = await _productController.CreateProduct(model);           
             // Assert            
             var objResult = Assert.IsType<OkResult>(result);
             Assert.Equal(200, objResult.StatusCode);

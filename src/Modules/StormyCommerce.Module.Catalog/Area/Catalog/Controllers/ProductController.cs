@@ -37,29 +37,35 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		[HttpGet("admin/product/")]
 		[ValidateModel]
 		//TODO:Check if request is from Admin
-		public async Task<ActionResult<List<ProductDto>>> GetAllProducts(long startIndex = 1,long endIndex = 15)
+		public async Task<ActionResult<IList<ProductDto>>> GetAllProducts(long startIndex = 1,long endIndex = 15)
 		{			
-			var products = await _productService.GetAllProductsAsync(startIndex,endIndex);			
-			return Ok(_mapper.Map<IList<StormyProduct>,List<ProductDto>>(products));
+			var products = await _productService.GetAllProductsAsync(startIndex,endIndex);
+            if (products == null)
+                return NotFound("Products not found");
+            var result = _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products);            
+
+            return Ok(result);
 		}
 		[HttpGet("product/")]
 		[ValidateModel]
-		public async Task<ActionResult<List<ProductDto>>> GetAllProductsOnHomepage(int limit)
+		public async Task<IActionResult> GetAllProductsOnHomepage(int limit)
 		{
-            var products = await _productService.GetAllProductsDisplayedOnHomepageAsync(limit);			
+            var products = await _productService.GetAllProductsDisplayedOnHomepageAsync(limit);		
+            
             if (products == null)
-                return BadRequest("Don't was possible to retrieve products");            
-            return Ok(_mapper.Map<IList<StormyProduct>, List<ProductDto>>(products));
+                return BadRequest("Don't was possible to retrieve products");
+            var mappedProducts = _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products);
+            return Ok(mappedProducts);
 		}
 		[HttpGet("product/{0}")]
 		[ValidateModel]
-		public async Task<ActionResult<ProductDto>> GetProductById(long id)
+		public async Task<StormyProduct> GetProductById(long id)
 		{
-            var product = await _productService.GetProductByIdAsync(id);
-            if (product == null)
-                return BadRequest("Don't was possible to get product");
+            return await _productService.GetProductByIdAsync(id);
+            //if (product == null)
+            //    return BadRequest("Don't was possible to get product");
 
-            return Ok(_mapper.Map<StormyProduct, ProductDto>(product));
+            //return Ok(_mapper.Map<StormyProduct, ProductDto>(product));
 		}
 		[HttpPost("product/create")]
 		[ValidateModel]

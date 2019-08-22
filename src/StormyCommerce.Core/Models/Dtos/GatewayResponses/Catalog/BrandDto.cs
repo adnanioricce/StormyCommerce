@@ -10,9 +10,9 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             Slug = brand.Slug;
             Website = brand.Website;
         }
-        public string Name { get; set; }
-        public string Slug { get; set; }
-        public string Website { get; set; }
+        public string Name { get; private set; }
+        public string Slug { get; private set; }
+        public string Website { get; private set; }
         //TODO:What more?
 
     }

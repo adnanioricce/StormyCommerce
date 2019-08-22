@@ -6,6 +6,10 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
 {
     public class CategoryDto
     {
+        public CategoryDto()
+        {
+
+        }
         public CategoryDto(Category category)
         {
             Id = category.Id;

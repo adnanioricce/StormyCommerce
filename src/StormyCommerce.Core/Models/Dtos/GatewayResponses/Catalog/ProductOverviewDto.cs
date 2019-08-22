@@ -7,6 +7,10 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
 {
 	public class ProductOverviewDto
 	{
+        public ProductOverviewDto()
+        {
+
+        }
         public ProductOverviewDto(StormyProduct product)
         {
             Id = product.Id;
@@ -30,8 +34,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public bool Published { get; private set; }
         public bool AvailableForPreorder { get; private set; }
         //Maybe this will be more hard to make...                    
-        public MediaDto ThumbnailImage { get; private set; }
-        public CategoryDto Category { get; set; }
-        public List<MediaDto> Medias { get; set; }
+        public MediaDto ThumbnailImage { get; private set; } = new MediaDto();
+        public CategoryDto Category { get; private set; } = new CategoryDto();
+        public List<MediaDto> Medias { get; private set; } = new List<MediaDto>();
     }
 }

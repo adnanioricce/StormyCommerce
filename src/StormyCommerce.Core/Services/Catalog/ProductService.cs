@@ -49,7 +49,7 @@ namespace StormyCommerce.Core.Services.Catalog
                 .Include(product => product.Medias)
                 .Include(product => product.Brand)
                 .Include(product => product.Links)
-                .Include(product => product.ProductAttributes)            
+                //.Include(product => product.ProductAttributes)            
                 .Include(product => product.Vendor)
                 .Include(product => product.Category)
                 .Where(product => product.Id >= startIndex && product.Id <= endIndex)

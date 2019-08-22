@@ -1,25 +1,26 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Moq;
+using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
-using StormyCommerce.Infraestructure.Repositories;
-using StormyCommerce.Infraestructure.Services.Authentication;
-using StormyCommerce.Infraestructure.Tests.Mocks;
+using StormyCommerce.Module.Customer.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TestHelperLibrary.Mocks;
 using Xunit;
 
-namespace StormyCommerce.Infraestructure.Tests.UnitTests
+namespace Modules.Test.Customers
 {
     public class UserIdentityServiceTest
     {
-        public IUserIdentityService Service { get; set; }          
+        public IUserIdentityService Service { get; set; }     
+        private ApplicationUser _sampleAppUser = Seeders.ApplicationUserSeed().FirstOrDefault();
         public UserIdentityServiceTest()
         {            
             var fakeUserManager = new FakeUserManager();
             var fakeSigninManager = new FakeSignInManager();            
-            Service = new UserIdentityService(fakeSigninManager,new UserIdentityRepository(fakeUserManager));
+            Service = new UserIdentityService(fakeSigninManager,fakeUserManager,null);
         }
         [Fact]        
         public async Task CreateUserAsync_ValidUserNameAndPassword_ShouldCreateUserWithSuccess()
@@ -69,10 +70,9 @@ namespace StormyCommerce.Infraestructure.Tests.UnitTests
             //Arrange
             var user = new ApplicationUser { UserName = "adnanioricce", Email = "sample@email.com" };
             //Act
-            var result = await Service.CreateEmailVerificationCode(user,user.Email);
+            var result = await Service.CreateEmailConfirmationCode(user,user.Email);
             //Assert
             Assert.NotNull(result);
-
         }
     }
 }
