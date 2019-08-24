@@ -170,7 +170,7 @@ namespace SimplCommerce.Module.SampleData.Extensions
         {
             var hasher = new PasswordHasher<ApplicationUser>();
             var fakeAppUser = new Faker<ApplicationUser>("pt_BR")
-                .RuleFor(v => v.Id, Guid.NewGuid())
+                .RuleFor(v => v.Id, f => f.Hashids.Encode(f.Random.Int(1,32)))
                 .RuleFor(v => v.Email, f => f.Internet.Email())
                 .RuleFor(v => v.UserName, f => f.Person.UserName)
                 .RuleFor(v => v.PasswordHash, f => f.Internet.Password().HashPassword())

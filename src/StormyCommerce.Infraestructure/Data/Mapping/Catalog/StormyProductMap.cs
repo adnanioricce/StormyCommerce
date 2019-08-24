@@ -79,7 +79,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(product => product.UnitPrice).IsRequired();
                 entity.Property(product => product.UnitsInStock).IsRequired();
                 entity.Property(product => product.TypeName).IsRequired();
-                entity.Property(product => product.Status).IsRequired();
+                entity.Property(product => product.Status).IsRequired();                
             });
             
             modelBuilder.Entity<ProductOption>(entity =>

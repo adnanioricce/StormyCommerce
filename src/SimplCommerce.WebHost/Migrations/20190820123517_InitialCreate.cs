@@ -8,6 +8,19 @@ namespace SimplCommerce.WebHost.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+			migrationBuilder.CreateTable(
+                name: "Core_AppSetting",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(maxLength: 450, nullable: true),
+                    Module = table.Column<string>(maxLength: 450, nullable: true),
+                    IsVisibleInCommonSettingPage = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Core_AppSetting", x => x.Id);
+                });
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -938,7 +951,7 @@ namespace SimplCommerce.WebHost.Migrations
                 column: "MediaId",
                 principalTable: "Media",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Cascade);                
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

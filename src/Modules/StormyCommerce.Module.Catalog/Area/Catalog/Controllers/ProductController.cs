@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Area.Controllers
 {
-
+    [Area("Catalog")]
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[Controller]/[Action]")]
     public class ProductController : Controller
 	{
 		private readonly IProductService _productService;

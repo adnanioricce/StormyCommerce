@@ -122,11 +122,12 @@ namespace SimplCommerce.WebHost.Extensions
                 //})
                 //.AddViewLocalization()
                 //.AddModelBindingMessagesLocalizer(services)
-                //.AddDataAnnotationsLocalization(o => {
+                //.AddDataAnnotationsLocalization(o =>
+                //{
                 //    var factory = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
                 //    var L = factory.Create(null);
-                //    o.DataAnnotationLocalizerProvider = (t,f) => L;
-                //})                
+                //    o.DataAnnotationLocalizerProvider = (t, f) => L;
+                //})
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             foreach (var module in modules.Where(x => !x.IsBundledWithHost))

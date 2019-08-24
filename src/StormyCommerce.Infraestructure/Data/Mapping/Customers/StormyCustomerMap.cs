@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Infraestructure.Entities;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
 {
@@ -8,29 +9,17 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
         public void Build(ModelBuilder modelBuilder)
         {            
             modelBuilder.Entity<StormyCustomer>(entity =>
-            {               
-                entity.Property(prop => prop.UserId);
+            {                               
                 entity.HasOne(prop => prop.DefaultBillingAddress).WithMany().HasForeignKey(customer => customer.DefaultBillingAddressId);
                 entity.HasOne(customer => customer.DefaultShippingAddress).WithMany().HasForeignKey(customer => customer.DefaultShippingAddressId);
                 entity.Property(prop => prop.FullName).HasMaxLength(450);
-                //entity.Property(prop => prop.CPF)
-                entity.Ignore(customer => customer.CustomerAddresses);
-                //entity.HasData(new StormyCustomer(1)
-                //{
-                //    UserId = "TODO",                    
-                //    IsDeleted = false,
-                //    FullName = "Aguinobaldo de Arimateia",
-                //    Username = "usernamequalquer",
-                //    Email = "aguinaldo@sieu.com",
-                //});
+                entity.Property(prop => prop.CPF).HasMaxLength(11);
+                entity.Ignore(customer => customer.CustomerAddresses);                
             });
-            //modelBuilder.Entity<CustomerAddress>(customerAddress =>
-            //{
-            //    customerAddress.HasData(new CustomerAddress(1)
-            //    {
-            //        CustomerId = 1,                    
-            //    });
-            //});
+            modelBuilder.Entity<ApplicationUser>(entity => {
+                entity.HasKey(prop => prop.Id);                
+            });
+            
         }
     }
 }

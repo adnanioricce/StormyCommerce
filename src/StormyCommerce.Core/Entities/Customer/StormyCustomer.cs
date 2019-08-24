@@ -15,7 +15,7 @@ namespace StormyCommerce.Core.Entities.Customer
         {
             Id = id;
         }
-        public string UserId { get; set; }
+        public string UserId { get; set; }        
         public string CPF { get; set; }
         public IList<Address> CustomerAddresses { get; set; } = new List<Address>();
         public Address DefaultShippingAddress { get; set; }

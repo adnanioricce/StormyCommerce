@@ -4,37 +4,30 @@ using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Services;
 using System.Threading.Tasks;
+using TestHelperLibrary;
 using TestHelperLibrary.Utils;
 using Xunit;
 
 namespace StormyCommerce.Modules.IntegrationTest.Controllers
 {
-    public class UserIdentityControllerTest : IClassFixture<TestFixture<Startup>>
+    public class UserIdentityControllerTest : IClassFixture<CustomWebApplicationFactory>
     {
-        private readonly IUserIdentityService _userIdentityService;
-        public UserIdentityControllerTest(TestFixture<Startup> testFixture)
-        {
-            var signInManager = (SignInManager<ApplicationUser>)testFixture.Server.Host.Services.GetService(typeof(SignInManager<ApplicationUser>));
-            var userManager = (UserManager<ApplicationUser>)testFixture.Server.Host.Services.GetService(typeof(UserManager<ApplicationUser>));
-            _userIdentityService = new UserIdentityService(signInManager, userManager,null);
-        }
-        [Theory]
-        [InlineData("sample@email.com", "adnanioricce", "SAMPLE@EMAIL.COM", true, "Ty22f@7#32!")]
-        public async Task CreateUserAsync(string email,string userName,string normalizedEmail,bool emailConfirmed,string password)
-        {
-            //Arrange 
-            var appUser = new ApplicationUser
-            {
-                Email = email,
-                UserName = userName,
-                NormalizedEmail = normalizedEmail,
-                EmailConfirmed = emailConfirmed,
-            };
-            //Act 
-            var result = await _userIdentityService.CreateUserAsync(appUser, password);
-            //Assert
-            Assert.True(result.Succeeded);
-        }
-
+        //private readonly CustomWebApplicationFactory _factory;
+        //public UserIdentityControllerTest(CustomWebApplicationFactory factory)
+        //{
+        //    _factory = factory;                        
+        //    //_userIdentityService = new UserIdentityService(signInManager, userManager,null);
+        //}
+        //[Theory]
+        //[InlineData("/api/")]
+        //public async Task CreateUserAsync(string url)
+        //{
+        //    //Arrange 
+            
+        //    //Act 
+            
+        //    //Assert
+        //    Assert.True(false);
+        //}
     }
 }
