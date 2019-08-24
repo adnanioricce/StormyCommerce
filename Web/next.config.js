@@ -1,6 +1,5 @@
-const withSass = require('@zeit/next-sass')
+const withSass = require('@zeit/next-sass');
 
-const withImages = require('next-images')
-module.exports = withSass(
-  withImages()
-)
+const withImages = require('next-images');
+
+module.exports = withSass(withImages());
