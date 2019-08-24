@@ -6,7 +6,6 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using Xunit;
-using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Module.Catalog.Extensions;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Core.Entities.Catalog;
@@ -16,6 +15,7 @@ using TestHelperLibrary.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using StormyCommerce.Core.Entities;
+using StormyCommerce.Api.Framework.Extensions;
 
 namespace Modules.Test
 {

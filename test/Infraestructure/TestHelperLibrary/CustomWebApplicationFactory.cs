@@ -14,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SimplCommerce.Infrastructure.Modules;
-using SimplCommerce.Module.SampleData.Extensions;
+using SimplCommerce.Module.SampleData;
 using SimplCommerce.WebHost;
 using SimplCommerce.WebHost.Extensions;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;

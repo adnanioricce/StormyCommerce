@@ -1,5 +1,4 @@
 ﻿using Moq;
-using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Order;
@@ -14,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-
+using StormyCommerce.Api.Framework.Extensions;
 namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
 {
     public class OrderServiceTests : IDisposable

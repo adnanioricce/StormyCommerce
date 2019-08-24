@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Infraestructure.Data;
 using System;
 

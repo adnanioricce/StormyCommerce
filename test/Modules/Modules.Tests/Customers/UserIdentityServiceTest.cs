@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Moq;
-using SimplCommerce.Module.SampleData.Extensions;
+using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Infraestructure.Entities;
+using StormyCommerce.Infraestructure.Extensions;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Services;
 using System;
@@ -17,7 +18,7 @@ namespace Modules.Test.Customers
     {
         public IUserIdentityService Service { get; set; }
         private readonly FakeUserManager _fakeUserManager;        
-        private readonly ApplicationUser _sampleAppUser = Seeders.ApplicationUserSeed().FirstOrDefault();
+        private readonly ApplicationUser _sampleAppUser = IdentityDataSeed.ApplicationUserSeed().FirstOrDefault();
         public UserIdentityServiceTest()
         {            
             _fakeUserManager = new FakeUserManager();
@@ -28,7 +29,7 @@ namespace Modules.Test.Customers
         public async Task CreateUserAsync_ValidUserNameAndPassword_ShouldCreateUserWithSuccess()
         {
             //Arrange            
-            var user = Seeders.ApplicationUserSeed(1).FirstOrDefault();
+            var user = IdentityDataSeed.ApplicationUserSeed(1).FirstOrDefault();
             user.PasswordHash = "";
            //Act 
            var result = await Service.CreateUserAsync(user, "Ty22f@7#32!");

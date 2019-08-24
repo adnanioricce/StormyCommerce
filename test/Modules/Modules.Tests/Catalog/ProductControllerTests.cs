@@ -3,7 +3,7 @@ using Bogus;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SimplCommerce.Module.SampleData;
-using SimplCommerce.Module.SampleData.Extensions;
+using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;

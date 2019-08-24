@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SimplCommerce.Module.Core.Services;
-using SimplCommerce.Module.SampleData.Extensions;
 using StormyCommerce.Infraestructure.Entities;
+using StormyCommerce.Infraestructure.Extensions;
 using StormyCommerce.Infraestructure.Helpers;
 using StormyCommerce.Module.Customer.Area.ViewModels;
 using StormyCommerce.Module.Customer.Controllers;
@@ -26,7 +26,7 @@ namespace Modules.Test.Customers
         }
         public AuthenticationController CreateController()
         {
-            var appUser = Seeders.ApplicationUserSeed().FirstOrDefault();
+            var appUser = IdentityDataSeed.ApplicationUserSeed().FirstOrDefault();
 
             //fakeIdentityService
             var fakeTokenService = new Mock<ITokenService>();

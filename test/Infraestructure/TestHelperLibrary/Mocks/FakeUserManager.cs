@@ -24,7 +24,7 @@ namespace TestHelperLibrary.Mocks
                   new Mock<IServiceProvider>().Object,
                   new Mock<ILogger<UserManager<ApplicationUser>>>().Object)
         {
-            _users = SimplCommerce.Module.SampleData.Extensions.Seeders.ApplicationUserSeed(4).AsQueryable();
+            _users = StormyCommerce.Infraestructure.Extensions.IdentityDataSeed.ApplicationUserSeed(4).AsQueryable();
         }
         public override IQueryable<ApplicationUser> Users => _users;          
         public override Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
