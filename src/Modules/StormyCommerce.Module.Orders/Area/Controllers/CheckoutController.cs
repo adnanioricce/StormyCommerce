@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stormycommerce.Module.Orders.Area.ViewModels;
 using StormyCommerce.Api.Framework.Filters;
@@ -9,8 +10,10 @@ using StormyCommerce.Core.Services.Orders;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
+    [Area("Orders")]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[Controller]/[Action]")]
+    [Authorize]
     public class CheckoutController : Controller
     {        
         private readonly IOrderService _orderService;
@@ -22,7 +25,10 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             _paymentService = paymentService;
             _shippingService = shippingService;
         }
-        [HttpPost("checkout/boleto")]
+        ///<summary>
+        /// Nothing working yet
+        ///</summary>
+        [HttpPost]
         [ValidateModel]
         public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutViewModel checkoutVm)
         {

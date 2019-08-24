@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SimplCommerce.Module.Core.Services;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Interfaces;
@@ -15,6 +16,7 @@ namespace StormyCommerce.Module.Customer.Controllers
     [Area("Customer")]
     [ApiController]
     [Route("api/[Controller]/[Action]")]
+    [Authorize]
     public class AuthenticationController : Controller
     {
         private IUserIdentityService _identityService;
@@ -30,6 +32,7 @@ namespace StormyCommerce.Module.Customer.Controllers
         }
         [HttpPost("signin")]
 	    [ValidateModel]
+        [AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromBody]SignInVm signInVm)
         {
 	        var user = _identityService.GetUserByEmail(signInVm.Email);	  
@@ -47,6 +50,7 @@ namespace StormyCommerce.Module.Customer.Controllers
         }
         [HttpPost("signup")]
         [ValidateModel]
+        [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync(SignUpVm signUpVm)
         {            
             var user = _identityService.GetUserByEmail(signUpVm.Email);

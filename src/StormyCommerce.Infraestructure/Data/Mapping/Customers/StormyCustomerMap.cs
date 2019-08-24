@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Api.Framework;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Infraestructure.Entities;
+using StormyCommerce.Infraestructure.Extensions;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
 {
@@ -17,7 +19,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.Ignore(customer => customer.CustomerAddresses);                
             });
             modelBuilder.Entity<ApplicationUser>(entity => {
-                entity.HasKey(prop => prop.Id);                
+                entity.HasKey(prop => prop.Id);                         
             });
             
         }

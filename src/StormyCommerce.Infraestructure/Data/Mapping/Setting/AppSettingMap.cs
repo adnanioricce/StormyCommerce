@@ -7,7 +7,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Setting
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppSetting>(entity =>
+            modelBuilder.Entity<AppSettings>(entity =>
             {
                 entity.HasKey(prop => prop.Id);
                 entity.Property(prop => prop.Module).HasMaxLength(450);

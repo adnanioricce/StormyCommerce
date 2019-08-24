@@ -9,10 +9,10 @@ namespace StormyCommerce.Infraestructure.Data
         {
 
         }
-        public DbSet<AppSetting> AppSettings { get; set; }
+        public DbSet<AppSettings> AppSettings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppSetting>(entity =>
+            modelBuilder.Entity<AppSettings>(entity =>
             {
                 entity.Property(prop => prop.Value).HasMaxLength(450).IsRequired();
                 entity.Property(prop => prop.Module).HasMaxLength(450).IsRequired();

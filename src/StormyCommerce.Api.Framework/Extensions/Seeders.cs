@@ -1,13 +1,11 @@
 ﻿using Bogus;
 using Microsoft.AspNetCore.Identity;
-using StormyCommerce.Infraestructure.Extensions;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Entities.Vendor;
-using StormyCommerce.Infraestructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +13,14 @@ using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Entities.Order;
 
-namespace SimplCommerce.Module.SampleData.Extensions
+namespace StormyCommerce.Api.Framework.Extensions
 {
     public static class Seeders
     {
         public static List<StormyProduct> StormyProductSeed(int count = 1)
-        {
-            int ids = 0;
+        {            
             var fakeProduct = new Faker<StormyProduct>("pt_BR")
-                .RuleFor(v => v.Id, ids++)
+                .RuleFor(v => v.Id, f => ++f.IndexVariable)
                 .RuleFor(v => v.ProductName, f => f.Commerce.ProductName())
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.SKU, f => f.Commerce.Random.AlphaNumeric(16))
@@ -50,10 +47,10 @@ namespace SimplCommerce.Module.SampleData.Extensions
                 .RuleFor(v => v.CreatedAt, f => f.Date.Past())
                 .RuleFor(v => v.UpdatedOnUtc, f => f.Date.Between(f.Date.Recent(), f.Date.Soon()))
                 .RuleFor(v => v.PreOrderAvailabilityStartDate, f => f.Date.Future())
-                .RuleFor(v => v.BrandId, f => ids)
-                .RuleFor(v => v.CategoryId, f => ids)
-                .RuleFor(v => v.VendorId, f => ids)
-                .RuleFor(v => v.MediaId, f => ids);                
+                .RuleFor(v => v.BrandId,f => f.Random.Int(1,10))
+                .RuleFor(v => v.CategoryId, f => f.Random.Int(1,10))
+                .RuleFor(v => v.VendorId, f => f.Random.Int(1,20))
+                .RuleFor(v => v.MediaId, f => f.Random.Int(1,20));                
             var products = fakeProduct.Generate(count);
             return products;
         }
@@ -79,10 +76,9 @@ namespace SimplCommerce.Module.SampleData.Extensions
         }
         public static List<ProductLink> ProductLinkSeed(int count = 1)
         {
-            var products = StormyProductSeed(count);
-            int id = 0;
+            var products = StormyProductSeed(count);            
             var fakeProductLink = new Faker<ProductLink>("pt_BR")
-                .RuleFor(v => v.Id,id++)
+               .RuleFor(v => v.Id,f => ++f.IndexVariable)
                .RuleFor(v => v.LinkType, ProductLinkType.Related)
                .RuleFor(v => v.IsDeleted, false)
                .RuleFor(v => v.LastModified, f => f.Date.Recent(25))
@@ -105,10 +101,9 @@ namespace SimplCommerce.Module.SampleData.Extensions
             return fakeProductLink.Generate(count);
         }
         public static List<Media> MediaSeed(int count = 1)
-        {
-            int id = 0;
+        {            
             var fakeMedias = new Faker<Media>("pt_BR")                
-                .RuleFor(v => v.Id,id++)
+                .RuleFor(v => v.Id,f => ++f.IndexVariable)
                 .RuleFor(v => v.FileName, f => f.Image.LoremPixelUrl("fashion"))
                 .RuleFor(v => v.FileSize, f => f.System.Random.Int())
                 .RuleFor(v => v.IsDeleted, false)
@@ -117,10 +112,9 @@ namespace SimplCommerce.Module.SampleData.Extensions
             return fakeMedias.Generate(count);
         }
         public static List<Brand> BrandSeed(int count = 1)
-        {
-            int id = 0;
+        {            
             var fakeBrands = new Faker<Brand>("pt_BR")                
-                .RuleFor(v => v.Id,id++)
+                .RuleFor(v => v.Id,f => ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(24))
                 .RuleFor(v => v.LogoImage, f => f.Image.PicsumUrl())
@@ -132,10 +126,9 @@ namespace SimplCommerce.Module.SampleData.Extensions
             return fakeBrands.Generate(count);
         }
         public static List<StormyVendor> StormyVendorSeed(int count = 1)
-        {
-            int id = 0;
+        {            
             var fakeVendors = new Faker<StormyVendor>("pt_BR")                
-                .RuleFor(v => v.Id,id++)
+                .RuleFor(v => v.Id,f => ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(27))
                 .RuleFor(v => v.CompanyName, f => f.Company.CompanyName())
@@ -150,10 +143,9 @@ namespace SimplCommerce.Module.SampleData.Extensions
             return fakeVendors.Generate(count);
         }
         public static List<Category> CategorySeed(int count = 1)
-        {
-            int id = 0;
+        {            
             var fakeCategory = new Faker<Category>("pt_BR")                
-                .RuleFor(v => v.Id,id++)
+                .RuleFor(v => v.Id, f => ++f.IndexVariable)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(24))
                 .RuleFor(v => v.Description, f => f.Lorem.Text())
                 .RuleFor(v => v.DisplayOrder, f => f.IndexFaker)
@@ -163,28 +155,14 @@ namespace SimplCommerce.Module.SampleData.Extensions
                 .RuleFor(v => v.MetaDescription, f => f.Lorem.Text())
                 .RuleFor(v => v.Slug, f => f.Lorem.Slug())
                 .RuleFor(v => v.Name, f => f.Commerce.Categories(1)[0])
-                .RuleFor(v => v.ThumbnailImageUrl, f => f.Image.LoremPixelUrl("fashion"));            
+                .RuleFor(v => v.ThumbnailImageUrl, f => f.Image.LoremPixelUrl("fashion"));
+                // .RuleFor(v => v.ParentId,f => f.Random.Int(1,count));                            
             return fakeCategory.Generate(count);
-        }
-        public static List<ApplicationUser> ApplicationUserSeed(int count = 1)
-        {
-            var hasher = new PasswordHasher<ApplicationUser>();
-            var fakeAppUser = new Faker<ApplicationUser>("pt_BR")
-                .RuleFor(v => v.Id, f => f.Hashids.Encode(f.Random.Int(1,32)))
-                .RuleFor(v => v.Email, f => f.Internet.Email())
-                .RuleFor(v => v.UserName, f => f.Person.UserName)
-                .RuleFor(v => v.PasswordHash, f => f.Internet.Password().HashPassword())
-                .RuleFor(v => v.PhoneNumber, f => f.Phone.PhoneNumber())
-                .RuleFor(v => v.EmailConfirmed,true)
-                .RuleFor(v => v.TwoFactorEnabled,false)
-                .RuleFor(v => v.SecurityStamp,Guid.NewGuid().ToString())
-                .RuleFor(v => v.LockoutEnabled,false)
-                .RuleFor(v => v.LockoutEnd,DateTime.UtcNow);
-            return fakeAppUser.Generate(count);
-        }
+        }        
         public static List<Address> AddressSeed(int count = 1)
         {
-            var fakeAddress = new Faker<Address>("pt_BR")                
+            var fakeAddress = new Faker<Address>("pt_BR")       
+                .RuleFor(v => v.Id,f => ++f.IndexVariable)         
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.FirstAddress, f => f.Address.StreetName())
                 .RuleFor(v => v.SecondAddress, f => f.Address.SecondaryAddress())
@@ -196,22 +174,10 @@ namespace SimplCommerce.Module.SampleData.Extensions
                 .RuleFor(v => v.City, f => f.Address.City());                
             return fakeAddress.Generate(count);
         }
-        public static List<StormyCustomer> StormyCustomerSeed(int count = 1)
-        {
-            var userApps = ApplicationUserSeed(count);
-            var fakeCustomer = new Faker<StormyCustomer>("pt_BR")                
-                .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.CreatedOn, f => f.Date.Recent(10))
-                .RuleFor(v => v.Email, f => userApps[f.IndexVariable].Email)
-                .RuleFor(v => v.FullName, f => f.Person.FullName)
-                .RuleFor(v => v.UserId, f => userApps[f.IndexVariable].Id.ToString())
-                .RuleFor(v => v.UserName, f => userApps[f.IndexVariable].UserName)
-                .RuleFor(v => v.CPF, f =>  f.Random.Utf16String(11,11));            
-            return fakeCustomer.Generate(count);
-        }        
+            
         public static List<StormyOrder> StormyOrderSeed(int count = 1)
         {
-            var fakeOrder = new Faker<StormyOrder>("pt_BR")
+            var fakeOrder = new Faker<StormyOrder>("pt_BR")                
                 .RuleFor(v => v.Comment, f => f.Lorem.Sentence())
                 .RuleFor(v => v.DeliveryCost, f => f.Finance.Amount(0, 100))
                 .RuleFor(v => v.DeliveryDate, f => f.Date.Soon(14))

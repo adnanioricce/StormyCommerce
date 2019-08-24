@@ -11,7 +11,10 @@ using System.Linq;
 
 namespace StormyCommerce.Module.Catalog.Area.Controllers
 {
-    [ApiController]
+    [Area("Catalog")]
+    [ApiController]    
+    [Route("api/[Controller]/[Action]")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -21,7 +24,11 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
             _categoryService = categoryService;
             _mapper = mapper;
         }
+        ///<summary>
+        /// Get all existing categories
+        ///</summary>
         [HttpGet("list")]
+        [AllowAnonymous]
         public async Task<ActionResult<IList<CategoryDto>>> GetAll()
         {            
             var categories = _mapper.Map<IList<Category>,IList<CategoryDto>>(await _categoryService.GetAllCategoriesAsync());
@@ -29,6 +36,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
         }
         [HttpGet("{id}")]
         [ValidateModel]
+        [AllowAnonymous]
         public async Task<ActionResult<CategoryDto>> GetCategoryById(long id)
         {
             var category = await _categoryService.GetCategoryByIdAsync(id);

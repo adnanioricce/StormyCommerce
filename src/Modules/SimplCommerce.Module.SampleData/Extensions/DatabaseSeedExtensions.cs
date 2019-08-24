@@ -1,6 +1,6 @@
-﻿using StormyCommerce.Infraestructure.Data;
-using SimplCommerce.Module.SampleData.Extensions;
-namespace SimplCommerce.Module.SampleData.Extensions
+﻿using StormyCommerce.Api.Framework.Extensions;
+using StormyCommerce.Infraestructure.Data;
+namespace SimplCommerce.Module.SampleData
 {
     public static class DatabaseSeedExtensions
     {
@@ -14,9 +14,7 @@ namespace SimplCommerce.Module.SampleData.Extensions
             dbContext.AddRange(Seeders.ProductLinkSeed(50));
             dbContext.AddRange(Seeders.AddressSeed(10));
             dbContext.AddRange(Seeders.ProductAttributeGroupSeed(5));
-            dbContext.AddRange(Seeders.ProductAttributeSeed(20));
-            dbContext.AddRange(Seeders.ApplicationUserSeed(5));
-            dbContext.AddRange(Seeders.StormyCustomerSeed(5));
+            dbContext.AddRange(Seeders.ProductAttributeSeed(20));                
             dbContext.SaveChanges();
         }        
     }

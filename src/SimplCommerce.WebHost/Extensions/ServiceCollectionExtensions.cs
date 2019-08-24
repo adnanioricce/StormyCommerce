@@ -103,7 +103,14 @@ namespace SimplCommerce.WebHost.Extensions
 
             return services;
         }
-
+        public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services,IList<ModuleInfo> modules)
+        {
+            // services.AddAuthentication(options => {
+            //     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //     options
+            // });
+            return services;
+        }
         public static IServiceCollection AddCustomizedMvc(this IServiceCollection services, IList<ModuleInfo> modules)
         {
             var mvcBuilder = services

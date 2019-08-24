@@ -62,6 +62,7 @@
     <ProjectReference Include="..\Modules\SimplCommerce.Module.EmailSenderSmtp\SimplCommerce.Module.EmailSenderSmtp.csproj" />
     <ProjectReference Include="..\Modules\SimplCommerce.Module.StorageLocal\SimplCommerce.Module.StorageLocal.csproj" />-->
     <ProjectReference Include="..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
+    <ProjectReference Include="..\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

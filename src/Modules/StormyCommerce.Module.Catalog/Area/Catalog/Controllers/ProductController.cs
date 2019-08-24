@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Catalog.Product;
@@ -13,6 +14,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
     [Area("Catalog")]
     [ApiController]
     [Route("api/[Controller]/[Action]")]
+	[Authorize]
     public class ProductController : Controller
 	{
 		private readonly IProductService _productService;
@@ -24,8 +26,12 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 			_productService = productService;
 			_mapper = mapper;			
 		}
+		///<summary>
+		/// Get a more simplified version of a specified product
+		///</summary>
         [HttpGet("product/product-overview/{0}")]
 		[ValidateModel]
+		[AllowAnonymous]
 		public async Task<ActionResult<ProductOverviewDto>> GetProductOverviewAsync(long id)
 		{
             var product = await _productService.GetProductByIdAsync(id);			
@@ -35,6 +41,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
         }
 		[HttpGet("admin/product/list")]
 		[ValidateModel]
+		[AllowAnonymous]
 		//TODO:Check if request is from Admin
 		public async Task<ActionResult<IList<ProductDto>>> GetAllProducts(long startIndex = 1,long endIndex = 15)
 		{			
@@ -46,8 +53,9 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
             return result.ToList();
 		}
-		[HttpGet("product/homepage")]
+		[HttpGet("/homepage")]
 		[ValidateModel]
+		[AllowAnonymous]
 		public async Task<ActionResult<IList<ProductDto>>> GetAllProductsOnHomepage(int limit)
 		{
             var products = await _productService.GetAllProductsDisplayedOnHomepageAsync(limit);		
@@ -56,8 +64,9 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
             var mappedProducts = _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products);
             return mappedProducts.ToList();
 		}
-		[HttpGet("product/{0}")]
+		[HttpGet("{0}")]
 		[ValidateModel]
+		[AllowAnonymous]
 		public async Task<ActionResult<ProductDto>> GetProductById(long id)
 		{
             var product = _mapper.Map<StormyProduct,ProductDto>(await _productService.GetProductByIdAsync(id));
@@ -66,7 +75,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
             return product;
 		}
-		[HttpPost("product/create")]
+		[HttpPost("admin/create")]
 		[ValidateModel]
 		public async Task<ActionResult> CreateProduct([FromBody]ProductDto _model)
 		{
@@ -75,7 +84,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 			await _productService.InsertProductAsync(model);
             return Ok();
 		}
-		[HttpPut("product/edit")]
+		[HttpPut("admin/edit")]
 		[ValidateModel]
 		public async Task EditProduct([FromBody]ProductDto _model)
 		{
@@ -86,7 +95,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 			//}
 
 		}
-		[HttpGet("product/number_products_in_category")]
+		[HttpGet("admin/number_products_in_category")]
 		[ValidateModel]
 		public ActionResult<int> GetNumberOfProductsInCategory([FromBody]IList<int> categoryIds,int storeId)
 		{

@@ -7,7 +7,7 @@ using SimplCommerce.WebHost.Extensions;
 using SimplCommerce.Infrastructure;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Extensions;
-using SimplCommerce.Module.SampleData.Extensions;
+using SimplCommerce.Module.SampleData;
 
 namespace SimplCommerce.WebHost
 {
@@ -35,9 +35,7 @@ namespace SimplCommerce.WebHost
             services.AddModules(contentRootPath);
             services.AddStormyDataStore(_configuration);
             var _serviceProvider = services.BuildServiceProvider();
-            var dbContext = _serviceProvider.GetRequiredService<StormyDbContext>();
-            dbContext.SeedDbContext();
-            return dbContext;
+            return _serviceProvider.GetRequiredService<StormyDbContext>();                        
         }
     }
 }

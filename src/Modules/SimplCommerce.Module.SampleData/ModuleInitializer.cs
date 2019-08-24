@@ -5,7 +5,6 @@ using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.SampleData.Data;
 using SimplCommerce.Module.SampleData.Services;
 using StormyCommerce.Infraestructure.Data;
-using SimplCommerce.Module.SampleData.Extensions;
 using System.Data.Common;
 
 namespace SimplCommerce.Module.SampleData

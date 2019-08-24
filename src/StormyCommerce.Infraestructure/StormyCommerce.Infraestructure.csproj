@@ -13,7 +13,8 @@
   </ItemGroup>  
   <ItemGroup>   
     <ProjectReference Include="..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />   
-    <ProjectReference Include="..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
+    <ProjectReference Include="..\StormyCommerce.Core\StormyCommerce.Core.csproj" />   
+    <ProjectReference Include="..\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
     <!-- <ProjectReference Include="..\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj"/> -->
   </ItemGroup>  
   <ItemGroup>

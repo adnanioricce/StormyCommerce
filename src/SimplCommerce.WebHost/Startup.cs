@@ -18,6 +18,12 @@ using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.WebHost.Extensions;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data.Repositories;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Infraestructure.Entities;
+using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.Module.Customer.Data;
 
 namespace SimplCommerce.WebHost
 {
@@ -31,6 +37,7 @@ namespace SimplCommerce.WebHost
         {
             _configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
+            Container.Configuration = configuration;            
         }
 
         public virtual void ConfigureServices(IServiceCollection services)
@@ -50,10 +57,12 @@ namespace SimplCommerce.WebHost
             //services.AddCustomizedIdentity(_configuration);
             services.AddHttpClient();
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));            
-
+            //TODO: Move this to a module
+            // services.AddTransient<UserManager<ApplicationUser>>();
+            // services.AddTransient<SignInManager<ApplicationUser>>();
             //services.AddCustomizedLocalization();
 
-            services.AddCustomizedMvc(GlobalConfiguration.Modules);
+            // services.AddCustomizedMvc(GlobalConfiguration.Modules);
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander()); });
             services.Configure<WebEncoderOptions>(options =>
@@ -71,22 +80,20 @@ namespace SimplCommerce.WebHost
                 moduleInitializer.ConfigureServices(services);
             }
 
-            //services.AddScoped<ServiceFactory>(p => p.GetService);
-
+            //services.AddScoped<ServiceFactory>(p => p.GetService);            
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "SimplCommerce API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "StormyCommerce API", Version = "v1" });
             });
+            services.AddMvc();
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var result = string.IsNullOrEmpty(_moviesApiKey) ? "Null" : "Not Null";
-            
+            var result = string.IsNullOrEmpty(_moviesApiKey) ? "Null" : "Not Null";            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -107,19 +114,24 @@ namespace SimplCommerce.WebHost
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SimplCommerce API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "StormyCommerce API V1");
+                c.RoutePrefix = string.Empty;
             });
 
             app.UseCookiePolicy();
-            app.UseCustomizedIdentity();
+            // app.UseCustomizedIdentity();
             //app.UseCustomizedRequestLocalization();
             //app.UseCustomizedMvc();
+            app.UseMvc();
+            
+            
 
             var moduleInitializers = app.ApplicationServices.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
             {
                 moduleInitializer.Configure(app, env);
-            }
+            }                        
         }
+        
     }
 }

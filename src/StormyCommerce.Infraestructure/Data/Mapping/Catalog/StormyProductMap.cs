@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Media;
 namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
@@ -32,12 +33,14 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 .WithMany(p => p.Links)
                 .HasForeignKey(x => x.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+                
             });
             modelBuilder.Entity<ProductLink>(entity => {
                 entity.HasOne(x => x.LinkedProduct)
                 .WithMany(p => p.LinkedProductLinks)
                 .HasForeignKey(x => x.LinkedProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+                entity.HasData(Seeders.ProductLinkSeed(50));
             });
             modelBuilder.Entity<ProductTemplateProductAttribute>(entity => 
             {
@@ -79,7 +82,8 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(product => product.UnitPrice).IsRequired();
                 entity.Property(product => product.UnitsInStock).IsRequired();
                 entity.Property(product => product.TypeName).IsRequired();
-                entity.Property(product => product.Status).IsRequired();                
+                entity.Property(product => product.Status).IsRequired();      
+                entity.HasData(Seeders.StormyProductSeed(50));          
             });
             
             modelBuilder.Entity<ProductOption>(entity =>
@@ -89,6 +93,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             modelBuilder.Entity<Media>(entity => 
             {                              
                 // entity.HasData();
+                entity.HasData(Seeders.MediaSeed(50));
             });
             modelBuilder.Entity<Brand>(entity =>
             {
@@ -96,7 +101,8 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.HasQueryFilter(brand => brand.IsDeleted == false)
                 .Property(brand => brand.Slug)
                 .HasMaxLength(450)
-                .IsRequired();                            
+                .IsRequired();      
+                entity.HasData(Seeders.BrandSeed(10));                      
             });
             
             

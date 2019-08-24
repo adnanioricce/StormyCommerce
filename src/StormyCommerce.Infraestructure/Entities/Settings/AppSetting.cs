@@ -1,9 +1,9 @@
 ﻿namespace StormyCommerce.Core.Entities.Settings
 {
     //copy/paste to avoid break the app
-    public class AppSetting : EntityWithBaseTypeId<string>
+    public class AppSettings : EntityWithBaseTypeId<string>
     {
-        public AppSetting(string id)
+        public AppSettings(string id)
         {
             Id = id;
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
@@ -6,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
+	[Area("Orders")]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/[Controller]/[Action]")]
+	[Authorize]
 	public class OrderController
 	{
 		private readonly IOrderService _orderService;
