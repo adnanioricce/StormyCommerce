@@ -15,13 +15,18 @@
     
     width: 100%;
     height: fit-content;
-    // 
+
     img{
       width: 100%;
       height: 100%;
       transform:  scale(1.05, 0.6);
       border: 1px solid $primary-color;
       transition: transform .3s ease-in-out;
+      @media all and (hover:hover) and (pointer: fine){
+        &:hover{
+          cursor: pointer;
+        }
+      }
     }
     &.main{
       img{
@@ -52,18 +57,30 @@
   height: 100%;
   justify-content: space-between;
   align-items: center;
-  img{
-    height: 25%;
-    cursor: pointer;
-    transition: transform .05s ease-in-out;
-    &:active{
-      transform: scaleY(0.8);
-    }
+
+}
+
+.left-slider-button, .right-slider-button{
+  position: absolute;
+  height: 25%;
+  cursor: pointer;
+  transition: transform .05s ease-in-out;
+  &:active{
+    transform: scaleY(0.8);
   }
+}
+.left-slider-button{
+  left: 0;
+}
+.right-slider-button{
+  right: 0;
 }
 @media all and (max-width: 425px ){
   .overflow-not-allower{
     justify-content: flex-start;
+  }
+  .left-slider-button, .right-slider-button{
+    height: 50%;
   }
   .Slide{
     height: unset;
@@ -76,11 +93,4 @@
     }
   }  
 
-  .slide-controller{
-    transform: translate(0);
-    left: 0;
-    img{
-      height: 50%;
-    }
-  }
 }

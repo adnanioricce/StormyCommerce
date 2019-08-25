@@ -10,6 +10,7 @@ import TitleWithFloater from '../components/TitleWithFloater';
 import Title from '../components/Title';
 import Description from '../components/Description';
 import Button from '../components/Button';
+import ProductOptionsController from '../components/ProductOptionsController';
 
 function product() {
   const { query } = useRouter();
@@ -38,12 +39,15 @@ function product() {
               isFavorited={currentProduct.isFavorited}
             />
           </TitleWithFloater>
+          <div className="product-display-container">
+            <img
+              className="image"
+              src={currentProduct.image}
+              alt={currentProduct.name}
+            />
+            <ProductOptionsController />
+          </div>
 
-          <img
-            className="image"
-            src={currentProduct.image}
-            alt={currentProduct.name}
-          />
           <Description text={currentProduct.description} />
           <Button label="Adicionar ao carrinho" />
         </div>
