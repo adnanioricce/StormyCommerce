@@ -1,4 +1,5 @@
 ﻿using Moq;
+using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Services.Catalog;
@@ -13,7 +14,6 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
     public class EntityServiceTests : IDisposable
     {
         private MockRepository mockRepository;
-
         private Mock<IStormyRepository<Entity>> mockStormyRepository;
 
         public EntityServiceTests()
@@ -33,10 +33,10 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
             var dbContext = DbContextHelper.GetDbContext();
             return new EntityService(new StormyRepository<Entity>(dbContext));
         }
-        private EntityService CreateServiceWithData()
+        private EntityService CreateServiceWithData(int count,string entityType)
         {
             var dbContext = DbContextHelper.GetDbContext();
-            dbContext.AddRange(EntityDataSeeder.GetEntitySeedList());
+            dbContext.AddRange(Seeders.EntitySeed(count,entityType));
             dbContext.SaveChanges();
             return new EntityService(new StormyRepository<Entity>(dbContext));
         }
@@ -63,7 +63,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
         public void Get_entityIdEqual1AndEntityTypeIdEqualCategory_ReturnEntryEqualEntityIdAndEntityTypeId()
         {
             // Arrange
-            var service = this.CreateServiceWithData();
+            var service = this.CreateServiceWithData(1,"Category");
             long entityId = 1;
             string entityTypeId = "Category";
 
@@ -87,11 +87,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
             string entityTypeId = "Category";
 
             // Act
-            service.Add(
-                name,
-                slug,
-                entityId,
-                entityTypeId);
+            service.Add(name,slug,entityId,entityTypeId);
             var result = service.Get(entityId,entityTypeId);
             // Assert
             Assert.Equal(entityId,result.EntityId);
@@ -102,7 +98,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
         public void Update_NewNameAndSlugEntityIdEqual1_EditEntryWithGivenEntityId()
         {
             // Arrange
-            var service = this.CreateServiceWithData();
+            var service = this.CreateServiceWithData(1,"Category");
             string newName = "Men";
             string newSlug = "men";
             long entityId = 1;
@@ -124,7 +120,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
         public async Task DeleteAsync_EntityIdEqualOneAndEntityTypeEqualCategory_ShouldDeleteEntryWithGivenValues()
         {
             // Arrange
-            var service = this.CreateServiceWithData();
+            var service = this.CreateServiceWithData(1,"Category");
             long entityId = 1;
             string entityTypeId = "Category";
 

@@ -54,6 +54,18 @@ namespace StormyCommerce.Api.Framework.Extensions
             var products = fakeProduct.Generate(count);
             return products;
         }
+        public static List<Entity> EntitySeed(int count = 1,string entityType)
+        {
+            var fakeEntity = new Faker<Entity>("pt_BR")
+            .RuleFor(v => v.Id,f => ++f.IndexVariable)
+            .RuleFor(v => v.IsDeleted,false)
+            .RuleFor(v => v.LastModified,f => f.Date.Recent(2))
+            .RuleFor(v => v.EntityTypeId,entityType)
+            .RuleFor(v => v.EntityId,1)
+            .RuleFor(v => v.Name,f => f.Commerce.ProductName())
+            .RuleFor(v => v.Slug,f => f.Lorem.Slug());
+            return fakeEntity.Generate(count);            
+        }
         public static List<ProductAttributeGroup> ProductAttributeGroupSeed(int count = 1)
         {
             var fakeProductAttributeGroup = new Faker<ProductAttributeGroup>("pt_BR")               

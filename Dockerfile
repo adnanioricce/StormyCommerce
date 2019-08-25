@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk AS build-env
+FROM simpl-sdk-2.2 AS build-env
   
 WORKDIR /app
 COPY . ./
@@ -13,7 +13,7 @@ RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost
 RUN ls -l
 RUN dotnet restore && dotnet build \
     && cd src/SimplCommerce.WebHost \
-#   && dotnet ef migrations add initialSchema \
+    && dotnet ef migrations add initialSchema \
     && dotnet ef migrations script -o dbscript.sql
 
 RUN dotnet build -c Release \
@@ -39,7 +39,7 @@ WORKDIR /app
 COPY --from=build-env /app/src/SimplCommerce.WebHost/out ./
 COPY --from=build-env /app/src/SimplCommerce.WebHost/dbscript.sql ./
 
-RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so
+#RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so
 
 COPY --from=build-env /app/docker-entrypoint.sh /
 RUN chmod 755 /docker-entrypoint.sh
