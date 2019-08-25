@@ -35,6 +35,7 @@ nav{
   justify-content: center;
   align-items: center;
   border: 1px solid $primary-color;
+  background-color: $secondary-color;
   border-top: none;
   input{
     width: calc(100% - 64px);
@@ -42,6 +43,7 @@ nav{
     padding: 0 8px;
     border: none;
     height: calc(100% - 2px);
+    background-color: transparent;
   }
   img{
     flex:1;

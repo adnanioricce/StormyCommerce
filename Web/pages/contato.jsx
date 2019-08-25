@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import withRedux from 'next-redux-wrapper';
 import Page from '../components/Page';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -11,7 +10,7 @@ import actions from '../actions';
 
 function contato() {
   const dispatch = useDispatch();
-  dispatch(actions.favorite({ productID: 1 }));
+  dispatch(actions.favorite(1));
   return (
     <Page>
       <Header label="Contato" border={false} />
