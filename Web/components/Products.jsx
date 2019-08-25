@@ -9,7 +9,7 @@ export default () => {
   const products = useSelector(state => state.products, shallowEqual);
   const dispatch = useDispatch();
   React.useEffect(() => {
-    dispatch(actions.getProducts());
+    dispatch(actions.fetchProducts());
   }, []);
   const route = useRouter();
   console.log(products, dispatch);

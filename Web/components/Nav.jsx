@@ -1,45 +1,46 @@
-import React from 'react'
-import logoSVG from '../static/assets/logo.svg'
+import React from 'react';
+import { useRouter } from 'next/router';
+import logoSVG from '../static/assets/logo.svg';
 import hamburguerMenuSVG from '../static/assets/icons/hamburguerMenu.svg';
 import hamburguerCloseMenuSVG from '../static/assets/icons/hamburguerCloseMenu.svg';
-import shoppingCartSVG from '../static/assets/icons/shoppingCart.svg'
+import shoppingCartSVG from '../static/assets/icons/shoppingCart.svg';
 import searchSVG from '../static/assets/icons/search.svg';
 import Menu from './Menu';
-import {useClickAway} from 'react-use';
 import ShopCartMenu from './ShopCartMenu';
-import { useRouter } from 'next/router';
+import InteractiveElement from './InteractiveElement';
+
 const Nav = () => {
   const Router = useRouter();
   const [isMenuActive, setIsMenuActive] = React.useState(false);
-  const [isShopCartMenuActive, setIsShopCartMenuActive] = React.useState(false)
-  const menuRef = React.useRef()
-  const navRef = React.useRef()
+  const [isShopCartMenuActive, setIsShopCartMenuActive] = React.useState(false);
+  const menuRef = React.useRef();
+  const navRef = React.useRef();
   const hamburguerMenuRef = React.useRef();
-  function handleHamburguerMenu(e){
-    e.preventDefault()
+  function handleHamburguerMenu(e) {
+    e.preventDefault();
     setIsMenuActive(!isMenuActive);
   }
-  function handleShopCartMenu(e){
-    setIsShopCartMenuActive(!isShopCartMenuActive)
+  function handleShopCartMenu() {
+    setIsShopCartMenuActive(!isShopCartMenuActive);
   }
-  React.useEffect(()=>{
-    if(document){
+  React.useEffect(() => {
+    if (document) {
       document.body.style.paddingTop = '15vh';
     }
-  }, [])
-  function handleLogoClick(){
-    if (Router.pathname==='/' ){
-      window &&  window.scrollTo({
+  }, []);
+  function handleLogoClick() {
+    if (Router.pathname === '/' && window) {
+      window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
-    }else{
-      Router.replace('/')
+    } else {
+      Router.replace('/');
     }
   }
   // React.useEffect(()=>{
   //   // Não executa o resto se o documento não estiver disponivel
-  //   if(!document) return  
+  //   if(!document) return
   //   const {body} = document
   //   if(isMenuActive){
   //     body.style.overflow = 'hidden';
@@ -55,26 +56,37 @@ const Nav = () => {
   //   }
   // }, ['mousedown']);
   return (
-    <nav ref={navRef}> 
-      <Menu ref={menuRef} isActive={isMenuActive}/>
-      <ShopCartMenu isActive={isShopCartMenuActive}/>
-      <img 
+    <nav ref={navRef}>
+      <Menu ref={menuRef} isActive={isMenuActive} />
+      <ShopCartMenu isActive={isShopCartMenuActive} />
+      <InteractiveElement
+        src={isMenuActive ? hamburguerCloseMenuSVG : hamburguerMenuSVG}
         ref={hamburguerMenuRef}
-        className='hamburguer-menu' 
-        onClick={handleHamburguerMenu} 
-        src={isMenuActive?hamburguerCloseMenuSVG:hamburguerMenuSVG}
+        onClick={handleHamburguerMenu}
+        className="hamburguer-menu"
+        alt="Hamburguer Menu"
+        tag="img"
       />
-      <img className='logo' onClick={handleLogoClick} src={logoSVG}/>
-      <img 
-        onClick={handleShopCartMenu} 
-        className='shopping-cart' 
-        src={isShopCartMenuActive?hamburguerCloseMenuSVG:shoppingCartSVG}/>
+      <InteractiveElement
+        className="logo"
+        onClick={handleLogoClick}
+        src={logoSVG}
+        alt="Logo"
+        tag="img"
+      />
+      <InteractiveElement
+        onClick={handleShopCartMenu}
+        className="shopping-cart"
+        src={isShopCartMenuActive ? hamburguerCloseMenuSVG : shoppingCartSVG}
+        alt="Carrinho de Compras"
+        tag="img"
+      />
       <div className="search-bar">
-        <input type='search' placeholder='Digite Aqui'/>
-        <img src={searchSVG} alt='Pesquisar'/>
+        <input type="search" placeholder="Digite Aqui" />
+        <InteractiveElement src={searchSVG} alt="Pesquisar" tag="img" />
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Nav
+export default Nav;
