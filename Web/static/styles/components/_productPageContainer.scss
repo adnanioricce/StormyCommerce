@@ -1,0 +1,14 @@
+.product-page-container{
+  .image{
+    border: 1px solid $primary-color;
+    margin: 10px 10%;
+    width: 40%;
+
+  }
+  @media screen and (max-width: 425px) {
+    .image{
+      width: calc(100% - 20%);
+
+    }
+  }
+}
