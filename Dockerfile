@@ -1,22 +1,23 @@
-FROM simpl-sdk-2.2 AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
   
 WORKDIR /app
 COPY . ./
 
-RUN sed -i 's#<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />#<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />#' src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj
+RUN sed -i 's#<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.3" />#<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />#' src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj
 RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Program.cs
 RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Extensions/ServiceCollectionExtensions.cs
 
 RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost/appsettings.docker.json src/SimplCommerce.WebHost/appsettings.json
 
 # ef core migrations run in debug, so we have to build in Debug for copying module correctly 
-RUN ls -l
 RUN dotnet restore && dotnet build \
     && cd src/SimplCommerce.WebHost \
-    && dotnet ef migrations add initialSchema \
+	&& dotnet ef migrations add initialSchema \
     && dotnet ef migrations script -o dbscript.sql
 
-RUN dotnet build -c Release \
+FROM build AS publish 
+WORKDIR .
+RUN dotnet build *.sln -c Release 
 	&& cd src/SimplCommerce.WebHost \
     && dotnet build -c Release \
 	&& dotnet publish -c Release -o out
@@ -39,7 +40,7 @@ WORKDIR /app
 COPY --from=build-env /app/src/SimplCommerce.WebHost/out ./
 COPY --from=build-env /app/src/SimplCommerce.WebHost/dbscript.sql ./
 
-#RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so
+RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so
 
 COPY --from=build-env /app/docker-entrypoint.sh /
 RUN chmod 755 /docker-entrypoint.sh

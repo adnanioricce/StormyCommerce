@@ -1,0 +1,6 @@
+{
+  "id": "SimplCommerce.Module.Boleto",
+  "Name": "Boleto",
+  "isBundledWithHost": false,
+  "version": "1.0.0"
+}

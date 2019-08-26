@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor" ToolsVersion="Current">
   <PropertyGroup>
+    <PreserveCompilationContext>false</PreserveCompilationContext>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -7,8 +8,6 @@
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WindowsAzure.Storage" version="9.3.3" />
-    <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
-    <ProjectReference Include="..\SimplCommerce.Module.Core\SimplCommerce.Module.Core.csproj" />
+    <PackageReference Include="BoletoNetCore" Version="1.0.0-beta6" />
   </ItemGroup>
 </Project>
