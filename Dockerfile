@@ -1,4 +1,4 @@
-FROM simpl-sdk-2.2 AS build-env
+FROM stormycommerce/base-sdk:latest AS build-env
   
 WORKDIR /app
 COPY . ./
@@ -10,21 +10,21 @@ RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Extensions/Serv
 RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost/appsettings.docker.json src/SimplCommerce.WebHost/appsettings.json
 
 # ef core migrations run in debug, so we have to build in Debug for copying module correctly 
-RUN ls -l
-RUN dotnet restore && dotnet build \
+RUN dotnet restore SimplCommerce.sln & dotnet build SimplCommerce.sln\
     && cd src/SimplCommerce.WebHost \
     && dotnet ef migrations add initialSchema \
     && dotnet ef migrations script -o dbscript.sql
 
-RUN dotnet build -c Release \
-	&& cd src/SimplCommerce.WebHost \
+RUN dotnet build *.sln -c Release \
+    && cd src/SimplCommerce.WebHost \
+    && ls -l \
     && dotnet build -c Release \
-	&& dotnet publish -c Release -o out
+    && dotnet publish -c Release -o out
 
 # remove BOM for psql	
 RUN sed -i -e '1s/^\xEF\xBB\xBF//' /app/src/SimplCommerce.WebHost/dbscript.sql
 
-FROM microsoft/dotnet:2.1.4-aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 
 # hack to make postgresql-client install work on slim
 RUN mkdir -p /usr/share/man/man1 \

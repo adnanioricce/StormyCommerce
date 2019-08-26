@@ -54,7 +54,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             var products = fakeProduct.Generate(count);
             return products;
         }
-        public static List<Entity> EntitySeed(int count = 1,string entityType)
+        public static List<Entity> EntitySeed(int count = 1,string entityType = "Product")
         {
             var fakeEntity = new Faker<Entity>("pt_BR")
             .RuleFor(v => v.Id,f => ++f.IndexVariable)
