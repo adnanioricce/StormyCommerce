@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="FunctionalTests\**" />
+    <EmbeddedResource Remove="FunctionalTests\**" />
+    <None Remove="FunctionalTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="Moq" Version="4.11.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.console" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="xunit.core">
+      <HintPath>C:\Users\adnan\.nuget\packages\xunit.extensibility.core\2.4.0\lib\netstandard2.0\xunit.core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj" />
+    <ProjectReference Include="..\..\..\src\StormyCommerce.Core\StormyCommerce.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
+    <ProjectReference Include="..\..\..\src\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj"/>
+  </ItemGroup>
+
+</Project>

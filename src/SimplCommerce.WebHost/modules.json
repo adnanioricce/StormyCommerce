@@ -1,0 +1,10 @@
+[
+  {
+    "id" : "StormyCommerce.Module.Catalog",
+    "version": "1.0.0"
+  }, 
+  {
+    "id": "StormyCommerce.Module.Orders",
+    "version" :  "1.0.0"
+  }
+]

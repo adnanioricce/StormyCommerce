@@ -1,0 +1,6 @@
+{
+  "id": "StormyCommerce.Module.Orders",
+  "name": "Orders",
+  "isBundledWithHost": true,
+  "version": "1.0.0"
+}

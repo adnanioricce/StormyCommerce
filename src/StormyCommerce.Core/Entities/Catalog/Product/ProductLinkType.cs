@@ -1,0 +1,13 @@
+﻿namespace StormyCommerce.Core.Entities.Catalog.Product
+{
+    public enum ProductLinkType
+    {
+        Super = 1,
+
+        Related = 2,
+
+        CrossSell = 3,
+
+        UpSell = 4
+    }
+}
