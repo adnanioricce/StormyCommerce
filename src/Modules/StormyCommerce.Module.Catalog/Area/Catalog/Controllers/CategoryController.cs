@@ -12,9 +12,9 @@ using System.Linq;
 namespace StormyCommerce.Module.Catalog.Area.Controllers
 {
     [Area("Catalog")]
-    [ApiController]    
-    [Route("api/[Controller]/[Action]")]
+    [ApiController]        
     [Authorize]
+    [Route("api/[Controller]/[Action]")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

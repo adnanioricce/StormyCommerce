@@ -17,6 +17,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         }
         public StormyProduct(ProductDto productDto)
         {
+            Id = productDto.Id;
             Slug = productDto.Slug;
             ProductName = productDto.ProductName;
             OldPrice = productDto.OldPrice;
@@ -26,9 +27,8 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             UnitsInStock = productDto.UnitsInStock;
             UnitSize = Convert.ToDecimal(productDto.UnitSize);
             UnitsOnOrder = productDto.UnitsOnOrder;
-            UnitWeight = productDto.UnitWeight;
-            
-        }
+            UnitWeight = productDto.UnitWeight;            
+        }        
         public StormyProduct()
         {
 

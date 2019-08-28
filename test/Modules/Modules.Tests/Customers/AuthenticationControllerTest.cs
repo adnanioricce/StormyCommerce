@@ -25,9 +25,7 @@ namespace Modules.Test.Customers
             return new UserIdentityService(new FakeSignInManager(), new FakeUserManager(), null);
         }
         public AuthenticationController CreateController()
-        {
-            var appUser = IdentityDataSeed.ApplicationUserSeed().FirstOrDefault();
-
+        {            
             //fakeIdentityService
             var fakeTokenService = new Mock<ITokenService>();
             fakeTokenService
@@ -49,10 +47,10 @@ namespace Modules.Test.Customers
                 Password = "!Tr27gh43"
             };
             //Act
-            var result = (await controller.LoginAsync(loginVm)) as OkObjectResult;
+            var result = Assert.IsType<OkObjectResult>(await controller.LoginAsync(loginVm));
             //Assert
             //How do I test it?
-            Assert.NotNull(result);
+            Assert.Equal(200,result.StatusCode);            
         }
         [Fact]
         public async Task RegisterAsync_ReceivedValidVm_ShouldReturnSuccessMessage()

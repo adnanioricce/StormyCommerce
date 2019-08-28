@@ -32,16 +32,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         }
         private ProductController CreateController()
         {
-            var dbContext = DbContextHelper.GetDbContext();            
-            dbContext.AddRange(Seeders.StormyProductSeed(15));
-            dbContext.AddRange(Seeders.BrandSeed(15));
-            dbContext.AddRange(Seeders.CategorySeed(15));
-            dbContext.AddRange(Seeders.MediaSeed(15));
-            dbContext.AddRange(Seeders.ProductLinkSeed(15));
-            dbContext.AddRange(Seeders.StormyVendorSeed(15));
-            dbContext.AddRange(Seeders.ProductAttributeSeed(15));
-            dbContext.AddRange(Seeders.ProductAttributeGroupSeed(15));
-            dbContext.SaveChanges();
+            var dbContext = DbContextHelper.GetDbContext();                                    
             var repository = new StormyRepository<StormyProduct>(dbContext);
 
             var productService = new ProductService(repository);
@@ -112,7 +103,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             // Arrange            
             var product = Seeders.StormyProductSeed(1).FirstOrDefault();
 
-            var model = new ProductDto(product);            
+            var model = new ProductDto(product,0);            
             // Act
             var result = await _productController.CreateProduct(model);           
             // Assert            

@@ -10,6 +10,24 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         {
             
         }
+        public ProductDto(StormyProduct product,long id)
+        {
+            Id = id; 
+            ProductName = product.ProductName;
+            Slug = product.Slug;
+            QuantityPerUnity = product.QuantityPerUnity;
+            UnitSize = product.UnitSize.ToString();
+            Discount = product.Discount;
+            UnitWeight = product.UnitWeight;
+            UnitsInStock = product.UnitsInStock;
+            UnitsOnOrder = product.UnitsOnOrder;
+            Price = product.Price;
+            OldPrice = product.OldPrice;
+            // Category = new CategoryDto(product.Category);
+            // Brand = new BrandDto(product.Brand);
+            // Vendor = new VendorDto(product.Vendor);
+
+        }
         public ProductDto(StormyProduct product)
         {
             Id = product.Id;
