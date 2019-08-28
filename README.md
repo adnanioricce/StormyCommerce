@@ -15,4 +15,4 @@
 
 
 # Sobre o projeto 
-o projeto é na verdade um fork do SimplCommerce [GitHub](http://github.com/simplCommerce/SimplCommerce), em vista de realizar um trabalho de conclusão de curso.
+o projeto é na verdade um fork do [SimplCommerce](http://github.com/simplCommerce/SimplCommerce), em vista de realizar um trabalho de conclusão de curso.
