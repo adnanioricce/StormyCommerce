@@ -6,13 +6,33 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-
+    ports:
+        - "80:8000"
+    depends_on:
+        - database
+    container_name: 'stormy_webhost'    
+    networks:
+      - stormy-net
   database:
-    image:postgres
-    restart:always
+    image: postgres
+    container_name: 'postgres'
+    ports: 
+      - "5432"
+    restart: always
+    networks:
+      - stormy-net
     environment:
-      POSTGRES_PASSWORD:postgres
-      POSTGRES_USER:postgres
-      POSTGRES_DB:simplcommerce
-    
-
+        - "POSTGRES_PASSWORD=postgres"
+        - "POSTGRES_USER=postgres"
+        - "POSTGRES_DB=postgres"
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./mysql-initdb:/docker-entrypoint-initdb.d
+    networks: 
+      - stormy-net
+volumes:
+  data:
+  postgresql-initdb:
+networks:
+  stormy-net:
+    driver: bridge

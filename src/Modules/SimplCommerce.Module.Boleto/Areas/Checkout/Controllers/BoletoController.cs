@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StormyCommerce.Core.Interfaces.Domain.Order;
 
 namespace SimplCommerce.Module.Boleto.Areas.Boleto.Controllers
 {
@@ -9,11 +8,10 @@ namespace SimplCommerce.Module.Boleto.Areas.Boleto.Controllers
     public class BoletoController : Controller
     {
         private readonly BoletoService _boletoService;
-        private readonly IOrderService _orderService;
-        public BoletoController(BoletoService boletoService,IOrderService orderService)
+        // private readonly IOrderService _orderService;
+        public BoletoController(BoletoService boletoService)
         {
-            _boletoService = boletoService;
-            _orderService = orderService;
+            _boletoService = boletoService;            
         }
     }
 }
