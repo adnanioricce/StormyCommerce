@@ -6,5 +6,9 @@
   {
     "id": "StormyCommerce.Module.Orders",
     "version" :  "1.0.0"
+  },
+  {
+    "id": "StormyCommerce.Module.Customer",
+    "version" : "1.0.0"
   }
 ]
