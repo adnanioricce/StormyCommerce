@@ -6,7 +6,7 @@ function* favoriteProduct({ productID }) {
   yield console.log(`favoritando produto com id ${productID}`);
 }
 function* fetchProducts() {
-  const allProducts = yield call(api.get, 'http://localhost:5000/api/products');
+  const allProducts = yield call(api.get, '/products');
   yield put(actions.setProducts(allProducts.data));
 }
 function* watchListAll() {

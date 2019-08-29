@@ -6,11 +6,11 @@ import api from '../services/api';
 import Footer from '../components/Footer';
 import Breadcumb from '../components/Breadcumb';
 import FavoriteFloater from '../components/FavoriteFloater';
-import TitleWithFloater from '../components/TitleWithFloater';
 import Title from '../components/Title';
 import Description from '../components/Description';
 import Button from '../components/Button';
 import ProductOptionsController from '../components/ProductOptionsController';
+import ProductImage from '../components/ProductImage';
 
 function product() {
   const { query } = useRouter();
@@ -19,13 +19,10 @@ function product() {
   const [currentProduct, setCurrentProduct] = React.useState(null);
   React.useEffect(() => {
     api.get(`products`).then(({ data: products }) => {
-      console.log(products);
       setCurrentProduct(products[productID]);
-      console.log(products[productID]);
       setIsLoading(false);
     });
   }, [productID]);
-  console.log(currentProduct);
   return (
     <Page>
       <Nav />
@@ -33,18 +30,10 @@ function product() {
       {isLoading === false && currentProduct && (
         <div className="product-page-container">
           <Breadcumb paths={[currentProduct.category, currentProduct.name]} />
-          <TitleWithFloater label={currentProduct.name}>
-            <FavoriteFloater
-              style={{ top: 0, left: '10%' }}
-              isFavorited={currentProduct.isFavorited}
-            />
-          </TitleWithFloater>
+          <Title label={currentProduct.name} />
           <div className="product-display-container">
-            <img
-              className="image"
-              src={currentProduct.image}
-              alt={currentProduct.name}
-            />
+            <ProductImage currentProduct={currentProduct} />
+
             <ProductOptionsController />
           </div>
 

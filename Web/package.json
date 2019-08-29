@@ -20,7 +20,7 @@
     "start": "next start"
   },
   "name": "GitHub",
-  "version": "0.15",
+  "version": "1.0.15",
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
