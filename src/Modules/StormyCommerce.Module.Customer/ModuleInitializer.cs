@@ -37,18 +37,20 @@ namespace StormyCommerce.Module.Customer
             //     app.UseDeveloperExceptionPage();
             //     app.UseDatabaseErrorPage();
             // }
-            var context = (StormyDbContext)app.ApplicationServices.GetService(typeof(StormyDbContext));
-            var userManager = (UserManager<ApplicationUser>)app.ApplicationServices.GetService(typeof(UserManager<ApplicationUser>));
-            var roleManager = (RoleManager<IdentityRole>)app.ApplicationServices.GetService(typeof(RoleManager<IdentityRole>));            
+            // var context = (StormyDbContext)app.ApplicationServices.GetService(typeof(StormyDbContext));
+            // var userManager = (UserManager<ApplicationUser>)app.ApplicationServices.GetService(typeof(UserManager<ApplicationUser>));
+            // var roleManager = (RoleManager<IdentityRole>)app.ApplicationServices.GetService(typeof(RoleManager<IdentityRole>));            
+            // new IdentityInitializer(context,userManager,roleManager);
         }
 
         public void ConfigureServices(IServiceCollection serviceCollection)
         {                                                
+            AddCustomizedIdentity(serviceCollection);
 	        serviceCollection.AddTransient<ITokenService,TokenService>();
 	        serviceCollection.AddTransient<IEmailSender,EmailSender>();
-            serviceCollection.AddTransient<UserManager<ApplicationUser>>();
-            serviceCollection.AddTransient<SignInManager<ApplicationUser>>();
-            serviceCollection.AddTransient<RoleManager<IdentityRole>>();
+            serviceCollection.AddScoped<UserManager<ApplicationUser>>();
+            serviceCollection.AddScoped<SignInManager<ApplicationUser>>();
+            serviceCollection.AddScoped<RoleManager<IdentityRole>>();
 	        serviceCollection.AddScoped<IUserIdentityService,UserIdentityService>();            
             //go to SimplCommerce.WebHost.Extensions.ServiceCollectionExtensions
             //serviceCollection.AddDbContext<StormyDbContext>(options =>

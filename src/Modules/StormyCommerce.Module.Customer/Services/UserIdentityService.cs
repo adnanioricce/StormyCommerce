@@ -58,7 +58,7 @@ namespace StormyCommerce.Module.Customer.Services
         }        
         public async Task<string> CreateEmailConfirmationCode(ApplicationUser user,string email)
         {
-            return String.Empty;
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
         public async Task SignOutAsync()
         {

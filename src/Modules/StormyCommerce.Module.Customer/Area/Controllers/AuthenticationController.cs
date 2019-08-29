@@ -30,7 +30,7 @@ namespace StormyCommerce.Module.Customer.Controllers
             _emailSender = emailSender;
 	        _tokenService = tokenService;
         }
-        [HttpPost("signin")]
+        [HttpPost]
 	    [ValidateModel]
         [AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromBody]SignInVm signInVm)
@@ -48,7 +48,7 @@ namespace StormyCommerce.Module.Customer.Controllers
 	        //TODO:Write JWT refresh token logic
             return Ok(new {token = token});
         }
-        [HttpPost("signup")]
+        [HttpPost]
         [ValidateModel]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterAsync(SignUpVm signUpVm)
