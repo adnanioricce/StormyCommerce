@@ -41,7 +41,7 @@ namespace StormyCommerce.Module.Customer.Controllers
 	    
     	    var signInResult = await _identityService.PasswordSignInAsync(user,signInVm.Password,true,true);
 
-	        if(signInResult.Succeeded == false)	return BadRequest();
+	        if(signInResult.Succeeded == false)	return BadRequest("fail to sign in ");
 	    
 	        var claims = await _identityService.BuildClaims(user);//TODO:Replace this with a extension method
 	        var token = _tokenService.GenerateAccessToken(claims);

@@ -28,7 +28,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
                 
             try
             {
-                DbSet.Update(entity);
+                DbSet.Add(entity);
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateException exception)

@@ -44,7 +44,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         }                
         [Fact]
         public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
-        {
+        {            
             // Arrange                                
             long id = 1;
 
@@ -101,13 +101,14 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         public async Task CreateProduct_GivenModelIsValidDto_CreateNewEntryOnDatabase()
         {
             // Arrange            
+            var controller = CreateController();
             var product = Seeders.StormyProductSeed(1).FirstOrDefault();
 
-            var model = new ProductDto(product,0);            
+            var model = new ProductDto(product,68);            
             // Act
             var result = await _productController.CreateProduct(model);           
             // Assert            
-            var objResult = Assert.IsType<OkResult>(result);
+            var objResult = Assert.IsAssignableFrom<OkResult>(result);
             Assert.Equal(200, objResult.StatusCode);
         }
     }

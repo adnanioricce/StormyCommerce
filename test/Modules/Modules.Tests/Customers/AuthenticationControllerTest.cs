@@ -41,18 +41,18 @@ namespace Modules.Test.Customers
              fakeTokenService.Object,
              GetFakeEmailSender());
         }        
-        private EmailSender GetFakeEmailSender()
+        private IEmailSender GetFakeEmailSender()
         {
-            var fakeConfigSection = new Mock<IConfigurationSection>();
-            fakeConfigSection.SetupGet(f => f[It.IsAny<string>()]).Returns("fake_result");
-            // fakeConfigSection.SetupGet(f => f[It.Is<string>(s => s == "SendGrid:Email:ApiKey")])
-            // .Returns("fakeKey");
-            // fakeConfigSection.SetupGet(f => f[It.Is<string>()])
-            var fakeConfiguration = new Mock<IConfiguration>();
-            fakeConfiguration
-                .Setup(f => f.GetValue(It.IsAny<string>(),It.IsAny<string>()))
-                .Returns(Guid.NewGuid().ToString("N"));                                   
-            var fakeEmailSender = new Mock<EmailSender>(fakeConfiguration.Object);                                                
+            // var Configuration = new ConfigurationBuilder()
+            //     .AddJsonFile("appsettings.json",optional:false,reloadOnChange: true)
+            //     .AddEnvironmentVariables()
+            //     .Build();
+            var fakeEmailSender = new Mock<IEmailSender>();                                                
+            fakeEmailSender
+            .Setup(f => f.SendEmailAsync(It.IsAny<string>(),
+            It.IsAny<string>(),
+            It.IsAny<string>(),
+            false));
             return fakeEmailSender.Object;
         }
         [Fact]
@@ -60,8 +60,7 @@ namespace Modules.Test.Customers
         {
             //Arrange            
             var loginVm = new SignInVm
-            {
-                Username = "someUser",
+            {                
                 Email = "myemail@example.com",
                 Password = "!Tr27gh43"
             };
@@ -82,9 +81,10 @@ namespace Modules.Test.Customers
                 Password = "!Tr27gh43"
             };
             //Act 
-            var result = Assert.IsAssignableFrom<OkObjectResult>(await _controller.RegisterAsync(signUpVm));
+            var result = Assert.IsAssignableFrom<OkResult>(await _controller.RegisterAsync(signUpVm));
             //Assert 
             Assert.NotNull(result);
+            Assert.Equal(200,result.StatusCode);
         }
     }
 }

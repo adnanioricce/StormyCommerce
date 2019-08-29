@@ -76,7 +76,7 @@ namespace Modules.Test
         public async Task CreateCategory_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            var category = new Category(Seeders.CategorySeed(11).First());            
+            var category = new Category(Seeders.CategorySeed(1).Last(),12);            
             // Act
             var result = await _categoryController.CreateCategory(category);            
             // Assert
