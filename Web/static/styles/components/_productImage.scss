@@ -1,0 +1,14 @@
+.product-image {
+  width: 50%;
+  position: relative;
+  img{
+    border: 1px solid $primary-color;
+    margin: 10px 0;
+    width: 100%;
+  }
+  @media screen and (max-width: 425px) {
+    &{
+      width: calc(100% - 20%);
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import ColorSelector from './ColorSelector';
+import SelectInput from './SelectInput';
 
 function ProductOptionsController() {
   const [activeColor, setActiveColor] = React.useState('red');
@@ -13,6 +14,9 @@ function ProductOptionsController() {
           { value: 'red', color: 'red' },
           { value: 'yellow', color: 'yellow' }
         ]}
+      />
+      <SelectInput
+        options={[{ label: 15, value: 15 }, { label: 16, value: 16 }]}
       />
     </div>
   );

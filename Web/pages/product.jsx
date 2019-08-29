@@ -5,7 +5,6 @@ import Page from '../components/Page';
 import api from '../services/api';
 import Footer from '../components/Footer';
 import Breadcumb from '../components/Breadcumb';
-import FavoriteFloater from '../components/FavoriteFloater';
 import Title from '../components/Title';
 import Description from '../components/Description';
 import Button from '../components/Button';
