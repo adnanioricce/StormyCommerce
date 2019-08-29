@@ -1,19 +1,26 @@
 import * as React from 'react';
+import Select from 'react-select';
 
-export default ({ options = [] }) => {
+export default ({
+  options = [],
+  setCurrentOption = null,
+  defaultOption = null
+}) => {
+  function handleChange(e) {
+    if (setCurrentOption) {
+      setCurrentOption(e.value);
+    }
+  }
   return (
     <>
-      <select className="select-input">
-        {options.map(
-          ({ label: optionLabel, value: optionValue }, optionIndex) => {
-            return (
-              <option key={optionIndex} value={optionValue}>
-                {optionLabel}
-              </option>
-            );
-          }
-        )}
-      </select>
+      <Select
+        className="select-input-container"
+        classNamePrefix="select-input"
+        closeMenuOnScroll
+        defaultValue={defaultOption || options[0]}
+        onChange={handleChange}
+        options={options}
+      />
     </>
   );
 };

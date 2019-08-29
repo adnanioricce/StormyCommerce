@@ -1,15 +1,45 @@
-.select-input{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px auto;
+.select-input-container{
   width: 100px;
-  height: 50px;
-  font-family: "Roboto", sans-serif;
-  text-align-last: center;
-  text-align: center;
-  option{
+  margin: 10px auto;
+  .select-input__control{
+    border: 1px solid $primary-color;
+    border-radius: 0;
+    height: 50px;
+  }
+  .select-input__menu {
+    border: 1px solid $primary-color;
+    border-radius: 0;
+  }
+  .select-input__single-value{
+    transform: translate(-50%, -50%);
+    left: 50%;
+    margin: 0;
+  }
+  .select-input__value-container{
+    padding: 2px 20%;
+  }
+  .select-input__option{
+    text-align: center;
+    &--is-selected{
+      background-color: $primary-color;
+      color: $secondary-color;
+    }
     
-    text-align-last: center;  
+    &--is-focused{
+      background-color: rgba($color:$primary-color, $alpha: .2);
+    }
+    &:active{
+      background-color: rgba($color:$primary-color, $alpha: .6);
+    }
+  }
+  .select-input__indicators{
+    svg{
+      fill: $primary-color;
+    }
+  }
+  .select-input__indicator-separator{
+    height: 100%;
+    margin-top: 0;
+    background-color: $primary-color;
   }
 }
