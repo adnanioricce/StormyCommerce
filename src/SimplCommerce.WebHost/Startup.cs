@@ -86,6 +86,11 @@ namespace SimplCommerce.WebHost
                 c.SwaggerDoc("v1", new Info { Title = "StormyCommerce API", Version = "v1" });
             });
             services.AddMvc();
+            services.AddCors(o => o.AddPolicy("Default",builder => {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            }));
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)

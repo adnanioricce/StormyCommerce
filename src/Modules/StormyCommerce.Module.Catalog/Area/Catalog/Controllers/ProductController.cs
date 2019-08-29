@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Catalog.Product;
@@ -15,6 +16,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
     [ApiController]
     [Route("api/[Controller]/[Action]")]
 	[Authorize]
+	[EnableCors("Default")]
     public class ProductController : Controller
 	{
 		private readonly IProductService _productService;
