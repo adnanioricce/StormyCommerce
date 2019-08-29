@@ -10,8 +10,7 @@ namespace StormyCommerce.Modules.IntegrationTest
     public class BasicTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly CustomWebApplicationFactory _factory;
-        private readonly HttpClient _httpClient;
-        //private readonly 
+        private readonly HttpClient _httpClient;        
         public BasicTests(CustomWebApplicationFactory factory)
         {
             _factory = factory;
