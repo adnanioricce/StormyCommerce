@@ -33,11 +33,15 @@
       width: 100%;
     }
     .title{
-      font-size: 15px;
+      font-size: 1rem;
+      color: $primary-color;
+      margin: 5px;
+      font-weight: bold;
     }
     .price{
-      font-size: 15px;
-      margin: 5px 0;
+      font-size: 14px;
+      color: rgba($color: $primary-color, $alpha: .95);
+      margin-top: 5px;
     }
   }
 

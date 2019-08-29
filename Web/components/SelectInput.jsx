@@ -6,6 +6,7 @@ export default ({
   setCurrentOption = null,
   defaultOption = null
 }) => {
+  console.log(defaultOption);
   function handleChange(e) {
     if (setCurrentOption) {
       setCurrentOption(e.value);
@@ -17,7 +18,7 @@ export default ({
         className="select-input-container"
         classNamePrefix="select-input"
         closeMenuOnScroll
-        defaultValue={defaultOption || options[0]}
+        defaultValue={defaultOption ? { label: defaultOption } : options[0]}
         onChange={handleChange}
         options={options}
       />

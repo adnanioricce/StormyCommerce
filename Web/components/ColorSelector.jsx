@@ -18,7 +18,7 @@ function ColorSelector({ options, activeColor, setActiveColor }) {
         state={[isPopupActive, setIsPopupActive, activeColor, setActiveColor]}
         options={options}
       />
-      <Title label="Cor" style={{ margin: '5px 0', fontSize: '10px' }} />
+
       <InteractiveElement
         className="color-selector"
         style={{ backgroundColor: activeColor }}

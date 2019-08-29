@@ -14,8 +14,8 @@ body{
   min-height: 100%;
   background-color: $secondary-color;
 }
-@import '_tools.scss';
-@import '_fonts.scss';
+@import 'tools';
+@import 'fonts';
 @import './components/nav';
 @import './components/menu';
 @import './components/slides';
