@@ -8,13 +8,15 @@ using System.Threading.Tasks;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using System.Linq;
+using Microsoft.AspNetCore.Cors;
 
 namespace StormyCommerce.Module.Catalog.Area.Controllers
 {
     [Area("Catalog")]
-    [ApiController]    
-    [Route("api/[Controller]/[Action]")]
+    [ApiController]        
     [Authorize]
+    [Route("api/[Controller]/[Action]")]
+    [EnableCors("Default")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

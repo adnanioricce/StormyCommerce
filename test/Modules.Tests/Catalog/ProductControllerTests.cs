@@ -32,16 +32,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         }
         private ProductController CreateController()
         {
-            var dbContext = DbContextHelper.GetDbContext();            
-            dbContext.AddRange(Seeders.StormyProductSeed(15));
-            dbContext.AddRange(Seeders.BrandSeed(15));
-            dbContext.AddRange(Seeders.CategorySeed(15));
-            dbContext.AddRange(Seeders.MediaSeed(15));
-            dbContext.AddRange(Seeders.ProductLinkSeed(15));
-            dbContext.AddRange(Seeders.StormyVendorSeed(15));
-            dbContext.AddRange(Seeders.ProductAttributeSeed(15));
-            dbContext.AddRange(Seeders.ProductAttributeGroupSeed(15));
-            dbContext.SaveChanges();
+            var dbContext = DbContextHelper.GetDbContext();                                    
             var repository = new StormyRepository<StormyProduct>(dbContext);
 
             var productService = new ProductService(repository);
@@ -53,7 +44,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         }                
         [Fact]
         public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
-        {
+        {            
             // Arrange                                
             long id = 1;
 
@@ -110,13 +101,14 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         public async Task CreateProduct_GivenModelIsValidDto_CreateNewEntryOnDatabase()
         {
             // Arrange            
+            var controller = CreateController();
             var product = Seeders.StormyProductSeed(1).FirstOrDefault();
 
-            var model = new ProductDto(product);            
+            var model = new ProductDto(product,68);            
             // Act
             var result = await _productController.CreateProduct(model);           
             // Assert            
-            var objResult = Assert.IsType<OkResult>(result);
+            var objResult = Assert.IsAssignableFrom<OkResult>(result);
             Assert.Equal(200, objResult.StatusCode);
         }
     }

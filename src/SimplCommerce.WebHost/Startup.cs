@@ -57,12 +57,7 @@ namespace SimplCommerce.WebHost
             //services.AddCustomizedIdentity(_configuration);
             services.AddHttpClient();
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));            
-            //TODO: Move this to a module
-            // services.AddTransient<UserManager<ApplicationUser>>();
-            // services.AddTransient<SignInManager<ApplicationUser>>();
-            //services.AddCustomizedLocalization();
-
-            // services.AddCustomizedMvc(GlobalConfiguration.Modules);
+            
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander()); });
             services.Configure<WebEncoderOptions>(options =>
@@ -79,13 +74,17 @@ namespace SimplCommerce.WebHost
             {
                 moduleInitializer.ConfigureServices(services);
             }
-
-            //services.AddScoped<ServiceFactory>(p => p.GetService);            
+                      
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "StormyCommerce API", Version = "v1" });
             });
+            services.AddCors(o => o.AddPolicy("Default", builder => {
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            }));
             services.AddMvc();
+            
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -118,10 +117,13 @@ namespace SimplCommerce.WebHost
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseCookiePolicy();
-            // app.UseCustomizedIdentity();
-            //app.UseCustomizedRequestLocalization();
-            //app.UseCustomizedMvc();
+            app.UseCookiePolicy();           
+            app.UseCors(options =>
+            {
+                options.WithOrigins("https://localhost:49206", "http://localhost:49208", "http://localhost:49209", "https://localhost:3000")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
             app.UseMvc();
             
             

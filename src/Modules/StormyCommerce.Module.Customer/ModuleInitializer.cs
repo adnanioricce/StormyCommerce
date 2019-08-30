@@ -10,8 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SimplCommerce.Infrastructure.Modules;
-using SimplCommerce.Module.Core.Services;
-using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Entities;
@@ -19,7 +17,6 @@ using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Data;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
-
 namespace StormyCommerce.Module.Customer
 {
     public class ModuleInitializer : IModuleInitializer

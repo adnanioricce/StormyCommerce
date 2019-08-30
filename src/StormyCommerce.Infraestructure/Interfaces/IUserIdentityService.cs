@@ -16,7 +16,7 @@ namespace StormyCommerce.Infraestructure.Interfaces
         UserManager<ApplicationUser> GetUserManager();
         //Actually, you will not signout, it's a JWT based authentication
         Task SignOutAsync();
-        Task<List<Claim>> BuildClaims(ApplicationUser user);
+        Task<IEnumerable<Claim>> BuildClaims(ApplicationUser user);
         Task<string> CreateEmailConfirmationCode(ApplicationUser user,string email);        
 
     }

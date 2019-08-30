@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Module.Customer.Services;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Entities;
@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace StormyCommerce.Module.Customer.Controllers
 {
@@ -17,6 +18,7 @@ namespace StormyCommerce.Module.Customer.Controllers
     [ApiController]
     [Route("api/[Controller]/[Action]")]
     [Authorize]
+    [EnableCors]
     public class AuthenticationController : Controller
     {
         private IUserIdentityService _identityService;
@@ -41,7 +43,7 @@ namespace StormyCommerce.Module.Customer.Controllers
 	    
     	    var signInResult = await _identityService.PasswordSignInAsync(user,signInVm.Password,true,true);
 
-	        if(signInResult.Succeeded == false)	return BadRequest();
+	        if(signInResult.Succeeded == false)	return BadRequest("fail to sign in ");
 	    
 	        var claims = await _identityService.BuildClaims(user);//TODO:Replace this with a extension method
 	        var token = _tokenService.GenerateAccessToken(claims);

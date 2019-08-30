@@ -44,6 +44,6 @@ namespace TestHelperLibrary.Mocks
         public override Task<ApplicationUser> FindByNameAsync(string userName)
         {
             return Task.FromResult(Users.FirstOrDefault(u => u.UserName == userName));
-        }
+        }                
     }
 }

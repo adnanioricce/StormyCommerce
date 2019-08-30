@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Catalog.Product;
@@ -15,6 +16,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
     [ApiController]
     [Route("api/[Controller]/[Action]")]
 	[Authorize]
+	[EnableCors("Default")]
     public class ProductController : Controller
 	{
 		private readonly IProductService _productService;
@@ -29,7 +31,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		///<summary>
 		/// Get a more simplified version of a specified product
 		///</summary>
-        [HttpGet("product/product-overview/{0}")]
+        [HttpGet("{0}")]
 		[ValidateModel]
 		[AllowAnonymous]
 		public async Task<ActionResult<ProductOverviewDto>> GetProductOverviewAsync(long id)
@@ -39,7 +41,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
             return _mapper.Map<StormyProduct, ProductOverviewDto>(product);
         }
-		[HttpGet("admin/product/list")]
+		[HttpGet]
 		[ValidateModel]
 		[AllowAnonymous]
 		//TODO:Check if request is from Admin
@@ -53,7 +55,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
             return result.ToList();
 		}
-		[HttpGet("/homepage")]
+		[HttpGet]
 		[ValidateModel]
 		[AllowAnonymous]
 		public async Task<ActionResult<IList<ProductDto>>> GetAllProductsOnHomepage(int limit)
@@ -75,7 +77,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
             return product;
 		}
-		[HttpPost("admin/create")]
+		[HttpPost]
 		[ValidateModel]
 		public async Task<ActionResult> CreateProduct([FromBody]ProductDto _model)
 		{
@@ -84,7 +86,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 			await _productService.InsertProductAsync(model);
             return Ok();
 		}
-		[HttpPut("admin/edit")]
+		[HttpPut]
 		[ValidateModel]
 		public async Task EditProduct([FromBody]ProductDto _model)
 		{
@@ -94,9 +96,9 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 			//	return Result.Ok();
 			//}
 
-		}
-		[HttpGet("admin/number_products_in_category")]
-		[ValidateModel]
+		}		
+		[HttpGet]
+		[ValidateModel]		
 		public ActionResult<int> GetNumberOfProductsInCategory([FromBody]IList<int> categoryIds,int storeId)
 		{
 			var model = _productService.GetNumberOfProductsInCategory(categoryIds,storeId);

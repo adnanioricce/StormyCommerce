@@ -37,13 +37,12 @@ namespace StormyCommerce.Core.Services.Catalog
         //!this look very lazy
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
         {                               
-            return await GetProductsByIdsAsync(_productRepository
+            return await _productRepository
                 .Table
-                .Where(f => f.Ranking < limit && f.ProductAvailable == true)
-                .Select(p => p.Id)                
-                .ToArray());
+                .Where(f => f.Ranking <= limit)//use !                                
+                .ToListAsync();
 	    }   
-        public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 0,long endIndex = 15)
+        public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 1,long endIndex = 15)
         {                        
             return await _productRepository.Table                
                 .Include(product => product.Medias)
@@ -54,7 +53,7 @@ namespace StormyCommerce.Core.Services.Catalog
                 .Include(product => product.Vendor)
                 .Include(product => product.Category)
                 .Include(product => product.ThumbnailImage)                
-                .Where(product => product.Id >= startIndex && product.Id <= endIndex)
+                .Where(product => product.Id <= endIndex && product.Id >= startIndex)                
                 .ToListAsync();                                                                                
         }
 

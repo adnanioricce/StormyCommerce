@@ -17,9 +17,25 @@ namespace StormyCommerce.Core.Entities.Catalog
             Id = id;
         }
         public Category(Category category)
-        {
-            
+        {            
             Id = category.Id;
+            Name = category.Name;
+            Slug = category.Slug;
+            MetaTitle = category.MetaTitle;
+            MetaKeywords = category.MetaKeywords;
+            MetaDescription = category.MetaDescription;
+            Description = category.Description;
+            DisplayOrder = category.DisplayOrder;
+            IsPublished = category.IsPublished;
+            IncludeInMenu = category.IncludeInMenu;
+            ParentId = category.ParentId;
+            Parent = category.Parent;
+            Childrens = category.Childrens;
+            ThumbnailImageUrl = category.ThumbnailImageUrl;
+        }
+        public Category(Category category,long id)
+        {
+            Id = id;
             Name = category.Name;
             Slug = category.Slug;
             MetaTitle = category.MetaTitle;

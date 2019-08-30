@@ -42,7 +42,7 @@ namespace StormyCommerce.Module.Customer.Services
             {                
                 //TODO:Throw a error?
                 return result;
-            }
+            }            
             return result;
             
                      
@@ -64,7 +64,7 @@ namespace StormyCommerce.Module.Customer.Services
         {
             await _signInManager.SignOutAsync();
         }
-        public async Task<List<Claim>> BuildClaims(ApplicationUser user)
+        public async Task<IEnumerable<Claim>> BuildClaims(ApplicationUser user)
         {
             var claims = new List<Claim>
             {
