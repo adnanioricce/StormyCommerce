@@ -1,12 +1,13 @@
 import * as React from 'react';
-import FavoriteFloater from './FavoriteFloater';
 import ReactImageMagnify from 'react-image-magnify';
+import FavoriteFloater from './FavoriteFloater';
 
 export default ({ currentProduct }) => {
   return (
     <div className="product-image">
       {/* <img src={currentProduct.image} alt={currentProduct.name} /> */}
       <ReactImageMagnify
+        enlargedImagePosition="over"
         {...{
           smallImage: {
             alt: 'Wristwatch by Ted Baker London',
@@ -17,12 +18,12 @@ export default ({ currentProduct }) => {
             src: currentProduct.image,
             width: 1200,
             height: 1800
-          }
+          },
+          lensStyle: { backgroundColor: 'rgba(0,0,0,.6)' }
         }}
-     
       />
       <FavoriteFloater
-        style={{ top: 0, left: 0 }}
+        style={{ top: -1, left: -1 }}
         isFavorited={currentProduct.isFavorited}
       />
     </div>

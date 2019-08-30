@@ -24,10 +24,11 @@ const Nav = () => {
     setIsShopCartMenuActive(!isShopCartMenuActive);
   }
   React.useEffect(() => {
-    if (document) {
-      document.body.style.paddingTop = '15vh';
+    if (document && navRef.current) {
+      const navBarHeight = navRef.current.getBoundingClientRect().height * 1.5;
+      document.body.style.paddingTop = `${navBarHeight}px`;
     }
-  }, []);
+  }, [navRef]);
   function handleLogoClick() {
     if (Router.pathname === '/' && window) {
       window.scrollTo({

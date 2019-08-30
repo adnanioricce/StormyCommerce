@@ -2,6 +2,7 @@ import * as React from 'react';
 import Link from 'next/link';
 
 import FavoriteFloater from './FavoriteFloater';
+import InteractiveElement from './InteractiveElement';
 
 export default (
   { isFavorited, name, image, price, id },
@@ -16,30 +17,30 @@ export default (
   //   )
   // }, [])
   function handleProductClick() {
-    console.log(route);
-    route.query = { productID: index };
-    route.push('/product');
+    // route.query = { productID: index };
+    route.push(`/product?id=${index}`);
   }
   return (
-    <Link href={`/product?id=${index}`} key={id}>
-      <div
+    <div className="product" key={index}>
+      <InteractiveElement
         onClick={handleProductClick}
-        className="product"
-        key={index}
-        role="button"
-        onKeyPress={e => e.key === 'Enter' && handleProductClick()}
-        tabIndex={0}
+        tag="img"
+        className="image"
+        src={image}
+        alt={name}
+      />
+      <FavoriteFloater
+        style={{ top: -1, right: -1 }}
+        isFavorited={isFavorited}
+      />
+      <InteractiveElement
+        onClick={handleProductClick}
+        className="info"
+        tag="div"
       >
-        <img className="image" src={image} alt={name} />
-        <FavoriteFloater
-          style={{ position: 'absolute', top: -1, right: -1 }}
-          isFavorited={isFavorited}
-        />
-        <div className="info">
-          <p className="title">{name}</p>
-          <p className="price">{`R$ ${price.toFixed(2)}`}</p>
-        </div>
-      </div>
-    </Link>
+        <p className="title">{name}</p>
+        <p className="price">{`R$ ${price.toFixed(2)}`}</p>
+      </InteractiveElement>
+    </div>
   );
 };
