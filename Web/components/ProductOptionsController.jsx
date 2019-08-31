@@ -3,6 +3,7 @@ import ColorSelector from './ColorSelector';
 import SelectInput from './SelectInput';
 import Title from './Title';
 import QuantityChooser from './QuantityChooser';
+import Button from './Button';
 
 function ProductOptionsController() {
   const [currentColor, setCurrentColor] = React.useState('red');
@@ -26,6 +27,7 @@ function ProductOptionsController() {
       />
       <SectionTitle label="Quantidade" />
       <QuantityChooser />
+      <Button label="Adicionar ao Carrinho" />
     </div>
   );
 }
