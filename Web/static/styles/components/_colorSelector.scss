@@ -38,6 +38,8 @@
       align-items: center;
       padding: 5px 0;
       cursor: pointer;
+      transition: .1s ease-in-out;
+      transition-property: color, background-color;
       &:hover{
         background-color: rgba($color: $primary-color, $alpha: .2)
       }
@@ -46,6 +48,7 @@
       }
       &:active{
         background-color: rgba($color:$primary-color, $alpha: .8);
+        color: $secondary-color;
       }
     }
     .color-popup-box{

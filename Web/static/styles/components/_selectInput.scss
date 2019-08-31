@@ -24,7 +24,8 @@
   .select-input__option{
     text-align: center;
     cursor: pointer;
-    
+    transition: .1s ease-in-out;
+    transition-property: color, background-color;
     &--is-focused{
       background-color: rgba($color:$primary-color, $alpha: .2);
     }
@@ -34,6 +35,7 @@
     }
     &:active{
       background-color: rgba($color:$primary-color, $alpha: .8);
+      color: $secondary-color;
     }
   }
   .select-input__indicators{
