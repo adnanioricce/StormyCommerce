@@ -1,80 +1,85 @@
 import React from 'react';
 import { useClickAway } from 'react-use';
 import InteractiveElement from './InteractiveElement';
-import Title from './Title';
 
 function ColorSelector({ options, activeColor, setActiveColor }) {
   const [isPopupActive, setIsPopupActive] = React.useState(false);
+  const colorSelectorRef = React.useRef();
   React.useEffect(() => {
-    if (isPopupActive && window) {
-      window.document.body.style.overflow = 'hidden';
-    } else if (window) {
-      window.document.body.style.overflow = 'auto';
-    }
+    console.log(isPopupActive);
   }, [isPopupActive]);
   return (
     <>
-      <ColorPopup
-        state={[isPopupActive, setIsPopupActive, activeColor, setActiveColor]}
-        options={options}
-      />
-
       <InteractiveElement
+        ref={colorSelectorRef}
         className="color-selector"
         style={{ backgroundColor: activeColor }}
         tag="div"
-        onClick={() => {
-          setIsPopupActive(true);
+        onClick={e => {
+          if (e.target === colorSelectorRef.current) {
+            setIsPopupActive(currentValue => !currentValue);
+          }
         }}
-      />
+      >
+        <ColorMenu
+          colorSelectorRef={colorSelectorRef}
+          state={[isPopupActive, setIsPopupActive, activeColor, setActiveColor]}
+          options={options}
+        />
+      </InteractiveElement>
     </>
   );
 }
-const ColorPopup = ({ state, options }) => {
-  const [isPopupActive, setIsPopupActive, activeColor, setActiveColor] = state;
-  const popupRef = React.useRef(null);
-  useClickAway(popupRef, () => {
-    setIsPopupActive(false);
-  });
+const ColorBox = ({ value, color }, index, closeMenu, activeColor) => {
+  const handleColorClick = () => {
+    // setActiveColor(value);
+    closeMenu(value);
+  };
   return (
-    <div
-      className="color-popup-overlay"
-      style={{
-        transition: 'opacity .3s ease-in-out',
-        pointerEvents: isPopupActive ? 'all' : 'none',
-        opacity: isPopupActive ? 1 : 0
-      }}
+    <InteractiveElement
+      key={index}
+      className={
+        color === activeColor
+          ? 'color-box-container selected'
+          : 'color-box-container'
+      }
+      onClick={handleColorClick}
+      tag="div"
     >
-      <div className="color-popup" ref={popupRef}>
-        <div className="color-popup-header">
-          <Title
-            label="Selecione uma cor"
-            style={{ color: 'white', fontSize: 10 }}
-          />
-        </div>
-        <div className="color-popup-body">
-          {options.map(({ value, color }, index) => {
-            const handleColorClick = () => {
-              setActiveColor(value);
-              setIsPopupActive(false);
-            };
-            return (
-              <InteractiveElement
-                key={index}
-                className={
-                  color === activeColor
-                    ? 'color-popup-box selected'
-                    : 'color-popup-box'
-                }
-                style={{ backgroundColor: color }}
-                onClick={handleColorClick}
-                tag="div"
-              />
-            );
-          })}
-        </div>
-      </div>
-    </div>
+      <div className="color-popup-box" style={{ backgroundColor: color }} />
+    </InteractiveElement>
   );
 };
+
+const ColorMenu = ({ state, options, colorSelectorRef }) => {
+  const [isPopupActive, setIsPopupActive, activeColor, setActiveColor] = state;
+  const popupRef = React.useRef(null);
+  const colorBodyRef = React.useRef(null);
+  const closeMenu = value => {
+    setActiveColor(value);
+    setIsPopupActive(false);
+  };
+  useClickAway(popupRef, e => {
+    if (
+      e.target !== colorSelectorRef.current &&
+      e.target !== colorBodyRef.current
+    ) {
+      setIsPopupActive(false);
+    }
+  });
+  return (
+    <>
+      {isPopupActive && (
+        <div className="color-popup" ref={popupRef}>
+          <div className="color-popup-body" ref={colorBodyRef}>
+            {options.map((e, index) =>
+              ColorBox(e, index, closeMenu, activeColor)
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
 export default ColorSelector;

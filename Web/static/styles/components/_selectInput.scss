@@ -23,16 +23,17 @@
   }
   .select-input__option{
     text-align: center;
-    &--is-selected{
-      background-color: $primary-color;
-      color: $secondary-color;
-    }
+    cursor: pointer;
     
     &--is-focused{
       background-color: rgba($color:$primary-color, $alpha: .2);
     }
+    &--is-selected{
+      background-color: $primary-color;
+      color: $secondary-color;
+    }
     &:active{
-      background-color: rgba($color:$primary-color, $alpha: .6);
+      background-color: rgba($color:$primary-color, $alpha: .8);
     }
   }
   .select-input__indicators{

@@ -15,7 +15,7 @@ function ProductOptionsController() {
         setActiveColor={setCurrentColor}
         options={[
           { value: 'red', color: 'red' },
-          { value: 'yellow', color: 'yellow' }
+          { value: 'purple', color: 'purple' }
         ]}
       />
       <SectionTitle label="Tamanho" />
