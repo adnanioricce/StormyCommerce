@@ -17,6 +17,7 @@ export default ({
         className="select-input-container"
         classNamePrefix="select-input"
         closeMenuOnScroll
+        isSearchable={false}
         defaultValue={options[0]}
         onChange={handleChange}
         options={options}
