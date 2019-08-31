@@ -10,6 +10,7 @@ import Description from '../components/Description';
 import Button from '../components/Button';
 import ProductOptionsController from '../components/ProductOptionsController';
 import ProductImage from '../components/ProductImage';
+import RelatedProducts from '../components/RelatedProducts';
 
 function product() {
   const { query } = useRouter();
@@ -37,6 +38,7 @@ function product() {
           </div>
 
           <Description text={currentProduct.description} />
+          <RelatedProducts currentProduct={currentProduct} />
           <Button label="Adicionar ao carrinho" />
         </div>
       )}

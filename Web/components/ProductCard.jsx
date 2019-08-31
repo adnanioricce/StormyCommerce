@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Link from 'next/link';
-
 import FavoriteFloater from './FavoriteFloater';
 import InteractiveElement from './InteractiveElement';
 
@@ -19,9 +17,13 @@ export default (
   function handleProductClick() {
     // route.query = { productID: index };
     route.push(`/product?id=${index}`);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
   return (
-    <div className="product" key={index}>
+    <div className="product-card" key={index}>
       <InteractiveElement
         onClick={handleProductClick}
         tag="img"

@@ -1,7 +1,8 @@
 export const consts = {
   favorite: 'PRODUCTS/FAVORITE',
-  fetchProducts: 'PRODUCTS/FETCHPRODUCTS',
-  setProducts: 'PRODUCTS/SETPRODUCTS'
+  fetchProducts: 'PRODUCTS/FETCH_PRODUCTS',
+  setProducts: 'PRODUCTS/SET_PRODUCTS',
+  addProductToCart: 'CART/ADD_PRODUCT'
 };
 const products = {
   favorite: productID => ({
