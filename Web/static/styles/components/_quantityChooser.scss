@@ -1,17 +1,17 @@
 .quantity-chooser{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   width: $product-option-chooser-width;
   height: $product-option-chooser-height;
-  margin: 0 auto;
+  margin: 0;
   input,.minus-button,.plus-button{
     border: 1px solid $primary-color;
     color: $primary-color;
-    $size: 50px;
-    height: $size;
-    width: 50px;
+    
+    height: $product-option-chooser-height;
+    width:  $product-option-chooser-width / 3 - 10px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -29,7 +29,7 @@
       transform: scale(.9);
     }
     img{
-      $size: 50%;
+      $size: 25%;
       height: $size;
       width: $size;
     }

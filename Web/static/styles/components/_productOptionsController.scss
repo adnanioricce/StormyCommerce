@@ -1,5 +1,18 @@
 .product-options-controller{
-  width: fit-content;
+  min-width: 40%;
+  // width: fit-content
+  flex: 1;
   height: 100%;
   margin: 0 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  .title-container{
+    justify-content: flex-start;
+  }
+  .button{
+    width: 90%;
+    margin: 10px 0;
+    
+  }
 }

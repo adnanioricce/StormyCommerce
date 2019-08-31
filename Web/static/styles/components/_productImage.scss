@@ -1,5 +1,6 @@
 .product-image {
-  width: 50%;
+  min-width: 250px;
+  flex: 1;
   position: relative;
   z-index: 5;
   border: 1px solid $primary-color;

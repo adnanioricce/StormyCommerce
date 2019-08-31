@@ -1,13 +1,9 @@
 import * as React from 'react';
+import Link from 'next/link';
 import FavoriteFloater from './FavoriteFloater';
 import InteractiveElement from './InteractiveElement';
 
-export default (
-  { isFavorited, name, image, price, id },
-  index,
-  algo,
-  route
-) => {
+const ProductCard = ({ isFavorited, name, image, price }, index) => {
   // const [image, setImage] = React.useState('');
   // React.useEffect(()=>{
   //   fetch(product.image).then(
@@ -16,25 +12,30 @@ export default (
   // }, [])
   function handleProductClick() {
     // route.query = { productID: index };
-    route.push(`/product?id=${index}`);
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    // route.push(`/product?name=${name}`);
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: 'smooth'
+    // });
   }
   return (
     <div className="product-card" key={index}>
-      <InteractiveElement
-        onClick={handleProductClick}
-        tag="img"
-        className="image"
-        src={image}
-        alt={name}
-      />
       <FavoriteFloater
         style={{ top: -1, right: -1 }}
         isFavorited={isFavorited}
       />
+      <Link
+        href={`/product?name=${name}`}
+        // as={`/produtos/${name.replace(/\s/g, '-')}`}
+      >
+        <InteractiveElement
+          onClick={handleProductClick}
+          tag="img"
+          className="image"
+          src={image}
+          alt={name}
+        />
+      </Link>
       <InteractiveElement
         onClick={handleProductClick}
         className="info"
@@ -46,3 +47,5 @@ export default (
     </div>
   );
 };
+
+export default ProductCard;

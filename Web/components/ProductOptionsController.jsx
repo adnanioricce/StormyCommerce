@@ -3,36 +3,58 @@ import ColorSelector from './ColorSelector';
 import SelectInput from './SelectInput';
 import Title from './Title';
 import QuantityChooser from './QuantityChooser';
+import Button from './Button';
+import PriceDisplay from './PriceDisplay';
+import Separator from './Separator';
 
-function ProductOptionsController() {
+function ProductOptionsController({ currentProduct }) {
   const [currentColor, setCurrentColor] = React.useState('red');
   const [currentSize, setCurrentSize] = React.useState(15);
+  const { price, oldPrice } = currentProduct;
   return (
     <div className="product-options-controller">
-      <SectionTitle label="Cor" />
-      <ColorSelector
-        activeColor={currentColor}
-        setActiveColor={setCurrentColor}
-        options={[
-          { value: 'red', color: 'red' },
-          { value: 'purple', color: 'purple' }
-        ]}
+      <Title
+        label={currentProduct.name}
+        style={{ justifyContent: 'left', marginBottom: 0 }}
       />
-      <SectionTitle label="Tamanho" />
-      <SelectInput
-        defaultOption={currentSize}
-        setCurrentOption={setCurrentSize}
-        options={[{ label: 15, value: 15 }, { label: 16, value: 16 }]}
-      />
-      <SectionTitle label="Quantidade" />
-      <QuantityChooser />
+      <PriceDisplay price={price} oldPrice={oldPrice} />
+      <Separator />
+      <Section label="Cor">
+        <ColorSelector
+          activeColor={currentColor}
+          setActiveColor={setCurrentColor}
+          options={[
+            { value: 'red', color: 'red' },
+            { value: 'purple', color: 'purple' }
+          ]}
+        />
+      </Section>
+      <Section label="Tamanho">
+        <SelectInput
+          defaultOption={currentSize}
+          setCurrentOption={setCurrentSize}
+          options={[{ label: 15, value: 15 }, { label: 16, value: 16 }]}
+        />
+      </Section>
+      <Section label="Quantidade">
+        <QuantityChooser />
+      </Section>
+      <Separator />
+      <Button label="Adicionar ao Carrinho" />
     </div>
   );
 }
 const SectionTitle = ({ label }) => (
   <Title
     label={label}
-    style={{ marginTop: '10px', marginBottom: '5px', fontSize: '10px' }}
+    style={{ margin: 0, marginBottom: 5, fontSize: '10px' }}
   />
+);
+
+const Section = ({ label, children }) => (
+  <div style={{ margin: '5px 10px' }}>
+    <SectionTitle label={label} />
+    {children}
+  </div>
 );
 export default ProductOptionsController;

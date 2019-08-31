@@ -3,13 +3,16 @@
   margin: 20px auto;
   background-color: $primary-color;
   border: none;
-  padding: 10px 20px;
+  padding: 20px 20px;
   width: fit-content;
+  font-size: 1.05rem;
   flex-direction: row;
   justify-content: center;
   p{
     color: $secondary-color;
     text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.09rem
   }
   @media all and (max-width: 425px) {
     width: 80%;
