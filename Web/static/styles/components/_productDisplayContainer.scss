@@ -6,4 +6,7 @@
   align-items: flex-start;
   padding: 0 10%;
   width: 100%;
+  @media all and (max-width: 425px){
+    align-items: center;
+  }
 }

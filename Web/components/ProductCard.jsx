@@ -36,14 +36,19 @@ const ProductCard = ({ isFavorited, name, image, price }, index) => {
           alt={name}
         />
       </Link>
-      <InteractiveElement
-        onClick={handleProductClick}
-        className="info"
-        tag="div"
+      <Link
+        href={`/product?name=${name}`}
+        // as={`/produtos/${name.replace(/\s/g, '-')}`}
       >
-        <p className="title">{name}</p>
-        <p className="price">{`R$ ${price.toFixed(2)}`}</p>
-      </InteractiveElement>
+        <InteractiveElement
+          onClick={handleProductClick}
+          className="info"
+          tag="div"
+        >
+          <p className="title">{name}</p>
+          <p className="price">{`R$ ${price.toFixed(2)}`}</p>
+        </InteractiveElement>
+      </Link>
     </div>
   );
 };
