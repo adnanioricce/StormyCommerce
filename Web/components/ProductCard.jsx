@@ -25,7 +25,7 @@ const ProductCard = ({ isFavorited, name, image, price }, index) => {
         isFavorited={isFavorited}
       />
       <Link
-        href={`/product?name=${name}`}
+        href={`/produto/${name.replace(/\s/g, '-')}`}
         // as={`/produtos/${name.replace(/\s/g, '-')}`}
       >
         <InteractiveElement

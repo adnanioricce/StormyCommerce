@@ -4,7 +4,6 @@ import Page from '../components/Page';
 import api from '../services/api';
 import Footer from '../components/Footer';
 import Breadcumb from '../components/Breadcumb';
-import Title from '../components/Title';
 import Description from '../components/Description';
 import ProductOptionsController from '../components/ProductOptionsController';
 import ProductImage from '../components/ProductImage';
@@ -43,9 +42,10 @@ function product({ currentProduct }) {
 }
 
 product.getInitialProps = async ({ query }, ...props) => {
+  const name = query.name.replace(/-/g, ' ');
   const response = await api.get('/products');
   const { data: products } = response;
-  const currentProduct = products.filter(e => e.name === query.name)[0];
+  const currentProduct = products.filter(e => e.name === name)[0];
   return { ...props, currentProduct };
 };
 
