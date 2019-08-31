@@ -10,7 +10,7 @@ export default ({
   maxValue = 99
 }) => {
   const [quantity, setQuantity] = React.useState(initialValue);
-  const timer = React.useRef();
+  // const timer = React.useRef();
   const verifyQuantity = currentQuantity => {
     if (currentQuantity < maxValue && currentQuantity > minValue) {
       return true;
@@ -28,23 +28,28 @@ export default ({
     }
   };
   const handleInputChange = e => {
-    const targetValue = e.target.value;
-    const newValue = quantity === 0 ? targetValue[1] : targetValue;
+    const targetValue = Number(e.target.value);
+    const newValue = quantity === 0 ? targetValue.toString() : targetValue;
     setQuantity(newValue);
   };
-  React.useEffect(() => {
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      if (verifyQuantity(quantity) === false) {
-        setQuantity(minValue);
-      }
-    }, 1000);
-  }, [quantity]);
+  // React.useEffect(() => {
+  //   clearTimeout(timer.current);
+  //   timer.current = setTimeout(() => {
+  //     if (verifyQuantity(quantity) === false) {
+  //       setQuantity(minValue);
+  //     }
+  //   }, 1000);
+  // }, [quantity]);
   React.useEffect(() => {
     if (setValue) {
       setValue(quantity);
     }
   }, [quantity]);
+  function handleBlurInput() {
+    if (verifyQuantity(quantity) === false) {
+      setQuantity(minValue);
+    }
+  }
   return (
     <div className="quantity-chooser">
       <InteractiveElement
@@ -54,7 +59,12 @@ export default ({
       >
         <img src={minusSVG} alt="Botão de diminuir a quantidade" />
       </InteractiveElement>
-      <input onChange={handleInputChange} type="number" value={quantity} />
+      <input
+        onChange={handleInputChange}
+        onBlur={handleBlurInput}
+        type="number"
+        value={quantity}
+      />
       <InteractiveElement
         tag="div"
         onClick={handlePlusAction}
