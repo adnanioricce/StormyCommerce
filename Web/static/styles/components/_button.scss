@@ -14,4 +14,11 @@
   @media all and (max-width: 425px) {
     width: 80%;
   }
+  @media all and (hover: hover) and (pointer: fine){
+    transition: transform .1s ease-in-out;
+    &:hover{
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
 }
