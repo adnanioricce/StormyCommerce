@@ -1,6 +1,6 @@
 .color-selector{
-  width: 100px;
-  height: 50px;
+  width: $product-option-chooser-width;
+  height: $product-option-chooser-height;
   border: 1px solid $primary-color;
   margin: 0 auto;
   transition: background-color .3s ease-in-out;

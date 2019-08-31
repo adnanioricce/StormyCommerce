@@ -2,6 +2,7 @@ import React from 'react';
 import ColorSelector from './ColorSelector';
 import SelectInput from './SelectInput';
 import Title from './Title';
+import QuantityChooser from './QuantityChooser';
 
 function ProductOptionsController() {
   const [currentColor, setCurrentColor] = React.useState('red');
@@ -23,6 +24,8 @@ function ProductOptionsController() {
         setCurrentOption={setCurrentSize}
         options={[{ label: 15, value: 15 }, { label: 16, value: 16 }]}
       />
+      <SectionTitle label="Quantidade" />
+      <QuantityChooser />
     </div>
   );
 }

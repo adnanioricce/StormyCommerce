@@ -1,5 +1,6 @@
 .select-input-container{
-  width: 100px;
+  width: $product-option-chooser-width;
+  height: $product-option-chooser-height;
   margin: 0 auto;
   font-family: "Roboto", sans-serif;
   font-size: 1.25rem;
@@ -18,7 +19,7 @@
     margin: 0;
   }
   .select-input__value-container{
-    padding: 2px 20%;
+    padding: 2px 30%;
   }
   .select-input__option{
     text-align: center;
