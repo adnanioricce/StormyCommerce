@@ -7,13 +7,14 @@ import Header from '../components/Header';
 import emailSVG from '../static/assets/icons/email.svg';
 import smartphoneSVG from '../static/assets/icons/smartphone.svg';
 import actions from '../actions';
+import Title from '../components/Title';
 
 function contato() {
   const dispatch = useDispatch();
   dispatch(actions.favorite(1));
   return (
     <Page>
-      <Header label="Contato" border={false} />
+      <Title label="Contato" style={{ margin: '15px 0' }} />
       <ContactCardsContainer>
         <ContactCard
           icon={emailSVG}
@@ -28,7 +29,7 @@ function contato() {
       </ContactCardsContainer>
 
       <Nav />
-      <Footer style={{ position: 'absolute', bottom: 0 }} />
+      <Footer />
     </Page>
   );
 }
