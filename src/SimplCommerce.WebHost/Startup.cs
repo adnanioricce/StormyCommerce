@@ -88,8 +88,7 @@ namespace SimplCommerce.WebHost
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            var result = string.IsNullOrEmpty(_moviesApiKey) ? "Null" : "Not Null";            
+        {                   
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

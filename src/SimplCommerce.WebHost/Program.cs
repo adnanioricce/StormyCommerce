@@ -32,7 +32,7 @@ namespace SimplCommerce.WebHost
 
         private static void SetupConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder configBuilder)
         {
-            var env = hostingContext.HostingEnvironment;
+            var env = hostingContext.HostingEnvironment;            
             var configuration = configBuilder.Build();
             configBuilder.AddEntityFrameworkConfig(options =>
                     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))

@@ -9,6 +9,7 @@ namespace StormyCommerce.Core.Tests.Helpers
         {
             return new Brand
             {
+                Id = 3,
                 Name = "Nices",
                 Slug = "Nices-brand",
                 IsDeleted = false,
@@ -22,6 +23,7 @@ namespace StormyCommerce.Core.Tests.Helpers
         {
             return new Brand
             {
+                Id = 1,
                 Name = "Ardidas",
                 Slug = "brand-adidas",
                 IsDeleted = false,

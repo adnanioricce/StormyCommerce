@@ -39,8 +39,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
 
         public async Task AddCollectionAsync(IEnumerable<TEntity> _entities)
         {
-            var entities = _entities ??
-                           throw new ArgumentNullException($"Given argument was null:{_entities.ToString()}");
+            var entities = _entities ?? throw new ArgumentNullException($"Given argument was null:{_entities.ToString()}");
             try
             {
                 DbSet.AddRange(entities);
@@ -68,8 +67,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
 
         public void DeleteCollection(IEnumerable<TEntity> _entities)
         {
-            var entities = _entities ??
-                           throw new ArgumentNullException($"Given argument was null:{_entities.ToString()}");
+            var entities = _entities ?? throw new ArgumentNullException($"Given argument was null:{_entities.ToString()}");
             try
             {
                 DbSet.RemoveRange(entities);
@@ -94,7 +92,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
             var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");
             try
             {                
-                context.Attach(entity);                
+                context.Update(entity);                
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateException exception)

@@ -1,3 +1,6 @@
+﻿using System.Security.Claims;
+using System.Collections.Generic;
+
 namespace StormyCommerce.Module.Customer.Services
 {
     //? Ask yourself:I really need to create a interface for each service/repository and so on?

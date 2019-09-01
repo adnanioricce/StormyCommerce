@@ -6,6 +6,7 @@ COPY . ./
 RUN sed -i 's#<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.3" />#<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />#' src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj
 RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Program.cs
 RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Extensions/ServiceCollectionExtensions.cs
+RUN sed -i 's/2.2.300/2.2.401/' global.json
 
 RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost/appsettings.docker.json src/SimplCommerce.WebHost/appsettings.json
 
@@ -13,7 +14,8 @@ RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost
 RUN dotnet build SimplCommerce.sln \
     && cd src/SimplCommerce.WebHost \
 	&& dotnet ef migrations add initialSchema \
-    && dotnet ef migrations script -o dbscript.sql     
+	#&& dotnet ef database update \
+    && dotnet ef migrations script -o ../../postgresql-initdb/dbscript.sql     
 
 RUN dotnet build *.sln -c Release \
     && cd src/SimplCommerce.WebHost \
@@ -22,10 +24,10 @@ RUN dotnet build *.sln -c Release \
     && dotnet publish -c Release -o out
 
 # remove BOM for psql	
-RUN sed -i -e '1s/^\xEF\xBB\xBF//' /app/src/SimplCommerce.WebHost/dbscript.sql
+RUN sed -i -e '1s/^\xEF\xBB\xBF//' /app/postgresql-initdb/dbscript.sql
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
-
+EXPOSE 443
 # hack to make postgresql-client install work on slim
 RUN mkdir -p /usr/share/man/man1 \
     && mkdir -p /usr/share/man/man7
@@ -36,8 +38,9 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app	
+RUN ls -l
 COPY --from=build-env /app/src/SimplCommerce.WebHost/out ./
-COPY --from=build-env /app/src/SimplCommerce.WebHost/dbscript.sql ./
+COPY --from=build-env /app/postgresql-initdb/dbscript.sql ./
 
 RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so
 

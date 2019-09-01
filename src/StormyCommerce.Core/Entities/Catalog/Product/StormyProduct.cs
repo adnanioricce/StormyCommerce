@@ -11,7 +11,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 {
 	public class StormyProduct : BaseEntity
 	{
-        public StormyProduct(int id) 
+        public StormyProduct(long id) 
         {
             Id = id;
         }
@@ -28,7 +28,11 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             UnitSize = Convert.ToDecimal(productDto.UnitSize);
             UnitsOnOrder = productDto.UnitsOnOrder;
             UnitWeight = productDto.UnitWeight;            
-        }        
+        }
+        public StormyProduct(ProductDto productDto,long id)
+        {
+
+        }
         public StormyProduct()
         {
 
@@ -40,7 +44,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public long MediaId { get; set; }
         public long VendorId { get; set; }     
         public long CategoryId { get; set; }        
-        public long ProductLinksId { get; set; }                
+        public long ProductLinksId { get; set; }        
         public StormyVendor Vendor { get; set; }
         public Brand Brand { get; set; }
         public Category Category { get; set; }
@@ -56,7 +60,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 		public bool ProductAvailable { get; set; }
 		public bool DiscountAvailable { get; set; }
         public bool StockTrackingIsEnabled { get; set; } = true;
-        public Media.Media ThumbnailImage { get; set; }
+        public string ThumbnailImage { get; set; }
         public List<Media.Media> Medias { get; protected set; } = new List<Media.Media>();
         public List<ProductLink> Links { get; protected set; } = new List<ProductLink>();
         public List<ProductLink> LinkedProductLinks { get; protected set; } = new List<ProductLink>();

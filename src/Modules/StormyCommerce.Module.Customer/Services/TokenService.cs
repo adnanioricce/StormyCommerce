@@ -1,3 +1,12 @@
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+
 namespace StormyCommerce.Module.Customer.Services
 {
     //Just a port from the TokenService on SimplCommerce.Module.Core

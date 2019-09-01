@@ -11,7 +11,7 @@ namespace Modules.Test.Orders
 	    public async Task CheckoutBoleto_ValidInputFromAuthenticatedUser_ShouldReturnOrderAndBoletoToUser()
 	    {
 		    //Arrange 
-			var controller = new CheckoutController(null,null,null);
+			var controller = new CheckoutController(null,null);
 			var checkoutObj = new BoletoCheckoutViewModel();			
 		    //Act
 			var result = await controller.CheckoutBoleto(checkoutObj);

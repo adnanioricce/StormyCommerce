@@ -13,21 +13,13 @@ namespace StormyCommerce.Core.Tests.Helpers
     {       
         public static StormyProduct GetSampleData()
         {
-            return new StormyProduct
+            return new StormyProduct(54)
                 {
                     SKU = "33E353EE-40A9-4AAA-9FA4-E0A196DC10ED",
                     AllowCustomerReview = true,
                     ApprovedRatingSum = 5,
                     ApprovedTotalReviews = 32,
-                    AvailableForPreorder = false,
-                    //Brand = new Brand
-                    //{
-                    //    IsDeleted = false,
-                    //    Description = "description",                        
-                    //    LastModified = new DateTime(2019,03,02),
-                    //    LogoImage = "no Image",
-                    //    Name = "A brand"
-                    //},
+                    AvailableForPreorder = false,                    
                     BrandId = 1,
                     CreatedAt = new DateTime(2019,05,10),                    
                     IsDeleted = false,
@@ -38,34 +30,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                     ProductAvailable = true,
                     NotApprovedRatingSum = 2,
                     NotApprovedTotalReviews = 10,
-                    VendorId = 1,
-                    //Vendor = new StormyVendor
-                    //{
-                    //    Address = new Address
-                    //    {
-                    //        City = "NoWhere",
-                    //        Complement = "A simple complement",
-                    //        FirstAddress = "first Address",                            
-                    //        LastModified = DateTime.UtcNow,
-                    //        Number = Guid.NewGuid().ToString("N"),
-                    //        PhoneNumber = "9999999-11",
-                    //        PostalCode = "12345678-9",
-                    //        SecondAddress = "Second Address",
-                    //        State = "Hell",
-                    //        Street = "Mcdonalds",                            
-                    //    },
-                    //    AddressId = 1,
-                    //    CompanyName = "SimpleCompany",
-                    //    ContactTitle = "Simple and a bit trustful",
-                    //    TypeGoods = "Fashion",
-                    //    WebSite = "www.simplecompanyonweb.com",
-                    //    Email = "simplecompany@simpl.com",                        
-                    //    LastModified = DateTime.UtcNow,
-                    //    Logo = "no image",
-                    //    Phone = "8887445512-11",
-                    //    SizeUrl = "www.sizes.com",
-                    //    Note = "Sample Data"
-                    //},
+                    VendorId = 1,                    
                     UnitPrice = (decimal)49.99,
                     UnitsInStock = 30,                                        
                 };           
@@ -74,7 +39,7 @@ namespace StormyCommerce.Core.Tests.Helpers
         {
             return new List<StormyProduct>
             {
-                new StormyProduct
+                new StormyProduct(51)
                 {
                     ProductName = "camiseta com nome legal",
                     SKU = Guid.NewGuid().ToString("N"),

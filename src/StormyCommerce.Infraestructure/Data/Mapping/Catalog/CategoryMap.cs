@@ -18,7 +18,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 builder.Property(category => category.MetaTitle).HasMaxLength(450);
                 builder.Property(category => category.MetaKeywords).HasMaxLength(450);
                 builder.Property(category => category.Description).HasMaxLength(450).IsRequired();
-                builder.HasData(Seeders.CategorySeed(10));
+                //builder.HasData(Seeders.CategorySeed(10));
             });
                             
         }        

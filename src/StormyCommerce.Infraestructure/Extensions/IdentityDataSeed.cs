@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Bogus;
 using Microsoft.AspNetCore.Identity;
@@ -9,14 +9,14 @@ namespace StormyCommerce.Infraestructure.Extensions
 {
     public static class IdentityDataSeed
     {
-        public static List<ApplicationUser> ApplicationUserSeed(int count = 1)
+        public static List<ApplicationUser> ApplicationUserSeed(int count = 1,bool withDefinedPassword = true)
         {
             var hasher = new PasswordHasher<ApplicationUser>();
             var fakeAppUser = new Faker<ApplicationUser>("pt_BR")
                 .RuleFor(v => v.Id, f => f.Hashids.Encode(f.Random.Int(1,32)))
                 .RuleFor(v => v.Email, f => f.Internet.Email())
                 .RuleFor(v => v.UserName, f => f.Person.UserName)
-                .RuleFor(v => v.PasswordHash, f => f.Internet.Password().HashPassword())
+                .RuleFor(v => v.PasswordHash, f => withDefinedPassword ? "Ty22f@7#32!" : f.Internet.Password().HashPassword())
                 .RuleFor(v => v.PhoneNumber, f => f.Phone.PhoneNumber())
                 .RuleFor(v => v.EmailConfirmed,true)
                 .RuleFor(v => v.TwoFactorEnabled,false)

@@ -28,15 +28,14 @@ namespace TestHelperLibrary.Mocks
         }
         public override IQueryable<ApplicationUser> Users => _users;          
         public override Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
-        {
+        {            
+            _users.Append(user);           
             return Task.FromResult(IdentityResult.Success);
         }
-
         public override Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
         {
             return Task.FromResult(IdentityResult.Success);
         }
-
         public override Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
         {
             return Task.FromResult(Guid.NewGuid().ToString());
@@ -44,6 +43,19 @@ namespace TestHelperLibrary.Mocks
         public override Task<ApplicationUser> FindByNameAsync(string userName)
         {
             return Task.FromResult(Users.FirstOrDefault(u => u.UserName == userName));
-        }                
+        }
+        public override Task<string> GetEmailAsync(ApplicationUser user)
+        {
+            return Task.FromResult(user.Email);
+        }
+        public override Task<IList<string>> GetRolesAsync(ApplicationUser user)
+        {
+            return Task.FromResult((IList<string>)FakeRoles);
+        }
+        public override Task<ApplicationUser> FindByEmailAsync(string email)
+        {
+            return Task.FromResult(Users.First(u => u.Email == email));
+        }
+        private IList<string> FakeRoles => new List<string> { "admin" };
     }
 }

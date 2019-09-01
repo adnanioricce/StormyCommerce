@@ -9,8 +9,8 @@ using System.IdentityModel.Tokens.Jwt;
 // using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Threading.Tasks;
-
 namespace StormyCommerce.Module.Customer.Services
 {
     public class UserIdentityService : IUserIdentityService
@@ -43,9 +43,7 @@ namespace StormyCommerce.Module.Customer.Services
                 //TODO:Throw a error?
                 return result;
             }            
-            return result;
-            
-                     
+            return result;                                 
         }
         public ApplicationUser GetUserByEmail(string email)
         {            
@@ -56,9 +54,9 @@ namespace StormyCommerce.Module.Customer.Services
         {            
             return await _signInManager.PasswordSignInAsync(user, password, isPersistent, lockoutInFailure);
         }        
-        public async Task<string> CreateEmailConfirmationCode(ApplicationUser user,string email)
+        public async Task<string> CreateEmailConfirmationCode(ApplicationUser user)
         {
-            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);                       
         }
         public async Task SignOutAsync()
         {
@@ -69,13 +67,10 @@ namespace StormyCommerce.Module.Customer.Services
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            };            
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),                
+            };                        
             var userRoles = await  _userManager.GetRolesAsync(user);
-            foreach (var userRole in userRoles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, userRole));
-            }
+            claims.AddRange(userRoles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType,role)));            
 
             return claims;
         }

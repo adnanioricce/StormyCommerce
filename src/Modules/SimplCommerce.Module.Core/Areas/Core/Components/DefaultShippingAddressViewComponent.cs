@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web;
@@ -8,6 +6,8 @@ using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels.Manage;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Components
 {
@@ -32,7 +32,8 @@ namespace SimplCommerce.Module.Core.Areas.Core.Components
             {
                 model.Address = await _userAddressRepository.Query()
                     .Where(x => x.Id == curentUser.DefaultShippingAddressId.Value)
-                    .Select(x => new UserAddressListItem {
+                    .Select(x => new UserAddressListItem
+                    {
                         UserAddressId = x.Id,
                         ContactName = x.Address.ContactName,
                         Phone = x.Address.Phone,

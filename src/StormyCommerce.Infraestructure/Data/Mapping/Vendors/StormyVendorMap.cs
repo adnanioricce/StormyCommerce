@@ -10,7 +10,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Vendors
         {
             modelBuilder.Entity<StormyVendor>(entity =>
             {
-                entity.HasData(Seeders.StormyVendorSeed(20));
+                //entity.HasData(Seeders.StormyVendorSeed(20));
             });
         }
     }

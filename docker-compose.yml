@@ -5,29 +5,39 @@ services:
     image: ${DOCKER_REGISTRY-}simplcommercewebhost
     build:
       context: .
-      dockerfile: Dockerfile
-    ports:
-        - "80:8000"
+      dockerfile: Dockerfile    
     depends_on:
         - database
     container_name: 'stormy_webhost'    
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://*:443;http://*:80
+      - ASPNETCORE_HTTPS_PORT=44388
+      - ASPNETCORE_Kestrel__Certificates__Default__Password="simpldevpassword"
+      - ASPNETCORE_Kestrel__Certificates__Development__Password="crypticpassword"
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=SimplCommerce.pfx
     networks:
       - stormy-net
+    ports:
+      - "49209:80"
+      - "44388:443"
+    volumes:      
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
   database:
-    image: postgres
-    container_name: 'postgres'
-    ports: 
+    image: postgres:latest
+    container_name: 'postgres'    
+    ports:
       - "5432"
     restart: always
     networks:
       - stormy-net
     environment:
         - "POSTGRES_PASSWORD=postgres"
-        - "POSTGRES_USER=postgres"
-        - "POSTGRES_DB=postgres"
+        - "POSTGRES_USER=postgres"        
     volumes:
       - data:/var/lib/postgresql/data
-      - ./mysql-initdb:/docker-entrypoint-initdb.d
+      - ./postgresql-initdb:/docker-entrypoint-initdb.d/dbscript.sql
     networks: 
       - stormy-net
 volumes:

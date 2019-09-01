@@ -14,6 +14,7 @@ using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
+using StormyCommerce.Infraestructure.Models;
 using StormyCommerce.Module.Customer.Data;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
@@ -23,17 +24,7 @@ namespace StormyCommerce.Module.Customer
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseAuthentication();
-            // if(env.IsDevelopment())
-            // {
-            //     app.Use(async (httpContext,next) => {
-            //         var user = context.User.Identity.Name;
-            //         DeveloperLogin(context).Wait();
-            //         await next.Invoke();
-            //     });
-            //     app.UseDeveloperExceptionPage();
-            //     app.UseDatabaseErrorPage();
-            // }
+            app.UseAuthentication();            
             // var context = (StormyDbContext)app.ApplicationServices.GetService(typeof(StormyDbContext));
             // var userManager = (UserManager<ApplicationUser>)app.ApplicationServices.GetService(typeof(UserManager<ApplicationUser>));
             // var roleManager = (RoleManager<IdentityRole>)app.ApplicationServices.GetService(typeof(RoleManager<IdentityRole>));            
@@ -48,12 +39,7 @@ namespace StormyCommerce.Module.Customer
             serviceCollection.AddScoped<UserManager<ApplicationUser>>();
             serviceCollection.AddScoped<SignInManager<ApplicationUser>>();
             serviceCollection.AddScoped<RoleManager<IdentityRole>>();
-	        serviceCollection.AddScoped<IUserIdentityService,UserIdentityService>();            
-            //go to SimplCommerce.WebHost.Extensions.ServiceCollectionExtensions
-            //serviceCollection.AddDbContext<StormyDbContext>(options =>
-            //{
-            //    //Add Options for your db provider
-            //})
+	        serviceCollection.AddScoped<IUserIdentityService,UserIdentityService>();                        
         }
         private async Task DeveloperLogin(HttpContext httpContext)
         {
@@ -97,6 +83,7 @@ namespace StormyCommerce.Module.Customer
                 options.SignIn.RequireConfirmedEmail = false;
                 options.SignIn.RequireConfirmedPhoneNumber = false;
             });
+            services.Configure<AuthMessageSenderOptions>(Container.Configuration);
             services.AddAuthentication(options => options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {                    
@@ -115,13 +102,13 @@ namespace StormyCommerce.Module.Customer
                     };                    
                 });
             services.AddAuthorization(auth =>
-            {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    //?? This is the same thing that on line 61?
+            {                                                                
+                //auth.AddPolicy(Roles.Customer, policy => policy.RequireClaim(Roles.Customer));                             
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()                    
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)                    
                     .RequireAuthenticatedUser()
-                    .Build());
-            });
+                    .Build());                
+            });            
         }
     }
 }

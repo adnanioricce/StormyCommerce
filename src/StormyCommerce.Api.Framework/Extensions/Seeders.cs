@@ -17,10 +17,10 @@ namespace StormyCommerce.Api.Framework.Extensions
 {
     public static class Seeders
     {
-        public static List<StormyProduct> StormyProductSeed(int count = 1)
+        public static List<StormyProduct> StormyProductSeed(int count = 1,bool omitId = false)
         {            
             var fakeProduct = new Faker<StormyProduct>("pt_BR")
-                .RuleFor(v => v.Id, f => ++f.IndexVariable)
+                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.ProductName, f => f.Commerce.ProductName())
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.SKU, f => f.Commerce.Random.AlphaNumeric(16))
@@ -30,8 +30,8 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.UnitSize, f => f.Commerce.Random.Decimal(0, 10.0m))
                 .RuleFor(v => v.UnitPrice, f => f.Commerce.Random.Decimal(0, 100.0m))
                 .RuleFor(v => v.UnitWeight, f => f.Random.Double())
-                .RuleFor(v => v.UnitsInStock, f => f.Random.Even(50, 100))
-                .RuleFor(v => v.UnitsOnOrder, f => f.Random.Even(0, 50))
+                .RuleFor(v => v.UnitsInStock, f => f.Random.Int(0, 10))
+                .RuleFor(v => v.UnitsOnOrder, f => f.Random.Int(0, 9))
                 .RuleFor(v => v.ProductAvailable, true)
                 .RuleFor(v => v.StockTrackingIsEnabled, true)
                 .RuleFor(v => v.Ranking, f => f.IndexVariable)
@@ -47,17 +47,17 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.CreatedAt, f => f.Date.Past())
                 .RuleFor(v => v.UpdatedOnUtc, f => f.Date.Between(f.Date.Recent(), f.Date.Soon()))
                 .RuleFor(v => v.PreOrderAvailabilityStartDate, f => f.Date.Future())
-                .RuleFor(v => v.BrandId,f => f.Random.Int(1,10))
-                .RuleFor(v => v.CategoryId, f => f.Random.Int(1,10))
-                .RuleFor(v => v.VendorId, f => f.Random.Int(1,20))
-                .RuleFor(v => v.MediaId, f => f.Random.Int(1,20));                
+                .RuleFor(v => v.BrandId,f => f.IndexVariable)
+                .RuleFor(v => v.CategoryId, f => f.IndexVariable)
+                .RuleFor(v => v.VendorId, f => f.IndexVariable)
+                .RuleFor(v => v.MediaId, f => f.IndexVariable);                
             var products = fakeProduct.Generate(count);
             return products;
         }
-        public static List<Entity> EntitySeed(int count = 1,string entityType = "Product")
+        public static List<Entity> EntitySeed(int count = 1,string entityType = "Product", bool omitId = false)
         {
             var fakeEntity = new Faker<Entity>("pt_BR")
-            .RuleFor(v => v.Id,f => ++f.IndexVariable)
+            .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
             .RuleFor(v => v.IsDeleted,false)
             .RuleFor(v => v.LastModified,f => f.Date.Recent(2))
             .RuleFor(v => v.EntityTypeId,entityType)
@@ -66,7 +66,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             .RuleFor(v => v.Slug,f => f.Lorem.Slug());
             return fakeEntity.Generate(count);            
         }
-        public static List<ProductAttributeGroup> ProductAttributeGroupSeed(int count = 1)
+        public static List<ProductAttributeGroup> ProductAttributeGroupSeed(int count = 1, bool omitId = false)
         {
             var fakeProductAttributeGroup = new Faker<ProductAttributeGroup>("pt_BR")               
                .RuleFor(v => v.IsDeleted, false)
@@ -74,45 +74,30 @@ namespace StormyCommerce.Api.Framework.Extensions
                .RuleFor(v => v.Name, f => f.Commerce.ProductAdjective());
             return fakeProductAttributeGroup.Generate(count);
         }
-        public static List<ProductAttribute> ProductAttributeSeed(int count = 1)
-        {
-            int id = 0;
+        public static List<ProductAttribute> ProductAttributeSeed(int count = 1, bool omitId = false)
+        {            
             var productAttributeGroup = ProductAttributeGroupSeed();
-            var fakeProductAttribute = new Faker<ProductAttribute>("pt_BR")                
-                .RuleFor(v => v.Id,id++)
+            var fakeProductAttribute = new Faker<ProductAttribute>("pt_BR")
+                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(14))
                 .RuleFor(v => v.Name, f => f.Commerce.ProductAdjective())
                 .RuleFor(v => v.GroupId, f => f.PickRandom(productAttributeGroup).Id);
             return fakeProductAttribute.Generate(count);
         }
-        public static List<ProductLink> ProductLinkSeed(int count = 1)
+        public static List<ProductLink> ProductLinkSeed(int count = 1, bool omitId = false)
         {
             var products = StormyProductSeed(count);            
             var fakeProductLink = new Faker<ProductLink>("pt_BR")
-               .RuleFor(v => v.Id,f => ++f.IndexVariable)
+               .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                .RuleFor(v => v.LinkType, ProductLinkType.Related)
                .RuleFor(v => v.IsDeleted, false)
                .RuleFor(v => v.LastModified, f => f.Date.Recent(25))
                .RuleFor(v => v.LinkedProductId,f => f.Random.Int(1,count))
-               .RuleFor(v => v.ProductId, f => f.Random.Int(1, count));
-
-            //products.ForEach(f =>
-            //{               
-            //    fakeProductLink                
-            //    .RuleFor(v => v.LinkedProductId, p => p.PickRandom(products).Id)
-            //    .RuleFor(v => v.ProductId, p => p.PickRandom(products).Id);
-                           
-            //});
-            //var productLinks = fakeProductLink.Generate(count);
-            //productLinks.ForEach(p =>
-            //{
-            //    p.Product = products.Find(f => f.Id == p.ProductId);
-            //    p.LinkedProduct = products.Find(f => f.Id == p.LinkedProductId);
-            //});
+               .RuleFor(v => v.ProductId, f => f.Random.Int(1, count));           
             return fakeProductLink.Generate(count);
         }
-        public static List<Media> MediaSeed(int count = 1)
+        public static List<Media> MediaSeed(int count = 1, bool omitId = false)
         {            
             var fakeMedias = new Faker<Media>("pt_BR")                
                 .RuleFor(v => v.Id,f => ++f.IndexVariable)
@@ -123,10 +108,10 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.MediaType, MediaType.Image);
             return fakeMedias.Generate(count);
         }
-        public static List<Brand> BrandSeed(int count = 1)
+        public static List<Brand> BrandSeed(int count = 1, bool omitId = false)
         {            
-            var fakeBrands = new Faker<Brand>("pt_BR")                
-                .RuleFor(v => v.Id,f => ++f.IndexVariable)
+            var fakeBrands = new Faker<Brand>("pt_BR")
+                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(24))
                 .RuleFor(v => v.LogoImage, f => f.Image.PicsumUrl())
@@ -137,10 +122,10 @@ namespace StormyCommerce.Api.Framework.Extensions
 
             return fakeBrands.Generate(count);
         }
-        public static List<StormyVendor> StormyVendorSeed(int count = 1)
+        public static List<StormyVendor> StormyVendorSeed(int count = 1, bool omitId = false)
         {            
-            var fakeVendors = new Faker<StormyVendor>("pt_BR")                
-                .RuleFor(v => v.Id,f => ++f.IndexVariable)
+            var fakeVendors = new Faker<StormyVendor>("pt_BR")
+                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(27))
                 .RuleFor(v => v.CompanyName, f => f.Company.CompanyName())
@@ -154,10 +139,10 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.WebSite, f => f.Person.Website);
             return fakeVendors.Generate(count);
         }
-        public static List<Category> CategorySeed(int count = 1)
+        public static List<Category> CategorySeed(int count = 1, bool omitId = false)
         {            
-            var fakeCategory = new Faker<Category>("pt_BR")                
-                .RuleFor(v => v.Id, f => ++f.IndexVariable)
+            var fakeCategory = new Faker<Category>("pt_BR")
+                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(24))
                 .RuleFor(v => v.Description, f => f.Lorem.Text())
                 .RuleFor(v => v.DisplayOrder, f => f.IndexFaker)
@@ -171,10 +156,10 @@ namespace StormyCommerce.Api.Framework.Extensions
                 // .RuleFor(v => v.ParentId,f => f.Random.Int(1,count));                            
             return fakeCategory.Generate(count);
         }        
-        public static List<Address> AddressSeed(int count = 1)
+        public static List<Address> AddressSeed(int count = 1, bool omitId = false)
         {
             var fakeAddress = new Faker<Address>("pt_BR")       
-                .RuleFor(v => v.Id,f => ++f.IndexVariable)         
+                .RuleFor(v => v.Id,f => omitId ? 0 : ++f.IndexVariable)         
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.FirstAddress, f => f.Address.StreetName())
                 .RuleFor(v => v.SecondAddress, f => f.Address.SecondaryAddress())

@@ -21,7 +21,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             HasDiscountApplied = product.HasDiscountApplied;
             Published = product.Published;
             AvailableForPreorder = product.AvailableForPreorder;
-            ThumbnailImage = new MediaDto(product.ThumbnailImage);
+            ThumbnailImage = product.ThumbnailImage;
             Category = new CategoryDto(product.Category);
             Medias = product.ToMediasDtos();
         }
@@ -34,7 +34,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public bool Published { get; private set; }
         public bool AvailableForPreorder { get; private set; }
         //Maybe this will be more hard to make...                    
-        public MediaDto ThumbnailImage { get; private set; } = new MediaDto();
+        public string ThumbnailImage { get; private set; }
         public CategoryDto Category { get; private set; } = new CategoryDto();
         public List<MediaDto> Medias { get; private set; } = new List<MediaDto>();
     }

@@ -7,7 +7,7 @@ namespace TestHelperLibrary.Utils
 {
     public static class DbContextHelper 
     {
-        public static StormyCommerce.Infraestructure.Data.StormyDbContext GetDbContext()
+        public static StormyDbContext GetDbContext()
         {
             var builder = new DbContextOptionsBuilder<StormyDbContext>();
             builder.UseInMemoryDatabase($"{Guid.NewGuid().ToString("N")}-FakeStormyDatabase");

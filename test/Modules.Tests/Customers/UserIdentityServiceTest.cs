@@ -29,7 +29,7 @@ namespace Modules.Test.Customers
         public async Task CreateUserAsync_ValidUserNameAndPassword_ShouldCreateUserWithSuccess()
         {
             //Arrange            
-            var user = IdentityDataSeed.ApplicationUserSeed(1).FirstOrDefault();
+            var user = IdentityDataSeed.ApplicationUserSeed(1).FirstOrDefault();            
             user.PasswordHash = "";
            //Act 
            var result = await Service.CreateUserAsync(user, "Ty22f@7#32!");
@@ -72,7 +72,7 @@ namespace Modules.Test.Customers
             //Arrange
             var user = _fakeUserManager.Users.First();
             //Act
-            var result = await Service.CreateEmailConfirmationCode(user,user.Email);
+            var result = await Service.CreateEmailConfirmationCode(user);
             //Assert
             Assert.NotNull(result);
         }

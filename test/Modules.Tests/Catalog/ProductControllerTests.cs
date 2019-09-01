@@ -5,6 +5,7 @@ using Moq;
 using SimplCommerce.Module.SampleData;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Services.Catalog;
@@ -24,24 +25,31 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
 {
     public class ProductControllerTests
     {
-        //! I think this will fail, define some logic to the mock        
+        //! I think this will fail, define some logic to the mock     
+        private readonly IStormyRepository<StormyProduct> _repository;
         private readonly ProductController _productController;        
         public ProductControllerTests()
         {
-            _productController = CreateController();
-        }
-        private ProductController CreateController()
-        {
-            var dbContext = DbContextHelper.GetDbContext();                                    
-            var repository = new StormyRepository<StormyProduct>(dbContext);
-
-            var productService = new ProductService(repository);
-
+            var dbContext = DbContextHelper.GetDbContext();
+            //dbContext.AddRange(Seeders.EntitySeed(10, "Product"));
+            //dbContext.AddRange(Seeders.EntitySeed(6, "Category"));
+            //dbContext.SaveChanges();
+            //dbContext.AddRange(Seeders.BrandSeed(16));
+            //dbContext.SaveChanges();
+            //dbContext.AddRange(Seeders.CategorySeed(16));
+            //dbContext.SaveChanges();
+            //dbContext.AddRange(Seeders.StormyVendorSeed(16));
+            //dbContext.SaveChanges();
+            //dbContext.AddRange(Seeders.MediaSeed(16));
+            //dbContext.SaveChanges();            
+            dbContext.AddRange(Seeders.StormyProductSeed(16));            
+            dbContext.SaveChanges();            
+            _repository = new StormyRepository<StormyProduct>(dbContext);            
             var profile = new CatalogProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             var mapper = configuration.CreateMapper();
-            return new ProductController(productService, mapper);
-        }                
+            _productController = new ProductController(new ProductService(_repository), mapper);
+        }        
         [Fact]
         public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
         {            
@@ -77,11 +85,10 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             int limit = 15;
 
             // Act
-            var result = (await _productController.GetAllProductsOnHomepage(limit));
-
+            var result = (await _productController.GetAllProductsOnHomepage(limit));            
             // Assert          
-            Assert.NotNull(result);
-            Assert.Equal(15,result.Value.Count);
+            Assert.NotNull(result);                 
+            Assert.Equal(15,result.Value.Count);            
         }
 
         [Fact]
@@ -100,11 +107,10 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         [Fact]
         public async Task CreateProduct_GivenModelIsValidDto_CreateNewEntryOnDatabase()
         {
-            // Arrange            
-            var controller = CreateController();
+            // Arrange                        
             var product = Seeders.StormyProductSeed(1).FirstOrDefault();
 
-            var model = new ProductDto(product,68);            
+            var model = new ProductDto(product,21);            
             // Act
             var result = await _productController.CreateProduct(model);           
             // Assert            

@@ -13,9 +13,9 @@ using Microsoft.AspNetCore.Cors;
 namespace StormyCommerce.Module.Catalog.Area.Controllers
 {
     [Area("Catalog")]
-    [ApiController]        
-    [Authorize]
+    [ApiController]            
     [Route("api/[Controller]/[Action]")]
+    [Authorize("Bearer")]
     [EnableCors("Default")]
     public class CategoryController : Controller
     {

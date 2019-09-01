@@ -6,6 +6,7 @@ using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+using StormyCommerce.Module.Customer.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
     [Area("Catalog")]
     [ApiController]
     [Route("api/[Controller]/[Action]")]
-	[Authorize]
+	[Authorize("Bearer")]
 	[EnableCors("Default")]
     public class ProductController : Controller
 	{
@@ -79,6 +80,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		}
 		[HttpPost]
 		[ValidateModel]
+        [Authorize(Roles = Roles.Admin)]
 		public async Task<ActionResult> CreateProduct([FromBody]ProductDto _model)
 		{
             //var model = _mapper.Map<StormyProduct>( _model);
@@ -88,6 +90,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		}
 		[HttpPut]
 		[ValidateModel]
+        [Authorize(Roles = Roles.Admin)]
 		public async Task EditProduct([FromBody]ProductDto _model)
 		{
 			var model = _mapper.Map<StormyProduct>(_model);
@@ -98,7 +101,8 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
 		}		
 		[HttpGet]
-		[ValidateModel]		
+		[ValidateModel]	
+        [AllowAnonymous]
 		public ActionResult<int> GetNumberOfProductsInCategory([FromBody]IList<int> categoryIds,int storeId)
 		{
 			var model = _productService.GetNumberOfProductsInCategory(categoryIds,storeId);
@@ -106,6 +110,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		}
 		[HttpGet]
 		[ValidateModel]
+        [AllowAnonymous]
 		public async Task<IList<ProductDto>> GetAllProductsOnCategory(int categoryId,int limit)
 		{
 			var model = await _productService.GetAllProductsByCategory(categoryId,limit);

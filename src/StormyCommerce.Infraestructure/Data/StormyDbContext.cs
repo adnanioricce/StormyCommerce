@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
 using StormyCommerce.Core.Entities;
@@ -21,8 +22,7 @@ namespace StormyCommerce.Infraestructure.Data
     public class StormyDbContext : IdentityDbContext
     {        
         public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)
-        {
-              
+        {              
         }
         public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
         {
@@ -32,13 +32,14 @@ namespace StormyCommerce.Infraestructure.Data
         {
             ValidateEntities();
             return base.SaveChanges(acceptAllChangesOnSuccess);
-        }        
+        }            
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,CancellationToken cancellationToken)
         {
             ValidateEntities();
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess,cancellationToken);
         }        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Type baseType = typeof(IStormyModelBuilder);

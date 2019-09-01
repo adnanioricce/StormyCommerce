@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
+using System.Text.Encodings.Web;
 
 namespace StormyCommerce.Module.Customer.Controllers
 {
@@ -58,20 +59,26 @@ namespace StormyCommerce.Module.Customer.Controllers
             var user = _identityService.GetUserByEmail(signUpVm.Email);
             
             if(user != null) return BadRequest("User already exists");
-            
-            var appUser = new ApplicationUser {
-                //Actually, maybe is better have a username
+                       
+            var result = await _identityService.CreateUserAsync(new ApplicationUser {                
                 UserName = signUpVm.Username,
-                Email = signUpVm.Email,                
-            };
+                Email = signUpVm.Email,
+            },signUpVm.Password);            
+            if (!result.Succeeded) return BadRequest("Don't was possible to create user");
+                                 
+            var appUser = _identityService.GetUserByEmail(signUpVm.Email);
 
-            var result = await _identityService.CreateUserAsync(appUser, signUpVm.Password);
+            if (appUser == null) throw new System.Exception("User is null");
 
-            if(!result.Succeeded) return BadRequest("Don't was possible to create user");
-            //TODO:You are really done?            
-            var verificationCode = _identityService.CreateEmailConfirmationCode(appUser,appUser.Email);
-            await _emailSender.SendEmailAsync(appUser.Email,"Email Confirmation",$"click on the link to confirm your account<a>{verificationCode}</a>",true);
+            var verificationCode = await _identityService.CreateEmailConfirmationCode(appUser);
+            var callbackUrl = Url.Page(
+                "/Authentication/ConfirmEmail",
+                pageHandler: null,
+                values: new { userId = user.Id, code = verificationCode },
+                protocol: Request.Scheme);
+            await _emailSender.SendEmailAsync(appUser.Email,"Email Confirmation",$"click on the link to confirm your account<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>link</a>",true);
             return Ok();
-        }        		    	
+        }        
+        
     }
 }

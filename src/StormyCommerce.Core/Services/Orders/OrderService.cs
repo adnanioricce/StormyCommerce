@@ -26,8 +26,7 @@ namespace StormyCommerce.Core.Services.Orders
         public async Task<Result<OrderDto>> CancelOrderAsync(long id)
         {
             var order = await _orderRepository.GetByIdAsync(id);
-            if (order == null)
-                return new Result<OrderDto>(null,false,"order don't exist");                     
+            if (order == null) return new Result<OrderDto>(null,false,"order don't exist");                     
 
             order.Status = OrderStatus.Canceled;
             order.LastModified = DateTimeOffset.UtcNow;

@@ -42,19 +42,26 @@ namespace StormyCommerce.Core.Services.Catalog
                 .Where(f => f.Ranking <= limit)//use !                                
                 .ToListAsync();
 	    }   
+        //TODO:Create other method for the includes
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 1,long endIndex = 15)
         {                        
-            return await _productRepository.Table                
-                .Include(product => product.Medias)
-                .Include(product => product.Brand)
-                .Include(product => product.Links)
-                .Include(Product => Product.LinkedProductLinks)
-                //.Include(product => product.ProductAttributes)            
-                .Include(product => product.Vendor)
-                .Include(product => product.Category)
-                .Include(product => product.ThumbnailImage)                
-                .Where(product => product.Id <= endIndex && product.Id >= startIndex)                
+            return await _productRepository.Table
+                .Where(product => product.Id <= endIndex && product.Id >= startIndex)                                                                                                                                       
                 .ToListAsync();                                                                                
+        }
+        public async Task<IList<StormyProduct>> GetAllProductsIncludingAsync(long startIndex = 1,long endIndex = 15)
+        {
+            return await _productRepository.Table
+                .Include(product => product.Brand)
+                .Include(product => product.Category)
+                .Include(product => product.LinkedProductLinks)
+                .Include(product => product.Links)
+                .Include(product => product.Medias)
+                .Include(product => product.OptionValues)                
+                .Include(product => product.Vendor)
+                .Where(product => product.Id >= startIndex && product.Id <= endIndex)
+                .ToListAsync();            
+                //.Include(product => product.)                
         }
 
         public int GetNumberOfProductsByVendorId(int vendorId)
@@ -90,14 +97,14 @@ namespace StormyCommerce.Core.Services.Catalog
         }
         public int GetTotalStockQuantity()
         {
-            return _productRepository.Table.Sum(f => f.UnitsInStock);
+            return _productRepository.Table.Sum(f => f.UnitsInStock - f.UnitsOnOrder);
         }
         public int GetTotalStockQuantityOfProduct(StormyProduct product)
         {
            return _productRepository
                 .Table
                 .Where(p => p.VendorId == product.VendorId)
-                .Sum(p => p.UnitsInStock);
+                .Sum(p => p.UnitsInStock - p.UnitsOnOrder);
         }
         //TODO:Create slugs with EntityService
         public async Task InsertProductAsync(StormyProduct product)

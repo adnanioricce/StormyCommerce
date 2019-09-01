@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using StormyCommerce.Infraestructure.Entities;
@@ -12,7 +11,6 @@ using StormyCommerce.Infraestructure.Helpers;
 using StormyCommerce.Module.Customer.Area.ViewModels;
 using StormyCommerce.Module.Customer.Controllers;
 using StormyCommerce.Module.Customer.Services;
-using SimplCommerce.Module.EmailSenderSendgrid;
 using TestHelperLibrary.Mocks;
 using Xunit;
 using Microsoft.Extensions.Configuration;
@@ -56,37 +54,16 @@ namespace Modules.Test.Customers
             //Arrange
             var loginVm = new SignInVm
             {                
-                Username = "sampleuser",
-                Email = "myemail@example.com",
-                Password = "!Tr27gh43"
-            };                    
-            _controller.RegisterAsync(new SignUpVm{
-                Username = loginVm.Username,
-                Email = loginVm.Email,
-                Password = loginVm.Password
-            });            
+                Username = appUserSample.UserName,
+                Email = appUserSample.Email,
+                Password = "Ty22f@7#32!"
+            };                                          
             //Act
             var result = Assert.IsType<OkObjectResult>(await _controller.LoginAsync(loginVm));
             //Assert
             //How do I test it?
             Assert.Equal(200,result.StatusCode);            
         }
-        [Fact]
-        public async Task RegisterAsync_ReceivedValidVm_ShouldReturnSuccessMessage()
-        {
-            //Arrange            
-            var signUpVm = new SignUpVm
-            {
-                //TODO:research -> Why we need to Confirm password?
-                Username = "sampleuser",
-                Email = "myemail@example.com",
-                Password = "!Tr27gh43"
-            };
-            //Act 
-            var result = Assert.IsAssignableFrom<OkResult>(await _controller.RegisterAsync(signUpVm));
-            //Assert 
-            Assert.NotNull(result);
-            Assert.Equal(200,result.StatusCode);
-        }
+        //TODO: Test this on the integration test, this don't cover what is needed
     }
 }
