@@ -6,7 +6,7 @@
   padding: 15px 10px;
   width: 300px;
   // min-width: 60%;
-  height: 50px;
+  min-height: 50px;
   font-size: 1.05rem;
   flex-direction: row;
   justify-content: center;
@@ -29,6 +29,8 @@
   &.google{
     background-color: $google-color;
   }
+  transition: transform .05s ease-in-out;
+  
   @media all and (max-width: 425px) {
     width: 80%;
   }
@@ -38,5 +40,8 @@
       cursor: pointer;
       transform: scale(1.1);
     }
+  }
+  &:active{
+    transform: scale(.95);
   }
 }

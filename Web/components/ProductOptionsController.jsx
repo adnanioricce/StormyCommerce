@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import ColorSelector from './ColorSelector';
 import SelectInput from './SelectInput';
 import Title from './Title';
@@ -6,11 +7,16 @@ import QuantityChooser from './QuantityChooser';
 import Button from './Button';
 import PriceDisplay from './PriceDisplay';
 import Separator from './Separator';
+import actions from '../actions';
 
 function ProductOptionsController({ currentProduct }) {
   const [currentColor, setCurrentColor] = React.useState('red');
   const [currentSize, setCurrentSize] = React.useState(15);
+  const dispatch = useDispatch();
   const { price, oldPrice } = currentProduct;
+  const handleAddToCart = () => {
+    dispatch(actions.addProductToCart(currentProduct));
+  };
   return (
     <div className="product-options-controller">
       <Title
@@ -40,7 +46,7 @@ function ProductOptionsController({ currentProduct }) {
         <QuantityChooser />
       </Section>
       <Separator />
-      <Button label="Adicionar ao Carrinho" />
+      <Button onClick={handleAddToCart} label="Adicionar ao Carrinho" />
     </div>
   );
 }

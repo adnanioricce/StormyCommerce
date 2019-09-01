@@ -11,6 +11,7 @@
   will-change: transform;
   transition: transform .3s ease-in-out;
   min-width: 200px;
+  max-width: 300px;
   @media all and (max-width: 425px){
     width: 80%;
   }

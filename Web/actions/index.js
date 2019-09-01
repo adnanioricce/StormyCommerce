@@ -15,6 +15,10 @@ const products = {
   }),
   fetchProducts: () => ({
     type: consts.fetchProducts
+  }),
+  addProductToCart: product => ({
+    type: consts.addProductToCart,
+    product
   })
 };
 export default {

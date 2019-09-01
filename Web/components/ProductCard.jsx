@@ -2,6 +2,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import FavoriteFloater from './FavoriteFloater';
 import InteractiveElement from './InteractiveElement';
+import toPrice from '../util/toPrice';
 
 const ProductCard = ({ isFavorited, name, image, price }, index) => {
   // const [image, setImage] = React.useState('');
@@ -46,7 +47,7 @@ const ProductCard = ({ isFavorited, name, image, price }, index) => {
           tag="div"
         >
           <p className="title">{name}</p>
-          <p className="price">{`R$ ${price.toFixed(2)}`}</p>
+          <p className="price">{toPrice(price)}</p>
         </InteractiveElement>
       </Link>
     </div>
