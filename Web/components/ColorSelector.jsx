@@ -5,9 +5,6 @@ import InteractiveElement from './InteractiveElement';
 function ColorSelector({ options, activeColor, setActiveColor }) {
   const [isPopupActive, setIsPopupActive] = React.useState(false);
   const colorSelectorRef = React.useRef();
-  React.useEffect(() => {
-    console.log(isPopupActive);
-  }, [isPopupActive]);
   return (
     <>
       <InteractiveElement

@@ -5,8 +5,7 @@ import ProductCard from './ProductCard';
 import actions from '../actions';
 import Title from './Title';
 
-const RelatedProducts = ({ currentProduct }) => {
-  console.log(`showing related products of ${currentProduct.name}`);
+const RelatedProducts = () => {
   const products = useSelector(state => state.products, shallowEqual);
   const route = useRouter();
   const dispatch = useDispatch();
@@ -15,7 +14,6 @@ const RelatedProducts = ({ currentProduct }) => {
       dispatch(actions.fetchProducts());
     }
   }, []);
-  console.log(products);
   return (
     <>
       <Title label="Relacionados" />

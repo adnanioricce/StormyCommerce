@@ -2,4 +2,5 @@ const routes = require('next-routes');
 
 module.exports = routes()
   .add('/', 'index')
-  .add('/produto/:name', 'product');
+  .add('/produto/:name', 'product')
+  .add('/contato', 'contato');
