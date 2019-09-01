@@ -3,15 +3,12 @@ import ReactImageMagnify from 'react-image-magnify';
 import FavoriteFloater from './FavoriteFloater';
 import ExtraImages from './ExtraImages';
 
-
-
 export default ({ currentProduct }) => {
   const { images } = currentProduct;
   const [currentImage, setCurrentImage] = React.useState(images[0]);
   return (
     <div className="product-image-container">
       <div className="product-image">
-        {/* <img src={currentProduct.image} alt={currentProduct.name} /> */}
         <ReactImageMagnify
           enlargedImagePosition="over"
           {...{
