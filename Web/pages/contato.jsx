@@ -1,9 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import Page from '../components/Page';
-import Nav from '../components/Nav';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
 import emailSVG from '../static/assets/icons/email.svg';
 import smartphoneSVG from '../static/assets/icons/smartphone.svg';
 import actions from '../actions';
@@ -27,9 +24,6 @@ function contato() {
           label="+55 (11) 99045-7843"
         />
       </ContactCardsContainer>
-
-      <Nav />
-      <Footer />
     </Page>
   );
 }

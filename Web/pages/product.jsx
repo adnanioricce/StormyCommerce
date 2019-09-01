@@ -1,8 +1,6 @@
 import React from 'react';
-import Nav from '../components/Nav';
 import Page from '../components/Page';
 import api from '../services/api';
-import Footer from '../components/Footer';
 import Breadcumb from '../components/Breadcumb';
 import Description from '../components/Description';
 import ProductOptionsController from '../components/ProductOptionsController';
@@ -20,8 +18,6 @@ function product({ currentProduct }) {
   // }, [productID]);
   return (
     <Page>
-      <Nav />
-
       {currentProduct && (
         <div className="product-page-container">
           <Breadcumb paths={[currentProduct.category, currentProduct.name]} />
@@ -36,7 +32,6 @@ function product({ currentProduct }) {
           <RelatedProducts currentProduct={currentProduct} />
         </div>
       )}
-      <Footer />
     </Page>
   );
 }
