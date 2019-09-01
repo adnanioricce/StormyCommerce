@@ -23,12 +23,12 @@ const Nav = () => {
   function handleShopCartMenu() {
     setIsShopCartMenuActive(!isShopCartMenuActive);
   }
-  React.useEffect(() => {
-    if (document && navRef.current) {
-      const navBarHeight = navRef.current.getBoundingClientRect().height * 1.5;
-      document.body.style.paddingTop = `${navBarHeight}px`;
-    }
-  }, [navRef]);
+  // React.useEffect(() => {
+  //   if (document && navRef.current) {
+  //     const navBarHeight = navRef.current.getBoundingClientRect().height * 1.5;
+  //     document.body.style.paddingTop = `${navBarHeight}px`;
+  //   }
+  // }, [navRef]);
   function handleLogoClick() {
     if (Router.pathname === '/' && window) {
       window.scrollTo({
