@@ -24,20 +24,31 @@ using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Module.Customer.Data;
+using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace SimplCommerce.WebHost
 {
     public class Startup
     {
         protected readonly IHostingEnvironment _hostingEnvironment;
-        protected readonly IConfiguration _configuration;
-        private string _moviesApiKey = null;
+        protected readonly IConfiguration _configuration;        
 
-        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment,ILogger<Startup> logger)
         {
             _configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
-            Container.Configuration = configuration;            
+            Container.Configuration = configuration;
+            logger.LogInformation("************Inside constructor logging https details*****************");
+            logger.LogInformation($"Kestrel cert path:- {configuration.GetSection("Kestrel:Certificates:Default:Path").Value}");
+            if (File.Exists(configuration.GetSection("Kestrel:Certificates:Default:Path").Value))
+                logger.LogInformation("************Cert file exist:)*****************");
+            else
+            {
+                logger.LogInformation("************Cert file don't exist:)*****************");
+
+            }
+            logger.LogInformation($"Kestrel cert path:- {configuration.GetSection("Kestrel:Certificates:Default:Password").Value}");
         }
 
         public virtual void ConfigureServices(IServiceCollection services)

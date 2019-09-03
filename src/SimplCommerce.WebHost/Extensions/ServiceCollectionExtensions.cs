@@ -69,7 +69,7 @@ namespace SimplCommerce.WebHost.Extensions
             var modulesFolder = Path.Combine(contentRootPath, "Modules");
             foreach (var module in _modulesConfig.GetModules())
             {
-                var moduleFolder = new DirectoryInfo(Path.Combine(modulesFolder, module.Id));
+                var moduleFolder = new DirectoryInfo(Path.Combine(modulesFolder, module.Id));                
                 var moduleManifestPath = Path.Combine(moduleFolder.FullName, moduleManifestName);
                 if (!File.Exists(moduleManifestPath))
                 {

@@ -15,7 +15,7 @@ services:
       - ASPNETCORE_HTTPS_PORT=44388
       - ASPNETCORE_Kestrel__Certificates__Default__Password="simpldevpassword"
       - ASPNETCORE_Kestrel__Certificates__Development__Password="crypticpassword"
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=SimplCommerce.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=SimplCommerce.WebHost.pfx
     networks:
       - stormy-net
     ports:

@@ -19,10 +19,12 @@ RUN dotnet build SimplCommerce.sln \
 
 RUN dotnet build *.sln -c Release \
     && cd src/SimplCommerce.WebHost \
-    && ls -l \
+    && dotnet dev-certs https -ep /root/.aspnet/https/SimplCommerce.WebHost.pfx -p simpldevpassword \
+	&& dotnet dev-certs https --trust \
     && dotnet build -c Release \
     && dotnet publish -c Release -o out
 
+RUN d
 # remove BOM for psql	
 RUN sed -i -e '1s/^\xEF\xBB\xBF//' /app/postgresql-initdb/dbscript.sql
 

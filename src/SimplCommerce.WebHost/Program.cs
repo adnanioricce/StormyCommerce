@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ namespace SimplCommerce.WebHost
     {
         public static void Main(string[] args)
         {
+            //var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
             try
             {
                 BuildWebHost2(args).Run();
