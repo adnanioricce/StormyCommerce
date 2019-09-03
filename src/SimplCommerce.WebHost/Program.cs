@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,20 @@ namespace SimplCommerce.WebHost
         // Changed to BuildWebHost2 to make EF don't pickup during design time
         private static IWebHost BuildWebHost2(string[] args) =>
             Microsoft.AspNetCore.WebHost.CreateDefaultBuilder(args)
+                .UseKestrel(options => {
+                    var configuration = (IConfiguration)options.ApplicationServices.GetService(typeof(IConfiguration));
+                    var httpPort = configuration.GetValue("ASPNETCORE_HTTP_PORT",80);                    
+                    var httpsPort = configuration.GetValue("ASPNETCORE_HTTPS_PORT",443);
+                    var certPassword = configuration.GetValue<string>("Kestrel:Certificates:Development:Password");
+                    var certPath = configuration.GetValue<string>("Kestrel:Certificates:Development:Path");    
+                    Console.WriteLine($"{nameof(httpsPort)}: {httpsPort}");
+                    Console.WriteLine($"{nameof(certPassword)}: {certPassword}");
+                    Console.WriteLine($"{nameof(certPath)}: {certPath}");
+                    options.Listen(IPAddress.Any,httpPort);
+                    options.Listen(IPAddress.Any,httpsPort,listerOptions => {
+                        listerOptions.UseHttps(certPath,certPassword);
+                    });
+                })                
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration(SetupConfiguration)
                 .ConfigureLogging(SetupLogging)

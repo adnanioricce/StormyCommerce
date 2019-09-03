@@ -24,6 +24,9 @@ using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Module.Customer.Data;
+using Serilog;
+using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace SimplCommerce.WebHost
 {
@@ -33,11 +36,32 @@ namespace SimplCommerce.WebHost
         protected readonly IConfiguration _configuration;
         private string _moviesApiKey = null;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment,ILogger<Startup> logger)
         {
             _configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
             Container.Configuration = configuration;            
+            string defaultCertPath = configuration.GetSection("Kestrel:Certificate:Default:Path").Value;            
+            logger.LogInformation($"Kestrel Default cert path: {defaultCertPath}");
+            if(!string.IsNullOrEmpty(defaultCertPath)){
+                if(File.Exists(defaultCertPath)){
+                    logger.LogInformation("Default Cert file exists");
+                } else{
+                    logger.LogInformation("Default Cert file does not exists!");
+                }
+            }
+            logger.LogInformation($"Kestrel Default cert pass:{_configuration.GetSection("Kestrel:Certificates:Default:Password")}");
+
+            string devCertPath = configuration.GetSection("Kestrel:Certificates:Development:Path").Value;
+            logger.LogInformation($"Kestrel Development cert path:{devCertPath}");
+            if(!string.IsNullOrEmpty(devCertPath)){
+                if(File.Exists(devCertPath)){
+                    logger.LogInformation("Development Cert file exists");
+                } else {
+                    logger.LogInformation("Development Cert file does NOT exists!");
+                }
+            }
+            logger.LogInformation($"Kestrel Development cert pass: {_configuration.GetSection("Kestrel:Certificates:Development:Password")}");
         }
 
         public virtual void ConfigureServices(IServiceCollection services)

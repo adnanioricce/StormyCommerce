@@ -82,8 +82,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 		[ValidateModel]
         [Authorize(Roles = Roles.Admin)]
 		public async Task<ActionResult> CreateProduct([FromBody]ProductDto _model)
-		{
-            //var model = _mapper.Map<StormyProduct>( _model);
+		{            
             var model = new StormyProduct(_model);
 			await _productService.InsertProductAsync(model);
             return Ok();

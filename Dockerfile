@@ -15,7 +15,7 @@ RUN dotnet build SimplCommerce.sln \
     && cd src/SimplCommerce.WebHost \
 	&& dotnet ef migrations add initialSchema \
 	#&& dotnet ef database update \
-    && dotnet ef migrations script -o ../../postgresql-initdb/dbscript.sql     
+    && dotnet ef migrations script --idempotent -o dbscript.sql     
 
 RUN dotnet build *.sln -c Release \
     && cd src/SimplCommerce.WebHost \
@@ -24,7 +24,7 @@ RUN dotnet build *.sln -c Release \
     && dotnet publish -c Release -o out
 
 # remove BOM for psql	
-RUN sed -i -e '1s/^\xEF\xBB\xBF//' /app/postgresql-initdb/dbscript.sql
+RUN sed -i -e '1s/^\xEF\xBB\xBF//' /app/src/SimplCommerce.WebHost/dbscript.sql
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 EXPOSE 443
@@ -40,7 +40,7 @@ RUN apt-get update \
 WORKDIR /app	
 RUN ls -l
 COPY --from=build-env /app/src/SimplCommerce.WebHost/out ./
-COPY --from=build-env /app/postgresql-initdb/dbscript.sql ./
+COPY --from=build-env /app/src/SimplCommerce.WebHost/dbscript.sql ./
 
 RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so
 

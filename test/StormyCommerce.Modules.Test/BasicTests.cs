@@ -25,8 +25,7 @@ namespace StormyCommerce.Modules.IntegrationTest
         [InlineData("/api/Category/GetCategoryById/1")]  
         public async Task GetCategories_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
-            //Arrange
-            
+            //Arrange            
             var response = await _httpClient.GetAsync(url);
             //Act
 
