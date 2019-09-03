@@ -20,6 +20,7 @@
 		public string Complement { get; set;}
 		public string PhoneNumber { get; set; }
         public string Country { get; set; }
-        //public long OwnerId { get; set; }
+		public string WhoReceives { get; set; }
+        public long OwnerId { get; set; }
     }
 }
