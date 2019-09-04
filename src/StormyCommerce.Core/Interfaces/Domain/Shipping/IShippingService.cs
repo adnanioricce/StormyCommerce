@@ -1,13 +1,18 @@
-﻿using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using StormyCommerce.Core.Entities.Order;
 namespace StormyCommerce.Core.Interfaces.Domain.Shipping
 {
     //?Should I do this here or on the client?
     public interface IShippingService
     {
-        Task<object> GetShippmentOptionsAsync(object address);        
-        Task<object> CalculateDeliveryPrice(object address);
-        Task<object> CreateShipmentTicketAsync(object orderObject);
-        Task<object> CheckAddressAsync(object addressObject);
+        Task CreateShipmentAsync(Shipment shipment);
+        Task CreateShipmentAsync(StormyOrder order);
+
+        //TODO:This is more complicated than seem:You need of the postal Code, and info about the object to ship
+        //ex:postal code is 99999999 and has 24kg, that will give diferent shipOptions
+        // Task<List<Shipment>> GetShippmentOptionsAsync( shipment);        
+        Task<Shipment> CalculateDeliveryPrice(string senderPostalCode,string destinationPostalCode);
+        Task<Shipment> CreateShipmentAsync(StormyOrder orderObject);        
     }
 }

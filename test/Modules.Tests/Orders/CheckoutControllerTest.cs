@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Stormycommerce.Module.Orders.Area.ViewModels;
@@ -12,8 +15,6 @@ using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Services.Orders;
 using StormyCommerce.Module.Orders.Area.Controllers;
-using System;
-using System.Threading.Tasks;
 using Xunit;
 namespace Modules.Test.Orders
 {
@@ -52,15 +53,27 @@ namespace Modules.Test.Orders
 	    {
 		    //Arrange 
 			var controller = CreateController();
+			var seed = Seeders.AddressSeed().First();
 			var checkoutObj = new CheckoutOrderVm{
-				DeliveryCost = 12.99m,
-				Discount = 0.00m,
+				DeliveryCost = seed.DeliveryCost,
+				Discount = seed.Discount,
 				Address = new AddressVm{
-					Street = "example street",
-					FirstAddress = "first address",
-					SecondAddress = "second address"
-				}
-			}			
+					City = seed.City,
+					Complement = seed.Complement,
+					CPF = seed.CPF,
+					FirstAddress = seed.FirstAddress,
+					Number = seed.Number,
+					PostalCode = seed.PostalCode,
+					Street = seed.Street,
+					State = seed.State,										
+					SecondAddress = seed.SecondAddress,
+					WhoReceives = "aguinobaldo"
+				},
+				TotalPrice = 29.90,
+				ShippingFee = 9.90,
+				PaymentMethod = "Boleto",
+				Items = Seeders.StormyProductSeed(2).ToListProductDto()
+			};			
 		    //Act
 			var result = await controller.CheckoutBoleto(checkoutObj);
             //Assert

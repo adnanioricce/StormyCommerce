@@ -215,6 +215,6 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.Name, f => f.Commerce.Product())
                 .RuleFor(v => v.ProductAttributes, ProductTemplateProductAttribute(count));
             return fakeProductTemplate.Generate(count);
-        }
+        }        
     }
 }

@@ -14,12 +14,15 @@ namespace StormyCommerce.Core.Entities.Order
 
         }
         public int Quantity { get; set; }
+        public string ProductName { get; set; }
         public StormyProduct Product { get; set; }
         public string Price { get; set; }
         public long StormyProductId { get; set; }
         public long StormyOrderId { get; set; }
         public StormyOrder Order { get; set; }
         public string ProductName { get; set; }
+        public long ShipmentId { get; set; }
+        public Shipment? Shipment { get; set; }
         public OrderItemDto ToOrderItemDto()
         {
             return new OrderItemDto(this);
