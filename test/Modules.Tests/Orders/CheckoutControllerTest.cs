@@ -16,6 +16,8 @@ using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Services.Orders;
 using StormyCommerce.Module.Orders.Area.Controllers;
 using Xunit;
+using StormyCommerce.Api.Framework.Extensions;
+
 namespace Modules.Test.Orders
 {
     public class CheckoutControllerTest
@@ -36,8 +38,8 @@ namespace Modules.Test.Orders
 			}
 			IShippingService CreateShippingService(){
 				var mockService = new Mock<IShippingService>();
-				mockService.Setup(f => f.CreateShipmentTicketAsync(It.IsAny<object>()))
-				.ReturnsAsync(new object());
+				mockService.Setup(f => f.CreateShipmentAsync(It.IsAny<Shipment>()))
+				.Returns(Task.FromResult(new Shipment()));
 				return mockService.Object;				
 			}
 			ILogger CreateLoggerService(){
@@ -55,12 +57,12 @@ namespace Modules.Test.Orders
 			var controller = CreateController();
 			var seed = Seeders.AddressSeed().First();
 			var checkoutObj = new CheckoutOrderVm{
-				DeliveryCost = seed.DeliveryCost,
-				Discount = seed.Discount,
+				// DeliveryCost = seed.DeliveryCost,
+				// Discount = seed.,
 				Address = new AddressVm{
 					City = seed.City,
 					Complement = seed.Complement,
-					CPF = seed.CPF,
+					// CPF = seed.c,
 					FirstAddress = seed.FirstAddress,
 					Number = seed.Number,
 					PostalCode = seed.PostalCode,
@@ -69,10 +71,10 @@ namespace Modules.Test.Orders
 					SecondAddress = seed.SecondAddress,
 					WhoReceives = "aguinobaldo"
 				},
-				TotalPrice = 29.90,
-				ShippingFee = 9.90,
+				TotalPrice = 29.90m,
+				ShippingFee = 9.90m,
 				PaymentMethod = "Boleto",
-				Items = Seeders.StormyProductSeed(2).ToListProductDto()
+				Items = Seeders.StormyProductSeed(2).ToListProductDto().ToList()
 			};			
 		    //Act
 			var result = await controller.CheckoutBoleto(checkoutObj);

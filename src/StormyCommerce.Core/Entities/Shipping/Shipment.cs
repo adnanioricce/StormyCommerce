@@ -1,6 +1,9 @@
 ﻿using System;
 using StormyCommerce.Core.Entities.Common;
 using System.Collections.Generic;
+using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.Shipping;
+
 namespace StormyCommerce.Core.Entities 
 {
 	//! Is to little info, should this exist?

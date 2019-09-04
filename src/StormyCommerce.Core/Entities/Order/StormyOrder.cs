@@ -70,11 +70,7 @@ namespace StormyCommerce.Core.Entities
         public OrderDto ToOrderDto()
         {
             return new OrderDto(this);
-        }
-        public void AddShipment(Shipment shipment)
-        {
-            Shipments.Add(shipment);
-        }
+        }        
         public void AddItem(OrderItem item)
         {
             Items.Add(item);
