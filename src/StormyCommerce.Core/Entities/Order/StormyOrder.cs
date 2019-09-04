@@ -63,7 +63,7 @@ namespace StormyCommerce.Core.Entities
 		public DateTime ShippedDate {get;set; }
         public DateTime DeliveryDate { get; set; }
         public DateTime? PaymentDate { get; set; }
-        public IList<OrderItem>? Items { get; set; } = new List<OrderItem>();
+        public IList<OrderItem> Items { get; set; } = new List<OrderItem>();
         public Shipment Shipment { get; set; }
         public OrderStatus Status { get; set; }
         public ShippingStatus ShippingStatus { get; set; }               

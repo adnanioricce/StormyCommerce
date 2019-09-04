@@ -12,7 +12,6 @@ namespace StormyCommerce.Core.Interfaces.Domain.Shipping
         //TODO:This is more complicated than seem:You need of the postal Code, and info about the object to ship
         //ex:postal code is 99999999 and has 24kg, that will give diferent shipOptions
         // Task<List<Shipment>> GetShippmentOptionsAsync( shipment);        
-        Task<Shipment> CalculateDeliveryPrice(string senderPostalCode,string destinationPostalCode);
-        Task<Shipment> CreateShipmentAsync(StormyOrder orderObject);        
+        Task<Shipment> CalculateDeliveryPrice(string senderPostalCode,string destinationPostalCode);         
     }
 }

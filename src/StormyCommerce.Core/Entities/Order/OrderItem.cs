@@ -22,7 +22,7 @@ namespace StormyCommerce.Core.Entities.Order
         public StormyOrder Order { get; set; }
         public string ProductName { get; set; }
         public long ShipmentId { get; set; }
-        public Shipment? Shipment { get; set; }
+        public Shipment Shipment { get; set; }
         public OrderItemDto ToOrderItemDto()
         {
             return new OrderItemDto(this);
