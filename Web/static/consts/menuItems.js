@@ -7,6 +7,7 @@ export default [
     label: 'Produtos',
     prefix: 'produtos',
     subItems: [
+      { label: 'Ver todos', link: '' }, 
       { label: 'Camisetas' },
       { label: 'Bermudas' },
       { label: 'Casacos' },

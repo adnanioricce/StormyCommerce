@@ -32,15 +32,7 @@ const CartProductCard = (cartProduct, index) => {
 export default ({ isActive }) => {
   const cartProducts = useSelector(state => state.cartProducts, shallowEqual);
   return (
-    <div
-      className="menu"
-      style={{
-        left: 'unset',
-        right: 0,
-        borderRight: 'none',
-        transform: `translateX(${isActive ? 0 : 100}%)`
-      }}
-    >
+    <div className={isActive ? 'shop-cart-menu active' : 'shop-cart-menu'}>
       <Title label="Carrinho" />
       {cartProducts.length > 0 ? (
         <div className="cart-products-container">
