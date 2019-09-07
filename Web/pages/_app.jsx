@@ -1,28 +1,21 @@
+/* eslint-disable no-underscore-dangle */
+import App from 'next/app';
 import React from 'react';
 import { Provider } from 'react-redux';
-import App from 'next/app';
-import withRedux from 'next-redux-wrapper';
-import createStore from '../createStore';
+import { PersistGate } from 'redux-persist/integration/react';
+import withReduxStore from '../createStore';
 
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    // we can dispatch from here too
-
-    const pageProps = Component.getInitialProps
-      ? await Component.getInitialProps(ctx)
-      : {};
-
-    return { pageProps };
-  }
-
   render() {
-    const { Component, pageProps, store } = this.props;
+    const { Component, pageProps, reduxStore } = this.props;
     return (
-      <Provider store={store}>
-        <Component {...pageProps} />
+      <Provider store={reduxStore}>
+        <PersistGate persistor={reduxStore.__PERSISTOR} loading={null}>
+          <Component {...pageProps} />
+        </PersistGate>
       </Provider>
     );
   }
 }
 
-export default withRedux(createStore)(MyApp);
+export default withReduxStore(MyApp);

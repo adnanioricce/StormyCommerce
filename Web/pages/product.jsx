@@ -7,7 +7,8 @@ import ProductOptionsController from '../components/ProductOptionsController';
 import ProductImage from '../components/ProductImage';
 import RelatedProducts from '../components/RelatedProducts';
 
-function product({ currentProduct }) {
+function product({ currentProduct, ...props }) {
+  console.log(props);
   // const [isLoading, setIsLoading] = React.useState(false);
   // const [currentProduct, setCurrentProduct] = React.useState(null);
   // React.useEffect(() => {
@@ -36,12 +37,13 @@ function product({ currentProduct }) {
   );
 }
 
-product.getInitialProps = async ({ query }, ...props) => {
+product.getInitialProps = async ({ query, reduxStore }) => {
+  console.log(reduxStore.getState());
   const name = query.name.replace(/-/g, ' ');
   const response = await api.get('/products');
   const { data: products } = response;
   const currentProduct = products.filter(e => e.name === name)[0];
-  return { ...props, currentProduct };
+  return { currentProduct };
 };
 
 export default product;
