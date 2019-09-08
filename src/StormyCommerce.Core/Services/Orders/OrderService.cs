@@ -47,7 +47,6 @@ namespace StormyCommerce.Core.Services.Orders
             if (entry.Items == null)
                 return new Result<OrderDto>(entry.ToOrderDto(), false , "You have no items to create a order");
            
-            
             await _orderRepository.AddAsync(entry);
             return Result.Ok<OrderDto>(entry.ToOrderDto());
         }

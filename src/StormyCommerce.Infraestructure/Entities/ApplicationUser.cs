@@ -5,6 +5,6 @@ using System;
 namespace StormyCommerce.Infraestructure.Entities
 {
     public class ApplicationUser : IdentityUser<string>
-    {                
+    {                        
     }
 }

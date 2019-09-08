@@ -2,38 +2,58 @@
 using System.Threading.Tasks;
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
+
+//Just Copy and Paste from the original 
+//Tried to avoid adding a reference from Module.Core just for this class
 namespace StormyCommerce.Core.Services
 {
     public class MediaService : IMediaService
     {
-        public Task DeleteMediaAsync(Media media)
-        {
-            throw new System.NotImplementedException();
-        }
+        private readonly IStormyRepository<Media> _mediaRepository;
+        private readonly IStorageService _storageService;
 
-        public Task DeleteMediaAsync(string filename)
+        public MediaService(IStormyRepository<Media> mediaRepository, 
+        IStorageService storageService)
         {
-            throw new System.NotImplementedException();
+            _mediaRepository = mediaRepository;
+            _storageService = storageService;
         }
 
         public string GetMediaUrl(Media media)
         {
-            throw new System.NotImplementedException();
+            if(media == null)
+            {
+                return GetMediaUrl("no-image.png");
+            }
+
+            return GetMediaUrl(media.FileName);
         }
 
-        public string GetMediaUrl(string filename)
+        public string GetMediaUrl(string fileName)
         {
-            throw new System.NotImplementedException();
+            return _storageService.GetMediaUrl(fileName);
         }
 
         public string GetThumbnailUrl(Media media)
         {
-            throw new System.NotImplementedException();
+            return GetMediaUrl(media);
         }
 
-        public Task SaveMediaAsync(Stream mediaBinaryStream, string filename, string mimeType = null)
+        public Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null)
         {
-            throw new System.NotImplementedException();
+            return _storageService.SaveMediaAsync(mediaBinaryStream, fileName, mimeType);
+        }
+
+        public Task DeleteMediaAsync(Media media)
+        {
+            _mediaRepository.Delete(media);
+            return DeleteMediaAsync(media.FileName);
+        }
+
+        public Task DeleteMediaAsync(string fileName)
+        {
+            return _storageService.DeleteMediaAsync(fileName);
         }
     }
 }

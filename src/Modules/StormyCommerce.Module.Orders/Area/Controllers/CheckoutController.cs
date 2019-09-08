@@ -11,7 +11,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
 {
     [Area("Orders")]
     [ApiController]
-    [Route("api/[Controller]/[Action]")]
+    [Route("api/[Controller]")]
     [Authorize]
     public class CheckoutController : Controller
     {        

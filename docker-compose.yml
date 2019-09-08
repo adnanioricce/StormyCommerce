@@ -15,15 +15,15 @@ services:
       - ASPNETCORE_HTTPS_PORT=44388
       - ASPNETCORE_Kestrel__Certificates__Default__Password=simpldevpassword
       - ASPNETCORE_Kestrel__Certificates__Development__Password=simpldevpassword
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/SimplCommerce.WebHost.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/SimplCommerce.WebHost.pfx
     networks:
       - stormy-net
     ports:
       - "49209:80"
       - "44388:443"
     volumes:      
-      - ${HOME}/ASP.NET/Https:/root/.aspnet/https:ro
-      - ${HOME}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${HOME}/.aspnet/https:/https:ro
+      - ${HOME}/.microsoft/usersecrets:/.microsoft/usersecrets:ro
   database:
     image: postgres:latest
     container_name: 'postgres'    

@@ -1,5 +1,5 @@
 FROM stormycommerce/base-sdk:latest AS build-env
-  
+RUN ls -l
 WORKDIR /app
 COPY . ./
 
@@ -9,7 +9,6 @@ RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Extensions/Serv
 RUN sed -i 's/2.2.300/2.2.401/' global.json
 
 RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost/appsettings.docker.json src/SimplCommerce.WebHost/appsettings.json
-
 # ef core migrations run in debug, so we have to build in Debug for copying module correctly 
 RUN dotnet build SimplCommerce.sln \
     && cd src/SimplCommerce.WebHost \
@@ -18,8 +17,7 @@ RUN dotnet build SimplCommerce.sln \
     && dotnet ef migrations script --idempotent -o dbscript.sql     
 
 RUN dotnet build *.sln -c Release \
-    && cd src/SimplCommerce.WebHost \
-    && ls -l \
+    && cd src/SimplCommerce.WebHost \    
     && dotnet build -c Release \
     && dotnet publish -c Release -o out
 
@@ -38,13 +36,10 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app	
-RUN ls -l
 COPY --from=build-env /app/src/SimplCommerce.WebHost/out ./
 COPY --from=build-env /app/src/SimplCommerce.WebHost/dbscript.sql ./
 
-RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so
-
+RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so 
 COPY --from=build-env /app/docker-entrypoint.sh /
 RUN chmod 755 /docker-entrypoint.sh
-
 ENTRYPOINT ["/docker-entrypoint.sh"]

@@ -216,5 +216,37 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.ProductAttributes, ProductTemplateProductAttribute(count));
             return fakeProductTemplate.Generate(count);
         }
+        public static List<Review> ReviewSeed(int count = 1)
+        {
+            var fakeReview = new Faker<Review>("pt_BR")
+                .RuleFor(v => v.Id,f => ++f.IndexVariable)
+                .RuleFor(v => v.Comment,f => f.Rant.Review("product"))
+                .RuleFor(v => v.IsDeleted,false)
+                .RuleFor(v => v.LastModified,DateTime.UtcNow)
+                .RuleFor(v => v.RatingLevel,f => f.Random.Int(0,5))
+                .RuleFor(v => v.Title,f => f.Lorem.Sentence());       
+            return fakeReview.Generate(count);         
+        }
+        public static List<StormyCustomer> StormyCustomerSeed(int count = 1)
+        {
+            var fakeCustomer = new Faker<StormyCustomer>()
+                .RuleFor(v => v.Id,f => ++f.IndexVariable)
+                .RuleFor(v => v.IsDeleted,false)
+                .RuleFor(v => v.LastModified,DateTime.UtcNow)
+                .RuleFor(v => v.Email,f => f.Internet.Email())
+                .RuleFor(v => v.EmailConfirmed,true)
+                .RuleFor(v => v.PhoneNumber,f => f.Person.Phone)
+                .RuleFor(v => v.PhoneNumberConfirmed, true)
+                .RuleFor(v => v.UserId,Guid.NewGuid().ToString())
+                .RuleFor(v => v.UserName,f => f.Internet.UserName())
+                .RuleFor(v => v.CPF,"000000000")
+                .RuleFor(v => v.CreatedOn,DateTime.UtcNow)
+                .RuleFor(v => v.CustomerReviewsId,f => f.IndexVariable)
+                .RuleFor(v => v.CustomerWishlistId,f => f.IndexVariable)
+                .RuleFor(v => v.DefaultBillingAddressId,f => f.IndexVariable)
+                .RuleFor(v => v.DefaultShippingAddressId,f => f.IndexVariable);
+            return fakeCustomer.Generate(count);
+        }
+
     }
 }

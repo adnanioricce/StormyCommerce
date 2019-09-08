@@ -33,8 +33,7 @@ namespace SimplCommerce.WebHost
     public class Startup
     {
         protected readonly IHostingEnvironment _hostingEnvironment;
-        protected readonly IConfiguration _configuration;
-        private string _moviesApiKey = null;
+        protected readonly IConfiguration _configuration;        
 
         public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment,ILogger<Startup> logger)
         {
@@ -62,6 +61,17 @@ namespace SimplCommerce.WebHost
                 }
             }
             logger.LogInformation($"Kestrel Development cert pass: {_configuration.GetSection("Kestrel:Certificates:Development:Password")}");
+            Container.Configuration = configuration;
+            logger.LogInformation("************Inside constructor logging https details*****************");
+            logger.LogInformation($"Kestrel cert path:- {configuration.GetSection("Kestrel:Certificates:Default:Path").Value}");
+            if (File.Exists(configuration.GetSection("Kestrel:Certificates:Default:Path").Value))
+                logger.LogInformation("************Cert file exist:)*****************");
+            else
+            {
+                logger.LogInformation("************Cert file don't exist:)*****************");
+
+            }
+            logger.LogInformation($"Kestrel cert path:- {configuration.GetSection("Kestrel:Certificates:Default:Password").Value}");
         }
 
         public virtual void ConfigureServices(IServiceCollection services)
