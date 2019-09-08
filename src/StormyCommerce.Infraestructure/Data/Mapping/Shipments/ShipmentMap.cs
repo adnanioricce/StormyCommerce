@@ -10,6 +10,9 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Shipments
         {
             modelBuilder.Entity<Shipment>(shipment =>
             {
+                //TODO:I think this need some validations
+                shipment.Property(prop => prop.TrackNumber).HasMaxLength(250);
+                // shipment.Propert(prop => prop)
                 shipment.HasData(new Shipment(2)
                 {
                     TrackNumber = Guid.NewGuid().ToString(),

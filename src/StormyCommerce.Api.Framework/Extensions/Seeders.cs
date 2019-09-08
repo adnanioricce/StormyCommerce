@@ -247,6 +247,5 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.DefaultShippingAddressId,f => f.IndexVariable);
             return fakeCustomer.Generate(count);
         }
-
     }
 }

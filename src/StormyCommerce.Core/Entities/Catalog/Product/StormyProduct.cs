@@ -27,7 +27,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             UnitsInStock = productDto.UnitsInStock;
             UnitSize = Convert.ToDecimal(productDto.UnitSize);
             UnitsOnOrder = productDto.UnitsOnOrder;
-            UnitWeight = productDto.UnitWeight;            
+            UnitWeight = productDto.UnitWeight;   
+            ThumbnailImage = productDto.ThumbnailImage;         
+
         }
         public StormyProduct(ProductDto productDto,long id)
         {

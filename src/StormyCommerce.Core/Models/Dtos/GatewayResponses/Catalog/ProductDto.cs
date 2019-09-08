@@ -41,15 +41,15 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             UnitsOnOrder = product.UnitsOnOrder;
             Price = product.Price;
             OldPrice = product.OldPrice;
-            //Brand = new BrandDto(product.Brand);
-            //Category = new CategoryDto(product.Category);
-            //Vendor = new VendorDto(product.Vendor);
+            ThumbnailImage = product.ThumbnailImage;
+            Medias = product.ToMediasDtos();            
+            Brand = new BrandDto(product.Brand);
+            Category = new CategoryDto(product.Category);
+            Vendor = new VendorDto(product.Vendor);
         }
         public long Id { get; set; }
         public string ProductName { get; set; }
-        public string Slug { get; set; }
-        public string[] Colors { get; set; }
-        public string[] Tags { get; set; }
+        public string Slug { get; set; }                
         public int QuantityPerUnity { get; set; }
         public string UnitSize { get; set; }
         public decimal UnitPrice { get; set; }
@@ -59,10 +59,11 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public int UnitsOnOrder { get; set; }
         public string Price { get; set; }
         public string OldPrice { get; set; }        
+        public string ThumbnailImage { get; set; }        
         public CategoryDto Category { get; set; }
         public BrandDto Brand { get; set; }
         public VendorDto Vendor { get; set; }
-        //public List<MediaDto> Medias { get; set; }
+        public List<MediaDto> Medias { get; set; }
         public StormyProduct ToStormyProduct()
         {
             return new StormyProduct
