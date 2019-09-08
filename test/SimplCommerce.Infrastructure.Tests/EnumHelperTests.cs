@@ -5,7 +5,7 @@ namespace SimplCommerce.Infrastructure.Tests
 {
     public class EnumHelperTests
     {
-        enum Importance
+        private enum Importance
         {
             None,
             Trivial,

@@ -1,4 +1,4 @@
-/**
+﻿/**
  *
  * Angular-Material-Mocks
  *
@@ -13,7 +13,6 @@
  *
  */
 (function(window, angular, undefined) {
-
 'use strict';
 
   // Allow our code to know when they are running inside of a test so they can expose extra services
@@ -38,7 +37,6 @@ angular.module('ngMaterial-mock', [
   'material.core'
   ])
   .config(['$provide', function($provide) {
-
     $provide.factory('$material', ['$animate', '$timeout', function($animate, $timeout) {
       return {
         flushOutstandingAnimations: function() {
@@ -74,7 +72,6 @@ angular.module('ngMaterial-mock', [
      * errors
      */
     $provide.decorator('$$rAF', function throttleInjector($delegate){
-
       $delegate.throttle = function(cb) {
         return function() {
           cb.apply(this, arguments);
@@ -95,7 +92,6 @@ angular.module('ngMaterial-mock', [
      * errors
      */
     $provide.decorator('$timeout', function throttleInjector($delegate){
-
       var ngFlush = $delegate.flush;
       $delegate.flush = function() {
           var args = Array.prototype.slice.call(arguments);
@@ -105,7 +101,6 @@ angular.module('ngMaterial-mock', [
 
       return $delegate;
     });
-
   }]);
 
   /**
@@ -180,7 +175,5 @@ angular.module('ngMaterial-mock', [
 
         return styles;
     }
-
   };
-
 })(window, window.angular);

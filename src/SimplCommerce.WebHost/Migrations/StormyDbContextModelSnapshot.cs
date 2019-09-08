@@ -341,451 +341,451 @@ namespace SimplCommerce.WebHost.Migrations
                         {
                             Id = 1L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 10, 17, 11, 47, 366, DateTimeKind.Unspecified).AddTicks(7657), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 5, 8, 6, 46, 318, DateTimeKind.Unspecified).AddTicks(5035), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 21L,
-                            ProductId = 46L
+                            LinkedProductId = 49L,
+                            ProductId = 43L
                         },
                         new
                         {
                             Id = 2L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 15, 22, 3, 26, 255, DateTimeKind.Unspecified).AddTicks(6594), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 15, 14, 54, 9, 583, DateTimeKind.Unspecified).AddTicks(2114), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 34L,
-                            ProductId = 42L
+                            LinkedProductId = 10L,
+                            ProductId = 48L
                         },
                         new
                         {
                             Id = 3L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 13, 15, 31, 22, 528, DateTimeKind.Unspecified).AddTicks(6544), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 30, 4, 49, 14, 663, DateTimeKind.Unspecified).AddTicks(1908), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 34L,
-                            ProductId = 14L
+                            LinkedProductId = 49L,
+                            ProductId = 20L
                         },
                         new
                         {
                             Id = 4L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 29, 4, 26, 10, 716, DateTimeKind.Unspecified).AddTicks(2758), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 3, 5, 25, 59, 272, DateTimeKind.Unspecified).AddTicks(5212), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 45L,
-                            ProductId = 1L
+                            LinkedProductId = 29L,
+                            ProductId = 26L
                         },
                         new
                         {
                             Id = 5L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 14, 2, 25, 52, 996, DateTimeKind.Unspecified).AddTicks(6243), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 29, 22, 8, 42, 188, DateTimeKind.Unspecified).AddTicks(4306), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 39L,
-                            ProductId = 27L
+                            LinkedProductId = 26L,
+                            ProductId = 49L
                         },
                         new
                         {
                             Id = 6L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 14, 38, 6, 444, DateTimeKind.Unspecified).AddTicks(4501), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 19, 22, 7, 38, DateTimeKind.Unspecified).AddTicks(9822), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 41L,
-                            ProductId = 29L
+                            LinkedProductId = 9L,
+                            ProductId = 12L
                         },
                         new
                         {
                             Id = 7L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 27, 2, 23, 44, 280, DateTimeKind.Unspecified).AddTicks(3304), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 5, 8, 14, 37, 774, DateTimeKind.Unspecified).AddTicks(5222), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 38L,
-                            ProductId = 22L
+                            LinkedProductId = 9L,
+                            ProductId = 21L
                         },
                         new
                         {
                             Id = 8L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 2, 1, 9, 25, 713, DateTimeKind.Unspecified).AddTicks(4067), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 6, 9, 40, 43, 247, DateTimeKind.Unspecified).AddTicks(5360), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 8L,
-                            ProductId = 34L
+                            LinkedProductId = 37L,
+                            ProductId = 28L
                         },
                         new
                         {
                             Id = 9L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 19, 9, 39, 55, 315, DateTimeKind.Unspecified).AddTicks(2619), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 21, 39, 22, 743, DateTimeKind.Unspecified).AddTicks(7110), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 24L,
-                            ProductId = 34L
+                            LinkedProductId = 11L,
+                            ProductId = 44L
                         },
                         new
                         {
                             Id = 10L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 3, 50, 23, 707, DateTimeKind.Unspecified).AddTicks(7431), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 30, 10, 13, 18, 751, DateTimeKind.Unspecified).AddTicks(783), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 5L,
-                            ProductId = 6L
+                            LinkedProductId = 46L,
+                            ProductId = 41L
                         },
                         new
                         {
                             Id = 11L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 13, 10, 38, 22, 478, DateTimeKind.Unspecified).AddTicks(1820), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 23, 4, 11, 562, DateTimeKind.Unspecified).AddTicks(5467), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 14L,
-                            ProductId = 22L
+                            LinkedProductId = 5L,
+                            ProductId = 16L
                         },
                         new
                         {
                             Id = 12L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 15, 5, 14, 58, 684, DateTimeKind.Unspecified).AddTicks(471), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 28, 14, 47, 45, 244, DateTimeKind.Unspecified).AddTicks(7180), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 25L,
-                            ProductId = 40L
+                            LinkedProductId = 18L,
+                            ProductId = 16L
                         },
                         new
                         {
                             Id = 13L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 26, 7, 57, 58, 323, DateTimeKind.Unspecified).AddTicks(5462), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 5, 21, 38, 41, 171, DateTimeKind.Unspecified).AddTicks(1062), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 7L,
-                            ProductId = 46L
+                            LinkedProductId = 44L,
+                            ProductId = 8L
                         },
                         new
                         {
                             Id = 14L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 8, 38, 21, 956, DateTimeKind.Unspecified).AddTicks(4718), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 23, 12, 16, 57, 979, DateTimeKind.Unspecified).AddTicks(7714), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 16L,
-                            ProductId = 12L
+                            LinkedProductId = 20L,
+                            ProductId = 19L
                         },
                         new
                         {
                             Id = 15L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 24, 18, 2, 22, 448, DateTimeKind.Unspecified).AddTicks(6976), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 1, 23, 57, 1, 522, DateTimeKind.Unspecified).AddTicks(9162), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 10L,
-                            ProductId = 38L
+                            LinkedProductId = 50L,
+                            ProductId = 44L
                         },
                         new
                         {
                             Id = 16L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 31, 7, 32, 12, 455, DateTimeKind.Unspecified).AddTicks(4562), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 1, 11, 53, 57, 627, DateTimeKind.Unspecified).AddTicks(2560), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 6L,
-                            ProductId = 29L
+                            LinkedProductId = 40L,
+                            ProductId = 5L
                         },
                         new
                         {
                             Id = 17L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 28, 19, 41, 53, 470, DateTimeKind.Unspecified).AddTicks(9161), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 28, 22, 11, 20, 619, DateTimeKind.Unspecified).AddTicks(3928), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 26L,
-                            ProductId = 24L
+                            LinkedProductId = 31L,
+                            ProductId = 47L
                         },
                         new
                         {
                             Id = 18L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 28, 3, 31, 40, 468, DateTimeKind.Unspecified).AddTicks(3966), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 4, 4, 54, 34, 766, DateTimeKind.Unspecified).AddTicks(7123), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 33L,
-                            ProductId = 48L
+                            LinkedProductId = 17L,
+                            ProductId = 13L
                         },
                         new
                         {
                             Id = 19L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 15, 9, 9, 32, 534, DateTimeKind.Unspecified).AddTicks(5134), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 6, 11, 23, 11, 250, DateTimeKind.Unspecified).AddTicks(8377), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 45L,
+                            LinkedProductId = 3L,
                             ProductId = 13L
                         },
                         new
                         {
                             Id = 20L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 27, 19, 48, 32, 38, DateTimeKind.Unspecified).AddTicks(3472), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 1, 10, 33, 44, 310, DateTimeKind.Unspecified).AddTicks(9877), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 7L,
-                            ProductId = 11L
+                            LinkedProductId = 5L,
+                            ProductId = 50L
                         },
                         new
                         {
                             Id = 21L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 29, 18, 31, 0, 601, DateTimeKind.Unspecified).AddTicks(3368), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 6, 9, 33, 8, 49, DateTimeKind.Unspecified).AddTicks(8835), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 24L,
-                            ProductId = 30L
+                            LinkedProductId = 1L,
+                            ProductId = 3L
                         },
                         new
                         {
                             Id = 22L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 29, 19, 33, 3, 363, DateTimeKind.Unspecified).AddTicks(2855), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 9, 58, 56, 718, DateTimeKind.Unspecified).AddTicks(3731), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 19L,
-                            ProductId = 32L
+                            LinkedProductId = 20L,
+                            ProductId = 24L
                         },
                         new
                         {
                             Id = 23L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 19, 11, 30, 31, 87, DateTimeKind.Unspecified).AddTicks(6), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 4, 2, 18, 7, 872, DateTimeKind.Unspecified).AddTicks(3553), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 3L,
-                            ProductId = 15L
+                            LinkedProductId = 48L,
+                            ProductId = 8L
                         },
                         new
                         {
                             Id = 24L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 15, 15, 53, 43, 859, DateTimeKind.Unspecified).AddTicks(4540), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 23, 2, 18, 47, 759, DateTimeKind.Unspecified).AddTicks(460), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 12L,
-                            ProductId = 34L
+                            LinkedProductId = 23L,
+                            ProductId = 16L
                         },
                         new
                         {
                             Id = 25L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 6, 40, 45, 248, DateTimeKind.Unspecified).AddTicks(6581), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 6, 18, 37, 57, 433, DateTimeKind.Unspecified).AddTicks(588), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 31L,
-                            ProductId = 23L
+                            LinkedProductId = 25L,
+                            ProductId = 40L
                         },
                         new
                         {
                             Id = 26L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 28, 20, 24, 58, 647, DateTimeKind.Unspecified).AddTicks(326), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 8, 3, 7, 44, 78, DateTimeKind.Unspecified).AddTicks(8000), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 34L,
-                            ProductId = 49L
+                            LinkedProductId = 42L,
+                            ProductId = 37L
                         },
                         new
                         {
                             Id = 27L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 10, 20, 40, 30, 384, DateTimeKind.Unspecified).AddTicks(9315), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 23, 1, 40, 43, 824, DateTimeKind.Unspecified).AddTicks(5567), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 24L,
-                            ProductId = 18L
+                            LinkedProductId = 30L,
+                            ProductId = 21L
                         },
                         new
                         {
                             Id = 28L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 31, 10, 23, 53, 50, DateTimeKind.Unspecified).AddTicks(4087), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 14, 26, 23, 891, DateTimeKind.Unspecified).AddTicks(8754), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 8L,
-                            ProductId = 30L
+                            LinkedProductId = 47L,
+                            ProductId = 16L
                         },
                         new
                         {
                             Id = 29L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 22, 55, 54, 261, DateTimeKind.Unspecified).AddTicks(4565), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 19, 44, 44, 458, DateTimeKind.Unspecified).AddTicks(8140), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 30L,
-                            ProductId = 31L
+                            LinkedProductId = 33L,
+                            ProductId = 39L
                         },
                         new
                         {
                             Id = 30L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 22, 4, 54, 10, 255, DateTimeKind.Unspecified).AddTicks(7975), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 7, 5, 35, 29, 557, DateTimeKind.Unspecified).AddTicks(6658), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 1L,
-                            ProductId = 30L
+                            LinkedProductId = 18L,
+                            ProductId = 16L
                         },
                         new
                         {
                             Id = 31L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 10, 10, 49, 613, DateTimeKind.Unspecified).AddTicks(3876), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 7, 7, 1, 43, 371, DateTimeKind.Unspecified).AddTicks(8934), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 3L,
-                            ProductId = 50L
+                            LinkedProductId = 42L,
+                            ProductId = 39L
                         },
                         new
                         {
                             Id = 32L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 16, 15, 38, 4, 504, DateTimeKind.Unspecified).AddTicks(4047), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 4, 10, 27, 2, 471, DateTimeKind.Unspecified).AddTicks(8903), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 25L,
-                            ProductId = 43L
+                            LinkedProductId = 28L,
+                            ProductId = 19L
                         },
                         new
                         {
                             Id = 33L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 15, 29, 15, 348, DateTimeKind.Unspecified).AddTicks(2754), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 31, 18, 44, 22, 710, DateTimeKind.Unspecified).AddTicks(8970), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 11L,
-                            ProductId = 41L
+                            LinkedProductId = 35L,
+                            ProductId = 31L
                         },
                         new
                         {
                             Id = 34L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 30, 23, 28, 16, 614, DateTimeKind.Unspecified).AddTicks(2042), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 29, 8, 57, 44, 667, DateTimeKind.Unspecified).AddTicks(8026), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 27L,
-                            ProductId = 4L
+                            LinkedProductId = 6L,
+                            ProductId = 43L
                         },
                         new
                         {
                             Id = 35L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 26, 18, 54, 57, 465, DateTimeKind.Unspecified).AddTicks(888), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 16, 3, 17, 35, 677, DateTimeKind.Unspecified).AddTicks(1477), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 24L,
-                            ProductId = 14L
+                            LinkedProductId = 39L,
+                            ProductId = 9L
                         },
                         new
                         {
                             Id = 36L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 13, 21, 26, 11, 885, DateTimeKind.Unspecified).AddTicks(2383), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 24, 2, 10, 45, 21, DateTimeKind.Unspecified).AddTicks(9364), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 29L,
-                            ProductId = 3L
+                            LinkedProductId = 6L,
+                            ProductId = 42L
                         },
                         new
                         {
                             Id = 37L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 21, 14, 21, 29, 919, DateTimeKind.Unspecified).AddTicks(2003), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 28, 5, 10, 54, 842, DateTimeKind.Unspecified).AddTicks(883), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 27L,
-                            ProductId = 12L
+                            LinkedProductId = 4L,
+                            ProductId = 11L
                         },
                         new
                         {
                             Id = 38L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 26, 20, 52, 11, 207, DateTimeKind.Unspecified).AddTicks(8792), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 27, 2, 8, 57, 152, DateTimeKind.Unspecified).AddTicks(2398), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 17L,
-                            ProductId = 34L
+                            LinkedProductId = 32L,
+                            ProductId = 26L
                         },
                         new
                         {
                             Id = 39L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 12, 7, 31, 52, 180, DateTimeKind.Unspecified).AddTicks(7699), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 10, 32, 24, 515, DateTimeKind.Unspecified).AddTicks(8297), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 4L,
-                            ProductId = 16L
+                            LinkedProductId = 17L,
+                            ProductId = 4L
                         },
                         new
                         {
                             Id = 40L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 2, 23, 7, 29, 41, DateTimeKind.Unspecified).AddTicks(3873), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 21, 4, 7, 33, 152, DateTimeKind.Unspecified).AddTicks(9596), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 27L,
-                            ProductId = 40L
+                            LinkedProductId = 35L,
+                            ProductId = 37L
                         },
                         new
                         {
                             Id = 41L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 2, 21, 42, 39, 855, DateTimeKind.Unspecified).AddTicks(5540), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 22, 14, 13, 59, 948, DateTimeKind.Unspecified).AddTicks(2932), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 6L,
-                            ProductId = 2L
+                            LinkedProductId = 7L,
+                            ProductId = 30L
                         },
                         new
                         {
                             Id = 42L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 16, 19, 45, 46, 854, DateTimeKind.Unspecified).AddTicks(9285), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 21, 37, 17, 280, DateTimeKind.Unspecified).AddTicks(9292), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 10L,
-                            ProductId = 9L
+                            LinkedProductId = 31L,
+                            ProductId = 32L
                         },
                         new
                         {
                             Id = 43L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 7, 33, 29, 105, DateTimeKind.Unspecified).AddTicks(203), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 26, 12, 53, 10, 942, DateTimeKind.Unspecified).AddTicks(6932), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 49L,
-                            ProductId = 6L
+                            LinkedProductId = 46L,
+                            ProductId = 47L
                         },
                         new
                         {
                             Id = 44L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 15, 15, 7, 588, DateTimeKind.Unspecified).AddTicks(9966), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 29, 11, 22, 46, 110, DateTimeKind.Unspecified).AddTicks(2796), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 28L,
-                            ProductId = 24L
+                            LinkedProductId = 36L,
+                            ProductId = 7L
                         },
                         new
                         {
                             Id = 45L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 30, 6, 46, 30, 899, DateTimeKind.Unspecified).AddTicks(1888), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 5, 10, 33, 30, 682, DateTimeKind.Unspecified).AddTicks(5779), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 41L,
-                            ProductId = 48L
+                            LinkedProductId = 13L,
+                            ProductId = 24L
                         },
                         new
                         {
                             Id = 46L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 27, 4, 30, 41, 419, DateTimeKind.Unspecified).AddTicks(7945), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 14, 16, 17, 655, DateTimeKind.Unspecified).AddTicks(6282), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 41L,
-                            ProductId = 34L
+                            LinkedProductId = 42L,
+                            ProductId = 9L
                         },
                         new
                         {
                             Id = 47L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 26, 10, 49, 7, 492, DateTimeKind.Unspecified).AddTicks(4651), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 5, 3, 31, 59, 497, DateTimeKind.Unspecified).AddTicks(814), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 42L,
-                            ProductId = 2L
+                            LinkedProductId = 13L,
+                            ProductId = 28L
                         },
                         new
                         {
                             Id = 48L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 19, 17, 7, 39, 454, DateTimeKind.Unspecified).AddTicks(5424), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 16, 8, 24, 58, 707, DateTimeKind.Unspecified).AddTicks(3143), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 49L,
-                            ProductId = 24L
+                            LinkedProductId = 30L,
+                            ProductId = 15L
                         },
                         new
                         {
                             Id = 49L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 24, 17, 22, 45, 809, DateTimeKind.Unspecified).AddTicks(1149), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 6, 9, 44, 47, 379, DateTimeKind.Unspecified).AddTicks(3139), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 13L,
-                            ProductId = 37L
+                            LinkedProductId = 28L,
+                            ProductId = 10L
                         },
                         new
                         {
                             Id = 50L,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 13, 51, 38, 876, DateTimeKind.Unspecified).AddTicks(3295), new TimeSpan(0, -3, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 2, 0, 22, 23, 905, DateTimeKind.Unspecified).AddTicks(6387), new TimeSpan(0, -3, 0, 0, 0)),
                             LinkType = 2,
-                            LinkedProductId = 42L,
-                            ProductId = 22L
+                            LinkedProductId = 31L,
+                            ProductId = 12L
                         });
                 });
 
@@ -973,13 +973,18 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("City");
+                    b.Property<string>("City")
+                        .HasMaxLength(500);
 
-                    b.Property<string>("Complement");
+                    b.Property<string>("Complement")
+                        .HasMaxLength(250);
 
                     b.Property<string>("Country");
 
-                    b.Property<string>("FirstAddress");
+                    b.Property<string>("District");
+
+                    b.Property<string>("FirstAddress")
+                        .HasMaxLength(250);
 
                     b.Property<bool>("IsDeleted");
 
@@ -987,91 +992,25 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("Number");
 
+                    b.Property<long>("OwnerId");
+
                     b.Property<string>("PhoneNumber");
 
-                    b.Property<string>("PostalCode");
+                    b.Property<string>("PostalCode")
+                        .HasMaxLength(9);
 
-                    b.Property<string>("SecondAddress");
+                    b.Property<string>("SecondAddress")
+                        .HasMaxLength(250);
 
                     b.Property<string>("State");
 
                     b.Property<string>("Street");
 
+                    b.Property<string>("WhoReceives");
+
                     b.HasKey("Id");
 
                     b.ToTable("Address");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            City = "Vila Alessandro",
-                            FirstAddress = "Souza Ponte",
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 3, 2, 28, 56, 750, DateTimeKind.Unspecified).AddTicks(2398), new TimeSpan(0, 0, 0, 0, 0)),
-                            Number = "69225",
-                            PhoneNumber = "+55 (69) 1743-9201",
-                            PostalCode = "40157",
-                            SecondAddress = "Apto. 016",
-                            State = "Acre",
-                            Street = "1555 Batista Marginal"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            City = "Carvalhodo Descoberto",
-                            FirstAddress = "Deneval Viela",
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 3, 2, 28, 56, 774, DateTimeKind.Unspecified).AddTicks(3137), new TimeSpan(0, 0, 0, 0, 0)),
-                            Number = "239",
-                            PhoneNumber = "(29) 6328-2459",
-                            PostalCode = "90633",
-                            SecondAddress = "Apto. 765",
-                            State = "Rio de Janeiro",
-                            Street = "49012 Albuquerque Rodovia"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            City = "Saraivado Sul",
-                            FirstAddress = "Barros Rodovia",
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 3, 2, 28, 56, 774, DateTimeKind.Unspecified).AddTicks(3998), new TimeSpan(0, 0, 0, 0, 0)),
-                            Number = "05336",
-                            PhoneNumber = "(35) 65251-6113",
-                            PostalCode = "26119-786",
-                            SecondAddress = "Lote 76",
-                            State = "Alagoas",
-                            Street = "729 Ígor Ponte"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            City = "Xavierde Nossa Senhora",
-                            FirstAddress = "Kléber Viela",
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 3, 2, 28, 56, 774, DateTimeKind.Unspecified).AddTicks(4379), new TimeSpan(0, 0, 0, 0, 0)),
-                            Number = "865",
-                            PhoneNumber = "(56) 2363-7715",
-                            PostalCode = "15703",
-                            SecondAddress = "Sobrado 49",
-                            State = "Minas Gerais",
-                            Street = "2266 Braga Rodovia"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            City = "Nogueirado Descoberto",
-                            FirstAddress = "Xavier Avenida",
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 3, 2, 28, 56, 774, DateTimeKind.Unspecified).AddTicks(4750), new TimeSpan(0, 0, 0, 0, 0)),
-                            Number = "401",
-                            PhoneNumber = "(09) 9766-4931",
-                            PostalCode = "74909-059",
-                            SecondAddress = "Casa 9",
-                            State = "Alagoas",
-                            Street = "743 Carvalho Rodovia"
-                        });
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.StormyCustomer", b =>
@@ -1080,15 +1019,21 @@ namespace SimplCommerce.WebHost.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CPF")
-                        .HasMaxLength(11);
+                        .HasMaxLength(9);
 
                     b.Property<DateTimeOffset>("CreatedOn");
+
+                    b.Property<long>("CustomerReviewsId");
+
+                    b.Property<long>("CustomerWishlistId");
 
                     b.Property<long?>("DefaultBillingAddressId");
 
                     b.Property<long?>("DefaultShippingAddressId");
 
                     b.Property<string>("Email");
+
+                    b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FullName")
                         .HasMaxLength(450);
@@ -1097,17 +1042,70 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<DateTimeOffset>("LastModified");
 
+                    b.Property<string>("NormalizedEmail");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
                     b.Property<string>("UserId");
 
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerWishlistId")
+                        .IsUnique();
+
                     b.HasIndex("DefaultBillingAddressId");
 
                     b.HasIndex("DefaultShippingAddressId");
 
                     b.ToTable("StormyCustomer");
+                });
+
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.Wishlist", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CustomerId");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTimeOffset>("LastModified");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wishlist");
+                });
+
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.WishlistItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("AddedAt");
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTimeOffset>("LastModified");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<long?>("ProductId1");
+
+                    b.Property<long>("WishlistId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId1");
+
+                    b.HasIndex("WishlistId");
+
+                    b.ToTable("WishlistItem");
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Entity", b =>
@@ -1202,11 +1200,15 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<int>("Quantity");
 
+                    b.Property<long>("ShipmentId");
+
                     b.Property<long>("StormyOrderId");
 
                     b.Property<long>("StormyProductId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShipmentId");
 
                     b.HasIndex("StormyOrderId");
 
@@ -1248,6 +1250,32 @@ namespace SimplCommerce.WebHost.Migrations
                     b.ToTable("Payment");
                 });
 
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Review", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Comment");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTimeOffset>("LastModified");
+
+                    b.Property<int>("RatingLevel");
+
+                    b.Property<string>("ReviewerName");
+
+                    b.Property<long>("StormyCustomerId");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StormyCustomerId");
+
+                    b.ToTable("Review");
+                });
+
             modelBuilder.Entity("StormyCommerce.Core.Entities.Settings.AppSettings", b =>
                 {
                     b.Property<string>("Id")
@@ -1271,13 +1299,21 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<long>("BillingAddressId");
+
                     b.Property<string>("Comment");
 
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<decimal>("DeliveryCost");
 
-                    b.Property<DateTime?>("DeliveryDate");
+                    b.Property<DateTime>("DeliveryDate");
+
+                    b.Property<long>("DestinationAddressId");
+
+                    b.Property<decimal>("Diameter");
+
+                    b.Property<decimal>("Height");
 
                     b.Property<bool>("IsDeleted");
 
@@ -1285,17 +1321,32 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<decimal>("Price");
 
-                    b.Property<DateTime?>("ShippedDate");
+                    b.Property<string>("ShipmentMethod");
 
-                    b.Property<long?>("StormyOrderId");
+                    b.Property<string>("ShipmentProviderName");
+
+                    b.Property<DateTime>("ShippedDate");
+
+                    b.Property<long>("StormyCustomerId");
 
                     b.Property<decimal>("TotalWeight");
 
-                    b.Property<string>("TrackNumber");
+                    b.Property<string>("TrackNumber")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("WhoReceives");
+
+                    b.Property<decimal>("Width");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StormyOrderId");
+                    b.HasIndex("BillingAddressId");
+
+                    b.HasIndex("DestinationAddressId");
+
+                    b.HasIndex("StormyCustomerId");
 
                     b.ToTable("Shipment");
 
@@ -1303,17 +1354,47 @@ namespace SimplCommerce.WebHost.Migrations
                         new
                         {
                             Id = 2L,
+                            BillingAddressId = 0L,
                             Comment = "a single comment",
-                            CreatedOn = new DateTime(2019, 9, 3, 2, 28, 56, 518, DateTimeKind.Utc).AddTicks(1414),
+                            CreatedOn = new DateTime(2019, 9, 8, 21, 58, 21, 851, DateTimeKind.Utc).AddTicks(9557),
                             DeliveryCost = 22.29m,
-                            DeliveryDate = new DateTime(2019, 9, 5, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveryDate = new DateTime(2019, 9, 11, 0, 0, 0, 0, DateTimeKind.Local),
+                            DestinationAddressId = 0L,
+                            Diameter = 0m,
+                            Height = 0m,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 3, 2, 28, 56, 518, DateTimeKind.Unspecified).AddTicks(1004), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 8, 21, 58, 21, 851, DateTimeKind.Unspecified).AddTicks(9166), new TimeSpan(0, 0, 0, 0, 0)),
                             Price = 20.99m,
-                            ShippedDate = new DateTime(2019, 9, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            ShippedDate = new DateTime(2019, 9, 7, 0, 0, 0, 0, DateTimeKind.Local),
+                            StormyCustomerId = 0L,
                             TotalWeight = 0.400m,
-                            TrackNumber = "d5b9c21e-ce44-4f18-9324-913112c6da5e"
+                            TrackNumber = "8e825c7f-faba-47fd-a31f-8489e300141d",
+                            Width = 0m
                         });
+                });
+
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Shipping.ShipmentItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTimeOffset>("LastModified");
+
+                    b.Property<int>("OrderItemId");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<int>("ShipmentId");
+
+                    b.Property<long?>("ShipmentId1");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShipmentId1");
+
+                    b.ToTable("ShipmentItem");
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.StormyOrder", b =>
@@ -1356,6 +1437,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<DateTime>("RequiredDate");
 
+                    b.Property<long>("ShipmentId");
+
                     b.Property<DateTime>("ShippedDate");
 
                     b.Property<long?>("ShippingAddressId");
@@ -1377,6 +1460,8 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("ShipmentId");
 
                     b.HasIndex("ShippingAddressId");
 
@@ -1600,6 +1685,11 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.StormyCustomer", b =>
                 {
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.Wishlist", "CustomerWishlist")
+                        .WithOne("Customer")
+                        .HasForeignKey("StormyCommerce.Core.Entities.Customer.StormyCustomer", "CustomerWishlistId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("StormyCommerce.Core.Entities.Common.Address", "DefaultBillingAddress")
                         .WithMany()
                         .HasForeignKey("DefaultBillingAddressId");
@@ -1607,6 +1697,18 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasOne("StormyCommerce.Core.Entities.Common.Address", "DefaultShippingAddress")
                         .WithMany()
                         .HasForeignKey("DefaultShippingAddressId");
+                });
+
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.WishlistItem", b =>
+                {
+                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId1");
+
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.Wishlist", "Wishlist")
+                        .WithMany("WishlistItems")
+                        .HasForeignKey("WishlistId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Entity", b =>
@@ -1627,6 +1729,11 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Order.OrderItem", b =>
                 {
+                    b.HasOne("StormyCommerce.Core.Entities.Shipment", "Shipment")
+                        .WithMany()
+                        .HasForeignKey("ShipmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("StormyCommerce.Core.Entities.StormyOrder", "Order")
                         .WithMany("Items")
                         .HasForeignKey("StormyOrderId")
@@ -1646,11 +1753,37 @@ namespace SimplCommerce.WebHost.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Review", b =>
+                {
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Author")
+                        .WithMany("CustomerReviews")
+                        .HasForeignKey("StormyCustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("StormyCommerce.Core.Entities.Shipment", b =>
                 {
-                    b.HasOne("StormyCommerce.Core.Entities.StormyOrder")
-                        .WithMany("Shipments")
-                        .HasForeignKey("StormyOrderId");
+                    b.HasOne("StormyCommerce.Core.Entities.Common.Address", "BillingAddress")
+                        .WithMany()
+                        .HasForeignKey("BillingAddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StormyCommerce.Core.Entities.Common.Address", "DestinationAddress")
+                        .WithMany()
+                        .HasForeignKey("DestinationAddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("StormyCustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Shipping.ShipmentItem", b =>
+                {
+                    b.HasOne("StormyCommerce.Core.Entities.Shipment", "Shipment")
+                        .WithMany("Items")
+                        .HasForeignKey("ShipmentId1");
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.StormyOrder", b =>
@@ -1658,6 +1791,11 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StormyCommerce.Core.Entities.Shipment", "Shipment")
+                        .WithMany()
+                        .HasForeignKey("ShipmentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("StormyCommerce.Core.Entities.Common.Address", "ShippingAddress")

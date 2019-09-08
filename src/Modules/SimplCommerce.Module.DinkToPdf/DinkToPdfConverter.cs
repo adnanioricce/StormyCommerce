@@ -1,6 +1,6 @@
 ﻿using DinkToPdf;
 using DinkToPdf.Contracts;
-using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces.Infraestructure;
 
 namespace SimplCommerce.Module.DinkToPdf
 {

@@ -1,5 +1,4 @@
-﻿
-(function ($) {
+﻿(function ($) {
     "use strict";
 
     /*[ Load page ]
@@ -40,7 +39,6 @@
         $('html, body').animate({ scrollTop: 0 }, 300);
     });
 
-
     /*==================================================================
     [ Fixed Header ]*/
     var headerDesktop = $('.container-menu-desktop');
@@ -52,7 +50,6 @@
     else {
         posWrapHeader = 0;
     }
-
 
     if ($(window).scrollTop() > posWrapHeader) {
         $(headerDesktop).addClass('fix-menu-desktop');
@@ -73,7 +70,6 @@
             $(wrapMenu).css('top', posWrapHeader - $(this).scrollTop());
         }
     });
-
 
     /*==================================================================
     [ Menu mobile ]*/
@@ -104,10 +100,8 @@
                     $(arrowMainMenu).removeClass('turn-arrow-main-menu-m');
                 }
             });
-
         }
     });
-
 
     /*==================================================================
     [ Show / hide modal search ]*/
@@ -209,5 +203,4 @@
     $('.js-hide-modal1').on('click', function () {
         $('.js-modal1').removeClass('show-modal1');
     });
-
 })(jQuery);

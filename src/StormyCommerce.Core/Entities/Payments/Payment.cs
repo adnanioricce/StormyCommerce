@@ -8,10 +8,11 @@ namespace StormyCommerce.Core.Entities.Payments
         {
             Id = id;
         }
+
         public Payment()
         {
-
         }
+
         public long StormyOrderId { get; set; }
         public StormyOrder Order { get; set; }
         public DateTimeOffset CreatedOn { get; set; }

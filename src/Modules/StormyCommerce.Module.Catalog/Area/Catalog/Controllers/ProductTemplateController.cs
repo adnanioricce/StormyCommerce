@@ -12,11 +12,12 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
     {
         private readonly IProductTemplateService _productTemplateService;
         private readonly IMapper _mapper;
+
         public ProductTemplateController(IProductTemplateService productTemplateService,
         IMapper mapper)
         {
             _productTemplateService = productTemplateService;
             _mapper = mapper;
-        }                
+        }
     }
 }

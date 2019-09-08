@@ -5,7 +5,7 @@ using System;
 
 namespace TestHelperLibrary.Utils
 {
-    public static class DbContextHelper 
+    public static class DbContextHelper
     {
         public static StormyDbContext GetDbContext()
         {
@@ -17,6 +17,7 @@ namespace TestHelperLibrary.Utils
             dbContext.Database.EnsureCreated();
             return dbContext;
         }
+
         public static DbContextOptions<StormyDbContext> GetDbOptions()
         {
             var serviceProvider = new ServiceCollection()

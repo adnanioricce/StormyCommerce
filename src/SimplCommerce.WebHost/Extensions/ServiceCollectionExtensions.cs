@@ -1,42 +1,31 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
+using Newtonsoft.Json;
+using SimplCommerce.Infrastructure;
+using SimplCommerce.Infrastructure.Modules;
+using SimplCommerce.Infrastructure.Web.ModelBinders;
+using StormyCommerce.Infraestructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Runtime.Loader;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using SimplCommerce.Infrastructure;
-using SimplCommerce.Infrastructure.Modules;
-using SimplCommerce.Infrastructure.Web;
-using SimplCommerce.Infrastructure.Web.ModelBinders;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.EntityFrameworkCore.Extensions;
-using Microsoft.Extensions.Localization;
-using StormyCommerce.Infraestructure.Data;
-using System.Data.SqlClient;
 
 namespace SimplCommerce.WebHost.Extensions
 {
     public static class ServiceCollectionExtensions
     {
         private static readonly IModuleConfigurationManager _modulesConfig = new ModuleConfigurationManager();
-        public static IServiceCollection AddSingleModule(this IServiceCollection services,string contentRootPath,string moduleId)
+
+        public static IServiceCollection AddSingleModule(this IServiceCollection services, string contentRootPath, string moduleId)
         {
             const string moduleManifestName = "module.json";
             var module = _modulesConfig.GetSingleModule(moduleId);
@@ -49,7 +38,7 @@ namespace SimplCommerce.WebHost.Extensions
             if (!module.IsBundledWithHost)
             {
                 TryLoadModuleAssembly(moduleFolder.FullName, module);
-                if(module.Assembly == null)
+                if (module.Assembly == null)
                 {
                     throw new Exception($"Cannot find main assembly for module {module.Id}");
                 }
@@ -59,7 +48,7 @@ namespace SimplCommerce.WebHost.Extensions
                 }
             }
             GlobalConfiguration.Modules.Add(module);
-            RegisterModuleInitializerServices(module, ref services);                                        
+            RegisterModuleInitializerServices(module, ref services);
             return services;
         }
 
@@ -69,7 +58,7 @@ namespace SimplCommerce.WebHost.Extensions
             var modulesFolder = Path.Combine(contentRootPath, "Modules");
             foreach (var module in _modulesConfig.GetModules())
             {
-                var moduleFolder = new DirectoryInfo(Path.Combine(modulesFolder, module.Id));                
+                var moduleFolder = new DirectoryInfo(Path.Combine(modulesFolder, module.Id));
                 var moduleManifestPath = Path.Combine(moduleFolder.FullName, moduleManifestName);
                 if (!File.Exists(moduleManifestPath))
                 {
@@ -84,7 +73,7 @@ namespace SimplCommerce.WebHost.Extensions
                     module.IsBundledWithHost = moduleMetadata.isBundledWithHost;
                 }
 
-                if(!module.IsBundledWithHost)
+                if (!module.IsBundledWithHost)
                 {
                     TryLoadModuleAssembly(moduleFolder.FullName, module);
                     if (module.Assembly == null)
@@ -103,7 +92,8 @@ namespace SimplCommerce.WebHost.Extensions
 
             return services;
         }
-        public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services,IList<ModuleInfo> modules)
+
+        public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services, IList<ModuleInfo> modules)
         {
             // services.AddAuthentication(options => {
             //     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -111,6 +101,7 @@ namespace SimplCommerce.WebHost.Extensions
             // });
             return services;
         }
+
         public static IServiceCollection AddCustomizedMvc(this IServiceCollection services, IList<ModuleInfo> modules)
         {
             var mvcBuilder = services
@@ -156,7 +147,7 @@ namespace SimplCommerce.WebHost.Extensions
             (this IMvcBuilder mvc, IServiceCollection services)
         {
             return mvc.AddMvcOptions(o =>
-            {                
+            {
                 var factory = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
                 var L = factory.Create(null);
 
@@ -191,14 +182,17 @@ namespace SimplCommerce.WebHost.Extensions
                     mvcBuilder.PartManager.ApplicationParts.Add(part);
                 }
             }
-        }        
-        public static IServiceCollection AddStormyDataStore(this IServiceCollection services,IConfiguration configuration)
-        {            
-            services.AddDbContextPool<StormyDbContext>(options => {
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+        }
+
+        public static IServiceCollection AddStormyDataStore(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContextPool<StormyDbContext>(options =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));
             });
             return services;
         }
+
         private static void TryLoadModuleAssembly(string moduleFolderPath, ModuleInfo module)
         {
             const string binariesFolderName = "bin";

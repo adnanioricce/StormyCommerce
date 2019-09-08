@@ -20,9 +20,9 @@
     list-style: none;
 }
 
-.angular-ui-tree-nodes .angular-ui-tree-nodes {
-    padding-left: 20px;
-}
+    .angular-ui-tree-nodes .angular-ui-tree-nodes {
+        padding-left: 20px;
+    }
 
 .angular-ui-tree-node, .angular-ui-tree-placeholder {
     position: relative;
@@ -60,6 +60,6 @@
     opacity: .8;
 }
 
-.angular-ui-tree-drag .tree-node-content {
-    margin-top: 0;
-}
+    .angular-ui-tree-drag .tree-node-content {
+        margin-top: 0;
+    }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-	<PreserveCompilationContext>false</PreserveCompilationContext>
+	  <PreserveCompilationContext>false</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>

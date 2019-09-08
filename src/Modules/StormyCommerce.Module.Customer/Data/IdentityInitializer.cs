@@ -1,8 +1,8 @@
-using System;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Module.Customer.Models;
+using System;
 
 namespace StormyCommerce.Module.Customer.Data
 {
@@ -11,7 +11,6 @@ namespace StormyCommerce.Module.Customer.Data
         private readonly StormyDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        
 
         public IdentityInitializer(
             StormyDbContext context,

@@ -7,6 +7,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
     public interface IProductTemplateProductAttributeRepository
     {
         Task UpdateAsync(ProductTemplateProductAttribute item);
+
         void Remove(ProductTemplateProductAttribute item);
     }
 }

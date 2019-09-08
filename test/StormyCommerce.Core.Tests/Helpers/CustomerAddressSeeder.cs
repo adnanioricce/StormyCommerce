@@ -17,7 +17,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 Country = "Brasil",
                 FirstAddress = "Sé",
                 Number = "4002",
-                PhoneNumber = "8922",                
+                PhoneNumber = "8922",
                 LastModified = DateTimeOffset.UtcNow,
                 IsDeleted = false,
             };

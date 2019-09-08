@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StormyCommerce.Infraestructure.Data.Repositories
 {
@@ -13,8 +13,10 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
     {
         //? I ask myself:what is the difference between this and a readonly field? and Why Protected?
         private readonly StormyDbContext context;
+
         protected DbSet<TEntity> DbSet => _dbSet ?? (_dbSet = context.Set<TEntity>());
         private DbSet<TEntity> _dbSet;
+
         public StormyRepository(StormyDbContext _context)
         {
             context = _context;
@@ -22,10 +24,11 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         }
 
         public IQueryable<TEntity> Table => DbSet;
+
         public async Task AddAsync(TEntity _entity)
-        {                                                                        
-            var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");            
-                
+        {
+            var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");
+
             try
             {
                 DbSet.Add(entity);
@@ -45,9 +48,9 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
                 DbSet.AddRange(entities);
                 await context.SaveChangesAsync();
             }
-            catch(DbUpdateException exception)
+            catch (DbUpdateException exception)
             {
-                throw new Exception("Failed to perform Insert operation on Database",exception);
+                throw new Exception("Failed to perform Insert operation on Database", exception);
             }
         }
 
@@ -61,7 +64,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
             }
             catch (DbUpdateException exception)
             {
-                throw new Exception("failed to perform Remove operation",exception);
+                throw new Exception("failed to perform Remove operation", exception);
             }
         }
 
@@ -75,24 +78,25 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
             }
             catch (DbUpdateException exception)
             {
-                throw new Exception($"Failed to perform Remove operation on Database",exception);
+                throw new Exception($"Failed to perform Remove operation on Database", exception);
             }
         }
 
         public async Task<IList<TEntity>> GetAllAsync() => await DbSet.ToListAsync();
 
         public async Task<TEntity> GetByIdAsync(long id)
-        {            
-            var entity = await DbSet.FindAsync(id) ??  throw new ArgumentNullException($"Requested entity id Don't exist");
+        {
+            var entity = await DbSet.FindAsync(id) ?? throw new ArgumentNullException($"Requested entity id Don't exist");
             context.Entry(entity).State = EntityState.Detached;
             return entity;
-        }        
+        }
+
         public async Task UpdateAsync(TEntity _entity)
         {
             var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");
             try
-            {                
-                context.Update(entity);                
+            {
+                context.Update(entity);
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateException exception)
@@ -119,7 +123,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         public async Task<IList<TEntity>> GetAllByIdsAsync(long[] ids)
         {
             if (ids == null) throw new ArgumentNullException("Given argument is null");
-            
+
             var entities = new List<TEntity>();
             await DbSet.ForEachAsync(f =>
             {
@@ -132,6 +136,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         {
             throw new NotImplementedException();
         }
+
         public static bool IsItNew(StormyDbContext context, TEntity entity) => !context.Entry(entity).IsKeySet;
     }
 }

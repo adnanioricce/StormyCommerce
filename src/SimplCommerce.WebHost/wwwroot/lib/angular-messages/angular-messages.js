@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license AngularJS v1.6.3
  * (c) 2010-2017 Google, Inc. http://angularjs.org
  * License: MIT
@@ -555,7 +555,6 @@ angular.module('ngMessages', [], function initAngularHelpers() {
    */
   .directive('ngMessagesInclude',
     ['$templateRequest', '$document', '$compile', function($templateRequest, $document, $compile) {
-
     return {
       restrict: 'AE',
       require: '^^ngMessages', // we only require this for validation sake
@@ -625,7 +624,6 @@ angular.module('ngMessages', [], function initAngularHelpers() {
    * @param {expression} ngMessage|when a string value corresponding to the message key.
    */
   .directive('ngMessage', ngMessageDirectiveFactory())
-
 
   /**
    * @ngdoc directive
@@ -735,6 +733,4 @@ function ngMessageDirectiveFactory() {
     }
   }
 }
-
-
 })(window, window.angular);

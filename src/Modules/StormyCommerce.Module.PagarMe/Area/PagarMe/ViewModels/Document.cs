@@ -1,4 +1,4 @@
-using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
 {
@@ -6,6 +6,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
     {
         [Required]
         public string Type { get; set; }
+
         [Required]
         public string Number { get; set; }
     }

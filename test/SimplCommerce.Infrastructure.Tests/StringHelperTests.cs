@@ -1,4 +1,4 @@
-using SimplCommerce.Infrastructure.Helpers;
+﻿using SimplCommerce.Infrastructure.Helpers;
 using Xunit;
 
 namespace SimplCommerce.Infrastructure.Tests

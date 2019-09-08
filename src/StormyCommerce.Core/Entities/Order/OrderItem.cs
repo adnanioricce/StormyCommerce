@@ -9,11 +9,12 @@ namespace StormyCommerce.Core.Entities.Order
         {
             Id = id;
         }
+
         public OrderItem()
         {
-
         }
-        public int Quantity { get; set; }        
+
+        public int Quantity { get; set; }
         public StormyProduct Product { get; set; }
         public string Price { get; set; }
         public long StormyProductId { get; set; }
@@ -22,6 +23,7 @@ namespace StormyCommerce.Core.Entities.Order
         public string ProductName { get; set; }
         public long ShipmentId { get; set; }
         public Shipment Shipment { get; set; }
+
         public OrderItemDto ToOrderItemDto()
         {
             return new OrderItemDto(this);

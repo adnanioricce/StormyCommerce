@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.Razor;
+﻿using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SimplCommerce.Infrastructure.Web
 {
@@ -33,7 +33,7 @@ namespace SimplCommerce.Infrastructure.Web
         public void PopulateValues(ViewLocationExpanderContext context)
         {
             var controllerName = context.ActionContext.ActionDescriptor.DisplayName;
-            if(controllerName == null) // in case of render view to string
+            if (controllerName == null) // in case of render view to string
             {
                 return;
             }

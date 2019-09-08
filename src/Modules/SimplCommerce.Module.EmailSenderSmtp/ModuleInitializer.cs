@@ -1,9 +1,8 @@
-﻿using SimplCommerce.Infrastructure.Modules;
-using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using SimplCommerce.Module.Core.Services;
+using Microsoft.Extensions.DependencyInjection;
+using SimplCommerce.Infrastructure.Modules;
+using StormyCommerce.Infraestructure.Interfaces;
 
 namespace SimplCommerce.Module.EmailSenderSmtp
 {

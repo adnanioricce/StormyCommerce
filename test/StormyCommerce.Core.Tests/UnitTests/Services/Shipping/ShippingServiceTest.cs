@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 
 namespace StormyCommerce.Core.Tests.UnitTests.Services.Shipping
@@ -15,6 +15,5 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Shipping
             //Assert
             //Assert.Equal(5,addressDto);
         }
-
     }
 }

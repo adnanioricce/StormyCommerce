@@ -125,9 +125,9 @@
     cursor: pointer !important;
 }
 
-.clear-rating-active:hover {
-    color: #843534;
-}
+    .clear-rating-active:hover {
+        color: #843534;
+    }
 
 .rating-container .clear-rating {
     padding-right: 5px;

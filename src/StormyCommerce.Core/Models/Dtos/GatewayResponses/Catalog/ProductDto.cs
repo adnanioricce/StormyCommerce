@@ -2,17 +2,18 @@
 using StormyCommerce.Module.Catalog.Dtos;
 using System;
 using System.Collections.Generic;
+
 namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
-{	
-	public class ProductDto
-	{
+{
+    public class ProductDto
+    {
         public ProductDto()
         {
-            
         }
-        public ProductDto(StormyProduct product,long id)
+
+        public ProductDto(StormyProduct product, long id)
         {
-            Id = id; 
+            Id = id;
             ProductName = product.ProductName;
             Slug = product.Slug;
             QuantityPerUnity = product.QuantityPerUnity;
@@ -26,8 +27,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             // Category = new CategoryDto(product.Category);
             // Brand = new BrandDto(product.Brand);
             // Vendor = new VendorDto(product.Vendor);
-
         }
+
         public ProductDto(StormyProduct product)
         {
             Id = product.Id;
@@ -42,14 +43,15 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             Price = product.Price;
             OldPrice = product.OldPrice;
             ThumbnailImage = product.ThumbnailImage;
-            Medias = product.ToMediasDtos();            
+            Medias = product.ToMediasDtos();
             Brand = new BrandDto(product.Brand);
             Category = new CategoryDto(product.Category);
             Vendor = new VendorDto(product.Vendor);
         }
+
         public long Id { get; set; }
         public string ProductName { get; set; }
-        public string Slug { get; set; }                
+        public string Slug { get; set; }
         public int QuantityPerUnity { get; set; }
         public string UnitSize { get; set; }
         public decimal UnitPrice { get; set; }
@@ -58,12 +60,13 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }
         public string Price { get; set; }
-        public string OldPrice { get; set; }        
-        public string ThumbnailImage { get; set; }        
+        public string OldPrice { get; set; }
+        public string ThumbnailImage { get; set; }
         public CategoryDto Category { get; set; }
         public BrandDto Brand { get; set; }
         public VendorDto Vendor { get; set; }
         public List<MediaDto> Medias { get; set; }
+
         public StormyProduct ToStormyProduct()
         {
             return new StormyProduct

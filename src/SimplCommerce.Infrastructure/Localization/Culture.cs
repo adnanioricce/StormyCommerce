@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SimplCommerce.Infrastructure.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Infrastructure.Models;
 
 namespace SimplCommerce.Infrastructure.Localization
 {

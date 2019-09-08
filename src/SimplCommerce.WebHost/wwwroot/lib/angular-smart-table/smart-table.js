@@ -1,4 +1,4 @@
-/** 
+﻿/**
 * @version 2.1.8
 * @license MIT
 */
@@ -11,7 +11,6 @@ ng.module('smart-table', []).run(['$templateCache', function ($templateCache) {
         '<li ng-repeat="page in pages" ng-class="{active: page==currentPage}"><a href="javascript: void(0);" ng-click="selectPage(page)">{{page}}</a></li>' +
         '</ul></nav>');
 }]);
-
 
 ng.module('smart-table')
   .constant('stConfig', {
@@ -247,7 +246,6 @@ ng.module('smart-table')
       restrict: 'A',
       controller: 'stTableController',
       link: function (scope, element, attr, ctrl) {
-
         if (attr.stSetFilter) {
           ctrl.setFilterFunction(attr.stSetFilter);
         }
@@ -336,7 +334,6 @@ ng.module('smart-table')
       restrict: 'A',
       require: '^stTable',
       link: function (scope, element, attr, ctrl) {
-
         var predicate = attr.stSort;
         var getter = $parse(predicate);
         var index = 0;
@@ -430,7 +427,6 @@ ng.module('smart-table')
         return stConfig.pagination.template;
       },
       link: function (scope, element, attrs, ctrl) {
-
         scope.stItemsByPage = scope.stItemsByPage ? +(scope.stItemsByPage) : stConfig.pagination.itemsByPage;
         scope.stDisplayedPages = scope.stDisplayedPages ? +(scope.stDisplayedPages) : stConfig.pagination.displayedPages;
 
@@ -502,15 +498,12 @@ ng.module('smart-table')
         stPipe: '='
       },
       link: {
-
         pre: function (scope, element, attrs, ctrl) {
-
           var pipePromise = null;
 
           if (ng.isFunction(scope.stPipe)) {
             ctrl.preventPipeOnWatch();
             ctrl.pipe = function () {
-
               if (pipePromise !== null) {
                 $timeout.cancel(pipePromise)
               }
@@ -530,5 +523,4 @@ ng.module('smart-table')
       }
     };
   }]);
-
 })(angular);

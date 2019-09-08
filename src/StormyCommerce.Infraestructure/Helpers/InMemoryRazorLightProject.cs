@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using RazorLight;
-
-namespace StormyCommerce.Infraestructure.Helpers
+﻿namespace StormyCommerce.Infraestructure.Helpers
 {
     public class InMemoryRazorLightProject //: RazorLightProject
     {

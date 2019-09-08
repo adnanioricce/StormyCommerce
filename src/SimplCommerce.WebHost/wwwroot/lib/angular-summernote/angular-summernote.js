@@ -1,4 +1,4 @@
-/*  angular-summernote v0.8.1 | (c) 2016 JeongHoon Byun | MIT license */
+﻿/*  angular-summernote v0.8.1 | (c) 2016 JeongHoon Byun | MIT license */
 /* global angular */
 angular.module('summernote', [])
 

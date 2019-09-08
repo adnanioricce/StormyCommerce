@@ -7,7 +7,9 @@
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimplCommerce.Module.Core\SimplCommerce.Module.Core.csproj" />
     <PackageReference Include="MailKit" Version="2.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
   </ItemGroup>
 </Project>

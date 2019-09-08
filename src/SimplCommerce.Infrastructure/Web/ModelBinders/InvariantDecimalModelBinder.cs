@@ -1,9 +1,9 @@
-﻿using System;
-using System.Globalization;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Globalization;
+using System.Threading.Tasks;
 
 namespace SimplCommerce.Infrastructure.Web.ModelBinders
 {

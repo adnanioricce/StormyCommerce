@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license AngularJS v1.6.3
  * (c) 2010-2017 Google, Inc. http://angularjs.org
  * License: MIT
@@ -209,7 +209,6 @@ function $AriaProvider() {
   };
 }
 
-
 ngAriaModule.directive('ngShow', ['$aria', function($aria) {
   return $aria.$$watchExpr('ngShow', 'aria-hidden', [], true);
 }])
@@ -229,7 +228,6 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
   return $aria.$$watchExpr('ngRequired', 'aria-required', nodeBlackList, false);
 }])
 .directive('ngModel', ['$aria', function($aria) {
-
   function shouldAttachAttr(attr, normalizedAttr, elem, allowBlacklistEls) {
     return $aria.config(normalizedAttr) && !elem.attr(attr) && (allowBlacklistEls || !isNodeOneOf(elem, nodeBlackList));
   }
@@ -363,9 +361,7 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
     compile: function(elem, attr) {
       var fn = $parse(attr.ngClick);
       return function(scope, elem, attr) {
-
         if (!isNodeOneOf(elem, nodeBlackList)) {
-
           if ($aria.config('bindRoleForClick') && !elem.attr('role')) {
             elem.attr('role', 'button');
           }
@@ -398,6 +394,4 @@ ngAriaModule.directive('ngShow', ['$aria', function($aria) {
     }
   };
 }]);
-
-
 })(window, window.angular);

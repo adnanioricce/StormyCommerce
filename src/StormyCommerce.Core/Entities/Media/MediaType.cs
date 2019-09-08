@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StormyCommerce.Core.Entities.Media
+﻿namespace StormyCommerce.Core.Entities.Media
 {
     //:Possibly duplicate
-    public enum MediaType 
+    public enum MediaType
     {
         Image = 1,
 

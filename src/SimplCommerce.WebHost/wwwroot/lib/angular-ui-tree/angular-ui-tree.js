@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license Angular UI Tree v2.22.5
  * (c) 2010-2017. https://github.com/angular-ui-tree/angular-ui-tree
  * License: MIT
@@ -20,7 +20,6 @@
       defaultCollapsed: false,
       appendChildOnHover: true
     });
-
 })();
 
 (function () {
@@ -35,7 +34,6 @@
         $scope.$element = $element;
         $scope.$nodeScope = null;
         $scope.$type = 'uiTreeHandle';
-
       }
     ]);
 })();
@@ -76,7 +74,6 @@
           treeNodesCtrl.scope.initSubNode($scope);
 
           $element.on('$destroy', function () {
-
             //Destroy sub nodes.
             treeNodesCtrl.scope.destroySubNode($scope);
           });
@@ -297,7 +294,6 @@
           }
           return false;
         };
-
       }
     ]);
 })();
@@ -381,12 +377,11 @@
             if (element.prop('tagName').toLowerCase() === 'table') {
               scope.$emptyElm = angular.element($window.document.createElement('tr'));
               $trElm = element.find('tr');
-              
+
               //If we can find a tr, then we can use its td children as the empty element colspan.
               if ($trElm.length > 0) {
                 emptyElmColspan = angular.element($trElm).children().length;
               } else {
-                
                 //If not, by setting a huge colspan we make sure it takes full width.
                 //TODO(jcarter): Check for negative side effects.
                 emptyElmColspan = 1000000;
@@ -469,21 +464,17 @@
 
             callbacks.expandTimeoutStart = function()
             {
-
             };
 
             callbacks.expandTimeoutCancel = function()
             {
-
             };
 
             callbacks.expandTimeoutEnd = function()
             {
-
             };
 
             callbacks.removed = function (node) {
-
             };
 
             /**
@@ -491,7 +482,6 @@
              * @param event
              */
             callbacks.dropped = function (event) {
-
             };
 
             /**
@@ -499,7 +489,6 @@
              * @param event
              */
             callbacks.dragStart = function (event) {
-
             };
 
             /**
@@ -507,7 +496,6 @@
              * @param event
              */
             callbacks.dragMove = function (event) {
-
             };
 
             /**
@@ -516,7 +504,6 @@
              * @param event
              */
             callbacks.dragStop = function (event) {
-
             };
 
             /**
@@ -528,7 +515,6 @@
              * @returns {Boolean|Promise} Truthy (or rejected Promise) to cancel node move; falsy (or resolved promise)
              */
             callbacks.beforeDrop = function (event) {
-
             };
 
             /**
@@ -537,7 +523,6 @@
              * @param collapsed
              */
             callbacks.toggle = function (collapsed, sourceNodeScope) {
-
             };
 
             scope.$watch(attrs.uiTree, function (newVal, oldVal) {
@@ -551,8 +536,6 @@
 
               scope.$callbacks = callbacks;
             }, true);
-
-
           }
         };
       }
@@ -701,7 +684,6 @@
              * @return undefined?
              */
             dragStart = function (e) {
-
               //Disable right click.
               if (!hasTouch && (e.button === 2 || e.which === 3)) {
                 return;
@@ -758,7 +740,6 @@
               el = angular.element(e.target);
               isUiTreeRoot = el[0].attributes['ui-tree'];
               while (el && el[0] && el[0] !== element && !isUiTreeRoot) {
-
                 //Checking that I can access attributes.
                 if (el[0].attributes) {
                   isUiTreeRoot = el[0].attributes['ui-tree'];
@@ -799,7 +780,6 @@
               tagName = element.prop('tagName');
 
               if (tagName.toLowerCase() === 'tr') {
-
                 //Create a new table column as placeholder.
                 placeElm = angular.element($window.document.createElement(tagName));
 
@@ -809,7 +789,6 @@
                     .attr('colspan', element[0].children.length);
                 placeElm.append(tdElm);
               } else {
-
                 //If not a table just duplicate element and add placeholder class.
                 placeElm = angular.element($window.document.createElement(tagName))
                     .addClass(config.placeholderClass);
@@ -1055,7 +1034,6 @@
 
                 // Move nodes up and down in nesting level.
                 if (moveWithinTree && pos.dirAx) {
-
                   // increase horizontal level if previous sibling exists and is not collapsed
                   // example 1.1.1 becomes 1.2
                   if (pos.distX > 0) {
@@ -1082,7 +1060,6 @@
                     }
                   }
                 } else { //Either in origin tree and moving horizontally OR you are moving within a new tree.
-
                   //Check it's new position.
                   isEmpty = false;
 
@@ -1108,7 +1085,6 @@
 
                   //Check if it is a uiTreeNode or it's an empty tree.
                   if (targetNode.$type !== 'uiTreeNode' && !isEmpty) {
-
                     // Allow node to return to its original position if no longer hovering over target
                     if (config.appendChildOnHover) {
                       next = dragInfo.next();
@@ -1137,7 +1113,6 @@
                     }
                   //Not empty and drag enabled.
                   } else if (targetNode.dragEnabled()) {
-
                       //Setting/Resetting data for exanding on hover.
                       if (angular.isDefined(scope.expandTimeoutOn) && scope.expandTimeoutOn !== targetNode.id) {
                         $timeout.cancel(scope.expandTimeout);
@@ -1153,7 +1128,6 @@
                           targetNode.collapsed = false;
                           targetNode.$treeScope.$callbacks.toggle(false, targetNode);
                         } else if (scope.expandOnHover !== false && angular.isNumber(scope.expandOnHover) && scope.expandOnHover > 0) {
-
                           //Triggering expansion.
                           if (angular.isUndefined(scope.expandTimeoutOn)) {
                             scope.expandTimeoutOn = targetNode.$id;
@@ -1211,7 +1185,6 @@
             };
 
             dragEnd = function (e) {
-
               var dragEventArgs = dragInfo.eventArgs(elements, pos);
 
               e.preventDefault();
@@ -1244,7 +1217,6 @@
                       bindDragStartEvents();
                     })
                     .finally(function () {
-
                       //Replace placeholder with newly dropped element.
                       hiddenPlaceElm.replaceWith(scope.$element);
                       placeElm.remove();
@@ -1378,7 +1350,6 @@
           scope: true,
           controller: 'TreeNodesController',
           link: function (scope, element, attrs, controllersArr) {
-
             var config = {},
                 ngModel = controllersArr[0],
                 treeNodeCtrl = controllersArr[1],
@@ -1419,7 +1390,6 @@
                 scope.nodropEnabled = true;
               }
             }, true);
-
           }
         };
       }
@@ -1443,7 +1413,6 @@
     .factory('UiTreeHelper', ['$document', '$window', 'treeConfig',
       function ($document, $window, treeConfig) {
         return {
-
           /**
            * A hashtable used to storage data of nodes
            * @type {Object}
@@ -1488,7 +1457,7 @@
 
           /**
            * Get the event object for touches.
-           * 
+           *
            * @param  {MouseEvent|TouchEvent} e MouseEvent or TouchEvent that kicked off dragX method.
            * @return {MouseEvent|TouchEvent} Object returned as original event object.
            */
@@ -1506,7 +1475,7 @@
 
           /**
            * Generate object used to store data about node being moved.
-           * 
+           *
            * {angular.$scope} node Scope of the node that is being moved.
            */
           dragInfo: function (node) {
@@ -1608,7 +1577,6 @@
 
               //Method that actually manipulates the node being moved.
               apply: function () {
-
                 var nodeData = this.source.$modelValue;
 
                 //Nodrop enabled on tree or parent
@@ -1717,7 +1685,6 @@
           },
 
           positionMoved: function (e, pos, firstMoving) {
-
             var pageX = e.pageX,
             pageY = e.pageY,
             newAx;
@@ -1736,19 +1703,19 @@
             pos.nowX = pageX;
             pos.nowY = pageY;
 
-            //Distance mouse moved between events.          
+            //Distance mouse moved between events.
             pos.distX = pos.nowX - pos.lastX;
             pos.distY = pos.nowY - pos.lastY;
 
-            //Direction mouse was moving.           
+            //Direction mouse was moving.
             pos.lastDirX = pos.dirX;
             pos.lastDirY = pos.dirY;
 
-            //Direction mouse is now moving (on both axis).          
+            //Direction mouse is now moving (on both axis).
             pos.dirX = pos.distX === 0 ? 0 : pos.distX > 0 ? 1 : -1;
             pos.dirY = pos.distY === 0 ? 0 : pos.distY > 0 ? 1 : -1;
 
-            //Axis mouse is now moving on.         
+            //Axis mouse is now moving on.
             newAx = Math.abs(pos.distX) > Math.abs(pos.distY) ? 1 : 0;
 
             //Do nothing on first move.
@@ -1758,7 +1725,7 @@
               return;
             }
 
-            //Calc distance moved on this axis (and direction).          
+            //Calc distance moved on this axis (and direction).
             if (pos.dirAx !== newAx) {
               pos.distAxX = 0;
               pos.distAxY = 0;
@@ -1825,5 +1792,4 @@
     }
     return res;
   }
-
 })();

@@ -1,7 +1,6 @@
 ﻿using StormyCommerce.Core.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StormyCommerce.Core.Tests.Helpers
 {
@@ -16,6 +15,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 new EntityType("Product") { IsDeleted = false, AreaName = "Catalog", RoutingController = "Product", RoutingAction = "ProductDetail", IsMenuable = false }
             };
         }
+
         public static List<Entity> GetEntitySeedList()
         {
             return new List<Entity>
@@ -27,7 +27,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                     LastModified = DateTimeOffset.UtcNow,
                     EntityTypeId = "Category",
                     Name = "Woman",
-                    Slug = "woman",                    
+                    Slug = "woman",
                 },
                 new Entity(2)
                 {

@@ -1,4 +1,5 @@
-using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
 {
@@ -10,7 +11,6 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
     {
         public PagarMeController()
         {
-            
         }
     }
 }

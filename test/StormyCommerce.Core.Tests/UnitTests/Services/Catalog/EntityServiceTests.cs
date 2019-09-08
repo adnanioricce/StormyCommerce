@@ -1,11 +1,8 @@
-﻿using Moq;
-using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities;
+﻿using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Tests.Helpers;
-using StormyCommerce.Infraestructure.Data.Repositories;
 using System;
 using System.Threading.Tasks;
 using TestHelperLibrary.Utils;
@@ -13,8 +10,8 @@ using Xunit;
 
 namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
 {
-    public class EntityServiceTests 
-    {        
+    public class EntityServiceTests
+    {
         private readonly IStormyRepository<Entity> _repository;
         private readonly IEntityService _service;
 
@@ -24,34 +21,35 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
             _repository.AddCollectionAsync(EntityDataSeeder.GetEntitySeedList());
             Task.WaitAll();
             _service = new EntityService(_repository);
-        }                
+        }
+
         //How do I Test this?
         [Fact]
         public void ToSafeSlug_SlugEqualWomanEntityIdEqualOneEntityTypeIdEqualCategory_ASlugWithTheGivenSlugStringAndCategory()
         {
-            // Arrange            
+            // Arrange
             string slug = "woman";
             long entityId = 1;
             string entityTypeId = "Category";
 
             // Act
-            var result = _service.ToSafeSlug(slug,entityId,entityTypeId);
+            var result = _service.ToSafeSlug(slug, entityId, entityTypeId);
             var storedSlug = _service.Get(entityId, entityTypeId);
 
             // Assert
-            Assert.Equal(result, storedSlug.Slug);            
+            Assert.Equal(result, storedSlug.Slug);
             Assert.NotNull(result);
         }
 
         [Fact]
         public void Get_entityIdEqual1AndEntityTypeIdEqualCategory_ReturnEntryEqualEntityIdAndEntityTypeId()
         {
-            // Arrange            
+            // Arrange
             long entityId = 1;
             string entityTypeId = "Category";
 
             // Act
-            var result = _service.Get(entityId,entityTypeId);
+            var result = _service.Get(entityId, entityTypeId);
 
             // Assert
             Assert.Equal(entityId, result.EntityId);
@@ -62,24 +60,24 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
         [Fact]
         public void Add_SlugForNameWoman_ReturnASlugWithCategoryAndNameOfEntity()
         {
-            // Arrange            
+            // Arrange
             string name = "Woman";
             string slug = "woman";
             long entityId = 1;
             string entityTypeId = "Category";
 
             // Act
-            _service.Add(name,slug,entityId,entityTypeId);
-            var result = _service.Get(entityId,entityTypeId);
+            _service.Add(name, slug, entityId, entityTypeId);
+            var result = _service.Get(entityId, entityTypeId);
             // Assert
-            Assert.Equal(entityId,result.EntityId);
-            Assert.Equal(entityTypeId,result.EntityTypeId);
+            Assert.Equal(entityId, result.EntityId);
+            Assert.Equal(entityTypeId, result.EntityTypeId);
         }
 
         [Fact]
         public void Update_NewNameAndSlugEntityIdEqual1_EditEntryWithGivenEntityId()
         {
-            // Arrange            
+            // Arrange
             string newName = "Men";
             string newSlug = "men";
             long entityId = 1;
@@ -91,16 +89,16 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
                 newSlug,
                 entityId,
                 entityTypeId);
-            var result = _service.Get(entityId,entityTypeId);
+            var result = _service.Get(entityId, entityTypeId);
             // Assert
-            Assert.Equal(entityId,result.EntityId);
-            Assert.Equal(entityTypeId,result.EntityTypeId);
+            Assert.Equal(entityId, result.EntityId);
+            Assert.Equal(entityTypeId, result.EntityTypeId);
         }
 
         [Fact]
         public async Task DeleteAsync_EntityIdEqualOneAndEntityTypeEqualCategory_ShouldDeleteEntryWithGivenValues()
         {
-            // Arrange            
+            // Arrange
             long entityId = 1;
             string entityTypeId = "Category";
 
@@ -108,7 +106,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
             await _service.DeleteAsync(
                 entityId,
                 entityTypeId);
-            var result = _service.Get(entityId,entityTypeId);
+            var result = _service.Get(entityId, entityTypeId);
             // Assert
             Assert.Null(result);
         }

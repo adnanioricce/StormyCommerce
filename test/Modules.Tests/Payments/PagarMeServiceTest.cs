@@ -1,35 +1,36 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
+using PagarMe;
 using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Models.Dtos;
+using StormyCommerce.Module.PagarMe.Services;
+using System.Threading.Tasks;
 using TestHelperLibrary.Utils;
 using Xunit;
 
 namespace Modules.Tests.Payments
 {
     public class PagarMeServiceTest
-    {        
+    {
         public PagarMeServiceTest()
         {
-            
         }
-        private PagarMeService CreateService()
+
+        private StormyPagarmeService CreateService()
         {
-            var mockHttpClient = new Mock<HttpClient>()
-            .Setup(f => f.GetAsync(It.IsAny<string>()))
-            .Returns(Task.FromResult(new HttpResponseMessage(System.Net.HttpStatusCode.OK)));
-            return new PagarMeService(mockHttpClient,RepositoryHelper.GetRepository<Payment>());
+            var mockPagarme = new Mock<PagarMeService>();
+            //mockPagarme.Setup(f => f.Transactions.)
+
+            return new StormyPagarmeService(RepositoryHelper.GetRepository<Payment>());
         }
+
         [Fact]
         public async Task Charge_ReceivesValidatedPaymentDto_ReturnResultWithSuccessEqualTrue()
         {
             //Arrange
-            var paymentDto = new PaymentDto{
-                
+            var paymentDto = new PaymentDto
+            {
             };
-            var service = new PagarMeService();
+            var service = CreateService();
             //Act
             // var result = service.Get
             //Assert

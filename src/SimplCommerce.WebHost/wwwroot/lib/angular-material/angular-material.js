@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
@@ -35,7 +35,6 @@ angular
   .config(MdCoreConfigure)
   .run(DetectNgTouch);
 
-
 /**
  * Detect if the ng-Touch module is also being used.
  * Warn if detected.
@@ -55,7 +54,6 @@ function DetectNgTouch($log, $injector) {
  * @ngInject
  */
 function MdCoreConfigure($provide, $mdThemingProvider) {
-
   $provide.decorator('$$rAF', ['$delegate', rAFDecorator]);
   $provide.decorator('$q', ['$delegate', qDecorator]);
 
@@ -117,11 +115,9 @@ function qDecorator($delegate) {
   }
   return $delegate;
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdAutofocusDirective.$inject = ["$parse"];angular.module('material.core')
   .directive('mdAutofocus', MdAutofocusDirective)
@@ -240,7 +236,6 @@ function MdAutofocusDirective($parse) {
      * @param {string|boolean} value Attribute Value
      */
     function updateExpression(value) {
-
       // Rather than passing undefined to the jqLite toggle class function we explicitly set the
       // value to true. Otherwise the class will be just toggled instead of being forced.
       if (angular.isUndefined(value)) {
@@ -250,9 +245,7 @@ function MdAutofocusDirective($parse) {
       element.toggleClass('md-autofocus', !!value);
     }
   }
-
 }
-
 })();
 (function(){
 "use strict";
@@ -330,7 +323,6 @@ function ColorUtilFactory() {
     rgbaToRgb: rgbaToRgb
   };
 }
-
 })();
 (function(){
 "use strict";
@@ -343,7 +335,6 @@ angular.module('material.core')
  * @ngInject
  */
 function MdConstantFactory() {
-
   var prefixTestEl = document.createElement('div');
   var vendorPrefix = getVendorPrefix(prefixTestEl);
   var isWebkit = /webkit/i.test(vendorPrefix);
@@ -486,7 +477,6 @@ function MdConstantFactory() {
 
   return self;
 }
-
 })();
 (function(){
 "use strict";
@@ -544,7 +534,6 @@ function MdConstantFactory() {
 
       hasPrevious: hasPrevious,
       hasNext: hasNext
-
     };
 
     /**
@@ -717,12 +706,9 @@ function MdConstantFactory() {
       }
     }
   }
-
-
 })();
 (function(){
 "use strict";
-
 
 mdMediaFactory.$inject = ["$mdConstant", "$rootScope", "$window"];angular.module('material.core')
 .factory('$mdMedia', mdMediaFactory);
@@ -918,7 +904,6 @@ function mdMediaFactory($mdConstant, $rootScope, $window) {
         (normalizeCache[attrName] = attrs.$normalize(attrName));
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -927,7 +912,6 @@ angular
   .module('material.core')
   .config( ["$provide", function($provide) {
     $provide.decorator('$mdUtil', ['$delegate', function ($delegate) {
-
       // Inject the prefixer into our original $mdUtil service.
       $delegate.prefixer = MdPrefixer;
 
@@ -1017,9 +1001,7 @@ function MdPrefixer(initialAttributes, buildSelector) {
       return element;
     }
   }
-
 }
-
 })();
 (function(){
 "use strict";
@@ -1081,7 +1063,6 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
 
   function hasPercent(value) {
     return String(value).indexOf('%') > -1;
-
   }
 
   var $mdUtil = {
@@ -1340,7 +1321,6 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
           body.scrollTop = viewportTop;
         };
       }
-
     },
 
     enableScrolling: function() {
@@ -1454,10 +1434,8 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
 
         $timeout.cancel(timer);
         timer = $timeout(function() {
-
           timer = undefined;
           func.apply(context, args);
-
         }, wait || 10, invokeApply);
       };
     },
@@ -1533,7 +1511,6 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
       if (scope.$$nextSibling) scope.$$nextSibling.$$prevSibling = scope.$$prevSibling;
 
       scope.$$nextSibling = scope.$$prevSibling = null;
-
     },
 
     // Undo the effects of disconnectScope above.
@@ -1656,7 +1633,6 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
         }
         return found;
       }
-
     },
 
     /**
@@ -1887,7 +1863,6 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
     }
   };
 
-
 // Instantiate other namespace utility methods
 
   $mdUtil.dom.animator = $$mdAnimate($mdUtil);
@@ -1897,7 +1872,6 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
   function getNode(el) {
     return el[0] || el;
   }
-
 }
 
 /*
@@ -1917,7 +1891,6 @@ angular.element.prototype.blur = angular.element.prototype.blur || function() {
     }
     return this;
   };
-
 })();
 (function(){
 "use strict";
@@ -2066,13 +2039,11 @@ function MdCompilerService($q, $templateRequest, $injector, $compile, $controlle
  *
  */
 MdCompilerService.prototype.compile = function(options) {
-
   if (options.contentElement) {
     return this._prepareContentElement(options);
   } else {
     return this._compileTemplate(options);
   }
-
 };
 
 /**
@@ -2082,7 +2053,6 @@ MdCompilerService.prototype.compile = function(options) {
  * @private
  */
 MdCompilerService.prototype._prepareContentElement = function(options) {
-
   var contentElement = this._fetchContentElement(options);
 
   return this.$q.resolve({
@@ -2093,7 +2063,6 @@ MdCompilerService.prototype._prepareContentElement = function(options) {
       return contentElement.element;
     }
   });
-
 };
 
 /**
@@ -2103,7 +2072,6 @@ MdCompilerService.prototype._prepareContentElement = function(options) {
  * @private
  */
 MdCompilerService.prototype._compileTemplate = function(options) {
-
   var self = this;
   var templateUrl = options.templateUrl;
   var template = options.template || '';
@@ -2132,16 +2100,13 @@ MdCompilerService.prototype._compileTemplate = function(options) {
     resolve.$$ngTemplate = this.$q.when(template);
   }
 
-
   // Wait for all the resolves to finish if they are promises
   return this.$q.all(resolve).then(function(locals) {
-
     var template = transformTemplate(locals.$$ngTemplate, options);
     var element = options.element || angular.element('<div>').html(template.trim()).contents();
 
     return self._compileElement(locals, element, options);
   });
-
 };
 
 /**
@@ -2168,7 +2133,6 @@ MdCompilerService.prototype._compileElement = function(locals, element, options)
 
     // Instantiate controller if the developer provided one.
     if (options.controller) {
-
       var injectLocals = angular.extend(locals, {
         $element: element
       });
@@ -2194,7 +2158,6 @@ MdCompilerService.prototype._compileElement = function(locals, element, options)
   }
 
   return compileData;
-
 };
 
 /**
@@ -2205,7 +2168,6 @@ MdCompilerService.prototype._compileElement = function(locals, element, options)
  * @private
  */
 MdCompilerService.prototype._fetchContentElement = function(options) {
-
   var contentEl = options.contentElement;
   var restoreFn = null;
 
@@ -2251,8 +2213,6 @@ MdCompilerService.prototype._fetchContentElement = function(options) {
     }
   }
 };
-
-
 })();
 (function(){
 "use strict";
@@ -2289,7 +2249,6 @@ angular
  *
  */
 function MdAriaProvider() {
-
   var config = {
     /** Whether we should show ARIA warnings in the console if labels are missing on the element */
     showWarnings: true
@@ -2316,7 +2275,6 @@ function MdAriaProvider() {
  * @ngInject
  */
 function MdAriaService($$rAF, $log, $window, $interpolate) {
-
   // Load the showWarnings option from the current context and store it inside of a scope variable,
   // because the context will be probably lost in some function calls.
   var showWarnings = this.showWarnings;
@@ -2336,7 +2294,6 @@ function MdAriaService($$rAF, $log, $window, $interpolate) {
    * @param {optional} defaultValue What to set the attr to if no value is found
    */
   function expect(element, attrName, defaultValue) {
-
     var node = angular.element(element)[0] || element;
 
     // if node exists and neither it nor its children have the attribute
@@ -2344,14 +2301,12 @@ function MdAriaService($$rAF, $log, $window, $interpolate) {
        ((!node.hasAttribute(attrName) ||
         node.getAttribute(attrName).length === 0) &&
         !childHasAttribute(node, attrName))) {
-
       defaultValue = angular.isString(defaultValue) ? defaultValue.trim() : '';
       if (defaultValue.length) {
         element.attr(attrName, defaultValue);
       } else if (showWarnings) {
         $log.warn('ARIA: Attribute "', attrName, '", required for accessibility, is missing on node:', node);
       }
-
     }
   }
 
@@ -2433,11 +2388,9 @@ function MdAriaService($$rAF, $log, $window, $interpolate) {
     return hasAttr;
   }
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdGesture.$inject = ["$$MdGestureHandler", "$$rAF", "$timeout"];
 attachToDocument.$inject = ["$mdGesture", "$$MdGestureHandler"];var HANDLERS = {};
@@ -2489,7 +2442,6 @@ angular
 function MdGestureProvider() { }
 
 MdGestureProvider.prototype = {
-
   // Publish access to setter to configure a variable  BEFORE the
   // $mdGesture service is instantiated...
   skipClickHijack: function() {
@@ -2504,8 +2456,6 @@ MdGestureProvider.prototype = {
        return new MdGesture($$MdGestureHandler, $$rAF, $timeout);
   }]
 };
-
-
 
 /**
  * MdGesture factory construction function
@@ -2724,7 +2674,6 @@ function MdGesture($$MdGestureHandler, $$rAF, $timeout) {
             this.state.dragPointer = makeStartPointer(ev);
             updatePointerState(ev, this.state.dragPointer);
             this.dispatchEvent(ev, '$md.dragstart', this.state.dragPointer);
-
           } else if (shouldCancel) {
             this.cancel();
           }
@@ -2785,7 +2734,6 @@ function MdGesture($$MdGestureHandler, $$rAF, $timeout) {
       }
     }
   }
-
 }
 
 /**
@@ -2938,7 +2886,6 @@ function MdGestureHandler() {
         srcEvent.ctrlKey, srcEvent.altKey, srcEvent.shiftKey, srcEvent.metaKey,
         srcEvent.button, srcEvent.relatedTarget || null
       );
-
     } else {
       eventObj = document.createEvent('CustomEvent');
       eventObj.initCustomEvent(eventType, true, true, {});
@@ -2948,7 +2895,6 @@ function MdGestureHandler() {
     eventObj.srcEvent = srcEvent;
     eventPointer.target.dispatchEvent(eventObj);
   }
-
 }
 
 /**
@@ -2956,7 +2902,6 @@ function MdGestureHandler() {
  * @ngInject
  */
 function attachToDocument( $mdGesture, $$MdGestureHandler ) {
-
   // Polyfill document.contains for IE11.
   // TODO: move to util
   document.contains || (document.contains = function (node) {
@@ -3007,7 +2952,6 @@ function attachToDocument( $mdGesture, $$MdGestureHandler ) {
     }
   }
 
-
   // Listen to all events to cover all platforms.
   var START_EVENTS = 'mousedown touchstart pointerdown';
   var MOVE_EVENTS = 'mousemove touchmove pointermove';
@@ -3033,13 +2977,11 @@ function attachToDocument( $mdGesture, $$MdGestureHandler ) {
     for (var name in HANDLERS) {
       handler = HANDLERS[name];
       if( handler instanceof $$MdGestureHandler ) {
-
         if (handlerEvent === 'start') {
           // Run cancel to reset any handlers' state
           handler.cancel();
         }
         handler[handlerEvent](event, pointer);
-
       }
     }
   }
@@ -3090,7 +3032,6 @@ function attachToDocument( $mdGesture, $$MdGestureHandler ) {
     lastPointer = pointer;
     pointer = null;
   }
-
 }
 
 // ********************
@@ -3176,7 +3117,6 @@ function getEventPoint(ev) {
     (ev.changedTouches && ev.changedTouches[0]) ||
     ev;
 }
-
 })();
 (function(){
 "use strict";
@@ -3312,7 +3252,6 @@ function InterimElementProvider() {
         destroy : destroyInterimElement
       };
 
-
       defaultMethods = providerConfig.methods || [];
       // This must be invoked after the publicService is initialized
       defaultOptions = invokeFactory(providerConfig.optionsFactory, {});
@@ -3374,13 +3313,10 @@ function InterimElementProvider() {
           //                                     // because argOption === 'content'
           if (arguments.length && definition.argOption &&
               !angular.isObject(arg) && !angular.isArray(arg))  {
-
             return (new Preset())[definition.argOption](arg);
-
           } else {
             return new Preset(arg);
           }
-
         };
       });
 
@@ -3423,9 +3359,7 @@ function InterimElementProvider() {
         locals[interimFactoryName] = publicService;
         return $injector.invoke(factory || function() { return defaultVal; }, {}, locals);
       }
-
     }
-
   }
 
   /* @ngInject */
@@ -3492,7 +3426,6 @@ function InterimElementProvider() {
         }
 
         var showAction = hideAction.then(function() {
-
           return interimElement
             .show()
             .catch(function(reason) { return reason; })
@@ -3500,7 +3433,6 @@ function InterimElementProvider() {
               showPromises.splice(showPromises.indexOf(showAction), 1);
               showingInterims.push(interimElement);
             });
-
         });
 
         showPromises.push(showAction);
@@ -3546,7 +3478,6 @@ function InterimElementProvider() {
         return closeElement(showingInterims[showingInterims.length - 1]);
 
         function closeElement(interim) {
-
           var hideAction = interim
             .remove(reason, false, options || { })
             .catch(function(reason) { return reason; })
@@ -3668,7 +3599,6 @@ function InterimElementProvider() {
          */
         function createAndTransitionIn() {
           return $q(function(resolve, reject) {
-
             // Trigger onCompiling callback before the compilation starts.
             // This is useful, when modifying options, which can be influenced by developers.
             options.onCompiling && options.onCompiling(options);
@@ -3701,7 +3631,6 @@ function InterimElementProvider() {
          * - perform optional clean up scope.
          */
         function transitionOutAndRemove(response, isCancelled, opts) {
-
           // abort if the show() and compile failed
           if ( !element ) return $q.when(false);
 
@@ -3710,11 +3639,9 @@ function InterimElementProvider() {
           options.element.triggerHandler('$mdInterimElementRemove');
 
           if ( options.$destroy === true ) {
-
             return hideElement(options.element, options).then(function(){
               (isCancelled && rejectAll(response)) || resolveAll(response);
             });
-
           } else {
             $q.when(showAction).finally(function() {
               hideElement(options.element, options).then(function() {
@@ -3724,7 +3651,6 @@ function InterimElementProvider() {
 
             return self.deferred.promise;
           }
-
 
           /**
            * The `show()` returns a promise that will be resolved when the interim
@@ -3773,14 +3699,12 @@ function InterimElementProvider() {
               return element && $animate.leave(element) || $q.when();
             }
           }, options );
-
         }
 
         /**
          * Compile an element with a templateUrl, controller, and locals
          */
         function compileElement(options) {
-
           var compiled = !options.skipCompile ? $mdCompiler.compile(options) : null;
 
           return compiled || $q(function (resolve) {
@@ -3888,7 +3812,6 @@ function InterimElementProvider() {
 
                   resolve(element);
                 }, reject);
-
             } catch (e) {
               reject(e.message);
             }
@@ -3929,14 +3852,10 @@ function InterimElementProvider() {
             }
           });
         }
-
       }
     };
-
   }
-
 }
-
 })();
 (function(){
 "use strict";
@@ -3951,7 +3870,6 @@ MdInteractionService.$inject = ["$timeout", "$mdUtil"];
 angular
   .module('material.core.interaction', [])
   .service('$mdInteraction', MdInteractionService);
-
 
 /**
  * @ngdoc service
@@ -4028,7 +3946,6 @@ MdInteractionService.prototype.initializeEvents = function() {
   if (pointerEvent) {
     this.bodyElement.on(pointerEvent, this.onInputEvent.bind(this));
   }
-
 };
 
 /**
@@ -4065,7 +3982,6 @@ MdInteractionService.prototype.onBufferInputEvent = function(event) {
   this.bufferTimeout = this.$timeout(function() {
     this.isBuffering = false;
   }.bind(this), 650, false);
-
 };
 
 /**
@@ -4091,7 +4007,6 @@ MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
   // Check for any interaction to be within the specified check time.
   return this.lastInteractionTime >= this.$mdUtil.now() - delay;
 };
-
 })();
 (function(){
 "use strict";
@@ -4179,10 +4094,8 @@ MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
     var API_WITH_VALUES = [ "layout", "flex", "flex-order", "flex-offset", "layout-align" ];
     var API_NO_VALUES   = [ "show", "hide", "layout-padding", "layout-margin" ];
 
-
     // Build directive registration functions for the standard Layout API... for all breakpoints.
     angular.forEach(BREAKPOINTS, function(mqb) {
-
       // Attribute directives with expected, observable value(s)
       angular.forEach( API_WITH_VALUES, function(name){
         var fullName = mqb ? name + "-" + mqb : name;
@@ -4194,7 +4107,6 @@ MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
         var fullName = mqb ? name + "-" + mqb : name;
         module.directive( directiveNormalize(fullName), attributeWithoutValue(fullName));
       });
-
     });
 
     // Register other, special directive functions for the Layout features:
@@ -4258,9 +4170,7 @@ MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
           return offset ? letter.toUpperCase() : letter;
         });
     }
-
   }
-
 
   /**
     * Detect if any of the HTML tags has a [md-layouts-disabled] attribute;
@@ -4334,7 +4244,6 @@ MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
     }];
   }
 
-
   // *********************************************************************************
   //
   // These functions create registration functions for ngMaterial Layout attribute directives
@@ -4350,7 +4259,6 @@ MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
    * @param {string} className attribute name; eg `layout-gt-md` with value ="row"
    */
   function attributeWithObserve(className) {
-
     return ['$mdUtil', '$interpolate', "$log", function(_$mdUtil_, _$interpolate_, _$log_) {
       $mdUtil = _$mdUtil_;
       $interpolate = _$interpolate_;
@@ -4435,8 +4343,6 @@ MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
     }
   }
 
-
-
   /**
    * After link-phase, do NOT remove deprecated layout attribute selector.
    * Instead watch the attribute so interpolated data-bindings to layout
@@ -4496,9 +4402,7 @@ MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
           $log.warn( $mdUtil.supplant(message, [usage, url]) );
         }
     }
-
   }
-
 
   /**
    * For the Layout attribute value, validate or replace with default
@@ -4620,10 +4524,7 @@ MdInteractionService.prototype.isUserInvoked = function(checkDelay) {
 
     return axis;
   }
-
-
 })();
-
 })();
 (function(){
 "use strict";
@@ -4717,7 +4618,6 @@ MdLiveAnnouncer.prototype._createLiveElement = function() {
 
   return liveEl;
 };
-
 })();
 (function(){
 "use strict";
@@ -4866,7 +4766,6 @@ angular.module('material.core.meta', [])
    *
    */
   function ComponentRegistry($log, $q) {
-
     var self;
     var instances = [ ];
     var pendings = { };
@@ -4963,15 +4862,12 @@ angular.module('material.core.meta', [])
         }
         return $q.reject("Invalid `md-component-id` value.");
       }
-
     };
 
     function isValidID(handle){
       return handle && (handle !== "");
     }
-
   }
-
 })();
 (function(){
 "use strict";
@@ -5021,7 +4917,6 @@ angular.module('material.core.meta', [])
     }
   }
 })();
-
 })();
 (function(){
 "use strict";
@@ -5060,7 +4955,6 @@ angular.module('material.core.meta', [])
     }
   }
 })();
-
 })();
 (function(){
 "use strict";
@@ -5100,7 +4994,6 @@ angular.module('material.core.meta', [])
     }
   }
 })();
-
 })();
 (function(){
 "use strict";
@@ -5278,20 +5171,16 @@ function InkRippleCtrl ($scope, $element, rippleOptions, $window, $timeout, $mdU
   this.bindEvents();
 }
 
-
 /**
  * Either remove or unlock any remaining ripples when the user mouses off of the element (either by
  * mouseup or mouseleave event)
  */
 function autoCleanup (self, cleanupFn) {
-
   if ( self.mousedown || self.lastRipple ) {
     self.mousedown = false;
     self.$mdUtil.nextTick( angular.bind(self, cleanupFn), false);
   }
-
 }
-
 
 /**
  * Returns the color that the ripple should be (either based on CSS or hard-coded)
@@ -5328,7 +5217,6 @@ InkRippleCtrl.prototype.calculateColor = function () {
   return this.color();
 };
 
-
 /**
  * Takes a string color and converts it to RGBA format
  * @param color {string}
@@ -5344,7 +5232,6 @@ InkRippleCtrl.prototype._parseColor = function parseColor (color, multiplier) {
   if (color.indexOf('rgba') === 0) return color.replace(/\d?\.?\d*\s*\)\s*$/, (0.1 * multiplier).toString() + ')');
   if (color.indexOf('rgb') === 0) return colorUtil.rgbToRgba(color);
   if (color.indexOf('#') === 0) return colorUtil.hexToRgba(color);
-
 };
 
 /**
@@ -5370,7 +5257,6 @@ InkRippleCtrl.prototype.handleMousedown = function (event) {
   if (this.options.center) {
     this.createRipple(this.container.prop('clientWidth') / 2, this.container.prop('clientWidth') / 2);
   } else {
-
     // We need to calculate the relative coordinates if the target is a sublayer of the ripple element
     if (event.srcElement !== this.$element[0]) {
       var layerRect = this.$element[0].getBoundingClientRect();
@@ -5445,7 +5331,6 @@ InkRippleCtrl.prototype.isRippleAllowed = function () {
       if (element.hasAttribute('disabled')) return false;
       if (this.inkRipple() === 'false' || this.inkRipple() === '0') return false;
     }
-
   } while (element = element.parentNode);
   return true;
 };
@@ -5500,12 +5385,10 @@ InkRippleCtrl.prototype.createRipple = function (left, top) {
   ripple.addClass('md-ripple-placed');
 
   this.$mdUtil.nextTick(function () {
-
     ripple.addClass('md-ripple-scaled md-ripple-active');
     ctrl.$timeout(function () {
       ctrl.clearRipples();
     }, DURATION, false);
-
   }, false);
 
   function getSize (fit, x, y) {
@@ -5514,8 +5397,6 @@ InkRippleCtrl.prototype.createRipple = function (left, top) {
         : Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
   }
 };
-
-
 
 /**
  * After fadeIn finishes, either kicks off the fade-out animation or queues the element for removal on mouseup
@@ -5568,7 +5449,6 @@ InkRippleCtrl.prototype.fadeOutComplete = function (ripple) {
 function attrNoDirective () {
   return { controller: angular.noop };
 }
-
 })();
 (function(){
 "use strict";
@@ -5608,7 +5488,6 @@ function attrNoDirective () {
     }
   }
 })();
-
 })();
 (function(){
 "use strict";
@@ -5972,7 +5851,6 @@ angular.module('material.core.theming.palette', [])
     'contrastStrongLightColors': '400 500 700'
   }
 });
-
 })();
 (function(){
 "use strict";
@@ -6708,7 +6586,6 @@ function ThemingProvider($mdColorPalette, $$mdMetaProvider) {
         }
       }
     }
-
   }
 }
 
@@ -6922,13 +6799,11 @@ function generateAllThemes($injector, $mdTheming) {
                   .filter(function(rule) { return rule && rule.trim().length; })
                   .map(function(rule) { return rule.trim() + '}'; });
 
-
   var ruleMatchRegex = new RegExp('md-(' + THEME_COLOR_TYPES.join('|') + ')', 'g');
 
   THEME_COLOR_TYPES.forEach(function(type) {
     rulesByType[type] = '';
   });
-
 
   // Sort the rules based on type, allowing us to do color substitution on a per-type basis
   rules.forEach(function(rule) {
@@ -6961,7 +6836,6 @@ function generateAllThemes($injector, $mdTheming) {
       generateTheme(theme, theme.name, themeConfig.nonce);
     }
   });
-
 
   // *************************
   // Internal functions
@@ -7049,9 +6923,7 @@ function generateTheme(theme, name, nonce) {
 
     GENERATED[theme.name] = true;
   }
-
 }
-
 
 function checkValidPalette(theme, colorType) {
   // If theme attempts to use a palette that doesnt exist, throw error
@@ -7098,10 +6970,7 @@ function rgba(rgbArray, opacity) {
     'rgba(' + rgbArray.join(',') + ',' + opacity + ')' :
     'rgb(' + rgbArray.join(',') + ')';
 }
-
-
 })(window.angular);
-
 })();
 (function(){
 "use strict";
@@ -7110,7 +6979,6 @@ function rgba(rgbArray, opacity) {
 angular
   .module('material.core')
   .factory('$$mdAnimate', ["$q", "$timeout", "$mdConstant", "$animateCss", function($q, $timeout, $mdConstant, $animateCss){
-
      // Since $$mdAnimate is injected into $mdUtil... use a wrapper function
      // to subsequently inject $mdUtil as an argument to the AnimateDomUtils
 
@@ -7152,7 +7020,6 @@ function AnimateDomUtils($mdUtil, $q, $timeout, $mdConstant, $animateCss) {
            removeClass: options.transitionInClass,
            duration: options.duration
         }).start();
-
       }
     },
 
@@ -7188,7 +7055,6 @@ function AnimateDomUtils($mdUtil, $q, $timeout, $mdConstant, $animateCss) {
 
           // Never reject since ngAnimate may cause timeouts due missed transitionEnd events
           resolve();
-
         }
 
         /**
@@ -7204,7 +7070,6 @@ function AnimateDomUtils($mdUtil, $q, $timeout, $mdConstant, $animateCss) {
 
           return styles.transitionDuration == '0s' || (!styles.transition && !styles.transitionProperty);
         }
-
       });
     },
 
@@ -7362,11 +7227,8 @@ function AnimateDomUtils($mdUtil, $q, $timeout, $mdConstant, $animateCss) {
         y: Math.round(targetRect.top + (targetRect.height / 2))
       } : { x : 0, y : 0 };
     }
-
   };
 }
-
-
 })();
 (function(){
 "use strict";
@@ -7530,9 +7392,7 @@ if (angular.version.minor >= 4) {
     .factory('$$rAFMutex', $$rAFMutexFactory)
     .factory('$animateCss', ['$window', '$$rAF', '$$AnimateRunner', '$$forceReflow', '$$jqLite', '$timeout', '$animate',
                      function($window,   $$rAF,   $$AnimateRunner,   $$forceReflow,   $$jqLite,   $timeout, $animate) {
-
       function init(element, options) {
-
         var temporaryStyles = [];
         var node = getDomNode(element);
         var areAnimationsAllowed = node && $animate.enabled();
@@ -7792,11 +7652,8 @@ if (angular.version.minor >= 4) {
       return str.charAt(1).toUpperCase();
     });
   }
-
 })();
-
 }
-
 })();
 (function(){
 "use strict";
@@ -7813,7 +7670,6 @@ angular.module('material.components.autocomplete', [
   'material.components.icon',
   'material.components.virtualRepeat'
 ]);
-
 })();
 (function(){
 "use strict";
@@ -7899,9 +7755,7 @@ angular
         element.css('height', viewportHeight + 'px');
       }
     }
-
   }]);
-
 })();
 (function(){
 "use strict";
@@ -7937,7 +7791,6 @@ function MdBottomSheetDirective($mdBottomSheet) {
     }
   };
 }
-
 
 /**
  * @ngdoc service
@@ -8065,9 +7918,7 @@ function MdBottomSheetProvider($$interimElementProvider) {
       disableParentScroll: true
     };
 
-
     function onShow(scope, element, options, controller) {
-
       element = $mdUtil.extractElementByName(element, 'md-bottom-sheet');
 
       // prevent tab focus or click focus on the bottom-sheet container
@@ -8087,7 +7938,7 @@ function MdBottomSheetProvider($$interimElementProvider) {
         // Prevent mouse focus on backdrop; ONLY programatic focus allowed.
         // This allows clicks on backdrop to propogate to the $rootElement and
         // ESC key events to be detected properly.
-        
+
         backdrop[0].tabIndex = -1;
 
         if (options.clickOutsideToClose) {
@@ -8129,11 +7980,9 @@ function MdBottomSheetProvider($$interimElementProvider) {
             focusable && focusable.focus();
           }
         });
-
     }
 
     function onRemove(scope, element, options) {
-
       var bottomSheet = options.bottomSheet;
 
       if (!options.disableBackdrop) $animate.leave(backdrop);
@@ -8193,11 +8042,8 @@ function MdBottomSheetProvider($$interimElementProvider) {
         }
       }
     }
-
   }
-
 }
-
 })();
 (function(){
 "use strict";
@@ -8215,7 +8061,6 @@ angular
     .module('material.components.button', [ 'material.core' ])
     .directive('mdButton', MdButtonDirective)
     .directive('a', MdAnchorDirective);
-
 
 /**
  * @private
@@ -8242,7 +8087,6 @@ function MdAnchorDirective($mdTheming) {
     }
   };
 }
-
 
 /**
  * @ngdoc directive
@@ -8321,7 +8165,6 @@ function MdAnchorDirective($mdTheming) {
  * </hljs>
  */
 function MdButtonDirective($mdButtonInkRipple, $mdTheming, $mdAria, $mdInteraction) {
-
   return {
     restrict: 'EA',
     replace: true,
@@ -8368,25 +8211,19 @@ function MdButtonDirective($mdButtonInkRipple, $mdTheming, $mdAria, $mdInteracti
     });
 
     if (!element.hasClass('md-no-focus')) {
-
       element.on('focus', function() {
-
         // Only show the focus effect when being focused through keyboard interaction or programmatically
         if (!$mdInteraction.isUserInvoked() || $mdInteraction.getLastInteractionType() === 'keyboard') {
           element.addClass('md-focused');
         }
-
       });
 
       element.on('blur', function() {
         element.removeClass('md-focused');
       });
     }
-
   }
-
 }
-
 })();
 (function(){
 "use strict";
@@ -8403,7 +8240,6 @@ angular.module('material.components.card', [
     'material.core'
   ])
   .directive('mdCard', mdCardDirective);
-
 
 /**
  * @ngdoc directive
@@ -8523,7 +8359,6 @@ function mdCardDirective($mdTheming) {
     }
   };
 }
-
 })();
 (function(){
 "use strict";
@@ -8737,7 +8572,6 @@ function MdCheckboxDirective(inputDirective, $mdAria, $mdConstant, $mdTheming, $
     }
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -8753,7 +8587,6 @@ angular.module('material.components.chips', [
   'material.core',
   'material.components.autocomplete'
 ]);
-
 })();
 (function(){
 "use strict";
@@ -8848,7 +8681,6 @@ angular.module('material.components.chips', [
       } catch (e) {
         $log.error(e.message);
       }
-
     }
 
     /**
@@ -9129,12 +8961,10 @@ angular.module('material.components.chips', [
             else {
               $mdColors.applyThemeColors(element, parseColors());
             }
-
           }
           catch (e) {
             $log.error(e.message);
           }
-
         };
 
         function shouldColorsWatch() {
@@ -9153,12 +8983,8 @@ angular.module('material.components.chips', [
         }
       }
     };
-
   }
-
-
 })();
-
 })();
 (function(){
 "use strict";
@@ -9255,7 +9081,6 @@ function iosScrollFix(node) {
     }
   });
 }
-
 })();
 (function(){
 "use strict";
@@ -9271,7 +9096,6 @@ angular.module('material.components.datepicker', [
   'material.components.icon',
   'material.components.virtualRepeat'
 ]);
-
 })();
 (function(){
 "use strict";
@@ -9355,8 +9179,6 @@ function MdDialogDirective($$rAF, $mdTheming, $mdDialog) {
         function addOverflowClass() {
           element.toggleClass('md-content-overflow', content.scrollHeight > content.clientHeight);
         }
-
-
       });
     }
   };
@@ -9940,7 +9762,6 @@ function MdDialogProvider($$interimElementProvider) {
   /* @ngInject */
   function dialogDefaultOptions($mdDialog, $mdAria, $mdUtil, $mdConstant, $animate, $document, $window, $rootElement,
                                 $log, $injector, $mdTheming, $interpolate, $mdInteraction) {
-
     return {
       hasBackdrop: true,
       isolateScope: true,
@@ -9990,7 +9811,6 @@ function MdDialogProvider($$interimElementProvider) {
     }
 
     function beforeShow(scope, element, options, controller) {
-
       if (controller) {
         var mdHtmlContent = controller.htmlContent || options.htmlContent || '';
         var mdTextContent = controller.textContent || options.textContent ||
@@ -10168,7 +9988,6 @@ function MdDialogProvider($$interimElementProvider) {
             options.originInteraction = $mdInteraction.getLastInteractionType();
           }
 
-
           /**
            * Identify the bounding RECT for the target element
            *
@@ -10204,7 +10023,6 @@ function MdDialogProvider($$interimElementProvider) {
             // If we have a reference to a raw dom element, always wrap it in jqLite
             return angular.element(element || defaultElement);
           }
-
         }
 
     /**
@@ -10241,10 +10059,8 @@ function MdDialogProvider($$interimElementProvider) {
 
         // Queue remove listeners function
         removeListeners.push(function() {
-
           element.off('keydown', keyHandlerFn);
           parentTarget.off('keydown', keyHandlerFn);
-
         });
       }
 
@@ -10303,7 +10119,6 @@ function MdDialogProvider($$interimElementProvider) {
      * Show modal backdrop element...
      */
     function showBackdrop(scope, element, options) {
-
       if (options.disableParentScroll) {
         // !! DO this before creating the backdrop; since disableScrollAround()
         //    configures the scroll offset; which is used by mdBackDrop postLink()
@@ -10324,7 +10139,6 @@ function MdDialogProvider($$interimElementProvider) {
           else              $animate.leave(options.backdrop);
         }
 
-
         if (options.disableParentScroll) {
           options.restoreScroll && options.restoreScroll();
           delete options.restoreScroll;
@@ -10338,7 +10152,6 @@ function MdDialogProvider($$interimElementProvider) {
      * Inject ARIA-specific attributes appropriate for Dialogs
      */
     function configureAria(element, options) {
-
       var role = (options.$type === 'alert') ? 'alertdialog' : 'dialog';
       var dialogContent = element.find('md-dialog-content');
       var existingDialogId = element.attr('id');
@@ -10483,7 +10296,6 @@ function MdDialogProvider($$interimElementProvider) {
       return animator
         .translate3d(dialogEl, from, to, translateOptions)
         .then(function(animateReversal) {
-
           // Build a reversal translate function synced to this translation...
           options.reverseAnimate = function() {
             delete options.reverseAnimate;
@@ -10505,7 +10317,6 @@ function MdDialogProvider($$interimElementProvider) {
                 buildTranslateToOrigin(dialogEl, options.origin)
               )
             );
-
           };
 
           // Function to revert the generated animation styles on the dialog element.
@@ -10549,10 +10360,8 @@ function MdDialogProvider($$interimElementProvider) {
         return true;
       }
     }
-
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -10592,7 +10401,6 @@ function MdDividerDirective($mdTheming) {
     link: $mdTheming
   };
 }
-
 })();
 (function(){
 "use strict";
@@ -10645,9 +10453,7 @@ function MdDividerDirective($mdTheming) {
       }
     };
   }
-
 })();
-
 })();
 (function(){
 "use strict";
@@ -10961,7 +10767,6 @@ function MdDividerDirective($mdTheming) {
     }
   }
 })();
-
 })();
 (function(){
 "use strict";
@@ -11221,7 +11026,6 @@ function MdDividerDirective($mdTheming) {
     };
   }
 })();
-
 })();
 (function(){
 "use strict";
@@ -11330,7 +11134,6 @@ function MdDividerDirective($mdTheming) {
   }
 
   function MdFabToolbarAnimation() {
-
     function runAnimation(element, className, done) {
       // If no className was specified, don't do anything
       if (!className) {
@@ -11423,7 +11226,6 @@ function MdDividerDirective($mdTheming) {
     };
   }
 })();
-
 })();
 (function(){
 "use strict";
@@ -11539,7 +11341,7 @@ function GridListDirective($interpolate, $mdConstant, $mdGridLayout, $mdMedia) {
 
   function postLink(scope, element, attrs, ctrl) {
     element.addClass('_md');     // private md component indicator for styling
-    
+
     // Apply semantics
     element.attr('role', 'list');
 
@@ -11886,7 +11688,6 @@ GridListController.prototype = {
   }
 };
 
-
 /* @ngInject */
 function GridLayoutFactory($mdUtil) {
   var defaultAnimator = GridTileAnimator;
@@ -11911,7 +11712,6 @@ function GridLayoutFactory($mdUtil) {
       });
 
       return self = {
-
         /**
          * An array of objects describing each tile's position in the grid.
          */
@@ -12185,14 +11985,12 @@ function GridTileDirective($mdMedia) {
   }
 }
 
-
 function GridTileCaptionDirective() {
   return {
     template: '<figcaption ng-transclude></figcaption>',
     transclude: true
   };
 }
-
 })();
 (function(){
 "use strict";
@@ -12204,7 +12002,6 @@ function GridTileCaptionDirective() {
  * Icon
  */
 angular.module('material.components.icon', ['material.core']);
-
 })();
 (function(){
 "use strict";
@@ -12311,7 +12108,6 @@ if (window._mdMocksIncluded) {
  * </hljs>
  */
 function mdInputContainerDirective($mdTheming, $parse) {
-
   ContainerCtrl.$inject = ["$scope", "$element", "$attrs", "$animate"];
   var INPUT_TAGS = ['INPUT', 'TEXTAREA', 'SELECT', 'MD-SELECT'];
 
@@ -12531,7 +12327,6 @@ function inputTextareaDirective($mdUtil, $window, $mdAria, $timeout, $mdGesture)
   };
 
   function postLink(scope, element, attr, ctrls) {
-
     var containerCtrl = ctrls[0];
     var hasNgModel = !!ctrls[1];
     var ngModelCtrl = ctrls[1] || $mdUtil.fakeNgModel();
@@ -12539,7 +12334,6 @@ function inputTextareaDirective($mdUtil, $window, $mdAria, $timeout, $mdGesture)
     var isReadonly = angular.isDefined(attr.readonly);
     var mdNoAsterisk = $mdUtil.parseAttributeBoolean(attr.mdNoAsterisk);
     var tagName = element[0].tagName.toLowerCase();
-
 
     if (!containerCtrl) return;
     if (attr.type === 'hidden') {
@@ -12766,7 +12560,6 @@ function inputTextareaDirective($mdUtil, $window, $mdAria, $timeout, $mdGesture)
         var container = containerCtrl.element;
         var dragGestureHandler = $mdGesture.register(handle, 'drag', { horizontal: false });
 
-
         element.wrap('<div class="md-resize-wrapper">').after(handle);
         handle.on('mousedown', onMouseDown);
 
@@ -12820,7 +12613,6 @@ function inputTextareaDirective($mdUtil, $window, $mdAria, $timeout, $mdGesture)
 
       // Attach a watcher to detect when the textarea gets shown.
       if (attr.hasOwnProperty('mdDetectHidden')) {
-
         var handleHiddenChange = function() {
           var wasHidden = false;
 
@@ -12997,7 +12789,6 @@ function placeholderDirective($compile) {
  * </hljs>
  */
 function mdSelectOnFocusDirective($timeout) {
-
   return {
     restrict: 'A',
     link: postLink
@@ -13087,7 +12878,6 @@ function ngMessageDirective($mdUtil) {
 
   function compile(tElement) {
     if (!isInsideInputContainer(tElement)) {
-
       // When the current element is inside of a document fragment, then we need to check for an input-container
       // in the postLink, because the element will be later added to the DOM and is currently just in a temporary
       // fragment, which causes the input-container check to fail.
@@ -13299,7 +13089,6 @@ function saveSharedServices(_$$AnimateRunner_, _$animateCss_, _$mdUtil_, _$log_)
   $mdUtil = _$mdUtil_;
   $log = _$log_;
 }
-
 })();
 (function(){
 "use strict";
@@ -13542,7 +13331,6 @@ function mdListItemDirective($mdAria, $mdConstant, $mdUtil, $timeout) {
     restrict: 'E',
     controller: 'MdListController',
     compile: function(tEl, tAttrs) {
-
       // Check for proxy controls (no ng-click on parent, and a control inside)
       var secondaryItems = tEl[0].querySelectorAll('.md-secondary');
       var hasProxiedElement;
@@ -13554,7 +13342,6 @@ function mdListItemDirective($mdAria, $mdConstant, $mdUtil, $timeout) {
       if (tAttrs.ngClick || tAttrs.ngDblclick ||  tAttrs.ngHref || tAttrs.href || tAttrs.uiSref || tAttrs.ngAttrUiSref) {
         wrapIn('button');
       } else if (!tEl.hasClass('md-no-proxy')) {
-
         for (var i = 0, type; type = proxiedTypes[i]; ++i) {
           if (proxyElement = tEl[0].querySelector(type)) {
             hasProxiedElement = true;
@@ -13567,7 +13354,6 @@ function mdListItemDirective($mdAria, $mdConstant, $mdUtil, $timeout) {
         } else {
           tEl.addClass('md-no-proxy');
         }
-
       }
 
       wrapSecondaryItems();
@@ -13679,7 +13465,6 @@ function mdListItemDirective($mdAria, $mdConstant, $mdUtil, $timeout) {
         // If the current secondary item is not a button, but contains a ng-click attribute,
         // the secondary item will be automatically wrapped inside of a button.
         if (secondaryItem && !isButton(secondaryItem) && secondaryItem.hasAttribute('ng-click')) {
-
           $mdAria.expect(secondaryItem, 'aria-label');
           var buttonWrapper = angular.element('<md-button class="md-secondary md-icon-button">');
 
@@ -13784,20 +13569,15 @@ function mdListItemDirective($mdAria, $mdConstant, $mdUtil, $timeout) {
           });
         }
 
-
         function computeProxies() {
-
           if (firstElement && firstElement.children && !hasClick && !noProxies) {
-
             angular.forEach(proxiedTypes, function(type) {
-
               // All elements which are not capable for being used a proxy have the .md-secondary class
               // applied. These items had been sorted out in the secondary wrap function.
               angular.forEach(firstElement.querySelectorAll(type + ':not(.md-secondary)'), function(child) {
                 proxies.push(child);
               });
             });
-
           }
         }
 
@@ -13894,7 +13674,6 @@ function MdListController($scope, $element, $mdListInkRipple) {
     $mdListInkRipple.attach(scope, element, options);
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -13908,7 +13687,6 @@ angular.module('material.components.menu', [
   'material.core',
   'material.components.backdrop'
 ]);
-
 })();
 (function(){
 "use strict";
@@ -13923,7 +13701,6 @@ angular.module('material.components.menuBar', [
   'material.components.icon',
   'material.components.menu'
 ]);
-
 })();
 (function(){
 "use strict";
@@ -13940,11 +13717,9 @@ angular
   ])
   .provider('$mdPanel', MdPanelProvider);
 
-
 /*****************************************************************************
  *                            PUBLIC DOCUMENTATION                           *
  *****************************************************************************/
-
 
 /**
  * @ngdoc service
@@ -14066,11 +13841,9 @@ angular
  *     configuration.
  */
 
-
 /*****************************************************************************
  *                               MdPanel Service                             *
  *****************************************************************************/
-
 
 /**
  * @ngdoc service
@@ -14297,11 +14070,9 @@ angular
  *     opened. Infinity can be passed in to remove the maxOpen limit.
  */
 
-
 /*****************************************************************************
  *                                 MdPanelRef                                *
  *****************************************************************************/
-
 
 /**
  * @ngdoc type
@@ -14520,11 +14291,9 @@ angular
  * @param {!MdPanelAnimation} animation
  */
 
-
 /*****************************************************************************
  *                               MdPanelPosition                            *
  *****************************************************************************/
-
 
 /**
  * @ngdoc type
@@ -14757,11 +14526,9 @@ angular
  * @returns {!MdPanelPosition}
  */
 
-
 /*****************************************************************************
  *                               MdPanelAnimation                            *
  *****************************************************************************/
-
 
 /**
  * @ngdoc type
@@ -14844,11 +14611,9 @@ angular
  * @returns {!MdPanelAnimation}
  */
 
-
 /*****************************************************************************
  *                            PUBLIC DOCUMENTATION                           *
  *****************************************************************************/
-
 
 var MD_PANEL_Z_INDEX = 80;
 var MD_PANEL_HIDDEN = '_md-panel-hidden';
@@ -14856,7 +14621,6 @@ var FOCUS_TRAP_TEMPLATE = angular.element(
     '<div class="_md-panel-focus-trap" tabindex="0"></div>');
 
 var _presets = {};
-
 
 /**
  * A provider that is used for creating presets for the panel API.
@@ -14870,7 +14634,6 @@ function MdPanelProvider() {
     '$get': $getProvider()
   };
 }
-
 
 /**
  * Takes the passed in panel configuration object and adds it to the `_presets`
@@ -14899,7 +14662,6 @@ function definePreset(name, preset) {
   _presets[name] = preset;
 }
 
-
 /**
  * Gets a clone of the `_presets`.
  * @return {!Object}
@@ -14908,14 +14670,12 @@ function getAllPresets() {
   return angular.copy(_presets);
 }
 
-
 /**
  * Clears all of the stored presets.
  */
 function clearPresets() {
   _presets = {};
 }
-
 
 /**
  * Represents the `$get` method of the Angular provider. From here, a new
@@ -14937,11 +14697,9 @@ function $getProvider() {
   ];
 }
 
-
 /*****************************************************************************
  *                               MdPanel Service                             *
  *****************************************************************************/
-
 
 /**
  * A service that is used for controlling/displaying panels on the screen.
@@ -15046,7 +14804,6 @@ function MdPanelService(presets, $rootElement, $rootScope, $injector, $window) {
   this.absPosition = MdPanelPosition.absPosition;
 }
 
-
 /**
  * Creates a panel with the specified options.
  * @param {string=} preset Name of a preset configuration that can be used to
@@ -15103,7 +14860,6 @@ MdPanelService.prototype.create = function(preset, config) {
   return panelRef;
 };
 
-
 /**
  * Creates and opens a panel with the specified options.
  * @param {string=} preset Name of a preset configuration that can be used to
@@ -15117,7 +14873,6 @@ MdPanelService.prototype.open = function(preset, config) {
     return panelRef;
   });
 };
-
 
 /**
  * Gets a specific preset configuration object saved within `_presets`.
@@ -15133,7 +14888,6 @@ MdPanelService.prototype._getPresetByName = function(preset) {
   return this._presets[preset];
 };
 
-
 /**
  * Returns a new instance of the MdPanelPosition. Use this to create the
  * positioning object.
@@ -15143,7 +14897,6 @@ MdPanelService.prototype.newPanelPosition = function() {
   return new MdPanelPosition(this._$injector);
 };
 
-
 /**
  * Returns a new instance of the MdPanelAnimation. Use this to create the
  * animation object.
@@ -15152,7 +14905,6 @@ MdPanelService.prototype.newPanelPosition = function() {
 MdPanelService.prototype.newPanelAnimation = function() {
   return new MdPanelAnimation(this._$injector);
 };
-
 
 /**
  * Creates a panel group and adds it to a tracked list of panel groups.
@@ -15181,7 +14933,6 @@ MdPanelService.prototype.newPanelGroup = function(groupName, config) {
   return this._groups[groupName];
 };
 
-
 /**
  * Sets the maximum number of panels in a group that can be opened at a given
  * time.
@@ -15196,7 +14947,6 @@ MdPanelService.prototype.setGroupMaxOpen = function(groupName, maxOpen) {
     throw new Error('mdPanel: Group does not exist yet. Call newPanelGroup().');
   }
 };
-
 
 /**
  * Determines if the current number of open panels within a group exceeds the
@@ -15213,7 +14963,6 @@ MdPanelService.prototype._openCountExceedsMaxOpen = function(groupName) {
   return false;
 };
 
-
 /**
  * Closes the first open panel within a specific group.
  * @param {string} groupName The name of the group.
@@ -15222,7 +14971,6 @@ MdPanelService.prototype._openCountExceedsMaxOpen = function(groupName) {
 MdPanelService.prototype._closeFirstOpenedPanel = function(groupName) {
   this._groups[groupName].openPanels[0].close();
 };
-
 
 /**
  * Wraps the users template in two elements, md-panel-outer-wrapper, which
@@ -15244,7 +14992,6 @@ MdPanelService.prototype._wrapTemplate = function(origTemplate) {
       '</div>';
 };
 
-
 /**
  * Wraps a content element in a md-panel-outer wrapper and
  * positions it off-screen. Allows for proper control over positoning
@@ -15262,11 +15009,9 @@ MdPanelService.prototype._wrapContentElement = function(contentElement) {
   return wrapper;
 };
 
-
 /*****************************************************************************
  *                                 MdPanelRef                                *
  *****************************************************************************/
-
 
 /**
  * A reference to a created panel. This reference contains a unique id for the
@@ -15374,11 +15119,9 @@ function MdPanelRef(config, $injector) {
   };
 }
 
-
 MdPanelRef.interceptorTypes = {
   CLOSE: 'onClose'
 };
-
 
 /**
  * Opens an already created and configured panel. If the panel is already
@@ -15409,7 +15152,6 @@ MdPanelRef.prototype.open = function() {
   });
 };
 
-
 /**
  * Closes the panel.
  * @param {string} closeReason The event type that triggered the close.
@@ -15434,7 +15176,6 @@ MdPanelRef.prototype.close = function(closeReason) {
     }, reject);
   });
 };
-
 
 /**
  * Attaches the panel. The panel will be hidden afterwards.
@@ -15466,7 +15207,6 @@ MdPanelRef.prototype.attach = function() {
       .catch(reject);
   });
 };
-
 
 /**
  * Only detaches the panel. Will NOT hide the panel first.
@@ -15524,7 +15264,6 @@ MdPanelRef.prototype.detach = function() {
   });
 };
 
-
 /**
  * Destroys the panel. The Panel cannot be opened again after this.
  */
@@ -15539,7 +15278,6 @@ MdPanelRef.prototype.destroy = function() {
   this.config.locals = null;
   this._interceptors = null;
 };
-
 
 /**
  * Shows the panel.
@@ -15583,7 +15321,6 @@ MdPanelRef.prototype.show = function() {
       .catch(reject);
   });
 };
-
 
 /**
  * Hides the panel.
@@ -15640,7 +15377,6 @@ MdPanelRef.prototype.hide = function() {
   });
 };
 
-
 /**
  * Add a class to the panel. DO NOT use this to hide/show the panel.
  * @deprecated
@@ -15670,7 +15406,6 @@ MdPanelRef.prototype.addClass = function(newClass, toElement) {
     this.panelEl.addClass(newClass);
   }
 };
-
 
 /**
  * Remove a class from the panel. DO NOT use this to hide/show the panel.
@@ -15702,7 +15437,6 @@ MdPanelRef.prototype.removeClass = function(oldClass, fromElement) {
   }
 };
 
-
 /**
  * Toggle a class on the panel. DO NOT use this to hide/show the panel.
  * @deprecated
@@ -15732,7 +15466,6 @@ MdPanelRef.prototype.toggleClass = function(toggleClass, onElement) {
     this.panelEl.toggleClass(toggleClass);
   }
 };
-
 
 /**
  * Compiles the panel, according to the passed in config and appends it to
@@ -15777,7 +15510,6 @@ MdPanelRef.prototype._compile = function() {
     return self;
   });
 };
-
 
 /**
  * Creates a panel and adds it to the dom.
@@ -15828,10 +15560,8 @@ MdPanelRef.prototype._createPanel = function() {
         resolve(self);
       }, reject);
     }, reject);
-
   });
 };
-
 
 /**
  * Adds the styles for the panel, such as positioning and z-index. Also,
@@ -15882,7 +15612,6 @@ MdPanelRef.prototype._addStyles = function() {
   });
 };
 
-
 /**
  * Sets the `$mdTheming` classes on the `panelContainer` and `panelEl`.
  * @private
@@ -15891,7 +15620,6 @@ MdPanelRef.prototype._setTheming = function() {
   this._$mdTheming(this.panelEl);
   this._$mdTheming(this.panelContainer);
 };
-
 
 /**
  * Updates the position configuration of a panel
@@ -15906,7 +15634,6 @@ MdPanelRef.prototype.updatePosition = function(position) {
   this.config['position'] = position;
   this._updatePosition();
 };
-
 
 /**
  * Calculates and updates the position of the panel.
@@ -15943,7 +15670,6 @@ MdPanelRef.prototype._updatePosition = function(init) {
   }
 };
 
-
 /**
  * Focuses on the panel or the first focus target.
  * @private
@@ -15961,7 +15687,6 @@ MdPanelRef.prototype._focusOnOpen = function() {
     });
   }
 };
-
 
 /**
  * Shows the backdrop.
@@ -15999,7 +15724,6 @@ MdPanelRef.prototype._createBackdrop = function() {
   }
 };
 
-
 /**
  * Listen for escape keys and outside clicks to auto close.
  * @private
@@ -16009,7 +15733,6 @@ MdPanelRef.prototype._addEventListeners = function() {
   this._configureClickOutsideToClose();
   this._configureScrollListener();
 };
-
 
 /**
  * Remove event listeners added in _addEventListeners.
@@ -16021,7 +15744,6 @@ MdPanelRef.prototype._removeEventListeners = function() {
   });
   this._removeListeners = [];
 };
-
 
 /**
  * Setup the escapeToClose event listeners.
@@ -16053,7 +15775,6 @@ MdPanelRef.prototype._configureEscapeToClose = function() {
   }
 };
 
-
 /**
  * Setup the clickOutsideToClose event listeners.
  * @private
@@ -16079,13 +15800,11 @@ MdPanelRef.prototype._configureClickOutsideToClose = function() {
     var self = this;
     var mouseupHandler = function(ev) {
       if (self.config['propagateContainerEvents']) {
-
         // We check if the sourceEl of the event is the panel element or one
         // of it's children. If it is not, then close the panel.
         if (sourceEl !== self.panelEl[0] && !self.panelEl[0].contains(sourceEl)) {
           self.close();
         }
-
       } else if (sourceEl === target[0] && ev.target === target[0]) {
         ev.stopPropagation();
         ev.preventDefault();
@@ -16105,7 +15824,6 @@ MdPanelRef.prototype._configureClickOutsideToClose = function() {
     });
   }
 };
-
 
 /**
  * Configures the listeners for updating the panel position on scroll.
@@ -16131,7 +15849,6 @@ MdPanelRef.prototype._configureScrollListener = function() {
     });
   }
 };
-
 
 /**
  * Setup the focus traps. These traps will wrap focus when tabbing past the
@@ -16170,7 +15887,6 @@ MdPanelRef.prototype._configureTrapFocus = function() {
   }
 };
 
-
 /**
  * Updates the animation of a panel.
  * @param {!MdPanelAnimation} animation
@@ -16182,7 +15898,6 @@ MdPanelRef.prototype.updateAnimation = function(animation) {
     this._backdropRef.config.animation.duration(animation._rawDuration);
   }
 };
-
 
 /**
  * Animate the panel opening.
@@ -16213,7 +15928,6 @@ MdPanelRef.prototype._animateOpen = function() {
         .then(done, warnAndOpen);
   });
 };
-
 
 /**
  * Animate the panel closing.
@@ -16247,7 +15961,6 @@ MdPanelRef.prototype._animateClose = function() {
   });
 };
 
-
 /**
  * Registers a interceptor with the panel. The callback should return a promise,
  * which will allow the action to continue when it gets resolved, or will
@@ -16278,7 +15991,6 @@ MdPanelRef.prototype.registerInterceptor = function(type, callback) {
   return this;
 };
 
-
 /**
  * Removes a registered interceptor.
  * @param {string} type Type of interceptor to be removed.
@@ -16296,7 +16008,6 @@ MdPanelRef.prototype.removeInterceptor = function(type, callback) {
   return this;
 };
 
-
 /**
  * Removes all interceptors.
  * @param {string=} type Type of interceptors to be removed.
@@ -16312,7 +16023,6 @@ MdPanelRef.prototype.removeAllInterceptors = function(type) {
 
   return this;
 };
-
 
 /**
  * Invokes all the interceptors of a certain type sequantially in
@@ -16349,7 +16059,6 @@ MdPanelRef.prototype._callInterceptors = function(type) {
   }, $q.resolve(self));
 };
 
-
 /**
  * Faster, more basic than angular.bind
  * http://jsperf.com/angular-bind-vs-custom-vs-native
@@ -16363,7 +16072,6 @@ MdPanelRef.prototype._simpleBind = function(callback, self) {
   };
 };
 
-
 /**
  * @param {function} callback
  * @param {!Object} self
@@ -16374,7 +16082,6 @@ MdPanelRef.prototype._done = function(callback, self) {
     callback(self);
   };
 };
-
 
 /**
  * Adds a panel to a group if the panel does not exist within the group already.
@@ -16394,7 +16101,6 @@ MdPanelRef.prototype.addToGroup = function(groupName) {
   }
 };
 
-
 /**
  * Removes a panel from a group if the panel exists within that group. The group
  * must be created ahead of time.
@@ -16413,7 +16119,6 @@ MdPanelRef.prototype.removeFromGroup = function(groupName) {
   }
 };
 
-
 /**
  * Possible default closeReasons for the close function.
  * @enum {string}
@@ -16423,11 +16128,9 @@ MdPanelRef.closeReasons = {
   ESCAPE: 'escapeToClose',
 };
 
-
 /*****************************************************************************
  *                               MdPanelPosition                             *
  *****************************************************************************/
-
 
 /**
  * Position configuration object. To use, create an MdPanelPosition with the
@@ -16490,7 +16193,6 @@ function MdPanelPosition($injector) {
   this._actualPosition;
 }
 
-
 /**
  * Possible values of xPosition.
  * @enum {string}
@@ -16503,7 +16205,6 @@ MdPanelPosition.xPosition = {
   OFFSET_END: 'offset-end'
 };
 
-
 /**
  * Possible values of yPosition.
  * @enum {string}
@@ -16515,7 +16216,6 @@ MdPanelPosition.yPosition = {
   ABOVE: 'above',
   BELOW: 'below'
 };
-
 
 /**
  * Possible values of absolute position.
@@ -16534,7 +16234,6 @@ MdPanelPosition.absPosition = {
  */
 MdPanelPosition.viewportMargin = 8;
 
-
 /**
  * Sets absolute positioning for the panel.
  * @return {!MdPanelPosition}
@@ -16543,7 +16242,6 @@ MdPanelPosition.prototype.absolute = function() {
   this._absolute = true;
   return this;
 };
-
 
 /**
  * Sets the value of a position for the panel. Clears any previously set
@@ -16573,7 +16271,6 @@ MdPanelPosition.prototype._setPosition = function(position, value) {
   return this;
 };
 
-
 /**
  * Sets the value of `top` for the panel. Clears any previously set vertical
  * position.
@@ -16584,7 +16281,6 @@ MdPanelPosition.prototype.top = function(top) {
   return this._setPosition(MdPanelPosition.absPosition.TOP, top);
 };
 
-
 /**
  * Sets the value of `bottom` for the panel. Clears any previously set vertical
  * position.
@@ -16594,7 +16290,6 @@ MdPanelPosition.prototype.top = function(top) {
 MdPanelPosition.prototype.bottom = function(bottom) {
   return this._setPosition(MdPanelPosition.absPosition.BOTTOM, bottom);
 };
-
 
 /**
  * Sets the panel to the start of the page - `left` if `ltr` or `right` for
@@ -16607,7 +16302,6 @@ MdPanelPosition.prototype.start = function(start) {
   return this._setPosition(position, start);
 };
 
-
 /**
  * Sets the panel to the end of the page - `right` if `ltr` or `left` for `rtl`.
  * Clears any previously set horizontal position.
@@ -16619,7 +16313,6 @@ MdPanelPosition.prototype.end = function(end) {
   return this._setPosition(position, end);
 };
 
-
 /**
  * Sets the value of `left` for the panel. Clears any previously set
  * horizontal position.
@@ -16630,7 +16323,6 @@ MdPanelPosition.prototype.left = function(left) {
   return this._setPosition(MdPanelPosition.absPosition.LEFT, left);
 };
 
-
 /**
  * Sets the value of `right` for the panel. Clears any previously set
  * horizontal position.
@@ -16640,7 +16332,6 @@ MdPanelPosition.prototype.left = function(left) {
 MdPanelPosition.prototype.right = function(right) {
   return this._setPosition(MdPanelPosition.absPosition.RIGHT, right);
 };
-
 
 /**
  * Centers the panel horizontally in the viewport. Clears any previously set
@@ -16654,7 +16345,6 @@ MdPanelPosition.prototype.centerHorizontally = function() {
   return this;
 };
 
-
 /**
  * Centers the panel vertically in the viewport. Clears any previously set
  * vertical position.
@@ -16667,7 +16357,6 @@ MdPanelPosition.prototype.centerVertically = function() {
   return this;
 };
 
-
 /**
  * Centers the panel horizontally and vertically in the viewport. This is
  * equivalent to calling both `centerHorizontally` and `centerVertically`.
@@ -16677,7 +16366,6 @@ MdPanelPosition.prototype.centerVertically = function() {
 MdPanelPosition.prototype.center = function() {
   return this.centerHorizontally().centerVertically();
 };
-
 
 /**
  * Sets element for relative positioning.
@@ -16690,7 +16378,6 @@ MdPanelPosition.prototype.relativeTo = function(element) {
   this._relativeToEl = getElement(element);
   return this;
 };
-
 
 /**
  * Sets the x and y positions for the panel relative to another element.
@@ -16715,7 +16402,6 @@ MdPanelPosition.prototype.addPanelPosition = function(xPosition, yPosition) {
   });
   return this;
 };
-
 
 /**
  * Ensures that yPosition is a valid position name. Throw an exception if not.
@@ -16742,7 +16428,6 @@ MdPanelPosition.prototype._validateYPosition = function(yPosition) {
       'values:\n' + positionValues.join(' | '));
 };
 
-
 /**
  * Ensures that xPosition is a valid position name. Throw an exception if not.
  * @param {string} xPosition
@@ -16767,7 +16452,6 @@ MdPanelPosition.prototype._validateXPosition = function(xPosition) {
       'values:\n' + positionValues.join(' | '));
 };
 
-
 /**
  * Sets the value of the offset in the x-direction. This will add to any
  * previously set offsets.
@@ -16778,7 +16462,6 @@ MdPanelPosition.prototype.withOffsetX = function(offsetX) {
   this._translateX.push(offsetX);
   return this;
 };
-
 
 /**
  * Sets the value of the offset in the y-direction. This will add to any
@@ -16791,7 +16474,6 @@ MdPanelPosition.prototype.withOffsetY = function(offsetY) {
   return this;
 };
 
-
 /**
  * Gets the value of `top` for the panel.
  * @returns {string}
@@ -16799,7 +16481,6 @@ MdPanelPosition.prototype.withOffsetY = function(offsetY) {
 MdPanelPosition.prototype.getTop = function() {
   return this._top;
 };
-
 
 /**
  * Gets the value of `bottom` for the panel.
@@ -16809,7 +16490,6 @@ MdPanelPosition.prototype.getBottom = function() {
   return this._bottom;
 };
 
-
 /**
  * Gets the value of `left` for the panel.
  * @returns {string}
@@ -16818,7 +16498,6 @@ MdPanelPosition.prototype.getLeft = function() {
   return this._left;
 };
 
-
 /**
  * Gets the value of `right` for the panel.
  * @returns {string}
@@ -16826,7 +16505,6 @@ MdPanelPosition.prototype.getLeft = function() {
 MdPanelPosition.prototype.getRight = function() {
   return this._right;
 };
-
 
 /**
  * Gets the value of `transform` for the panel.
@@ -16841,7 +16519,6 @@ MdPanelPosition.prototype.getTransform = function() {
   return (translateX + ' ' + translateY).trim();
 };
 
-
 /**
  * Sets the `transform` value for a panel element.
  * @param {!angular.JQLite} panelEl
@@ -16851,7 +16528,6 @@ MdPanelPosition.prototype.getTransform = function() {
 MdPanelPosition.prototype._setTransform = function(panelEl) {
   return panelEl.css(this._$mdConstant.CSS.TRANSFORM, this.getTransform());
 };
-
 
 /**
  * True if the panel is completely on-screen with this positioning; false
@@ -16882,7 +16558,6 @@ MdPanelPosition.prototype._isOnscreen = function(panelEl) {
     (right <= this._$window.innerWidth);
 };
 
-
 /**
  * Gets the first x/y position that can fit on-screen.
  * @returns {{x: string, y: string}}
@@ -16890,7 +16565,6 @@ MdPanelPosition.prototype._isOnscreen = function(panelEl) {
 MdPanelPosition.prototype.getActualPosition = function() {
   return this._actualPosition;
 };
-
 
 /**
  * Reduces a list of translate values to a string that can be used within
@@ -16909,7 +16583,6 @@ MdPanelPosition.prototype._reduceTranslateValues =
         return translateFn + '(' + translationValue + ')';
       }, this).join(' ');
     };
-
 
 /**
  * Sets the panel position based on the created panel element and best x/y
@@ -16946,7 +16619,6 @@ MdPanelPosition.prototype._setPanelPosition = function(panelEl) {
 
   this._constrainToViewport(panelEl);
 };
-
 
 /**
  * Constrains a panel's position to the viewport.
@@ -16989,7 +16661,6 @@ MdPanelPosition.prototype._constrainToViewport = function(panelEl) {
   );
 };
 
-
 /**
  * Switches between 'start' and 'end'.
  * @param {string} position Horizontal position of the panel
@@ -17007,7 +16678,6 @@ MdPanelPosition.prototype._reverseXPosition = function(position) {
   return position.indexOf(start) > -1 ? position.replace(start, end) : position.replace(end, start);
 };
 
-
 /**
  * Handles horizontal positioning in rtl or ltr environments.
  * @param {string} position Horizontal position of the panel
@@ -17018,7 +16688,6 @@ MdPanelPosition.prototype._bidi = function(position) {
   return this._isRTL ? this._reverseXPosition(position) : position;
 };
 
-
 /**
  * Calculates the panel position based on the created panel element and the
  * provided positioning.
@@ -17027,7 +16696,6 @@ MdPanelPosition.prototype._bidi = function(position) {
  * @private
  */
 MdPanelPosition.prototype._calculatePanelPosition = function(panelEl, position) {
-
   var panelBounds = panelEl[0].getBoundingClientRect();
   var panelWidth = panelBounds.width;
   var panelHeight = panelBounds.height;
@@ -17081,11 +16749,9 @@ MdPanelPosition.prototype._calculatePanelPosition = function(panelEl, position) 
   }
 };
 
-
 /*****************************************************************************
  *                               MdPanelAnimation                            *
  *****************************************************************************/
-
 
 /**
  * Animation configuration object. To use, create an MdPanelAnimation with the
@@ -17134,7 +16800,6 @@ function MdPanelAnimation($injector) {
   this._rawDuration;
 }
 
-
 /**
  * Possible default animations.
  * @enum {string}
@@ -17144,7 +16809,6 @@ MdPanelAnimation.animation = {
   SCALE: 'md-panel-animate-scale',
   FADE: 'md-panel-animate-fade'
 };
-
 
 /**
  * Specifies where to start the open animation. `openFrom` accepts a
@@ -17166,7 +16830,6 @@ MdPanelAnimation.prototype.openFrom = function(openFrom) {
   return this;
 };
 
-
 /**
  * Specifies where to animate the panel close. `closeTo` accepts a
  * query selector, DOM element, or a Rect object that is used to determine
@@ -17178,7 +16841,6 @@ MdPanelAnimation.prototype.closeTo = function(closeTo) {
   this._closeTo = this._getPanelAnimationTarget(closeTo);
   return this;
 };
-
 
 /**
  * Specifies the duration of the animation in milliseconds.
@@ -17205,7 +16867,6 @@ MdPanelAnimation.prototype.duration = function(duration) {
   }
 };
 
-
 /**
  * Returns the element and bounds for the animation target.
  * @param {string|!Element|{top: number, left: number}} location
@@ -17226,7 +16887,6 @@ MdPanelAnimation.prototype._getPanelAnimationTarget = function(location) {
   }
 };
 
-
 /**
  * Specifies the animation class.
  *
@@ -17244,7 +16904,6 @@ MdPanelAnimation.prototype.withAnimation = function(cssClass) {
   this._animationClass = cssClass;
   return this;
 };
-
 
 /**
  * Animate the panel open.
@@ -17313,7 +16972,6 @@ MdPanelAnimation.prototype.animateOpen = function(panelEl) {
       .translate3d(panelEl, openFrom, openTo, animationOptions);
 };
 
-
 /**
  * Animate the panel close.
  * @param {!angular.JQLite} panelEl
@@ -17378,7 +17036,6 @@ MdPanelAnimation.prototype.animateClose = function(panelEl) {
       .translate3d(panelEl, closeFrom, closeTo, reverseAnimationOptions);
 };
 
-
 /**
  * Set the height and width to match the panel if not provided.
  * @param {!angular.JQLite} panelEl
@@ -17402,7 +17059,6 @@ MdPanelAnimation.prototype._fixBounds = function(panelEl) {
   }
 };
 
-
 /**
  * Identify the bounding RECT for the target element.
  * @param {!angular.JQLite} element
@@ -17418,11 +17074,9 @@ MdPanelAnimation.prototype._getBoundingClientRect = function(element) {
   }
 };
 
-
 /*****************************************************************************
  *                                Util Methods                               *
  *****************************************************************************/
-
 
 /**
  * Returns the angular element associated with a css selector or element.
@@ -17434,7 +17088,6 @@ function getElement(el) {
       document.querySelector(el) : el;
   return angular.element(queryResult);
 }
-
 
 /**
  * Gets the computed values for an element's translateX and translateY in px.
@@ -17463,7 +17116,6 @@ function getComputedTranslations(el, property) {
 
   return output;
 }
-
 })();
 (function(){
 "use strict";
@@ -17472,7 +17124,6 @@ function getComputedTranslations(el, property) {
  * @ngdoc module
  * @name material.components.navBar
  */
-
 
 MdNavBarController.$inject = ["$element", "$scope", "$timeout", "$mdConstant"];
 MdNavItem.$inject = ["$mdAria", "$$rAF"];
@@ -17483,7 +17134,6 @@ angular.module('material.components.navBar', ['material.core'])
     .directive('mdNavBar', MdNavBar)
     .controller('MdNavItemController', MdNavItemController)
     .directive('mdNavItem', MdNavItem);
-
 
 /*****************************************************************************
  *                            PUBLIC DOCUMENTATION                           *
@@ -17574,7 +17224,6 @@ angular.module('material.components.navBar', ['material.core'])
  * See `<md-nav-bar>` for usage.
  */
 
-
 /*****************************************************************************
  *                                IMPLEMENTATION                             *
  *****************************************************************************/
@@ -17664,8 +17313,6 @@ function MdNavBarController($element, $scope, $timeout, $mdConstant) {
     }
   });
 }
-
-
 
 /**
  * Initializes the tab components once they exist.
@@ -17957,7 +17604,6 @@ function MdNavItem($mdAria, $$rAF) {
  * @ngInject
  */
 function MdNavItemController($element) {
-
   /** @private @const {!angular.JQLite} */
   this._$element = $element;
 
@@ -18046,7 +17692,6 @@ MdNavItemController.prototype.setFocused = function(isFocused) {
 MdNavItemController.prototype.hasFocus = function() {
   return this._focused;
 };
-
 })();
 (function(){
 "use strict";
@@ -18058,7 +17703,6 @@ MdNavItemController.prototype.hasFocus = function() {
  */
 
 angular.module('material.components.progressCircular', ['material.core']);
-
 })();
 (function(){
 "use strict";
@@ -18265,8 +17909,6 @@ function MdProgressLinearDirective($mdTheming, $mdUtil, $log) {
     return Math.max(0, Math.min(value || 0, 100));
   }
 }
-
-
 })();
 (function(){
 "use strict";
@@ -18410,7 +18052,6 @@ function mdRadioGroupDirective($mdUtil, $mdConstant, $mdTheming, $timeout) {
           }
           break;
       }
-
     }
   }
 
@@ -18482,7 +18123,6 @@ function mdRadioGroupDirective($mdUtil, $mdConstant, $mdTheming, $timeout) {
       angular.element(target).triggerHandler('click');
     }
   }
-
 }
 
 /**
@@ -18524,7 +18164,6 @@ function mdRadioGroupDirective($mdUtil, $mdConstant, $mdTheming, $timeout) {
  *
  */
 function mdRadioButtonDirective($mdAria, $mdUtil, $mdTheming) {
-
   var CHECKED_CSS = 'md-checked';
 
   return {
@@ -18623,7 +18262,6 @@ function mdRadioButtonDirective($mdAria, $mdUtil, $mdTheming) {
     }
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -18840,10 +18478,8 @@ function SelectDirective($mdSelect, $mdUtil, $mdConstant, $mdTheming, $mdAria, $
       element.append(angular.element('<md-content>').append(element.contents()));
     }
 
-
     // Add progress spinner for md-options-loading
     if (attr.mdOnOpen) {
-
       // Show progress indicator while loading async
       // Use ng-hide for `display:none` so the indicator does not interfere with the options list
       element
@@ -19171,8 +18807,6 @@ function SelectDirective($mdSelect, $mdUtil, $mdConstant, $mdTheming, $mdAria, $
           });
       });
 
-
-
       function inputCheckValue() {
         // The select counts as having a value if one or more options are selected,
         // or if the input's validity state says it has bad input (eg string in a number input)
@@ -19237,7 +18871,6 @@ function SelectDirective($mdSelect, $mdUtil, $mdConstant, $mdTheming, $mdAria, $
           ngModelCtrl.$setTouched();
         });
       }
-
     };
   }
 }
@@ -19553,11 +19186,9 @@ function SelectMenuDirective($parse, $mdUtil, $mdConstant, $mdTheming) {
       self.select(self.hashGetter(value), value);
     }
   }
-
 }
 
 function OptionDirective($mdButtonInkRipple, $mdUtil) {
-
   OptionController.$inject = ["$element"];
   return {
     restrict: 'E',
@@ -19683,7 +19314,6 @@ function OptionDirective($mdButtonInkRipple, $mdUtil) {
       this.selected = isSelected;
     };
   }
-
 }
 
 function OptgroupDirective() {
@@ -19770,7 +19400,6 @@ function SelectProvider($$interimElementProvider) {
        * Restore the element to a closed state
        */
       function cleanElement() {
-
         element.removeClass('md-active');
         element.attr('aria-hidden', 'true');
         element[0].style.display = 'none';
@@ -19781,14 +19410,12 @@ function SelectProvider($$interimElementProvider) {
           opts.target.focus();
         }
       }
-
     }
 
     /**
      * Interim-element onShow logic....
      */
     function onShow(scope, element, opts) {
-
       watchAsyncLoad();
       sanitizeAndConfigure(scope, opts);
 
@@ -19816,18 +19443,14 @@ function SelectProvider($$interimElementProvider) {
         opts.parent.append(element);
 
         return $q(function(resolve, reject) {
-
           try {
-
             $animateCss(element, {removeClass: 'md-leave', duration: 0})
               .start()
               .then(positionAndFocusMenu)
               .then(resolve);
-
           } catch (e) {
             reject(e);
           }
-
         });
       }
 
@@ -19851,7 +19474,6 @@ function SelectProvider($$interimElementProvider) {
             autoFocus(opts.focusedNode);
             resolve();
           });
-
         });
       }
 
@@ -19859,7 +19481,6 @@ function SelectProvider($$interimElementProvider) {
        * Show modal backdrop element...
        */
       function showBackdrop(scope, element, options) {
-
         // If we are not within a dialog...
         if (options.disableParentScroll && !$mdUtil.getClosest(options.target, 'MD-DIALOG')) {
           // !! DO this before creating the backdrop; since disableScrollAround()
@@ -19920,7 +19541,6 @@ function SelectProvider($$interimElementProvider) {
        */
       function activateResizing() {
         var debouncedOnResize = (function(scope, target, options) {
-
           return function() {
             if (options.isRemoved) return;
 
@@ -19931,7 +19551,6 @@ function SelectProvider($$interimElementProvider) {
             container.element.css(animator.toCss(container.styles));
             dropDown.element.css(animator.toCss(dropDown.styles));
           };
-
         })(scope, element, opts);
 
         var window = angular.element($window);
@@ -19940,7 +19559,6 @@ function SelectProvider($$interimElementProvider) {
 
         // Publish deactivation closure...
         return function deactivateResizing() {
-
           // Disable resizing handlers
           window.off('resize', debouncedOnResize);
           window.off('orientationchange', debouncedOnResize);
@@ -20106,7 +19724,6 @@ function SelectProvider($$interimElementProvider) {
           }
         }
       }
-
     }
 
     /**
@@ -20121,7 +19738,6 @@ function SelectProvider($$interimElementProvider) {
         mdSelect.triggerClose();
       }
     }
-
 
     /**
      * Calculate the
@@ -20270,9 +19886,7 @@ function SelectProvider($$interimElementProvider) {
           }
         }
       };
-
     }
-
   }
 
   function isPromiseLike(obj) {
@@ -20311,7 +19925,6 @@ function SelectProvider($$interimElementProvider) {
     return isScrollable;
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -20329,7 +19942,6 @@ angular.module('material.components.showHide', [
 ])
   .directive('ngShow', createDirective('ngShow', true))
   .directive('ngHide', createDirective('ngHide', false));
-
 
 function createDirective(name, targetValue) {
   return ['$mdUtil', '$window', function($mdUtil, $window) {
@@ -20364,7 +19976,6 @@ function createDirective(name, targetValue) {
     };
   }];
 }
-
 })();
 (function(){
 "use strict";
@@ -20388,7 +19999,6 @@ angular
   .directive('mdSidenav', SidenavDirective)
   .directive('mdSidenavFocus', SidenavFocusDirective)
   .controller('$mdSidenavController', SidenavController);
-
 
 /**
  * @ngdoc service
@@ -20497,7 +20107,6 @@ function SidenavService($mdComponentRegistry, $mdUtil, $q, $log) {
       var instance = $mdComponentRegistry.get(handle);
 
       if (!instance && !shouldWait) {
-
         // Report missing instance
         $log.error( $mdUtil.supplant(errorMsg, [handle || ""]) );
 
@@ -20693,7 +20302,6 @@ function SidenavDirective($mdMedia, $mdUtil, $mdConstant, $mdTheming, $mdInterac
     scope.$watch(isLocked, updateIsLocked);
     scope.$watch('isOpen', updateIsOpen);
 
-
     // Publish special accessor for the Controller instance
     sidenavCtrl.$toggleOpen = toggleOpen;
 
@@ -20820,9 +20428,7 @@ function SidenavDirective($mdMedia, $mdUtil, $mdConstant, $mdTheming, $mdInterac
      */
     function toggleOpen( isOpen ) {
       if (scope.isOpen == isOpen ) {
-
         return $q.when(true);
-
       } else {
         if (scope.isOpen && sidenavCtrl.onCloseCb) sidenavCtrl.onCloseCb();
 
@@ -20833,7 +20439,6 @@ function SidenavDirective($mdMedia, $mdUtil, $mdConstant, $mdTheming, $mdInterac
           $mdUtil.nextTick(function() {
             // When the current `updateIsOpen()` animation finishes
             promise.then(function(result) {
-
               if ( !scope.isOpen && triggeringElement && triggeringInteractionType === 'keyboard') {
                 // reset focus to originating element (if available) upon close
                 triggeringElement.focus();
@@ -20843,9 +20448,7 @@ function SidenavDirective($mdMedia, $mdUtil, $mdConstant, $mdTheming, $mdInterac
               resolve(result);
             });
           });
-
         });
-
       }
     }
 
@@ -20868,7 +20471,6 @@ function SidenavDirective($mdMedia, $mdUtil, $mdConstant, $mdTheming, $mdInterac
 
       return sidenavCtrl.close();
     }
-
   }
 }
 
@@ -20879,7 +20481,6 @@ function SidenavDirective($mdMedia, $mdUtil, $mdConstant, $mdTheming, $mdInterac
  * @module material.components.sidenav
  */
 function SidenavController($scope, $attrs, $mdComponentRegistry, $q, $interpolate) {
-
   var self = this;
 
   // Use Default internal method until overridden by directive postLink
@@ -20918,7 +20519,6 @@ function SidenavController($scope, $attrs, $mdComponentRegistry, $q, $interpolat
     });
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -21378,7 +20978,6 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
      * @param percent 0-1
      */
     function setSliderPercent(percent) {
-
       percent = clamp(percent);
 
       var thumbPosition = (percent * 100) + '%';
@@ -21391,7 +20990,6 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
         $mdUtil.bidiProperty(thumbContainer, 'left', 'right', thumbPosition);
       }
 
-      
       activeTrack.css(vertical ? 'height' : 'width', activeTrackPercent);
 
       element.toggleClass((invert ? 'md-max' : 'md-min'), percent === 0);
@@ -21519,7 +21117,6 @@ function SliderDirective($$rAF, $window, $mdAria, $mdUtil, $mdConstant, $mdThemi
     }
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -21599,7 +21196,6 @@ angular
  *     If not provided, it will use the result of `element.clone()` and compiles it in the given scope.
  */
 function MdSticky($mdConstant, $$rAF, $mdUtil, $compile) {
-
   var browserStickySupport = $mdUtil.checkStickySupport();
 
   /**
@@ -21692,7 +21288,7 @@ function MdSticky($mdConstant, $$rAF, $mdUtil, $compile) {
         return a.top < b.top ? -1 : 1;
       });
 
-      // Find which item in the list should be active, 
+      // Find which item in the list should be active,
       // based upon the content's current scroll position
       var item;
       var currentScrollTop = contentEl.prop('scrollTop');
@@ -21712,7 +21308,7 @@ function MdSticky($mdConstant, $$rAF, $mdUtil, $compile) {
     // Find the `top` of an item relative to the content element,
     // and also the height.
     function refreshPosition(item) {
-      // Find the top of an item by adding to the offsetHeight until we reach the 
+      // Find the top of an item by adding to the offsetHeight until we reach the
       // content element.
       var current = item.element[0];
       item.top = 0;
@@ -21754,7 +21350,6 @@ function MdSticky($mdConstant, $$rAF, $mdUtil, $compile) {
       // SCROLLING DOWN (going towards the next item)
       //
       if (isScrollingDown) {
-
         // If we've scrolled down past the next item's position, sticky it and return
         if (self.next && self.next.top <= scrollTop) {
           setCurrentItem(self.next);
@@ -21772,7 +21367,6 @@ function MdSticky($mdConstant, $$rAF, $mdUtil, $compile) {
       // SCROLLING UP (not at the top & not scrolling down; must be scrolling up)
       //
       if (!isScrollingDown) {
-
         // If we've scrolled up past the previous item's position, sticky it and return
         if (self.current && self.prev && scrollTop < self.current.top) {
           setCurrentItem(self.prev);
@@ -21845,10 +21439,9 @@ function MdSticky($mdConstant, $$rAF, $mdUtil, $compile) {
     }
   }
 
-
   // Android 4.4 don't accurately give scroll events.
   // To fix this problem, we setup a fake scroll event. We say:
-  // > If a scroll or touchmove event has happened in the last DELAY milliseconds, 
+  // > If a scroll or touchmove event has happened in the last DELAY milliseconds,
   //   then send a `$scroll` event every animationFrame.
   // Additionally, we add $scrollstart and $scrollend events.
   function setupAugmentedScrollEvents(element) {
@@ -21875,9 +21468,7 @@ function MdSticky($mdConstant, $$rAF, $mdUtil, $compile) {
       }
     }
   }
-
 }
-
 })();
 (function(){
 "use strict";
@@ -22003,7 +21594,6 @@ function MdSubheaderDirective($mdSticky, $compile, $mdTheming, $mdUtil, $mdAria)
     }
   };
 }
-
 })();
 (function(){
 "use strict";
@@ -22104,9 +21694,6 @@ function getDirective(name) {
       }
     }
 }
-
-
-
 })();
 (function(){
 "use strict";
@@ -22284,13 +21871,9 @@ function MdSwitch(mdCheckboxDirective, $mdUtil, $mdConstant, $parse, $$rAF, $mdG
           ngModel.$render();
         });
       }
-
     };
   }
-
-
 }
-
 })();
 (function(){
 "use strict";
@@ -22316,7 +21899,7 @@ function MdToastDirective($mdToast) {
     restrict: 'E',
     link: function postLink(scope, element) {
       element.addClass('_md');     // private md component indicator for styling
-      
+
       // When navigation force destroys an interimElement, then
       // listen and $destroy() that interim instance...
       scope.$on('$destroy', function() {
@@ -22417,7 +22000,7 @@ function MdToastDirective($mdToast) {
 /**
  * @ngdoc method
  * @name $mdToast#showSimple
- * 
+ *
  * @param {string} message The message to display inside the toast
  * @description
  * Convenience method which builds and shows a simple toast.
@@ -22772,9 +22355,7 @@ function MdToastProvider($$interimElementProvider) {
         (position.indexOf('top') > -1 ? 'top' : 'bottom');
     }
   }
-
 }
-
 })();
 (function(){
 "use strict";
@@ -22806,7 +22387,6 @@ angular.module('material.components.tabs', [
   'material.core',
   'material.components.icon'
 ]);
-
 })();
 (function(){
 "use strict";
@@ -22904,7 +22484,6 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate) {
     restrict: 'E',
 
     link: function(scope, element, attr) {
-
       element.addClass('_md');     // private md component indicator for styling
       $mdTheming(element);
 
@@ -22917,7 +22496,6 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate) {
       }
 
       function setupScrollShrink() {
-
         var toolbarHeight;
         var contentElement;
         var disableScrollShrink = angular.noop;
@@ -23021,7 +22599,6 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate) {
               $animate.addClass(element, 'md-whiteframe-z1');
             }
           });
-
         }
 
         /**
@@ -23063,14 +22640,10 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate) {
 
           onContentScroll();
         }
-
       }
-
     }
   };
-
 }
-
 })();
 (function(){
 "use strict";
@@ -23087,7 +22660,6 @@ angular
     ])
     .directive('mdTooltip', MdTooltipDirective)
     .service('$$mdTooltipRegistry', MdTooltipRegistry);
-
 
 /**
  * @ngdoc directive
@@ -23125,7 +22697,6 @@ angular
  */
 function MdTooltipDirective($timeout, $window, $$rAF, $document, $interpolate,
     $mdUtil, $mdPanel, $$mdTooltipRegistry) {
-
   var ENTER_EVENTS = 'focus touchstart mouseenter';
   var LEAVE_EVENTS = 'blur touchcancel mouseleave';
   var TOOLTIP_DEFAULT_Z_INDEX = 100;
@@ -23472,9 +23043,7 @@ function MdTooltipDirective($timeout, $window, $$rAF, $document, $interpolate,
       panelRef && panelRef.close();
     }
   }
-
 }
-
 
 /**
  * Service that is used to reduce the amount of listeners that are being
@@ -23544,7 +23113,6 @@ function MdTooltipRegistry() {
     }
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -23636,7 +23204,6 @@ function MdTruncateDirective() {
 function MdTruncateController($element) {
   $element.addClass('md-truncate');
 }
-
 })();
 (function(){
 "use strict";
@@ -23654,7 +23221,6 @@ angular.module('material.components.virtualRepeat', [
 ])
 .directive('mdVirtualRepeatContainer', VirtualRepeatContainerDirective)
 .directive('mdVirtualRepeat', VirtualRepeatDirective);
-
 
 /**
  * @ngdoc directive
@@ -23721,7 +23287,6 @@ function VirtualRepeatContainerDirective() {
     }
   };
 }
-
 
 function virtualRepeatContainerTemplate($element) {
   return '<div class="md-virtual-repeat-scroller">' +
@@ -23821,7 +23386,6 @@ function VirtualRepeatContainerController($$rAF, $mdUtil, $mdConstant, $parse, $
   }));
 }
 
-
 /** Called by the md-virtual-repeat inside of the container at startup. */
 VirtualRepeatContainerController.prototype.register = function(repeaterCtrl) {
   this.repeater = repeaterCtrl;
@@ -23830,18 +23394,15 @@ VirtualRepeatContainerController.prototype.register = function(repeaterCtrl) {
       .on('scroll wheel touchmove touchend', angular.bind(this, this.handleScroll_));
 };
 
-
 /** @return {boolean} Whether the container is configured for horizontal scrolling. */
 VirtualRepeatContainerController.prototype.isHorizontal = function() {
   return this.horizontal;
 };
 
-
 /** @return {number} The size (width or height) of the container. */
 VirtualRepeatContainerController.prototype.getSize = function() {
   return this.size;
 };
-
 
 /**
  * Resizes the container.
@@ -23855,12 +23416,10 @@ VirtualRepeatContainerController.prototype.setSize_ = function(size) {
   this.$element[0].style[dimension] = size + 'px';
 };
 
-
 VirtualRepeatContainerController.prototype.unsetSize_ = function() {
   this.$element[0].style[this.getDimensionName_()] = this.oldElementSize;
   this.oldElementSize = null;
 };
-
 
 /** Instructs the container to re-measure its size. */
 VirtualRepeatContainerController.prototype.updateSize = function() {
@@ -23879,17 +23438,14 @@ VirtualRepeatContainerController.prototype.updateSize = function() {
   this.repeater && this.repeater.containerUpdated();
 };
 
-
 /** @return {number} The container's scrollHeight or scrollWidth. */
 VirtualRepeatContainerController.prototype.getScrollSize = function() {
   return this.scrollSize;
 };
 
-
 VirtualRepeatContainerController.prototype.getDimensionName_ = function() {
   return this.isHorizontal() ? 'width' : 'height';
 };
-
 
 /**
  * Sets the scroller element to the specified size.
@@ -23929,7 +23485,6 @@ VirtualRepeatContainerController.prototype.sizeScroller_ = function(size) {
     this.sizer.appendChild(sizerChild);
   }
 };
-
 
 /**
  * If auto-shrinking is enabled, shrinks or unshrinks as appropriate.
@@ -23973,7 +23528,6 @@ VirtualRepeatContainerController.prototype.autoShrink_ = function(size) {
   }
 };
 
-
 /**
  * Sets the scrollHeight or scrollWidth. Called by the repeater based on
  * its item count and item size.
@@ -23987,7 +23541,6 @@ VirtualRepeatContainerController.prototype.setScrollSize = function(itemsSize) {
   this.autoShrink_(size);
   this.scrollSize = size;
 };
-
 
 /** @return {number} The container's current scroll offset. */
 VirtualRepeatContainerController.prototype.getScrollOffset = function() {
@@ -24019,7 +23572,6 @@ VirtualRepeatContainerController.prototype.scrollToIndex = function(index) {
 VirtualRepeatContainerController.prototype.resetScroll = function() {
   this.scrollTo(0);
 };
-
 
 VirtualRepeatContainerController.prototype.handleScroll_ = function() {
   var ltr = document.dir != 'rtl' && document.body.dir != 'rtl';
@@ -24055,7 +23607,6 @@ VirtualRepeatContainerController.prototype.handleScroll_ = function() {
 
   this.repeater.containerUpdated();
 };
-
 
 /**
  * @ngdoc directive
@@ -24159,7 +23710,6 @@ function VirtualRepeatDirective($parse) {
   };
 }
 
-
 /** @ngInject */
 function VirtualRepeatController($scope, $element, $attrs, $browser, $document, $rootScope,
     $$rAF, $mdUtil) {
@@ -24219,13 +23769,11 @@ function VirtualRepeatController($scope, $element, $attrs, $browser, $document, 
   $scope.$on('$destroy', angular.bind(this, this.cleanupBlocks_));
 }
 
-
 /**
  * An object representing a repeated item.
  * @typedef {{element: !jqLite, new: boolean, scope: !angular.Scope}}
  */
 VirtualRepeatController.Block;
-
 
 /**
  * Called at startup by the md-virtual-repeat postLink function.
@@ -24251,14 +23799,12 @@ VirtualRepeatController.prototype.link_ =
   this.container.register(this);
 };
 
-
 /** @private Cleans up unused blocks. */
 VirtualRepeatController.prototype.cleanupBlocks_ = function() {
   angular.forEach(this.pooledBlocks, function cleanupBlock(block) {
     block.element.remove();
   });
 };
-
 
 /** @private Attempts to set itemSize by measuring a repeated element in the dom */
 VirtualRepeatController.prototype.readItemSize_ = function() {
@@ -24285,7 +23831,6 @@ VirtualRepeatController.prototype.readItemSize_ = function() {
   }
 };
 
-
 /**
  * Returns the user-specified repeat list, transforming it into an array-like
  * object in the case of infinite scroll/dynamic load mode.
@@ -24303,7 +23848,6 @@ VirtualRepeatController.prototype.repeatListExpression_ = function(scope) {
     return repeatList;
   }
 };
-
 
 /**
  * Called by the container. Informs us that the containers scroll or size has
@@ -24353,7 +23897,6 @@ VirtualRepeatController.prototype.containerUpdated = function() {
   }
 };
 
-
 /**
  * Called by the container. Returns the size of a single repeated item.
  * @return {?number} Size of a repeated item.
@@ -24362,7 +23905,6 @@ VirtualRepeatController.prototype.getItemSize = function() {
   return this.itemSize;
 };
 
-
 /**
  * Called by the container. Returns the size of a single repeated item.
  * @return {?number} Size of a repeated item.
@@ -24370,7 +23912,6 @@ VirtualRepeatController.prototype.getItemSize = function() {
 VirtualRepeatController.prototype.getItemCount = function() {
   return this.itemsLength;
 };
-
 
 /**
  * Updates the order and visible offset of repeated blocks in response to scrolling
@@ -24475,7 +24016,6 @@ VirtualRepeatController.prototype.virtualRepeatUpdate_ = function(items, oldItem
   this.isVirtualRepeatUpdating_ = false;
 };
 
-
 /**
  * @param {number} index Where the block is to be in the repeated list.
  * @return {!VirtualRepeatController.Block} A new or pooled block to place at the specified index.
@@ -24500,7 +24040,6 @@ VirtualRepeatController.prototype.getBlock_ = function(index) {
 
   return block;
 };
-
 
 /**
  * Updates and if not in a digest cycle, digests the specified block's scope to the data
@@ -24529,7 +24068,6 @@ VirtualRepeatController.prototype.updateBlock_ = function(block, index) {
   }
 };
 
-
 /**
  * Updates scope to the data at the specified index.
  * @param {!angular.Scope} scope The scope which should be updated.
@@ -24542,7 +24080,6 @@ VirtualRepeatController.prototype.updateScope_ = function(scope, index) {
   if (this.extraName) scope[this.extraName(this.$scope)] = this.items[index];
 };
 
-
 /**
  * Pools the block at the specified index (Pulls its element out of the dom and stores it).
  * @param {number} index The index at which the block to pool is stored.
@@ -24553,7 +24090,6 @@ VirtualRepeatController.prototype.poolBlock_ = function(index) {
   this.parentNode.removeChild(this.blocks[index].element[0]);
   delete this.blocks[index];
 };
-
 
 /**
  * Produces a dom fragment containing the elements from the list of blocks.
@@ -24569,7 +24105,6 @@ VirtualRepeatController.prototype.domFragmentFromBlocks_ = function(blocks) {
   });
   return fragment;
 };
-
 
 /**
  * Updates start and end indexes based on length of repeated items and container size.
@@ -24620,7 +24155,6 @@ function VirtualRepeatModelArrayLike(model) {
   this.model = model;
 }
 
-
 VirtualRepeatModelArrayLike.prototype.$$includeIndexes = function(start, end) {
   for (var i = start; i < end; i++) {
     if (!this.hasOwnProperty(i)) {
@@ -24629,7 +24163,6 @@ VirtualRepeatModelArrayLike.prototype.$$includeIndexes = function(start, end) {
   }
   this.length = this.model.getLength();
 };
-
 })();
 (function(){
 "use strict";
@@ -24704,12 +24237,9 @@ function MdWhiteframeDirective($log) {
     });
   }
 }
-
-
 })();
 (function(){
 "use strict";
-
 
 MdAutocompleteCtrl.$inject = ["$scope", "$element", "$mdUtil", "$mdConstant", "$mdTheming", "$window", "$animate", "$rootElement", "$attrs", "$q", "$log", "$mdLiveAnnouncer"];angular
     .module('material.components.autocomplete')
@@ -24722,7 +24252,6 @@ var ITEM_HEIGHT   = 48,
 
 function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming, $window,
                              $animate, $rootElement, $attrs, $q, $log, $mdLiveAnnouncer) {
-
   // Internal Variables.
   var ctrl                 = this,
       itemParts            = $scope.itemsExpr.split(/ in /i),
@@ -24787,7 +24316,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
    * Initialize the controller, setup watchers, gather elements
    */
   function init () {
-
     $mdUtil.initOptionalProperties($scope, $attrs, {
       searchText: '',
       selectedItem: null,
@@ -24797,7 +24325,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     $mdTheming($element);
     configureWatchers();
     $mdUtil.nextTick(function () {
-
       gatherElements();
       moveDropdown();
 
@@ -24964,7 +24491,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
    * Gathers all of the elements needed for this controller
    */
   function gatherElements () {
-
     var snapWrap = gatherSnapWrap();
 
     elements = {
@@ -25056,7 +24582,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
    * Disables scrolling for a specific element
    */
   function disableElementScrollEvents(element) {
-
     function preventDefault(e) {
       e.preventDefault();
     }
@@ -25099,7 +24624,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
    * @param previousSelectedItem
    */
   function selectedItemChange (selectedItem, previousSelectedItem) {
-
     updateModelValidators();
 
     if (selectedItem) {
@@ -25185,7 +24709,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
       if (searchText !== val) {
         $scope.selectedItem = null;
 
-
         // trigger change event if available
         if (searchText !== previousSearchText) announceTextChange();
 
@@ -25195,13 +24718,11 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
 
           setLoading(false);
           reportMessages(false, ReportType.Count);
-
         } else {
           handleQuery();
         }
       }
     });
-
   }
 
   /**
@@ -25580,14 +25101,12 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     }
   }
 
-
   /**
    * Reports given message types to supported screenreaders.
    * @param {boolean} isPolite Whether the announcement should be polite.
    * @param {!number} types Message flags to be reported to the screenreader.
    */
   function reportMessages(isPolite, types) {
-
     var politeness = isPolite ? 'polite' : 'assertive';
     var messages = [];
 
@@ -25602,7 +25121,6 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     $q.all(messages).then(function(data) {
       $mdLiveAnnouncer.announce(data.join(' '), politeness);
     });
-
   }
 
   /**
@@ -25717,13 +25235,10 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
       $scope.$parent.$eval($attrs[attr], locals || {});
     }
   }
-
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdAutocomplete.$inject = ["$$mdSvgRegistry"];angular
     .module('material.components.autocomplete')
@@ -25951,7 +25466,6 @@ MdAutocomplete.$inject = ["$$mdSvgRegistry"];angular
  */
 
 function MdAutocomplete ($$mdSvgRegistry) {
-
   return {
     controller:   'MdAutocompleteCtrl',
     controllerAs: '$mdAutocompleteCtrl',
@@ -26068,7 +25582,6 @@ function MdAutocomplete ($$mdSvgRegistry) {
             ? '<li ng-if="$mdAutocompleteCtrl.notFoundVisible()"\
                          md-autocomplete-parent-scope>' + template + '</li>'
             : '';
-
       }
 
       function getInputElement () {
@@ -26142,11 +25655,9 @@ function MdAutocomplete ($$mdSvgRegistry) {
     }
   };
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdAutocompleteItemScopeDirective.$inject = ["$compile", "$mdUtil"];angular
   .module('material.components.autocomplete')
@@ -26227,7 +25738,6 @@ function MdAutocompleteItemScopeDirective($compile, $mdUtil) {
 (function(){
 "use strict";
 
-
 MdHighlightCtrl.$inject = ["$scope", "$element", "$attrs"];angular
     .module('material.components.autocomplete')
     .controller('MdHighlightCtrl', MdHighlightCtrl);
@@ -26242,7 +25752,6 @@ function MdHighlightCtrl ($scope, $element, $attrs) {
 }
 
 MdHighlightCtrl.prototype.init = function(unsafeTermFn, unsafeContentFn) {
-
   this.flags = this.$attrs.mdHighlightFlags || '';
 
   this.unregisterFn = this.$scope.$watch(function($scope) {
@@ -26260,7 +25769,6 @@ MdHighlightCtrl.prototype.init = function(unsafeTermFn, unsafeContentFn) {
  * text needs to be updated.
  */
 MdHighlightCtrl.prototype.onRender = function(state, prevState) {
-
   var contentText = state.contentText;
 
   /* Update the regex if it's outdated, because we don't want to rebuilt it constantly. */
@@ -26274,7 +25782,6 @@ MdHighlightCtrl.prototype.onRender = function(state, prevState) {
   } else {
     this.$element.text(contentText);
   }
-
 };
 
 /**
@@ -26288,7 +25795,6 @@ MdHighlightCtrl.prototype.applyRegex = function(text) {
   this.$element.empty();
 
   tokens.forEach(function (token) {
-
     if (token.isMatch) {
       var tokenEl = angular.element('<span class="highlight">').text(token.text);
 
@@ -26296,9 +25802,7 @@ MdHighlightCtrl.prototype.applyRegex = function(text) {
     } else {
       this.$element.append(document.createTextNode(token));
     }
-
   }.bind(this));
-
 };
 
   /**
@@ -26346,11 +25850,9 @@ MdHighlightCtrl.prototype.createRegex = function(term, flags) {
 MdHighlightCtrl.prototype.sanitizeRegex = function(term) {
   return term && term.toString().replace(/[\\\^\$\*\+\?\.\(\)\|\{}\[\]]/g, '\\$&');
 };
-
 })();
 (function(){
 "use strict";
-
 
 MdHighlight.$inject = ["$interpolate", "$parse"];angular
     .module('material.components.autocomplete')
@@ -26399,11 +25901,9 @@ function MdHighlight ($interpolate, $parse) {
     }
   };
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdChipCtrl.$inject = ["$scope", "$element", "$mdConstant", "$timeout", "$mdUtil"];angular
   .module('material.components.chips')
@@ -26462,7 +25962,6 @@ function MdChipCtrl ($scope, $element, $mdConstant, $timeout, $mdUtil) {
   this.enableChipEdit = false;
 }
 
-
 /**
  * @param {MdChipsCtrl} controller
  */
@@ -26477,7 +25976,6 @@ MdChipCtrl.prototype.init = function(controller) {
   }
 };
 
-
 /**
  * @return {Object}
  */
@@ -26486,7 +25984,6 @@ MdChipCtrl.prototype.getChipContent = function() {
   return angular.element(chipContents[0]);
 };
 
-
 /**
  * @return {Object}
  */
@@ -26494,14 +25991,12 @@ MdChipCtrl.prototype.getContentElement = function() {
   return angular.element(this.getChipContent().children()[0]);
 };
 
-
 /**
  * @return {number}
  */
 MdChipCtrl.prototype.getChipIndex = function() {
   return parseInt(this.$element.attr('index'));
 };
-
 
 /**
  * Presents an input element to edit the contents of the chip.
@@ -26531,7 +26026,6 @@ MdChipCtrl.prototype.goOutOfEditMode = function() {
   }
 };
 
-
 /**
  * Given an HTML element. Selects contents of it.
  * @param node
@@ -26551,7 +26045,6 @@ MdChipCtrl.prototype.selectNodeContents = function(node) {
   }
 };
 
-
 /**
  * Presents an input element to edit the contents of the chip.
  */
@@ -26565,7 +26058,6 @@ MdChipCtrl.prototype.goInEditMode = function() {
 
   this.selectNodeContents(this.getChipContent()[0]);
 };
-
 
 /**
  * Handles the keydown event on the chip element. If enable-chip-edit attribute is
@@ -26586,7 +26078,6 @@ MdChipCtrl.prototype.chipKeyDown = function(event) {
   }
 };
 
-
 /**
  * Handles the double click event
  */
@@ -26597,11 +26088,9 @@ MdChipCtrl.prototype.chipMouseDown = function() {
     this.goInEditMode();
   }
 };
-
 })();
 (function(){
 "use strict";
-
 
 MdChip.$inject = ["$mdTheming", "$mdUtil", "$compile", "$timeout"];angular
   .module('material.components.chips')
@@ -26681,11 +26170,9 @@ function MdChip($mdTheming, $mdUtil, $compile, $timeout) {
     });
   }
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdChipRemove.$inject = ["$timeout"];angular
     .module('material.components.chips')
@@ -26714,10 +26201,9 @@ MdChipRemove.$inject = ["$timeout"];angular
  * </hljs>
  */
 
-
 /**
  * MdChipRemove Directive Definition.
- * 
+ *
  * @param $timeout
  * @returns {{restrict: string, require: string[], link: Function, scope: boolean}}
  * @constructor
@@ -26745,11 +26231,9 @@ function MdChipRemove ($timeout) {
     });
   }
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdChipTransclude.$inject = ["$compile"];angular
     .module('material.components.chips')
@@ -26776,7 +26260,6 @@ function MdChipTransclude ($compile) {
     $compile(element.contents())(newScope);
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -27082,7 +26565,6 @@ MdChipsCtrl.prototype.getCursorPosition = function(element) {
   }
 };
 
-
 /**
  * Updates the content of the chip at given index
  * @param chipIndex
@@ -27095,7 +26577,6 @@ MdChipsCtrl.prototype.updateChipContents = function(chipIndex, chipContents){
   }
 };
 
-
 /**
  * Returns true if a chip is currently being edited. False otherwise.
  * @return {boolean}
@@ -27103,7 +26584,6 @@ MdChipsCtrl.prototype.updateChipContents = function(chipIndex, chipContents){
 MdChipsCtrl.prototype.isEditingChip = function() {
   return !!this.$element[0].querySelector('._md-chip-editing');
 };
-
 
 MdChipsCtrl.prototype.isRemovable = function() {
   // Return false if we have static chips
@@ -27374,7 +26854,6 @@ MdChipsCtrl.prototype.removeChipAndFocusInput = function (index) {
   } else {
     this.onFocus();
   }
-
 };
 /**
  * Selects the chip at `index`,
@@ -27555,7 +27034,6 @@ MdChipsCtrl.prototype.configureAutocomplete = function(ctrl) {
  * @returns {boolean}
  */
 MdChipsCtrl.prototype.shouldAddOnBlur = function() {
-
   // Update the custom ngModel validators from the chips component.
   this.validateModel();
 
@@ -27577,12 +27055,10 @@ MdChipsCtrl.prototype.hasFocus = function () {
 MdChipsCtrl.prototype.contentIdFor = function(index) {
   return this.contentIds[index];
 };
-
 })();
 (function(){
 "use strict";
 
-  
   MdChips.$inject = ["$mdTheming", "$mdUtil", "$compile", "$log", "$timeout", "$$mdSvgRegistry"];angular
       .module('material.components.chips')
       .directive('mdChips', MdChips);
@@ -27594,7 +27070,7 @@ MdChipsCtrl.prototype.contentIdFor = function(index) {
    *
    * @description
    * `<md-chips>` is an input component for building lists of strings or objects. The list items are
-   * displayed as 'chips'. This component can make use of an `<input>` element or an 
+   * displayed as 'chips'. This component can make use of an `<input>` element or an
    * `<md-autocomplete>` element.
    *
    * ### Custom templates
@@ -27691,7 +27167,7 @@ MdChipsCtrl.prototype.contentIdFor = function(index) {
    *    the input and delete buttons. If no `ng-model` is provided, the chips will automatically be
    *    marked as readonly.<br/><br/>
    *    When `md-removable` is not defined, the `md-remove` behavior will be overwritten and disabled.
-   * @param {string=} md-enable-chip-edit Set this to "true" to enable editing of chip contents. The user can 
+   * @param {string=} md-enable-chip-edit Set this to "true" to enable editing of chip contents. The user can
    *    go into edit mode with pressing "space", "enter", or double clicking on the chip. Chip edit is only
    *    supported for chips with basic template.
    * @param {number=} md-max-chips The maximum number of chips allowed to add through user input.
@@ -27988,9 +27464,7 @@ MdChipsCtrl.prototype.contentIdFor = function(index) {
             // input.
             scope.$watch('$mdChipsCtrl.readonly', function(readonly) {
               if (!readonly) {
-
                 $mdUtil.nextTick(function(){
-
                   if (chipInputTemplate.indexOf('<md-autocomplete') === 0) {
                     var autocompleteEl = element.find('md-autocomplete');
                     mdChipsCtrl.configureAutocomplete(autocompleteEl.controller('mdAutocomplete'));
@@ -28027,7 +27501,6 @@ MdChipsCtrl.prototype.contentIdFor = function(index) {
       };
     }
   }
-
 })();
 (function(){
 "use strict";
@@ -28035,8 +27508,6 @@ MdChipsCtrl.prototype.contentIdFor = function(index) {
 angular
     .module('material.components.chips')
     .controller('MdContactChipsCtrl', MdContactChipsCtrl);
-
-
 
 /**
  * Controller for the MdContactChips component
@@ -28050,20 +27521,16 @@ function MdContactChipsCtrl () {
   this.searchText = '';
 }
 
-
 MdContactChipsCtrl.prototype.queryContact = function(searchText) {
   return this.contactQuery({'$query': searchText});
 };
 
-
 MdContactChipsCtrl.prototype.itemName = function(item) {
   return item[this.contactName];
 };
-
 })();
 (function(){
 "use strict";
-
 
 MdContactChips.$inject = ["$mdTheming", "$mdUtil"];angular
   .module('material.components.chips')
@@ -28120,7 +27587,6 @@ MdContactChips.$inject = ["$mdTheming", "$mdUtil"];angular
  *
  */
 
-
 var MD_CONTACT_CHIPS_TEMPLATE = '\
       <md-chips class="md-contact-chips"\
           ng-model="$mdContactChipsCtrl.contacts"\
@@ -28162,7 +27628,6 @@ var MD_CONTACT_CHIPS_TEMPLATE = '\
             </div>\
           </md-chip-template>\
       </md-chips>';
-
 
 /**
  * MDContactChips Directive Definition
@@ -28211,7 +27676,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     };
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -28309,7 +27773,6 @@ function MdContactChips($mdTheming, $mdUtil) {
    */
   function CalendarCtrl($element, $scope, $$mdDateUtil, $mdUtil,
     $mdConstant, $mdTheming, $$rAF, $attrs, $mdDateLocale) {
-
     $mdTheming($element);
 
     /** @final {!angular.JQLite} */
@@ -28411,8 +27874,6 @@ function MdContactChips($mdTheming, $mdUtil) {
 
     var boundKeyHandler = angular.bind(this, this.handleKeyEvent);
 
-
-
     // If use the md-calendar directly in the body without datepicker,
     // handleKeyEvent will disable other inputs on the page.
     // So only apply the handleKeyEvent on the body when the md-calendar inside datepicker,
@@ -28438,7 +27899,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     if (angular.version.major === 1 && angular.version.minor <= 4) {
       this.$onInit();
     }
-
   }
 
   /**
@@ -28446,7 +27906,6 @@ function MdContactChips($mdTheming, $mdUtil) {
    * Bindings are not guaranteed to have been assigned in the controller, but they are in the $onInit hook.
    */
   CalendarCtrl.prototype.$onInit = function() {
-
     /**
      * The currently visible calendar view. Note the prefix on the scope value,
      * which is necessary, because the datepicker seems to reset the real one value if the
@@ -28698,7 +28157,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     });
   };
 })();
-
 })();
 (function(){
 "use strict";
@@ -28766,7 +28224,6 @@ function MdContactChips($mdTheming, $mdUtil) {
    */
   function CalendarMonthCtrl($element, $scope, $animate, $q,
     $$mdDateUtil, $mdDateLocale) {
-
     /** @final {!angular.JQLite} */
     this.$element = $element;
 
@@ -29013,7 +28470,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     }
   };
 })();
-
 })();
 (function(){
 "use strict";
@@ -29320,7 +28776,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     return (date.getDay() + (7 - this.dateLocale.firstDayOfWeek)) % 7;
   };
 })();
-
 })();
 (function(){
 "use strict";
@@ -29376,7 +28831,6 @@ function MdContactChips($mdTheming, $mdUtil) {
    * @ngInject @constructor
    */
   function CalendarYearCtrl($element, $scope, $animate, $q, $$mdDateUtil) {
-
     /** @final {!angular.JQLite} */
     this.$element = $element;
 
@@ -29539,7 +28993,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     self.$scope.$on('md-calendar-parent-action', angular.bind(self, self.handleKeyEvent));
   };
 })();
-
 })();
 (function(){
 "use strict";
@@ -29726,7 +29179,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     return yearBody;
   };
 })();
-
 })();
 (function(){
 "use strict";
@@ -30034,7 +29486,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     $provide.provider('$mdDateLocale', new DateLocaleProvider());
   }]);
 })();
-
 })();
 (function(){
 "use strict";
@@ -30350,7 +29801,6 @@ function MdContactChips($mdTheming, $mdUtil) {
      }
   });
 })();
-
 })();
 (function(){
 "use strict";
@@ -30365,7 +29815,6 @@ function MdContactChips($mdTheming, $mdUtil) {
   // TODO(jelbourn): forward more attributes to the internal input (required, autofocus, etc.)
   // TODO(jelbourn): something better for mobile (calendar panel takes up entire screen?)
   // TODO(jelbourn): input behavior (masking? auto-complete?)
-
 
   DatePickerCtrl.$inject = ["$scope", "$element", "$attrs", "$window", "$mdConstant", "$mdTheming", "$mdUtil", "$mdDateLocale", "$$mdDateUtil", "$$rAF", "$filter"];
   datePickerDirective.$inject = ["$$mdSvgRegistry", "$mdUtil", "$mdAria", "inputDirective"];
@@ -30599,7 +30048,6 @@ function MdContactChips($mdTheming, $mdUtil) {
    */
   function DatePickerCtrl($scope, $element, $attrs, $window, $mdConstant,
     $mdTheming, $mdUtil, $mdDateLocale, $$mdDateUtil, $$rAF, $filter) {
-
     /** @final */
     this.$window = $window;
 
@@ -30754,7 +30202,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     if (angular.version.major === 1 && angular.version.minor <= 4) {
       this.$onInit();
     }
-
   }
 
   /**
@@ -30762,7 +30209,6 @@ function MdContactChips($mdTheming, $mdUtil) {
    * Bindings are not guaranteed to have been assigned in the controller, but they are in the $onInit hook.
    */
   DatePickerCtrl.prototype.$onInit = function() {
-
     /**
      * Holds locale-specific formatters, parsers, labels etc. Allows
      * the user to override specific ones from the $mdDateLocale provider.
@@ -31269,7 +30715,6 @@ function MdContactChips($mdTheming, $mdUtil) {
     this.updateErrorState();
   };
 })();
-
 })();
 (function(){
 "use strict";
@@ -31466,12 +30911,10 @@ angular
  *
  */
 function mdIconDirective($mdIcon, $mdTheming, $mdAria, $sce) {
-
   return {
     restrict: 'E',
     link : postLink
   };
-
 
   /**
    * Directive postLink
@@ -31498,12 +30941,9 @@ function mdIconDirective($mdIcon, $mdTheming, $mdAria, $sce) {
     var attrName = attr.$normalize(attr.$attr.mdSvgIcon || attr.$attr.mdSvgSrc || '');
 
     if ( !attr['aria-label'] ) {
-
       if (label !== '' && !parentsHaveText() ) {
-
         $mdAria.expect(element, 'aria-label', label);
         $mdAria.expect(element, 'role', 'img');
-
       } else if ( !element.text() ) {
         // If not a font-icon with ligature, then
         // hide from the accessibility layer.
@@ -31523,7 +30963,6 @@ function mdIconDirective($mdIcon, $mdTheming, $mdAria, $sce) {
             element.append(svg);
           });
         }
-
       });
     }
 
@@ -31569,12 +31008,10 @@ function mdIconDirective($mdIcon, $mdTheming, $mdAria, $sce) {
     }
   }
 }
-
 })();
 (function(){
 "use strict";
 
-  
 MdIconService.$inject = ["config", "$templateRequest", "$q", "$log", "$mdUtil", "$sce"];angular
     .module('material.components.icon')
     .constant('$$mdSvgRegistry', {
@@ -32058,7 +31495,6 @@ function MdIconService(config, $templateRequest, $q, $log, $mdUtil, $sce) {
    * Prepare and cache the loaded icon for the specified `id`
    */
   function cacheIcon(id) {
-
     return function updateCache(icon) {
       iconCache[id] = isIcon(icon) ? icon : new Icon(icon, config[id]);
 
@@ -32192,14 +31628,10 @@ function MdIconService(config, $templateRequest, $q, $log, $mdUtil, $sce) {
     // 'unsafe-inline' in the style-src directive, will result in a violation.
     return this.element.cloneNode(true);
   }
-
 }
-
 })();
 (function(){
 "use strict";
-
-
 
 MenuController.$inject = ["$mdMenu", "$attrs", "$element", "$scope", "$mdUtil", "$timeout", "$rootScope", "$q", "$log"];
 angular
@@ -32210,7 +31642,6 @@ angular
  * @ngInject
  */
 function MenuController($mdMenu, $attrs, $element, $scope, $mdUtil, $timeout, $rootScope, $q, $log) {
-
   var prefixer = $mdUtil.prefixer();
   var menuContainer;
   var self = this;
@@ -32314,7 +31745,6 @@ function MenuController($mdMenu, $attrs, $element, $scope, $mdUtil, $timeout, $r
       openMenuTimeout = undefined;
     }
   };
-
 
   /**
    * Uses the $mdMenu interim element service to open the menu contents
@@ -32446,7 +31876,6 @@ function MenuController($mdMenu, $attrs, $element, $scope, $mdUtil, $timeout, $r
     return this.open.apply(this, arguments);
   });
 }
-
 })();
 (function(){
 "use strict";
@@ -32694,14 +32123,11 @@ function MenuDirective($mdUtil) {
     element.append(menuContainer);
     menuContainer[0].style.display = 'none';
     mdMenuCtrl.init(menuContainer, { isInMenuBar: isInMenuBar });
-
   }
 }
-
 })();
 (function(){
 "use strict";
-
 
 MenuProvider.$inject = ["$$interimElementProvider"];angular
   .module('material.components.menu')
@@ -32730,7 +32156,6 @@ function MenuProvider($$interimElementProvider) {
   /* @ngInject */
   function menuDefaultOptions($mdUtil, $mdTheming, $mdConstant, $document, $window, $q, $$rAF,
                               $animateCss, $animate, $log) {
-
     var prefixer = $mdUtil.prefixer();
     var animator = $mdUtil.dom.animator;
 
@@ -32811,7 +32236,6 @@ function MenuProvider($$interimElementProvider) {
         detachElement(element, opts);
         opts.alreadyOpen = false;
       }
-
     }
 
     /**
@@ -32831,7 +32255,7 @@ function MenuProvider($$interimElementProvider) {
           element
         );
       }
-      
+
       // Register various listeners to move menu on resize/orientation change
       opts.cleanupResizing = startRepositioningOnResize();
       opts.hideBackdrop = showBackdrop(scope, element, opts);
@@ -32870,7 +32294,6 @@ function MenuProvider($$interimElementProvider) {
           })
           .start()
           .then(resolve);
-
         });
       }
 
@@ -32896,7 +32319,6 @@ function MenuProvider($$interimElementProvider) {
        * Configure various resize listeners for screen changes
        */
       function startRepositioningOnResize() {
-
         var repositionMenu = (function(target, options) {
           return $$rAF.throttle(function() {
             if (opts.isRemoved) return;
@@ -32910,11 +32332,9 @@ function MenuProvider($$interimElementProvider) {
         $window.addEventListener('orientationchange', repositionMenu);
 
         return function stopRepositioningOnResize() {
-
           // Disable resizing handlers
           $window.removeEventListener('resize', repositionMenu);
           $window.removeEventListener('orientationchange', repositionMenu);
-
         };
       }
 
@@ -33077,7 +32497,6 @@ function MenuProvider($$interimElementProvider) {
             return false;
           }
         }
-
       }
     }
 
@@ -33140,7 +32559,6 @@ function MenuProvider($$interimElementProvider) {
      * @param {object} opts - the interim element options object
      */
     function calculateMenuPosition(el, opts) {
-
       var containerNode = el[0],
         openMenuNode = el[0].firstElementChild,
         openMenuNodeRect = openMenuNode.getBoundingClientRect(),
@@ -33282,11 +32700,9 @@ function MenuProvider($$interimElementProvider) {
     return el;
   }
 }
-
 })();
 (function(){
 "use strict";
-
 
 MenuBarController.$inject = ["$scope", "$rootScope", "$element", "$attrs", "$mdConstant", "$document", "$mdUtil", "$timeout"];
 angular
@@ -33361,7 +32777,6 @@ MenuBarController.prototype.init = function() {
       deregisterFns.shift()();
     }
   });
-
 
   this.setKeyboardMode(true);
 };
@@ -33544,7 +32959,6 @@ MenuBarController.prototype.handleParentClick = function(event) {
     });
   }
 };
-
 })();
 (function(){
 "use strict";
@@ -33689,18 +33103,14 @@ function MenuBarDirective($mdUtil, $mdTheming) {
       };
     }
   };
-
 }
-
 })();
 (function(){
 "use strict";
 
-
 angular
   .module('material.components.menuBar')
   .directive('mdMenuDivider', MenuDividerDirective);
-
 
 function MenuDividerDirective() {
   return {
@@ -33712,17 +33122,14 @@ function MenuDividerDirective() {
     }
   };
 }
-
 })();
 (function(){
 "use strict";
-
 
 MenuItemController.$inject = ["$scope", "$element", "$attrs"];
 angular
   .module('material.components.menuBar')
   .controller('MenuItemController', MenuItemController);
-
 
 /**
  * @ngInject
@@ -33822,11 +33229,9 @@ MenuItemController.prototype.handleClick = function(e) {
   ngModel.$setViewValue(newVal);
   ngModel.$render();
 };
-
 })();
 (function(){
 "use strict";
-
 
 MenuItemDirective.$inject = ["$mdUtil", "$mdConstant", "$$mdSvgRegistry"];
 angular
@@ -33860,11 +33265,9 @@ function MenuItemDirective($mdUtil, $mdConstant, $$mdSvgRegistry) {
 
         setDefault('role', type == 'checkbox' ? 'menuitemcheckbox' : 'menuitemradio', buttonEl);
         moveAttrToButton('ng-disabled');
-
       } else {
         setDefault('role', 'menuitem', templateEl[0].querySelector('md-button, button, a'));
       }
-
 
       return function(scope, el, attrs, ctrls) {
         var ctrl = ctrls[0];
@@ -33896,7 +33299,6 @@ function MenuItemDirective($mdUtil, $mdConstant, $$mdSvgRegistry) {
     }
   };
 }
-
 })();
 (function(){
 "use strict";
@@ -33954,7 +33356,6 @@ angular
 /* @ngInject */
 function MdProgressCircularDirective($window, $mdProgressCircular, $mdTheming,
                                      $mdUtil, $interval, $log) {
-
   // Note that this shouldn't use use $$rAF, because it can cause an infinite loop
   // in any tests that call $animate.flush.
   var rAF = $window.requestAnimationFrame ||
@@ -34067,7 +33468,6 @@ function MdProgressCircularDirective($window, $mdProgressCircular, $mdTheming,
           renderCircle(clamp(oldValues[0]), newValue);
         }
       }
-
     });
 
     // This is in a separate watch in order to avoid layout, unless
@@ -34112,7 +33512,6 @@ function MdProgressCircularDirective($window, $mdProgressCircular, $mdTheming,
         path.attr('stroke-dashoffset', getDashLength(diameter, strokeWidth, 0, 100));
         renderCircle(value, value);
       }
-
     });
 
     function renderCircle(animateFrom, animateTo, easing, duration, iterationCount, maxValue) {
@@ -34161,7 +33560,6 @@ function MdProgressCircularDirective($window, $mdProgressCircular, $mdTheming,
       // The %4 technically isn't necessary, but it keeps the rotation
       // under 360, instead of becoming a crazy large number.
       iterationCount = ++iterationCount % 4;
-
     }
 
     function startIndeterminateAnimation() {
@@ -34260,9 +33658,7 @@ function MdProgressCircularDirective($window, $mdProgressCircular, $mdTheming,
   function getStroke(diameter) {
     return $mdProgressCircular.strokeWidth / 100 * diameter;
   }
-
 }
-
 })();
 (function(){
 "use strict";
@@ -34346,7 +33742,6 @@ function MdProgressCircularProvider() {
     return b + c * (6 * tc * ts + -15 * ts * ts + 10 * tc);
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -34479,7 +33874,6 @@ function MdTab () {
     return angular.element();
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -34497,7 +33891,6 @@ function MdTabItem () {
     }
   };
 }
-
 })();
 (function(){
 "use strict";
@@ -34509,12 +33902,9 @@ angular
 function MdTabLabel () {
   return { terminal: true };
 }
-
-
 })();
 (function(){
 "use strict";
-
 
 MdTabScroll.$inject = ["$parse"];angular.module('material.components.tabs')
     .directive('mdTabScroll', MdTabScroll);
@@ -34532,11 +33922,9 @@ function MdTabScroll ($parse) {
     }
   };
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdTabsController.$inject = ["$scope", "$element", "$window", "$mdConstant", "$mdTabInkRipple", "$mdUtil", "$animateCss", "$attrs", "$compile", "$mdTheming", "$mdInteraction"];angular
     .module('material.components.tabs')
@@ -34554,7 +33942,6 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
       queue     = [],
       destroyed = false,
       loaded    = false;
-
 
   // Define public methods
   ctrl.$onInit            = $onInit;
@@ -35415,7 +34802,6 @@ function MdTabsController ($scope, $element, $window, $mdConstant, $mdTabInkRipp
     }
   }
 }
-
 })();
 (function(){
 "use strict";
@@ -35633,11 +35019,9 @@ function MdTabs ($$mdSvgRegistry) {
     bindToController: true
   };
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdTabsDummyWrapper.$inject = ["$mdUtil", "$window"];angular
   .module('material.components.tabs')
@@ -35682,7 +35066,7 @@ function MdTabsDummyWrapper ($mdUtil, $window) {
         disconnect = observer.disconnect.bind(observer);
       } else {
         var debounced = $mdUtil.debounce(mutationCallback, 15, null, false);
-        
+
         element.on('DOMSubtreeModified', debounced);
         disconnect = element.off.bind(element, 'DOMSubtreeModified', debounced);
       }
@@ -35694,11 +35078,9 @@ function MdTabsDummyWrapper ($mdUtil, $window) {
     }
   };
 }
-
 })();
 (function(){
 "use strict";
-
 
 MdTabsTemplate.$inject = ["$compile", "$mdUtil"];angular
     .module('material.components.tabs')
@@ -35739,11 +35121,8 @@ function MdTabsTemplate ($compile, $mdUtil) {
     }
   }
 }
-
 })();
-(function(){ 
-angular.module("material.core").constant("$MD_THEME_CSS", "md-autocomplete.md-THEME_NAME-theme{background:\"{{background-A100}}\"}md-autocomplete.md-THEME_NAME-theme[disabled]:not([md-floating-label]){background:\"{{background-100}}\"}md-autocomplete.md-THEME_NAME-theme button md-icon path{fill:\"{{background-600}}\"}md-autocomplete.md-THEME_NAME-theme button:after{background:\"{{background-600-0.3}}\"}.md-autocomplete-suggestions-container.md-THEME_NAME-theme{background:\"{{background-A100}}\"}.md-autocomplete-suggestions-container.md-THEME_NAME-theme li{color:\"{{background-900}}\"}.md-autocomplete-suggestions-container.md-THEME_NAME-theme li .highlight{color:\"{{background-600}}\"}.md-autocomplete-suggestions-container.md-THEME_NAME-theme li.selected,.md-autocomplete-suggestions-container.md-THEME_NAME-theme li:hover{background:\"{{background-200}}\"}md-backdrop{background-color:\"{{background-900-0.0}}\"}md-backdrop.md-opaque.md-THEME_NAME-theme{background-color:\"{{background-900-1.0}}\"}md-bottom-sheet.md-THEME_NAME-theme{background-color:\"{{background-50}}\";border-top-color:\"{{background-300}}\"}md-bottom-sheet.md-THEME_NAME-theme.md-list md-list-item{color:\"{{foreground-1}}\"}md-bottom-sheet.md-THEME_NAME-theme .md-subheader{background-color:\"{{background-50}}\";color:\"{{foreground-1}}\"}.md-button.md-THEME_NAME-theme:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme:not([disabled]):hover{background-color:\"{{background-500-0.2}}\"}.md-button.md-THEME_NAME-theme:not([disabled]).md-icon-button:hover{background-color:transparent}.md-button.md-THEME_NAME-theme.md-fab md-icon{color:\"{{accent-contrast}}\"}.md-button.md-THEME_NAME-theme.md-primary{color:\"{{primary-color}}\"}.md-button.md-THEME_NAME-theme.md-primary.md-fab,.md-button.md-THEME_NAME-theme.md-primary.md-raised{color:\"{{primary-contrast}}\";background-color:\"{{primary-color}}\"}.md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]) md-icon,.md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]) md-icon{color:\"{{primary-contrast}}\"}.md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]):hover,.md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]):hover{background-color:\"{{primary-600}}\"}.md-button.md-THEME_NAME-theme.md-primary:not([disabled]) md-icon{color:\"{{primary-color}}\"}.md-button.md-THEME_NAME-theme.md-fab{background-color:\"{{accent-color}}\";color:\"{{accent-contrast}}\"}.md-button.md-THEME_NAME-theme.md-fab:not([disabled]) .md-icon{color:\"{{accent-contrast}}\"}.md-button.md-THEME_NAME-theme.md-fab:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-fab:not([disabled]):hover{background-color:\"{{accent-A700}}\"}.md-button.md-THEME_NAME-theme.md-raised{color:\"{{background-900}}\";background-color:\"{{background-50}}\"}.md-button.md-THEME_NAME-theme.md-raised:not([disabled]) md-icon{color:\"{{background-900}}\"}.md-button.md-THEME_NAME-theme.md-raised:not([disabled]):hover{background-color:\"{{background-50}}\"}.md-button.md-THEME_NAME-theme.md-raised:not([disabled]).md-focused{background-color:\"{{background-200}}\"}.md-button.md-THEME_NAME-theme.md-warn{color:\"{{warn-color}}\"}.md-button.md-THEME_NAME-theme.md-warn.md-fab,.md-button.md-THEME_NAME-theme.md-warn.md-raised{color:\"{{warn-contrast}}\";background-color:\"{{warn-color}}\"}.md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]) md-icon,.md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]) md-icon{color:\"{{warn-contrast}}\"}.md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]):hover,.md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]):hover{background-color:\"{{warn-600}}\"}.md-button.md-THEME_NAME-theme.md-warn:not([disabled]) md-icon{color:\"{{warn-color}}\"}.md-button.md-THEME_NAME-theme.md-accent{color:\"{{accent-color}}\"}.md-button.md-THEME_NAME-theme.md-accent.md-fab,.md-button.md-THEME_NAME-theme.md-accent.md-raised{color:\"{{accent-contrast}}\";background-color:\"{{accent-color}}\"}.md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]) md-icon,.md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]) md-icon{color:\"{{accent-contrast}}\"}.md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]):hover,.md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]):hover{background-color:\"{{accent-A700}}\"}.md-button.md-THEME_NAME-theme.md-accent:not([disabled]) md-icon{color:\"{{accent-color}}\"}.md-button.md-THEME_NAME-theme.md-accent[disabled],.md-button.md-THEME_NAME-theme.md-fab[disabled],.md-button.md-THEME_NAME-theme.md-raised[disabled],.md-button.md-THEME_NAME-theme.md-warn[disabled],.md-button.md-THEME_NAME-theme[disabled]{color:\"{{foreground-3}}\";cursor:default}.md-button.md-THEME_NAME-theme.md-accent[disabled] md-icon,.md-button.md-THEME_NAME-theme.md-fab[disabled] md-icon,.md-button.md-THEME_NAME-theme.md-raised[disabled] md-icon,.md-button.md-THEME_NAME-theme.md-warn[disabled] md-icon,.md-button.md-THEME_NAME-theme[disabled] md-icon{color:\"{{foreground-3}}\"}.md-button.md-THEME_NAME-theme.md-fab[disabled],.md-button.md-THEME_NAME-theme.md-raised[disabled]{background-color:\"{{foreground-4}}\"}.md-button.md-THEME_NAME-theme[disabled]{background-color:transparent}._md a.md-THEME_NAME-theme:not(.md-button).md-primary{color:\"{{primary-color}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-primary:hover{color:\"{{primary-700}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-accent:hover{color:\"{{accent-700}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-accent{color:\"{{accent-color}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-accent:hover{color:\"{{accent-A700}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-warn{color:\"{{warn-color}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-warn:hover{color:\"{{warn-700}}\"}md-card.md-THEME_NAME-theme{color:\"{{foreground-1}}\";background-color:\"{{background-hue-1}}\";border-radius:2px}md-card.md-THEME_NAME-theme .md-card-image{border-radius:2px 2px 0 0}md-card.md-THEME_NAME-theme md-card-header md-card-avatar md-icon{color:\"{{background-color}}\";background-color:\"{{foreground-3}}\"}md-card.md-THEME_NAME-theme md-card-header md-card-header-text .md-subhead,md-card.md-THEME_NAME-theme md-card-title md-card-title-text:not(:only-child) .md-subhead{color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme .md-ripple{color:\"{{accent-A700}}\"}md-checkbox.md-THEME_NAME-theme.md-checked .md-ripple{color:\"{{background-600}}\"}md-checkbox.md-THEME_NAME-theme.md-checked.md-focused .md-container:before{background-color:\"{{accent-color-0.26}}\"}md-checkbox.md-THEME_NAME-theme .md-ink-ripple{color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme.md-checked .md-ink-ripple{color:\"{{accent-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not(.md-checked) .md-icon{border-color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme.md-checked .md-icon{background-color:\"{{accent-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme.md-checked .md-icon:after{border-color:\"{{accent-contrast-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-ripple{color:\"{{primary-600}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ripple{color:\"{{background-600}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-ink-ripple{color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple{color:\"{{primary-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary:not(.md-checked) .md-icon{border-color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-icon{background-color:\"{{primary-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked.md-focused .md-container:before{background-color:\"{{primary-color-0.26}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-icon:after{border-color:\"{{primary-contrast-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-indeterminate[disabled] .md-container{color:\"{{foreground-3}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn .md-ripple{color:\"{{warn-600}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn .md-ink-ripple{color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple{color:\"{{warn-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn:not(.md-checked) .md-icon{border-color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-icon{background-color:\"{{warn-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked.md-focused:not([disabled]) .md-container:before{background-color:\"{{warn-color-0.26}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-icon:after{border-color:\"{{background-200}}\"}md-checkbox.md-THEME_NAME-theme[disabled]:not(.md-checked) .md-icon{border-color:\"{{foreground-3}}\"}md-checkbox.md-THEME_NAME-theme[disabled].md-checked .md-icon{background-color:\"{{foreground-3}}\"}md-checkbox.md-THEME_NAME-theme[disabled].md-checked .md-icon:after{border-color:\"{{background-200}}\"}md-checkbox.md-THEME_NAME-theme[disabled] .md-icon:after{border-color:\"{{foreground-3}}\"}md-checkbox.md-THEME_NAME-theme[disabled] .md-label{color:\"{{foreground-3}}\"}md-chips.md-THEME_NAME-theme .md-chips{box-shadow:0 1px \"{{foreground-4}}\"}md-chips.md-THEME_NAME-theme .md-chips.md-focused{box-shadow:0 2px \"{{primary-color}}\"}md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input{color:\"{{foreground-1}}\"}md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input:-moz-placeholder,md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input::-moz-placeholder{color:\"{{foreground-3}}\"}md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input:-ms-input-placeholder{color:\"{{foreground-3}}\"}md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input::-webkit-input-placeholder{color:\"{{foreground-3}}\"}md-chips.md-THEME_NAME-theme md-chip{background:\"{{background-300}}\";color:\"{{background-800}}\"}md-chips.md-THEME_NAME-theme md-chip md-icon{color:\"{{background-700}}\"}md-chips.md-THEME_NAME-theme md-chip.md-focused{background:\"{{primary-color}}\";color:\"{{primary-contrast}}\"}md-chips.md-THEME_NAME-theme md-chip.md-focused md-icon{color:\"{{primary-contrast}}\"}md-chips.md-THEME_NAME-theme md-chip._md-chip-editing{background:transparent;color:\"{{background-800}}\"}md-chips.md-THEME_NAME-theme md-chip-remove .md-button md-icon path{fill:\"{{background-500}}\"}.md-contact-suggestion span.md-contact-email{color:\"{{background-400}}\"}md-content.md-THEME_NAME-theme{color:\"{{foreground-1}}\";background-color:\"{{background-default}}\"}.md-calendar.md-THEME_NAME-theme{background:\"{{background-A100}}\";color:\"{{background-A200-0.87}}\"}.md-calendar.md-THEME_NAME-theme tr:last-child td{border-bottom-color:\"{{background-200}}\"}.md-THEME_NAME-theme .md-calendar-day-header{background:\"{{background-300}}\";color:\"{{background-A200-0.87}}\"}.md-THEME_NAME-theme .md-calendar-date.md-calendar-date-today .md-calendar-date-selection-indicator{border:1px solid \"{{primary-500}}\"}.md-THEME_NAME-theme .md-calendar-date.md-calendar-date-today.md-calendar-date-disabled{color:\"{{primary-500-0.6}}\"}.md-calendar-date.md-focus .md-THEME_NAME-theme .md-calendar-date-selection-indicator,.md-THEME_NAME-theme .md-calendar-date-selection-indicator:hover{background:\"{{background-300}}\"}.md-THEME_NAME-theme .md-calendar-date.md-calendar-selected-date .md-calendar-date-selection-indicator,.md-THEME_NAME-theme .md-calendar-date.md-focus.md-calendar-selected-date .md-calendar-date-selection-indicator{background:\"{{primary-500}}\";color:\"{{primary-500-contrast}}\";border-color:transparent}.md-THEME_NAME-theme .md-calendar-date-disabled,.md-THEME_NAME-theme .md-calendar-month-label-disabled{color:\"{{background-A200-0.435}}\"}.md-THEME_NAME-theme .md-datepicker-input{color:\"{{foreground-1}}\"}.md-THEME_NAME-theme .md-datepicker-input:-moz-placeholder,.md-THEME_NAME-theme .md-datepicker-input::-moz-placeholder{color:\"{{foreground-3}}\"}.md-THEME_NAME-theme .md-datepicker-input:-ms-input-placeholder{color:\"{{foreground-3}}\"}.md-THEME_NAME-theme .md-datepicker-input::-webkit-input-placeholder{color:\"{{foreground-3}}\"}.md-THEME_NAME-theme .md-datepicker-input-container{border-bottom-color:\"{{foreground-4}}\"}.md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-focused{border-bottom-color:\"{{primary-color}}\"}.md-accent .md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-focused{border-bottom-color:\"{{accent-color}}\"}.md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-invalid,.md-warn .md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-focused{border-bottom-color:\"{{warn-A700}}\"}.md-THEME_NAME-theme .md-datepicker-calendar-pane{border-color:\"{{background-hue-1}}\"}.md-THEME_NAME-theme .md-datepicker-triangle-button .md-datepicker-expand-triangle{border-top-color:\"{{foreground-2}}\"}.md-THEME_NAME-theme .md-datepicker-open .md-datepicker-calendar-icon{color:\"{{primary-color}}\"}.md-accent .md-THEME_NAME-theme .md-datepicker-open .md-datepicker-calendar-icon,.md-THEME_NAME-theme .md-datepicker-open.md-accent .md-datepicker-calendar-icon{color:\"{{accent-color}}\"}.md-THEME_NAME-theme .md-datepicker-open.md-warn .md-datepicker-calendar-icon,.md-warn .md-THEME_NAME-theme .md-datepicker-open .md-datepicker-calendar-icon{color:\"{{warn-A700}}\"}.md-THEME_NAME-theme .md-datepicker-calendar{background:\"{{background-A100}}\"}.md-THEME_NAME-theme .md-datepicker-input-mask-opaque{box-shadow:0 0 0 9999px \"{{background-hue-1}}\"}.md-THEME_NAME-theme .md-datepicker-open .md-datepicker-input-container{background:\"{{background-hue-1}}\"}md-dialog.md-THEME_NAME-theme{border-radius:4px;background-color:\"{{background-hue-1}}\";color:\"{{foreground-1}}\"}md-dialog.md-THEME_NAME-theme.md-content-overflow .md-actions,md-dialog.md-THEME_NAME-theme.md-content-overflow md-dialog-actions,md-divider.md-THEME_NAME-theme{border-top-color:\"{{foreground-4}}\"}.layout-gt-lg-row>md-divider.md-THEME_NAME-theme,.layout-gt-md-row>md-divider.md-THEME_NAME-theme,.layout-gt-sm-row>md-divider.md-THEME_NAME-theme,.layout-gt-xs-row>md-divider.md-THEME_NAME-theme,.layout-lg-row>md-divider.md-THEME_NAME-theme,.layout-md-row>md-divider.md-THEME_NAME-theme,.layout-row>md-divider.md-THEME_NAME-theme,.layout-sm-row>md-divider.md-THEME_NAME-theme,.layout-xl-row>md-divider.md-THEME_NAME-theme,.layout-xs-row>md-divider.md-THEME_NAME-theme{border-right-color:\"{{foreground-4}}\"}md-icon.md-THEME_NAME-theme{color:\"{{foreground-2}}\"}md-icon.md-THEME_NAME-theme.md-primary{color:\"{{primary-color}}\"}md-icon.md-THEME_NAME-theme.md-accent{color:\"{{accent-color}}\"}md-icon.md-THEME_NAME-theme.md-warn{color:\"{{warn-color}}\"}md-input-container.md-THEME_NAME-theme .md-input{color:\"{{foreground-1}}\";border-color:\"{{foreground-4}}\"}md-input-container.md-THEME_NAME-theme .md-input:-moz-placeholder,md-input-container.md-THEME_NAME-theme .md-input::-moz-placeholder{color:\"{{foreground-3}}\"}md-input-container.md-THEME_NAME-theme .md-input:-ms-input-placeholder{color:\"{{foreground-3}}\"}md-input-container.md-THEME_NAME-theme .md-input::-webkit-input-placeholder{color:\"{{foreground-3}}\"}md-input-container.md-THEME_NAME-theme>md-icon{color:\"{{foreground-1}}\"}md-input-container.md-THEME_NAME-theme .md-placeholder,md-input-container.md-THEME_NAME-theme label{color:\"{{foreground-3}}\"}md-input-container.md-THEME_NAME-theme label.md-required:after{color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-focused):not(.md-input-invalid) label.md-required:after{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme .md-input-message-animation,md-input-container.md-THEME_NAME-theme .md-input-messages-animation{color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme .md-input-message-animation .md-char-counter,md-input-container.md-THEME_NAME-theme .md-input-messages-animation .md-char-counter{color:\"{{foreground-1}}\"}md-input-container.md-THEME_NAME-theme.md-input-focused .md-input:-moz-placeholder,md-input-container.md-THEME_NAME-theme.md-input-focused .md-input::-moz-placeholder{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme.md-input-focused .md-input:-ms-input-placeholder{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme.md-input-focused .md-input::-webkit-input-placeholder{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-has-value label{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused .md-input,md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-resized .md-input{border-color:\"{{primary-color}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused label,md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused md-icon{color:\"{{primary-color}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent .md-input{border-color:\"{{accent-color}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent label,md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent md-icon{color:\"{{accent-color}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn .md-input{border-color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn label,md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn md-icon{color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme.md-input-invalid .md-input{border-color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme.md-input-invalid .md-char-counter,md-input-container.md-THEME_NAME-theme.md-input-invalid .md-input-message-animation,md-input-container.md-THEME_NAME-theme.md-input-invalid label{color:\"{{warn-A700}}\"}[disabled] md-input-container.md-THEME_NAME-theme .md-input,md-input-container.md-THEME_NAME-theme .md-input[disabled]{border-bottom-color:transparent;color:\"{{foreground-3}}\";background-image:linear-gradient(90deg,\"{{foreground-3}}\" 0,\"{{foreground-3}}\" 33%,transparent 0);background-image:-ms-linear-gradient(left,transparent 0,\"{{foreground-3}}\" 100%)}md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text h3,md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text h4,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text h3,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text h4{color:\"{{foreground-1}}\"}md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text p,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text p{color:\"{{foreground-2}}\"}md-list.md-THEME_NAME-theme .md-proxy-focus.md-focused div.md-no-style{background-color:\"{{background-100}}\"}md-list.md-THEME_NAME-theme md-list-item .md-avatar-icon{background-color:\"{{foreground-3}}\";color:\"{{background-color}}\"}md-list.md-THEME_NAME-theme md-list-item>md-icon{color:\"{{foreground-2}}\"}md-list.md-THEME_NAME-theme md-list-item>md-icon.md-highlight{color:\"{{primary-color}}\"}md-list.md-THEME_NAME-theme md-list-item>md-icon.md-highlight.md-accent{color:\"{{accent-color}}\"}md-menu-content.md-THEME_NAME-theme{background-color:\"{{background-A100}}\"}md-menu-content.md-THEME_NAME-theme md-menu-item{color:\"{{background-A200-0.87}}\"}md-menu-content.md-THEME_NAME-theme md-menu-item md-icon{color:\"{{background-A200-0.54}}\"}md-menu-content.md-THEME_NAME-theme md-menu-item .md-button[disabled],md-menu-content.md-THEME_NAME-theme md-menu-item .md-button[disabled] md-icon{color:\"{{background-A200-0.25}}\"}md-menu-content.md-THEME_NAME-theme md-menu-divider{background-color:\"{{background-A200-0.11}}\"}md-menu-bar.md-THEME_NAME-theme>button.md-button{color:\"{{foreground-2}}\";border-radius:2px}md-menu-bar.md-THEME_NAME-theme md-menu.md-open>button,md-menu-bar.md-THEME_NAME-theme md-menu>button:focus{outline:none;background:\"{{background-200}}\"}md-menu-bar.md-THEME_NAME-theme.md-open:not(.md-keyboard-mode) md-menu:hover>button{background-color:\"{{ background-500-0.2}}\"}md-menu-bar.md-THEME_NAME-theme:not(.md-keyboard-mode):not(.md-open) md-menu button:focus,md-menu-bar.md-THEME_NAME-theme:not(.md-keyboard-mode):not(.md-open) md-menu button:hover{background:transparent}md-menu-content.md-THEME_NAME-theme .md-menu>.md-button:after{color:\"{{background-A200-0.54}}\"}md-menu-content.md-THEME_NAME-theme .md-menu.md-open>.md-button{background-color:\"{{ background-500-0.2}}\"}md-toolbar.md-THEME_NAME-theme.md-menu-toolbar{background-color:\"{{background-A100}}\";color:\"{{background-A200}}\"}md-toolbar.md-THEME_NAME-theme.md-menu-toolbar md-toolbar-filler{background-color:\"{{primary-color}}\";color:\"{{background-A100-0.87}}\"}md-toolbar.md-THEME_NAME-theme.md-menu-toolbar md-toolbar-filler md-icon{color:\"{{background-A100-0.87}}\"}._md-panel-backdrop.md-THEME_NAME-theme{background-color:\"{{background-900-1.0}}\"}md-nav-bar.md-THEME_NAME-theme .md-nav-bar{background-color:transparent;border-color:\"{{foreground-4}}\"}md-nav-bar.md-THEME_NAME-theme .md-button._md-nav-button.md-unselected{color:\"{{foreground-2}}\"}md-nav-bar.md-THEME_NAME-theme md-nav-ink-bar{color:\"{{accent-color}}\";background:\"{{accent-color}}\"}md-progress-circular.md-THEME_NAME-theme path{stroke:\"{{primary-color}}\"}md-progress-circular.md-THEME_NAME-theme.md-warn path{stroke:\"{{warn-color}}\"}md-progress-circular.md-THEME_NAME-theme.md-accent path{stroke:\"{{accent-color}}\"}md-progress-linear.md-THEME_NAME-theme .md-container{background-color:\"{{primary-100}}\"}md-progress-linear.md-THEME_NAME-theme .md-bar{background-color:\"{{primary-color}}\"}md-progress-linear.md-THEME_NAME-theme.md-warn .md-container{background-color:\"{{warn-100}}\"}md-progress-linear.md-THEME_NAME-theme.md-warn .md-bar{background-color:\"{{warn-color}}\"}md-progress-linear.md-THEME_NAME-theme.md-accent .md-container{background-color:\"{{accent-100}}\"}md-progress-linear.md-THEME_NAME-theme.md-accent .md-bar{background-color:\"{{accent-color}}\"}md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-warn .md-bar1{background-color:\"{{warn-100}}\"}md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-warn .md-dashed:before{background:radial-gradient(\"{{warn-100}}\" 0,\"{{warn-100}}\" 16%,transparent 42%)}md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-accent .md-bar1{background-color:\"{{accent-100}}\"}md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-accent .md-dashed:before{background:radial-gradient(\"{{accent-100}}\" 0,\"{{accent-100}}\" 16%,transparent 42%)}md-radio-button.md-THEME_NAME-theme .md-off{border-color:\"{{foreground-2}}\"}md-radio-button.md-THEME_NAME-theme .md-on{background-color:\"{{accent-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme.md-checked .md-off{border-color:\"{{accent-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme.md-checked .md-ink-ripple{color:\"{{accent-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme .md-container .md-ripple{color:\"{{accent-A700}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-on,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-on,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-on{background-color:\"{{primary-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-off{border-color:\"{{primary-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-ink-ripple{color:\"{{primary-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-container .md-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-container .md-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-container .md-ripple{color:\"{{primary-600}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-on,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-on,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-on{background-color:\"{{warn-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-off{border-color:\"{{warn-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-ink-ripple{color:\"{{warn-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-container .md-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-container .md-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-container .md-ripple{color:\"{{warn-600}}\"}md-radio-button.md-THEME_NAME-theme[disabled],md-radio-group.md-THEME_NAME-theme[disabled]{color:\"{{foreground-3}}\"}md-radio-button.md-THEME_NAME-theme[disabled] .md-container .md-off,md-radio-button.md-THEME_NAME-theme[disabled] .md-container .md-on,md-radio-group.md-THEME_NAME-theme[disabled] .md-container .md-off,md-radio-group.md-THEME_NAME-theme[disabled] .md-container .md-on{border-color:\"{{foreground-3}}\"}md-radio-group.md-THEME_NAME-theme .md-checked .md-ink-ripple{color:\"{{accent-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme .md-checked:not([disabled]).md-primary .md-ink-ripple,md-radio-group.md-THEME_NAME-theme.md-primary .md-checked:not([disabled]) .md-ink-ripple{color:\"{{primary-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme .md-checked.md-primary .md-ink-ripple{color:\"{{warn-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked .md-container:before{background-color:\"{{accent-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked.md-primary .md-container:before,md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty).md-primary .md-checked .md-container:before{background-color:\"{{primary-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked.md-warn .md-container:before,md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty).md-warn .md-checked .md-container:before{background-color:\"{{warn-color-0.26}}\"}md-input-container md-select.md-THEME_NAME-theme .md-select-value span:first-child:after{color:\"{{warn-A700}}\"}md-input-container:not(.md-input-focused):not(.md-input-invalid) md-select.md-THEME_NAME-theme .md-select-value span:first-child:after{color:\"{{foreground-3}}\"}md-input-container.md-input-focused:not(.md-input-has-value) md-select.md-THEME_NAME-theme .md-select-value,md-input-container.md-input-focused:not(.md-input-has-value) md-select.md-THEME_NAME-theme .md-select-value.md-select-placeholder{color:\"{{primary-color}}\"}md-input-container.md-input-invalid md-select.md-THEME_NAME-theme .md-select-value{color:\"{{warn-A700}}\"!important;border-bottom-color:\"{{warn-A700}}\"!important}md-input-container.md-input-invalid md-select.md-THEME_NAME-theme.md-no-underline .md-select-value{border-bottom-color:transparent!important}md-select.md-THEME_NAME-theme[disabled] .md-select-value{border-bottom-color:transparent;background-image:linear-gradient(90deg,\"{{foreground-3}}\" 0,\"{{foreground-3}}\" 33%,transparent 0);background-image:-ms-linear-gradient(left,transparent 0,\"{{foreground-3}}\" 100%)}md-select.md-THEME_NAME-theme .md-select-value{border-bottom-color:\"{{foreground-4}}\"}md-select.md-THEME_NAME-theme .md-select-value.md-select-placeholder{color:\"{{foreground-3}}\"}md-select.md-THEME_NAME-theme .md-select-value span:first-child:after{color:\"{{warn-A700}}\"}md-select.md-THEME_NAME-theme.md-no-underline .md-select-value{border-bottom-color:transparent!important}md-select.md-THEME_NAME-theme.ng-invalid.ng-touched .md-select-value{color:\"{{warn-A700}}\"!important;border-bottom-color:\"{{warn-A700}}\"!important}md-select.md-THEME_NAME-theme.ng-invalid.ng-touched.md-no-underline .md-select-value{border-bottom-color:transparent!important}md-select.md-THEME_NAME-theme:not([disabled]):focus .md-select-value{border-bottom-color:\"{{primary-color}}\";color:\"{{ foreground-1 }}\"}md-select.md-THEME_NAME-theme:not([disabled]):focus .md-select-value.md-select-placeholder{color:\"{{ foreground-1 }}\"}md-select.md-THEME_NAME-theme:not([disabled]):focus.md-no-underline .md-select-value{border-bottom-color:transparent!important}md-select.md-THEME_NAME-theme:not([disabled]):focus.md-accent .md-select-value{border-bottom-color:\"{{accent-color}}\"}md-select.md-THEME_NAME-theme:not([disabled]):focus.md-warn .md-select-value{border-bottom-color:\"{{warn-color}}\"}md-select.md-THEME_NAME-theme[disabled] .md-select-icon,md-select.md-THEME_NAME-theme[disabled] .md-select-value,md-select.md-THEME_NAME-theme[disabled] .md-select-value.md-select-placeholder{color:\"{{foreground-3}}\"}md-select.md-THEME_NAME-theme .md-select-icon{color:\"{{foreground-2}}\"}md-select-menu.md-THEME_NAME-theme md-content{background:\"{{background-A100}}\"}md-select-menu.md-THEME_NAME-theme md-content md-optgroup{color:\"{{background-600-0.87}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option{color:\"{{background-900-0.87}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[disabled] .md-text{color:\"{{background-400-0.87}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option:not([disabled]):focus,md-select-menu.md-THEME_NAME-theme md-content md-option:not([disabled]):hover{background:\"{{background-200}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[selected]{color:\"{{primary-500}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[selected]:focus{color:\"{{primary-600}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[selected].md-accent{color:\"{{accent-color}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[selected].md-accent:focus{color:\"{{accent-A700}}\"}.md-checkbox-enabled.md-THEME_NAME-theme .md-ripple{color:\"{{primary-600}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-ripple{color:\"{{background-600}}\"}.md-checkbox-enabled.md-THEME_NAME-theme .md-ink-ripple{color:\"{{foreground-2}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-ink-ripple{color:\"{{primary-color-0.87}}\"}.md-checkbox-enabled.md-THEME_NAME-theme:not(.md-checked) .md-icon{border-color:\"{{foreground-2}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-icon{background-color:\"{{primary-color-0.87}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected].md-focused .md-container:before{background-color:\"{{primary-color-0.26}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-icon:after{border-color:\"{{primary-contrast-0.87}}\"}.md-checkbox-enabled.md-THEME_NAME-theme .md-indeterminate[disabled] .md-container{color:\"{{foreground-3}}\"}.md-checkbox-enabled.md-THEME_NAME-theme md-option .md-text{color:\"{{background-900-0.87}}\"}md-sidenav.md-THEME_NAME-theme,md-sidenav.md-THEME_NAME-theme md-content{background-color:\"{{background-hue-1}}\"}md-slider.md-THEME_NAME-theme .md-track{background-color:\"{{foreground-3}}\"}md-slider.md-THEME_NAME-theme .md-track-ticks{color:\"{{background-contrast}}\"}md-slider.md-THEME_NAME-theme .md-focus-ring{background-color:\"{{accent-A200-0.2}}\"}md-slider.md-THEME_NAME-theme .md-disabled-thumb{border-color:\"{{background-color}}\";background-color:\"{{background-color}}\"}md-slider.md-THEME_NAME-theme.md-min .md-thumb:after{background-color:\"{{background-color}}\";border-color:\"{{foreground-3}}\"}md-slider.md-THEME_NAME-theme.md-min .md-focus-ring{background-color:\"{{foreground-3-0.38}}\"}md-slider.md-THEME_NAME-theme.md-min[md-discrete] .md-thumb:after{background-color:\"{{background-contrast}}\";border-color:transparent}md-slider.md-THEME_NAME-theme.md-min[md-discrete] .md-sign{background-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme.md-min[md-discrete] .md-sign:after{border-top-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme.md-min[md-discrete][md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme .md-track.md-track-fill{background-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme .md-thumb:after{border-color:\"{{accent-color}}\";background-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme .md-sign{background-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme .md-sign:after{border-top-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme[md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme .md-thumb-text{color:\"{{accent-contrast}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-focus-ring{background-color:\"{{warn-200-0.38}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-track.md-track-fill{background-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-thumb:after{border-color:\"{{warn-color}}\";background-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-sign{background-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-sign:after{border-top-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn[md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-thumb-text{color:\"{{warn-contrast}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-focus-ring{background-color:\"{{primary-200-0.38}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-track.md-track-fill{background-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-thumb:after{border-color:\"{{primary-color}}\";background-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-sign{background-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-sign:after{border-top-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary[md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-thumb-text{color:\"{{primary-contrast}}\"}md-slider.md-THEME_NAME-theme[disabled] .md-thumb:after{border-color:transparent}md-slider.md-THEME_NAME-theme[disabled]:not(.md-min) .md-thumb:after,md-slider.md-THEME_NAME-theme[disabled][md-discrete] .md-thumb:after{background-color:\"{{foreground-3}}\";border-color:transparent}md-slider.md-THEME_NAME-theme[disabled][readonly] .md-sign{background-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme[disabled][readonly] .md-sign:after{border-top-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme[disabled][readonly][md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme[disabled][readonly] .md-disabled-thumb{border-color:transparent;background-color:transparent}md-slider-container[disabled]>:first-child:not(md-slider),md-slider-container[disabled]>:last-child:not(md-slider){color:\"{{foreground-3}}\"}.md-subheader.md-THEME_NAME-theme{color:\"{{ foreground-2-0.23 }}\";background-color:\"{{background-default}}\"}.md-subheader.md-THEME_NAME-theme.md-primary{color:\"{{primary-color}}\"}.md-subheader.md-THEME_NAME-theme.md-accent{color:\"{{accent-color}}\"}.md-subheader.md-THEME_NAME-theme.md-warn{color:\"{{warn-color}}\"}md-switch.md-THEME_NAME-theme .md-ink-ripple{color:\"{{background-500}}\"}md-switch.md-THEME_NAME-theme .md-thumb{background-color:\"{{background-50}}\"}md-switch.md-THEME_NAME-theme .md-bar{background-color:\"{{background-500}}\"}md-switch.md-THEME_NAME-theme.md-checked .md-ink-ripple{color:\"{{accent-color}}\"}md-switch.md-THEME_NAME-theme.md-checked .md-thumb{background-color:\"{{accent-color}}\"}md-switch.md-THEME_NAME-theme.md-checked .md-bar{background-color:\"{{accent-color-0.5}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-focused .md-thumb:before{background-color:\"{{accent-color-0.26}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-ink-ripple{color:\"{{primary-color}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-thumb{background-color:\"{{primary-color}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-bar{background-color:\"{{primary-color-0.5}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-primary.md-focused .md-thumb:before{background-color:\"{{primary-color-0.26}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-ink-ripple{color:\"{{warn-color}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-thumb{background-color:\"{{warn-color}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-bar{background-color:\"{{warn-color-0.5}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-warn.md-focused .md-thumb:before{background-color:\"{{warn-color-0.26}}\"}md-switch.md-THEME_NAME-theme[disabled] .md-thumb{background-color:\"{{background-400}}\"}md-switch.md-THEME_NAME-theme[disabled] .md-bar{background-color:\"{{foreground-4}}\"}md-toast.md-THEME_NAME-theme .md-toast-content{background-color:#323232;color:\"{{background-50}}\"}md-toast.md-THEME_NAME-theme .md-toast-content .md-button{color:\"{{background-50}}\"}md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight{color:\"{{accent-color}}\"}md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight.md-primary{color:\"{{primary-color}}\"}md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight.md-warn{color:\"{{warn-color}}\"}md-tabs.md-THEME_NAME-theme md-tabs-wrapper{background-color:transparent;border-color:\"{{foreground-4}}\"}md-tabs.md-THEME_NAME-theme .md-paginator md-icon{color:\"{{primary-color}}\"}md-tabs.md-THEME_NAME-theme md-ink-bar{color:\"{{accent-color}}\";background:\"{{accent-color}}\"}md-tabs.md-THEME_NAME-theme .md-tab{color:\"{{foreground-2}}\"}md-tabs.md-THEME_NAME-theme .md-tab[disabled],md-tabs.md-THEME_NAME-theme .md-tab[disabled] md-icon{color:\"{{foreground-3}}\"}md-tabs.md-THEME_NAME-theme .md-tab.md-active,md-tabs.md-THEME_NAME-theme .md-tab.md-active md-icon,md-tabs.md-THEME_NAME-theme .md-tab.md-focused,md-tabs.md-THEME_NAME-theme .md-tab.md-focused md-icon{color:\"{{primary-color}}\"}md-tabs.md-THEME_NAME-theme .md-tab.md-focused{background:\"{{primary-color-0.1}}\"}md-tabs.md-THEME_NAME-theme .md-tab .md-ripple-container{color:\"{{accent-A100}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper{background-color:\"{{accent-color}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{accent-A100}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{accent-contrast}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{accent-contrast-0.1}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-ink-bar{color:\"{{primary-600-1}}\";background:\"{{primary-600-1}}\"}md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper{background-color:\"{{primary-color}}\"}md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{primary-100}}\"}md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{primary-contrast}}\"}md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{primary-contrast-0.1}}\"}md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper{background-color:\"{{warn-color}}\"}md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{warn-100}}\"}md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{warn-contrast}}\"}md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{warn-contrast-0.1}}\"}md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper{background-color:\"{{primary-color}}\"}md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{primary-100}}\"}md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{primary-contrast}}\"}md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{primary-contrast-0.1}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper{background-color:\"{{accent-color}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{accent-A100}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{accent-contrast}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{accent-contrast-0.1}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-ink-bar{color:\"{{primary-600-1}}\";background:\"{{primary-600-1}}\"}md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper{background-color:\"{{warn-color}}\"}md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{warn-100}}\"}md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{warn-contrast}}\"}md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{warn-contrast-0.1}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar){background-color:\"{{primary-color}}\";color:\"{{primary-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) md-icon{color:\"{{primary-contrast}}\";fill:\"{{primary-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) .md-button[disabled] md-icon{color:\"{{primary-contrast-0.26}}\";fill:\"{{primary-contrast-0.26}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent{background-color:\"{{accent-color}}\";color:\"{{accent-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent .md-ink-ripple{color:\"{{accent-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent md-icon{color:\"{{accent-contrast}}\";fill:\"{{accent-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent .md-button[disabled] md-icon{color:\"{{accent-contrast-0.26}}\";fill:\"{{accent-contrast-0.26}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-warn{background-color:\"{{warn-color}}\";color:\"{{warn-contrast}}\"}.md-panel.md-tooltip.md-THEME_NAME-theme{color:\"{{background-700-contrast}}\";background-color:\"{{background-700}}\"}body.md-THEME_NAME-theme,html.md-THEME_NAME-theme{color:\"{{foreground-1}}\";background-color:\"{{background-color}}\"}"); 
+(function(){
+angular.module("material.core").constant("$MD_THEME_CSS", "md-autocomplete.md-THEME_NAME-theme{background:\"{{background-A100}}\"}md-autocomplete.md-THEME_NAME-theme[disabled]:not([md-floating-label]){background:\"{{background-100}}\"}md-autocomplete.md-THEME_NAME-theme button md-icon path{fill:\"{{background-600}}\"}md-autocomplete.md-THEME_NAME-theme button:after{background:\"{{background-600-0.3}}\"}.md-autocomplete-suggestions-container.md-THEME_NAME-theme{background:\"{{background-A100}}\"}.md-autocomplete-suggestions-container.md-THEME_NAME-theme li{color:\"{{background-900}}\"}.md-autocomplete-suggestions-container.md-THEME_NAME-theme li .highlight{color:\"{{background-600}}\"}.md-autocomplete-suggestions-container.md-THEME_NAME-theme li.selected,.md-autocomplete-suggestions-container.md-THEME_NAME-theme li:hover{background:\"{{background-200}}\"}md-backdrop{background-color:\"{{background-900-0.0}}\"}md-backdrop.md-opaque.md-THEME_NAME-theme{background-color:\"{{background-900-1.0}}\"}md-bottom-sheet.md-THEME_NAME-theme{background-color:\"{{background-50}}\";border-top-color:\"{{background-300}}\"}md-bottom-sheet.md-THEME_NAME-theme.md-list md-list-item{color:\"{{foreground-1}}\"}md-bottom-sheet.md-THEME_NAME-theme .md-subheader{background-color:\"{{background-50}}\";color:\"{{foreground-1}}\"}.md-button.md-THEME_NAME-theme:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme:not([disabled]):hover{background-color:\"{{background-500-0.2}}\"}.md-button.md-THEME_NAME-theme:not([disabled]).md-icon-button:hover{background-color:transparent}.md-button.md-THEME_NAME-theme.md-fab md-icon{color:\"{{accent-contrast}}\"}.md-button.md-THEME_NAME-theme.md-primary{color:\"{{primary-color}}\"}.md-button.md-THEME_NAME-theme.md-primary.md-fab,.md-button.md-THEME_NAME-theme.md-primary.md-raised{color:\"{{primary-contrast}}\";background-color:\"{{primary-color}}\"}.md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]) md-icon,.md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]) md-icon{color:\"{{primary-contrast}}\"}.md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-primary.md-fab:not([disabled]):hover,.md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-primary.md-raised:not([disabled]):hover{background-color:\"{{primary-600}}\"}.md-button.md-THEME_NAME-theme.md-primary:not([disabled]) md-icon{color:\"{{primary-color}}\"}.md-button.md-THEME_NAME-theme.md-fab{background-color:\"{{accent-color}}\";color:\"{{accent-contrast}}\"}.md-button.md-THEME_NAME-theme.md-fab:not([disabled]) .md-icon{color:\"{{accent-contrast}}\"}.md-button.md-THEME_NAME-theme.md-fab:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-fab:not([disabled]):hover{background-color:\"{{accent-A700}}\"}.md-button.md-THEME_NAME-theme.md-raised{color:\"{{background-900}}\";background-color:\"{{background-50}}\"}.md-button.md-THEME_NAME-theme.md-raised:not([disabled]) md-icon{color:\"{{background-900}}\"}.md-button.md-THEME_NAME-theme.md-raised:not([disabled]):hover{background-color:\"{{background-50}}\"}.md-button.md-THEME_NAME-theme.md-raised:not([disabled]).md-focused{background-color:\"{{background-200}}\"}.md-button.md-THEME_NAME-theme.md-warn{color:\"{{warn-color}}\"}.md-button.md-THEME_NAME-theme.md-warn.md-fab,.md-button.md-THEME_NAME-theme.md-warn.md-raised{color:\"{{warn-contrast}}\";background-color:\"{{warn-color}}\"}.md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]) md-icon,.md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]) md-icon{color:\"{{warn-contrast}}\"}.md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-warn.md-fab:not([disabled]):hover,.md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-warn.md-raised:not([disabled]):hover{background-color:\"{{warn-600}}\"}.md-button.md-THEME_NAME-theme.md-warn:not([disabled]) md-icon{color:\"{{warn-color}}\"}.md-button.md-THEME_NAME-theme.md-accent{color:\"{{accent-color}}\"}.md-button.md-THEME_NAME-theme.md-accent.md-fab,.md-button.md-THEME_NAME-theme.md-accent.md-raised{color:\"{{accent-contrast}}\";background-color:\"{{accent-color}}\"}.md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]) md-icon,.md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]) md-icon{color:\"{{accent-contrast}}\"}.md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-accent.md-fab:not([disabled]):hover,.md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]).md-focused,.md-button.md-THEME_NAME-theme.md-accent.md-raised:not([disabled]):hover{background-color:\"{{accent-A700}}\"}.md-button.md-THEME_NAME-theme.md-accent:not([disabled]) md-icon{color:\"{{accent-color}}\"}.md-button.md-THEME_NAME-theme.md-accent[disabled],.md-button.md-THEME_NAME-theme.md-fab[disabled],.md-button.md-THEME_NAME-theme.md-raised[disabled],.md-button.md-THEME_NAME-theme.md-warn[disabled],.md-button.md-THEME_NAME-theme[disabled]{color:\"{{foreground-3}}\";cursor:default}.md-button.md-THEME_NAME-theme.md-accent[disabled] md-icon,.md-button.md-THEME_NAME-theme.md-fab[disabled] md-icon,.md-button.md-THEME_NAME-theme.md-raised[disabled] md-icon,.md-button.md-THEME_NAME-theme.md-warn[disabled] md-icon,.md-button.md-THEME_NAME-theme[disabled] md-icon{color:\"{{foreground-3}}\"}.md-button.md-THEME_NAME-theme.md-fab[disabled],.md-button.md-THEME_NAME-theme.md-raised[disabled]{background-color:\"{{foreground-4}}\"}.md-button.md-THEME_NAME-theme[disabled]{background-color:transparent}._md a.md-THEME_NAME-theme:not(.md-button).md-primary{color:\"{{primary-color}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-primary:hover{color:\"{{primary-700}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-accent:hover{color:\"{{accent-700}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-accent{color:\"{{accent-color}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-accent:hover{color:\"{{accent-A700}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-warn{color:\"{{warn-color}}\"}._md a.md-THEME_NAME-theme:not(.md-button).md-warn:hover{color:\"{{warn-700}}\"}md-card.md-THEME_NAME-theme{color:\"{{foreground-1}}\";background-color:\"{{background-hue-1}}\";border-radius:2px}md-card.md-THEME_NAME-theme .md-card-image{border-radius:2px 2px 0 0}md-card.md-THEME_NAME-theme md-card-header md-card-avatar md-icon{color:\"{{background-color}}\";background-color:\"{{foreground-3}}\"}md-card.md-THEME_NAME-theme md-card-header md-card-header-text .md-subhead,md-card.md-THEME_NAME-theme md-card-title md-card-title-text:not(:only-child) .md-subhead{color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme .md-ripple{color:\"{{accent-A700}}\"}md-checkbox.md-THEME_NAME-theme.md-checked .md-ripple{color:\"{{background-600}}\"}md-checkbox.md-THEME_NAME-theme.md-checked.md-focused .md-container:before{background-color:\"{{accent-color-0.26}}\"}md-checkbox.md-THEME_NAME-theme .md-ink-ripple{color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme.md-checked .md-ink-ripple{color:\"{{accent-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not(.md-checked) .md-icon{border-color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme.md-checked .md-icon{background-color:\"{{accent-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme.md-checked .md-icon:after{border-color:\"{{accent-contrast-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-ripple{color:\"{{primary-600}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ripple{color:\"{{background-600}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-ink-ripple{color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple{color:\"{{primary-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary:not(.md-checked) .md-icon{border-color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-icon{background-color:\"{{primary-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked.md-focused .md-container:before{background-color:\"{{primary-color-0.26}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-icon:after{border-color:\"{{primary-contrast-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-primary .md-indeterminate[disabled] .md-container{color:\"{{foreground-3}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn .md-ripple{color:\"{{warn-600}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn .md-ink-ripple{color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple{color:\"{{warn-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn:not(.md-checked) .md-icon{border-color:\"{{foreground-2}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-icon{background-color:\"{{warn-color-0.87}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked.md-focused:not([disabled]) .md-container:before{background-color:\"{{warn-color-0.26}}\"}md-checkbox.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-icon:after{border-color:\"{{background-200}}\"}md-checkbox.md-THEME_NAME-theme[disabled]:not(.md-checked) .md-icon{border-color:\"{{foreground-3}}\"}md-checkbox.md-THEME_NAME-theme[disabled].md-checked .md-icon{background-color:\"{{foreground-3}}\"}md-checkbox.md-THEME_NAME-theme[disabled].md-checked .md-icon:after{border-color:\"{{background-200}}\"}md-checkbox.md-THEME_NAME-theme[disabled] .md-icon:after{border-color:\"{{foreground-3}}\"}md-checkbox.md-THEME_NAME-theme[disabled] .md-label{color:\"{{foreground-3}}\"}md-chips.md-THEME_NAME-theme .md-chips{box-shadow:0 1px \"{{foreground-4}}\"}md-chips.md-THEME_NAME-theme .md-chips.md-focused{box-shadow:0 2px \"{{primary-color}}\"}md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input{color:\"{{foreground-1}}\"}md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input:-moz-placeholder,md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input::-moz-placeholder{color:\"{{foreground-3}}\"}md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input:-ms-input-placeholder{color:\"{{foreground-3}}\"}md-chips.md-THEME_NAME-theme .md-chips .md-chip-input-container input::-webkit-input-placeholder{color:\"{{foreground-3}}\"}md-chips.md-THEME_NAME-theme md-chip{background:\"{{background-300}}\";color:\"{{background-800}}\"}md-chips.md-THEME_NAME-theme md-chip md-icon{color:\"{{background-700}}\"}md-chips.md-THEME_NAME-theme md-chip.md-focused{background:\"{{primary-color}}\";color:\"{{primary-contrast}}\"}md-chips.md-THEME_NAME-theme md-chip.md-focused md-icon{color:\"{{primary-contrast}}\"}md-chips.md-THEME_NAME-theme md-chip._md-chip-editing{background:transparent;color:\"{{background-800}}\"}md-chips.md-THEME_NAME-theme md-chip-remove .md-button md-icon path{fill:\"{{background-500}}\"}.md-contact-suggestion span.md-contact-email{color:\"{{background-400}}\"}md-content.md-THEME_NAME-theme{color:\"{{foreground-1}}\";background-color:\"{{background-default}}\"}.md-calendar.md-THEME_NAME-theme{background:\"{{background-A100}}\";color:\"{{background-A200-0.87}}\"}.md-calendar.md-THEME_NAME-theme tr:last-child td{border-bottom-color:\"{{background-200}}\"}.md-THEME_NAME-theme .md-calendar-day-header{background:\"{{background-300}}\";color:\"{{background-A200-0.87}}\"}.md-THEME_NAME-theme .md-calendar-date.md-calendar-date-today .md-calendar-date-selection-indicator{border:1px solid \"{{primary-500}}\"}.md-THEME_NAME-theme .md-calendar-date.md-calendar-date-today.md-calendar-date-disabled{color:\"{{primary-500-0.6}}\"}.md-calendar-date.md-focus .md-THEME_NAME-theme .md-calendar-date-selection-indicator,.md-THEME_NAME-theme .md-calendar-date-selection-indicator:hover{background:\"{{background-300}}\"}.md-THEME_NAME-theme .md-calendar-date.md-calendar-selected-date .md-calendar-date-selection-indicator,.md-THEME_NAME-theme .md-calendar-date.md-focus.md-calendar-selected-date .md-calendar-date-selection-indicator{background:\"{{primary-500}}\";color:\"{{primary-500-contrast}}\";border-color:transparent}.md-THEME_NAME-theme .md-calendar-date-disabled,.md-THEME_NAME-theme .md-calendar-month-label-disabled{color:\"{{background-A200-0.435}}\"}.md-THEME_NAME-theme .md-datepicker-input{color:\"{{foreground-1}}\"}.md-THEME_NAME-theme .md-datepicker-input:-moz-placeholder,.md-THEME_NAME-theme .md-datepicker-input::-moz-placeholder{color:\"{{foreground-3}}\"}.md-THEME_NAME-theme .md-datepicker-input:-ms-input-placeholder{color:\"{{foreground-3}}\"}.md-THEME_NAME-theme .md-datepicker-input::-webkit-input-placeholder{color:\"{{foreground-3}}\"}.md-THEME_NAME-theme .md-datepicker-input-container{border-bottom-color:\"{{foreground-4}}\"}.md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-focused{border-bottom-color:\"{{primary-color}}\"}.md-accent .md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-focused{border-bottom-color:\"{{accent-color}}\"}.md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-invalid,.md-warn .md-THEME_NAME-theme .md-datepicker-input-container.md-datepicker-focused{border-bottom-color:\"{{warn-A700}}\"}.md-THEME_NAME-theme .md-datepicker-calendar-pane{border-color:\"{{background-hue-1}}\"}.md-THEME_NAME-theme .md-datepicker-triangle-button .md-datepicker-expand-triangle{border-top-color:\"{{foreground-2}}\"}.md-THEME_NAME-theme .md-datepicker-open .md-datepicker-calendar-icon{color:\"{{primary-color}}\"}.md-accent .md-THEME_NAME-theme .md-datepicker-open .md-datepicker-calendar-icon,.md-THEME_NAME-theme .md-datepicker-open.md-accent .md-datepicker-calendar-icon{color:\"{{accent-color}}\"}.md-THEME_NAME-theme .md-datepicker-open.md-warn .md-datepicker-calendar-icon,.md-warn .md-THEME_NAME-theme .md-datepicker-open .md-datepicker-calendar-icon{color:\"{{warn-A700}}\"}.md-THEME_NAME-theme .md-datepicker-calendar{background:\"{{background-A100}}\"}.md-THEME_NAME-theme .md-datepicker-input-mask-opaque{box-shadow:0 0 0 9999px \"{{background-hue-1}}\"}.md-THEME_NAME-theme .md-datepicker-open .md-datepicker-input-container{background:\"{{background-hue-1}}\"}md-dialog.md-THEME_NAME-theme{border-radius:4px;background-color:\"{{background-hue-1}}\";color:\"{{foreground-1}}\"}md-dialog.md-THEME_NAME-theme.md-content-overflow .md-actions,md-dialog.md-THEME_NAME-theme.md-content-overflow md-dialog-actions,md-divider.md-THEME_NAME-theme{border-top-color:\"{{foreground-4}}\"}.layout-gt-lg-row>md-divider.md-THEME_NAME-theme,.layout-gt-md-row>md-divider.md-THEME_NAME-theme,.layout-gt-sm-row>md-divider.md-THEME_NAME-theme,.layout-gt-xs-row>md-divider.md-THEME_NAME-theme,.layout-lg-row>md-divider.md-THEME_NAME-theme,.layout-md-row>md-divider.md-THEME_NAME-theme,.layout-row>md-divider.md-THEME_NAME-theme,.layout-sm-row>md-divider.md-THEME_NAME-theme,.layout-xl-row>md-divider.md-THEME_NAME-theme,.layout-xs-row>md-divider.md-THEME_NAME-theme{border-right-color:\"{{foreground-4}}\"}md-icon.md-THEME_NAME-theme{color:\"{{foreground-2}}\"}md-icon.md-THEME_NAME-theme.md-primary{color:\"{{primary-color}}\"}md-icon.md-THEME_NAME-theme.md-accent{color:\"{{accent-color}}\"}md-icon.md-THEME_NAME-theme.md-warn{color:\"{{warn-color}}\"}md-input-container.md-THEME_NAME-theme .md-input{color:\"{{foreground-1}}\";border-color:\"{{foreground-4}}\"}md-input-container.md-THEME_NAME-theme .md-input:-moz-placeholder,md-input-container.md-THEME_NAME-theme .md-input::-moz-placeholder{color:\"{{foreground-3}}\"}md-input-container.md-THEME_NAME-theme .md-input:-ms-input-placeholder{color:\"{{foreground-3}}\"}md-input-container.md-THEME_NAME-theme .md-input::-webkit-input-placeholder{color:\"{{foreground-3}}\"}md-input-container.md-THEME_NAME-theme>md-icon{color:\"{{foreground-1}}\"}md-input-container.md-THEME_NAME-theme .md-placeholder,md-input-container.md-THEME_NAME-theme label{color:\"{{foreground-3}}\"}md-input-container.md-THEME_NAME-theme label.md-required:after{color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-focused):not(.md-input-invalid) label.md-required:after{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme .md-input-message-animation,md-input-container.md-THEME_NAME-theme .md-input-messages-animation{color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme .md-input-message-animation .md-char-counter,md-input-container.md-THEME_NAME-theme .md-input-messages-animation .md-char-counter{color:\"{{foreground-1}}\"}md-input-container.md-THEME_NAME-theme.md-input-focused .md-input:-moz-placeholder,md-input-container.md-THEME_NAME-theme.md-input-focused .md-input::-moz-placeholder{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme.md-input-focused .md-input:-ms-input-placeholder{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme.md-input-focused .md-input::-webkit-input-placeholder{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-has-value label{color:\"{{foreground-2}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused .md-input,md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-resized .md-input{border-color:\"{{primary-color}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused label,md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused md-icon{color:\"{{primary-color}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent .md-input{border-color:\"{{accent-color}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent label,md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-accent md-icon{color:\"{{accent-color}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn .md-input{border-color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn label,md-input-container.md-THEME_NAME-theme:not(.md-input-invalid).md-input-focused.md-warn md-icon{color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme.md-input-invalid .md-input{border-color:\"{{warn-A700}}\"}md-input-container.md-THEME_NAME-theme.md-input-invalid .md-char-counter,md-input-container.md-THEME_NAME-theme.md-input-invalid .md-input-message-animation,md-input-container.md-THEME_NAME-theme.md-input-invalid label{color:\"{{warn-A700}}\"}[disabled] md-input-container.md-THEME_NAME-theme .md-input,md-input-container.md-THEME_NAME-theme .md-input[disabled]{border-bottom-color:transparent;color:\"{{foreground-3}}\";background-image:linear-gradient(90deg,\"{{foreground-3}}\" 0,\"{{foreground-3}}\" 33%,transparent 0);background-image:-ms-linear-gradient(left,transparent 0,\"{{foreground-3}}\" 100%)}md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text h3,md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text h4,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text h3,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text h4{color:\"{{foreground-1}}\"}md-list.md-THEME_NAME-theme md-list-item.md-2-line .md-list-item-text p,md-list.md-THEME_NAME-theme md-list-item.md-3-line .md-list-item-text p{color:\"{{foreground-2}}\"}md-list.md-THEME_NAME-theme .md-proxy-focus.md-focused div.md-no-style{background-color:\"{{background-100}}\"}md-list.md-THEME_NAME-theme md-list-item .md-avatar-icon{background-color:\"{{foreground-3}}\";color:\"{{background-color}}\"}md-list.md-THEME_NAME-theme md-list-item>md-icon{color:\"{{foreground-2}}\"}md-list.md-THEME_NAME-theme md-list-item>md-icon.md-highlight{color:\"{{primary-color}}\"}md-list.md-THEME_NAME-theme md-list-item>md-icon.md-highlight.md-accent{color:\"{{accent-color}}\"}md-menu-content.md-THEME_NAME-theme{background-color:\"{{background-A100}}\"}md-menu-content.md-THEME_NAME-theme md-menu-item{color:\"{{background-A200-0.87}}\"}md-menu-content.md-THEME_NAME-theme md-menu-item md-icon{color:\"{{background-A200-0.54}}\"}md-menu-content.md-THEME_NAME-theme md-menu-item .md-button[disabled],md-menu-content.md-THEME_NAME-theme md-menu-item .md-button[disabled] md-icon{color:\"{{background-A200-0.25}}\"}md-menu-content.md-THEME_NAME-theme md-menu-divider{background-color:\"{{background-A200-0.11}}\"}md-menu-bar.md-THEME_NAME-theme>button.md-button{color:\"{{foreground-2}}\";border-radius:2px}md-menu-bar.md-THEME_NAME-theme md-menu.md-open>button,md-menu-bar.md-THEME_NAME-theme md-menu>button:focus{outline:none;background:\"{{background-200}}\"}md-menu-bar.md-THEME_NAME-theme.md-open:not(.md-keyboard-mode) md-menu:hover>button{background-color:\"{{ background-500-0.2}}\"}md-menu-bar.md-THEME_NAME-theme:not(.md-keyboard-mode):not(.md-open) md-menu button:focus,md-menu-bar.md-THEME_NAME-theme:not(.md-keyboard-mode):not(.md-open) md-menu button:hover{background:transparent}md-menu-content.md-THEME_NAME-theme .md-menu>.md-button:after{color:\"{{background-A200-0.54}}\"}md-menu-content.md-THEME_NAME-theme .md-menu.md-open>.md-button{background-color:\"{{ background-500-0.2}}\"}md-toolbar.md-THEME_NAME-theme.md-menu-toolbar{background-color:\"{{background-A100}}\";color:\"{{background-A200}}\"}md-toolbar.md-THEME_NAME-theme.md-menu-toolbar md-toolbar-filler{background-color:\"{{primary-color}}\";color:\"{{background-A100-0.87}}\"}md-toolbar.md-THEME_NAME-theme.md-menu-toolbar md-toolbar-filler md-icon{color:\"{{background-A100-0.87}}\"}._md-panel-backdrop.md-THEME_NAME-theme{background-color:\"{{background-900-1.0}}\"}md-nav-bar.md-THEME_NAME-theme .md-nav-bar{background-color:transparent;border-color:\"{{foreground-4}}\"}md-nav-bar.md-THEME_NAME-theme .md-button._md-nav-button.md-unselected{color:\"{{foreground-2}}\"}md-nav-bar.md-THEME_NAME-theme md-nav-ink-bar{color:\"{{accent-color}}\";background:\"{{accent-color}}\"}md-progress-circular.md-THEME_NAME-theme path{stroke:\"{{primary-color}}\"}md-progress-circular.md-THEME_NAME-theme.md-warn path{stroke:\"{{warn-color}}\"}md-progress-circular.md-THEME_NAME-theme.md-accent path{stroke:\"{{accent-color}}\"}md-progress-linear.md-THEME_NAME-theme .md-container{background-color:\"{{primary-100}}\"}md-progress-linear.md-THEME_NAME-theme .md-bar{background-color:\"{{primary-color}}\"}md-progress-linear.md-THEME_NAME-theme.md-warn .md-container{background-color:\"{{warn-100}}\"}md-progress-linear.md-THEME_NAME-theme.md-warn .md-bar{background-color:\"{{warn-color}}\"}md-progress-linear.md-THEME_NAME-theme.md-accent .md-container{background-color:\"{{accent-100}}\"}md-progress-linear.md-THEME_NAME-theme.md-accent .md-bar{background-color:\"{{accent-color}}\"}md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-warn .md-bar1{background-color:\"{{warn-100}}\"}md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-warn .md-dashed:before{background:radial-gradient(\"{{warn-100}}\" 0,\"{{warn-100}}\" 16%,transparent 42%)}md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-accent .md-bar1{background-color:\"{{accent-100}}\"}md-progress-linear.md-THEME_NAME-theme[md-mode=buffer].md-accent .md-dashed:before{background:radial-gradient(\"{{accent-100}}\" 0,\"{{accent-100}}\" 16%,transparent 42%)}md-radio-button.md-THEME_NAME-theme .md-off{border-color:\"{{foreground-2}}\"}md-radio-button.md-THEME_NAME-theme .md-on{background-color:\"{{accent-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme.md-checked .md-off{border-color:\"{{accent-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme.md-checked .md-ink-ripple{color:\"{{accent-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme .md-container .md-ripple{color:\"{{accent-A700}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-on,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-on,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-on{background-color:\"{{primary-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-off{border-color:\"{{primary-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary.md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary.md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-checked .md-ink-ripple{color:\"{{primary-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-primary .md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-primary .md-container .md-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-primary .md-container .md-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-primary .md-container .md-ripple{color:\"{{primary-600}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-on,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-on,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-on,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-on{background-color:\"{{warn-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-off,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-off,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-off{border-color:\"{{warn-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-ink-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn.md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn.md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-checked .md-ink-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-checked .md-ink-ripple{color:\"{{warn-color-0.87}}\"}md-radio-button.md-THEME_NAME-theme:not([disabled]).md-warn .md-container .md-ripple,md-radio-button.md-THEME_NAME-theme:not([disabled]) .md-warn .md-container .md-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]).md-warn .md-container .md-ripple,md-radio-group.md-THEME_NAME-theme:not([disabled]) .md-warn .md-container .md-ripple{color:\"{{warn-600}}\"}md-radio-button.md-THEME_NAME-theme[disabled],md-radio-group.md-THEME_NAME-theme[disabled]{color:\"{{foreground-3}}\"}md-radio-button.md-THEME_NAME-theme[disabled] .md-container .md-off,md-radio-button.md-THEME_NAME-theme[disabled] .md-container .md-on,md-radio-group.md-THEME_NAME-theme[disabled] .md-container .md-off,md-radio-group.md-THEME_NAME-theme[disabled] .md-container .md-on{border-color:\"{{foreground-3}}\"}md-radio-group.md-THEME_NAME-theme .md-checked .md-ink-ripple{color:\"{{accent-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme .md-checked:not([disabled]).md-primary .md-ink-ripple,md-radio-group.md-THEME_NAME-theme.md-primary .md-checked:not([disabled]) .md-ink-ripple{color:\"{{primary-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme .md-checked.md-primary .md-ink-ripple{color:\"{{warn-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked .md-container:before{background-color:\"{{accent-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked.md-primary .md-container:before,md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty).md-primary .md-checked .md-container:before{background-color:\"{{primary-color-0.26}}\"}md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty) .md-checked.md-warn .md-container:before,md-radio-group.md-THEME_NAME-theme.md-focused:not(:empty).md-warn .md-checked .md-container:before{background-color:\"{{warn-color-0.26}}\"}md-input-container md-select.md-THEME_NAME-theme .md-select-value span:first-child:after{color:\"{{warn-A700}}\"}md-input-container:not(.md-input-focused):not(.md-input-invalid) md-select.md-THEME_NAME-theme .md-select-value span:first-child:after{color:\"{{foreground-3}}\"}md-input-container.md-input-focused:not(.md-input-has-value) md-select.md-THEME_NAME-theme .md-select-value,md-input-container.md-input-focused:not(.md-input-has-value) md-select.md-THEME_NAME-theme .md-select-value.md-select-placeholder{color:\"{{primary-color}}\"}md-input-container.md-input-invalid md-select.md-THEME_NAME-theme .md-select-value{color:\"{{warn-A700}}\"!important;border-bottom-color:\"{{warn-A700}}\"!important}md-input-container.md-input-invalid md-select.md-THEME_NAME-theme.md-no-underline .md-select-value{border-bottom-color:transparent!important}md-select.md-THEME_NAME-theme[disabled] .md-select-value{border-bottom-color:transparent;background-image:linear-gradient(90deg,\"{{foreground-3}}\" 0,\"{{foreground-3}}\" 33%,transparent 0);background-image:-ms-linear-gradient(left,transparent 0,\"{{foreground-3}}\" 100%)}md-select.md-THEME_NAME-theme .md-select-value{border-bottom-color:\"{{foreground-4}}\"}md-select.md-THEME_NAME-theme .md-select-value.md-select-placeholder{color:\"{{foreground-3}}\"}md-select.md-THEME_NAME-theme .md-select-value span:first-child:after{color:\"{{warn-A700}}\"}md-select.md-THEME_NAME-theme.md-no-underline .md-select-value{border-bottom-color:transparent!important}md-select.md-THEME_NAME-theme.ng-invalid.ng-touched .md-select-value{color:\"{{warn-A700}}\"!important;border-bottom-color:\"{{warn-A700}}\"!important}md-select.md-THEME_NAME-theme.ng-invalid.ng-touched.md-no-underline .md-select-value{border-bottom-color:transparent!important}md-select.md-THEME_NAME-theme:not([disabled]):focus .md-select-value{border-bottom-color:\"{{primary-color}}\";color:\"{{ foreground-1 }}\"}md-select.md-THEME_NAME-theme:not([disabled]):focus .md-select-value.md-select-placeholder{color:\"{{ foreground-1 }}\"}md-select.md-THEME_NAME-theme:not([disabled]):focus.md-no-underline .md-select-value{border-bottom-color:transparent!important}md-select.md-THEME_NAME-theme:not([disabled]):focus.md-accent .md-select-value{border-bottom-color:\"{{accent-color}}\"}md-select.md-THEME_NAME-theme:not([disabled]):focus.md-warn .md-select-value{border-bottom-color:\"{{warn-color}}\"}md-select.md-THEME_NAME-theme[disabled] .md-select-icon,md-select.md-THEME_NAME-theme[disabled] .md-select-value,md-select.md-THEME_NAME-theme[disabled] .md-select-value.md-select-placeholder{color:\"{{foreground-3}}\"}md-select.md-THEME_NAME-theme .md-select-icon{color:\"{{foreground-2}}\"}md-select-menu.md-THEME_NAME-theme md-content{background:\"{{background-A100}}\"}md-select-menu.md-THEME_NAME-theme md-content md-optgroup{color:\"{{background-600-0.87}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option{color:\"{{background-900-0.87}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[disabled] .md-text{color:\"{{background-400-0.87}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option:not([disabled]):focus,md-select-menu.md-THEME_NAME-theme md-content md-option:not([disabled]):hover{background:\"{{background-200}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[selected]{color:\"{{primary-500}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[selected]:focus{color:\"{{primary-600}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[selected].md-accent{color:\"{{accent-color}}\"}md-select-menu.md-THEME_NAME-theme md-content md-option[selected].md-accent:focus{color:\"{{accent-A700}}\"}.md-checkbox-enabled.md-THEME_NAME-theme .md-ripple{color:\"{{primary-600}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-ripple{color:\"{{background-600}}\"}.md-checkbox-enabled.md-THEME_NAME-theme .md-ink-ripple{color:\"{{foreground-2}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-ink-ripple{color:\"{{primary-color-0.87}}\"}.md-checkbox-enabled.md-THEME_NAME-theme:not(.md-checked) .md-icon{border-color:\"{{foreground-2}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-icon{background-color:\"{{primary-color-0.87}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected].md-focused .md-container:before{background-color:\"{{primary-color-0.26}}\"}.md-checkbox-enabled.md-THEME_NAME-theme[selected] .md-icon:after{border-color:\"{{primary-contrast-0.87}}\"}.md-checkbox-enabled.md-THEME_NAME-theme .md-indeterminate[disabled] .md-container{color:\"{{foreground-3}}\"}.md-checkbox-enabled.md-THEME_NAME-theme md-option .md-text{color:\"{{background-900-0.87}}\"}md-sidenav.md-THEME_NAME-theme,md-sidenav.md-THEME_NAME-theme md-content{background-color:\"{{background-hue-1}}\"}md-slider.md-THEME_NAME-theme .md-track{background-color:\"{{foreground-3}}\"}md-slider.md-THEME_NAME-theme .md-track-ticks{color:\"{{background-contrast}}\"}md-slider.md-THEME_NAME-theme .md-focus-ring{background-color:\"{{accent-A200-0.2}}\"}md-slider.md-THEME_NAME-theme .md-disabled-thumb{border-color:\"{{background-color}}\";background-color:\"{{background-color}}\"}md-slider.md-THEME_NAME-theme.md-min .md-thumb:after{background-color:\"{{background-color}}\";border-color:\"{{foreground-3}}\"}md-slider.md-THEME_NAME-theme.md-min .md-focus-ring{background-color:\"{{foreground-3-0.38}}\"}md-slider.md-THEME_NAME-theme.md-min[md-discrete] .md-thumb:after{background-color:\"{{background-contrast}}\";border-color:transparent}md-slider.md-THEME_NAME-theme.md-min[md-discrete] .md-sign{background-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme.md-min[md-discrete] .md-sign:after{border-top-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme.md-min[md-discrete][md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme .md-track.md-track-fill{background-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme .md-thumb:after{border-color:\"{{accent-color}}\";background-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme .md-sign{background-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme .md-sign:after{border-top-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme[md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{accent-color}}\"}md-slider.md-THEME_NAME-theme .md-thumb-text{color:\"{{accent-contrast}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-focus-ring{background-color:\"{{warn-200-0.38}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-track.md-track-fill{background-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-thumb:after{border-color:\"{{warn-color}}\";background-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-sign{background-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-sign:after{border-top-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn[md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{warn-color}}\"}md-slider.md-THEME_NAME-theme.md-warn .md-thumb-text{color:\"{{warn-contrast}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-focus-ring{background-color:\"{{primary-200-0.38}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-track.md-track-fill{background-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-thumb:after{border-color:\"{{primary-color}}\";background-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-sign{background-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-sign:after{border-top-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary[md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{primary-color}}\"}md-slider.md-THEME_NAME-theme.md-primary .md-thumb-text{color:\"{{primary-contrast}}\"}md-slider.md-THEME_NAME-theme[disabled] .md-thumb:after{border-color:transparent}md-slider.md-THEME_NAME-theme[disabled]:not(.md-min) .md-thumb:after,md-slider.md-THEME_NAME-theme[disabled][md-discrete] .md-thumb:after{background-color:\"{{foreground-3}}\";border-color:transparent}md-slider.md-THEME_NAME-theme[disabled][readonly] .md-sign{background-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme[disabled][readonly] .md-sign:after{border-top-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme[disabled][readonly][md-vertical] .md-sign:after{border-top-color:transparent;border-left-color:\"{{background-400}}\"}md-slider.md-THEME_NAME-theme[disabled][readonly] .md-disabled-thumb{border-color:transparent;background-color:transparent}md-slider-container[disabled]>:first-child:not(md-slider),md-slider-container[disabled]>:last-child:not(md-slider){color:\"{{foreground-3}}\"}.md-subheader.md-THEME_NAME-theme{color:\"{{ foreground-2-0.23 }}\";background-color:\"{{background-default}}\"}.md-subheader.md-THEME_NAME-theme.md-primary{color:\"{{primary-color}}\"}.md-subheader.md-THEME_NAME-theme.md-accent{color:\"{{accent-color}}\"}.md-subheader.md-THEME_NAME-theme.md-warn{color:\"{{warn-color}}\"}md-switch.md-THEME_NAME-theme .md-ink-ripple{color:\"{{background-500}}\"}md-switch.md-THEME_NAME-theme .md-thumb{background-color:\"{{background-50}}\"}md-switch.md-THEME_NAME-theme .md-bar{background-color:\"{{background-500}}\"}md-switch.md-THEME_NAME-theme.md-checked .md-ink-ripple{color:\"{{accent-color}}\"}md-switch.md-THEME_NAME-theme.md-checked .md-thumb{background-color:\"{{accent-color}}\"}md-switch.md-THEME_NAME-theme.md-checked .md-bar{background-color:\"{{accent-color-0.5}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-focused .md-thumb:before{background-color:\"{{accent-color-0.26}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-ink-ripple{color:\"{{primary-color}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-thumb{background-color:\"{{primary-color}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-primary .md-bar{background-color:\"{{primary-color-0.5}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-primary.md-focused .md-thumb:before{background-color:\"{{primary-color-0.26}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-ink-ripple{color:\"{{warn-color}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-thumb{background-color:\"{{warn-color}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-warn .md-bar{background-color:\"{{warn-color-0.5}}\"}md-switch.md-THEME_NAME-theme.md-checked.md-warn.md-focused .md-thumb:before{background-color:\"{{warn-color-0.26}}\"}md-switch.md-THEME_NAME-theme[disabled] .md-thumb{background-color:\"{{background-400}}\"}md-switch.md-THEME_NAME-theme[disabled] .md-bar{background-color:\"{{foreground-4}}\"}md-toast.md-THEME_NAME-theme .md-toast-content{background-color:#323232;color:\"{{background-50}}\"}md-toast.md-THEME_NAME-theme .md-toast-content .md-button{color:\"{{background-50}}\"}md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight{color:\"{{accent-color}}\"}md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight.md-primary{color:\"{{primary-color}}\"}md-toast.md-THEME_NAME-theme .md-toast-content .md-button.md-highlight.md-warn{color:\"{{warn-color}}\"}md-tabs.md-THEME_NAME-theme md-tabs-wrapper{background-color:transparent;border-color:\"{{foreground-4}}\"}md-tabs.md-THEME_NAME-theme .md-paginator md-icon{color:\"{{primary-color}}\"}md-tabs.md-THEME_NAME-theme md-ink-bar{color:\"{{accent-color}}\";background:\"{{accent-color}}\"}md-tabs.md-THEME_NAME-theme .md-tab{color:\"{{foreground-2}}\"}md-tabs.md-THEME_NAME-theme .md-tab[disabled],md-tabs.md-THEME_NAME-theme .md-tab[disabled] md-icon{color:\"{{foreground-3}}\"}md-tabs.md-THEME_NAME-theme .md-tab.md-active,md-tabs.md-THEME_NAME-theme .md-tab.md-active md-icon,md-tabs.md-THEME_NAME-theme .md-tab.md-focused,md-tabs.md-THEME_NAME-theme .md-tab.md-focused md-icon{color:\"{{primary-color}}\"}md-tabs.md-THEME_NAME-theme .md-tab.md-focused{background:\"{{primary-color-0.1}}\"}md-tabs.md-THEME_NAME-theme .md-tab .md-ripple-container{color:\"{{accent-A100}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper{background-color:\"{{accent-color}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{accent-A100}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{accent-contrast}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{accent-contrast-0.1}}\"}md-tabs.md-THEME_NAME-theme.md-accent>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-ink-bar{color:\"{{primary-600-1}}\";background:\"{{primary-600-1}}\"}md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper{background-color:\"{{primary-color}}\"}md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{primary-100}}\"}md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{primary-contrast}}\"}md-tabs.md-THEME_NAME-theme.md-primary>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{primary-contrast-0.1}}\"}md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper{background-color:\"{{warn-color}}\"}md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{warn-100}}\"}md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{warn-contrast}}\"}md-tabs.md-THEME_NAME-theme.md-warn>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{warn-contrast-0.1}}\"}md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper{background-color:\"{{primary-color}}\"}md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{primary-100}}\"}md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{primary-contrast}}\"}md-toolbar>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{primary-contrast-0.1}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper{background-color:\"{{accent-color}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{accent-A100}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{accent-contrast}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{accent-contrast-0.1}}\"}md-toolbar.md-accent>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-ink-bar{color:\"{{primary-600-1}}\";background:\"{{primary-600-1}}\"}md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper{background-color:\"{{warn-color}}\"}md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]),md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]) md-icon{color:\"{{warn-100}}\"}md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active,md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-active md-icon,md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused,md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused md-icon{color:\"{{warn-contrast}}\"}md-toolbar.md-warn>md-tabs.md-THEME_NAME-theme>md-tabs-wrapper>md-tabs-canvas>md-pagination-wrapper>md-tab-item:not([disabled]).md-focused{background:\"{{warn-contrast-0.1}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar){background-color:\"{{primary-color}}\";color:\"{{primary-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) md-icon{color:\"{{primary-contrast}}\";fill:\"{{primary-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar) .md-button[disabled] md-icon{color:\"{{primary-contrast-0.26}}\";fill:\"{{primary-contrast-0.26}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent{background-color:\"{{accent-color}}\";color:\"{{accent-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent .md-ink-ripple{color:\"{{accent-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent md-icon{color:\"{{accent-contrast}}\";fill:\"{{accent-contrast}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-accent .md-button[disabled] md-icon{color:\"{{accent-contrast-0.26}}\";fill:\"{{accent-contrast-0.26}}\"}md-toolbar.md-THEME_NAME-theme:not(.md-menu-toolbar).md-warn{background-color:\"{{warn-color}}\";color:\"{{warn-contrast}}\"}.md-panel.md-tooltip.md-THEME_NAME-theme{color:\"{{background-700-contrast}}\";background-color:\"{{background-700}}\"}body.md-THEME_NAME-theme,html.md-THEME_NAME-theme{color:\"{{foreground-1}}\";background-color:\"{{background-color}}\"}");
 })();
-
-
 })(window, window.angular);;window.ngMaterial={version:{full: "1.1.3"}};

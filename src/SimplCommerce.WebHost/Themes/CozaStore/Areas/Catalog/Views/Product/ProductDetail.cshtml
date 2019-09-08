@@ -23,7 +23,7 @@
     </a>
     @if (Model.Categories.Any())
     {
-        @await Component.InvokeAsync("CategoryBreadcrumb", new { categoryIds = Model.Categories.Select(x => x.Id) })
+    @await Component.InvokeAsync("CategoryBreadcrumb", new { categoryIds = Model.Categories.Select(x => x.Id) })
     }
 
     <span class="stext-109 cl4">
@@ -37,9 +37,9 @@
             <div class="sp-wrap">
                 @foreach (var image in Model.Images)
                 {
-                    <a href="@image.Url">
-                        <img src="@image.ThumbnailUrl" alt="" />
-                    </a>
+                <a href="@image.Url">
+                    <img src="@image.ThumbnailUrl" alt="" />
+                </a>
                 }
             </div>
         </div>
@@ -56,127 +56,75 @@
             <div class="product-short-desc">@Html.Raw(Model.ShortDescription)</div>
             @if (Model.HasVariation)
             {
-                <form>
-                    <div class="product-attrs">
-                        @foreach (var option in Model.AvailableOptions)
+            <form>
+                <div class="product-attrs">
+                    @foreach (var option in Model.AvailableOptions)
                         {
-                            <div>
-                                <h5 class="p-t-25">@option.OptionName </h5>
-                                <ul class="list-inline product-attr-options">
-                                    @foreach (var value in option.Values)
+                    <div>
+                        <h5 class="p-t-25">@option.OptionName </h5>
+                        <ul class="list-inline product-attr-options">
+                            @foreach (var value in option.Values)
                                     {
                                         var shouldChecked = Model.Variations.First().Options.Any(x => x.Value == value);
-                                        <li class="list-inline-item">
-                                            <input type="radio" value="@value" checked="@shouldChecked" name="@option.OptionName" />
-                                            @if (Model.OptionDisplayValues.ContainsKey(value) && !String.IsNullOrWhiteSpace(Model.OptionDisplayValues[value].Value))
+                            <li class="list-inline-item">
+                                <input type="radio" value="@value" checked="@shouldChecked" name="@option.OptionName" />
+                                @if (Model.OptionDisplayValues.ContainsKey(value) && !String.IsNullOrWhiteSpace(Model.OptionDisplayValues[value].Value))
                                             {
                                                 if (Model.OptionDisplayValues[value].DisplayType == "color")
                                                 {
-                                                    <label title="@value" class="color" style="background-color:@Model.OptionDisplayValues[value].Value"></label>
+                                <label title="@value" class="color" style="background-color:@Model.OptionDisplayValues[value].Value"></label>
                                                 }
                                                 else
                                                 {
-                                                    <label class="badge">@Model.OptionDisplayValues[value].Value</label>
+                                <label class="badge">@Model.OptionDisplayValues[value].Value</label>
                                                 }
                                             }
                                             else
                                             {
-                                                <label class="badge">@value</label>
+                                <label class="badge">@value</label>
                                             }
-                                        </li>
+                            </li>
                                     }
-                                </ul>
-                            </div>
-                        }
+                        </ul>
                     </div>
-                </form>
+                        }
+                </div>
+            </form>
 
                 foreach (var variant in Model.Variations)
                 {
                     var hidden = variant != Model.Variations.First() ? "collapse" : "";
-                    <div class="product-variation @hidden" data-variation-name="@variant.NormalizedName">
-                        <div class="product-price">
-                            @if (variant.IsCallForPricing)
+            <div class="product-variation @hidden" data-variation-name="@variant.NormalizedName">
+                <div class="product-price">
+                    @if (variant.IsCallForPricing)
                             {
-                                <span class="label label-info">@Localizer["Call for pricing"]</span>
+                    <span class="label label-info">@Localizer["Call for pricing"]</span>
                             }
                             else
                             {
-                                <h3>@variant.CalculatedProductPrice.Price.ToString("C")</h3>
+                    <h3>@variant.CalculatedProductPrice.Price.ToString("C")</h3>
                                 if (variant.CalculatedProductPrice.PercentOfSaving > 0)
                                 {
-                                    <p class="product-price-regular">@variant.CalculatedProductPrice.OldPrice.Value.ToString("C")</p>
-                                    <p class="product-price-saving">@Localizer["You save"] (@(variant.CalculatedProductPrice.PercentOfSaving)%)</p>
+                    <p class="product-price-regular">@variant.CalculatedProductPrice.OldPrice.Value.ToString("C")</p>
+                    <p class="product-price-saving">@Localizer["You save"] (@(variant.CalculatedProductPrice.PercentOfSaving)%)</p>
                                 }
                             }
-                        </div>
-                        @if (variant.StockTrackingIsEnabled && variant.StockQuantity <= 0)
-                        {
-                            <div class="out-of-stock">
-                                <span class="label label-danger">@Localizer["Out of stock"]</span>
-                            </div>
-                        }
-                        <div class="add-to-cart">
-                            <form class="inline">
-                                <input type="hidden" name="productId" value="@variant.Id" />
-                                <div class="product-quantity">
-                                    <button type="button" class="quantity-button" name="subtract" value="-">-</button>
-                                    <input type="text" class="quantity-field" readonly="readonly" name="qty" value="1">
-                                    <button type="button" class="quantity-button" name="add" value="+">+</button>
-                                </div>
-                                <button type="button" disabled="@(!variant.IsAllowToOrder || (variant.StockTrackingIsEnabled && variant.StockQuantity <= 0))" class="btn btn-lg btn-add-cart">@Localizer["Add to cart"]</button>
-                                <div>
-                                    <ul class="list-inline add-to-wishlist">
-                                        @*<li class="wishlist-in">
-                                                <i class="fa fa-heart"></i>
-                                                <a href="#">Add to Wishlist</a>
-                                            </li>*@
-                                        <li class="compare-in">
-                                            <i class="fa fa-exchange"></i>
-                                            <a href="#" class="add-to-comparison">@Localizer["Add to Compare"]</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                }
-                <div class="product-variation-notavailable collapse">
-                    <span class="label label-danger">@Localizer["Not available"]</span>
                 </div>
-            }
-            else
-            {
-                <div class="product-price">
-                    @if (Model.IsCallForPricing)
-                    {
-                        <span class="label label-info">@Localizer["Call for pricing"]</span>
-                    }
-                    else
-                    {
-                        <h3>@Model.CalculatedProductPrice.Price.ToString("C")</h3>
-                        if (Model.CalculatedProductPrice.PercentOfSaving > 0)
+                @if (variant.StockTrackingIsEnabled && variant.StockQuantity <= 0)
                         {
-                            <p class="product-price-regular">@Model.CalculatedProductPrice.OldPrice.Value.ToString("C")</p>
-                            <p class="product-price-saving">@Localizer["You save"] (@(Model.CalculatedProductPrice.PercentOfSaving)%)</p>
-                        }
-                    }
+                <div class="out-of-stock">
+                    <span class="label label-danger">@Localizer["Out of stock"]</span>
                 </div>
-                if (Model.StockTrackingIsEnabled && Model.StockQuantity <= 0)
-                {
-                    <div class="out-of-stock">
-                        <span class="label label-danger">@Localizer["Out of stock"]</span>
-                    </div>
-                }
+                        }
                 <div class="add-to-cart">
                     <form class="inline">
-                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="hidden" name="productId" value="@variant.Id" />
                         <div class="product-quantity">
                             <button type="button" class="quantity-button" name="subtract" value="-">-</button>
                             <input type="text" class="quantity-field" readonly="readonly" name="qty" value="1">
                             <button type="button" class="quantity-button" name="add" value="+">+</button>
                         </div>
-                        <button type="button" disabled="@(!Model.IsAllowToOrder || (Model.StockTrackingIsEnabled && Model.StockQuantity <= 0))" class="btn btn-lg btn-add-cart">@Localizer["Add to cart"]</button>
+                        <button type="button" disabled="@(!variant.IsAllowToOrder || (variant.StockTrackingIsEnabled && variant.StockQuantity <= 0))" class="btn btn-lg btn-add-cart">@Localizer["Add to cart"]</button>
                         <div>
                             <ul class="list-inline add-to-wishlist">
                                 @*<li class="wishlist-in">
@@ -191,65 +139,117 @@
                         </div>
                     </form>
                 </div>
+            </div>
+                }
+            <div class="product-variation-notavailable collapse">
+                <span class="label label-danger">@Localizer["Not available"]</span>
+            </div>
+            }
+            else
+            {
+            <div class="product-price">
+                @if (Model.IsCallForPricing)
+                    {
+                <span class="label label-info">@Localizer["Call for pricing"]</span>
+                    }
+                    else
+                    {
+                <h3>@Model.CalculatedProductPrice.Price.ToString("C")</h3>
+                        if (Model.CalculatedProductPrice.PercentOfSaving > 0)
+                        {
+                <p class="product-price-regular">@Model.CalculatedProductPrice.OldPrice.Value.ToString("C")</p>
+                <p class="product-price-saving">@Localizer["You save"] (@(Model.CalculatedProductPrice.PercentOfSaving)%)</p>
+                        }
+                    }
+            </div>
+                if (Model.StockTrackingIsEnabled && Model.StockQuantity <= 0)
+                {
+            <div class="out-of-stock">
+                <span class="label label-danger">@Localizer["Out of stock"]</span>
+            </div>
+                }
+            <div class="add-to-cart">
+                <form class="inline">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <div class="product-quantity">
+                        <button type="button" class="quantity-button" name="subtract" value="-">-</button>
+                        <input type="text" class="quantity-field" readonly="readonly" name="qty" value="1">
+                        <button type="button" class="quantity-button" name="add" value="+">+</button>
+                    </div>
+                    <button type="button" disabled="@(!Model.IsAllowToOrder || (Model.StockTrackingIsEnabled && Model.StockQuantity <= 0))" class="btn btn-lg btn-add-cart">@Localizer["Add to cart"]</button>
+                    <div>
+                        <ul class="list-inline add-to-wishlist">
+                            @*<li class="wishlist-in">
+                                    <i class="fa fa-heart"></i>
+                                    <a href="#">Add to Wishlist</a>
+                                </li>*@
+                            <li class="compare-in">
+                                <i class="fa fa-exchange"></i>
+                                <a href="#" class="add-to-comparison">@Localizer["Add to Compare"]</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
             }
         </div>
     </div>
     @if (!string.IsNullOrWhiteSpace(Model.Description))
     {
-        <div>
-            <h3 class="p-t-25 p-b-25">@Localizer["Product detail"]</h3>
-            @Html.Raw(Model.Description)
-        </div>
+    <div>
+        <h3 class="p-t-25 p-b-25">@Localizer["Product detail"]</h3>
+        @Html.Raw(Model.Description)
+    </div>
     }
 
     @if (!string.IsNullOrWhiteSpace(Model.Specification))
     {
-        <div>
-            <h3 class="p-t-25 p-b-25">@Localizer["Product specification"]</h3>
-            @Html.Raw(Model.Specification)
-        </div>
+    <div>
+        <h3 class="p-t-25 p-b-25">@Localizer["Product specification"]</h3>
+        @Html.Raw(Model.Specification)
+    </div>
     }
     @if (Model.Attributes.Any())
     {
-        <div>
-            <h3 class="p-t-25 p-b-25">@Localizer["Product specification"]</h3>
-            <table class="table table-striped">
-                @foreach (var attribute in Model.Attributes)
+    <div>
+        <h3 class="p-t-25 p-b-25">@Localizer["Product specification"]</h3>
+        <table class="table table-striped">
+            @foreach (var attribute in Model.Attributes)
                 {
-                    <tr>
-                        <td>@attribute.Name</td>
-                        <td>@attribute.Value</td>
-                    </tr>
+            <tr>
+                <td>@attribute.Name</td>
+                <td>@attribute.Value</td>
+            </tr>
                 }
-            </table>
-        </div>
+        </table>
+    </div>
     }
 </div>
 
 @if (Model.RelatedProducts.Any())
 {
-    <h3 class="p-t-25 p-b-25">Related Products</h3>
-    <div class="row product-list">
-        @foreach (var product in Model.RelatedProducts)
+<h3 class="p-t-25 p-b-25">Related Products</h3>
+<div class="row product-list">
+    @foreach (var product in Model.RelatedProducts)
         {
-            <div class="col-xs-6 col-md-3">
-                <partial name="_ProductThumbnail" model="product" />
-            </div>
-        }
+    <div class="col-xs-6 col-md-3">
+        <partial name="_ProductThumbnail" model="product" />
     </div>
+        }
+</div>
 }
 
 @if (Model.CrossSellProducts.Any())
 {
-    <h3 class="p-t-25 p-b-25">Cross-sell Products</h3>
-    <div class="row product-list">
-        @foreach (var product in Model.CrossSellProducts)
+<h3 class="p-t-25 p-b-25">Cross-sell Products</h3>
+<div class="row product-list">
+    @foreach (var product in Model.CrossSellProducts)
         {
-            <div class="col-xs-6 col-md-3">
-                <partial name="_ProductThumbnail" model="product" />
-            </div>
-        }
+    <div class="col-xs-6 col-md-3">
+        <partial name="_ProductThumbnail" model="product" />
     </div>
+        }
+</div>
 }
 
 @await Component.InvokeAsync("ProductRecentlyViewed", new { productId = Model.Id })

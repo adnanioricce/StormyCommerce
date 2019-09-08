@@ -8,14 +8,15 @@ namespace StormyCommerce.Core.Entities.Customer
     {
         public CustomerAddress()
         {
-
         }
+
         public CustomerAddress(int id)
         {
             Id = id;
         }
+
         public long CustomerId { get; set; }
-        public StormyCustomer Customer { get; set; }        
+        public StormyCustomer Customer { get; set; }
         public DateTimeOffset? LastUsedOn { get; set; }
     }
 }

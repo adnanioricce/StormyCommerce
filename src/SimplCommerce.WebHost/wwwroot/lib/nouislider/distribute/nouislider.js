@@ -1,27 +1,18 @@
-/*! nouislider - 8.5.1 - 2016-04-24 16:00:29 */
+﻿/*! nouislider - 8.5.1 - 2016-04-24 16:00:29 */
 
 (function (factory) {
-
     if ( typeof define === 'function' && define.amd ) {
-
         // AMD. Register as an anonymous module.
         define([], factory);
-
     } else if ( typeof exports === 'object' ) {
-
         // Node/CommonJS
         module.exports = factory();
-
     } else {
-
         // Browser globals
         window.noUiSlider = factory();
     }
-
 }(function( ){
-
 	'use strict';
-
 
 	// Removes duplicates from an array.
 	function unique(array) {
@@ -37,7 +28,6 @@
 
 	// Current position of an element relative to the document.
 	function offset ( elem ) {
-
 	var rect = elem.getBoundingClientRect(),
 		doc = elem.ownerDocument,
 		docElem = doc.documentElement,
@@ -110,7 +100,6 @@
 
 	// https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollY#Notes
 	function getPageOffset ( ) {
-
 		var supportPageOffset = window.pageXOffset !== undefined,
 			isCSS1Compat = ((document.compatMode || "") === "CSS1Compat"),
 			x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? document.documentElement.scrollLeft : document.body.scrollLeft,
@@ -126,7 +115,6 @@
 	// of accessing window.* as soon as the module needs it
 	// so that we do not compute anything if not needed
 	function getActions ( ) {
-
 		// Determine the events to bind. IE11 implements pointerEvents without
 		// a prefix, which breaks compatibility with the IE10 implementation.
 		return window.navigator.pointerEnabled ? {
@@ -143,7 +131,6 @@
 			end: 'mouseup touchend'
 		};
 	}
-
 
 // Value calculation
 
@@ -169,11 +156,9 @@
 		return ((value * ( range[1] - range[0] )) / 100) + range[0];
 	}
 
-
 // Range conversion
 
 	function getJ ( value, arr ) {
-
 		var j = 1;
 
 		while ( value >= arr[j] ){
@@ -185,7 +170,6 @@
 
 	// (percentage) Input a value, find where, on a scale of 0-100, it applies.
 	function toStepping ( xVal, xPct, value ) {
-
 		if ( value >= xVal.slice(-1)[0] ){
 			return 100;
 		}
@@ -202,7 +186,6 @@
 
 	// (value) Input a percentage, find where it is on the specified range.
 	function fromStepping ( xVal, xPct, value ) {
-
 		// There is no range group that fits 100
 		if ( value >= 100 ){
 			return xVal.slice(-1)[0];
@@ -220,7 +203,6 @@
 
 	// (percentage) Get the step that applies at a certain value.
 	function getStep ( xPct, xSteps, snap, value ) {
-
 		if ( value === 100 ) {
 			return value;
 		}
@@ -229,7 +211,6 @@
 
 		// If 'snap' is set, steps are used as fixed points on the slider.
 		if ( snap ) {
-
 			a = xPct[j-1];
 			b = xPct[j];
 
@@ -251,11 +232,9 @@
 		);
 	}
 
-
 // Entry parsing
 
 	function handleEntryPoint ( index, value, that ) {
-
 		var percentage;
 
 		// Wrap numerical input in an array.
@@ -299,7 +278,6 @@
 	}
 
 	function handleStepPoint ( i, n, that ) {
-
 		// Ignore 'false' stepping.
 		if ( !n ) {
 			return true;
@@ -314,14 +292,12 @@
 			that.xPct[i+1] );
 	}
 
-
 // Interface
 
 	// The interface to Spectrum handles all direction-based
 	// conversions, so the above values are unaware.
 
 	function Spectrum ( entry, snap, direction, singleStep ) {
-
 		this.xPct = [];
 		this.xVal = [];
 		this.xSteps = [ singleStep || false ];
@@ -346,7 +322,6 @@
 			ordered.sort(function(a, b) { return a[0] - b[0]; });
 		}
 
-
 		// Convert all entries to subranges.
 		for ( index = 0; index < ordered.length; index++ ) {
 			handleEntryPoint(ordered[index][1], ordered[index][0], this);
@@ -367,7 +342,6 @@
 	};
 
 	Spectrum.prototype.toStepping = function ( value ) {
-
 		value = toStepping( this.xVal, this.xPct, value );
 
 		// Invert the value if this is a right-to-left slider.
@@ -379,7 +353,6 @@
 	};
 
 	Spectrum.prototype.fromStepping = function ( value ) {
-
 		// Invert the value if this is a right-to-left slider.
 		if ( this.direction ) {
 			value = 100 - value;
@@ -389,7 +362,6 @@
 	};
 
 	Spectrum.prototype.getStep = function ( value ) {
-
 		// Find the proper step for rtl sliders by search in inverse direction.
 		// Fixes issue #262.
 		if ( this.direction ) {
@@ -406,7 +378,6 @@
 	};
 
 	Spectrum.prototype.getApplicableStep = function ( value ) {
-
 		// If the value is 100%, return the negative step twice.
 		var j = getJ(value, this.xPct), offset = value === 100 ? 2 : 1;
 		return [this.xNumSteps[j-2], this.xVal[j-offset], this.xNumSteps[j-offset]];
@@ -435,7 +406,6 @@
 	}, 'from': Number };
 
 	function testStep ( parsed, entry ) {
-
 		if ( !isNumeric( entry ) ) {
 			throw new Error("noUiSlider: 'step' is not numeric.");
 		}
@@ -446,7 +416,6 @@
 	}
 
 	function testRange ( parsed, entry ) {
-
 		// Filter incorrect input.
 		if ( typeof entry !== 'object' || Array.isArray(entry) ) {
 			throw new Error("noUiSlider: 'range' is not an object.");
@@ -466,7 +435,6 @@
 	}
 
 	function testStart ( parsed, entry ) {
-
 		entry = asArray(entry);
 
 		// Validate input. Values aren't tested, as the public .val method
@@ -484,7 +452,6 @@
 	}
 
 	function testSnap ( parsed, entry ) {
-
 		// Enforce 100% stepping within subranges.
 		parsed.snap = entry;
 
@@ -494,7 +461,6 @@
 	}
 
 	function testAnimate ( parsed, entry ) {
-
 		// Enforce 100% stepping within subranges.
 		parsed.animate = entry;
 
@@ -504,7 +470,6 @@
 	}
 
 	function testAnimationDuration ( parsed, entry ) {
-
 		parsed.animationDuration = entry;
 
 		if ( typeof entry !== 'number' ){
@@ -513,7 +478,6 @@
 	}
 
 	function testConnect ( parsed, entry ) {
-
 		if ( entry === 'lower' && parsed.handles === 1 ) {
 			parsed.connect = 1;
 		} else if ( entry === 'upper' && parsed.handles === 1 ) {
@@ -528,7 +492,6 @@
 	}
 
 	function testOrientation ( parsed, entry ) {
-
 		// Set orientation to an a numerical value for easy
 		// array selection.
 		switch ( entry ){
@@ -544,7 +507,6 @@
 	}
 
 	function testMargin ( parsed, entry ) {
-
 		if ( !isNumeric(entry) ){
 			throw new Error("noUiSlider: 'margin' option must be numeric.");
 		}
@@ -562,7 +524,6 @@
 	}
 
 	function testLimit ( parsed, entry ) {
-
 		if ( !isNumeric(entry) ){
 			throw new Error("noUiSlider: 'limit' option must be numeric.");
 		}
@@ -575,7 +536,6 @@
 	}
 
 	function testDirection ( parsed, entry ) {
-
 		// Set direction as a numerical value for easy parsing.
 		// Invert connection for RTL sliders, so that the proper
 		// handles get the connect/background classes.
@@ -593,7 +553,6 @@
 	}
 
 	function testBehaviour ( parsed, entry ) {
-
 		// Make sure the input is a string.
 		if ( typeof entry !== 'string' ) {
 			throw new Error("noUiSlider: 'behaviour' must be a string containing options.");
@@ -622,21 +581,17 @@
 	}
 
 	function testTooltips ( parsed, entry ) {
-
 		var i;
 
 		if ( entry === false ) {
 			return;
 		} else if ( entry === true ) {
-
 			parsed.tooltips = [];
 
 			for ( i = 0; i < parsed.handles; i++ ) {
 				parsed.tooltips.push(true);
 			}
-
 		} else {
-
 			parsed.tooltips = asArray(entry);
 
 			if ( parsed.tooltips.length !== parsed.handles ) {
@@ -652,7 +607,6 @@
 	}
 
 	function testFormat ( parsed, entry ) {
-
 		parsed.format = entry;
 
 		// Any object with a to and from method is supported.
@@ -664,7 +618,6 @@
 	}
 
 	function testCssPrefix ( parsed, entry ) {
-
 		if ( entry !== undefined && typeof entry !== 'string' && entry !== false ) {
 			throw new Error("noUiSlider: 'cssPrefix' must be a string or `false`.");
 		}
@@ -673,7 +626,6 @@
 	}
 
 	function testCssClasses ( parsed, entry ) {
-
 		if ( entry !== undefined && typeof entry !== 'object' ) {
 			throw new Error("noUiSlider: 'cssClasses' must be an object.");
 		}
@@ -693,7 +645,6 @@
 
 	// Test all developer settings and parse to assumption-safe values.
 	function testOptions ( options ) {
-
 		// To prove a fix for #537, freeze options here.
 		// If the object is modified, an error will be thrown.
 		// Object.freeze(options);
@@ -773,10 +724,8 @@
 		// input. It should be noted that options might get modified to
 		// be handled properly. E.g. wrapping integers in arrays.
 		Object.keys(tests).forEach(function( name ){
-
 			// If the option isn't set, but it is required, throw an error.
 			if ( options[name] === undefined && defaults[name] === undefined ) {
-
 				if ( tests[name].r ) {
 					throw new Error("noUiSlider: '" + name + "' is required.");
 				}
@@ -796,7 +745,6 @@
 		return parsed;
 	}
 
-
 function closure ( target, options, originalOptions ){
 	var
 		actions = getActions( ),
@@ -810,10 +758,8 @@ function closure ( target, options, originalOptions ){
 		scope_Events = {},
 		scope_Self;
 
-
 	// Delimit proposed values for handle positions.
 	function getPositions ( a, b, delimit ) {
-
 		// Add movement to current position.
 		var c = a + b[0], d = a + b[1];
 
@@ -836,7 +782,6 @@ function closure ( target, options, originalOptions ){
 
 	// Provide a clean event with standardized offset values.
 	function fixEvent ( e, pageOffset ) {
-
 		// Prevent scrolling and panning on touch events, while
 		// attempting to slide. The tap event also depends on this.
 		e.preventDefault();
@@ -877,7 +822,6 @@ function closure ( target, options, originalOptions ){
 
 	// Append a handle to the base.
 	function addHandle ( direction, index ) {
-
 		var origin = document.createElement('div'),
 			handle = document.createElement('div'),
 			classModifier = [options.cssClasses.handleLower, options.cssClasses.handleUpper];
@@ -897,7 +841,6 @@ function closure ( target, options, originalOptions ){
 
 	// Add the proper connection classes.
 	function addConnection ( connect, target, handles ) {
-
 		// Apply the required connection classes to the elements
 		// that need them. Some classes are made up for several
 		// segments listed in the class list, to allow easy
@@ -917,12 +860,10 @@ function closure ( target, options, originalOptions ){
 
 	// Add handles to the slider base.
 	function addHandles ( nrHandles, direction, base ) {
-
 		var index, handles = [];
 
 		// Append handles.
 		for ( index = 0; index < nrHandles; index += 1 ) {
-
 			// Keep a list of all added handles.
 			handles.push( base.appendChild(addHandle( direction, index )) );
 		}
@@ -932,7 +873,6 @@ function closure ( target, options, originalOptions ){
 
 	// Initialize a single slider.
 	function addSlider ( direction, orientation, target ) {
-
 		// Apply classes and data to the target.
 		addClass(target, options.cssClasses.target);
 
@@ -954,9 +894,7 @@ function closure ( target, options, originalOptions ){
 		return div;
 	}
 
-
 	function addTooltip ( handle, index ) {
-
 		if ( !options.tooltips[index] ) {
 			return false;
 		}
@@ -968,7 +906,6 @@ function closure ( target, options, originalOptions ){
 
 	// The tooltips option is a shorthand for using the 'update' event.
 	function tooltips ( ) {
-
 		if ( options.dir ) {
 			options.tooltips.reverse();
 		}
@@ -988,16 +925,13 @@ function closure ( target, options, originalOptions ){
 		});
 	}
 
-
 	function getGroup ( mode, values, stepped ) {
-
 		// Use the range.
 		if ( mode === 'range' || mode === 'steps' ) {
 			return scope_Spectrum.xVal;
 		}
 
 		if ( mode === 'count' ) {
-
 			// Divide 0 - 100 in 'count' parts.
 			var spread = ( 100 / (values-1) ), v, i = 0;
 			values = [];
@@ -1011,7 +945,6 @@ function closure ( target, options, originalOptions ){
 		}
 
 		if ( mode === 'positions' ) {
-
 			// Map all percentages to on-range values.
 			return values.map(function( value ){
 				return scope_Spectrum.fromStepping( stepped ? scope_Spectrum.getStep( value ) : value );
@@ -1019,16 +952,12 @@ function closure ( target, options, originalOptions ){
 		}
 
 		if ( mode === 'values' ) {
-
 			// If the value must be stepped, it needs to be converted to a percentage first.
 			if ( stepped ) {
-
 				return values.map(function( value ){
-
 					// Convert to percentage, apply step, return to value.
 					return scope_Spectrum.fromStepping( scope_Spectrum.getStep( scope_Spectrum.toStepping( value ) ) );
 				});
-
 			}
 
 			// Otherwise, we can simply use the values.
@@ -1037,7 +966,6 @@ function closure ( target, options, originalOptions ){
 	}
 
 	function generateSpread ( density, mode, group ) {
-
 		function safeIncrement(value, increment) {
 			// Avoid floating point variance by dropping the smallest decimal places.
 			return (value + increment).toFixed(7) / 1;
@@ -1072,7 +1000,6 @@ function closure ( target, options, originalOptions ){
 		}
 
 		group.forEach(function ( current, index ) {
-
 			// Get the current step and the lower + upper positions.
 			var step, i, q,
 				low = current,
@@ -1099,7 +1026,6 @@ function closure ( target, options, originalOptions ){
 
 			// Find all steps in the subrange.
 			for ( i = low; i <= high; i = safeIncrement(i, step) ) {
-
 				// Get the percentage value for the current step,
 				// calculate the size for the subrange.
 				newPct = scope_Spectrum.toStepping( i );
@@ -1117,7 +1043,6 @@ function closure ( target, options, originalOptions ){
 				// Divide all points evenly, adding the correct number to this subrange.
 				// Run up to <= so that 100% gets a point, event if ignoreLast is set.
 				for ( q = 1; q <= realSteps; q += 1 ) {
-
 					// The ratio between the rounded value and the actual size might be ~1% off.
 					// Correct the percentage offset by the number of points
 					// per subrange. density = 1 will result in 100 points on the
@@ -1151,7 +1076,6 @@ function closure ( target, options, originalOptions ){
 	}
 
 	function addMarking ( spread, filterFunc, formatter ) {
-
 		var element = document.createElement('div'),
 			out = '',
 			valueSizeClasses = [
@@ -1189,7 +1113,6 @@ function closure ( target, options, originalOptions ){
 		}
 
 		function addSpread ( offset, values ){
-
 			if ( scope_Spectrum.direction ) {
 				offset = 100 - offset;
 			}
@@ -1217,7 +1140,6 @@ function closure ( target, options, originalOptions ){
 	}
 
 	function pips ( grid ) {
-
 	var mode = grid.mode,
 		density = grid.density || 1,
 		filter = grid.filter || false,
@@ -1236,7 +1158,6 @@ function closure ( target, options, originalOptions ){
 		));
 	}
 
-
 	// Shorthand for base dimensions.
 	function baseSize ( ) {
 		var rect = scope_Base.getBoundingClientRect(), alt = 'offset' + ['Width', 'Height'][options.ort];
@@ -1245,7 +1166,6 @@ function closure ( target, options, originalOptions ){
 
 	// External event handling
 	function fireEvent ( event, handleNumber, tap ) {
-
 		var i;
 
 		// During initialization, do not fire events.
@@ -1260,12 +1180,10 @@ function closure ( target, options, originalOptions ){
 		}
 
 		Object.keys(scope_Events).forEach(function( targetEvent ) {
-
 			var eventType = targetEvent.split('.')[0];
 
 			if ( event === eventType ) {
 				scope_Events[targetEvent].forEach(function( callback ) {
-
 					callback.call(
 						// Use the slider public API as the scope ('this')
 						scope_Self,
@@ -1287,7 +1205,6 @@ function closure ( target, options, originalOptions ){
 
 	// Returns the input array, respecting the slider direction configuration.
 	function inSliderOrder ( values ) {
-
 		// If only one handle is used, return a single value.
 		if ( values.length === 1 ){
 			return values[0];
@@ -1300,15 +1217,12 @@ function closure ( target, options, originalOptions ){
 		return values;
 	}
 
-
 	// Handler for attaching events trough a proxy.
 	function attach ( events, element, callback, data ) {
-
 		// This function can be used to 'filter' events to the slider.
 		// element is a node, not a nodeList
 
 		var method = function ( e ){
-
 			if ( scope_Target.hasAttribute('disabled') ) {
 				return false;
 			}
@@ -1334,7 +1248,6 @@ function closure ( target, options, originalOptions ){
 
 			// Call the event handler with the event [ and additional data ].
 			callback ( e, data );
-
 		}, methods = [];
 
 		// Bind a closure on the target for every event type.
@@ -1348,7 +1261,6 @@ function closure ( target, options, originalOptions ){
 
 	// Handle movement on document for handle and range drag.
 	function move ( event, data ) {
-
 		// Fix #498
 		// Check value of .buttons in 'start' to work around a bug in IE10 mobile (data.buttonsProperty).
 		// https://connect.microsoft.com/IE/feedback/details/927005/mobile-ie10-windows-phone-buttons-property-of-pointermove-event-always-zero
@@ -1368,7 +1280,6 @@ function closure ( target, options, originalOptions ){
 		state = setHandle ( handles[0], positions[handleNumber], handles.length === 1 );
 
 		if ( handles.length > 1 ) {
-
 			state = setHandle ( handles[1], positions[handleNumber?0:1], false ) || state;
 
 			if ( state ) {
@@ -1385,7 +1296,6 @@ function closure ( target, options, originalOptions ){
 
 	// Unbind move events on document, call callbacks.
 	function end ( event, data ) {
-
 		// The handle is no longer active, so remove the class.
 		var active = scope_Base.querySelector( '.' + options.cssClasses.active ),
 			handleNumber = data.handles[0] === scope_Handles[0] ? 0 : 1;
@@ -1429,7 +1339,6 @@ function closure ( target, options, originalOptions ){
 
 	// Bind move events on document.
 	function start ( event, data ) {
-
 		var d = document.documentElement;
 
 		// Mark the handle as 'active' so it can be styled.
@@ -1475,7 +1384,6 @@ function closure ( target, options, originalOptions ){
 		// Text selection isn't an issue on touch devices,
 		// so adding cursor styles can be skipped.
 		if ( event.cursor ) {
-
 			// Prevent the 'I' cursor and extend the range-drag cursor.
 			document.body.style.cursor = getComputedStyle(event.target).cursor;
 
@@ -1501,7 +1409,6 @@ function closure ( target, options, originalOptions ){
 
 	// Move closest handle to tapped location.
 	function tap ( event ) {
-
 		var location = event.calcPoint, total = 0, handleNumber, to;
 
 		// The tap event shouldn't propagate up and cause 'edge' to run.
@@ -1551,7 +1458,6 @@ function closure ( target, options, originalOptions ){
 
 	// Fires a 'hover' event for a hovered mouse/pen position.
 	function hover ( event ) {
-
 		var location = event.calcPoint - offset(scope_Base)[ options.style ],
 			to = scope_Spectrum.getStep(( location * 100 ) / baseSize()),
 			value = scope_Spectrum.fromStepping( to );
@@ -1567,12 +1473,9 @@ function closure ( target, options, originalOptions ){
 
 	// Attach events to several slider parts.
 	function events ( behaviour ) {
-
 		// Attach the standard drag event to the handles.
 		if ( !behaviour.fixed ) {
-
 			scope_Handles.forEach(function( handle, index ){
-
 				// These events are only bound to the visual handle
 				// element, not the 'real' origin element.
 				attach ( actions.start, handle.children[0], start, {
@@ -1584,7 +1487,6 @@ function closure ( target, options, originalOptions ){
 
 		// Attach the tap event to the slider base.
 		if ( behaviour.tap ) {
-
 			attach ( actions.start, scope_Base, tap, {
 				handles: scope_Handles
 			});
@@ -1597,7 +1499,6 @@ function closure ( target, options, originalOptions ){
 
 		// Make the range draggable.
 		if ( behaviour.drag ){
-
 			var drag = [scope_Base.querySelector( '.' + options.cssClasses.connect )];
 			addClass(drag[0], options.cssClasses.draggable);
 
@@ -1617,10 +1518,8 @@ function closure ( target, options, originalOptions ){
 		}
 	}
 
-
 	// Test suggested values and apply margin, step.
 	function setHandle ( handle, to, noLimitOption ) {
-
 		var trigger = handle !== scope_Handles[0] ? 1 : 0,
 			lowerMargin = scope_Locations[0] + options.margin,
 			upperMargin = scope_Locations[1] - options.margin,
@@ -1686,7 +1585,6 @@ function closure ( target, options, originalOptions ){
 
 	// Loop values from value method and apply them.
 	function setValues ( count, values ) {
-
 		var i, trigger, to;
 
 		// With the limit option, we'll need another limiting pass.
@@ -1698,7 +1596,6 @@ function closure ( target, options, originalOptions ){
 		// mechanism twice for the first handle, to make sure it
 		// can be bounced of the second one properly.
 		for ( i = 0; i < count; i += 1 ) {
-
 			trigger = i%2;
 
 			// Get the current argument from the array.
@@ -1707,7 +1604,6 @@ function closure ( target, options, originalOptions ){
 			// Setting with null indicates an 'ignore'.
 			// Inputting 'false' is invalid.
 			if ( to !== null && to !== false ) {
-
 				// If a formatted number was passed, attemt to decode it.
 				if ( typeof to === 'number' ) {
 					to = String(to);
@@ -1726,7 +1622,6 @@ function closure ( target, options, originalOptions ){
 
 	// Set the slider value.
 	function valueSet ( input, fireSetEvent ) {
-
 		var count, values = asArray( input ), i;
 
 		// Event fires by default
@@ -1755,7 +1650,6 @@ function closure ( target, options, originalOptions ){
 
 		// Fire the 'set' event for both handles.
 		for ( i = 0; i < scope_Handles.length; i++ ) {
-
 			// Fire the event only for handles that received a new value, as per #579
 			if ( values[i] !== null && fireSetEvent ) {
 				fireEvent('set', i);
@@ -1765,7 +1659,6 @@ function closure ( target, options, originalOptions ){
 
 	// Get the slider value.
 	function valueGet ( ) {
-
 		var i, retour = [];
 
 		// Get the value from all handles.
@@ -1778,7 +1671,6 @@ function closure ( target, options, originalOptions ){
 
 	// Removes classes from the root and empties it.
 	function destroy ( ) {
-
 		for ( var key in options.cssClasses ) {
 			if ( !options.cssClasses.hasOwnProperty(key) ) { continue; }
 			removeClass(scope_Target, options.cssClasses[key]);
@@ -1793,11 +1685,9 @@ function closure ( target, options, originalOptions ){
 
 	// Get the current step size for the slider.
 	function getCurrentStep ( ) {
-
 		// Check all locations, map them to their stepping point.
 		// Get the step point, then find it in the input list.
 		var retour = scope_Locations.map(function( location, index ){
-
 			var step = scope_Spectrum.getApplicableStep( location ),
 
 				// As per #391, the comparison for the decrement step can have some rounding issues.
@@ -1841,12 +1731,10 @@ function closure ( target, options, originalOptions ){
 
 	// Undo attachment of event
 	function removeEvent ( namespacedEvent ) {
-
 		var event = namespacedEvent && namespacedEvent.split('.')[0],
 			namespace = event && namespacedEvent.substring(event.length);
 
 		Object.keys(scope_Events).forEach(function( bind ){
-
 			var tEvent = bind.split('.')[0],
 				tNamespace = bind.substring(tEvent.length);
 
@@ -1858,7 +1746,6 @@ function closure ( target, options, originalOptions ){
 
 	// Updateable: margin, limit, step, range, animate, snap
 	function updateOptions ( optionsToUpdate, fireSetEvent ) {
-
 		// Spectrum is created using the range, snap, direction and step options.
 		// 'snap' and 'step' can be updated, 'direction' cannot, due to event binding.
 		// If 'snap' and 'step' are not passed, they should remain unchanged.
@@ -1873,7 +1760,6 @@ function closure ( target, options, originalOptions ){
 		});
 
 		['margin', 'limit', 'range', 'animate'].forEach(function(name){
-
 			// Only change options that we're actually passed to update.
 			if ( optionsToUpdate[name] !== undefined ) {
 				options[name] = optionsToUpdate[name];
@@ -1889,7 +1775,6 @@ function closure ( target, options, originalOptions ){
 		scope_Locations = [-1, -1];
 		valueSet(optionsToUpdate.start || v, fireSetEvent);
 	}
-
 
 	// Throw an error if the slider was already initialized.
 	if ( scope_Target.noUiSlider ) {
@@ -1929,13 +1814,10 @@ function closure ( target, options, originalOptions ){
 	events( options.events );
 
 	return scope_Self;
-
 }
-
 
 	// Run the standard initializer
 	function initialize ( target, originalOptions ) {
-
 		if ( !target.nodeName ) {
 			throw new Error('noUiSlider.create requires a single element.');
 		}
@@ -1955,5 +1837,4 @@ function closure ( target, options, originalOptions ){
 	return {
 		create: initialize
 	};
-
 }));

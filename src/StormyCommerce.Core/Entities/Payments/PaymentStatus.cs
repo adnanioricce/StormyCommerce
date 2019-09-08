@@ -7,6 +7,6 @@
         Pending = 15,
         Authorized = 20,
         PartiallyRefunded = 25,
-        Refunded = 30               
+        Refunded = 30
     }
 }

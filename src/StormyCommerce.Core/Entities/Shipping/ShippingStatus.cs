@@ -1,5 +1,4 @@
-﻿
-namespace StormyCommerce.Core.Entities.Shipping
+﻿namespace StormyCommerce.Core.Entities.Shipping
 {
     public enum ShippingStatus
     {

@@ -1,10 +1,10 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using StormyCommerce.Core.Entities.Media;
+﻿using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
+using System.IO;
+using System.Threading.Tasks;
 
-//Just Copy and Paste from the original 
+//Just Copy and Paste from the original
 //Tried to avoid adding a reference from Module.Core just for this class
 namespace StormyCommerce.Core.Services
 {
@@ -13,7 +13,7 @@ namespace StormyCommerce.Core.Services
         private readonly IStormyRepository<Media> _mediaRepository;
         private readonly IStorageService _storageService;
 
-        public MediaService(IStormyRepository<Media> mediaRepository, 
+        public MediaService(IStormyRepository<Media> mediaRepository,
         IStorageService storageService)
         {
             _mediaRepository = mediaRepository;
@@ -22,7 +22,7 @@ namespace StormyCommerce.Core.Services
 
         public string GetMediaUrl(Media media)
         {
-            if(media == null)
+            if (media == null)
             {
                 return GetMediaUrl("no-image.png");
             }

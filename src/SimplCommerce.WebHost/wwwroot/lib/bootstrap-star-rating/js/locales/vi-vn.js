@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * Star Rating French Translations
  *
  * This file must be loaded after 'star-rating.js'. Patterns in braces '{}', or

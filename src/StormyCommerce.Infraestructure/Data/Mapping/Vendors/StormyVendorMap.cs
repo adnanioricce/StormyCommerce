@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Vendor;
-using StormyCommerce.Api.Framework.Extensions;
+
 namespace StormyCommerce.Infraestructure.Data.Mapping.Vendors
 {
     public class StormyVendorMap : IStormyModelBuilder

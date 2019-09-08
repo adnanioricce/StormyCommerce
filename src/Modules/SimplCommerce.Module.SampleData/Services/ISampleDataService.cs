@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using SimplCommerce.Module.SampleData.Areas.SampleData.ViewModels;
+﻿using SimplCommerce.Module.SampleData.Areas.SampleData.ViewModels;
+using System.Threading.Tasks;
 
 namespace SimplCommerce.Module.SampleData.Services
 {

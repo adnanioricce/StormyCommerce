@@ -12,18 +12,19 @@ namespace StormyCommerce.Api.Framework
     {
         protected readonly IHostingEnvironment _hostingEnvironment;
         protected readonly IConfiguration _configuration;
-        public Startup(IConfiguration configuration,IHostingEnvironment hostingEnvironment)
+
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             _configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
         }
+
         public virtual void ConfigureServices(IServiceCollection services)
         {
-
         }
-        public virtual void Configure(IApplicationBuilder app,IHostingEnvironment env,ILoggerFactory logger)
-        {
 
+        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory logger)
+        {
         }
     }
 }

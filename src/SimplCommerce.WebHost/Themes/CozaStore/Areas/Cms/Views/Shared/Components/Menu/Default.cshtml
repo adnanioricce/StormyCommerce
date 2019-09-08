@@ -9,12 +9,12 @@
         </a>
         @if (item.ChildItems.Any())
         {
-            <ul>
-                @foreach (var childItem in item.ChildItems)
+        <ul>
+            @foreach (var childItem in item.ChildItems)
                 {
-                    <li><a href="@childItem.Link">@childItem.Name</a></li>
+            <li><a href="@childItem.Link">@childItem.Name</a></li>
                 }
-            </ul>
+        </ul>
         }
     </li>
     }

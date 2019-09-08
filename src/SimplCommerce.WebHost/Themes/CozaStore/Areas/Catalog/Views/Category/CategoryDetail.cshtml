@@ -23,14 +23,13 @@
     </a>
     @if (Model.ParentCategorId.HasValue)
     {
-        @await Component.InvokeAsync("CategoryBreadcrumb", new { categoryId = Model.ParentCategorId.Value })
+    @await Component.InvokeAsync("CategoryBreadcrumb", new { categoryId = Model.ParentCategorId.Value })
     }
 
     <span class="stext-109 cl4">
         @Model.CategoryName
     </span>
 </div>
-
 
 <div class="row">
     <div class="col-md-3 product-list-filters">
@@ -51,13 +50,13 @@
                             <ul class="list-unstyled checkbox-list">
                                 @foreach (var brand in Model.FilterOption.Brands)
                                 {
-                                    <li>
-                                        <label class="checkbox">
-                                            <input type="checkbox" value="@brand.Slug" name="brand" checked="@Model.CurrentSearchOption.GetBrands().Contains(brand.Slug)">
-                                            @brand.Name
-                                            <small>(@brand.Count)</small>
-                                        </label>
-                                    </li>
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" value="@brand.Slug" name="brand" checked="@Model.CurrentSearchOption.GetBrands().Contains(brand.Slug)">
+                                        @brand.Name
+                                        <small>(@brand.Count)</small>
+                                    </label>
+                                </li>
                                 }
                             </ul>
                         </div>
@@ -66,29 +65,29 @@
             </div>
             @if (Model.FilterOption.Price.MaxPrice != Model.FilterOption.Price.MinPrice)
             {
-                <div id="accordion-price" class="mt-4">
-                    <div class="card">
-                        <div class="card-header" id="cardHeaderPrice">
-                            <h5 class="mb-0">
-                                <a data-toggle="collapse" href="#collapse-price" aria-expanded="true" aria-controls="collapse-price">
-                                    @Localizer["Price"]
-                                    <i class="fa fa-angle-down"></i>
-                                </a>
-                            </h5>
-                        </div>
-                        <div id="collapse-price" class="collapse show" aria-labelledby="cardHeaderPrice" data-parent="#accordion-price">
-                            <div class="card-body">
-                                <div id="priceSlider"></div>
-                                <div>
-                                    <input type="hidden" id="originMinPrice" value="@Model.FilterOption.Price.MinPrice.ToString("F0")" />
-                                    <input type="hidden" id="originMaxPrice" value="@Model.FilterOption.Price.MaxPrice.ToString("F0")" />
-                                    <span id="minPrice"></span>
-                                    <span id="maxPrice"></span>
-                                </div>
+            <div id="accordion-price" class="mt-4">
+                <div class="card">
+                    <div class="card-header" id="cardHeaderPrice">
+                        <h5 class="mb-0">
+                            <a data-toggle="collapse" href="#collapse-price" aria-expanded="true" aria-controls="collapse-price">
+                                @Localizer["Price"]
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="collapse-price" class="collapse show" aria-labelledby="cardHeaderPrice" data-parent="#accordion-price">
+                        <div class="card-body">
+                            <div id="priceSlider"></div>
+                            <div>
+                                <input type="hidden" id="originMinPrice" value="@Model.FilterOption.Price.MinPrice.ToString("F0")" />
+                                <input type="hidden" id="originMaxPrice" value="@Model.FilterOption.Price.MaxPrice.ToString("F0")" />
+                                <span id="minPrice"></span>
+                                <span id="maxPrice"></span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             }
         </form>
     </div>
@@ -125,9 +124,9 @@
         <div class="row product-list">
             @foreach (var product in Model.Products)
             {
-                <div class="col-xs-6 col-md-4">
-                    <partial name="_ProductThumbnail" model="product" />
-                </div>
+            <div class="col-xs-6 col-md-4">
+                <partial name="_ProductThumbnail" model="product" />
+            </div>
             }
         </div>
         <div class="row">

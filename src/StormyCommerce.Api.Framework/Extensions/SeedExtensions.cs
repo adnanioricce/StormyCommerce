@@ -1,6 +1,5 @@
-using System;
+﻿using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-using StormyCommerce.Core.Entities.Catalog.Product;
 using System.Collections.Generic;
 using System.Linq;
 

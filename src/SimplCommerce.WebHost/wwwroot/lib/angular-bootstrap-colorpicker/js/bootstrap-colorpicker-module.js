@@ -1,4 +1,4 @@
-angular.module('colorpicker.module', [])
+﻿angular.module('colorpicker.module', [])
     .factory('Helper', function () {
       'use strict';
       return {
@@ -507,7 +507,6 @@ angular.module('colorpicker.module', [])
           }
 
           function showColorpickerTemplate() {
-
             if (!colorpickerTemplate.hasClass('colorpicker-visible')) {
               update();
               colorpickerTemplate
@@ -571,13 +570,11 @@ angular.module('colorpicker.module', [])
 
           if (attrs.colorpickerIsOpen) {
             $scope.$watch(attrs.colorpickerIsOpen, function(shouldBeOpen) {
-
               if (shouldBeOpen === true) {
                 showColorpickerTemplate();
               } else if (shouldBeOpen === false) {
                 hideColorpickerTemplate();
               }
-
             });
           }
         }

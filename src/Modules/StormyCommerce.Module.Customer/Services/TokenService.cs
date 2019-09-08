@@ -18,6 +18,7 @@ namespace StormyCommerce.Module.Customer.Services
         {
             _configuration = configuration;
         }
+
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:Jwt:Key"]));

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using StormyCommerce.Core.Entities;
+
 //TODO: Use FluentAPI instead of DataAnnotations
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
     public class ProductTemplate : BaseEntity
-    {        
+    {
         public string Name { get; set; }
 
         public IList<ProductTemplateProductAttribute> ProductAttributes { get; protected set; } = new List<ProductTemplateProductAttribute>();

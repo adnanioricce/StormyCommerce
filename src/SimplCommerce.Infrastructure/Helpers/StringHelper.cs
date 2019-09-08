@@ -80,7 +80,6 @@ namespace SimplCommerce.Infrastructure.Helpers
 
         public static string Strip(this string subject, Func<char, bool> predicate)
         {
-
             var result = new char[subject.Length];
 
             var cursor = 0;
@@ -115,22 +114,28 @@ namespace SimplCommerce.Infrastructure.Helpers
                 case 'ı':
                     swap = "i";
                     break;
+
                 case 'ł':
                 case 'Ł':
                     swap = "l";
                     break;
+
                 case 'đ':
                     swap = "d";
                     break;
+
                 case 'ß':
                     swap = "ss";
                     break;
+
                 case 'ø':
                     swap = "o";
                     break;
+
                 case 'Þ':
                     swap = "th";
                     break;
+
                 default:
                     swap = c.ToString();
                     break;

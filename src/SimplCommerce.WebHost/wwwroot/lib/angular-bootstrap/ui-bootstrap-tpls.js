@@ -1,4 +1,4 @@
-/*
+﻿/*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
 
@@ -1986,7 +1986,6 @@ angular.module('ui.bootstrap.position', [])
     var BODY_REGEX = /(HTML|BODY)/;
 
     return {
-
       /**
        * Provides a raw DOM element from a jQuery/jQLite element.
        *
@@ -3628,7 +3627,6 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap', 'ui.bootstrap.p
             });
           }
 
-
           $q.when(animationPromise).then(function() {
             // Notify {@link $modalStack} that modal is rendered.
             var modal = $modalStack.getTop();
@@ -4176,7 +4174,6 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap', 'ui.bootstrap.p
                   appendTo: modalOptions.appendTo
                 });
                 modalOpenedDeferred.resolve(true);
-
             }, function resolveError(reason) {
               modalOpenedDeferred.reject(reason);
               modalResultDeferred.reject(reason);
@@ -6075,7 +6072,6 @@ angular.module('ui.bootstrap.timepicker', [])
         });
       }
     });
-
   };
 
   this.render = function() {

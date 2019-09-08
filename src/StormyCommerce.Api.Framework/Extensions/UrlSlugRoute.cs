@@ -1,19 +1,21 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing;
+﻿using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
+using System.Threading.Tasks;
 
 namespace StormyCommerce.Api.Framework.Extensions
 {
     public class UrlSlugRoute : IRouter
     {
         private readonly IRouter _target;
+
         public UrlSlugRoute(IRouter target)
         {
             _target = target;
         }
+
         public VirtualPathData GetVirtualPath(VirtualPathContext context)
         {
             throw new System.NotImplementedException();

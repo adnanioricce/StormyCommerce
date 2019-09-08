@@ -1,6 +1,4 @@
-using System;
-
-namespace StormyCommerce.Core.Entities.Customer
+﻿namespace StormyCommerce.Core.Entities.Customer
 {
     public enum ReviewStatus
     {

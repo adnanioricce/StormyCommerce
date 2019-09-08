@@ -1,5 +1,5 @@
-﻿using System;
-using StormyCommerce.Core.Entities.Catalog.Product;
+﻿using StormyCommerce.Core.Entities.Catalog.Product;
+using System;
 
 namespace StormyCommerce.Core.Tests.Helpers
 {
@@ -16,9 +16,10 @@ namespace StormyCommerce.Core.Tests.Helpers
                 Description = "Nice brand is a brand that create fashion products",
                 Website = "www.nice.com.br",
                 LastModified = DateTime.UtcNow,
-                LogoImage = "logo.img"                
+                LogoImage = "logo.img"
             };
         }
+
         public static Brand GetSingleBrandData()
         {
             return new Brand
