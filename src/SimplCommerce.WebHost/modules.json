@@ -14,5 +14,9 @@
   {
     "id": "StormyCommerce.Module.Mapping",
     "version": "1.0.0"
+  },
+  {
+    "id" : "SimplCommerce.Module.SampleData",
+    "version" : "1.0.0"
   }
 ]
