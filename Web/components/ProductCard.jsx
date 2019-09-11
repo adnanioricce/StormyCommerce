@@ -4,7 +4,7 @@ import FavoriteFloater from './FavoriteFloater';
 import InteractiveElement from './InteractiveElement';
 import toPrice from '../util/toPrice';
 
-const ProductCard = ({ isFavorited, name, image, price }, index) => {
+const ProductCard = ({ isFavorited, productName, thumbnailImage, price }, index) => {
   // const [image, setImage] = React.useState('');
   // React.useEffect(()=>{
   //   fetch(product.image).then(
@@ -23,7 +23,7 @@ const ProductCard = ({ isFavorited, name, image, price }, index) => {
     <div className="product-card" key={index}>
       <FavoriteFloater
         style={{ top: -1, right: -1 }}
-        isFavorited={isFavorited}
+        // isFavorited={isFavorited}
       />
       <Link
         href={`/produtos/${name.replace(/\s/g, '-')}`}
@@ -33,12 +33,12 @@ const ProductCard = ({ isFavorited, name, image, price }, index) => {
           onClick={handleProductClick}
           tag="img"
           className="image"
-          src={image}
-          alt={name}
+          src={thumbnailImage}
+          alt={productName}
         />
       </Link>
       <Link
-        href={`/produtos/${name.replace(/\s/g, '-')}`}
+        href={`/produtos/${productName.replace(/\s/g, '-')}`}
         // as={`/produtos/${name.replace(/\s/g, '-')}`}
       >
         <InteractiveElement
@@ -46,8 +46,9 @@ const ProductCard = ({ isFavorited, name, image, price }, index) => {
           className="info"
           tag="div"
         >
-          <p className="title">{name}</p>
-          <p className="price">{toPrice(price)}</p>
+          <p className="title">{productName}</p>
+          {/* Price já é uma string */}
+          <p className="price">{price}</p>
         </InteractiveElement>
       </Link>
     </div>

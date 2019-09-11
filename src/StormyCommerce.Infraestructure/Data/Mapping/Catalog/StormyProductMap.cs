@@ -40,7 +40,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 .WithMany(p => p.LinkedProductLinks)
                 .HasForeignKey(x => x.LinkedProductId)
                 .OnDelete(DeleteBehavior.Restrict);
-                entity.HasData(Seeders.ProductLinkSeed(50));
+                // entity.HasData(Seeders.ProductLinkSeed(50));
             });
             modelBuilder.Entity<ProductTemplateProductAttribute>(entity =>
             {

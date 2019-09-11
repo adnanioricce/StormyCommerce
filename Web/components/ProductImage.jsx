@@ -4,8 +4,8 @@ import FavoriteFloater from './FavoriteFloater';
 import ExtraImages from './ExtraImages';
 
 export default ({ currentProduct }) => {
-  const { images } = currentProduct;
-  const [currentImage, setCurrentImage] = React.useState(images[0]);
+  const { medias } = currentProduct.medias;
+  const [thumbnailImage, setCurrentImage] = React.useState(currentProduct.thumbnailImage);
   return (
     <div className="product-image-container">
       <div className="product-image">
@@ -15,10 +15,10 @@ export default ({ currentProduct }) => {
             smallImage: {
               alt: 'Wristwatch by Ted Baker London',
               isFluidWidth: true,
-              src: currentImage
+              src: thumbnailImage
             },
             largeImage: {
-              src: currentImage,
+              src: thumbnailImage,
               width: 1200,
               height: 1800
             },
@@ -28,10 +28,13 @@ export default ({ currentProduct }) => {
 
         <FavoriteFloater
           style={{ top: -1, left: -1 }}
-          isFavorited={currentProduct.isFavorited}
+          // Favorited é definido por cada usuário 
+          // não é um campo presente em produtos
+          // mas na entidade WishListItem
+          // isFavorited={currentProduct.isFavorited}
         />
       </div>
-      <ExtraImages images={images} setCurrentImage={setCurrentImage}/>
+      <ExtraImages images={medias} setCurrentImage={setCurrentImage}/>
     </div>
   );
 };

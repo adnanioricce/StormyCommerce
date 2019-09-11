@@ -10,7 +10,9 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
         public void Build(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<StormyCustomer>(entity =>
-            {
+            { 
+                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();               
+                entity.HasQueryFilter(f => !f.IsDeleted);
                 entity.HasOne(prop => prop.CustomerWishlist).WithOne(prop => prop.Customer);
                 entity.HasMany(prop => prop.CustomerReviews).WithOne(prop => prop.Author).HasForeignKey(prop => prop.StormyCustomerId);
                 entity.HasOne(prop => prop.DefaultBillingAddress).WithMany().HasForeignKey(customer => customer.DefaultBillingAddressId);
@@ -20,11 +22,11 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.Ignore(customer => customer.CustomerAddresses);
             });
             modelBuilder.Entity<ApplicationUser>(entity =>
-            {
+            {                
                 entity.HasKey(prop => prop.Id);
             });
             modelBuilder.Entity<Review>(entity =>
-            {
+            {                
                 entity.HasOne(prop => prop.Author).WithMany(customer => customer.CustomerReviews).HasForeignKey(r => r.StormyCustomerId);
                 entity.HasQueryFilter(prop => !prop.IsDeleted);
             });

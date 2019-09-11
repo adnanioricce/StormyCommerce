@@ -30,14 +30,12 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             ThumbnailImage = productDto.ThumbnailImage;
         }
 
-        public StormyProduct(ProductDto productDto, long id)
-        {
+        public StormyProduct(ProductDto productDto, long id) : this(productDto)
+        {            
+            Id = id;
         }
 
-        public StormyProduct()
-        {
-        }
-
+        public StormyProduct(){}
         public string SKU { get; set; }
         public string ProductName { get; set; }
         public string Slug { get; set; }
@@ -50,10 +48,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public Brand Brand { get; set; }
         public Category Category { get; set; }
         public string TypeName { get; set; }
-
-        //QuantityPerUnity? Why I put this here
+        public string ShortDescription { get; set; }
+        public string Description { get; set;}        
         public int QuantityPerUnity { get; set; }
-
         public decimal UnitSize { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }

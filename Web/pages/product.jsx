@@ -6,8 +6,9 @@ import Description from '../components/Description';
 import ProductOptionsController from '../components/ProductOptionsController';
 import ProductImage from '../components/ProductImage';
 import RelatedProducts from '../components/RelatedProducts';
-
+import stormyClient, { Client } from '../services/stormyClient';
 function product({ currentProduct }) {
+  
   // const [isLoading, setIsLoading] = React.useState(false);
   // const [currentProduct, setCurrentProduct] = React.useState(null);
   // React.useEffect(() => {
@@ -20,7 +21,7 @@ function product({ currentProduct }) {
     <Page>
       {currentProduct && (
         <div className="product-page-container">
-          <Breadcumb paths={[currentProduct.category, currentProduct.name]} />
+          <Breadcumb paths={[currentProduct.category, currentProduct.ProductName]} />
 
           <div className="product-display-container">
             <ProductImage currentProduct={currentProduct} />
@@ -28,7 +29,7 @@ function product({ currentProduct }) {
             <ProductOptionsController currentProduct={currentProduct} />
           </div>
 
-          <Description text={currentProduct.description} />
+          <Description text={"no description"} />
           <RelatedProducts currentProduct={currentProduct} />
         </div>
       )}
@@ -36,12 +37,16 @@ function product({ currentProduct }) {
   );
 }
 
-product.getInitialProps = async ({ query }, ...props) => {
-  const name = query.name.replace(/-/g, ' ');
-  const response = await api.get('/products');
-  const { data: products } = response;
-  const currentProduct = products.filter(e => e.name === name)[0];
-  return { ...props, currentProduct };
+product.getInitialProps = async ({ query }, ...props) => {  
+  const client = new Client("https://172.17.0.2:443");    
+  const response = await client.getCategoryById(query);
+  return response;
+  // const product = stormyClient.
+  // const name = query.name.replace(/-/g, ' ');
+  // const response = await api.get('/products');
+  // const { data: products } = response;
+  // const currentProduct = products.filter(e => e.name === name)[0];
+  // return { ...props, currentProduct };
 };
 
 export default product;

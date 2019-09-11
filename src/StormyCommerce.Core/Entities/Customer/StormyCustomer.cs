@@ -7,9 +7,7 @@ namespace StormyCommerce.Core.Entities.Customer
     //TODO:Completely get rid of AppUser dependency. You can implement your own types https://docs.microsoft.com/pt-br/aspnet/core/security/authentication/identity-custom-storage-providers?view=aspnetcore-2.2#customize-the-user-class
     public class StormyCustomer : BaseEntity
     {
-        public StormyCustomer()
-        {
-        }
+        public StormyCustomer(){}
 
         public StormyCustomer(long id)
         {
