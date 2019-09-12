@@ -15,7 +15,7 @@ namespace StormyCommerce.Module.Customer.Controllers
     [ApiController]
     [Route("api/[Controller]")]
     [Authorize]
-    [EnableCors]
+    [EnableCors("Default")]
     public class AuthenticationController : Controller
     {
         private IUserIdentityService _identityService;
@@ -71,6 +71,9 @@ namespace StormyCommerce.Module.Customer.Controllers
             if (appUser == null) throw new System.Exception("User is null");
 
             var verificationCode = await _identityService.CreateEmailConfirmationCode(appUser);
+            
+            if(verificationCode == null) throw new System.Exception("verification code is null");
+
             var callbackUrl = Url.Page(
                 "/Authentication/ConfirmEmail",
                 pageHandler: null,

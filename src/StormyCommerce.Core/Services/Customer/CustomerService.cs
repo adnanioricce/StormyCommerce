@@ -7,6 +7,7 @@ using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Models.Dtos;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace StormyCommerce.Core.Services.Customer
@@ -25,17 +26,24 @@ namespace StormyCommerce.Core.Services.Customer
 
         public async Task CreateCustomerReviewAsync(CustomerReviewDto reviewDto)
         {
-            throw new NotImplementedException();
+            var customer = _customerRepository.Table.First(c => c.Email == reviewDto.Email);
+            var review = new Review(reviewDto);
+            review.StormyCustomerId = customer.Id;
+            review.Author = customer;
+            customer.CustomerReviews.Add(review);
+            await _customerRepository.UpdateAsync(customer);
         }
 
         public async Task<IList<Review>> GetCustomerReviewsAsync(long customerId)
         {
-            throw new NotImplementedException();
+            var customer = await _customerRepository.GetByIdAsync(customerId);
+            return customer.CustomerReviews;
         }
 
         public async Task<Review> GetCustomerReviewByIdAsync(long customerId, long reviewId)
         {
-            throw new NotImplementedException();
+            var customer = await _customerRepository.GetByIdAsync(customerId);
+            return customer.CustomerReviews.FirstOrDefault(r => r.Id == reviewId);
         }
 
         public async Task EditCustomerReviewAsync(Review review)
@@ -53,29 +61,32 @@ namespace StormyCommerce.Core.Services.Customer
             throw new NotImplementedException();
         }
 
-        public Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id)
+        public async Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id)
         {
+            // var customer = await _customerRepository.GetByIdAsync(id);            
             throw new NotImplementedException();
         }
 
-        public Task<IList<Payment>> GetAllCustomerPaymentsByIdAsync(long id)
+        public async Task<IList<Payment>> GetAllCustomerPaymentsByIdAsync(long id)
         {
+            // var customer = await _customerRepository.GetByIdAsync(id);
             throw new NotImplementedException();
         }
 
-        public Task CreateCustomerAsync(StormyCustomer customer)
+        public async Task CreateCustomerAsync(StormyCustomer customer)
         {
-            throw new NotImplementedException();
+            await _customerRepository.AddAsync(customer);
         }
 
-        public Task CreateCustomerAsync(CustomerDto appUser)
+        public async Task CreateCustomerAsync(CustomerDto appUser)
         {
-            throw new NotImplementedException();
+            var customer = new StormyCustomer(appUser);
+            await _customerRepository.AddAsync(customer);
         }
 
-        public Task EditCustomerAsync(CustomerDto customer)
+        public async Task EditCustomerAsync(CustomerDto customer)
         {
-            throw new NotImplementedException();
+            await _customerRepository.UpdateAsync(new StormyCustomer(customer));
         }
 
         public async Task DeleteCustomerByIdAsync(long id)
