@@ -10,7 +10,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
 {
     public interface ICustomerService
     {
-        Task CreateCustomerReviewAsync(CustomerReviewDto reviewDto);
+        Task CreateCustomerReviewAsync(Review review);
 
         Task AddCustomerAddressAsync(Address address, long customerIds);
 
@@ -23,7 +23,9 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
         Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id);
 
         Task<IList<Payment>> GetAllCustomerPaymentsByIdAsync(long id);
-
+        Task<IList<StormyCustomer>> GetAllCustomersAsync();
+        Task<StormyCustomer> GetCustomerByIdAsync(long id);
+        Task<StormyCustomer> GetCustomerByUserNameOrEmail(string username,string email);        
         Task EditCustomerReviewAsync(Review review);
 
         Task DeleteCustomerReviewByIdAsync(long id);

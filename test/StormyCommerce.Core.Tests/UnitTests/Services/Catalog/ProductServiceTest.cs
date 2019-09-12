@@ -1,5 +1,7 @@
 ﻿using StormyCommerce.Api.Framework.Extensions;
+using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Tests.Helpers;
@@ -120,8 +122,13 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             var service = new ProductService(repo);
             //Act
             var sampleProducts = Seeders.StormyProductSeed(2);
-            //TODO:I think I made a mistake when creating all this...
-            sampleProducts.ForEach(p => new StormyProduct(p.ToProductDto(), 50 + p.Id));
+            //TODO:I think I made a mistake when creating all this...            
+            sampleProducts.ForEach(p => {
+                p.Brand = new Brand(p.BrandId);
+                p.Category = new Category(p.CategoryId);
+                p.Vendor = new StormyVendor(p.VendorId);
+                new StormyProduct(p.ToProductDto(), 50 + p.Id);
+            });
             await service.InsertProductsAsync(sampleProducts);
             var products = await service.GetProductsByIdsAsync(sampleProducts
                     .Select(f => f.Id)

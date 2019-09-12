@@ -4,14 +4,12 @@ namespace StormyCommerce.Core.Entities.Vendor
 {
     public class StormyVendor : BaseEntity
     {
-        public StormyVendor(int id)
+        public StormyVendor(long id)
         {
             Id = id;
         }
 
-        public StormyVendor()
-        {
-        }
+        public StormyVendor(){}
 
         public string CompanyName { get; set; }
         public string ContactTitle { get; set; }

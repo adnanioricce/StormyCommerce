@@ -6,7 +6,7 @@ namespace StormyCommerce.Core.Models.Dtos
     {
         public CustomerReviewDto() {}        
         public CustomerReviewDto(Review review)
-        {
+        {            
             Comment = review.Comment;
             Email = review.Author.Email;
             ReviewerName = review.ReviewerName;
@@ -14,8 +14,12 @@ namespace StormyCommerce.Core.Models.Dtos
             Title = review.Title;
             UserName = review.Author.UserName;
         }
+        public CustomerReviewDto(Review review,long id) : this(review)
+        {
+            Id = id;
+        }
         public long Id { get; private set; }
-        public string Title { get; set; }
+        public string Title { get; private set; }
         public string Comment { get; private set; }
         public string Email { get; private set; }
         public string ReviewerName { get; private set; }

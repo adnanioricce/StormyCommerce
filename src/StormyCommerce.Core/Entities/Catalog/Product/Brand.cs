@@ -2,7 +2,7 @@
 {
     public class Brand : BaseEntity
     {
-        public Brand(int id)
+        public Brand(long id)
         {
             Id = id;
         }

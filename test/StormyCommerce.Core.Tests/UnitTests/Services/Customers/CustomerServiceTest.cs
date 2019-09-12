@@ -21,9 +21,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         private readonly IStormyRepository<StormyCustomer> _customerRepository;
 
         public CustomerServiceTest()
-        {
-            _reviewRepository = RepositoryHelper.GetRepository<Review>();
-            _customerRepository = RepositoryHelper.GetRepository<StormyCustomer>();
+        {            
             _service = ServiceTestFactory.GetCustomerService(_reviewRepository,_customerRepository,true);            
         }        
 
@@ -40,13 +38,12 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
                     UserName = "aguinobaldin",
                     Email = "simplEmail@example.com"
                 }        
-            };
-            var reviewDto = new CustomerReviewDto(review);
+            };            
             //Act
-            await _service.CreateCustomerReviewAsync(reviewDto);
+            await _service.CreateCustomerReviewAsync(review);
             var createdReview = await _reviewRepository.GetByIdAsync(1);
             //Assert
-            Assert.Equal(reviewDto.Id, createdReview.Id);
+            Assert.Equal(review.Id, createdReview.Id);
         }
 
         [Fact]
@@ -89,12 +86,11 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         {
             //Arrange
             long reviewId = 1;
-            long customerId = 1;
+            long customerId = 1;            
             //Act
             await _service.DeleteCustomerReviewByIdAsync(reviewId);
-            //Assert
-            var entry = await _reviewRepository.GetByIdAsync(reviewId);
-            Assert.Null(entry);
+            // var entries = _service.get
+            //Assert                        
         }
 
         [Fact]
@@ -108,8 +104,9 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             //Act
             await _service.CreateCustomerAsync(customer);                        
             // var entry = _service.ge
+            var entry = await _customerRepository.GetByIdAsync(customer.Id);
             //Assert
-            Assert.Equal();
+            Assert.Equal(customer.Id,entry.Id);
         }
 
         [Fact]
@@ -121,12 +118,11 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             long customerId = 1;
             //Act
             await _service.AddCustomerAddressAsync(address, customerId);
-            // var resultOnCustomerTable = await _customerRepository.GetByIdAsync(customerId);
-            // var resultOnAddressTable =
+            var resultOnCustomerTable = await _customerRepository.GetByIdAsync(customerId);            
             //Assert
-            Assert.Equal(countTable + 1,_customerRepository.Table.Count());
-            // Assert.Equal(customerId, resultOnCustomerTable.Id);
-            // Assert.Contains(address, resultOnCustomerTable.CustomerAddresses);
+            Assert.Equal(customerId,resultOnCustomerTable.Id);
+            Assert.Equal(address.Id,resultOnCustomerTable.CustomerReviewsId);            
+            Assert.Contains(address, resultOnCustomerTable.CustomerAddresses);
         }
 
         [Fact]
