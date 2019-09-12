@@ -25,5 +25,6 @@ namespace StormyCommerce.Core.Models.Dtos
         public string ReviewerName { get; private set; }
         public string UserName { get; private set; }
         public int RatingLevel { get; private set; }
+        public string Title { get; private set; }
     }
 }

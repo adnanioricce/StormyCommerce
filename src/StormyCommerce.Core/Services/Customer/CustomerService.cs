@@ -64,13 +64,15 @@ namespace StormyCommerce.Core.Services.Customer
             return (await _customerRepository.Table.Include(a => a.CustomerAddresses).FirstOrDefaultAsync(c => c.Id == id)).CustomerAddresses;            
         }
 
-        public Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id)
+        public async Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id)
         {
+            // var customer = await _customerRepository.GetByIdAsync(id);            
             throw new NotImplementedException();
         }
 
-        public Task<IList<Payment>> GetAllCustomerPaymentsByIdAsync(long id)
+        public async Task<IList<Payment>> GetAllCustomerPaymentsByIdAsync(long id)
         {
+            // var customer = await _customerRepository.GetByIdAsync(id);
             throw new NotImplementedException();
         }
 
@@ -79,14 +81,15 @@ namespace StormyCommerce.Core.Services.Customer
             await _customerRepository.AddAsync(customer);
         }
 
-        public Task CreateCustomerAsync(CustomerDto appUser)
+        public async Task CreateCustomerAsync(CustomerDto appUser)
         {
-            throw new NotImplementedException();
+            var customer = new StormyCustomer(appUser);
+            await _customerRepository.AddAsync(customer);
         }
 
         public async Task EditCustomerAsync(CustomerDto customer)
         {
-            throw new NotImplementedException();
+            await _customerRepository.UpdateAsync(new StormyCustomer(customer));
         }
 
         public async Task DeleteCustomerByIdAsync(long id)

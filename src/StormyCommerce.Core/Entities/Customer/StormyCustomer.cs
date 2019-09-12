@@ -1,4 +1,5 @@
 ﻿using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Models.Dtos;
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +14,16 @@ namespace StormyCommerce.Core.Entities.Customer
         {
             Id = id;
         }
-
+        public StormyCustomer(CustomerDto customerDto)
+        {
+            CPF = customerDto.CPF;
+            Email = customerDto.Email;
+            PhoneNumber = customerDto.PhoneNumber;
+            UserName = customerDto.UserName;
+            FullName = customerDto.FullName;
+            DefaultBillingAddress = customerDto.DefaultBillingAddress;
+            DefaultShippingAddress = customerDto.DefaultShippingAddress;
+        }
         public string UserId { get; set; }
         public string CPF { get; set; }
         public string NormalizedEmail { get; set; }

@@ -1,6 +1,10 @@
 ﻿using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models.Dtos;
+<<<<<<< HEAD
+
+=======
 // using 
+>>>>>>> fa2b276b6842723920e5f61eeffff6e51039b4b6
 namespace StormyCommerce.Core.Entities
 {
     public class Review : BaseEntity

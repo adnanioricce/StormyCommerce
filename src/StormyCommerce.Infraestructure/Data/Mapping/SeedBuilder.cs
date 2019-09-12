@@ -1,9 +1,16 @@
+<<<<<<< HEAD
+using System;
+=======
+>>>>>>> fa2b276b6842723920e5f61eeffff6e51039b4b6
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
+<<<<<<< HEAD
+=======
 using StormyCommerce.Core.Entities.Common;
+>>>>>>> fa2b276b6842723920e5f61eeffff6e51039b4b6
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Entities.Vendor;
 

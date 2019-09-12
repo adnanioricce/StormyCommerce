@@ -86,6 +86,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(product => product.UnitsInStock).IsRequired();
                 entity.Property(product => product.TypeName).IsRequired();
                 entity.Property(product => product.Status).IsRequired();
+                entity.Property(product => product.ThumbnailImage);
                 //entity.HasData(Seeders.StormyProductSeed(50));
             });
 
