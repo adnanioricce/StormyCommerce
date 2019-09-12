@@ -20,7 +20,7 @@ function ProductOptionsController({ currentProduct }) {
   return (
     <div className="product-options-controller">
       <Title
-        label={currentProduct.name}
+        label={currentProduct.productName}
         style={{ justifyContent: 'left', marginBottom: 0 }}
       />
       <PriceDisplay price={price} oldPrice={oldPrice} />

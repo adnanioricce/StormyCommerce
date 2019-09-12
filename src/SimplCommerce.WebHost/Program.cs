@@ -32,8 +32,8 @@ namespace SimplCommerce.WebHost
                     var configuration = (IConfiguration)options.ApplicationServices.GetService(typeof(IConfiguration));
                     var httpPort = configuration.GetValue("ASPNETCORE_HTTP_PORT", 80);
                     var httpsPort = configuration.GetValue("ASPNETCORE_HTTPS_PORT", 443);
-                    var certPassword = configuration.GetValue<string>("Kestrel:Certificates:Default:Password");
-                    var certPath = configuration.GetValue<string>("Kestrel:Certificates:Default:Path");
+                    var certPassword = configuration.GetValue<string>("Kestrel:Certificates:Development:Password");
+                    var certPath = configuration.GetValue<string>("Kestrel:Certificates:Development:Path");
                     Console.WriteLine($"{nameof(httpsPort)}: {httpsPort}");
                     Console.WriteLine($"{nameof(certPassword)}: {certPassword}");
                     Console.WriteLine($"{nameof(certPath)}: {certPath}");

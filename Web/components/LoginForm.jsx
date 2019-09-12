@@ -3,9 +3,12 @@ import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Button from './Button';
-
+import api from '../services/api';
 export default () => {
   const router = useRouter();
+  submitHandler = async function (loginVm) {
+    await api.login(loginVm);
+  }
   return (
     <>
       <Formik
@@ -13,7 +16,7 @@ export default () => {
           email: '',
           password: ''
         }}
-        onSubmit={values => alert(JSON.stringify(values, null, 2))}
+        onSubmit={values => login(values)}
       >
         {() => (
           <Form className="login-form">

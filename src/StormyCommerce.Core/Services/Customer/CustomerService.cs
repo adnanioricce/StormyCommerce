@@ -1,4 +1,5 @@
-﻿using StormyCommerce.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Payments;
@@ -26,39 +27,43 @@ namespace StormyCommerce.Core.Services.Customer
 
         public async Task CreateCustomerReviewAsync(CustomerReviewDto reviewDto)
         {
-            var customer = _customerRepository.Table.First(c => c.Email == reviewDto.Email);
-            var review = new Review(reviewDto);
-            review.StormyCustomerId = customer.Id;
-            review.Author = customer;
-            customer.CustomerReviews.Add(review);
+            var customer = await _customerRepository.Table.Include(r => r.CustomerReviews).FirstOrDefaultAsync(f => f.Email == reviewDto.Email || f.UserName == reviewDto.UserName);
+            // if(customer.CustomerReviews == null)
+            // throw new ArgumentNullException();
+            customer.CustomerReviews.Add(new Review(reviewDto));
             await _customerRepository.UpdateAsync(customer);
         }
+        // public async Task CreateCustomerReviewAsync()
+        // {
 
+        // }
         public async Task<IList<Review>> GetCustomerReviewsAsync(long customerId)
         {
-            var customer = await _customerRepository.GetByIdAsync(customerId);
-            return customer.CustomerReviews;
+            return (await _customerRepository.Table            
+            .Include(c => c.CustomerReviews)            
+            .FirstOrDefaultAsync(f => f.Id == customerId)).CustomerReviews;
         }
 
         public async Task<Review> GetCustomerReviewByIdAsync(long customerId, long reviewId)
         {
-            var customer = await _customerRepository.GetByIdAsync(customerId);
-            return customer.CustomerReviews.FirstOrDefault(r => r.Id == reviewId);
+            return await _reviewRepository.Table.FirstOrDefaultAsync(c => c.Id == reviewId && c.StormyCustomerId == customerId);            
         }
 
         public async Task EditCustomerReviewAsync(Review review)
         {
-            throw new NotImplementedException();
+            await _reviewRepository.UpdateAsync(review);
         }
 
         public async Task DeleteCustomerReviewByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            var review = await _reviewRepository.GetByIdAsync(id);
+            review.IsDeleted = true;
+            await _reviewRepository.UpdateAsync(review);
         }
 
-        public Task<IList<Address>> GetAllCustomerAddressByIdAsync(long id)
+        public async Task<IList<Address>> GetAllCustomerAddressByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            return (await _customerRepository.Table.Include(a => a.CustomerAddresses).FirstOrDefaultAsync(c => c.Id == id)).CustomerAddresses;            
         }
 
         public async Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id)
