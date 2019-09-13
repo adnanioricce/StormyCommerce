@@ -17,6 +17,7 @@ namespace StormyCommerce.Core.Services.Customer
     {
         private readonly IStormyRepository<Review> _reviewRepository;
         private readonly IStormyRepository<StormyCustomer> _customerRepository;
+
         public CustomerService(IStormyRepository<Review> reviewRepository,
         IStormyRepository<StormyCustomer> customerRepository)
         {
@@ -24,49 +25,51 @@ namespace StormyCommerce.Core.Services.Customer
             _customerRepository = customerRepository;
         }
 
-        public async Task CreateCustomerReviewAsync(Review review)
+        public async Task CreateCustomerReviewAsync(Review review, string normalizedEmail)
         {
-            var customer = await _customerRepository.Table
-            .Include(r => r.CustomerReviews).FirstOrDefaultAsync(f => f.Id == review.StormyCustomerId);            
-            if(customer.CustomerReviews == null) throw new NullReferenceException("CustomerReviews Was null");
-            // customer.CustomerReviews.Add(new Review(reviewDto));
-            // await _customerRepository.UpdateAsync(customer);            
-            review.StormyCustomerId = customer.Id;
-            await _reviewRepository.AddAsync(review);            
-        }        
+            var customer = await _customerRepository.Table.AsNoTracking().FirstOrDefaultAsync(f => f.Email.ToUpper().Equals(normalizedEmail));
+            if (review == null) throw new ArgumentNullException("given review entity is null");
+            if (customer == null) throw new ArgumentNullException("given customer is null");
+            review.Author = customer;
+            await _reviewRepository.AddAsync(review);
+        }
+
         public async Task<IList<Review>> GetCustomerReviewsAsync(long customerId)
         {
-            _customerRepository.Table            
-            .Include(c => c.CustomerReviews)            
+            _customerRepository.Table
+            .Include(c => c.CustomerReviews)
             .Load();
             return (await _customerRepository.Table.FirstOrDefaultAsync(f => f.Id == customerId)).CustomerReviews;
         }
 
         public async Task<Review> GetCustomerReviewByIdAsync(long customerId, long reviewId)
         {
-            return await _reviewRepository.Table.FirstOrDefaultAsync(c => c.Id == reviewId && c.StormyCustomerId == customerId);            
+            var customer = await _customerRepository.GetByIdAsync(customerId);
+            return customer.CustomerReviews.FirstOrDefault(r => r.Id == reviewId);
         }
 
-        public async Task EditCustomerReviewAsync(Review review)
+        public async Task EditCustomerReviewAsync(Review review, long customerId)
         {
-            await _reviewRepository.UpdateAsync(review);
+            var oldReview = await _reviewRepository.GetByIdAsync(review.Id);
+            oldReview = review;
+            await _reviewRepository.SaveChangesAsync();
         }
 
-        public async Task DeleteCustomerReviewByIdAsync(long id)
+        public async Task DeleteCustomerReviewByIdAsync(long reviewId, long customerId)
         {
-            var review = await _reviewRepository.GetByIdAsync(id);
+            var review = await _reviewRepository.Table.FirstOrDefaultAsync(r => r.Id == reviewId && r.StormyCustomerId == customerId);
             review.IsDeleted = true;
-            await _reviewRepository.UpdateAsync(review);
+            await _reviewRepository.SaveChangesAsync();
         }
 
         public async Task<IList<Address>> GetAllCustomerAddressByIdAsync(long id)
         {
-            return (await _customerRepository.Table.Include(a => a.CustomerAddresses).FirstOrDefaultAsync(c => c.Id == id)).CustomerAddresses;            
+            return (await _customerRepository.Table.Include(a => a.CustomerAddresses).FirstOrDefaultAsync(c => c.Id == id)).CustomerAddresses;
         }
 
         public async Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id)
         {
-            // var customer = await _customerRepository.GetByIdAsync(id);            
+            // var customer = await _customerRepository.GetByIdAsync(id);
             throw new NotImplementedException();
         }
 
@@ -136,6 +139,11 @@ namespace StormyCommerce.Core.Services.Customer
         public async Task<StormyCustomer> GetCustomerByUserNameOrEmail(string username, string email)
         {
             return await _customerRepository.Table.FirstOrDefaultAsync(f => f.UserName == username || f.Email == email);
+        }
+
+        public Task EditCustomerReviewAsync(Review review, StormyCustomer customer)
+        {
+            throw new NotImplementedException();
         }
     }
 }

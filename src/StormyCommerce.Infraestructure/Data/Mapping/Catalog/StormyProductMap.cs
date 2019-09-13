@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Media;
 

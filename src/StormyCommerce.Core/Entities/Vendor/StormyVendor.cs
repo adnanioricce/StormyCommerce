@@ -9,7 +9,9 @@ namespace StormyCommerce.Core.Entities.Vendor
             Id = id;
         }
 
-        public StormyVendor(){}
+        public StormyVendor()
+        {
+        }
 
         public string CompanyName { get; set; }
         public string ContactTitle { get; set; }

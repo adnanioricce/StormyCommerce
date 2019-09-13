@@ -71,8 +71,8 @@ namespace StormyCommerce.Module.Customer.Controllers
             if (appUser == null) throw new System.Exception("User is null");
 
             var verificationCode = await _identityService.CreateEmailConfirmationCode(appUser);
-            
-            if(verificationCode == null) throw new System.Exception("verification code is null");
+
+            if (verificationCode == null) throw new System.Exception("verification code is null");
 
             var callbackUrl = Url.Page(
                 "/Authentication/ConfirmEmail",

@@ -31,11 +31,14 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         }
 
         public StormyProduct(ProductDto productDto, long id) : this(productDto)
-        {            
+        {
             Id = id;
         }
 
-        public StormyProduct(){}
+        public StormyProduct()
+        {
+        }
+
         public string SKU { get; set; }
         public string ProductName { get; set; }
         public string Slug { get; set; }
@@ -49,7 +52,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public Category Category { get; set; }
         public string TypeName { get; set; }
         public string ShortDescription { get; set; }
-        public string Description { get; set;}        
+        public string Description { get; set; }
         public int QuantityPerUnity { get; set; }
         public decimal UnitSize { get; set; }
         public decimal UnitPrice { get; set; }
@@ -109,7 +112,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             Links.Add(productLink);
         }
 
-        public ProductDto ToProductDto()
+        public ProductDto ToProductDto(StormyProduct product)
         {
             return new ProductDto(this);
         }

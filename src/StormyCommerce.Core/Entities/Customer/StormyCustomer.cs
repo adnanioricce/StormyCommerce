@@ -8,12 +8,15 @@ namespace StormyCommerce.Core.Entities.Customer
     //TODO:Completely get rid of AppUser dependency. You can implement your own types https://docs.microsoft.com/pt-br/aspnet/core/security/authentication/identity-custom-storage-providers?view=aspnetcore-2.2#customize-the-user-class
     public class StormyCustomer : BaseEntity
     {
-        public StormyCustomer(){}
+        public StormyCustomer()
+        {
+        }
 
         public StormyCustomer(long id)
         {
             Id = id;
         }
+
         public StormyCustomer(CustomerDto customerDto)
         {
             CPF = customerDto.CPF;
@@ -24,6 +27,7 @@ namespace StormyCommerce.Core.Entities.Customer
             DefaultBillingAddress = customerDto.DefaultBillingAddress;
             DefaultShippingAddress = customerDto.DefaultShippingAddress;
         }
+
         public string UserId { get; set; }
         public string CPF { get; set; }
         public string NormalizedEmail { get; set; }
@@ -36,7 +40,7 @@ namespace StormyCommerce.Core.Entities.Customer
         public Address DefaultBillingAddress { get; set; }
         public long? DefaultBillingAddressId { get; set; }
         public long CustomerReviewsId { get; set; }
-        public IList<Review> CustomerReviews { get; set; }
+        public IList<Review> CustomerReviews { get; set; } = new List<Review>();
         public long CustomerWishlistId { get; set; }
         public Wishlist CustomerWishlist { get; set; }
         public string UserName { get; set; }

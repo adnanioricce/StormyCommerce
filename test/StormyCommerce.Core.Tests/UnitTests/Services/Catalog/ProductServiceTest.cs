@@ -3,6 +3,7 @@ using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Tests.Helpers;
 using System.Linq;
@@ -82,7 +83,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Act
             var stockQuantity = service.GetTotalStockQuantity();
             //Assert
-            Assert.True(stockQuantity >= 0 && stockQuantity <= 500);
+            Assert.True(stockQuantity >= 0);
         }
 
         [Fact]
@@ -122,12 +123,13 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             var service = new ProductService(repo);
             //Act
             var sampleProducts = Seeders.StormyProductSeed(2);
-            //TODO:I think I made a mistake when creating all this...            
-            sampleProducts.ForEach(p => {
+            //TODO:I think I made a mistake when creating all this...
+            sampleProducts.ForEach(p =>
+            {
                 p.Brand = new Brand(p.BrandId);
                 p.Category = new Category(p.CategoryId);
                 p.Vendor = new StormyVendor(p.VendorId);
-                new StormyProduct(p.ToProductDto(), 50 + p.Id);
+                new StormyProduct(new ProductDto(p), p.Id);
             });
             await service.InsertProductsAsync(sampleProducts);
             var products = await service.GetProductsByIdsAsync(sampleProducts

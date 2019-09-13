@@ -4,7 +4,9 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
 {
     public class BrandDto
     {
-        public BrandDto(){}
+        public BrandDto()
+        {
+        }
 
         public BrandDto(Brand brand)
         {

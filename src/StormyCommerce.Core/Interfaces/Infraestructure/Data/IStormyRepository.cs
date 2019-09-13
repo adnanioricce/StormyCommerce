@@ -26,6 +26,10 @@ namespace StormyCommerce.Core.Interfaces
 
         Task AddCollectionAsync(IEnumerable<T> entities);
 
+        Task SaveChangesAsync();
+
+        void SaveChanges();
+
         IQueryable<T> Table { get; }
 
         IDbContextTransaction BeginTransaction();

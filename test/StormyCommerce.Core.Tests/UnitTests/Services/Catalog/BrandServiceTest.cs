@@ -59,7 +59,7 @@ namespace StormyCommerce.Core.Tests.UnitTests
             var newBrand = BrandDataSeeder.GetSingleBrandData();
             //When
             await _service.UpdateAsync(newBrand);
-            var brand = await _repository.GetByIdAsync(1);
+            var brand = await _repository.GetByIdAsync(newBrand.Id);
             //Then
             Assert.NotSame(brand, oldBrand);
             Assert.Equal(brand.Id, oldBrand.Id);

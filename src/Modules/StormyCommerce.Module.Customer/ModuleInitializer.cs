@@ -10,11 +10,12 @@ using Microsoft.IdentityModel.Tokens;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Interfaces.Domain.Customer;
+using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Infraestructure.Models;
-using StormyCommerce.Module.Customer.Data;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
 using System;
@@ -42,6 +43,7 @@ namespace StormyCommerce.Module.Customer
             serviceCollection.AddScoped<SignInManager<ApplicationUser>>();
             serviceCollection.AddScoped<RoleManager<IdentityRole>>();
             serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();
+            serviceCollection.AddScoped<ICustomerService, CustomerService>();
         }
 
         private async Task DeveloperLogin(HttpContext httpContext)

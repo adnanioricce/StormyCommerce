@@ -1,49 +1,73 @@
-﻿using StormyCommerce.Api.Framework.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
-using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Services.Customer;
+using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.Infraestructure.Data.Repositories;
 using System.Linq;
 using System.Threading.Tasks;
-using TestHelperLibrary.Utils;
 using TestHelperLibrary.Mocks;
+using TestHelperLibrary.Utils;
 using Xunit;
-using System;
 
 namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
 {
     public class CustomerServiceTest
     {
         private readonly ICustomerService _service;
-        private readonly IStormyRepository<Review> _reviewRepository;
-        private readonly IStormyRepository<StormyCustomer> _customerRepository;
+        private readonly DbContextOptions<StormyDbContext> _dbContextOptions = DbContextHelper.GetDbOptions();
+        private readonly StormyCustomer sampleCustomer = Seeders.StormyCustomerSeed().First();
+        private readonly Review sampleReview = Seeders.ReviewSeed(1).First();
 
         public CustomerServiceTest()
-        {            
-            _service = ServiceTestFactory.GetCustomerService(_reviewRepository,_customerRepository,true);            
-        }        
+        {
+            _service = ServiceTestFactory.GetCustomerService(RepositoryHelper.GetRepository<Review>(), RepositoryHelper.GetRepository<StormyCustomer>());
+        }
+
+        private ICustomerService CreateCustomerService(bool withSeed)
+        {
+            var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
+            if (withSeed)
+            {
+                var reviews = Seeders.ReviewSeed(10);
+                reviews.ForEach(f => f.StormyCustomerId = sampleCustomer.Id);
+                context.AddRange(sampleCustomer);
+                context.SaveChanges();
+                context.AddRange(reviews);
+                context.SaveChanges();
+            }
+            else
+            {
+                context.Add(sampleCustomer);
+                context.SaveChanges();
+            }
+            var reviewRepo = new StormyRepository<Review>(context);
+            var customerRepo = new StormyRepository<StormyCustomer>(context);
+            return new CustomerService(reviewRepo, customerRepo);
+        }
 
         [Fact]
         public async Task CreateCustomerReview_PassingValidCustomerReviewDto_ShouldCreateNewEntryOnDatabase()
         {
             //Arrange
-            var review = new Review{
-                Title = "a simple title",
-                Comment = "a comment",
-                ReviewerName = "aguinobaldo",
-                RatingLevel = 3,
-                Author = new StormyCustomer {
-                    UserName = "aguinobaldin",
-                    Email = "simplEmail@example.com"
-                }        
-            };            
+            var service = CreateCustomerService(false);
+            var review = new Review
+            {
+                Id = 11,
+                IsDeleted = false,
+                Comment = "a simple comment",
+                Title = "a title",
+                ReviewerName = "simple name",
+            };
             //Act
-            await _service.CreateCustomerReviewAsync(review);
-            var createdReview = await _reviewRepository.GetByIdAsync(1);
+            await service.CreateCustomerReviewAsync(review, sampleCustomer.Email.ToUpper());
+
+            var createdReview = await service.GetCustomerReviewByIdAsync(sampleCustomer.Id, review.Id);
             //Assert
             Assert.Equal(review.Id, createdReview.Id);
+            //Assert.Equal(review.Title, createdReview);
         }
 
         [Fact]
@@ -75,38 +99,38 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             //Given
             var givenReview = Seeders.ReviewSeed(1).First();
             //When
-            await _service.EditCustomerReviewAsync(givenReview);
+            await _service.EditCustomerReviewAsync(givenReview, sampleCustomer.Id);
             //Then
-            var editedReview = await _reviewRepository.GetByIdAsync(1);
+            var editedReview = await _service.GetCustomerReviewByIdAsync(sampleCustomer.Id, givenReview.Id);
             Assert.Equal(givenReview.Id, editedReview.Id);
+            Assert.NotEqual(givenReview.LastModified, editedReview.LastModified);
+            //Assert.Equal(givenReview.StormyCustomerId,editedReview.StormyCustomerId);
         }
 
         [Fact]
         public async Task DeleteCustomerReviewByIdAsync_GivenIdFromExistingEntity_SetIsDeletedFieldToTrue()
         {
-            //Arrange
-            long reviewId = 1;
-            long customerId = 1;            
             //Act
-            await _service.DeleteCustomerReviewByIdAsync(reviewId);
-            // var entries = _service.get
-            //Assert                        
+            await _service.DeleteCustomerReviewByIdAsync(1, sampleCustomer.Id);
+            var entry = await _service.GetCustomerReviewByIdAsync(sampleCustomer.Id, 1);
+            //Assert
+            Assert.True(entry.IsDeleted);
         }
 
         [Fact]
         public async Task CreateCustomerAsync_ReceivesCustomerEntityObject_ShouldCreateNewCustomer()
         {
             //Arrange
+            var service = new CustomerService(RepositoryHelper.GetRepository<Review>(), RepositoryHelper.GetRepository<StormyCustomer>());
             var customer = Seeders.StormyCustomerSeed().First();
-            var tableCount = _customerRepository.Table.Count();
-            customer.Id = 11;
-            
+            customer.Id = 0;
+
             //Act
-            await _service.CreateCustomerAsync(customer);                        
+            await service.CreateCustomerAsync(customer);
             // var entry = _service.ge
-            var entry = await _customerRepository.GetByIdAsync(customer.Id);
+            var entry = service.GetCustomerByIdAsync(customer.Id);
             //Assert
-            Assert.Equal(customer.Id,entry.Id);
+            Assert.Equal(customer.Id, entry.Id);
         }
 
         [Fact]
@@ -114,15 +138,10 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         {
             //Arrange
             var address = Seeders.AddressSeed().First();
-            var countTable = _customerRepository.Table.Count();
             long customerId = 1;
             //Act
             await _service.AddCustomerAddressAsync(address, customerId);
-            var resultOnCustomerTable = await _customerRepository.GetByIdAsync(customerId);            
             //Assert
-            Assert.Equal(customerId,resultOnCustomerTable.Id);
-            Assert.Equal(address.Id,resultOnCustomerTable.CustomerReviewsId);            
-            Assert.Contains(address, resultOnCustomerTable.CustomerAddresses);
         }
 
         [Fact]
@@ -130,14 +149,11 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         {
             //Arrange
             long customerId = 1;
-            long countTable = _customerRepository.Table.Count();
             //Act
             await _service.DeleteCustomerByIdAsync(customerId);
-            var customer = await _customerRepository.GetByIdAsync(customerId);
-            var currentCountTable = _customerRepository.Table.Count();
+            var customer = await _service.GetCustomerByIdAsync(customerId);
             //Assert
-            Assert.Equal(countTable - 1, currentCountTable);
-            Assert.Null(customer);
+            Assert.True(customer.IsDeleted);
         }
     }
 }

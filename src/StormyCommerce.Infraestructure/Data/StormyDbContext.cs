@@ -37,6 +37,7 @@ namespace StormyCommerce.Infraestructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ForNpgsqlUseIdentityColumns();
             Type baseType = typeof(IStormyModelBuilder);
             var typeConfigurations = Assembly.GetExecutingAssembly()
                 .GetTypes()

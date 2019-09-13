@@ -29,7 +29,7 @@ namespace StormyCommerce.Core.Entities.Catalog
             IsPublished = category.IsPublished;
             IncludeInMenu = category.IncludeInMenu;
             ParentId = category.ParentId;
-            Parent = category.Parent;
+            Parent = category.Parent == null ? new Category() : category.Parent;
             Childrens = category.Childrens;
             ThumbnailImageUrl = category.ThumbnailImageUrl;
         }

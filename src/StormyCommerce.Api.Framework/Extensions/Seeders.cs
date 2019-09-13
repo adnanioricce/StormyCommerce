@@ -28,8 +28,8 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.UnitSize, f => f.Commerce.Random.Decimal(0, 10.0m))
                 .RuleFor(v => v.UnitPrice, f => f.Commerce.Random.Decimal(0, 100.0m))
                 .RuleFor(v => v.UnitWeight, f => f.Random.Double())
-                .RuleFor(v => v.UnitsInStock, f => f.Random.Int(0, 10))
-                .RuleFor(v => v.UnitsOnOrder, f => f.Random.Int(0, 9))
+                .RuleFor(v => v.UnitsInStock, f => f.Random.Int(2, 10))
+                .RuleFor(v => v.UnitsOnOrder, f => f.Random.Int(0, 2))
                 .RuleFor(v => v.ProductAvailable, true)
                 .RuleFor(v => v.StockTrackingIsEnabled, true)
                 .RuleFor(v => v.Ranking, f => f.IndexVariable)
@@ -252,22 +252,23 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.UserName, f => f.Internet.UserName())
                 .RuleFor(v => v.CPF, "000000000")
                 .RuleFor(v => v.CreatedOn, DateTime.UtcNow);
-                // .RuleFor(v => v.CustomerReviewsId, f => f.IndexVariable)
-                // .RuleFor(v => v.CustomerWishlistId, f => f.IndexVariable)
-                // .RuleFor(v => v.DefaultBillingAddressId, f => f.IndexVariable)
-                // .RuleFor(v => v.DefaultShippingAddressId, f => f.IndexVariable);
+            // .RuleFor(v => v.CustomerReviewsId, f => f.IndexVariable)
+            // .RuleFor(v => v.CustomerWishlistId, f => f.IndexVariable)
+            // .RuleFor(v => v.DefaultBillingAddressId, f => f.IndexVariable)
+            // .RuleFor(v => v.DefaultShippingAddressId, f => f.IndexVariable);
             return fakeCustomer.Generate(count);
         }
-        public static List<Review> ReviewSeed(int count = 1,bool ignoreId = false)
+
+        public static List<Review> ReviewSeed(int count = 1, bool ignoreId = false)
         {
             var fakeReview = new Faker<Review>("pt_BR")
-                .RuleFor(v => v.Id,f => ignoreId ? 0 : ++f.IndexVariable)              
-                .RuleFor(v => v.StormyCustomerId,f => f.IndexVariable)  
-                .RuleFor(v => v.Title,f => f.Lorem.Sentence())
-                .RuleFor(v => v.Comment,f => f.Rant.Review())
-                .RuleFor(v => v.ReviewerName,f => f.Person.FullName)
-                .RuleFor(v => v.RatingLevel,f => f.Random.Int(0,5))
-                .RuleFor(v => v.Status,ReviewStatus.Approved);
+                .RuleFor(v => v.Id, f => ignoreId ? 0 : ++f.IndexVariable)
+                .RuleFor(v => v.StormyCustomerId, f => f.IndexVariable)
+                .RuleFor(v => v.Title, f => f.Lorem.Sentence())
+                .RuleFor(v => v.Comment, f => f.Rant.Review())
+                .RuleFor(v => v.ReviewerName, f => f.Person.FullName)
+                .RuleFor(v => v.RatingLevel, f => f.Random.Int(0, 5))
+                .RuleFor(v => v.Status, ReviewStatus.Approved);
             return fakeReview.Generate(count);
         }
     }

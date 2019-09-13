@@ -18,6 +18,14 @@ namespace TestHelperLibrary.Utils
             return dbContext;
         }
 
+        public static StormyDbContext GetDbContext(DbContextOptions<StormyDbContext> dbContextOptions)
+        {
+            var dbContext = new StormyDbContext(dbContextOptions);
+            dbContext.Database.EnsureDeleted();
+            dbContext.Database.EnsureCreated();
+            return dbContext;
+        }
+
         public static DbContextOptions<StormyDbContext> GetDbOptions()
         {
             var serviceProvider = new ServiceCollection()

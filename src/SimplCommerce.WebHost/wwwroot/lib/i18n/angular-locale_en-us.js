@@ -22,81 +22,81 @@ angular.module("ngLocale", [], ["$provide", function ($provide) {
     $provide.value("$locale", {
         "DATETIME_FORMATS": {
             "AMPMS": [
-              "AM",
-              "PM"
+                "AM",
+                "PM"
             ],
             "DAY": [
-              "Sunday",
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday"
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
             ],
             "ERANAMES": [
-              "Before Christ",
-              "Anno Domini"
+                "Before Christ",
+                "Anno Domini"
             ],
             "ERAS": [
-              "BC",
-              "AD"
+                "BC",
+                "AD"
             ],
             "FIRSTDAYOFWEEK": 6,
             "MONTH": [
-              "January",
-              "February",
-              "March",
-              "April",
-              "May",
-              "June",
-              "July",
-              "August",
-              "September",
-              "October",
-              "November",
-              "December"
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
             ],
             "SHORTDAY": [
-              "Sun",
-              "Mon",
-              "Tue",
-              "Wed",
-              "Thu",
-              "Fri",
-              "Sat"
+                "Sun",
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri",
+                "Sat"
             ],
             "SHORTMONTH": [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec"
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
             ],
             "STANDALONEMONTH": [
-              "January",
-              "February",
-              "March",
-              "April",
-              "May",
-              "June",
-              "July",
-              "August",
-              "September",
-              "October",
-              "November",
-              "December"
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
             ],
             "WEEKENDRANGE": [
-              5,
-              6
+                5,
+                6
             ],
             "fullDate": "EEEE, MMMM d, y",
             "longDate": "MMMM d, y",
@@ -112,28 +112,28 @@ angular.module("ngLocale", [], ["$provide", function ($provide) {
             "DECIMAL_SEP": ".",
             "GROUP_SEP": ",",
             "PATTERNS": [
-              {
-                  "gSize": 3,
-                  "lgSize": 3,
-                  "maxFrac": 3,
-                  "minFrac": 0,
-                  "minInt": 1,
-                  "negPre": "-",
-                  "negSuf": "",
-                  "posPre": "",
-                  "posSuf": ""
-              },
-              {
-                  "gSize": 3,
-                  "lgSize": 3,
-                  "maxFrac": 2,
-                  "minFrac": 2,
-                  "minInt": 1,
-                  "negPre": "-\u00a4",
-                  "negSuf": "",
-                  "posPre": "\u00a4",
-                  "posSuf": ""
-              }
+                {
+                    "gSize": 3,
+                    "lgSize": 3,
+                    "maxFrac": 3,
+                    "minFrac": 0,
+                    "minInt": 1,
+                    "negPre": "-",
+                    "negSuf": "",
+                    "posPre": "",
+                    "posSuf": ""
+                },
+                {
+                    "gSize": 3,
+                    "lgSize": 3,
+                    "maxFrac": 2,
+                    "minFrac": 2,
+                    "minInt": 1,
+                    "negPre": "-\u00a4",
+                    "negSuf": "",
+                    "posPre": "\u00a4",
+                    "posSuf": ""
+                }
             ]
         },
         "id": "en-us",

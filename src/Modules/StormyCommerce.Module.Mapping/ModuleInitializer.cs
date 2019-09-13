@@ -18,6 +18,8 @@ namespace StormyCommerce.Module.Mapping
             var mapConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new CatalogProfile());
+                mc.AddProfile(new CustomerProfile());
+                mc.AddProfile(new PagarMeMapping());
             });
             IMapper mapper = mapConfig.CreateMapper();
             serviceCollection.AddSingleton(mapper);

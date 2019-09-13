@@ -1,27 +1,29 @@
 ﻿using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models.Dtos;
-<<<<<<< HEAD
 
-=======
-// using 
->>>>>>> fa2b276b6842723920e5f61eeffff6e51039b4b6
 namespace StormyCommerce.Core.Entities
 {
     public class Review : BaseEntity
     {
-        public Review(){}
+        public Review()
+        {
+        }
+
         public Review(CustomerReviewDto customerReview)
         {
+            Id = customerReview.Id;
             Title = customerReview.Title;
             Comment = customerReview.Comment;
             ReviewerName = customerReview.ReviewerName;
             RatingLevel = customerReview.RatingLevel;
-            Author = new StormyCustomer {
+            Author = new StormyCustomer
+            {
                 UserName = customerReview.UserName,
                 Email = customerReview.Email
             };
             Status = ReviewStatus.Approved;
         }
+
         public long StormyCustomerId { get; set; }
         public StormyCustomer Author { get; set; }
         public string Title { get; set; }

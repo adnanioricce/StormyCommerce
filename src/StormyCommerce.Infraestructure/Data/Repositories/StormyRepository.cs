@@ -96,11 +96,13 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
             var entity = _entity ?? throw new ArgumentNullException($"Given argument was null:{_entity.ToString()}");
             try
             {
-                context.Update(entity);
+                var entry = _dbSet.First(e => e.Id == entity.Id);
+                context.Entry(entry).CurrentValues.SetValues(entity);
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateException exception)
             {
+                // var entity =
                 throw new Exception($"Failed to perform update operation against the database", exception);
             }
         }
@@ -138,5 +140,15 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         }
 
         public static bool IsItNew(StormyDbContext context, TEntity entity) => !context.Entry(entity).IsKeySet;
+
+        public async Task SaveChangesAsync()
+        {
+            await context.SaveChangesAsync();
+        }
+
+        public void SaveChanges()
+        {
+            context.SaveChanges();
+        }
     }
 }

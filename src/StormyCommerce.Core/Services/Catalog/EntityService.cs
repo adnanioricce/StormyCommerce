@@ -67,7 +67,7 @@ namespace StormyCommerce.Core.Services.Catalog
             {
                 //mediator.Publish(new EntityDeleting { EntityId = entity.Id });
                 entity.IsDeleted = true;
-                await entityRepository.UpdateAsync(entity);
+                await entityRepository.SaveChangesAsync();
             }
         }
     }

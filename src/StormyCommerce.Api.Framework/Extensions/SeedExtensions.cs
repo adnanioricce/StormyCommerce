@@ -9,7 +9,7 @@ namespace StormyCommerce.Api.Framework.Extensions
     {
         public static IEnumerable<ProductDto> ToListProductDto(this List<StormyProduct> products)
         {
-            return products.Select(product => product.ToProductDto());
+            return products.Select(product => new ProductDto(product));
         }
     }
 }
