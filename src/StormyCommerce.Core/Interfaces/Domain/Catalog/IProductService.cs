@@ -27,7 +27,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
 
         Task UpdateProductsAsync(IList<StormyProduct> products);
 
-        int GetNumberOfProductsInCategory(IList<int> categoryIds = null, int storeId = 0);
+        int GetNumberOfProductsInCategory(IList<int> categoryIds = null);
 
         Task<StormyProduct> GetProductBySkuAsync(string sku);
 

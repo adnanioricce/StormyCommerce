@@ -13,7 +13,7 @@ namespace StormyCommerce.Core.Services.Catalog
     public class ProductService : IProductService
     {
         private const string ProductEntityTypeId = "Product";
-        private readonly IStormyRepository<StormyProduct> _productRepository;
+        private readonly IStormyRepository<StormyProduct> _productRepository;        
 
         public ProductService(IStormyRepository<StormyProduct> productRepository)
         {
@@ -80,9 +80,12 @@ namespace StormyCommerce.Core.Services.Catalog
         /// <param name="categoryIds"></param>
         /// <param name="storeId"></param>
         /// <returns></returns>
-        public int GetNumberOfProductsInCategory(IList<int> categoryIds = null, int storeId = 0)
+        public int GetNumberOfProductsInCategory(IList<int> categoryIds = null)
         {
-            throw new NotImplementedException();
+            if(categoryIds == null) return 0;
+            var products = new List<StormyProduct>();
+            return 0;
+
         }
 
         public async Task<StormyProduct> GetProductByIdAsync(long productId)

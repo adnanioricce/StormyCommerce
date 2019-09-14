@@ -83,7 +83,7 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
 
             return product;
         }
-
+        
         [HttpPost]
         [ValidateModel]
         [Authorize(Roles = Roles.Admin)]
@@ -97,10 +97,13 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
         [HttpPut]
         [ValidateModel]
         [Authorize(Roles = Roles.Admin)]
-        public async Task EditProduct([FromBody]ProductDto _model)
+        public async Task<IActionResult> EditProduct([FromBody]ProductDto _model)
         {
-            var model = _mapper.Map<StormyProduct>(_model);
-            //var result = await _productService.UpdateProductAsync(model);
+            var model = _mapper.Map<StormyProduct>(_model);            
+            if(model == null) return BadRequest();
+
+            await _productService.UpdateProductAsync(model);
+            return Ok();
             //if(!result.Success){
             //	return Result.Ok();
             //}
@@ -109,9 +112,9 @@ namespace StormyCommerce.Module.Catalog.Area.Controllers
         [HttpGet]
         [ValidateModel]
         [AllowAnonymous]
-        public ActionResult<int> GetNumberOfProductsInCategory([FromBody]IList<int> categoryIds, int storeId)
+        public ActionResult<int> GetNumberOfProductsInCategory([FromBody]IList<int> categoryIds)
         {
-            var model = _productService.GetNumberOfProductsInCategory(categoryIds, storeId);
+            var model = _productService.GetNumberOfProductsInCategory(categoryIds);
             return model;
         }
 

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
+    <ProjectReference Include="..\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
   </ItemGroup>
 
 </Project>

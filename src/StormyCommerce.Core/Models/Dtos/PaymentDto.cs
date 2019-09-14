@@ -6,7 +6,11 @@ namespace StormyCommerce.Core.Models.Dtos
 {
     public class PaymentDto
     {
-        public decimal Amount { get; set; }
+        public PaymentDto()
+        {
+            
+        }
+        public decimal Amount { get; private set; }
         public string CardHash { get; private set; }
         public string CardId { get; private set; }
         public string CardHolderName { get; private set; }
@@ -16,6 +20,6 @@ namespace StormyCommerce.Core.Models.Dtos
         public string PaymentMethod { get; private set; }
         public string PostbackUrl { get; private set; }
         public Address Billing { get; private set; }
-        public List<OrderItemDto> Items { get; private set; }
+        public OrderDto Order {get; private set;}
     }
 }

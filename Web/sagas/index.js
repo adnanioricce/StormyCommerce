@@ -6,7 +6,7 @@ function* favoriteProduct({ productID }) {
   yield console.log(`favoritando produto com id ${productID}`);
 }
 function* fetchProducts() {
-  const client = new Client("https://172.17.0.3:443");  
+  const client = new Client("https://172.18.0.3:443");  
   const allProducts = client.getAllProducts(1,10);
   yield put(actions.setProducts(allProducts.data));
 }

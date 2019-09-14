@@ -1,4 +1,5 @@
-﻿using StormyCommerce.Core.Entities.Payments;
+﻿using PagarMe;
+using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Infraestructure.ExternalServices;
 using StormyCommerce.Core.Models;
@@ -19,8 +20,7 @@ namespace StormyCommerce.Module.PagarMe.Services
         }
 
         public Task<Result> Charge(PaymentDto payment)
-        {
-            //var transaction = new Transaction()
+        {                        
             throw new NotImplementedException();
         }
 

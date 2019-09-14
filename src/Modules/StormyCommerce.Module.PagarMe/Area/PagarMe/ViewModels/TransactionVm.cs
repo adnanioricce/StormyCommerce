@@ -59,14 +59,12 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
 
         [DataType(DataType.Url)]
         public string PostbackUrl { get; set; }
-
         public string PaymentMethod { get; set; }
         public string CaptureMethod { get; set; }
         public string AntifraudScore { get; set; }
 
         [DataType(DataType.Url)]
         public string BoletoUrl { get; set; }
-
         public string BoletoBarcode { get; set; }
 
         [DataType(DataType.Date)]
@@ -81,10 +79,8 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public PagarMeItem Items { get; set; }
         public Address Address { get; set; }
         public List<Document> Documents { get; set; }
-
         //TODO:Define a metadata object
         public object Metadata { get; set; }
-
         public object SpliRules { get; set; }
         public object AntifraudMetadata { get; set; }
         public string Session { get; set; }

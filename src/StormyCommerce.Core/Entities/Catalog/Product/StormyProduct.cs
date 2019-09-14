@@ -13,7 +13,6 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         {
             Id = id;
         }
-
         public StormyProduct(ProductDto productDto)
         {
             Id = productDto.Id;
@@ -29,30 +28,35 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             UnitWeight = productDto.UnitWeight;
             ThumbnailImage = productDto.ThumbnailImage;
         }
-
         public StormyProduct(ProductDto productDto, long id) : this(productDto)
         {
             Id = id;
         }
-
-        public StormyProduct()
-        {
-        }
+        public StormyProduct(){}
 
         public string SKU { get; set; }
+        public string Gtin { get; set; }
+        public string NormalizedName { get; set; }
         public string ProductName { get; set; }
         public string Slug { get; set; }
+        public string MetaKeywords { get; set; }
+        public string MetaDescription { get; set; }
+        public string MetaTitle { get; set; }
+        public long CreatedById { get; set; }
         public long BrandId { get; set; }
         public long MediaId { get; set; }
         public long VendorId { get; set; }
         public long CategoryId { get; set; }
         public long ProductLinksId { get; set; }
+        public long TaxClassId { get; set; }
+        public long LatestUpdatedById { get; set; }
         public StormyVendor Vendor { get; set; }
         public Brand Brand { get; set; }
         public Category Category { get; set; }
         public string TypeName { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
+        public string Specification { get; set; }
         public int QuantityPerUnity { get; set; }
         public decimal UnitSize { get; set; }
         public decimal UnitPrice { get; set; }
@@ -60,6 +64,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public double UnitWeight { get; set; }
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }
+        public int ReviewsCount { get; set; }
         public bool ProductAvailable { get; set; }
         public bool DiscountAvailable { get; set; }
         public bool StockTrackingIsEnabled { get; set; } = true;
@@ -74,21 +79,30 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public string Note { get; set; }
         public string Price { get; set; }
         public string OldPrice { get; set; }
+        public string SpecialPrice { get; set; }
+        public DateTime? SpecialPriceStart { get; set; }
+        public DateTime? SpecialPriceEnd { get; set; }        
         public bool HasDiscountApplied { get; set; }
-        public bool Published { get; set; }
+        public bool IsPublished { get; set; }
         public string Status { get; set; }
         public bool NotReturnable { get; set; }
         public bool AvailableForPreorder { get; set; }
+        public bool HasOptions { get; set; }
+        public bool IsVisibleIndividually { get; set; }
+        public bool IsFeatured { get; set; }
+        public bool IsCallForPricing { get; set; }
+        public bool IsAllowToOrder { get; set; }        
         public decimal ProductCost { get; set; }
         public DateTime? PreOrderAvailabilityStartDate { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedOnUtc { get; set; }
+        public DateTime? PublishedOn { get; set;}
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? LatestUpdatedOn { get; set; }
         public bool AllowCustomerReview { get; set; }
         public int ApprovedRatingSum { get; set; }
         public int NotApprovedRatingSum { get; set; }
         public int ApprovedTotalReviews { get; set; }
         public int NotApprovedTotalReviews { get; set; }
-
+        public int RatingAverage { get; set; }        
         public void AddMedia(Media.Media media)
         {
             Medias.Add(media);
