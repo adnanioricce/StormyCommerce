@@ -48,27 +48,37 @@ namespace StormyCommerce.Module.Customer.Services
             }
             return result;
         }
-
+        public Task<IdentityResult> ConfirmEmailAsync(ApplicationUser user,string code)
+        {
+            return _userManager.ConfirmEmailAsync(user,code);
+        }
+        public Task<IdentityResult> ResetPasswordAsync(ApplicationUser user,string token,string newPassword)
+        {
+            return _userManager.ResetPasswordAsync(user,token,newPassword);
+        }
         public ApplicationUser GetUserByEmail(string email)
         {
             return _userManager.Users.FirstOrDefault(u => u.Email == email);
         }
-
+        public ApplicationUser GetUserByUsername(string username)
+        {
+            return _userManager.Users.FirstOrDefault(u => u.UserName == username);
+        }
         public UserManager<ApplicationUser> GetUserManager() => _userManager;
 
-        public async Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent = true, bool lockoutInFailure = false)
+        public Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent = true, bool lockoutInFailure = false)
         {
-            return await _signInManager.PasswordSignInAsync(user, password, isPersistent, lockoutInFailure);
+            return _signInManager.PasswordSignInAsync(user, password, isPersistent, lockoutInFailure);
         }
 
-        public async Task<string> CreateEmailConfirmationCode(ApplicationUser user)
+        public Task<string> CreateEmailConfirmationCode(ApplicationUser user)
         {
-            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            return _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
 
-        public async Task SignOutAsync()
+        public Task SignOutAsync()
         {
-            await _signInManager.SignOutAsync();
+            return Task.FromResult(_signInManager.SignOutAsync());
         }
 
         public async Task<IEnumerable<Claim>> BuildClaims(ApplicationUser user)
@@ -82,6 +92,14 @@ namespace StormyCommerce.Module.Customer.Services
             claims.AddRange(userRoles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
 
             return claims;
+        }
+        public Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user)
+        {
+            return _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+        public Task<bool> IsEmailConfirmedAsync(ApplicationUser user)
+        {
+            return _userManager.IsEmailConfirmedAsync(user);
         }
     }
 }

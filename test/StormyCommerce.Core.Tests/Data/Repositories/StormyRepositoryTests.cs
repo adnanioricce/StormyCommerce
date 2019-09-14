@@ -9,6 +9,7 @@ using Xunit;
 
 namespace StormyCommerce.Core.Tests.Data.Repositories
 {
+    //?TODO:Should you do this here or in the integration tests?
     public class StormyRepositoryTests<TEntity> : IDisposable where TEntity : BaseEntity
     {
         private IStormyRepository<TEntity> _repository;

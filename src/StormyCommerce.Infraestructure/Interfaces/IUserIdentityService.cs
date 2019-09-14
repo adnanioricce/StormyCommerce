@@ -8,12 +8,14 @@ namespace StormyCommerce.Infraestructure.Interfaces
 {
     public interface IUserIdentityService
     {
+        Task<IdentityResult> ConfirmEmailAsync(ApplicationUser user,string code);
         Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password);
-
+        Task<IdentityResult> ResetPasswordAsync(ApplicationUser user,string token,string newPassword);
+        Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user);
+        Task<bool> IsEmailConfirmedAsync(ApplicationUser user);
         ApplicationUser GetUserByEmail(string email);
-
+        ApplicationUser GetUserByUsername(string username);
         Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent = true, bool lockoutInFailure = false);
-
         UserManager<ApplicationUser> GetUserManager();
 
         //Actually, you will not signout, it's a JWT based authentication

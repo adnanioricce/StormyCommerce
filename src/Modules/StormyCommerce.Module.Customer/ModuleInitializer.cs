@@ -110,7 +110,8 @@ namespace StormyCommerce.Module.Customer
             services.AddAuthorization(auth =>
             {
                 auth.AddPolicy(Roles.Admin, policy => policy.RequireClaim(Roles.Admin));
-                auth.AddPolicy(Roles.Customer, new AuthorizationPolicyBuilder()
+                auth.AddPolicy(Roles.Customer, policy => policy.RequireClaim(Roles.Customer));               
+                auth.AddPolicy(Roles.Guest, new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());

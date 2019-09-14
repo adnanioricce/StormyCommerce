@@ -115,10 +115,21 @@ namespace StormyCommerce.Core.Services.Customer
             .Include(f => f.CustomerReviews)
             .Include(f => f.CustomerWishlist)
             .Include(f => f.DefaultBillingAddress)
-            .Include(f => f.DefaultShippingAddress)
-            .Include(f => f.CustomerAddresses)
+            .Include(f => f.DefaultShippingAddress)            
             .Load();
             return await _customerRepository.GetAllAsync();
+        }
+        public async Task<IList<StormyCustomer>> GetAllCustomersAsync(long minLimit,long maxLimit)
+        {
+            //_customerRepository.Table
+            
+            //.Load();
+            return await _customerRepository.Table
+                .Include(f => f.CustomerReviews)
+                .Include(f => f.CustomerWishlist)
+                .Include(f => f.DefaultBillingAddress)
+                .Include(f => f.DefaultShippingAddress)                
+                .Where(c => c.Id >= minLimit && c.Id <= maxLimit).ToListAsync();
         }
 
         public async Task<StormyCustomer> GetCustomerByIdAsync(long id)
@@ -138,12 +149,17 @@ namespace StormyCommerce.Core.Services.Customer
 
         public async Task<StormyCustomer> GetCustomerByUserNameOrEmail(string username, string email)
         {
-            return await _customerRepository.Table.FirstOrDefaultAsync(f => f.UserName == username || f.Email == email);
+            return await _customerRepository.Table.FirstOrDefaultAsync(f => f.UserName.Equals(username,StringComparison.OrdinalIgnoreCase) || f.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
         }
 
         public Task EditCustomerReviewAsync(Review review, StormyCustomer customer)
         {
             throw new NotImplementedException();
+        }
+        //TODO: Change to search based on a SQL query
+        public int GetCustomersCount()
+        {
+            return _customerRepository.Table.Where(c => !c.IsDeleted).ToList().Count();
         }
     }
 }

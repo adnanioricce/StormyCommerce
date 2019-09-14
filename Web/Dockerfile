@@ -5,7 +5,8 @@ COPY . ./
 RUN ls -l
 # RUN rm -r node_modules
 RUN npm install --silent
-RUN npm install react-scripts@3.0.1 -g --sile
-# RUN install --save typescript @types/node @types/react @types/react-dom @types/jest
+RUN npm install react-scripts@3.0.1 -g --silent
+RUN npm install --save-dev typescript @types/node @types/react @types/react-dom @types/jest awesome-typescript-loader
+
 RUN npm run build 
-ENTRYPOINT ["npm","start"]
+CMD ["npm","run","dev"]

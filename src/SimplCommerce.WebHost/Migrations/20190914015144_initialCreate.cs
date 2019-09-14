@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using System;
 
 namespace SimplCommerce.WebHost.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Street = table.Column<string>(nullable: true),
@@ -118,7 +118,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
@@ -137,7 +137,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 450, nullable: false),
@@ -184,7 +184,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 450, nullable: false)
@@ -199,7 +199,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 450, nullable: false)
@@ -214,7 +214,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true)
@@ -229,7 +229,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     CustomerId = table.Column<int>(nullable: false)
@@ -244,7 +244,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     CompanyName = table.Column<string>(nullable: true),
@@ -275,7 +275,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -296,7 +296,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -381,7 +381,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Slug = table.Column<string>(maxLength: 450, nullable: false),
@@ -405,7 +405,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
@@ -420,7 +420,7 @@ namespace SimplCommerce.WebHost.Migrations
                     CustomerWishlistId = table.Column<long>(nullable: false),
                     UserName = table.Column<string>(nullable: true),
                     FullName = table.Column<string>(maxLength: 450, nullable: true),
-                    Email = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
@@ -451,7 +451,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     SKU = table.Column<string>(nullable: false),
@@ -463,6 +463,8 @@ namespace SimplCommerce.WebHost.Migrations
                     CategoryId = table.Column<long>(nullable: false),
                     ProductLinksId = table.Column<long>(nullable: false),
                     TypeName = table.Column<string>(nullable: false),
+                    ShortDescription = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     QuantityPerUnity = table.Column<int>(nullable: false),
                     UnitSize = table.Column<decimal>(nullable: false),
                     UnitPrice = table.Column<decimal>(nullable: false),
@@ -521,14 +523,15 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     StormyCustomerId = table.Column<long>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Comment = table.Column<string>(nullable: true),
                     ReviewerName = table.Column<string>(nullable: true),
-                    RatingLevel = table.Column<int>(nullable: false)
+                    RatingLevel = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -546,7 +549,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     StormyCustomerId = table.Column<long>(nullable: false),
@@ -620,7 +623,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     GroupId = table.Column<long>(nullable: false),
@@ -683,7 +686,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     OptionId = table.Column<long>(nullable: false),
@@ -714,7 +717,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
@@ -745,7 +748,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ShipmentId = table.Column<int>(nullable: false),
@@ -769,7 +772,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     OrderUniqueKey = table.Column<Guid>(nullable: false),
@@ -825,7 +828,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     AttributeId = table.Column<long>(nullable: false),
@@ -878,7 +881,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
@@ -916,7 +919,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     StormyOrderId = table.Column<long>(nullable: false),
@@ -939,67 +942,10 @@ namespace SimplCommerce.WebHost.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            // migrationBuilder.InsertData(
-            //     table: "ProductLink",
-            //     columns: new[] { "Id", "IsDeleted", "LastModified", "LinkType", "LinkedProductId", "ProductId" },
-            //     values: new object[,]
-            //     {
-            //         { 1L, false, new DateTimeOffset(new DateTime(2019, 9, 2, 0, 59, 50, 286, DateTimeKind.Unspecified).AddTicks(7408), new TimeSpan(0, 0, 0, 0, 0)), 2, 14L, 46L },
-            //         { 28L, false, new DateTimeOffset(new DateTime(2019, 8, 16, 23, 30, 32, 602, DateTimeKind.Unspecified).AddTicks(5657), new TimeSpan(0, 0, 0, 0, 0)), 2, 42L, 13L },
-            //         { 29L, false, new DateTimeOffset(new DateTime(2019, 9, 8, 6, 5, 27, 613, DateTimeKind.Unspecified).AddTicks(5065), new TimeSpan(0, 0, 0, 0, 0)), 2, 16L, 50L },
-            //         { 30L, false, new DateTimeOffset(new DateTime(2019, 8, 30, 23, 50, 55, 499, DateTimeKind.Unspecified).AddTicks(4615), new TimeSpan(0, 0, 0, 0, 0)), 2, 6L, 24L },
-            //         { 31L, false, new DateTimeOffset(new DateTime(2019, 9, 2, 10, 8, 16, 511, DateTimeKind.Unspecified).AddTicks(8473), new TimeSpan(0, 0, 0, 0, 0)), 2, 13L, 18L },
-            //         { 32L, false, new DateTimeOffset(new DateTime(2019, 8, 20, 11, 10, 20, 497, DateTimeKind.Unspecified).AddTicks(3268), new TimeSpan(0, 0, 0, 0, 0)), 2, 41L, 49L },
-            //         { 33L, false, new DateTimeOffset(new DateTime(2019, 8, 25, 23, 17, 35, 599, DateTimeKind.Unspecified).AddTicks(2357), new TimeSpan(0, 0, 0, 0, 0)), 2, 9L, 4L },
-            //         { 34L, false, new DateTimeOffset(new DateTime(2019, 9, 1, 9, 34, 32, 922, DateTimeKind.Unspecified).AddTicks(8342), new TimeSpan(0, 0, 0, 0, 0)), 2, 4L, 20L },
-            //         { 35L, false, new DateTimeOffset(new DateTime(2019, 8, 20, 9, 22, 40, 249, DateTimeKind.Unspecified).AddTicks(7369), new TimeSpan(0, 0, 0, 0, 0)), 2, 33L, 33L },
-            //         { 36L, false, new DateTimeOffset(new DateTime(2019, 8, 20, 22, 3, 49, 845, DateTimeKind.Unspecified).AddTicks(1379), new TimeSpan(0, 0, 0, 0, 0)), 2, 21L, 13L },
-            //         { 37L, false, new DateTimeOffset(new DateTime(2019, 8, 20, 8, 1, 59, 741, DateTimeKind.Unspecified).AddTicks(9000), new TimeSpan(0, 0, 0, 0, 0)), 2, 50L, 47L },
-            //         { 27L, false, new DateTimeOffset(new DateTime(2019, 8, 23, 21, 53, 57, 34, DateTimeKind.Unspecified).AddTicks(3563), new TimeSpan(0, 0, 0, 0, 0)), 2, 42L, 29L },
-            //         { 38L, false, new DateTimeOffset(new DateTime(2019, 8, 17, 14, 23, 3, 388, DateTimeKind.Unspecified).AddTicks(4099), new TimeSpan(0, 0, 0, 0, 0)), 2, 48L, 2L },
-            //         { 40L, false, new DateTimeOffset(new DateTime(2019, 8, 25, 12, 28, 14, 501, DateTimeKind.Unspecified).AddTicks(9822), new TimeSpan(0, 0, 0, 0, 0)), 2, 45L, 33L },
-            //         { 41L, false, new DateTimeOffset(new DateTime(2019, 8, 31, 7, 57, 43, 732, DateTimeKind.Unspecified).AddTicks(7630), new TimeSpan(0, 0, 0, 0, 0)), 2, 35L, 14L },
-            //         { 42L, false, new DateTimeOffset(new DateTime(2019, 8, 19, 13, 10, 9, 482, DateTimeKind.Unspecified).AddTicks(5964), new TimeSpan(0, 0, 0, 0, 0)), 2, 44L, 18L },
-            //         { 43L, false, new DateTimeOffset(new DateTime(2019, 9, 3, 16, 17, 43, 569, DateTimeKind.Unspecified).AddTicks(4204), new TimeSpan(0, 0, 0, 0, 0)), 2, 49L, 37L },
-            //         { 44L, false, new DateTimeOffset(new DateTime(2019, 8, 20, 12, 51, 54, 315, DateTimeKind.Unspecified).AddTicks(6612), new TimeSpan(0, 0, 0, 0, 0)), 2, 18L, 48L },
-            //         { 45L, false, new DateTimeOffset(new DateTime(2019, 9, 6, 1, 38, 28, 328, DateTimeKind.Unspecified).AddTicks(8561), new TimeSpan(0, 0, 0, 0, 0)), 2, 17L, 39L },
-            //         { 46L, false, new DateTimeOffset(new DateTime(2019, 9, 4, 15, 54, 19, 432, DateTimeKind.Unspecified).AddTicks(1271), new TimeSpan(0, 0, 0, 0, 0)), 2, 7L, 9L },
-            //         { 47L, false, new DateTimeOffset(new DateTime(2019, 8, 25, 2, 38, 10, 312, DateTimeKind.Unspecified).AddTicks(6151), new TimeSpan(0, 0, 0, 0, 0)), 2, 14L, 45L },
-            //         { 48L, false, new DateTimeOffset(new DateTime(2019, 8, 21, 20, 50, 56, 949, DateTimeKind.Unspecified).AddTicks(867), new TimeSpan(0, 0, 0, 0, 0)), 2, 29L, 7L },
-            //         { 49L, false, new DateTimeOffset(new DateTime(2019, 8, 26, 22, 10, 4, 686, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)), 2, 19L, 16L },
-            //         { 39L, false, new DateTimeOffset(new DateTime(2019, 8, 25, 18, 25, 37, 389, DateTimeKind.Unspecified).AddTicks(1007), new TimeSpan(0, 0, 0, 0, 0)), 2, 17L, 22L },
-            //         { 50L, false, new DateTimeOffset(new DateTime(2019, 9, 1, 7, 44, 26, 61, DateTimeKind.Unspecified).AddTicks(7273), new TimeSpan(0, 0, 0, 0, 0)), 2, 11L, 24L },
-            //         { 26L, false, new DateTimeOffset(new DateTime(2019, 8, 17, 1, 25, 38, 946, DateTimeKind.Unspecified).AddTicks(974), new TimeSpan(0, 0, 0, 0, 0)), 2, 7L, 10L },
-            //         { 24L, false, new DateTimeOffset(new DateTime(2019, 9, 5, 19, 33, 47, 700, DateTimeKind.Unspecified).AddTicks(975), new TimeSpan(0, 0, 0, 0, 0)), 2, 31L, 29L },
-            //         { 2L, false, new DateTimeOffset(new DateTime(2019, 8, 19, 8, 17, 21, 910, DateTimeKind.Unspecified).AddTicks(2249), new TimeSpan(0, 0, 0, 0, 0)), 2, 24L, 14L },
-            //         { 3L, false, new DateTimeOffset(new DateTime(2019, 8, 17, 19, 39, 7, 616, DateTimeKind.Unspecified).AddTicks(5261), new TimeSpan(0, 0, 0, 0, 0)), 2, 19L, 14L },
-            //         { 4L, false, new DateTimeOffset(new DateTime(2019, 8, 29, 11, 19, 37, 189, DateTimeKind.Unspecified).AddTicks(964), new TimeSpan(0, 0, 0, 0, 0)), 2, 7L, 48L },
-            //         { 5L, false, new DateTimeOffset(new DateTime(2019, 8, 30, 3, 19, 58, 622, DateTimeKind.Unspecified).AddTicks(7133), new TimeSpan(0, 0, 0, 0, 0)), 2, 42L, 25L },
-            //         { 6L, false, new DateTimeOffset(new DateTime(2019, 8, 28, 4, 12, 18, 171, DateTimeKind.Unspecified).AddTicks(9338), new TimeSpan(0, 0, 0, 0, 0)), 2, 39L, 35L },
-            //         { 7L, false, new DateTimeOffset(new DateTime(2019, 8, 24, 22, 14, 28, 525, DateTimeKind.Unspecified).AddTicks(3947), new TimeSpan(0, 0, 0, 0, 0)), 2, 50L, 17L },
-            //         { 8L, false, new DateTimeOffset(new DateTime(2019, 9, 3, 15, 12, 31, 442, DateTimeKind.Unspecified).AddTicks(281), new TimeSpan(0, 0, 0, 0, 0)), 2, 10L, 15L },
-            //         { 9L, false, new DateTimeOffset(new DateTime(2019, 8, 16, 1, 21, 49, 26, DateTimeKind.Unspecified).AddTicks(6192), new TimeSpan(0, 0, 0, 0, 0)), 2, 17L, 1L },
-            //         { 10L, false, new DateTimeOffset(new DateTime(2019, 8, 24, 7, 52, 15, 57, DateTimeKind.Unspecified).AddTicks(2446), new TimeSpan(0, 0, 0, 0, 0)), 2, 27L, 19L },
-            //         { 11L, false, new DateTimeOffset(new DateTime(2019, 8, 28, 2, 6, 34, 844, DateTimeKind.Unspecified).AddTicks(3273), new TimeSpan(0, 0, 0, 0, 0)), 2, 40L, 46L },
-            //         { 25L, false, new DateTimeOffset(new DateTime(2019, 8, 21, 1, 13, 5, 120, DateTimeKind.Unspecified).AddTicks(4496), new TimeSpan(0, 0, 0, 0, 0)), 2, 27L, 38L },
-            //         { 12L, false, new DateTimeOffset(new DateTime(2019, 9, 8, 16, 16, 28, 678, DateTimeKind.Unspecified).AddTicks(9265), new TimeSpan(0, 0, 0, 0, 0)), 2, 27L, 18L },
-            //         { 14L, false, new DateTimeOffset(new DateTime(2019, 9, 7, 6, 21, 28, 851, DateTimeKind.Unspecified).AddTicks(3121), new TimeSpan(0, 0, 0, 0, 0)), 2, 12L, 21L },
-            //         { 15L, false, new DateTimeOffset(new DateTime(2019, 9, 6, 17, 50, 19, 183, DateTimeKind.Unspecified).AddTicks(2627), new TimeSpan(0, 0, 0, 0, 0)), 2, 1L, 33L },
-            //         { 16L, false, new DateTimeOffset(new DateTime(2019, 9, 5, 23, 54, 54, 84, DateTimeKind.Unspecified).AddTicks(6220), new TimeSpan(0, 0, 0, 0, 0)), 2, 39L, 4L },
-            //         { 17L, false, new DateTimeOffset(new DateTime(2019, 8, 20, 7, 38, 58, 87, DateTimeKind.Unspecified).AddTicks(6651), new TimeSpan(0, 0, 0, 0, 0)), 2, 14L, 17L },
-            //         { 18L, false, new DateTimeOffset(new DateTime(2019, 9, 4, 14, 46, 2, 242, DateTimeKind.Unspecified).AddTicks(3976), new TimeSpan(0, 0, 0, 0, 0)), 2, 40L, 28L },
-            //         { 19L, false, new DateTimeOffset(new DateTime(2019, 8, 17, 13, 8, 55, 170, DateTimeKind.Unspecified).AddTicks(6456), new TimeSpan(0, 0, 0, 0, 0)), 2, 4L, 5L },
-            //         { 20L, false, new DateTimeOffset(new DateTime(2019, 8, 25, 0, 7, 31, 127, DateTimeKind.Unspecified).AddTicks(9667), new TimeSpan(0, 0, 0, 0, 0)), 2, 44L, 8L },
-            //         { 21L, false, new DateTimeOffset(new DateTime(2019, 9, 2, 11, 35, 26, 560, DateTimeKind.Unspecified).AddTicks(8789), new TimeSpan(0, 0, 0, 0, 0)), 2, 14L, 43L },
-            //         { 22L, false, new DateTimeOffset(new DateTime(2019, 8, 17, 4, 43, 52, 204, DateTimeKind.Unspecified).AddTicks(8530), new TimeSpan(0, 0, 0, 0, 0)), 2, 48L, 18L },
-            //         { 23L, false, new DateTimeOffset(new DateTime(2019, 9, 7, 20, 44, 52, 526, DateTimeKind.Unspecified).AddTicks(3294), new TimeSpan(0, 0, 0, 0, 0)), 2, 20L, 15L },
-            //         { 13L, false, new DateTimeOffset(new DateTime(2019, 8, 18, 13, 37, 57, 636, DateTimeKind.Unspecified).AddTicks(6499), new TimeSpan(0, 0, 0, 0, 0)), 2, 11L, 47L }
-            //     });
-
-            // migrationBuilder.InsertData(
-            //     table: "Shipment",
-            //     columns: new[] { "Id", "BillingAddressId", "Comment", "CreatedOn", "DeliveryCost", "DeliveryDate", "DestinationAddressId", "Diameter", "Height", "IsDeleted", "LastModified", "Price", "ShipmentMethod", "ShipmentProviderName", "ShippedDate", "StormyCustomerId", "TotalWeight", "TrackNumber", "UserId", "WhoReceives", "Width" },
-            //     values: new object[] { 2L, 0L, "a single comment", new DateTime(2019, 9, 9, 2, 49, 44, 456, DateTimeKind.Utc).AddTicks(9537), 22.29m, new DateTime(2019, 9, 12, 0, 0, 0, 0, DateTimeKind.Local), 0L, 0m, 0m, false, new DateTimeOffset(new DateTime(2019, 9, 9, 2, 49, 44, 456, DateTimeKind.Unspecified).AddTicks(8597), new TimeSpan(0, 0, 0, 0, 0)), 20.99m, null, null, new DateTime(2019, 9, 8, 0, 0, 0, 0, DateTimeKind.Local), 0L, 0.400m, "a4b83b71-a4ba-4d0b-81db-d9ad6365810e", null, null, 0m });
+            migrationBuilder.InsertData(
+                table: "Shipment",
+                columns: new[] { "Id", "BillingAddressId", "Comment", "CreatedOn", "DeliveryCost", "DeliveryDate", "DestinationAddressId", "Diameter", "Height", "IsDeleted", "LastModified", "Price", "ShipmentMethod", "ShipmentProviderName", "ShippedDate", "StormyCustomerId", "TotalWeight", "TrackNumber", "UserId", "WhoReceives", "Width" },
+                values: new object[] { 2L, 0L, "a single comment", new DateTime(2019, 9, 14, 1, 51, 43, 717, DateTimeKind.Utc).AddTicks(861), 22.29m, new DateTime(2019, 9, 17, 0, 0, 0, 0, DateTimeKind.Local), 0L, 0m, 0m, false, new DateTimeOffset(new DateTime(2019, 9, 14, 1, 51, 43, 717, DateTimeKind.Unspecified).AddTicks(328), new TimeSpan(0, 0, 0, 0, 0)), 20.99m, null, null, new DateTime(2019, 9, 13, 0, 0, 0, 0, DateTimeKind.Local), 0L, 0.400m, "80ddaf7d-c68d-49b1-b006-c79fef669f78", null, null, 0m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

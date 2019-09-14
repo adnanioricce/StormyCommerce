@@ -25,7 +25,8 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
         Task<IList<Payment>> GetAllCustomerPaymentsByIdAsync(long id);
 
         Task<IList<StormyCustomer>> GetAllCustomersAsync();
-
+        Task<IList<StormyCustomer>> GetAllCustomersAsync(long minLimit,long maxLimit);
+        int GetCustomersCount();
         Task<StormyCustomer> GetCustomerByIdAsync(long id);
 
         Task<StormyCustomer> GetCustomerByUserNameOrEmail(string username, string email);

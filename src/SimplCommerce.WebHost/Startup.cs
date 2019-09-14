@@ -14,6 +14,7 @@ using SimplCommerce.WebHost.Extensions;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data.Repositories;
+using StormyCommerce.Infraestructure.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
 using System.Text.Encodings.Web;
@@ -89,7 +90,7 @@ namespace SimplCommerce.WebHost
             //services.AddCustomizedIdentity(_configuration);
             services.AddHttpClient();
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
-
+            services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander()); });
             services.Configure<WebEncoderOptions>(options =>

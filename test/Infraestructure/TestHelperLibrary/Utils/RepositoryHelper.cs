@@ -14,7 +14,7 @@ namespace TestHelperLibrary.Utils
 
         public static StormyRepository<T> GetRepository<T>(StormyDbContext context) where T : BaseEntity
         {
-            return new StormyRepository<T>(DbContextHelper.GetDbContext());
+            return new StormyRepository<T>(context);
         }
 
         public static StormyRepository<T> GetRepository<T>(StormyDbContext context, List<T> seed = null) where T : BaseEntity

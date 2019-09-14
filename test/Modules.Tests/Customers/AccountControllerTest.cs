@@ -64,7 +64,7 @@ namespace Modules.Test.Customers
             //Arrange
             long limit = 15;
             //Act
-            var result = await _controller.GetCustomers(0, limit);
+            var result = await _controller.GetCustomersAsync(0, limit);
             var returnResult = Assert.IsAssignableFrom<OkResult>(result);
             //Assert
             Assert.Equal(200, returnResult.StatusCode);
@@ -81,9 +81,9 @@ namespace Modules.Test.Customers
             dbContext.AddRange(customer);
             dbContext.SaveChanges();
             var customerRepo = RepositoryHelper.GetRepository<StormyCustomer>(dbContext);
-            var controller = new CustomerController(new CustomerService(null, customerRepo));
+            var controller = new CustomerController(new CustomerService(null, customerRepo),null);
             //Act
-            var result = await controller.GetCustomerByEmail(customer.Email);
+            var result = await controller.GetCustomerByEmailOrUsernameAsync(customer.Email,"");
             //var contenxt = Assert.
 
             Assert.Equal(customer.Email, result.Value.Email);

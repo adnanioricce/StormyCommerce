@@ -1,3 +1,4 @@
+// import { object } from "prop-types";
 /* tslint:disable */
 /* eslint-disable */
 //----------------------
@@ -1414,6 +1415,7 @@ export class VendorDto implements IVendorDto {
     }
 
     init(data?: any) {
+        data = new VendorDto(data);
     }
 
     static fromJS(data: any): VendorDto {

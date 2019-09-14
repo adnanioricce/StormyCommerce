@@ -35,7 +35,8 @@ namespace Modules.Test.Customers
             _controller = new AuthenticationController(
              GetUserIdentityService(fakeUserManager),
              fakeTokenService.Object,
-             GetFakeEmailSender());
+             //TODO:Create fake Logger,CustomerService and mapper
+             GetFakeEmailSender(),null,null,null);
         }
 
         private IEmailSender GetFakeEmailSender()

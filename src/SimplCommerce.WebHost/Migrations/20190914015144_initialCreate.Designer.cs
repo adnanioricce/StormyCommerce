@@ -10,15 +10,15 @@ using StormyCommerce.Infraestructure.Data;
 namespace SimplCommerce.WebHost.Migrations
 {
     [DbContext(typeof(StormyDbContext))]
-    [Migration("20190909024945_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20190914015144_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -337,458 +337,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductLink");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 2, 0, 59, 50, 286, DateTimeKind.Unspecified).AddTicks(7408), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 14L,
-                            ProductId = 46L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 19, 8, 17, 21, 910, DateTimeKind.Unspecified).AddTicks(2249), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 24L,
-                            ProductId = 14L
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 19, 39, 7, 616, DateTimeKind.Unspecified).AddTicks(5261), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 19L,
-                            ProductId = 14L
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 29, 11, 19, 37, 189, DateTimeKind.Unspecified).AddTicks(964), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 7L,
-                            ProductId = 48L
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 30, 3, 19, 58, 622, DateTimeKind.Unspecified).AddTicks(7133), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 42L,
-                            ProductId = 25L
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 28, 4, 12, 18, 171, DateTimeKind.Unspecified).AddTicks(9338), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 39L,
-                            ProductId = 35L
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 24, 22, 14, 28, 525, DateTimeKind.Unspecified).AddTicks(3947), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 50L,
-                            ProductId = 17L
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 3, 15, 12, 31, 442, DateTimeKind.Unspecified).AddTicks(281), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 10L,
-                            ProductId = 15L
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 16, 1, 21, 49, 26, DateTimeKind.Unspecified).AddTicks(6192), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 17L,
-                            ProductId = 1L
-                        },
-                        new
-                        {
-                            Id = 10L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 24, 7, 52, 15, 57, DateTimeKind.Unspecified).AddTicks(2446), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 27L,
-                            ProductId = 19L
-                        },
-                        new
-                        {
-                            Id = 11L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 28, 2, 6, 34, 844, DateTimeKind.Unspecified).AddTicks(3273), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 40L,
-                            ProductId = 46L
-                        },
-                        new
-                        {
-                            Id = 12L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 8, 16, 16, 28, 678, DateTimeKind.Unspecified).AddTicks(9265), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 27L,
-                            ProductId = 18L
-                        },
-                        new
-                        {
-                            Id = 13L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 18, 13, 37, 57, 636, DateTimeKind.Unspecified).AddTicks(6499), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 11L,
-                            ProductId = 47L
-                        },
-                        new
-                        {
-                            Id = 14L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 7, 6, 21, 28, 851, DateTimeKind.Unspecified).AddTicks(3121), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 12L,
-                            ProductId = 21L
-                        },
-                        new
-                        {
-                            Id = 15L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 6, 17, 50, 19, 183, DateTimeKind.Unspecified).AddTicks(2627), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 1L,
-                            ProductId = 33L
-                        },
-                        new
-                        {
-                            Id = 16L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 5, 23, 54, 54, 84, DateTimeKind.Unspecified).AddTicks(6220), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 39L,
-                            ProductId = 4L
-                        },
-                        new
-                        {
-                            Id = 17L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 7, 38, 58, 87, DateTimeKind.Unspecified).AddTicks(6651), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 14L,
-                            ProductId = 17L
-                        },
-                        new
-                        {
-                            Id = 18L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 4, 14, 46, 2, 242, DateTimeKind.Unspecified).AddTicks(3976), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 40L,
-                            ProductId = 28L
-                        },
-                        new
-                        {
-                            Id = 19L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 13, 8, 55, 170, DateTimeKind.Unspecified).AddTicks(6456), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 4L,
-                            ProductId = 5L
-                        },
-                        new
-                        {
-                            Id = 20L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 0, 7, 31, 127, DateTimeKind.Unspecified).AddTicks(9667), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 44L,
-                            ProductId = 8L
-                        },
-                        new
-                        {
-                            Id = 21L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 2, 11, 35, 26, 560, DateTimeKind.Unspecified).AddTicks(8789), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 14L,
-                            ProductId = 43L
-                        },
-                        new
-                        {
-                            Id = 22L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 4, 43, 52, 204, DateTimeKind.Unspecified).AddTicks(8530), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 48L,
-                            ProductId = 18L
-                        },
-                        new
-                        {
-                            Id = 23L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 7, 20, 44, 52, 526, DateTimeKind.Unspecified).AddTicks(3294), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 20L,
-                            ProductId = 15L
-                        },
-                        new
-                        {
-                            Id = 24L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 5, 19, 33, 47, 700, DateTimeKind.Unspecified).AddTicks(975), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 31L,
-                            ProductId = 29L
-                        },
-                        new
-                        {
-                            Id = 25L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 21, 1, 13, 5, 120, DateTimeKind.Unspecified).AddTicks(4496), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 27L,
-                            ProductId = 38L
-                        },
-                        new
-                        {
-                            Id = 26L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 1, 25, 38, 946, DateTimeKind.Unspecified).AddTicks(974), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 7L,
-                            ProductId = 10L
-                        },
-                        new
-                        {
-                            Id = 27L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 23, 21, 53, 57, 34, DateTimeKind.Unspecified).AddTicks(3563), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 42L,
-                            ProductId = 29L
-                        },
-                        new
-                        {
-                            Id = 28L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 16, 23, 30, 32, 602, DateTimeKind.Unspecified).AddTicks(5657), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 42L,
-                            ProductId = 13L
-                        },
-                        new
-                        {
-                            Id = 29L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 8, 6, 5, 27, 613, DateTimeKind.Unspecified).AddTicks(5065), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 16L,
-                            ProductId = 50L
-                        },
-                        new
-                        {
-                            Id = 30L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 30, 23, 50, 55, 499, DateTimeKind.Unspecified).AddTicks(4615), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 6L,
-                            ProductId = 24L
-                        },
-                        new
-                        {
-                            Id = 31L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 2, 10, 8, 16, 511, DateTimeKind.Unspecified).AddTicks(8473), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 13L,
-                            ProductId = 18L
-                        },
-                        new
-                        {
-                            Id = 32L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 11, 10, 20, 497, DateTimeKind.Unspecified).AddTicks(3268), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 41L,
-                            ProductId = 49L
-                        },
-                        new
-                        {
-                            Id = 33L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 23, 17, 35, 599, DateTimeKind.Unspecified).AddTicks(2357), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 9L,
-                            ProductId = 4L
-                        },
-                        new
-                        {
-                            Id = 34L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 1, 9, 34, 32, 922, DateTimeKind.Unspecified).AddTicks(8342), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 4L,
-                            ProductId = 20L
-                        },
-                        new
-                        {
-                            Id = 35L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 9, 22, 40, 249, DateTimeKind.Unspecified).AddTicks(7369), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 33L,
-                            ProductId = 33L
-                        },
-                        new
-                        {
-                            Id = 36L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 22, 3, 49, 845, DateTimeKind.Unspecified).AddTicks(1379), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 21L,
-                            ProductId = 13L
-                        },
-                        new
-                        {
-                            Id = 37L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 8, 1, 59, 741, DateTimeKind.Unspecified).AddTicks(9000), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 50L,
-                            ProductId = 47L
-                        },
-                        new
-                        {
-                            Id = 38L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 17, 14, 23, 3, 388, DateTimeKind.Unspecified).AddTicks(4099), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 48L,
-                            ProductId = 2L
-                        },
-                        new
-                        {
-                            Id = 39L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 18, 25, 37, 389, DateTimeKind.Unspecified).AddTicks(1007), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 17L,
-                            ProductId = 22L
-                        },
-                        new
-                        {
-                            Id = 40L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 12, 28, 14, 501, DateTimeKind.Unspecified).AddTicks(9822), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 45L,
-                            ProductId = 33L
-                        },
-                        new
-                        {
-                            Id = 41L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 31, 7, 57, 43, 732, DateTimeKind.Unspecified).AddTicks(7630), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 35L,
-                            ProductId = 14L
-                        },
-                        new
-                        {
-                            Id = 42L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 19, 13, 10, 9, 482, DateTimeKind.Unspecified).AddTicks(5964), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 44L,
-                            ProductId = 18L
-                        },
-                        new
-                        {
-                            Id = 43L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 3, 16, 17, 43, 569, DateTimeKind.Unspecified).AddTicks(4204), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 49L,
-                            ProductId = 37L
-                        },
-                        new
-                        {
-                            Id = 44L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 20, 12, 51, 54, 315, DateTimeKind.Unspecified).AddTicks(6612), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 18L,
-                            ProductId = 48L
-                        },
-                        new
-                        {
-                            Id = 45L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 6, 1, 38, 28, 328, DateTimeKind.Unspecified).AddTicks(8561), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 17L,
-                            ProductId = 39L
-                        },
-                        new
-                        {
-                            Id = 46L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 4, 15, 54, 19, 432, DateTimeKind.Unspecified).AddTicks(1271), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 7L,
-                            ProductId = 9L
-                        },
-                        new
-                        {
-                            Id = 47L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 25, 2, 38, 10, 312, DateTimeKind.Unspecified).AddTicks(6151), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 14L,
-                            ProductId = 45L
-                        },
-                        new
-                        {
-                            Id = 48L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 21, 20, 50, 56, 949, DateTimeKind.Unspecified).AddTicks(867), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 29L,
-                            ProductId = 7L
-                        },
-                        new
-                        {
-                            Id = 49L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 8, 26, 22, 10, 4, 686, DateTimeKind.Unspecified).AddTicks(9700), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 19L,
-                            ProductId = 16L
-                        },
-                        new
-                        {
-                            Id = 50L,
-                            IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 1, 7, 44, 26, 61, DateTimeKind.Unspecified).AddTicks(7273), new TimeSpan(0, 0, 0, 0, 0)),
-                            LinkType = 2,
-                            LinkedProductId = 11L,
-                            ProductId = 24L
-                        });
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductOption", b =>
@@ -887,6 +435,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<string>("Description");
+
                     b.Property<decimal>("Discount");
 
                     b.Property<bool>("DiscountAvailable");
@@ -931,6 +481,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("SKU")
                         .IsRequired();
+
+                    b.Property<string>("ShortDescription");
 
                     b.Property<string>("Slug");
 
@@ -1033,7 +585,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long?>("DefaultShippingAddressId");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -1267,6 +820,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("ReviewerName");
 
+                    b.Property<int>("Status");
+
                     b.Property<long>("StormyCustomerId");
 
                     b.Property<string>("Title");
@@ -1358,19 +913,19 @@ namespace SimplCommerce.WebHost.Migrations
                             Id = 2L,
                             BillingAddressId = 0L,
                             Comment = "a single comment",
-                            CreatedOn = new DateTime(2019, 9, 9, 2, 49, 44, 456, DateTimeKind.Utc).AddTicks(9537),
+                            CreatedOn = new DateTime(2019, 9, 14, 1, 51, 43, 717, DateTimeKind.Utc).AddTicks(861),
                             DeliveryCost = 22.29m,
-                            DeliveryDate = new DateTime(2019, 9, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveryDate = new DateTime(2019, 9, 17, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationAddressId = 0L,
                             Diameter = 0m,
                             Height = 0m,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 9, 2, 49, 44, 456, DateTimeKind.Unspecified).AddTicks(8597), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 14, 1, 51, 43, 717, DateTimeKind.Unspecified).AddTicks(328), new TimeSpan(0, 0, 0, 0, 0)),
                             Price = 20.99m,
-                            ShippedDate = new DateTime(2019, 9, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            ShippedDate = new DateTime(2019, 9, 13, 0, 0, 0, 0, DateTimeKind.Local),
                             StormyCustomerId = 0L,
                             TotalWeight = 0.400m,
-                            TrackNumber = "a4b83b71-a4ba-4d0b-81db-d9ad6365810e",
+                            TrackNumber = "80ddaf7d-c68d-49b1-b006-c79fef669f78",
                             Width = 0m
                         });
                 });
