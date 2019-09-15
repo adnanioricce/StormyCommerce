@@ -36,7 +36,7 @@ RUN apt-get update \
 
 WORKDIR /app	
 COPY --from=build-env /app/src/SimplCommerce.WebHost/out ./
-COPY --from=build-env /app/src/SimplCommerce.WebHost/dbscript.sql ./
+#COPY --from=build-env /var/lib/postgresql/data/dbscript.sql ./
 
 # RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so 
 COPY --from=build-env /app/docker-entrypoint.sh /

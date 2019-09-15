@@ -39,6 +39,14 @@ services:
       - data:/var/lib/postgresql/data      
     networks: 
       - stormy-net
+  client-app:
+    image: witthoeft-storefront
+    container_name: 'client'
+    ports:
+      -  3000
+    networks:
+      - stormy-net
+        
 volumes:
   data:
 networks:
