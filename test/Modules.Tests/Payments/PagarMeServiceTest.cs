@@ -20,7 +20,7 @@ namespace Modules.Tests.Payments
             var mockPagarme = new Mock<PagarMeService>();
             //mockPagarme.Setup(f => f.Transactions.)
 
-            return new StormyPagarmeService(RepositoryHelper.GetRepository<Payment>());
+            return new StormyPagarmeService(RepositoryHelper.GetRepository<Payment>(),null);
         }
 
         [Fact]

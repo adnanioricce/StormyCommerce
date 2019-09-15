@@ -22,7 +22,7 @@ namespace StormyCommerce.Module.Mapping.Mappings
             CreateMap<OrderItemDto, Item>();
 
             CreateMap<Transaction, PaymentDto>()
-                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Item));
+                .ForMember(dest => dest.Order.Items, opt => opt.MapFrom(src => src.Item));
         }
     }
 }

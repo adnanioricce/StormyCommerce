@@ -18,7 +18,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 ApprovedTotalReviews = 32,
                 AvailableForPreorder = false,
                 BrandId = 1,
-                CreatedAt = new DateTime(2019, 05, 10),
+                CreatedOn = new DateTime(2019, 05, 10),
                 IsDeleted = false,
                 Discount = (decimal)9.99,
                 DiscountAvailable = false,
@@ -54,7 +54,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                         Name = "A brand"
                     },
                     BrandId = 1,
-                    CreatedAt = new DateTime(2019,05,10),
+                    CreatedOn = new DateTime(2019,05,10),
                     IsDeleted = false,
                     Discount = (decimal)9.99,
                     DiscountAvailable = false,

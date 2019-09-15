@@ -13,7 +13,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public int Fee { get; set; }
 
         public string DeliveryDate { get; set; }
-        public bool expedited { get; set; }
+        public bool Expedited { get; set; }
 
         [Required]
         public Address Address { get; set; }

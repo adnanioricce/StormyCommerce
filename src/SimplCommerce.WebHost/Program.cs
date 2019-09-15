@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,13 @@ namespace SimplCommerce.WebHost
             Microsoft.AspNetCore.WebHost.CreateDefaultBuilder(args)
                 .UseKestrel(options =>
                 {
+                    options.Limits.MaxConcurrentConnections = 100;
+                    options.Limits.MaxConcurrentUpgradedConnections = 100;
+                    options.Limits.MaxRequestBodySize = 10 * 1024;
+                    options.Limits.MinRequestBodyDataRate =
+                        new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
+                    options.Limits.MinResponseDataRate =
+                        new MinDataRate(bytesPerSecond: 100, gracePeriod: TimeSpan.FromSeconds(10));
                     var configuration = (IConfiguration)options.ApplicationServices.GetService(typeof(IConfiguration));
                     var httpPort = configuration.GetValue("ASPNETCORE_HTTP_PORT", 80);
                     var httpsPort = configuration.GetValue("ASPNETCORE_HTTPS_PORT", 443);
@@ -42,6 +50,8 @@ namespace SimplCommerce.WebHost
                     {
                         listerOptions.UseHttps(certPath, certPassword);
                     });
+                    options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
+                    options.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
                 })
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration(SetupConfiguration)

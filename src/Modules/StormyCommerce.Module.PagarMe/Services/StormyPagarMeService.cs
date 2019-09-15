@@ -12,15 +12,16 @@ namespace StormyCommerce.Module.PagarMe.Services
     public class StormyPagarmeService : IPaymentService
     {
         private readonly IStormyRepository<Payment> _paymentRepository;
-
-        // private readonly PagarMeService
-        public StormyPagarmeService(IStormyRepository<Payment> paymentRepository)
+        private readonly PagarMeWrapper _pagarmeWrapper;
+        public StormyPagarmeService(IStormyRepository<Payment> paymentRepository,
+            PagarMeWrapper pagarmeWrapper)
         {
-            _paymentRepository = paymentRepository;
+            _paymentRepository = paymentRepository;            
         }
 
         public Task<Result> Charge(PaymentDto payment)
         {                        
+            
             throw new NotImplementedException();
         }
 

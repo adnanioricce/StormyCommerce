@@ -13,7 +13,7 @@ RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost
 RUN dotnet build SimplCommerce.sln 
 RUN cd src/SimplCommerce.WebHost \
 	&& dotnet ef migrations add initialSchema \	
-    && dotnet ef migrations script --idempotent -o dbscript.sql     
+    && dotnet ef migrations script --idempotent -o /var/lib/postgresql/data/dbscript.sql     
 
 RUN dotnet build *.sln -c Release \
     && cd src/SimplCommerce.WebHost \    
@@ -21,7 +21,7 @@ RUN dotnet build *.sln -c Release \
     && dotnet publish -c Release -o out
 
 # remove BOM for psql	
-RUN sed -i -e '1s/^\xEF\xBB\xBF//' /app/src/SimplCommerce.WebHost/dbscript.sql
+RUN sed -i -e '1s/^\xEF\xBB\xBF//' /var/lib/postgresql/data/dbscript.sql
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 EXPOSE 443

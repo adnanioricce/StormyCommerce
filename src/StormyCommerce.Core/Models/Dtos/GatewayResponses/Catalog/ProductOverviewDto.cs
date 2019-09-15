@@ -18,7 +18,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             Price = product.Price;
             OldPrice = product.OldPrice;
             HasDiscountApplied = product.HasDiscountApplied;
-            Published = product.Published;
+            IsPublished = product.IsPublished;
             AvailableForPreorder = product.AvailableForPreorder;
             ThumbnailImage = product.ThumbnailImage;
             Category = new CategoryDto(product.Category);
@@ -31,7 +31,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public string Price { get; private set; }
         public string OldPrice { get; private set; }
         public bool HasDiscountApplied { get; private set; }
-        public bool Published { get; private set; }
+        public bool IsPublished { get; private set; }
         public bool AvailableForPreorder { get; private set; }
 
         //Maybe this will be more hard to make...
