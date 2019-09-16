@@ -8,6 +8,10 @@ export default (state = [], action) =>
         draft.push(action.product);
         break;
       }
+      case consts.resetCart: {
+        draft=[]
+        break;
+      }
       default: {
         return state;
       }

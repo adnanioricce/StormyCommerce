@@ -29,6 +29,7 @@
   "version": "1.0.15",
   "main": "index.js",
   "license": "MIT",
+  "proxy": "http://localhost:5000",
   "devDependencies": {
     "@types/next": "^8.0.6",
     "eslint": "^6.2.2",

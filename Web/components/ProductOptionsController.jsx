@@ -10,11 +10,12 @@ import Separator from './Separator';
 import actions from '../actions';
 
 function ProductOptionsController({ currentProduct }) {
-  const [currentColor, setCurrentColor] = React.useState('red');
+  const [currentColor, setCurrentColor] = React.useState(currentProduct.colors[0].value);
   const [currentSize, setCurrentSize] = React.useState(15);
   const dispatch = useDispatch();
   const { price, oldPrice } = currentProduct;
   const handleAddToCart = () => {
+    // dispatch(actions.resetCart())
     dispatch(actions.addProductToCart(currentProduct));
   };
   return (
@@ -29,17 +30,14 @@ function ProductOptionsController({ currentProduct }) {
         <ColorSelector
           activeColor={currentColor}
           setActiveColor={setCurrentColor}
-          options={[
-            { value: 'red', color: 'red' },
-            { value: 'purple', color: 'purple' }
-          ]}
+          options={currentProduct.colors}
         />
       </Section>
       <Section label="Tamanho">
         <SelectInput
           defaultOption={currentSize}
           setCurrentOption={setCurrentSize}
-          options={[{ label: 15, value: 15 }, { label: 16, value: 16 }]}
+          options={currentProduct.sizes.map(size=>({label: size, value: size}))}
         />
       </Section>
       <Section label="Quantidade">

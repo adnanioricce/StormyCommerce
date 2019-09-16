@@ -3,6 +3,7 @@ import Header from './Header';
 import ProductCard from './ProductCard';
 
 export default ({ products = [] }) => {
+  console.log(products);
   return (
     <>
       <Header label="Destaques" />

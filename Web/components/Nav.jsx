@@ -4,10 +4,11 @@ import logoSVG from '../static/assets/logo.svg';
 import hamburguerMenuSVG from '../static/assets/icons/hamburguerMenu.svg';
 import hamburguerCloseMenuSVG from '../static/assets/icons/hamburguerCloseMenu.svg';
 import shoppingCartSVG from '../static/assets/icons/shoppingCart.svg';
-import searchSVG from '../static/assets/icons/search.svg';
+
 import Menu from './Menu';
 import ShopCartMenu from './ShopCartMenu';
 import InteractiveElement from './InteractiveElement';
+import SearchBar from './SearchBar';
 
 const Nav = () => {
   const Router = useRouter();
@@ -82,10 +83,7 @@ const Nav = () => {
         alt="Carrinho de Compras"
         tag="img"
       />
-      <div className="search-bar">
-        <input type="search" placeholder="Digite Aqui" />
-        <InteractiveElement src={searchSVG} alt="Pesquisar" tag="img" />
-      </div>
+      <SearchBar />
     </nav>
   );
 };

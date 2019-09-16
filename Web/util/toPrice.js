@@ -1,1 +1,1 @@
-export default price => `R$ ${price.toFixed(2)}`;
+export default price => `R$ ${parseFloat(price).toFixed(2)}`;

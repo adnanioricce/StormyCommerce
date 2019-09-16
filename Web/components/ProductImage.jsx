@@ -4,8 +4,9 @@ import FavoriteFloater from './FavoriteFloater';
 import ExtraImages from './ExtraImages';
 
 export default ({ currentProduct }) => {
-  const { images } = currentProduct;
-  const [currentImage, setCurrentImage] = React.useState(images[0]);
+  const { photos } = currentProduct;
+  console.log(photos);
+  const [currentImage, setCurrentImage] = React.useState(photos[0]);
   return (
     <div className="product-image-container">
       <div className="product-image">
@@ -31,7 +32,7 @@ export default ({ currentProduct }) => {
           isFavorited={currentProduct.isFavorited}
         />
       </div>
-      <ExtraImages images={images} setCurrentImage={setCurrentImage}/>
+      <ExtraImages images={photos} setCurrentImage={setCurrentImage} />
     </div>
   );
 };

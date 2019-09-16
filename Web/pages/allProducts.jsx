@@ -6,7 +6,7 @@ import searchSVG from '../static/assets/icons/search.svg';
 import orderSVG from '../static/assets/icons/order.svg';
 import ProductCard from '../components/ProductCard';
 
-const ProductsListModifier = ({}) => {
+const ProductsListModifier = () => {
   return (
     <div className="product-list-modifiers-container">
       <div className="modifier">
@@ -28,10 +28,7 @@ const ProductsListModifier = ({}) => {
 const ProductsCounter = ({ productsQuantity }) => {
   return (
     <div className="products-quantity">
-      <p>
-        {productsQuantity}
-        items encontrados
-      </p>
+      <p>{`${productsQuantity} items encontrados`}</p>
     </div>
   );
 };

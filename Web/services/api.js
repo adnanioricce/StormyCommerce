@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-const baseURL = '192.168.0.106';
+const baseURL = 'localhost';
 const port = 5000;
 const api = axios.create({
-  baseURL: `http://${baseURL}:${port}/api/`
+  baseURL: `http://${baseURL}:${port}/api/`,
+  withCredentials: true,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  }
 });
 
 export default api;

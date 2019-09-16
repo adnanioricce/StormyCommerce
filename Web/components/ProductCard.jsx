@@ -5,6 +5,7 @@ import InteractiveElement from './InteractiveElement';
 import toPrice from '../util/toPrice';
 
 const ProductCard = ({ isFavorited, name, image, price }, index) => {
+  console.log(image);
   // const [image, setImage] = React.useState('');
   // React.useEffect(()=>{
   //   fetch(product.image).then(

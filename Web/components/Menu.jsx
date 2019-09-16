@@ -21,9 +21,9 @@ export default React.forwardRef(({ isActive }, ref) => {
         setSubMenuIsActive(!subMenuIsActive);
       } else {
         const { prefix, label, link: overwrittenLink } = e;
-        const link = overwrittenLink!==undefined ? overwrittenLink : label;
+        const link = overwrittenLink !== undefined ? overwrittenLink : label;
         const url = prefix
-          ? `/${prefix}/${typeof link === 'string'?link.toLowerCase():link}`
+          ? `/${prefix}/${typeof link === 'string' ? link.toLowerCase() : link}`
           : `/${link.toLowerCase()}`;
 
         Router.push(url);
