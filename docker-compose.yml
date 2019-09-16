@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   simplcommerce.webhost:
-    image: ${DOCKER_REGISTRY-}simplcommercewebhost
+    image: stormy-webhost
     build:
       context: .
       dockerfile: Dockerfile    

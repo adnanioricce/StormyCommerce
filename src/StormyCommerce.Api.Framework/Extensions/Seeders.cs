@@ -21,6 +21,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.ProductName, f => f.Commerce.ProductName())
                 .RuleFor(v => v.IsDeleted, false)
+                .RuleFor(v => v.ThumbnailImage,f => f.Image.LoremFlickrUrl())
                 .RuleFor(v => v.SKU, f => f.Commerce.Random.AlphaNumeric(16))
                 .RuleFor(v => v.Slug, f => f.Lorem.Slug())
                 .RuleFor(v => v.TypeName, f => f.Commerce.Categories(1)[0])

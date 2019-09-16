@@ -114,6 +114,7 @@ namespace SimplCommerce.WebHost
             });
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
+                builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();
                 builder.AllowAnyHeader();
             }));
@@ -152,7 +153,7 @@ namespace SimplCommerce.WebHost
             app.UseCookiePolicy();
             app.UseCors(options =>
             {
-                options.WithOrigins("https://localhost:49206", "http://localhost:49208", "http://localhost:49209", "https://localhost:3000")
+                options.WithOrigins("https://localhost:49206", "http://localhost:49208", "http://localhost:49209", "https://localhost:3000","http://localhost:3000")
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             });

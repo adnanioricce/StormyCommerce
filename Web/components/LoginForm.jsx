@@ -3,11 +3,12 @@ import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Button from './Button';
-import api from '../services/api';
+import { AuthenticationClient } from '../services/AuthenticationClient';
 export default () => {
   const router = useRouter();
-  submitHandler = async function (loginVm) {
-    await api.login(loginVm);
+  const authClient = new AuthenticationClient();
+  const submitHandler = async function (loginVm) {
+    await authClient.login(loginVm);
   }
   return (
     <>
@@ -16,10 +17,10 @@ export default () => {
           email: '',
           password: ''
         }}
-        onSubmit={values => login(values)}
+        onSubmit={values => submitHandler(values)}
       >
         {() => (
-          <Form className="login-form">
+          <Form className="login-form" >
             <FormField name="email" type="email" placeholder="Email" />
             <FormField name="password" type="password" placeholder="Senha" />
             <FormButton type="submit" label="Entrar" />

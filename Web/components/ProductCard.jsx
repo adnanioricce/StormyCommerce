@@ -3,8 +3,9 @@ import Link from 'next/link';
 import FavoriteFloater from './FavoriteFloater';
 import InteractiveElement from './InteractiveElement';
 import toPrice from '../util/toPrice';
+import { ProductDto } from '../services/stormyApi';
 
-const ProductCard = ({ isFavorited, productName, thumbnailImage, price }, index) => {
+const ProductCard = (props, index) => {
   // const [image, setImage] = React.useState('');
   // React.useEffect(()=>{
   //   fetch(product.image).then(
@@ -19,26 +20,29 @@ const ProductCard = ({ isFavorited, productName, thumbnailImage, price }, index)
     //   behavior: 'smooth'
     // });
   }
+  console.log(props);
   return (
+    
     <div className="product-card" key={index}>
       <FavoriteFloater
         style={{ top: -1, right: -1 }}
         // isFavorited={isFavorited}
       />
+      {console.log(this)}
       <Link
-        href={`/produtos/${name.replace(/\s/g, '-')}`}
+        href={`/produtos/${props.productName.replace(/\s/g, '-')}`}
         // as={`/produtos/${name.replace(/\s/g, '-')}`}
       >
         <InteractiveElement
           onClick={handleProductClick}
           tag="img"
           className="image"
-          src={thumbnailImage}
-          alt={productName}
+          src={props.thumbnailImage}
+          alt={props.productName}
         />
       </Link>
       <Link
-        href={`/produtos/${productName.replace(/\s/g, '-')}`}
+        href={`/produtos/${props.productName.replace(/\s/g, '-')}`}
         // as={`/produtos/${name.replace(/\s/g, '-')}`}
       >
         <InteractiveElement
@@ -46,9 +50,9 @@ const ProductCard = ({ isFavorited, productName, thumbnailImage, price }, index)
           className="info"
           tag="div"
         >
-          <p className="title">{productName}</p>
+          <p className="title">{props.productName}</p>
           {/* Price já é uma string */}
-          <p className="price">{price}</p>
+          <p className="price">{props.price}</p>
         </InteractiveElement>
       </Link>
     </div>

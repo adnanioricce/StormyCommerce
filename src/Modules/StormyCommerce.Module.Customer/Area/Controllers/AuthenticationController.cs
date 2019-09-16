@@ -131,7 +131,7 @@ namespace StormyCommerce.Module.Customer.Controllers
             
             return Ok();
         }
-        [HttpPost]
+        [HttpPost("ForgotPassword")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [ValidateModel]

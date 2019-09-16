@@ -42,27 +42,27 @@ namespace StormyCommerce.Module.Customer.Area.Controllers
             await _customerService.AddCustomerAddressAsync(address, 0);
             return new OkObjectResult(Result.Ok());
         }
-        [HttpPost("/review")]
+        [HttpPost("/review/create")]
         [ValidateModel]        
         public async Task<IActionResult> WriteReviewAsync([FromBody]CustomerReviewDto review)
         {
             await _customerService.CreateCustomerReviewAsync(_mapper.Map<Review>(review),review.Email.ToUpper());
             return Ok();
         }
-        [HttpPost("/admin")]
+        [HttpGet("/admin/customer/list")]
         [Authorize(Roles.Admin)]
         [ValidateModel]
         public async Task<IList<StormyCustomer>> GetCustomersAsync(int minLimit, long maxLimit)
         {
             return await _customerService.GetAllCustomersAsync(minLimit,maxLimit);
         }
-        [HttpGet("/get")]
+        [HttpGet("/customer/getbyemail")]
         [ValidateModel]
         public async Task<ActionResult<CustomerDto>> GetCustomerByEmailOrUsernameAsync(string email,string username)
         {
             return _mapper.Map<StormyCustomer,CustomerDto>(await _customerService.GetCustomerByUserNameOrEmail(email, username));
         }
-        [HttpPost("/create")]
+        [HttpPost("/createcustomer")]
         [ValidateModel]
         public async Task<IActionResult> CreateCustomerAsync([FromBody]CustomerDto customerDto)
         {            
