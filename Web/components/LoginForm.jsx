@@ -5,9 +5,13 @@ import Link from 'next/link';
 import axios from 'axios';
 import Button from './Button';
 import api from '../services/api';
+import actions, { consts } from '../actions';
+import { useDispatch } from 'react-redux';
 
 export default () => {
   const router = useRouter();
+  const [error, setError] = React.useState(null)
+  const dispatch = useDispatch()
   return (
     <>
       <Formik
@@ -17,18 +21,16 @@ export default () => {
         }}
         onSubmit={async values => {
           console.log(values);
-          const response = await fetch('http://localhost:5000/api/sessions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              withCredentials: true
-            },
-            body: JSON.stringify({
-              email: 'danilex@stormy.com',
-              password: '123456'
-            })
-          });
-          console.log(response);
+          let response;
+          try{
+            response = await api.post("/sessions", values)
+            const {user, token} = response.data
+            dispatch(actions.login(user, token))
+          }catch(err){
+            console.log(err)
+            setError(err.response && err.response.data.error)
+          }
+          console.log(response)
         }}
       >
         {() => (
@@ -55,4 +57,4 @@ export default () => {
 const FormButton = ({ ...props }) => (
   <Button style={{ margin: '5px 0px' }} {...props} />
 );
-const FormField = ({ ...props }) => <input className="form-field" {...props} />;
+const FormField = ({ ...props }) => <Field className="form-field" {...props} />;

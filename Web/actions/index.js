@@ -3,9 +3,10 @@ export const consts = {
   fetchProducts: 'PRODUCTS/FETCH_PRODUCTS',
   setProducts: 'PRODUCTS/SET_PRODUCTS',
   addProductToCart: 'CART/ADD_PRODUCT',
-  resetCart: 'CART/RESET'
+  resetCart: 'CART/RESET',
+  loginUser: 'USER/LOGIN'
 };
-const products = {
+const actions = {
   favorite: productID => ({
     type: consts.favorite,
     productID
@@ -21,10 +22,13 @@ const products = {
     type: consts.addProductToCart,
     product
   }),
+  login: (user, token)=>({
+    type: consts.loginUser,
+    user,
+    token
+  }),
   resetCart: ()=>({
     type: consts.resetCart
   })
 };
-export default {
-  ...products
-};
+export default actions;
