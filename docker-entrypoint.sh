@@ -6,7 +6,7 @@ if PGPASSWORD=docker psql -h stormydb -p 5432 --username docker -lqt | cut -d \|
 else
     echo "create new database postgres"
 	PGPASSWORD=docker psql -h stormydb -p 5432 --username docker -c "CREATE DATABASE stormydb WITH ENCODING 'UTF8'"
-	PGPASSWORD=docker psql -h stormydb -p 5432 --username docker -d stormydb -a -f /app/dbscript.sql
+	PGPASSWORD=docker psql -h stormydb -p 5432 --username docker -d stormydb -a -f /var/lib/postgresql/data/dbscript.sql
 	PGPASSWORD=docker psql -h stormydb -p 5432 --username docker -d stormydb -a -f /var/lib/postgresql/data/seedScript.sql
 fi
 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace StormyCommerce.Infraestructure.Data
 {
     //TODO: Methods to execute sql
-    public class StormyDbContext : IdentityDbContext
+    public class StormyDbContext : IdentityDbContext,IStormyDbContext
     {
         public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)
         {
