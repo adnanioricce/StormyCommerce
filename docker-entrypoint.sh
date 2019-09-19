@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+<<<<<<< HEAD
 if PGPASSWORD=docker psql -h stormydb -p 5432 --username docker -lqt | cut -d \| -f 1 | grep -qw stormydb; then
     echo "postgres database exists"
 else
