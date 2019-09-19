@@ -64,6 +64,10 @@ namespace StormyCommerce.Module.Customer.Services
         {
             return _userManager.Users.FirstOrDefault(u => u.UserName == username);
         }
+        public ApplicationUser GetUserById(string userId)
+        {
+            return _userManager.Users.First(u => string.Equals(u.Id, userId));
+        }
         public UserManager<ApplicationUser> GetUserManager() => _userManager;
 
         public Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent = true, bool lockoutInFailure = false)
@@ -85,7 +89,7 @@ namespace StormyCommerce.Module.Customer.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
             };
             var userRoles = await _userManager.GetRolesAsync(user);

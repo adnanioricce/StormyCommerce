@@ -5,6 +5,7 @@ using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels;
+using System;
 
 namespace StormyCommerce.Module.PagarMe.Services
 {
@@ -18,11 +19,17 @@ namespace StormyCommerce.Module.PagarMe.Services
         {            
             _pagarMeService = pagarMeService;            
             _paymentRepository = paymentRepository;
-            _mapper = mapper;
+            _mapper = mapper;            
         }        
-        public Result SaveTransaction(Transaction transaction)
-        {   
-            transaction.Save();
+        public Result CreateBoletoTransaction(TransactionVm transaction)
+        {
+            if (transaction == null) return Result.Fail($"given transaction is null in {nameof(CreateBoletoTransaction)} at {DateTimeOffset.UtcNow}");
+            if (transaction.Customer == null) return Result.Fail($"We can't perform a transaction without a customer {nameof(CreateBoletoTransaction)} at {DateTimeOffset.UtcNow}");
+            if (transaction.Documents == null) return Result.Fail($"We need document in order to authenticate this operation. on {nameof(CreateBoletoTransaction)} at {DateTimeOffset.UtcNow}");
+            var pagarmeTransaction = _mapper.Map<Transaction>(transaction);
+            //pagarmeTransaction.
+
+
             return Result.Ok();
         }   
         //public Result CheckoutBoleto(Transaction transaction)

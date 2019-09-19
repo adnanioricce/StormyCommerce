@@ -1,5 +1,6 @@
-import { CategoryDto, Category } from "./stormyApi";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { CategoryDto } from '../models/catalog/CategoryDto';
+import { Category } from '../models/catalog/Category';
 import { throwException } from "../models/apiException";
 export interface ICategoryClient {
     /**

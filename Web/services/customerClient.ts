@@ -1,6 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Address, CustomerReviewDto, StormyCustomer, CustomerDto } from './stormyApi';
 import { throwException } from '../models/apiException';
+import { CustomerReviewDto } from '../models/customer/CustomerReviewDto';
+import { StormyCustomer } from '../models/customer/StormyCustomer';
+import { CustomerDto } from '../models/customer/CustomerDto';
+import { Address } from '../models/common/Address';
 
 export interface ICustomerClient {
     /**

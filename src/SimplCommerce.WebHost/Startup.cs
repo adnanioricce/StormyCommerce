@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,6 +20,7 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Infraestructure.Logging;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -77,6 +82,11 @@ namespace SimplCommerce.WebHost
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
             GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;
+            services.AddApiVersioning(options => {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+            });
             services.AddModules(_hostingEnvironment.ContentRootPath);
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -134,8 +144,7 @@ namespace SimplCommerce.WebHost
                     a => a.UseExceptionHandler("/Home/Error")
                 );
                 app.UseHsts();
-            }
-
+            }            
             app.UseWhen(
                 context => !context.Request.Path.StartsWithSegments("/api"),
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
@@ -151,19 +160,13 @@ namespace SimplCommerce.WebHost
             });
 
             app.UseCookiePolicy();
-            app.UseCors(options =>
-            {
-                options.WithOrigins("https://localhost:49206", "http://localhost:49208", "http://localhost:49209", "https://localhost:3000","http://localhost:3000")
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            });
-            app.UseMvc();
-
+            app.UseCors("Default");
+            app.UseMvc();            
             var moduleInitializers = app.ApplicationServices.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
             {
                 moduleInitializer.Configure(app, env);
-            }
+            }                        
         }
     }
 }

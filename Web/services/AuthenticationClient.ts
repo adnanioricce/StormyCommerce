@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { SignInVm } from '../models/signInVm';
-import { SignUpVm } from '../models/signUpVm';
-import { ResetPasswordViewModel } from '../models/resetPasswordViewModel';
-import { ForgotPasswordViewModel } from '../models/forgotPasswordViewModel';
+import { SignInVm } from '../models/identity/SignInVm';
+import { SignUpVm } from '../models/identity/SignUpVm';
+import { ResetPasswordViewModel } from '../models/identity/ResetPasswordViewModel';
+import { ForgotPasswordViewModel } from '../models/identity/ForgotPasswordViewModel';
 import { throwException } from '../models/apiException';
 export interface IAuthenticationClient {
     /**

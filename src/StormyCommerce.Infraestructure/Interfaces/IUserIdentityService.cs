@@ -15,6 +15,7 @@ namespace StormyCommerce.Infraestructure.Interfaces
         Task<bool> IsEmailConfirmedAsync(ApplicationUser user);
         ApplicationUser GetUserByEmail(string email);
         ApplicationUser GetUserByUsername(string username);
+        ApplicationUser GetUserById(string userId);
         Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent = true, bool lockoutInFailure = false);
         UserManager<ApplicationUser> GetUserManager();
 

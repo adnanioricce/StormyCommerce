@@ -4,7 +4,7 @@ using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Services.Customer;
-using StormyCommerce.Module.Customer.Area.Controllers;
+using StormyCommerce.Module.Customer.Areas.Controllers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

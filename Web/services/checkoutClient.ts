@@ -1,6 +1,6 @@
-import { CheckoutOrderVm } from "./stormyApi";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { throwException } from "../models/apiException";
+import { CheckoutOrderVm } from '../models/orders/CheckoutOrderVm';
 export interface ICheckoutClient {
     /**
      * @param checkoutVm (optional) 

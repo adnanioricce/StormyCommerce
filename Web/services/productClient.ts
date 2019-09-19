@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ProductOverviewDto, ProductDto } from './stormyApi';
-import {throwException} from '../models/apiException';
+import { throwException } from '../models/apiException';
+import { ProductOverviewDto } from '../models/catalog/ProductOverviewDto';
+import { ProductDto } from '../models/catalog/ProductDto';
 export interface IProductClient {
     /**
      * @param id (optional) 

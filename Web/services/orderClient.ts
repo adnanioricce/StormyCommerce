@@ -1,6 +1,6 @@
 import { throwException } from "../models/apiException";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { OrderDto } from "./stormyApi";
+import { OrderDto } from "../models/orders/OrderDto";
 export interface IOrderClient {
     /**
      * @param orderDto (optional) 

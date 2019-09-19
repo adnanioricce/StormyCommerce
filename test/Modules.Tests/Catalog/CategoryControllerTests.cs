@@ -5,7 +5,7 @@ using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Infraestructure.Data.Repositories;
-using StormyCommerce.Module.Catalog.Area.Controllers;
+using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
 using StormyCommerce.Module.Catalog.Extensions;
 using System.Collections.Generic;
 using System.Linq;
