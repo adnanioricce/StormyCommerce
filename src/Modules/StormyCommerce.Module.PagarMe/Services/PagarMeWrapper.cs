@@ -15,23 +15,29 @@ namespace StormyCommerce.Module.PagarMe.Services
         private readonly PagarMeService _pagarMeService;
         private readonly IStormyRepository<Payment> _paymentRepository;
         private readonly IMapper _mapper;
-        public PagarMeWrapper(PagarMeService pagarMeService,IStormyRepository<Payment> paymentRepository,IMapper mapper)
+        public PagarMeWrapper(PagarMeService pagarMeService,
+        IStormyRepository<Payment> paymentRepository,
+        IMapper mapper)
         {            
             _pagarMeService = pagarMeService;            
             _paymentRepository = paymentRepository;
             _mapper = mapper;            
-        }        
-        public Result CreateBoletoTransaction(TransactionVm transaction)
-        {
-            if (transaction == null) return Result.Fail($"given transaction is null in {nameof(CreateBoletoTransaction)} at {DateTimeOffset.UtcNow}");
-            if (transaction.Customer == null) return Result.Fail($"We can't perform a transaction without a customer {nameof(CreateBoletoTransaction)} at {DateTimeOffset.UtcNow}");
-            if (transaction.Documents == null) return Result.Fail($"We need document in order to authenticate this operation. on {nameof(CreateBoletoTransaction)} at {DateTimeOffset.UtcNow}");
-            var pagarmeTransaction = _mapper.Map<Transaction>(transaction);
-            //pagarmeTransaction.
-
-
-            return Result.Ok();
-        }   
+        }                
+        public Result SaveTransaction(Transaction transaction)
+        {   
+            transaction.Save();
+            return Result.Ok();            
+        }           
+        public Result<string> CreateBoleto(Transaction transaction)
+        {      
+            var transactionResult = SaveTransaction(transaction);      
+            if(!transactionResult.Success){
+                return Result.Fail<string>(transactionResult.Error);   
+            }            
+            var entryTransaction = _pagarMeService.Transactions.Find(transaction.Id,true);
+            return Result.Ok<string>(entryTransaction.BoletoUrl);
+        }
+        // public 
         //public Result CheckoutBoleto(Transaction transaction)
         //{
         //    var transaction = _mapper.Map<TransactionVm, Transaction>(transactionVm);

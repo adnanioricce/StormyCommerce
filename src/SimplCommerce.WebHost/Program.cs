@@ -42,8 +42,8 @@ namespace SimplCommerce.WebHost
             var env = hostingContext.HostingEnvironment;
             var configuration = configBuilder.Build();
             configBuilder.AddEntityFrameworkConfig(options =>
-                    //options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
-                    options.UseInMemoryDatabase("StormyDatabase")
+                    options.UseInMemoryDatabase("InMemoryStormyDb")
+                    // options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
             );
             Log.Logger = new LoggerConfiguration()
                        .ReadFrom.Configuration(configuration)

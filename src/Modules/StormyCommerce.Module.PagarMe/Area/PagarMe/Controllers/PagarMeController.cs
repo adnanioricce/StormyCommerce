@@ -9,6 +9,7 @@ using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Infraestructure.ExternalServices;
+using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels;
 using StormyCommerce.Module.PagarMe.Services;
@@ -26,11 +27,16 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
         private readonly IStormyRepository<Payment> _paymentRepository;
         private readonly IStormyRepository<Shipment> _shipmentRepository;
         private readonly IMapper _mapper;
-        public PagarMeController(PagarMeWrapper pagarMeWrapper,IStormyRepository<Payment> paymentRepository,IMapper mapper)
+        private readonly IEmailSender _emailSender;
+        public PagarMeController(PagarMeWrapper pagarMeWrapper,
+        IStormyRepository<Payment> paymentRepository,
+        IMapper mapper,
+        IEmailSender emailSender)
         {
             _pagarMeWrapper = pagarMeWrapper;
             _paymentRepository = paymentRepository;
-            _mapper = mapper;                        
+            _mapper = mapper;                      
+            _emailSender = emailSender;  
         }
         [HttpPost("/boleto")]
         [ValidateModel]
@@ -43,8 +49,9 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
             await _shipmentRepository.AddAsync(shipping);
             payment.PaymentStatus = PaymentStatus.Pending;
             await _paymentRepository.AddAsync(payment);
-            transaction.Save();                        
-            return Ok();
+            transaction.Save();     
+            var result = _pagarMeWrapper.CreateBoleto(transaction);            
+            return Ok(result);
         }
     }
 }

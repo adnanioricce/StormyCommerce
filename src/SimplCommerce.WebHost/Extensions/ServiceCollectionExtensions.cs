@@ -188,8 +188,8 @@ namespace SimplCommerce.WebHost.Extensions
         {
             services.AddDbContextPool<StormyDbContext>(options =>
             {
+	    	    options.UseInMemoryDatabase("InMemoryStormyDb");
                 //options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));
-                options.UseInMemoryDatabase("StormyDatabase");
             });
             return services;
         }
