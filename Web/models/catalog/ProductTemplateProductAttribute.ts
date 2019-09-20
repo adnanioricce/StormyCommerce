@@ -1,3 +1,5 @@
+import { ProductTemplate } from "./ProductTemplate";
+import { ProductAttribute } from "./ProductAttribute";
 export class ProductTemplateProductAttribute implements IProductTemplateProductAttribute {
     productTemplateId?: number | undefined;
     productTemplate?: ProductTemplate | undefined;

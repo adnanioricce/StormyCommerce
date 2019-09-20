@@ -1,4 +1,4 @@
-import { Address } from "../common/address";
+import { Address } from "../common/Address";
 
 export class CustomerDto implements ICustomerDto {
     readonly userName?: string | undefined;

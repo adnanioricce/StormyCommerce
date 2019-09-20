@@ -1,5 +1,5 @@
-import { CategoryDto } from "./categoryDto";
-import { MediaDto } from "../common/mediaDto";
+import { CategoryDto } from "./CategoryDto";
+import { MediaDto } from "../common/MediaDto";
 
 export class ProductOverviewDto implements IProductOverviewDto {
     readonly id?: number | undefined;

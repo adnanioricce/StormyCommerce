@@ -1,4 +1,4 @@
-import { ProductTemplateProductAttribute  } from "./productTemplateProductAttribute";
+import { ProductTemplateProductAttribute  } from "./ProductTemplateProductAttribute";
 export class ProductTemplate implements IProductTemplate {
     name?: string | undefined;
     readonly productAttributes?: ProductTemplateProductAttribute[] | undefined;

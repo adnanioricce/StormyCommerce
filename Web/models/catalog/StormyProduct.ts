@@ -1,3 +1,12 @@
+import { ProductLink } from "./ProductLink";
+import { Media } from "../common/Media";
+import { ProductAttribute } from "./ProductAttribute";
+import { StormyVendor } from "./StormyVendor";
+import { Brand } from "./Brand";
+import { Category } from "./Category";
+import { ProductAttributeValue } from "./ProductAttributeValue";
+import { ProductOptionValue } from "./ProductOptionValue";
+
 export class StormyProduct implements IStormyProduct {
     sku?: string | undefined;
     gtin?: string | undefined;

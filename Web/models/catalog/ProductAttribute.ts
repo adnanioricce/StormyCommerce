@@ -1,3 +1,6 @@
+import { ProductAttributeGroup } from "./ProductAttributeGroup";
+import { ProductTemplateProductAttribute } from "./ProductTemplateProductAttribute";
+
 export class ProductAttribute implements IProductAttribute {
     groupId?: number | undefined;
     group?: ProductAttributeGroup | undefined;

@@ -1,4 +1,5 @@
-import * as AddressVm from '../common/addressVm';
+import AddressVm from '../common/AddressVm';
+import { ProductDto } from '../catalog/ProductDto';
 export class CheckoutOrderVm implements ICheckoutOrderVm {
     address?: AddressVm | undefined;
     deliveryCost?: number | undefined;

@@ -1,5 +1,5 @@
 export class VendorDto implements IVendorDto {
-
+    placeholder?: any | undefined;
     constructor(data?: IVendorDto) {
         if (data) {
             for (var property in data) {
@@ -10,6 +10,7 @@ export class VendorDto implements IVendorDto {
     }
 
     init(data?: any) {
+        this.placeholder = data;
     }
 
     static fromJS(data: any): VendorDto {

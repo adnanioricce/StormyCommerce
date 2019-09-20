@@ -1,5 +1,5 @@
 
-export class AddressVm implements IAddressVm {
+export default class AddressVm implements IAddressVm {
     city?: string | undefined;
     cpf?: string | undefined;
     complement?: string | undefined;

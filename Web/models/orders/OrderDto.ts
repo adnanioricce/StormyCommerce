@@ -1,4 +1,4 @@
-import { Address } from "../common/address";
+import { Address } from "../common/Address";
 import { OrderItemDto } from "./OrderItemDto";
 import { OrderDtoStatus } from "./OrderDtoStatus";
 import { OrderDtoShippingStatus } from "./OrderDtoShippingStatus";

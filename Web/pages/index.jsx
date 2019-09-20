@@ -1,13 +1,11 @@
 import * as React from 'react';
 import '../static/styles/main.scss';
 import Slide from '../components/Slide';
-import Products from '../components/Products';
 import Categories from '../components/Categories';
 import Page from '../components/Page';
 import api from '../services/api';
 import Header from '../components/Header';
 import ProductCard from '../components/ProductCard';
-import product from './product';
 const HomePage = (products) => {
   const productCards = Object.values(products);
   console.log(productCards);
@@ -16,7 +14,7 @@ const HomePage = (products) => {
       <Slide />
       <Header label="Destaques" />
       <div className="products-container">
-      {productCards.map(p => ProductCard(p,p.Id))}
+      {productCards.map(p => ProductCard(p,p.id))}
       </div>
       <Categories />
     </Page>

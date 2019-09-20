@@ -3,8 +3,7 @@ import Link from 'next/link';
 import FavoriteFloater from './FavoriteFloater';
 import InteractiveElement from './InteractiveElement';
 import toPrice from '../util/toPrice';
-import { ProductDto } from '../services/stormyApi';
-
+import {ProductDto} from '../models/catalog/ProductDto';
 const ProductCard = (props, index) => {
   // const [image, setImage] = React.useState('');
   // React.useEffect(()=>{

@@ -1,3 +1,5 @@
+import { Address } from "../common/Address";
+
 export class StormyVendor implements IStormyVendor {
     companyName?: string | undefined;
     contactTitle?: string | undefined;

@@ -1,4 +1,3 @@
-import MediaType from './MediaType';
 export class Media implements IMedia {
     caption?: string | undefined;
     fileSize?: number | undefined;
@@ -61,4 +60,9 @@ export interface IMedia {
     lastModified?: Date | undefined;
     isDeleted?: boolean | undefined;
     id?: number | undefined;
+}
+export enum MediaType {
+    _1 = 1,
+    _5 = 5,
+    _10 = 10,
 }

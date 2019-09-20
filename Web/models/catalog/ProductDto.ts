@@ -1,7 +1,7 @@
-import { CategoryDto } from './categoryDto';
-import { VendorDto } from './vendorDto';
-import { BrandDto } from './vendorDto';
-import { MediaDto } from '../common/mediaDto';
+import { CategoryDto } from './CategoryDto';
+import { VendorDto } from './VendorDto';
+import { BrandDto } from './BrandDto';
+import { MediaDto } from '../common/MediaDto';
 
 export class ProductDto implements IProductDto {
     id?: number | undefined;

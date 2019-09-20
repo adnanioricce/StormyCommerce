@@ -7,16 +7,18 @@ import userSVG from '../static/assets/icons/user.svg';
 // import Button from '../components/Button';
 import { useSetState } from 'react-use';
 import { render } from 'react-dom';
-
-export default class Login extends React.Component {
+import { AuthenticationClient } from "../services/AuthenticationClient";
+export default class Login extends React.Component {  
   constructor(props){
     super(props);   
     this.handleLoginClick = this.handleLoginClick.bind(this); 
     this.handleLogoutClick = this.handleLogoutClick.bind(this);    
     this.state = {
       isLogin: true,
-      form:null
+      form:null,            
     }
+    
+
   }    
   handleLoginClick = () => {
     this.setState({isLogin:!this.state.isLogin})

@@ -1,4 +1,4 @@
-import { ProductDto } from "../catalog/productDto";
+import { ProductDto } from "../catalog/ProductDto";
 
 export class OrderItemDto implements IOrderItemDto {
     readonly productName?: string | undefined;

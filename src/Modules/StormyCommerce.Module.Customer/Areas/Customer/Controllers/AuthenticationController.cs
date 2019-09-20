@@ -104,7 +104,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             _logger.LogInformation($"Confirmation email sended.At {DateTimeOffset.UtcNow}");
             return Ok();
         }
-        [HttpPost(Name = "ConfirmEmail")]
+        [HttpGet("ConfirmEmail")]
         [ValidateModel]
         public async Task<IActionResult> ConfirmEmailAsync(string userId,string code)
         {

@@ -21,7 +21,8 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
     [ApiController]
     [Route("api/[Controller]")]
     [Authorize(Roles.Customer)]
-    [EnableCors]
+    [ValidateAntiForgeryToken]
+    [EnableCors("Default")]
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;
@@ -33,7 +34,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("/address/create")]
+        [HttpPost("address/create")]
         [ValidateModel]
         public async Task<IActionResult> AddAddressAsync([FromBody]Address address)
         {
@@ -42,27 +43,27 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             await _customerService.AddCustomerAddressAsync(address, 0);
             return new OkObjectResult(Result.Ok());
         }
-        [HttpPost("/review/create")]
+        [HttpPost("review/create")]
         [ValidateModel]        
         public async Task<IActionResult> WriteReviewAsync([FromBody]CustomerReviewDto review)
         {
             await _customerService.CreateCustomerReviewAsync(_mapper.Map<Review>(review),review.Email.ToUpper());
             return Ok();
         }
-        [HttpGet("/admin/customer/list")]
+        [HttpGet("admin/customer/list")]
         [Authorize(Roles.Admin)]
         [ValidateModel]
         public async Task<IList<StormyCustomer>> GetCustomersAsync(int minLimit, long maxLimit)
         {
             return await _customerService.GetAllCustomersAsync(minLimit,maxLimit);
         }
-        [HttpGet("/customer/getbyemail")]
+        [HttpGet("customer/getbyemail")]
         [ValidateModel]
         public async Task<ActionResult<CustomerDto>> GetCustomerByEmailOrUsernameAsync(string email,string username)
         {
             return _mapper.Map<StormyCustomer,CustomerDto>(await _customerService.GetCustomerByUserNameOrEmail(email, username));
         }
-        [HttpPost("/createcustomer")]
+        [HttpPost("createcustomer")]
         [ValidateModel]
         public async Task<IActionResult> CreateCustomerAsync([FromBody]CustomerDto customerDto)
         {            
@@ -77,6 +78,15 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             if (customer == null) return BadRequest("failed to map given customer");
 
             await _customerService.CreateCustomerAsync(customerDto);
+            return Ok();
+        }
+        [HttpPost("edit")]
+        [ValidateModel]        
+        public async Task<IActionResult> EditCustomerAsync([FromBody]CustomerDto customerDto)
+        {
+            var customer = await _customerService.GetCustomerByUserNameOrEmail(customerDto.UserName,customerDto.Email);
+            if(customer == null) return NotFound("Customer was not found");
+            await _customerService.EditCustomerAsync(customerDto);
             return Ok();
         }
 

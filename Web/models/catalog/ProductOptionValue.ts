@@ -1,3 +1,6 @@
+import { ProductOption } from "./ProductOption";
+import { StormyProduct } from "./StormyProduct";
+
 export class ProductOptionValue implements IProductOptionValue {
     optionId?: number | undefined;
     option?: ProductOption | undefined;

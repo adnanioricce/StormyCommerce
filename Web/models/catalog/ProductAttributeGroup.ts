@@ -1,3 +1,5 @@
+import { ProductAttribute } from "./ProductAttribute";
+
 export class ProductAttributeGroup implements IProductAttributeGroup {
     name!: string;
     attributes?: ProductAttribute[] | undefined;

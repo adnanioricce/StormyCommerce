@@ -1,3 +1,5 @@
+import { StormyProduct } from "./StormyProduct";
+import { ProductAttribute } from "./ProductAttribute";
 
 export class ProductAttributeValue implements IProductAttributeValue {
     attributeId?: number | undefined;

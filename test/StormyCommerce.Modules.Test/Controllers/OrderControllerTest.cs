@@ -40,11 +40,6 @@ namespace StormyCommerce.Modules.IntegrationTest.Controllers
             Assert.Equal(200,(int)response.StatusCode);            
         }
         // public async Task GetOrder
-        [Fact]
-        public async Task EditOrderAsync_WhenSendExistingOrderWithDifferentValue_Return200StatusCode()
-        {
-            //Arrange
-            var order = Seeders.StormyOrderSeed().First();            
-        }
+        
     }
 }

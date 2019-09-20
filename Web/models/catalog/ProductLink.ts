@@ -1,10 +1,12 @@
+import { StormyProduct } from "./StormyProduct";
+import { ProductLinkType } from "./ProductLinkType";
 
 export class ProductLink implements IProductLink {
     productId?: number | undefined;
     product?: StormyProduct | undefined;
     linkedProductId?: number | undefined;
     linkedProduct?: StormyProduct | undefined;
-    linkType?: ProductLinkLinkType | undefined;
+    linkType?: ProductLinkType | undefined;
     lastModified?: Date | undefined;
     isDeleted?: boolean | undefined;
     id?: number | undefined;
@@ -57,7 +59,7 @@ export interface IProductLink {
     product?: StormyProduct | undefined;
     linkedProductId?: number | undefined;
     linkedProduct?: StormyProduct | undefined;
-    linkType?: ProductLinkLinkType | undefined;
+    linkType?: ProductLinkType | undefined;
     lastModified?: Date | undefined;
     isDeleted?: boolean | undefined;
     id?: number | undefined;
