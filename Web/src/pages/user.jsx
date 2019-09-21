@@ -1,27 +1,30 @@
 import * as React from 'react';
-import { useRouter } from 'next/router';
 import { useSelector, shallowEqual } from 'react-redux';
+import { useRouter } from 'next/router';
 import Page from '../components/Page';
-import LoginForm from '../components/LoginForm';
-import Title from '../components/Title';
 import UserAvatar from '../components/UserAvatar';
+import Header from '../components/Header';
+import UserAcessMenu from '../components/UserAcessMenu';
 
 export default () => {
-  const router = useRouter();
   const user = useSelector(state => state.user, shallowEqual);
+  const router = useRouter();
   React.useEffect(() => {
     // if user is false
     console.log(user);
-    if (user.name) {
-      router.push('/user');
+    if (!user.name) {
+      router.push('/login');
     }
   });
   return (
     <Page>
-      <Title label="Acessar" />
-
+      <Header
+        label={user.name}
+        style={{ margin: '5px auto', border: 'none' }}
+        border={false}
+      />
       <UserAvatar />
-      <LoginForm />
+      <UserAcessMenu />
     </Page>
   );
 };

@@ -7,7 +7,6 @@ import Page from '../components/Page';
 import api from '../services/api';
 
 const HomePage = ({ products }) => {
-  console.log(products);
   return (
     <Page>
       <Slide />

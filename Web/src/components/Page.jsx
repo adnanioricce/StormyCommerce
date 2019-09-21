@@ -6,15 +6,13 @@ import Footer from './Footer';
 function Page({ children }) {
   React.useEffect(() => {
     if (window) {
-      window.onunload = function() {
-        console.log('oi');
-      };
+      window.onunload = function() {};
     }
   }, []);
   return (
     <div>
       <Nav />
-      {children}
+      <div className="body">{children}</div>
       <Footer />
     </div>
   );

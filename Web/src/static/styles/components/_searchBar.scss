@@ -1,3 +1,5 @@
+@import '../variables';
+@import '../colors';
 .search-bar{
   position: absolute;
   bottom: 0;
@@ -11,6 +13,7 @@
   border: 1px solid $primary-color;
   background-color: $secondary-color;
   border-top: none;
+  z-index: 10;
   input{
     width: calc(100% - 64px);
     // font-size: 16px;
@@ -40,6 +43,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  
   // background-color: $secondary-color;
   .search-result{
     transform: translateX(-1px);
@@ -70,7 +74,7 @@
         color:white
       }
     }
-    &:active{
+    &:active, &.highlighted{
       transition: .05s ease-in-out;
       transition-property: background-color;
       background-color: $primary-color;

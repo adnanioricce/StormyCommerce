@@ -26,6 +26,7 @@ const initializeStore = initialState => {
     const persistConfig = {
       key: 'root',
       storage
+      // blacklist: ['user']
     };
     store = createStore(
       persistReducer(persistConfig, reducers),

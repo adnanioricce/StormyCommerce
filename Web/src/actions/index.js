@@ -4,7 +4,10 @@ export const consts = {
   setProducts: 'PRODUCTS/SET_PRODUCTS',
   addProductToCart: 'CART/ADD_PRODUCT',
   resetCart: 'CART/RESET',
-  loginUser: 'USER/LOGIN'
+  loginUser: 'USER/LOGIN',
+  addProductToFavorites: 'USER/FAVORITE_PRODUCT',
+  removeProductFromFavorites: 'USER/UNFAVORITE_PRODUCT',
+  disconnectUser: 'USER/DISCONNECT'
 };
 const actions = {
   favorite: productID => ({
@@ -22,13 +25,24 @@ const actions = {
     type: consts.addProductToCart,
     product
   }),
-  login: (user, token)=>({
+  login: (user, token) => ({
     type: consts.loginUser,
     user,
     token
   }),
-  resetCart: ()=>({
+  disconnect: () => ({
+    type: consts.disconnectUser
+  }),
+  resetCart: () => ({
     type: consts.resetCart
+  }),
+  favoriteProduct: productId => ({
+    type: consts.addProductToFavorites,
+    productId
+  }),
+  unFavoriteProduct: productId => ({
+    type: consts.removeProductFromFavorites,
+    productId
   })
 };
 export default actions;

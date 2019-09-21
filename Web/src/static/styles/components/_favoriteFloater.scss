@@ -1,3 +1,4 @@
+@import "../colors";
 .favorite-container{
   position: absolute;
   $size: 40px;
@@ -22,11 +23,12 @@
     height: 100%;
   }
   // z-index: 1;
+  will-change: background-color;
+  transition: opacity .3s ease-in-out;
   @media all and (pointer: fine) and (hover:hover){
-    will-change: background-color;
-    transition: opacity .3s ease-in-out;
+    
     &:hover{
-      opacity: 1;
+      opacity: .5;
       cursor: pointer;
       // background-color: rgb(252, 60, 60);
     }

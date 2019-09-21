@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
+import { useSelector, shallowEqual } from 'react-redux';
 import InteractiveElement from './InteractiveElement';
 import menuToggleArrowSVG from '../static/assets/icons/menuToggleArrow.svg';
 import menuItems from '../static/consts/menuItems';
@@ -7,6 +8,7 @@ import menuItems from '../static/consts/menuItems';
 export default React.forwardRef(({ isActive }, ref) => {
   const [translateXValue, setTranslateXValue] = React.useState(-100);
   const Router = useRouter();
+  const user = useSelector(state => state.user, shallowEqual);
   React.useEffect(() => {
     if (isActive) {
       setTranslateXValue(0);
@@ -14,7 +16,7 @@ export default React.forwardRef(({ isActive }, ref) => {
       setTranslateXValue(-100);
     }
   }, [isActive]);
-  const itens = menuItems.map((menuItem, menuIndex) => {
+  const itens = menuItems(user.email?true:false).map((menuItem, menuIndex) => {
     const [subMenuIsActive, setSubMenuIsActive] = React.useState(false);
     function handleClick(e) {
       if (e.subItems) {

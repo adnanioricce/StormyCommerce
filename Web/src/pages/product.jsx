@@ -8,7 +8,6 @@ import ProductImage from '../components/ProductImage';
 import RelatedProducts from '../components/RelatedProducts';
 
 function product({ currentProduct, relatedProducts, ...props }) {
-  console.log(props);
   
   // const [isLoading, setIsLoading] = React.useState(false);
   // const [currentProduct, setCurrentProduct] = React.useState(null);

@@ -5,7 +5,6 @@ import ExtraImages from './ExtraImages';
 
 export default ({ currentProduct }) => {
   const { photos } = currentProduct;
-  console.log(photos);
   const [currentImage, setCurrentImage] = React.useState(photos[0]);
   return (
     <div className="product-image-container">
@@ -14,7 +13,6 @@ export default ({ currentProduct }) => {
           enlargedImagePosition="over"
           {...{
             smallImage: {
-              alt: 'Wristwatch by Ted Baker London',
               isFluidWidth: true,
               src: currentImage
             },
@@ -29,7 +27,7 @@ export default ({ currentProduct }) => {
 
         <FavoriteFloater
           style={{ top: -1, left: -1 }}
-          isFavorited={currentProduct.isFavorited}
+          productId={currentProduct.id}
         />
       </div>
       <ExtraImages images={photos} setCurrentImage={setCurrentImage} />

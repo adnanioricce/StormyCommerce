@@ -23,6 +23,7 @@
   }
   .info-container{
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: center;
     font-family: 'Roboto', sans-serif;
@@ -32,6 +33,7 @@
     }
     .label{
       font-size: 12px;
+      text-align: center;
     }
   } 
 }

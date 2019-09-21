@@ -1,14 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import Page from '../components/Page';
 import emailSVG from '../static/assets/icons/email.svg';
 import smartphoneSVG from '../static/assets/icons/smartphone.svg';
-import actions from '../actions';
 import Title from '../components/Title';
 
 function contato() {
-  const dispatch = useDispatch();
-  dispatch(actions.favorite(1));
   return (
     <Page>
       <Title label="Contato" style={{ margin: '15px 0' }} />

@@ -29,7 +29,6 @@ body{
 @import './components/contactCard';
 @import './components/breadcumb';
 @import './components/productCard';
-@import './components/favoriteFloater';
 @import './components/titleWithFloater';
 @import './components/title';
 @import './components/productPageContainer';
@@ -45,14 +44,14 @@ body{
 @import './components/separator';
 @import './components/priceDisplay';
 @import './components/extraImage';
-@import './components/loginForm';
 @import './components/formField';
-@import './components/userIcon';
 @import './components/lostPasswordLabel';
 @import './components/cartProductCard';
 @import './components/cartProductsContainer';
 @import './components/noProductsContainer';
 @import './components/productListModifiers';
-@import './components/searchBar';
 @import './components/productsPageContainer';
 @import './components/products-quantity';
+@import './components/favoriteFloater';
+@import './components/loginForm';
+@import './components/userAvatar';
