@@ -22,7 +22,7 @@ namespace StormyCommerce.Module.Customer.Services
 
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Authentication:Jwt:Issuer"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Authentication:Jwt:Key"]));
 
             var jwtToken = new JwtSecurityToken(
                 issuer: _configuration["Authentication:Jwt:Issuer"],

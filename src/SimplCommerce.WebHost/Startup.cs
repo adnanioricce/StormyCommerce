@@ -126,7 +126,7 @@ namespace SimplCommerce.WebHost
             {
                 builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();
-                builder.AllowAnyHeader();
+                builder.AllowAnyHeader();                
             }));
             services.AddMvc();
         }

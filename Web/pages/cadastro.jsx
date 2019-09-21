@@ -1,11 +1,9 @@
 import * as React from 'react';
-import Link from 'next/link';
 import Page from '../components/Page';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 import Title from '../components/Title';
 import userSVG from '../static/assets/icons/user.svg';
-import * as FormButton from 'formik';
 // import Button from '../components/Button';
 import { useSetState } from 'react-use';
 import { render } from 'react-dom';
@@ -18,9 +16,7 @@ export default class Login extends React.Component {
     this.state = {
       isLogin: true,
       form:null,            
-    }
-    
-
+    }    
   }    
   handleLoginClick = () => {
     this.setState({isLogin:!this.state.isLogin})
@@ -30,22 +26,11 @@ export default class Login extends React.Component {
   }  
   render(){  
     console.log("working")                  
-    return (
-        <Page>
-          <Title label="Acessar" />            
-          <img className="user-icon" src={userSVG} alt="Usuario" />      
-          <LoginForm />          
+    return (<Page>
+        <Title label="Registrar" />            
+        <img className="user-icon" src={userSVG} alt="Usuario" />      
+        <RegisterForm/>
       </Page>
     )
   }
 }
-const loginForm = () => {
-  return (
-    <>      
-      <Title label="Acessar" />            
-      <img className="user-icon" src={userSVG} alt="Usuario" />      
-      <LoginForm />
-    </>
-  );
-}  
-

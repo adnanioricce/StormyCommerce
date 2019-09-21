@@ -1,5 +1,3 @@
-using System;
-
 namespace StormyCommerce.Module.Shipping.Areas.Shipping.Models
 {
     public class CalculateShippingModel

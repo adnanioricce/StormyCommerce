@@ -16,6 +16,7 @@ using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Infraestructure.Models;
+using StormyCommerce.Module.Customer.Data;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
 using System;
@@ -27,11 +28,7 @@ namespace StormyCommerce.Module.Customer
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseAuthentication();
-            // var context = (StormyDbContext)app.ApplicationServices.GetService(typeof(StormyDbContext));
-            // var userManager = (UserManager<ApplicationUser>)app.ApplicationServices.GetService(typeof(UserManager<ApplicationUser>));
-            // var roleManager = (RoleManager<IdentityRole>)app.ApplicationServices.GetService(typeof(RoleManager<IdentityRole>));
-            // new IdentityInitializer(context,userManager,roleManager);
+            app.UseAuthentication();            
         }
 
         public void ConfigureServices(IServiceCollection serviceCollection)
@@ -115,7 +112,7 @@ namespace StormyCommerce.Module.Customer
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());
-            });
+            });            
         }
     }
 }
