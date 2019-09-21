@@ -120,7 +120,7 @@ module.exports = {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare lectus mauris, eget vulputate lorem faucibus nec. Nulla facilisi. Duis sollicitudin efficitur consequat. Donec mattis ullamcorper nulla, sagittis condimentum purus. Vivamus sed aliquet ligula, at luctus tellus. Duis laoreet magna vitae ligula vulputate, vitae euismod dui viverra. Aliquam erat volutpat.",
           price: "55.99",
           old_price: "60.00",
-          image: "http://localhost:5000/api/files/products/Casaco_Italy.jpg",
+          image: "http://localhost:5000/api/files/products/Bone_Fe.jpg",
           photos: [
             "http://localhost:5000/api/files/products/Bone_Fe.jpg",
             "http://localhost:5000/api/files/products/Bone_Fe.jpg",

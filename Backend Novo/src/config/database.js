@@ -1,8 +1,8 @@
 module.exports = {
-  username: "ruyagnpr",
-  password: "AjCi_5cPyn_gstwkMaAioX8Dsqc60Y_O",
-  database: "ruyagnpr",
-  host: "salt.db.elephantsql.com",
+  username: "postgres",
+  password: "1234",
+  database: "test",
+  host: "localhost",
   dialect: "postgres",
   port: 5432,
   define: {
