@@ -45,6 +45,7 @@ class ProductController {
         .array()
         .of(yup.string())
         .required(),
+	  category: yup.string().required(),
       comments: yup.array().of(
         yup.object({
           userId: yup.number(),
@@ -92,6 +93,7 @@ class ProductController {
       description: yup.string(),
       price: yup.number().positive(),
       old_price: yup.number().positive(),
+	  category: yup.string(),
       image: yup
         .string()
         .matches(

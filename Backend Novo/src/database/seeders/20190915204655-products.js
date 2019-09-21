@@ -23,6 +23,7 @@ module.exports = {
           description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare lectus mauris, eget vulputate lorem faucibus nec. Nulla facilisi. Duis sollicitudin efficitur consequat. Donec mattis ullamcorper nulla, sagittis condimentum purus. Vivamus sed aliquet ligula, at luctus tellus. Duis laoreet magna vitae ligula vulputate, vitae euismod dui viverra. Aliquam erat volutpat.",
           price: "9.99",
+		  category: "camisetas",
           old_price: null,
           image:
             "http://localhost:5000/api/files/products/Camiseta_Stylish.jpg",
@@ -57,6 +58,7 @@ module.exports = {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare lectus mauris, eget vulputate lorem faucibus nec. Nulla facilisi. Duis sollicitudin efficitur consequat. Donec mattis ullamcorper nulla, sagittis condimentum purus. Vivamus sed aliquet ligula, at luctus tellus. Duis laoreet magna vitae ligula vulputate, vitae euismod dui viverra. Aliquam erat volutpat.",
           price: "63.99",
           old_price: "70.00",
+		  category: "calças",
           image:
             "http://localhost:5000/api/files/products/Calça_Masculina_Preta.jpg",
           photos: [
@@ -89,6 +91,7 @@ module.exports = {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare lectus mauris, eget vulputate lorem faucibus nec. Nulla facilisi. Duis sollicitudin efficitur consequat. Donec mattis ullamcorper nulla, sagittis condimentum purus. Vivamus sed aliquet ligula, at luctus tellus. Duis laoreet magna vitae ligula vulputate, vitae euismod dui viverra. Aliquam erat volutpat.",
           price: "55.99",
           old_price: null,
+		  category: "Casacos",
           image: "http://localhost:5000/api/files/products/Casaco_Italy.jpg",
           photos: [
             "http://localhost:5000/api/files/products/Casaco_Italy.jpg",
@@ -120,6 +123,7 @@ module.exports = {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare lectus mauris, eget vulputate lorem faucibus nec. Nulla facilisi. Duis sollicitudin efficitur consequat. Donec mattis ullamcorper nulla, sagittis condimentum purus. Vivamus sed aliquet ligula, at luctus tellus. Duis laoreet magna vitae ligula vulputate, vitae euismod dui viverra. Aliquam erat volutpat.",
           price: "55.99",
           old_price: "60.00",
+		  category: "Acessorios",
           image: "http://localhost:5000/api/files/products/Bone_Fe.jpg",
           photos: [
             "http://localhost:5000/api/files/products/Bone_Fe.jpg",
@@ -151,6 +155,7 @@ module.exports = {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare lectus mauris, eget vulputate lorem faucibus nec. Nulla facilisi. Duis sollicitudin efficitur consequat. Donec mattis ullamcorper nulla, sagittis condimentum purus. Vivamus sed aliquet ligula, at luctus tellus. Duis laoreet magna vitae ligula vulputate, vitae euismod dui viverra. Aliquam erat volutpat.",
           price: "14.99",
           old_price: null,
+		  category: "Acessorios",
           image: "http://localhost:5000/api/files/products/Colar_Onyx.jpg",
           photos: [
             "http://localhost:5000/api/files/products/Colar_Onyx.jpg",

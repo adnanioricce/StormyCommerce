@@ -49,6 +49,10 @@ module.exports = {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: false,
       },
+	  category: {
+		  type: Sequelize.STRING,
+		  allowNull: false,
+	  },
       // comments: {
       //   type: Sequelize.ARRAY(Sequelize.JSONTYPE),
       // },

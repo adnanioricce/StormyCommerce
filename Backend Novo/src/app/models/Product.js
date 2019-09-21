@@ -13,6 +13,7 @@ class Product extends Model {
         tags: Sequelize.ARRAY(Sequelize.STRING),
         colors: Sequelize.ARRAY(Sequelize.JSON),
         sizes: Sequelize.ARRAY(Sequelize.STRING),
+		category: Sequelize.STRING
       },
       {
         sequelize,
