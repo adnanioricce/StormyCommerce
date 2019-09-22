@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Media;
 
@@ -96,6 +97,9 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             {
                 // entity.HasData();
                 //entity.HasData(Seeders.MediaSeed(50));
+            });
+            modelBuilder.Entity<Stock>(e => {
+                // e.HasMany(prop => prop.Orders).WithOne(prop => prop.)
             });
             modelBuilder.Entity<Brand>(entity =>
             {

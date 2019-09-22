@@ -15,18 +15,19 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
     [Area("Catalog")]
     [ApiController]
-    [Route("api/[Controller]/[Action]")]
-    [Authorize(Roles.Customer)]
+    [Route("api/[controller]")]
+    //[Authorize]
     [EnableCors("Default")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-
-        public CategoryController(ICategoryService categoryService, IMapper mapper)
+        private readonly IAppLogger<CategoryController> _logger;
+        public CategoryController(ICategoryService categoryService, IMapper mapper,IAppLogger<CategoryController> logger)
         {
             _categoryService = categoryService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         ///<summary>
@@ -40,7 +41,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             return categories.ToList();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [ValidateModel]
         [AllowAnonymous]
         public async Task<ActionResult<CategoryDto>> GetCategoryById(long id)
@@ -52,19 +53,22 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             return _mapper.Map<Category, CategoryDto>(category);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "admin")]
+        [HttpPost("create")]
+        [Authorize("Admin")]
         [ValidateModel]
         public async Task<IActionResult> CreateCategory(Category category)
         {
             //TODO:Add validations
             //TODO:Add Generic Response Type
+            HttpContext.Request.Headers.ToList().ForEach(h => {
+                _logger.LogInformation($"key:{h.Key},value:{h.Value}");
+            });
             await _categoryService.AddAsync(category);
             return Ok("Category Created");
         }
 
-        [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        [HttpPut("edit")]
+        [Authorize(Policy = Roles.Admin)]
         [ValidateModel]
         public async Task<IActionResult> EditCategory(Category category)
         {

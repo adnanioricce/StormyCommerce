@@ -41,7 +41,7 @@ namespace Modules.Test
             //Creating a AutoMapper instance
             var mapper = configuration.CreateMapper();
             //Finnaly, creating the controller
-            return new CategoryController(categoryService, mapper);
+            return new CategoryController(categoryService, mapper,null);
         }
 
         private EntityService CreateEntityService()

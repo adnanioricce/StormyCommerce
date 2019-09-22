@@ -50,13 +50,19 @@ export interface IProductClient {
 export default class ProductClient implements IProductClient {
     private instance: AxiosInstance;
     private baseUrl: string;
+    private token: string | undefined;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, instance?: AxiosInstance) {
         this.instance = instance ? instance : axios.create();
         this.baseUrl = baseUrl ? baseUrl : "https://localhost:443";
     }
-
+    setAccessToken(token?:string){
+        if(!token){
+            this.token = token;
+        }
+        // this.token = getAccessToken
+    }
     /**
      * @param id (optional) 
      * @return Success
@@ -74,7 +80,8 @@ export default class ProductClient implements IProductClient {
             method: "GET",
             url: url_,
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Bearer" : this.token
             }
         };
 

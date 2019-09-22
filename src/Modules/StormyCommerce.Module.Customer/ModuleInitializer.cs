@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,15 +11,19 @@ using Microsoft.IdentityModel.Tokens;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Infraestructure.Models;
+using StormyCommerce.Module.Customer.Data;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
 using System;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace StormyCommerce.Module.Customer
@@ -28,10 +33,27 @@ namespace StormyCommerce.Module.Customer
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseAuthentication();
-            // var context = (StormyDbContext)app.ApplicationServices.GetService(typeof(StormyDbContext));
-            // var userManager = (UserManager<ApplicationUser>)app.ApplicationServices.GetService(typeof(UserManager<ApplicationUser>));
-            // var roleManager = (RoleManager<IdentityRole>)app.ApplicationServices.GetService(typeof(RoleManager<IdentityRole>));
-            // new IdentityInitializer(context,userManager,roleManager);
+            //app.UseWhen(
+            //    context => context.Request.Path.StartsWithSegments("/api"),
+            //    a => a.Use(async (context, next) =>
+            //    {
+            //        var principal = new ClaimsPrincipal();
+
+            //        var cookiesAuthResult = await context.AuthenticateAsync("Identity.Application");
+            //        if (cookiesAuthResult?.Principal != null)
+            //        {
+            //            principal.AddIdentities(cookiesAuthResult.Principal.Identities);
+            //        }
+
+            //        var bearerAuthResult = await context.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
+            //        if (bearerAuthResult?.Principal != null)
+            //        {
+            //            principal.AddIdentities(bearerAuthResult.Principal.Identities);
+            //        }
+
+            //        context.User = principal;
+            //        await next();
+            //    }));
         }
 
         public void ConfigureServices(IServiceCollection serviceCollection)
@@ -60,10 +82,11 @@ namespace StormyCommerce.Module.Customer
         private void AddCustomizedIdentity(IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<StormyDbContext>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<StormyDbContext>()                
                 .AddDefaultTokenProviders();
-            var signingConfigurations = new SigningConfigurations();
-            services.AddSingleton(signingConfigurations);
+            //var signingConfigurations = new SigningConfigurations();
+            //services.AddSingleton(signingConfigurations);
             var tokenConfigurations = new TokenConfigurations();
             new ConfigureFromConfigurationOptions<TokenConfigurations>(
                 Container.Configuration.GetSection("Jwt"))
@@ -97,11 +120,11 @@ namespace StormyCommerce.Module.Customer
                     {
                         //TODO: you probably don't need of theses classes:SigningConfigurations and TokenConfigurations
                         ValidateIssuer = true,
-                        ValidIssuer = tokenConfigurations.Audience,
-                        ValidateAudience = true,
+                        ValidIssuer = Container.Configuration["Authentication:Jwt:Issuer"],
+                        ValidateAudience = false,
                         ValidAudience = "Anyone",
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = signingConfigurations.Key,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Authentication:Jwt:Key"])),
                         RequireExpirationTime = false,
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero,
@@ -109,13 +132,20 @@ namespace StormyCommerce.Module.Customer
                 });
             services.AddAuthorization(auth =>
             {
-                auth.AddPolicy(Roles.Admin, policy => policy.RequireClaim(Roles.Admin));
-                auth.AddPolicy(Roles.Customer, policy => policy.RequireClaim(Roles.Customer));               
-                auth.AddPolicy(Roles.Guest, new AuthorizationPolicyBuilder()
+                //auth.AddPolicy("Admin", policy => {
+                //    policy.RequireClaim(Roles.Admin);
+                //    policy.RequireRole(Roles.Admin);
+
+                //    });
+                auth.AddPolicy("Customer",new AuthorizationPolicyBuilder()
+                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                .RequireAuthenticatedUser()
+                .Build());
+                auth.AddPolicy("Admin", new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());
-            });
+            });            
         }
     }
 }

@@ -36,23 +36,26 @@ namespace StormyCommerce.Module.Customer.Data
                             $"Erro durante a criação da role {Roles.Admin}.");
                     }
                 }
+                if (!_roleManager.RoleExistsAsync(Roles.Guest).Result)
+                {
+                    var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Guest)).Result;
+                    if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Guest}");
+                }
+                if (!_roleManager.RoleExistsAsync(Roles.Customer).Result)
+                {
+                    var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Customer)).Result;
+                    if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Customer}");
+                }
 
                 CreateUser(
                     //TODO: actually, I think is not secure to initialize this here...
                     new ApplicationUser()
                     {
-                        UserName = "admin_stormycommerce",
-                        Email = "admin-stormycommerce@teste.com.br",
-                        EmailConfirmed = true
-                    }, "AdminStormyCommerce01!", Roles.Admin);
-
-                CreateUser(
-                    new ApplicationUser()
-                    {
-                        UserName = "usrinvalido_api",
-                        Email = "usrinvalido-api@teste.com.br",
-                        EmailConfirmed = true
-                    }, "UsrInvStormyCommerceAPI01!");
+                        UserName = "stormyadmin",
+                        Email = "stormycommerce@gmail.com",
+                        EmailConfirmed = true,
+                        Role = new IdentityRole(Roles.Admin)
+                    }, "!D4vpassword",Roles.Admin);                
             }
         }
 

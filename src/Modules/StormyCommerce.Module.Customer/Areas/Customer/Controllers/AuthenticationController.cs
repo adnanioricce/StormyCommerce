@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Customer;
@@ -9,6 +10,7 @@ using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
+using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
 using System;
 using System.Text.Encodings.Web;
@@ -18,8 +20,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 {
     //[Area("Customer")]    
     [ApiController]
-    [Route("api/[Controller]")]
-    [Authorize]
+    [Route("api/[controller]")]    
     [EnableCors("Default")]
     public class AuthenticationController : Controller
     {
@@ -55,7 +56,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 
             var signInResult = await _identityService.PasswordSignInAsync(user, signInVm.Password, true, true);
 
-            if (signInResult.Succeeded == false) return BadRequest("fail to sign in ");
+            if (!signInResult.Succeeded) return BadRequest($"fail to sign in");
 
             _logger.LogInformation("user logged in with success");
 
@@ -82,6 +83,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             {                
                 UserName = signUpVm.UserName,
                 Email = signUpVm.Email,
+                Role = new IdentityRole(Roles.Guest)
             }, signUpVm.Password);
             if (!result.Succeeded) return BadRequest("Don't was possible to create user");
 
@@ -95,7 +97,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 
             var callbackUrl = Url.Action(
                 action: "ConfirmEmailAsync",
-                controller:"Authentication",                
+                controller:"Account",                
                 values: new { userId = appUser.Id, code = verificationCode },
                 protocol:Request.Scheme
                 );
@@ -103,46 +105,29 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             await _emailSender.SendEmailAsync(appUser.Email, "Email Confirmation", $"click on the link to confirm your account<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>link</a>", true);
             _logger.LogInformation($"Confirmation email sended.At {DateTimeOffset.UtcNow}");
             return Ok();
-        }
-        [HttpGet("ConfirmEmail")]
+        }        
+        [AllowAnonymous]
+        [HttpPost("refresh_token")]
+        [IgnoreAntiforgeryToken]
         [ValidateModel]
-        public async Task<IActionResult> ConfirmEmailAsync(string userId,string code)
+        public async Task<IActionResult> RefreshToken(RefreshTokenModel model)
         {
-            if (userId == null || code == null ) return BadRequest();
-
-            var appUser = _identityService.GetUserById(userId);
-
-            if (appUser == null) return BadRequest("user with given email not found");
-
-            _logger.LogInformation($"User validated at {DateTimeOffset.UtcNow}");
-
-            var result = await _identityService.ConfirmEmailAsync(appUser,code);
-
-            if(!result.Succeeded) return BadRequest();            
-
-            _logger.LogInformation($"Email confirmed at {DateTimeOffset.UtcNow}");
-
-            var customer = _mapper.Map<ApplicationUser, StormyCustomer>(_identityService.GetUserByEmail(userId));  
-            
-            await _customerService.CreateCustomerAsync(customer);
-
-            _logger.LogInformation($"new customer registered at {DateTimeOffset.UtcNow}");            
-
-            return Ok(new { Message = $"Email confirmation performed With Success at {DateTimeOffset.UtcNow}" });            
+            var principal = _tokenService.GetPrincipalFromExpiredToken(model.Token);
+            if(principal == null)
+            {
+                return BadRequest(new { Error = "Invalid token" });
+            }
+            var user = await _identityService.GetUserByClaimPrincipal(principal);
+            var verifyRefreshTokenResult = _identityService.VerifyHashPassword(user, user.RefreshTokenHash, model.RefreshToken);
+            if(verifyRefreshTokenResult == PasswordVerificationResult.Success)
+            {
+                var claims = await _identityService.BuildClaims(user);
+                var newToken = _tokenService.GenerateAccessToken(claims);
+                return Ok(new { token = newToken });
+            }
+            return Forbid();
         }
-        [HttpPost("ResetPassword")]
-        [ValidateModel]
-        public async Task<IActionResult> ResetPasswordAsync(ResetPasswordViewModel model)
-        {                        
-            var user = _identityService.GetUserByEmail(model.Email);
-
-            if (user == null) return BadRequest();            
-            var result = await _identityService.ResetPasswordAsync(user, model.Code, model.Password);
-
-            if (!result.Succeeded) return BadRequest();                        
-            
-            return Ok();
-        }
+        
         [HttpPost("ForgotPassword")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -157,7 +142,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             // Send an email with this link
             var code = await _identityService.GeneratePasswordResetTokenAsync(user);
             _logger.LogInformation("reset password Code generated");
-            var callbackUrl = Url.Action("ResetPassword", "Authentication", 
+            var callbackUrl = Url.Action("ResetPasswordAsync", "Account", 
             new { userId = user.Id, code = code },
              protocol: HttpContext.Request.Scheme);
             _logger.LogInformation("callback url created");

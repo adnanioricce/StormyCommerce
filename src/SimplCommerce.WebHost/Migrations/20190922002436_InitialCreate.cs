@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SimplCommerce.WebHost.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,8 @@ namespace SimplCommerce.WebHost.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    RefreshTokenHash = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -455,16 +456,25 @@ namespace SimplCommerce.WebHost.Migrations
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     SKU = table.Column<string>(nullable: false),
+                    Gtin = table.Column<string>(nullable: true),
+                    NormalizedName = table.Column<string>(nullable: true),
                     ProductName = table.Column<string>(maxLength: 400, nullable: false),
                     Slug = table.Column<string>(nullable: true),
+                    MetaKeywords = table.Column<string>(nullable: true),
+                    MetaDescription = table.Column<string>(nullable: true),
+                    MetaTitle = table.Column<string>(nullable: true),
+                    CreatedById = table.Column<long>(nullable: false),
                     BrandId = table.Column<long>(nullable: false),
                     MediaId = table.Column<long>(nullable: false),
                     VendorId = table.Column<long>(nullable: false),
                     CategoryId = table.Column<long>(nullable: false),
                     ProductLinksId = table.Column<long>(nullable: false),
+                    TaxClassId = table.Column<long>(nullable: false),
+                    LatestUpdatedById = table.Column<long>(nullable: false),
                     TypeName = table.Column<string>(nullable: false),
                     ShortDescription = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
+                    Specification = table.Column<string>(nullable: true),
                     QuantityPerUnity = table.Column<int>(nullable: false),
                     UnitSize = table.Column<decimal>(nullable: false),
                     UnitPrice = table.Column<decimal>(nullable: false),
@@ -472,6 +482,7 @@ namespace SimplCommerce.WebHost.Migrations
                     UnitWeight = table.Column<double>(nullable: false),
                     UnitsInStock = table.Column<int>(nullable: false),
                     UnitsOnOrder = table.Column<int>(nullable: false),
+                    ReviewsCount = table.Column<int>(nullable: false),
                     ProductAvailable = table.Column<bool>(nullable: false),
                     DiscountAvailable = table.Column<bool>(nullable: false),
                     StockTrackingIsEnabled = table.Column<bool>(nullable: false),
@@ -480,20 +491,30 @@ namespace SimplCommerce.WebHost.Migrations
                     Note = table.Column<string>(nullable: true),
                     Price = table.Column<string>(nullable: true),
                     OldPrice = table.Column<string>(nullable: true),
+                    SpecialPrice = table.Column<string>(nullable: true),
+                    SpecialPriceStart = table.Column<DateTime>(nullable: true),
+                    SpecialPriceEnd = table.Column<DateTime>(nullable: true),
                     HasDiscountApplied = table.Column<bool>(nullable: false),
-                    Published = table.Column<bool>(nullable: false),
+                    IsPublished = table.Column<bool>(nullable: false),
                     Status = table.Column<string>(nullable: false),
                     NotReturnable = table.Column<bool>(nullable: false),
                     AvailableForPreorder = table.Column<bool>(nullable: false),
+                    HasOptions = table.Column<bool>(nullable: false),
+                    IsVisibleIndividually = table.Column<bool>(nullable: false),
+                    IsFeatured = table.Column<bool>(nullable: false),
+                    IsCallForPricing = table.Column<bool>(nullable: false),
+                    IsAllowToOrder = table.Column<bool>(nullable: false),
                     ProductCost = table.Column<decimal>(nullable: false),
                     PreOrderAvailabilityStartDate = table.Column<DateTime>(nullable: true),
-                    CreatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedOnUtc = table.Column<DateTime>(nullable: false),
+                    PublishedOn = table.Column<DateTime>(nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    LatestUpdatedOn = table.Column<DateTime>(nullable: true),
                     AllowCustomerReview = table.Column<bool>(nullable: false),
                     ApprovedRatingSum = table.Column<int>(nullable: false),
                     NotApprovedRatingSum = table.Column<int>(nullable: false),
                     ApprovedTotalReviews = table.Column<int>(nullable: false),
-                    NotApprovedTotalReviews = table.Column<int>(nullable: false)
+                    NotApprovedTotalReviews = table.Column<int>(nullable: false),
+                    RatingAverage = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -754,6 +775,7 @@ namespace SimplCommerce.WebHost.Migrations
                     ShipmentId = table.Column<int>(nullable: false),
                     OrderItemId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
+                    UnitWeight = table.Column<decimal>(nullable: false),
                     ShipmentId1 = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
@@ -942,10 +964,7 @@ namespace SimplCommerce.WebHost.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Shipment",
-                columns: new[] { "Id", "BillingAddressId", "Comment", "CreatedOn", "DeliveryCost", "DeliveryDate", "DestinationAddressId", "Diameter", "Height", "IsDeleted", "LastModified", "Price", "ShipmentMethod", "ShipmentProviderName", "ShippedDate", "StormyCustomerId", "TotalWeight", "TrackNumber", "UserId", "WhoReceives", "Width" },
-                values: new object[] { 2L, 0L, "a single comment", new DateTime(2019, 9, 14, 1, 51, 43, 717, DateTimeKind.Utc).AddTicks(861), 22.29m, new DateTime(2019, 9, 17, 0, 0, 0, 0, DateTimeKind.Local), 0L, 0m, 0m, false, new DateTimeOffset(new DateTime(2019, 9, 14, 1, 51, 43, 717, DateTimeKind.Unspecified).AddTicks(328), new TimeSpan(0, 0, 0, 0, 0)), 20.99m, null, null, new DateTime(2019, 9, 13, 0, 0, 0, 0, DateTimeKind.Local), 0L, 0.400m, "80ddaf7d-c68d-49b1-b006-c79fef669f78", null, null, 0m });
+            
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -16,8 +16,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
     [Area("Catalog")]
     [ApiController]
-    [Route("api/[Controller]/[Action]")]
-    [Authorize(Roles.Customer)]
+    [Route("api/[Controller]/[Action]")]    
     [EnableCors("Default")]
     public class ProductController : Controller
     {
@@ -34,7 +33,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         ///<summary>
         /// Get a more simplified version of a specified product
         ///</summary>
-        [HttpGet("{0}")]
+        [HttpGet]
         [ValidateModel]
         [AllowAnonymous]
         public async Task<ActionResult<ProductOverviewDto>> GetProductOverviewAsync(long id)
@@ -72,7 +71,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             return mappedProducts.ToList();
         }
 
-        [HttpGet("{0}")]
+        [HttpGet]
         [ValidateModel]
         [AllowAnonymous]
         public async Task<ActionResult<ProductDto>> GetProductById(long id)

@@ -4,4 +4,5 @@ module.exports = routes()
   .add('/', 'index')
   .add('/produtos/:name', 'product')
   .add('/login', 'login')
-  .add('/contato', 'contato');
+  .add('/contato', 'contato')
+  .add('/cadastrar','cadastro');
