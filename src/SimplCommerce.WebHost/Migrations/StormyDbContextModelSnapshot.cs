@@ -16,7 +16,7 @@ namespace SimplCommerce.WebHost.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -431,7 +431,9 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long>("CategoryId");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<long>("CreatedById");
+
+                    b.Property<DateTime?>("CreatedOn");
 
                     b.Property<string>("Description");
 
@@ -439,13 +441,39 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<bool>("DiscountAvailable");
 
+                    b.Property<string>("Gtin");
+
                     b.Property<bool>("HasDiscountApplied");
+
+                    b.Property<bool>("HasOptions");
+
+                    b.Property<bool>("IsAllowToOrder");
+
+                    b.Property<bool>("IsCallForPricing");
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<bool>("IsFeatured");
+
+                    b.Property<bool>("IsPublished");
+
+                    b.Property<bool>("IsVisibleIndividually");
+
                     b.Property<DateTimeOffset>("LastModified");
 
+                    b.Property<long>("LatestUpdatedById");
+
+                    b.Property<DateTime?>("LatestUpdatedOn");
+
                     b.Property<long>("MediaId");
+
+                    b.Property<string>("MetaDescription");
+
+                    b.Property<string>("MetaKeywords");
+
+                    b.Property<string>("MetaTitle");
+
+                    b.Property<string>("NormalizedName");
 
                     b.Property<int>("NotApprovedRatingSum");
 
@@ -471,11 +499,15 @@ namespace SimplCommerce.WebHost.Migrations
                         .IsRequired()
                         .HasMaxLength(400);
 
-                    b.Property<bool>("Published");
+                    b.Property<DateTime?>("PublishedOn");
 
                     b.Property<int>("QuantityPerUnity");
 
                     b.Property<int>("Ranking");
+
+                    b.Property<int>("RatingAverage");
+
+                    b.Property<int>("ReviewsCount");
 
                     b.Property<string>("SKU")
                         .IsRequired();
@@ -484,10 +516,20 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("Slug");
 
+                    b.Property<string>("SpecialPrice");
+
+                    b.Property<DateTime?>("SpecialPriceEnd");
+
+                    b.Property<DateTime?>("SpecialPriceStart");
+
+                    b.Property<string>("Specification");
+
                     b.Property<string>("Status")
                         .IsRequired();
 
                     b.Property<bool>("StockTrackingIsEnabled");
+
+                    b.Property<long>("TaxClassId");
 
                     b.Property<string>("ThumbnailImage");
 
@@ -503,8 +545,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<int>("UnitsInStock");
 
                     b.Property<int>("UnitsOnOrder");
-
-                    b.Property<DateTime>("UpdatedOnUtc");
 
                     b.Property<long>("VendorId");
 
@@ -911,19 +951,19 @@ namespace SimplCommerce.WebHost.Migrations
                             Id = 2L,
                             BillingAddressId = 0L,
                             Comment = "a single comment",
-                            CreatedOn = new DateTime(2019, 9, 14, 1, 51, 43, 717, DateTimeKind.Utc).AddTicks(861),
+                            CreatedOn = new DateTime(2019, 9, 22, 0, 24, 36, 314, DateTimeKind.Utc).AddTicks(1395),
                             DeliveryCost = 22.29m,
-                            DeliveryDate = new DateTime(2019, 9, 17, 0, 0, 0, 0, DateTimeKind.Local),
+                            DeliveryDate = new DateTime(2019, 9, 24, 0, 0, 0, 0, DateTimeKind.Local),
                             DestinationAddressId = 0L,
                             Diameter = 0m,
                             Height = 0m,
                             IsDeleted = false,
-                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 14, 1, 51, 43, 717, DateTimeKind.Unspecified).AddTicks(328), new TimeSpan(0, 0, 0, 0, 0)),
+                            LastModified = new DateTimeOffset(new DateTime(2019, 9, 22, 0, 24, 36, 314, DateTimeKind.Unspecified).AddTicks(1014), new TimeSpan(0, 0, 0, 0, 0)),
                             Price = 20.99m,
-                            ShippedDate = new DateTime(2019, 9, 13, 0, 0, 0, 0, DateTimeKind.Local),
+                            ShippedDate = new DateTime(2019, 9, 20, 0, 0, 0, 0, DateTimeKind.Local),
                             StormyCustomerId = 0L,
                             TotalWeight = 0.400m,
-                            TrackNumber = "80ddaf7d-c68d-49b1-b006-c79fef669f78",
+                            TrackNumber = "e8db2c24-d64f-466a-9cc7-0bb71223d350",
                             Width = 0m
                         });
                 });
@@ -944,6 +984,8 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<int>("ShipmentId");
 
                     b.Property<long?>("ShipmentId1");
+
+                    b.Property<decimal>("UnitWeight");
 
                     b.HasKey("Id");
 
@@ -1088,6 +1130,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("RefreshTokenHash");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -1097,6 +1141,23 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ApplicationUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "418cba68-c66d-4766-abad-46a2a5ebf5fc",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e8476965-b488-47ca-87b4-b7d88dc7da99",
+                            Email = "stormycommerce@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "STORMYCOMMERCE@GMAIL.COM",
+                            NormalizedUserName = "DEVUSER",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "22/09/2019 00:24:36",
+                            TwoFactorEnabled = false,
+                            UserName = "devuser"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -84,5 +84,6 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public object SpliRules { get; set; }
         public object AntifraudMetadata { get; set; }
         public string Session { get; set; }
+        
     }
 }

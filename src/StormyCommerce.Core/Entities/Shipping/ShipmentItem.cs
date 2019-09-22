@@ -5,6 +5,7 @@
         public int ShipmentId { get; set; }
         public int OrderItemId { get; set; }
         public int Quantity { get; set; }
+        public decimal UnitWeight { get; set; }
         public Shipment Shipment { get; set; }
     }
 }

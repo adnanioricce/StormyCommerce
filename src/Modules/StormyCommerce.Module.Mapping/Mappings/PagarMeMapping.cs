@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PagarMe;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels;
@@ -18,11 +19,17 @@ namespace StormyCommerce.Module.Mapping.Mappings
                 //.ForMember(tr => tr.Payables,opt => opt.MapFrom(src => src.Payables);
                 //.ForMember(tr => tr.Phone,opt => opt.MapFrom(src => src.Phone))
                 .ForMember(tr => tr.Shipping, opt => opt.MapFrom(src => src.Shipping));
+            CreateMap<BillingVm, Billing>();
+            CreateMap<Billing, BillingVm>();
+            CreateMap<StormyCustomer, PagarMeCustomerVm>();
+            CreateMap<PagarMeCustomerVm, StormyCustomer>();
+            //CreateMap<StormyCustomer,PagarMe.Customer>
             CreateMap<Item, PagarMeItem>();
             CreateMap<OrderItemDto, Item>();
 
-            CreateMap<Transaction, PaymentDto>()
-                .ForMember(dest => dest.Order.Items, opt => opt.MapFrom(src => src.Item));
+            CreateMap<Transaction, PaymentDto>();
+            CreateMap<Item, OrderItemDto>();
+            CreateMap<OrderItemDto, Item>();
         }
     }
 }

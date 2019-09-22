@@ -4,9 +4,7 @@ namespace StormyCommerce.Core.Models.Dtos
 {
     public class CustomerReviewDto
     {
-        public CustomerReviewDto()
-        {
-        }
+        public CustomerReviewDto(){}
 
         public CustomerReviewDto(Review review)
         {

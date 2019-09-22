@@ -40,6 +40,7 @@ CREATE TABLE "ApplicationUser" (
     "LockoutEnd" timestamp with time zone NULL,
     "LockoutEnabled" boolean NOT NULL,
     "AccessFailedCount" integer NOT NULL,
+    "RefreshTokenHash" text NULL,
     CONSTRAINT "PK_ApplicationUser" PRIMARY KEY ("Id")
 );
 
@@ -255,16 +256,25 @@ CREATE TABLE "StormyProduct" (
     "LastModified" timestamp with time zone NOT NULL,
     "IsDeleted" boolean NOT NULL,
     "SKU" text NOT NULL,
+    "Gtin" text NULL,
+    "NormalizedName" text NULL,
     "ProductName" character varying(400) NOT NULL,
     "Slug" text NULL,
+    "MetaKeywords" text NULL,
+    "MetaDescription" text NULL,
+    "MetaTitle" text NULL,
+    "CreatedById" bigint NOT NULL,
     "BrandId" bigint NOT NULL,
     "MediaId" bigint NOT NULL,
     "VendorId" bigint NOT NULL,
     "CategoryId" bigint NOT NULL,
     "ProductLinksId" bigint NOT NULL,
+    "TaxClassId" bigint NOT NULL,
+    "LatestUpdatedById" bigint NOT NULL,
     "TypeName" text NOT NULL,
     "ShortDescription" text NULL,
     "Description" text NULL,
+    "Specification" text NULL,
     "QuantityPerUnity" integer NOT NULL,
     "UnitSize" numeric NOT NULL,
     "UnitPrice" numeric NOT NULL,
@@ -272,6 +282,7 @@ CREATE TABLE "StormyProduct" (
     "UnitWeight" double precision NOT NULL,
     "UnitsInStock" integer NOT NULL,
     "UnitsOnOrder" integer NOT NULL,
+    "ReviewsCount" integer NOT NULL,
     "ProductAvailable" boolean NOT NULL,
     "DiscountAvailable" boolean NOT NULL,
     "StockTrackingIsEnabled" boolean NOT NULL,
@@ -280,20 +291,30 @@ CREATE TABLE "StormyProduct" (
     "Note" text NULL,
     "Price" text NULL,
     "OldPrice" text NULL,
+    "SpecialPrice" text NULL,
+    "SpecialPriceStart" timestamp without time zone NULL,
+    "SpecialPriceEnd" timestamp without time zone NULL,
     "HasDiscountApplied" boolean NOT NULL,
-    "Published" boolean NOT NULL,
+    "IsPublished" boolean NOT NULL,
     "Status" text NOT NULL,
     "NotReturnable" boolean NOT NULL,
     "AvailableForPreorder" boolean NOT NULL,
+    "HasOptions" boolean NOT NULL,
+    "IsVisibleIndividually" boolean NOT NULL,
+    "IsFeatured" boolean NOT NULL,
+    "IsCallForPricing" boolean NOT NULL,
+    "IsAllowToOrder" boolean NOT NULL,
     "ProductCost" numeric NOT NULL,
     "PreOrderAvailabilityStartDate" timestamp without time zone NULL,
-    "CreatedAt" timestamp without time zone NOT NULL,
-    "UpdatedOnUtc" timestamp without time zone NOT NULL,
+    "PublishedOn" timestamp without time zone NULL,
+    "CreatedOn" timestamp without time zone NULL,
+    "LatestUpdatedOn" timestamp without time zone NULL,
     "AllowCustomerReview" boolean NOT NULL,
     "ApprovedRatingSum" integer NOT NULL,
     "NotApprovedRatingSum" integer NOT NULL,
     "ApprovedTotalReviews" integer NOT NULL,
     "NotApprovedTotalReviews" integer NOT NULL,
+    "RatingAverage" integer NOT NULL,
     CONSTRAINT "PK_StormyProduct" PRIMARY KEY ("Id"),
     CONSTRAINT "FK_StormyProduct_Brand_BrandId" FOREIGN KEY ("BrandId") REFERENCES "Brand" ("Id") ON DELETE CASCADE,
     CONSTRAINT "FK_StormyProduct_Category_CategoryId" FOREIGN KEY ("CategoryId") REFERENCES "Category" ("Id") ON DELETE CASCADE,
@@ -415,6 +436,7 @@ CREATE TABLE "ShipmentItem" (
     "ShipmentId" integer NOT NULL,
     "OrderItemId" integer NOT NULL,
     "Quantity" integer NOT NULL,
+    "UnitWeight" numeric NOT NULL,
     "ShipmentId1" bigint NULL,
     CONSTRAINT "PK_ShipmentItem" PRIMARY KEY ("Id"),
     CONSTRAINT "FK_ShipmentItem_Shipment_ShipmentId1" FOREIGN KEY ("ShipmentId1") REFERENCES "Shipment" ("Id") ON DELETE RESTRICT
@@ -506,8 +528,11 @@ CREATE TABLE "Payment" (
     CONSTRAINT "FK_Payment_StormyOrder_StormyOrderId" FOREIGN KEY ("StormyOrderId") REFERENCES "StormyOrder" ("Id") ON DELETE CASCADE
 );
 
+INSERT INTO "ApplicationUser" ("Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshTokenHash", "SecurityStamp", "TwoFactorEnabled", "UserName")
+VALUES ('418cba68-c66d-4766-abad-46a2a5ebf5fc', 0, 'e8476965-b488-47ca-87b4-b7d88dc7da99', 'stormycommerce@gmail.com', TRUE, FALSE, NULL, 'STORMYCOMMERCE@GMAIL.COM', 'DEVUSER', NULL, NULL, FALSE, NULL, '22/09/2019 00:24:36', FALSE, 'devuser');
+
 INSERT INTO "Shipment" ("Id", "BillingAddressId", "Comment", "CreatedOn", "DeliveryCost", "DeliveryDate", "DestinationAddressId", "Diameter", "Height", "IsDeleted", "LastModified", "Price", "ShipmentMethod", "ShipmentProviderName", "ShippedDate", "StormyCustomerId", "TotalWeight", "TrackNumber", "UserId", "WhoReceives", "Width")
-VALUES (2, 0, 'a single comment', TIMESTAMP '2019-09-14 01:51:43.717086', 22.29, TIMESTAMP '2019-09-17 00:00:00', 0, 0.0, 0.0, FALSE, TIMESTAMPTZ '2019-09-14 01:51:43.717032+00:00', 20.99, NULL, NULL, TIMESTAMP '2019-09-13 00:00:00', 0, 0.4, '80ddaf7d-c68d-49b1-b006-c79fef669f78', NULL, NULL, 0.0);
+VALUES (2, 0, 'a single comment', TIMESTAMP '2019-09-22 00:24:36.314139', 22.29, TIMESTAMP '2019-09-24 00:00:00', 0, 0.0, 0.0, FALSE, TIMESTAMPTZ '2019-09-22 00:24:36.314101+00:00', 20.99, NULL, NULL, TIMESTAMP '2019-09-20 00:00:00', 0, 0.4, 'e8db2c24-d64f-466a-9cc7-0bb71223d350', NULL, NULL, 0.0);
 
 CREATE INDEX "IX_AspNetRoleClaims_RoleId" ON "AspNetRoleClaims" ("RoleId");
 
@@ -588,5 +613,5 @@ CREATE INDEX "IX_WishlistItem_ProductId1" ON "WishlistItem" ("ProductId1");
 CREATE INDEX "IX_WishlistItem_WishlistId" ON "WishlistItem" ("WishlistId");
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20190914015144_initialCreate', '2.2.4-servicing-10062');
+VALUES ('20190922002436_InitialCreate', '2.2.6-servicing-10079');
 

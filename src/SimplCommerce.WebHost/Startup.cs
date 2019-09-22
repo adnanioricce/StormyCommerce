@@ -1,21 +1,31 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.WebEncoders;
+using Microsoft.IdentityModel.Logging;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.WebHost.Extensions;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
+using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Logging;
+using StormyCommerce.Module.Customer.Data;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -77,6 +87,11 @@ namespace SimplCommerce.WebHost
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
             GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;
+            services.AddApiVersioning(options => {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+            });
             services.AddModules(_hostingEnvironment.ContentRootPath);
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -114,8 +129,9 @@ namespace SimplCommerce.WebHost
             });
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
+                builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();
-                builder.AllowAnyHeader();
+                builder.AllowAnyHeader();                
             }));
             services.AddMvc();
         }
@@ -125,6 +141,7 @@ namespace SimplCommerce.WebHost
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                IdentityModelEventSource.ShowPII = true;
             }
             else
             {
@@ -133,14 +150,13 @@ namespace SimplCommerce.WebHost
                     a => a.UseExceptionHandler("/Home/Error")
                 );
                 app.UseHsts();
-            }
-
+            }            
             app.UseWhen(
                 context => !context.Request.Path.StartsWithSegments("/api"),
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
             );
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseCustomizedStaticFiles(env);
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -150,18 +166,19 @@ namespace SimplCommerce.WebHost
             });
 
             app.UseCookiePolicy();
-            app.UseCors(options =>
-            {
-                options.WithOrigins("https://localhost:49206", "http://localhost:49208", "http://localhost:49209", "https://localhost:3000")
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            });
-            app.UseMvc();
-
+            app.UseCors("Default");
+            app.UseMvc();            
             var moduleInitializers = app.ApplicationServices.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
             {
                 moduleInitializer.Configure(app, env);
+            }
+            using (var scope = app.ApplicationServices.CreateScope())
+            {                
+                var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>();
+                var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
             }
         }
     }

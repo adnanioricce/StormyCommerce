@@ -2,8 +2,8 @@
 using Moq;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
-using StormyCommerce.Module.Customer.Area.ViewModels;
-using StormyCommerce.Module.Customer.Controllers;
+using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
+using StormyCommerce.Module.Customer.Areas.Customer.Controllers;
 using StormyCommerce.Module.Customer.Services;
 using System.Collections.Generic;
 using System.Linq;

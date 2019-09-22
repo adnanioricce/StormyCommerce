@@ -11,5 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
+    <ProjectReference Include="..\..\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
   </ItemGroup>
 </Project>

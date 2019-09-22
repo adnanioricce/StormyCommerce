@@ -6,7 +6,7 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Infraestructure.Data.Repositories;
-using StormyCommerce.Module.Catalog.Area.Controllers;
+using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
 using StormyCommerce.Module.Catalog.Extensions;
 using System.Linq;
 using System.Threading.Tasks;

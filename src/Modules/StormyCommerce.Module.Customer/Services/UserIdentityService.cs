@@ -48,6 +48,7 @@ namespace StormyCommerce.Module.Customer.Services
             }
             return result;
         }
+        
         public Task<IdentityResult> ConfirmEmailAsync(ApplicationUser user,string code)
         {
             return _userManager.ConfirmEmailAsync(user,code);
@@ -64,6 +65,14 @@ namespace StormyCommerce.Module.Customer.Services
         {
             return _userManager.Users.FirstOrDefault(u => u.UserName == username);
         }
+        public ApplicationUser GetUserById(string userId)
+        {
+            return _userManager.Users.First(u => string.Equals(u.Id, userId));
+        }
+        public async Task<ApplicationUser> GetUserByClaimPrincipal(ClaimsPrincipal principal)
+        {
+            return await _userManager.GetUserAsync(principal);
+        }
         public UserManager<ApplicationUser> GetUserManager() => _userManager;
 
         public Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent = true, bool lockoutInFailure = false)
@@ -75,7 +84,14 @@ namespace StormyCommerce.Module.Customer.Services
         {
             return _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
-
+        public PasswordVerificationResult VerifyHashPassword(ApplicationUser user,string hashedPassword,string providedPassword)
+        {
+            return _userManager.PasswordHasher.VerifyHashedPassword(user,hashedPassword,providedPassword);
+        }
+        public string HashPassword(ApplicationUser user,string password)
+        {
+            return _userManager.PasswordHasher.HashPassword(user,password);
+        }
         public Task SignOutAsync()
         {
             return Task.FromResult(_signInManager.SignOutAsync());
@@ -85,12 +101,12 @@ namespace StormyCommerce.Module.Customer.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Iat,DateTimeOffset.UtcNow.ToString()),               
             };
             var userRoles = await _userManager.GetRolesAsync(user);
-            claims.AddRange(userRoles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
-
+            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
             return claims;
         }
         public Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user)

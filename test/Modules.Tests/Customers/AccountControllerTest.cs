@@ -4,13 +4,15 @@ using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Services.Customer;
-using StormyCommerce.Module.Customer.Area.Controllers;
+using StormyCommerce.Infraestructure.Data.Repositories;
+using StormyCommerce.Module.Customer.Areas.Controllers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestHelperLibrary.Mocks;
 using TestHelperLibrary.Utils;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Modules.Test.Customers
 {
@@ -20,11 +22,13 @@ namespace Modules.Test.Customers
         private readonly List<Review> reviews = Seeders.ReviewSeed(15);
         private readonly List<StormyCustomer> customers = Seeders.StormyCustomerSeed(1);
         private readonly StormyCustomer sampleCustomer;
+        private readonly ITestOutputHelper _output;
 
-        public AccountControllerTest()
+        public AccountControllerTest(ITestOutputHelper output)
         {
             sampleCustomer = customers.First();
             _controller = CreateController();
+            _output = output;
         }
 
         private CustomerController CreateController()
@@ -39,8 +43,13 @@ namespace Modules.Test.Customers
         {
             //Arrange
             var addressObject = Seeders.AddressSeed().First();
+            var dbContext = DbContextHelper.GetDbContext();
+            var _customers = Seeders.StormyCustomerSeed(15);
+            dbContext.Add(_customers);
+            dbContext.SaveChanges();
+            var controller = new CustomerController(new CustomerService(null,new StormyRepository<StormyCustomer>(dbContext)),null);
             //Act
-            var result = await _controller.AddAddressAsync(addressObject);
+            var result = await controller.AddAddressAsync(addressObject);
             var returnResult = Assert.IsAssignableFrom<OkResult>(result);
             //Assert
             Assert.Equal(200, returnResult.StatusCode);
@@ -50,9 +59,17 @@ namespace Modules.Test.Customers
         public async Task WriteReviewAsync_AuthenticatedUserSendReview_CreateReviewEntry()
         {
             //Arrange
-            var review = new CustomerReviewDto(Seeders.ReviewSeed(1).First());
+            var dbContext = DbContextHelper.GetDbContext();
+            var customer = customers.First();            
+            dbContext.Add(customer);
+            dbContext.SaveChanges();
+            var customerRepo = RepositoryHelper.GetRepository<StormyCustomer>(dbContext);
+            var seed = Seeders.ReviewSeed(1).First();
+            seed.Author = customers.First();
+            var review = new CustomerReviewDto(seed);
+            var controller = new CustomerController(new CustomerService(RepositoryHelper.GetRepository<Review>(dbContext),customerRepo),ServiceTestFactory.GetFakeMapper());
             //Act
-            var result = await _controller.WriteReviewAsync(review);
+            var result = await controller.WriteReviewAsync(review);
             var returnResult = Assert.IsAssignableFrom<OkResult>(result);
             //Assert
             Assert.Equal(200, returnResult.StatusCode);
@@ -64,11 +81,10 @@ namespace Modules.Test.Customers
             //Arrange
             long limit = 15;
             //Act
-            var result = await _controller.GetCustomersAsync(0, limit);
-            var returnResult = Assert.IsAssignableFrom<OkResult>(result);
-            //Assert
-            Assert.Equal(200, returnResult.StatusCode);
+            var result = await _controller.GetCustomersAsync(0, limit);            
+            //Assert            
             Assert.NotNull(result);
+            _output.WriteLine($"result count:{result.Count}");
             Assert.True(result.Count > 0 && result.Count <= 15);
         }
 
@@ -78,6 +94,9 @@ namespace Modules.Test.Customers
             //Arrange
             var dbContext = DbContextHelper.GetDbContext();
             var customer = Seeders.StormyCustomerSeed().First();
+            customer.Email = "stormycommerce@example.com";
+            customer.NormalizedEmail = "STORMYCOMMERCE@EXAMPLE.COM";
+            customer.EmailConfirmed = true;
             dbContext.AddRange(customer);
             dbContext.SaveChanges();
             var customerRepo = RepositoryHelper.GetRepository<StormyCustomer>(dbContext);

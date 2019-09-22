@@ -5,7 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
-
+selfsign_cert_gen.ps1
 # Build results
 
 [Dd]ebug/
@@ -166,3 +166,6 @@ logs/
 
 # SimplCommerce.WebHost
 src/SimplCommerce.WebHost/appsettings.json
+# Web 
+Web/node_modules/*
+Web/node_modules/

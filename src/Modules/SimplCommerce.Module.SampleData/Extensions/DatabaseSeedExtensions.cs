@@ -19,12 +19,12 @@ namespace SimplCommerce.Module.SampleData
             dbContext.SaveChanges();
             dbContext.AddRange(Seeders.ProductLinkSeed(50));
             dbContext.SaveChanges();
-            dbContext.AddRange(Seeders.AddressSeed(10));
-            dbContext.SaveChanges();
+            
             dbContext.AddRange(Seeders.ProductAttributeGroupSeed(5));
             dbContext.SaveChanges();
             dbContext.AddRange(Seeders.ProductAttributeSeed(20));
             dbContext.SaveChanges();
+            
         }
     }
 }

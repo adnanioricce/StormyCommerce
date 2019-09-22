@@ -5,7 +5,5 @@ module.exports = withSass(
   withImages({
     useFileSystemPublicRoutes: false
   }),
-  withTypescript({
-
-  })
+  withTypescript()
 );
