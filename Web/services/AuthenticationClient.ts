@@ -38,9 +38,9 @@ export class AuthenticationClient implements IAuthenticationClient {
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, instance?: AxiosInstance) {
-        this.instance = instance ? instance : axios.create();
+    constructor(baseUrl?: string, instance?: AxiosInstance) {                    
         this.baseUrl = baseUrl ? baseUrl : "https://localhost:443";
+        this.instance = instance ? instance : axios.create();
     }
 
     /**

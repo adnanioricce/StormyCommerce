@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -11,14 +12,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.WebEncoders;
+using Microsoft.IdentityModel.Logging;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.WebHost.Extensions;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
+using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Logging;
+using StormyCommerce.Module.Customer.Data;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
@@ -136,6 +141,7 @@ namespace SimplCommerce.WebHost
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                IdentityModelEventSource.ShowPII = true;
             }
             else
             {
@@ -150,7 +156,7 @@ namespace SimplCommerce.WebHost
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
             );
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseCustomizedStaticFiles(env);
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -166,7 +172,14 @@ namespace SimplCommerce.WebHost
             foreach (var moduleInitializer in moduleInitializers)
             {
                 moduleInitializer.Configure(app, env);
-            }                        
+            }
+            using (var scope = app.ApplicationServices.CreateScope())
+            {                
+                var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>();
+                var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
+            }
         }
     }
 }

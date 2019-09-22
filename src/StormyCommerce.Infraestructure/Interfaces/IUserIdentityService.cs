@@ -16,6 +16,8 @@ namespace StormyCommerce.Infraestructure.Interfaces
         ApplicationUser GetUserByEmail(string email);
         ApplicationUser GetUserByUsername(string username);
         ApplicationUser GetUserById(string userId);
+        PasswordVerificationResult VerifyHashPassword(ApplicationUser user,string hashedPassword,string providedPassword);
+        Task<ApplicationUser> GetUserByClaimPrincipal(ClaimsPrincipal principal);
         Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent = true, bool lockoutInFailure = false);
         UserManager<ApplicationUser> GetUserManager();
 

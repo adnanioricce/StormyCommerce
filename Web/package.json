@@ -23,18 +23,23 @@
     "react-use": "^10.5.0",
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
   },
   "scripts": {
     "dev": "node server.js",
     "start": "cross-env NODE_ENV=production node server.js",
-    "build": "next build"
-  },  
+    "build": "next build",
+    "test": "jest"
+  },
   "name": "WitthoeftStorefront",
   "version": "1.0.15",
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "babel-jest": "^24.9.0",
     "cross-env": "^5.2.1",
     "eslint": "^6.2.2",
     "eslint-config-airbnb": "^18.0.1",
@@ -44,6 +49,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "jest": "^24.9.0",
     "prettier": "^1.18.2"
   }
 }

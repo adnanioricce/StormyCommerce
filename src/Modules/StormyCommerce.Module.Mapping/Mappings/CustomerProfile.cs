@@ -14,8 +14,8 @@ namespace StormyCommerce.Module.Mapping.Mappings
             CreateMap<CustomerReviewDto, Review>();
             CreateMap<Review, CustomerReviewDto>();
             CreateMap<CustomerDto, StormyCustomer>();
-            CreateMap<StormyCustomer, CustomerDto>();
-            CreateMap<StormyCustomer, ApplicationUser>();
+            CreateMap<StormyCustomer, CustomerDto>();                
+            CreateMap<StormyCustomer, ApplicationUser>();                
             CreateMap<ApplicationUser, StormyCustomer>();
         }
     }

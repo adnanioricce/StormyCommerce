@@ -44,8 +44,11 @@ namespace StormyCommerce.Core.Entities.Customer
         public long CustomerWishlistId { get; set; }
         public Wishlist CustomerWishlist { get; set; }
         public string UserName { get; set; }
+        public string NormalizedUserName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+        public string RefreshTokenHash { get; set; }
+        public string Role { get; set; }
         public DateTimeOffset CreatedOn { get; set; }
     }
 }

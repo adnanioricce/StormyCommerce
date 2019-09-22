@@ -20,8 +20,8 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
     [Area("Customer")]
     [ApiController]
     [Route("api/[Controller]")]
-    [Authorize(Roles.Customer)]
-    [ValidateAntiForgeryToken]
+    [Authorize("Customer")]
+    //[ValidateAntiForgeryToken]
     [EnableCors("Default")]
     public class CustomerController : Controller
     {
@@ -33,7 +33,10 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             _customerService = customerService;
             _mapper = mapper;
         }
+        //public async Task<StormyCustomer> GetCustomerByEmail()
+        //{
 
+        //}
         [HttpPost("address/create")]
         [ValidateModel]
         public async Task<IActionResult> AddAddressAsync([FromBody]Address address)
@@ -51,7 +54,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             return Ok();
         }
         [HttpGet("admin/customer/list")]
-        [Authorize(Roles.Admin)]
+        [Authorize("Admin")]
         [ValidateModel]
         public async Task<IList<StormyCustomer>> GetCustomersAsync(int minLimit, long maxLimit)
         {
@@ -61,7 +64,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         [ValidateModel]
         public async Task<ActionResult<CustomerDto>> GetCustomerByEmailOrUsernameAsync(string email,string username)
         {
-            return _mapper.Map<StormyCustomer,CustomerDto>(await _customerService.GetCustomerByUserNameOrEmail(email, username));
+            return new CustomerDto(await _customerService.GetCustomerByUserNameOrEmail(email, username));
         }
         [HttpPost("createcustomer")]
         [ValidateModel]
