@@ -4,7 +4,7 @@ import minusSVG from '../static/assets/icons/minus.svg';
 import InteractiveElement from './InteractiveElement';
 
 export default ({
-  initialValue = 0,
+  initialValue = 1,
   setValue = null,
   minValue = 0,
   maxValue = 99

@@ -30,6 +30,12 @@ class UserController {
         })
       ),
       favorited_products: yup.array().of(yup.number().min(1)),
+      cart_products: yup.array().of(
+        yup.object().shape({
+          product: yup.object(),
+          quantity: yup.number().min(0),
+        })
+      ),
     });
     try {
       await schema.validate(req.body);
@@ -89,6 +95,12 @@ class UserController {
       ),
       birth: yup.date(),
       favorited_products: yup.array().of(yup.number().min(1)),
+      cart_products: yup.array().of(
+        yup.object().shape({
+          product: yup.object(),
+          quantity: yup.number().min(0),
+        })
+      ),
     });
 
     try {
@@ -140,7 +152,7 @@ class UserController {
 
   async index(req, res) {
     const { userId } = req;
-    const user = User.findByPk(userId, {
+    const user = await User.findByPk(userId, {
       attributes: { exclude: ["created_at", "updated_at"] },
     });
     return res.json(user);

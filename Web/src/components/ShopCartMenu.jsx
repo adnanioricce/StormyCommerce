@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import Title from './Title';
 import Button from './Button';
-import toPrice from '../util/toPrice';
+import CartProductCard from './CartProductCard';
 
 const MenuButton = ({ ...props }) => (
   <Button
@@ -11,23 +11,6 @@ const MenuButton = ({ ...props }) => (
     {...props}
   />
 );
-
-const CartProductCard = (cartProduct, index) => {
-  const { image, name, price } = cartProduct;
-  return (
-    <div className="cart-product-card" key={index}>
-      <div className="photo">
-        <img src={image} alt={`${name}'s representation`} />
-      </div>
-      <div className="info">
-        <div className="title">
-          <p>{name}</p>
-        </div>
-        <div className="price">{toPrice(price)}</div>
-      </div>
-    </div>
-  );
-};
 
 export default ({ isActive }) => {
   const cartProducts = useSelector(state => state.cartProducts, shallowEqual);

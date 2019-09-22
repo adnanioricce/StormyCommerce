@@ -47,6 +47,9 @@ module.exports = {
       favorited_products: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
       },
+      cart_products: {
+        type: Sequelize.JSONB,
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,

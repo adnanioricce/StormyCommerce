@@ -20,17 +20,24 @@ export default () => {
     }
   }
   function handleSearchResultClick(name) {
-    route.replace(`/products/${name.replace(/\s/g, '-')}`);
+    route.push(`/products/${name.replace(/\s/g, '-')}`);
   }
   function handleFocus() {
     setFocus(true);
   }
-  function handleBlur() {
-    setFocus(false);
-    setSearchResults([]);
+  function handleBlur(e) {
+    if (
+      !(
+        e.relatedTarget &&
+        e.relatedTarget.classList &&
+        [...e.relatedTarget.classList].includes('search-result')
+      )
+    ) {
+      setFocus(false);
+      setSearchResults([]);
+    }
   }
   function handleKeyPress(e) {
-    console.log(e);
     if (e.key === 'ArrowDown') {
       console.log('arrowdown', selectedResponseIndex, searchResults.length);
       if (selectedResponseIndex < searchResults.length - 1) {

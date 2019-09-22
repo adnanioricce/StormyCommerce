@@ -25,8 +25,8 @@ const initializeStore = initialState => {
     const storage = require('redux-persist/lib/storage').default;
     const persistConfig = {
       key: 'root',
+      // blacklist: ['cartProducts'],
       storage
-      // blacklist: ['user']
     };
     store = createStore(
       persistReducer(persistConfig, reducers),

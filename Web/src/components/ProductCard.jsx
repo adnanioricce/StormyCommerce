@@ -4,7 +4,7 @@ import FavoriteFloater from './FavoriteFloater';
 import InteractiveElement from './InteractiveElement';
 import toPrice from '../util/toPrice';
 
-const ProductCard = ({  name, image, price, id }, index) => {
+const ProductCard = ({ name, image, price, id }, index) => {
   // const [image, setImage] = React.useState('');
   // React.useEffect(()=>{
   //   fetch(product.image).then(
@@ -21,10 +21,7 @@ const ProductCard = ({  name, image, price, id }, index) => {
   }
   return (
     <div className="product-card" key={index}>
-      <FavoriteFloater
-        style={{ top: -1, right: -1 }}
-        productId={id}
-      />
+      <FavoriteFloater style={{ top: -1, right: -1 }} productId={id} />
       <Link
         href={`/products/${name.replace(/\s/g, '-')}`}
         // as={`/produtos/${name.replace(/\s/g, '-')}`}

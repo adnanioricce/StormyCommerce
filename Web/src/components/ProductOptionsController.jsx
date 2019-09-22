@@ -10,13 +10,16 @@ import Separator from './Separator';
 import actions from '../actions';
 
 function ProductOptionsController({ currentProduct }) {
-  const [currentColor, setCurrentColor] = React.useState(currentProduct.colors[0].value);
+  const [quantity, setQuantity] = React.useState(0);
+  const [currentColor, setCurrentColor] = React.useState(
+    currentProduct.colors[0].value
+  );
   const [currentSize, setCurrentSize] = React.useState(15);
   const dispatch = useDispatch();
   const { price, oldPrice } = currentProduct;
   const handleAddToCart = () => {
     // dispatch(actions.resetCart())
-    dispatch(actions.addProductToCart(currentProduct));
+    dispatch(actions.addProductToCart(currentProduct, quantity));
   };
   return (
     <div className="product-options-controller">
@@ -37,11 +40,14 @@ function ProductOptionsController({ currentProduct }) {
         <SelectInput
           defaultOption={currentSize}
           setCurrentOption={setCurrentSize}
-          options={currentProduct.sizes.map(size=>({label: size, value: size}))}
+          options={currentProduct.sizes.map(size => ({
+            label: size,
+            value: size
+          }))}
         />
       </Section>
       <Section label="Quantidade">
-        <QuantityChooser />
+        <QuantityChooser setValue={setQuantity} />
       </Section>
       <Separator />
       <Button onClick={handleAddToCart} label="Adicionar ao Carrinho" />

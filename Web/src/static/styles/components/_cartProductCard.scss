@@ -1,11 +1,39 @@
 .cart-product-card{
-  width: 80%;
-  margin: 5px auto;
-  border: 1px solid $primary-color;
   display: flex;
-  flex-direction: row;
-  color: $primary-color;
-  font-family: "Roboto", sans-serif;
+  align-items: center;
+  justify-content: space-around;
+  .main-content{
+    width: 80%;
+    margin: 5px 0;
+    border: 1px solid $primary-color;
+    display: flex;
+    flex-direction: row;
+    color: $primary-color;
+    font-family: "Roboto", sans-serif;
+  }
+  .delete{
+    $size: 40px;
+    width: $size;
+    height: $size;
+    background-color: $google-color;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    border: 1px solid $primary-color;
+    @media screen and (hover: hover) and (pointer: fine){
+      transition: transform .1s ease-in-out;
+      &:hover{
+        transform: scale(1.1);
+      }
+    }
+    &:active{
+      transition: transform .05 ease-in-out;
+      transform: scale(0.9);
+    }
+  }
   // font-size: 1rem;
   .photo{
     height: 50px;
@@ -23,7 +51,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    
+    position: relative;
   }
   .title, .price{
     display: flex;
@@ -47,5 +75,19 @@
   .price{
     font-size: 12px;
     text-align: center;
+  }
+  .quantity-display{
+    $size: 20px;
+    width: $size+10;
+    height: $size;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $primary-color;
+    background-color: white;
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    font-size: 12px;
   }
 }

@@ -21,6 +21,7 @@ module.exports = {
         gender: "m",
         birth: "2002-01-14",
         favorited_products: null,
+		cart_products: null,
         created_at: new Date(),
         updated_at: new Date(),
       },

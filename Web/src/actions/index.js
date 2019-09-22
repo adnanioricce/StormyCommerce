@@ -1,13 +1,16 @@
 export const consts = {
-  favorite: 'PRODUCTS/FAVORITE',
   fetchProducts: 'PRODUCTS/FETCH_PRODUCTS',
   setProducts: 'PRODUCTS/SET_PRODUCTS',
   addProductToCart: 'CART/ADD_PRODUCT',
   resetCart: 'CART/RESET',
   loginUser: 'USER/LOGIN',
-  addProductToFavorites: 'USER/FAVORITE_PRODUCT',
-  removeProductFromFavorites: 'USER/UNFAVORITE_PRODUCT',
-  disconnectUser: 'USER/DISCONNECT'
+  addProductToFavorites: 'FAVORITED_PRODUCTS/ADD',
+  removeProductFromFavorites: 'FAVORITED_PRODUCTS/REMOVE',
+  disconnectUser: 'USER/DISCONNECT',
+  setFavoritedProducts: 'FAVORITED_PRODUCTS/SET',
+  removeProductFromCart: 'CART/REMOVE_PRODUCT',
+  deleteProductFromCart: 'CART/DELETE_PRODUCT',
+  setCartProducts: 'CART/SET_PRODUCTS'
 };
 const actions = {
   favorite: productID => ({
@@ -21,9 +24,15 @@ const actions = {
   fetchProducts: () => ({
     type: consts.fetchProducts
   }),
-  addProductToCart: product => ({
+  addProductToCart: (product, quantity = 0) => ({
     type: consts.addProductToCart,
-    product
+    product,
+    quantity
+  }),
+  removeProductFromCart: (product, quantity = 0) => ({
+    type: consts.removeProductFromCart,
+    product,
+    quantity
   }),
   login: (user, token) => ({
     type: consts.loginUser,
@@ -43,6 +52,18 @@ const actions = {
   unFavoriteProduct: productId => ({
     type: consts.removeProductFromFavorites,
     productId
+  }),
+  setFavoritedProducts: products => ({
+    type: consts.setFavoritedProducts,
+    products
+  }),
+  deleteProductFromCart: product => ({
+    type: consts.deleteProductFromCart,
+    product
+  }),
+  setCartProducts: products => ({
+    type: consts.setCartProducts,
+    products
   })
 };
 export default actions;

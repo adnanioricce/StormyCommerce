@@ -15,6 +15,7 @@ class User extends Model {
         birth: Sequelize.DATE(),
         adresses: Sequelize.ARRAY(Sequelize.JSONB),
         favorited_products: Sequelize.ARRAY(Sequelize.INTEGER),
+        cart_products: Sequelize.JSONB,
       },
       {
         sequelize,

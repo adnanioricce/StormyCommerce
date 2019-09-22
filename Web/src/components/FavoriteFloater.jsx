@@ -7,7 +7,7 @@ import InteractiveElement from './InteractiveElement';
 
 function FavoriteFloater({ style, productId }) {
   const favoritedProducts = useSelector(
-    state => state.user.favoritedProducts,
+    state => state.favoritedProducts,
     shallowEqual
   );
   const dispatch = useDispatch();
