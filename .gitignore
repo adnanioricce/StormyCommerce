@@ -166,6 +166,8 @@ logs/
 
 # SimplCommerce.WebHost
 src/SimplCommerce.WebHost/appsettings.json
+src/SimplCommerce.WebHost/logs
+src/SimplCommerce.WebHost/logs/*
 # Web 
 Web/node_modules/*
 Web/node_modules/
