@@ -52,7 +52,8 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 
             _logger.LogInformation($"Email confirmed at {DateTimeOffset.UtcNow}");
 
-            var confirmedUser = _identityService.GetUserById(userId);            
+            var confirmedUser = _identityService.GetUserById(userId);
+            await _identityService.AssignUserToRole(confirmedUser, Roles.Customer);
             var customer = new StormyCustomer
             {
                 Email = confirmedUser.Email,
@@ -63,7 +64,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                 PhoneNumberConfirmed = confirmedUser.PhoneNumberConfirmed,
                 UserName = confirmedUser.UserName,
                 NormalizedUserName = confirmedUser.NormalizedUserName,
-                RefreshTokenHash = confirmedUser.RefreshTokenHash,                
+                RefreshTokenHash = confirmedUser.RefreshTokenHash,     
                 Role = Roles.Customer,
                 LastModified = DateTimeOffset.UtcNow,
                 CreatedOn = DateTimeOffset.UtcNow,

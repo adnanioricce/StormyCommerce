@@ -17,7 +17,7 @@ namespace StormyCommerce.Module.Customer.Services
     public class UserIdentityService : IUserIdentityService
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;        
         private readonly IStormyRepository<StormyCustomer> _customerRepository;
 
         public UserIdentityService(SignInManager<ApplicationUser> signInManager,
@@ -116,6 +116,11 @@ namespace StormyCommerce.Module.Customer.Services
         public Task<bool> IsEmailConfirmedAsync(ApplicationUser user)
         {
             return _userManager.IsEmailConfirmedAsync(user);
+        }
+
+        public Task<IdentityResult> AssignUserToRole(ApplicationUser user, string roleName)
+        {
+            return _userManager.AddToRoleAsync(user, roleName);
         }
     }
 }

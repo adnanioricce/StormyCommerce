@@ -1,0 +1,12 @@
+.shop-cart-menu{
+  @extend .menu;
+  left: unset;
+  right: 0;
+  border-right: none;
+  width: 300px;
+  transform: translateX(100%);
+  &.active{
+    transform: translateX(0%);
+  }
+  
+}

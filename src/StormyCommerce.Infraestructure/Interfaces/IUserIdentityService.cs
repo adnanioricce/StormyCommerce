@@ -11,6 +11,7 @@ namespace StormyCommerce.Infraestructure.Interfaces
         Task<IdentityResult> ConfirmEmailAsync(ApplicationUser user,string code);
         Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password);
         Task<IdentityResult> ResetPasswordAsync(ApplicationUser user,string token,string newPassword);
+        Task<IdentityResult> AssignUserToRole(ApplicationUser user,string roleName);
         Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user);
         Task<bool> IsEmailConfirmedAsync(ApplicationUser user);
         ApplicationUser GetUserByEmail(string email);

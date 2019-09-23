@@ -157,7 +157,7 @@ namespace SimplCommerce.WebHost
             );
 
             // app.UseHttpsRedirection();
-            app.UseCustomizedStaticFiles(env);
+            // app.UseCustomizedStaticFiles(env);
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
