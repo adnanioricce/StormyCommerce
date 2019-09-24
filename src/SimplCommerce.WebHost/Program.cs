@@ -28,7 +28,7 @@ namespace SimplCommerce.WebHost
         // Changed to BuildWebHost2 to make EF don't pickup during design time
         private static IWebHost BuildWebHost2(string[] args) =>
             Microsoft.AspNetCore.WebHost.CreateDefaultBuilder(args)
-                .UseKestrel((context,options) =>
+/*                .UseKestrel((context,options) =>
                 {
                     options.Limits.MaxConcurrentConnections = 100;
                     options.Limits.MaxConcurrentUpgradedConnections = 100;
@@ -58,6 +58,7 @@ namespace SimplCommerce.WebHost
                     options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
                     options.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
                 })
+                */
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration(SetupConfiguration)
                 .ConfigureLogging(SetupLogging)
