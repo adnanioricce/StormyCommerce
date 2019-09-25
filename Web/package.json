@@ -1,17 +1,20 @@
 {
-  "name": "wittoeft-website",
+  "name": "WitthoeftStorefront",
   "version": "1.0.15",
   "main": "index.js",
   "license": "MIT",
   "proxy": "http://localhost:5000",
   "scripts": {
-    "dev": "npx cross-env NODE_ENV=development node server.js",
-    "remotedev": "npx remotedev --hostname=localhost --port=3333",
-    "start": "npx cross-env NODE_ENV=production node server.js",
-    "build": "next build"
+    "dev": "node server.js",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "build": "next build",
+    "test": "jest"
   },
   "devDependencies": {
-    "@types/next": "^8.0.6",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "babel-jest": "^24.9.0",
+    "cross-env": "^5.2.1",
     "eslint": "^6.2.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.1.0",
@@ -20,9 +23,10 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "jest": "^24.9.0",
     "prettier": "^1.18.2",
-    "remote-redux-devtools": "^0.5.16",
-    "remotedev-server": "^0.3.1"
+    "redux-persist": "^6.0.0",
+    "redux-saga": "^1.0.5"
   },
   "dependencies": {
     "@types/jest": "^24.0.18",
@@ -50,33 +54,5 @@
     "redux-saga": "^1.0.5",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
-  },
-  "scripts": {
-    "dev": "node server.js",
-    "start": "cross-env NODE_ENV=production node server.js",
-    "build": "next build",
-    "test": "jest"
-  },
-  "name": "WitthoeftStorefront",
-  "version": "1.0.15",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "^7.6.0",
-    "@babel/preset-env": "^7.6.0",
-    "babel-jest": "^24.9.0",
-    "cross-env": "^5.2.1",
-    "eslint": "^6.2.2",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-prettier": "^6.1.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "jest": "^24.9.0",
-    "prettier": "^1.18.2",
-    "redux-persist": "^6.0.0",
-    "redux-saga": "^1.0.5"
   }
 }

@@ -38,13 +38,18 @@ export interface ICustomerClient {
 export class CustomerClient implements ICustomerClient {
     private instance: AxiosInstance;
     private baseUrl: string;
+	private accessToken: object;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(baseUrl?: string, instance?: AxiosInstance) {
         this.instance = instance ? instance : axios.create();
         this.baseUrl = baseUrl ? baseUrl : "https://localhost:443";
     }
-
+	setAccessToken(token?: object | null | undefined){
+		if(!token){
+			accessToken = token;
+		}
+	}
     /**
      * @param address (optional) 
      * @return Success

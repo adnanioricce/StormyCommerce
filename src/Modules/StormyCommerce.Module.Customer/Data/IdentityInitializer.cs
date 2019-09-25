@@ -56,6 +56,15 @@ namespace StormyCommerce.Module.Customer.Data
                         EmailConfirmed = true,
                         Role = new IdentityRole(Roles.Admin)
                     }, "!D4vpassword",Roles.Admin);                
+                CreateUser(
+                    //TODO: actually, I think is not secure to initialize this here...
+                    new ApplicationUser()
+                    {
+                        UserName = "stormydev",
+                        Email = "adnangonzaga@gmail.com",
+                        EmailConfirmed = true,
+                        Role = new IdentityRole(Roles.Customer)
+                    }, "!D4velopment",Roles.Customer);                
             }
         }
 
