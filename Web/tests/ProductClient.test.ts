@@ -1,5 +1,4 @@
-import ProductClient from "../services/ProductClient";
-const fs = require('fs');
+import ProductClient from "../services/productClient";
 describe('should return ProductDto when pass id',() => {
     it('getProductById',async () =>{
         // const id = 1;

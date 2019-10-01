@@ -6,6 +6,10 @@
 *.user
 *.sln.docstates
 selfsign_cert_gen.ps1
+.vscode 
+.devcontainer
+bin
+obj
 # Build results
 
 [Dd]ebug/

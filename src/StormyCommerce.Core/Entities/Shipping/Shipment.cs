@@ -16,21 +16,17 @@ namespace StormyCommerce.Core.Entities
             Id = id;
         }
 
-        public Shipment()
-        {
-        }
+        public Shipment(){}        
 
         public long StormyCustomerId { get; set; }
         public string UserId { get; set; }
-
         // public long OrderId { get; set; }
         // public StormyOrder Order { get; set; }
         public StormyCustomer Customer { get; set; }
-
         public string WhoReceives { get; set; }
         public string TrackNumber { get; set; }
         public string ShipmentMethod { get; set; }
-        public string ShipmentProviderName { get; set; }
+        public string ShipmentProvider { get; set; }
         public decimal TotalWeight { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime ShippedDate { get; set; }
@@ -41,12 +37,10 @@ namespace StormyCommerce.Core.Entities
         public long BillingAddressId { get; set; }
         public Address BillingAddress { get; set; }
         public long DestinationAddressId { get; set; }
-        public Address DestinationAddress { get; set; }
+        public Address DestinationAddress { get; set; }        
         public List<ShipmentItem> Items { get; set; }
         public decimal Height { get; set; }
         public decimal Width { get; set; }
-        public decimal Diameter { get; set; }
-        // public decimal ValorDeclarado { get; set; }
-        // public string AvisoDeRecebimento { get; set; }
+        public decimal Diameter { get; set; }        
     }
 }

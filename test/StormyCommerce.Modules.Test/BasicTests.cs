@@ -26,12 +26,12 @@ namespace StormyCommerce.Modules.IntegrationTest
             _output = output;
         }
         [Theory]
-        [InlineData("/api/Product/GetProductById/1?id=1")]
-        [InlineData("/api/Product/GetProductOverviewAsync/1?id=1")]
+        [InlineData("/api/Product/GetProductById/id=1")]
+        [InlineData("/api/Product/GetProductOverviewAsync/id=1")]
         [InlineData("/api/Product/GetAllProducts?startIndex=1&endIndex=15")]
         [InlineData("/api/Product/GetNumberOfProductsInCategory/")]
         [InlineData("/api/Category/GetAll/list")]
-        [InlineData("/api/Category/GetCategoryById/1")]  
+        [InlineData("/api/Category/GetCategoryById/id=1")]  
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             //Arrange            

@@ -5,6 +5,7 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using System;
 using System.Threading.Tasks;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
@@ -29,6 +30,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         [ValidateModel]
         public async Task CreateOrder([FromBody] OrderDto orderDto)
         {
+            throw new NotImplementedException();
             //_orderService.CreateOrderAsync(orderDto);
         }
     }

@@ -1,6 +1,8 @@
 ﻿using Moq;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Module.Shipping.Services;
+using StormyCommerce.Module.Orders.Area.Models;
+using StormyCommerce.Module.Orders.Services;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TestHelperLibrary.Utils;
@@ -15,7 +17,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Shipping
             var fakeHttpClient = new Mock<HttpClient>();
             fakeHttpClient.Setup(f => f.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(new HttpResponseMessage(System.Net.HttpStatusCode.OK));
-            return new CorreiosService(RepositoryHelper.GetRepository<Shipment>(), fakeHttpClient.Object);
+            return new CorreiosService(RepositoryHelper.GetRepository<Shipment>(), fakeHttpClient.Object,null);
         }
 
         public ShipmentServiceTest()
@@ -44,9 +46,10 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Shipping
             // };
             var service = CreateService();
             //Act
-            var result = await service.CalculateDeliveryPrice(null);
+            var result = await service.CalculateDeliveryPriceAndTime(null);
             //Assert
-            Assert.Equal(14.99m, result.Price, 2);
+            cServico containPrice = result.Servicos.ToList().FirstOrDefault(s => s.Valor == "R$14.55");
+            Assert.NotNull(containPrice);
         }
 
         [Fact]

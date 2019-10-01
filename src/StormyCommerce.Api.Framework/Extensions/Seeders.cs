@@ -63,7 +63,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.LastModified, DateTimeOffset.UtcNow)
                 .RuleFor(v => v.Price, f => f.Random.Decimal(8.90m, 42.90m))
                 .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<string>("PAC", "Sedex"))
-                .RuleFor(v => v.ShipmentProviderName, "Correios")
+                .RuleFor(v => v.ShipmentProvider, "Correios")
                 .RuleFor(v => v.ShippedDate, f => f.Date.Recent())
                 .RuleFor(v => v.TotalWeight, f => f.Random.Decimal(5.0m, 20.0m))
                 .RuleFor(v => v.Diameter, 0.0m)

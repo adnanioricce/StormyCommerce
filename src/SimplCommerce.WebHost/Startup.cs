@@ -27,6 +27,7 @@ using StormyCommerce.Module.Customer.Data;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
@@ -92,8 +93,8 @@ namespace SimplCommerce.WebHost
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
             });
+            // services.AddSingleModule(_hostingEnvironment.ContentRootPath,"StormyCommerce.Module.Shipping");
             services.AddModules(_hostingEnvironment.ContentRootPath);
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -103,9 +104,10 @@ namespace SimplCommerce.WebHost
 
             services.AddStormyDataStore(_configuration);
             //services.AddCustomizedIdentity(_configuration);
-            services.AddHttpClient();
+            services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
             services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+            services.AddTransient<HttpClient>();
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander()); });
             services.Configure<WebEncoderOptions>(options =>
