@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Xunit.Abstractions;
 using StormyCommerce.Module.Orders.Area.Models;
+using System.Linq;
 
 namespace StormyCommerce.Modules.Test.Controllers
 {
@@ -48,7 +49,7 @@ namespace StormyCommerce.Modules.Test.Controllers
             _output.WriteLine($"response status code {response.StatusCode},content: {await response.Content.ReadAsStringAsync()}");
             //Then            
             var result = Assert.IsType<cResultado>(response);                        
-            var serviceCost = result.ToList().First();
+            var serviceCost = result.Servicos.ToList().First();
             Assert.Equal("26,10",serviceCost.Valor);
         }
     }
