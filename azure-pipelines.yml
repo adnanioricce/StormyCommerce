@@ -58,6 +58,8 @@ jobs:
   - task: PowerShell@2
     inputs:
       filePath: .\run-tests.ps1
+      errorActionPreference: 'continue'
+      pwsh: true
     displayName: 'run tests'
   - task: PublishTestResults@2
     displayName: 'Publish Test Results **/*.trx'
