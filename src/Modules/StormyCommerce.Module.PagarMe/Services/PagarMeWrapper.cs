@@ -6,6 +6,7 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels;
 using System;
+using System.Threading.Tasks;
 
 namespace StormyCommerce.Module.PagarMe.Services
 {
@@ -22,32 +23,17 @@ namespace StormyCommerce.Module.PagarMe.Services
             _pagarMeService = pagarMeService;            
             _paymentRepository = paymentRepository;
             _mapper = mapper;            
-        }                
-        public Result SaveTransaction(Transaction transaction)
-        {   
-            transaction.Save();
-            return Result.Ok();            
-        }           
-        public Result<string> CreateBoleto(Transaction transaction)
+        }                        
+        public async Task<Result> Charge(TransactionVm transactionVm)
         {      
-            var transactionResult = SaveTransaction(transaction);      
-            if(!transactionResult.Success){
-                return Result.Fail<string>(transactionResult.Error);   
-            }            
-            var entryTransaction = _pagarMeService.Transactions.Find(transaction.Id,true);
-            return Result.Ok<string>(entryTransaction.BoletoUrl);
+            var transaction = _mapper.Map<Transaction>(transactionVm);
+            transaction.PaymentMethod = (PaymentMethod)transactionVm.PaymentMethod;
+            await transaction.SaveAsync();                                          
+            return Result.Ok();
         }
-        // public 
-        //public Result CheckoutBoleto(Transaction transaction)
-        //{
-        //    var transaction = _mapper.Map<TransactionVm, Transaction>(transactionVm);
-        //    var payment = _mapper.Map<Payment>(transaction);
-        //    var shipping = _mapper.Map<Shipment>(transaction);
-
-        //    payment.PaymentStatus = PaymentStatus.Pending;
-        //    await _paymentRepository.AddAsync(payment);
-        //    transaction.Save();
-        //}
-        
+        public Transaction GetTransactionById(string id)
+        {
+            return _pagarMeService.Transactions.Find(id,true);
+        }                
     }
 }

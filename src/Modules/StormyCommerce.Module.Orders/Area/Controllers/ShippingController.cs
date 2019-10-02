@@ -27,11 +27,8 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         }
         [HttpPost("calcdelivery")]
         [ValidateModel]
-        public async Task<ActionResult<cResultado>> CalculateDeliveryCost(CalculateShippingModel model)
-        {
-            //?The map is actually unecessary, what is the point actually? this don't is even on the domain model 
-            //Try at least to create a more readable version of the service if you plan to wrap it
-            var response = await _correiosService.CalculateDeliveryPriceAndTime(model);                        
+        public async Task<ActionResult<cResultado>> CalculateDeliveryCost(CalculateShippingModel model){            
+            cResultado response = await _correiosService.CalculateDeliveryPriceAndTime(model);                        
             return Ok(new { result = response });
         }       
     }
