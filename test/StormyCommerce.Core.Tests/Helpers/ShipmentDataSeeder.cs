@@ -1,13 +1,13 @@
 ﻿using StormyCommerce.Core.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace StormyCommerce.Core.Tests.Helpers
 {
     public static class ShipmentDataSeeder
     {
         private static readonly string sampleTrackNumber = "D78F02B4-A0F4-4D1E-BF27-26490C5FE087";
+
         public static List<Shipment> GetShipmentSeeders()
         {
             return new List<Shipment>
@@ -15,6 +15,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 GetShipmentSeed()
             };
         }
+
         public static Shipment GetShipmentSeed()
         {
             return new Shipment(2)

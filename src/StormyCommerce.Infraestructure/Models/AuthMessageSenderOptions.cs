@@ -1,8 +1,8 @@
-namespace StormyCommerce.Infraestructure.Models
+﻿namespace StormyCommerce.Infraestructure.Models
 {
-	public class AuthMessageSenderOptions
-	{
-		public string SendGridUser {get;set;}
-		public string SendGridKey {get;set;}
-	}
+    public class AuthMessageSenderOptions
+    {
+        public string SendGridUser { get; set; }
+        public string SendGridKey { get; set; }
+    }
 }

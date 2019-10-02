@@ -2,6 +2,6 @@
 {
     public class ProductMediaDto
     {
-        public string MediaUrl { get; set; }        
+        public string MediaUrl { get; set; }
     }
 }

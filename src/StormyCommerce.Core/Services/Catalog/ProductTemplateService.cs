@@ -1,67 +1,77 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
+using StormyCommerce.Core.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductTemplateService : IProductTemplateService
     {
-        private readonly IStormyRepository<ProductTemplate> _productTemplateRepository; 
+        private readonly IStormyRepository<ProductTemplate> _productTemplateRepository;
         private readonly IStormyRepository<ProductAttribute> _productAttributeRepository;
         private readonly IProductTemplateProductAttributeRepository _productTemplateProductAttributeRepository;
-        //Why this exists?        
+
+        //Why this exists?
         public ProductTemplateService(IStormyRepository<ProductTemplate> productTemplateRepository,
-        IStormyRepository<ProductAttribute> productAttributeRepository,
-        IProductTemplateProductAttributeRepository productTemplateProductAttribute)
+            IStormyRepository<ProductAttribute> productAttributeRepository,
+            IProductTemplateProductAttributeRepository productTemplateProductAttribute)
         {
             _productTemplateRepository = productTemplateRepository;
             _productAttributeRepository = productAttributeRepository;
             _productTemplateProductAttributeRepository = productTemplateProductAttribute;
         }
-        public async Task<ProductTemplate> GetProductTemplateByIdAsync(long id)
+
+        public async Task<Result<ProductTemplate>> GetProductTemplateByIdAsync(long id)
         {
-            return await _productTemplateRepository.GetByIdAsync(id);
+            return Result.Ok(await _productTemplateRepository.GetByIdAsync(id));
         }
-        public async Task CreateProductTemplateAsync(ProductTemplate productTemplate)
+
+        public async Task<Result> CreateProductTemplateAsync(ProductTemplate productTemplate)
         {
             await _productTemplateRepository.AddAsync(productTemplate);
+            return Result.Ok();
         }
+
         //TODO:change all this to a DTO
-        public async Task EditProductTemplateAsync(long id,ProductTemplate productTemplate)
+        public async Task<Result> EditProductTemplateAsync(long id, ProductTemplate productTemplate)
         {
             var _template = _productTemplateRepository.Table
             .Include(attributes => attributes.ProductAttributes)
             .Where(template => template.Id == id)
             .FirstOrDefault();
             _template.Name = productTemplate.Name;
-            foreach(var _attribute in _template.ProductAttributes){
-                if(productTemplate.ProductAttributes.Any(attrib => attrib.ProductAttributeId == _attribute.ProductAttributeId))
+            foreach (var _attribute in _template.ProductAttributes)
+            {
+                if (productTemplate.ProductAttributes.Any(attrib => attrib.ProductAttributeId == _attribute.ProductAttributeId))
                     continue;
 
                 _template.AddAttribute(_attribute.ProductAttributeId);
             }
             var deletedAttributes = productTemplate.ProductAttributes
             .Where(attrib => !productTemplate.ProductAttributes
-                    .Select(atr => atr.ProductAttributeId)
-                    .Contains(attrib.ProductAttributeId));
+            .Select(atr => atr.ProductAttributeId)
+            .Contains(attrib.ProductAttributeId));
             foreach (var deletedAttribute in deletedAttributes)
             {
                 deletedAttribute.ProductTemplate = null;
                 //!s NOT IMPLEMENTED
                 await _productTemplateProductAttributeRepository.UpdateAsync(deletedAttribute);
             }
-        }        
+            return Result.Ok();
+        }
+
         public async Task DeleteProductTemplate(long id)
         {
-            var productTemplate = await _productTemplateRepository.GetByIdAsync(id); 
-            if(productTemplate == null)
+            var productTemplate = await _productTemplateRepository.GetByIdAsync(id);
+            if (productTemplate == null)
                 return;
 
-            _productTemplateRepository.Delete(productTemplate);            
+            _productTemplateRepository.Delete(productTemplate);
         }
-        // public async Task 
+
+        // public async Task
     }
 }

@@ -1,5 +1,4 @@
 ﻿using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Module.Catalog.Dtos;
 using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
@@ -8,20 +7,21 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
     {
         public CategoryDto()
         {
-
         }
+
         public CategoryDto(Category category)
-        {            
+        {
             Id = category.Id;
             Name = category.Name;
             Slug = category.Slug;
             DisplayOrder = category.DisplayOrder;
             Childrens = category.ToCategoryDtoChildrens();
-            Parent = new CategoryDto(category.Parent);
+            Parent = category.Parent == null ? new CategoryDto() : new CategoryDto(category.Parent);
             Description = category.Description;
             ThumbnailImageUrl = category.ThumbnailImageUrl;
         }
-        public long Id { get; private set; }
+
+        public long Id { get; private set; } = 0;
         public string Name { get; private set; }
         public string Slug { get; private set; }
         public int DisplayOrder { get; private set; }

@@ -1,23 +1,21 @@
 ﻿using Moq;
+using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Services.Orders;
-using StormyCommerce.Core.Tests.Helpers;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using TestHelperLibrary.Utils;
 using Xunit;
-using StormyCommerce.Api.Framework.Extensions;
+
 namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
 {
     public class OrderServiceTests : IDisposable
-    {        
+    {
         private MockRepository mockRepository;
         private Mock<IStormyRepository<StormyOrder>> mockStormyRepositoryStormyOrder;
         private Mock<IStormyRepository<OrderHistory>> mockStormyRepositoryOrderHistory;
@@ -37,34 +35,34 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
 
         private OrderService CreateService()
         {
-            var dbContext = DbContextHelper.GetDbContext();                            
             return new OrderService(
-                new StormyRepository<StormyOrder>(dbContext),
-               this.mockStormyRepositoryOrderHistory.Object);                      
+                RepositoryHelper.GetRepository<StormyOrder>(),
+               this.mockStormyRepositoryOrderHistory.Object);
         }
+
         private OrderService CreateServiceWithSampleData()
         {
             var dbContext = DbContextHelper.GetDbContext();
-            var fakeOrders = Seeders.StormyOrderSeed(5);         
+            var fakeOrders = Seeders.StormyOrderSeed(5);
             dbContext.AddRange(fakeOrders);
-            dbContext.SaveChanges();
+            dbContext.SaveChanges(true);
             return new OrderService(new StormyRepository<StormyOrder>(dbContext), this.mockStormyRepositoryOrderHistory.Object);
         }
 
         [Fact]
-        public async Task CancelOrderAsync_StateUnderTest_ExpectedBehavior()
+        public async Task CancelOrderAsync_ExistingEntityWithIdEqual2_ChangeIsCancelledToTrueAndChangeUnitsInStockAndUnitsOnOrderValues()
         {
             // Arrange
             var service = this.CreateServiceWithSampleData();
             long id = 2;
             // Act
-            var result = await service.CancelOrderAsync(
-                id);
-            var order = await service.GetOrderByIdAsync(id);                                 
+            var result = await service.CancelOrderAsync(id);
+            var order = await service.GetOrderByIdAsync(id);
             // Assert
             Assert.True(result.Success);
-            Assert.Equal(order.Value.IsCancelled, result.Value.IsCancelled);           
-        }        
+            Assert.Equal(order.Value.IsCancelled, result.Value.IsCancelled);
+        }
+
         //TODO:Check Integrity of the entry
         [Fact]
         public async Task CreateOrderAsync_ValidOrderInput_ReturnSuccessResultWithOrderDto()
@@ -98,15 +96,14 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
                 ShippingStatus = Entities.Shipping.ShippingStatus.Shipped,
                 Payment = new Entities.Payments.Payment(0)
                 {
-                    
-                },                
+                },
             };
             // Act
             Result<OrderDto> result = await service.CreateOrderAsync(
                 entry);
 
             // Assert
-            Assert.True(result.Success);            
+            Assert.True(result.Success);
             Assert.Equal(entry.OrderUniqueKey, result.Value.OrderUniqueKey);
         }
 
@@ -144,10 +141,10 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
             };
 
             // Act
-            var result = await service.EditOrderAsync(id,entity);
+            var result = await service.EditOrderAsync(id, entity);
 
             // Assert
-            Assert.True(result.Success);            
+            Assert.True(result.Success);
         }
 
         [Fact]
@@ -161,32 +158,33 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
             var result = await service.GetOrderByIdAsync(id);
 
             // Assert
-            Assert.True(result.Success);            
+            Assert.True(result.Success);
             //Assert.Equal(sampleOrder.OrderUniqueKey,result.Value.OrderUniqueKey);
-        }       
+        }
+
+        //[Fact]
+        //public async Task GetOrderHistoryAsync_ExistingStormyOrderWithIdEqual1_GetAllChangesRecordsOfTheOrder()
+        //{
+        //    // Arrange
+        //    var service = this.CreateService();
+
+        //    // Act
+        //    var result = await service.GetOrderHistoryAsync();
+
+        //    // Assert
+        //    Assert.True(false);
+        //}
+
         [Fact]
-        public async Task GetOrderHistoryAsync_ExistingStormyOrderWithIdEqual1_GetAllChangesRecordsOfTheOrder()
+        public async Task GetOrdersAsync_ExistingOrderWithIdEqual5_ReturnIdWithGivenId()
         {
             // Arrange
-            var service = this.CreateService();
-
-            // Act
-            var result = await service.GetOrderHistoryAsync();
-
-            // Assert
-            Assert.True(false);
-        }        
-
-        [Fact]
-        public async Task GetOrdersAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var service = this.CreateServiceWithSampleData();            
+            var service = this.CreateServiceWithSampleData();
             // Act
             var result = await service.GetOrdersAsync();
             // Assert
             Assert.True(result.Success);
-            Assert.Equal(5,result.Value.Count);            
+            Assert.Equal(5, result.Value.Count);
             //Assert.
         }
     }

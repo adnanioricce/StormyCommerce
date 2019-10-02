@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using SimplCommerce.Infrastructure.Modules;
-using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces.Infraestructure;
 
 namespace SimplCommerce.Module.DinkToPdf
 {

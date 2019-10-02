@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Vendor;
-using StormyCommerce.Api.Framework.Extensions;
+
 namespace StormyCommerce.Infraestructure.Data.Mapping.Vendors
 {
     public class StormyVendorMap : IStormyModelBuilder
@@ -10,7 +9,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Vendors
         {
             modelBuilder.Entity<StormyVendor>(entity =>
             {
-                entity.HasData(Seeders.StormyVendorSeed(20));
+                //entity.HasData(Seeders.StormyVendorSeed(20));
             });
         }
     }

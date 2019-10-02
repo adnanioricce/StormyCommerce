@@ -1,7 +1,7 @@
-namespace StormyCommerce.Core.Interfaces.Infraestructure
+﻿namespace StormyCommerce.Core.Interfaces.Infraestructure
 {
-	public interface IPdfConverter
-	{
-		byte[] Convert(string htmlContent);
-	}
+    public interface IPdfConverter
+    {
+        byte[] Convert(string htmlContent);
+    }
 }

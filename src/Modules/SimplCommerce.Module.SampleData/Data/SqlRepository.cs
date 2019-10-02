@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using StormyCommerce.Infraestructure.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using SimplCommerce.Module.Core.Data;
 
 namespace SimplCommerce.Module.SampleData.Data
 {
@@ -12,7 +12,7 @@ namespace SimplCommerce.Module.SampleData.Data
         private readonly DbContext _dbContext;
         private readonly ILogger _logger;
 
-        public SqlRepository(SimplDbContext dbContext, ILogger<SqlRepository> logger)
+        public SqlRepository(StormyDbContext dbContext, ILogger<SqlRepository> logger)
         {
             _dbContext = dbContext;
             _logger = logger;

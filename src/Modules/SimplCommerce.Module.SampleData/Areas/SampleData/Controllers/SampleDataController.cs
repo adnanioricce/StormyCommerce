@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SimplCommerce.Module.SampleData.Areas.SampleData.ViewModels;
 using SimplCommerce.Module.SampleData.Services;
+using System.Threading.Tasks;
 
 namespace SimplCommerce.Module.SampleData.Areas.SampleData.Controllers
 {

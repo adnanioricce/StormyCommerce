@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Pagar.Me" Version="2.6.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
+    <ProjectReference Include="..\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
-﻿
-using System;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
+﻿using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+using System;
+
 //Literally just ported the code to my model
 //Prefer to use this than add a dependency to another module
 namespace StormyCommerce.Core.Services.Catalog
@@ -41,7 +41,7 @@ namespace StormyCommerce.Core.Services.Catalog
             return new CalculatedProductPriceDto
             (
                 oldPrice,
-                calculatedPrice,                
+                calculatedPrice,
                 percentOfSaving
             );
         }

@@ -1,0 +1,3 @@
+# O que mais tem que pode ser ignorado como Pacotes e binários?
+node_modules
+yarn-error.log

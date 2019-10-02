@@ -1,0 +1,89 @@
+@import '../variables';
+@import '../colors';
+.search-bar{
+  position: absolute;
+  bottom: 0;
+  transform: translateY(100%);
+  width: 100%;
+  height: $nav-bar-height/2;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $primary-color;
+  background-color: $secondary-color;
+  border-top: none;
+  z-index: 10;
+  input{
+    width: calc(100% - 64px);
+    // font-size: 16px;
+    padding: 0 8px;
+    border: none;
+    height: calc(100% - 2px);
+    background-color: transparent;
+  }
+  img{
+    flex:1;
+    width: 64px;
+    height: 100%;
+    padding: 5px;
+    border: none;
+  }
+  @media all and (max-width: 425px ){
+    // border-bottom: none;
+  }
+}
+
+.search-results{
+  width: 100%;
+  position: absolute;
+  height: fit-content;
+  bottom: 0;
+  transform: translateY(100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  
+  // background-color: $secondary-color;
+  .search-result{
+    transform: translateX(-1px);
+    font-family: "Roboto", sans-serif;
+    font-size: 13px;
+    height: $nav-bar-height/1.5;
+    // width: fit-content;
+    width: 35%;
+    text-align: center;
+    padding: 10px;
+    background-color: $secondary-color;
+    border: 0px solid $primary-color;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    &:first-of-type{
+      border-top-width: 1px
+    }
+    @media (hover:hover) and (pointer:fine){
+      transition: .1s ease-in-out;
+      transition-property: background-color, color; 
+      &:hover{
+        cursor: pointer;
+        background-color: lighten($color: $primary-color, $amount: 30%);
+        color:white
+      }
+    }
+    &:active, &.highlighted{
+      transition: .05s ease-in-out;
+      transition-property: background-color;
+      background-color: $primary-color;
+      color: white;
+    }
+    
+    @media screen and (max-width: 425px){
+      width: calc(100% + 2px);
+      justify-content: center;
+    }
+  }
+}

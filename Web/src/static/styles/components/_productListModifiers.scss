@@ -1,0 +1,29 @@
+.product-list-modifiers-container{
+  display: flex;
+  width: 100%;
+  margin: 20px 0;
+  justify-content: space-evenly;
+  align-items: center;
+  .modifier{
+    $size: 75px;
+    width: $size*2;
+    height: $size;
+    border: 1px solid $primary-color;
+    display: flex;
+    padding: 15px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img{
+      $size: 20px;
+      width: $size;
+      height: $size;
+      
+    }
+    p{
+      font-family: "Roboto", sans-serif;
+      margin: 5px 0;
+      font-size: 80%;
+    }
+  }
+}

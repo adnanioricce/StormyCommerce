@@ -6,11 +6,10 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
     {
         public VendorDto()
         {
-            
         }
+
         public VendorDto(StormyVendor vendor)
         {
-
         }
     }
 }

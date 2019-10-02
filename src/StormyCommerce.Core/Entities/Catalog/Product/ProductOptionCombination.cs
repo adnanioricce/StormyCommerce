@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Catalog.Product;
-using StormyCommerce.Core.Entities.Product;
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {

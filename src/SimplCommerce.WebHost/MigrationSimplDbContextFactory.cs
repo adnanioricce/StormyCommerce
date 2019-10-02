@@ -1,13 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore.Design;
-using SimplCommerce.WebHost.Extensions;
 using SimplCommerce.Infrastructure;
+using SimplCommerce.WebHost.Extensions;
 using StormyCommerce.Infraestructure.Data;
-using StormyCommerce.Infraestructure.Extensions;
-using SimplCommerce.Module.SampleData;
+using System;
+using System.IO;
 
 namespace SimplCommerce.WebHost
 {
@@ -35,7 +33,7 @@ namespace SimplCommerce.WebHost
             services.AddModules(contentRootPath);
             services.AddStormyDataStore(_configuration);
             var _serviceProvider = services.BuildServiceProvider();
-            return _serviceProvider.GetRequiredService<StormyDbContext>();                        
+            return _serviceProvider.GetRequiredService<StormyDbContext>();
         }
     }
 }

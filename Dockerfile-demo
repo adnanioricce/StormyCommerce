@@ -1,0 +1,24 @@
+FROM stormycommerce/base-sdk:latest AS build-env
+RUN ls -l
+WORKDIR /app
+COPY . ./
+
+RUN sed -i 's/2.2.300/2.2.401/' global.json
+
+# ef core migrations run in debug, so we have to build in Debug for copying module correctly 
+RUN dotnet build SimplCommerce.sln 
+
+RUN dotnet build *.sln -c Release \
+    && cd src/SimplCommerce.WebHost \    
+    && dotnet build -c Release \
+    && dotnet publish -c Release -o out
+
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+EXPOSE 443
+
+WORKDIR /app	
+COPY --from=build-env /app/src/SimplCommerce.WebHost/out ./
+
+# RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so 
+CMD ["dotnet","SimplCommerce.WebHost.dll"]

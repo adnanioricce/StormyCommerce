@@ -5,7 +5,11 @@
 *.suo
 *.user
 *.sln.docstates
-
+selfsign_cert_gen.ps1
+.vscode 
+.devcontainer
+bin
+obj
 # Build results
 
 [Dd]ebug/
@@ -166,3 +170,14 @@ logs/
 
 # SimplCommerce.WebHost
 src/SimplCommerce.WebHost/appsettings.json
+src/SimplCommerce.WebHost/Properties/PublishProfiles
+src/SimplCommerce.WebHost/logs
+src/SimplCommerce.WebHost/logs/*
+# Web 
+Web/node_modules/*
+Web/node_modules/
+node_modules
+.next
+yarn.lock
+yarn.error.log
+PostgreSQLPortable-10.1.1

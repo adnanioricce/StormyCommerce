@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using StormyCommerce.Infraestructure.Data;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using StormyCommerce.Infraestructure.Data;
+
 namespace TestHelperLibrary.Utils
 {
     public static class Utilities
@@ -12,6 +12,7 @@ namespace TestHelperLibrary.Utils
         {
             return new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
         }
+
         public static async Task<T> GetResponseContent<T>(HttpResponseMessage response)
         {
             var stringResponse = await response.Content.ReadAsStringAsync();
@@ -20,6 +21,7 @@ namespace TestHelperLibrary.Utils
 
             return result;
         }
+
         public static void InitializeTestDb(StormyDbContext context)
         {
             StormyDbContextInitializer.Initialize(context);

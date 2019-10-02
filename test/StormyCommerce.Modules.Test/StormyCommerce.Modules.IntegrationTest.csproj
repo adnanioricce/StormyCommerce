@@ -18,14 +18,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
-    <ProjectReference Include="..\src\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
-    <ProjectReference Include="..\src\SimplCommerce.WebHost\SimplCommerce.WebHost.csproj" />
-    <ProjectReference Include="..\test\Infraestructure\TestHelperLibrary\TestHelperLibrary.csproj" />
+    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
+    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
+    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Shipping\StormyCommerce.Module.Shipping.csproj" />    
+    <ProjectReference Include="..\..\src\SimplCommerce.WebHost\SimplCommerce.WebHost.csproj" />
+    <ProjectReference Include="..\..\test\Infraestructure\TestHelperLibrary\TestHelperLibrary.csproj" />
+    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.PagarMe\StormyCommerce.Module.PagarMe.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Api\" />
+    <Folder Include="Modules\" />
   </ItemGroup>
 
 </Project>

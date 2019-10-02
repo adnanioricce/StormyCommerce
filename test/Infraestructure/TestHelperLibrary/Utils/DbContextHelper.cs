@@ -5,9 +5,9 @@ using System;
 
 namespace TestHelperLibrary.Utils
 {
-    public static class DbContextHelper 
+    public static class DbContextHelper
     {
-        public static StormyCommerce.Infraestructure.Data.StormyDbContext GetDbContext()
+        public static StormyDbContext GetDbContext()
         {
             var builder = new DbContextOptionsBuilder<StormyDbContext>();
             builder.UseInMemoryDatabase($"{Guid.NewGuid().ToString("N")}-FakeStormyDatabase");
@@ -17,6 +17,15 @@ namespace TestHelperLibrary.Utils
             dbContext.Database.EnsureCreated();
             return dbContext;
         }
+
+        public static StormyDbContext GetDbContext(DbContextOptions<StormyDbContext> dbContextOptions)
+        {
+            var dbContext = new StormyDbContext(dbContextOptions);
+            dbContext.Database.EnsureDeleted();
+            dbContext.Database.EnsureCreated();
+            return dbContext;
+        }
+
         public static DbContextOptions<StormyDbContext> GetDbOptions()
         {
             var serviceProvider = new ServiceCollection()

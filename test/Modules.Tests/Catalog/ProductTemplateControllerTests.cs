@@ -1,10 +1,4 @@
-﻿using AutoMapper;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
-using StormyCommerce.Module.Catalog.Area.Controllers;
-using System;
-using Xunit;
-
-namespace StormyCommerce.Modules.Test.Area.Controllers
+﻿namespace StormyCommerce.Modules.Test.Area.Controllers
 {
     public class ProductTemplateControllerTests
     {

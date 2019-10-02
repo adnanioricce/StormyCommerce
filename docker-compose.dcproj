@@ -5,13 +5,12 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>87a7c4d4-82a5-4920-b89f-dc061d46d537</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>simplcommerce.webhost</DockerServiceName>
   </PropertyGroup>
+  <PropertyGroup>
+    <DockerServiceUrl>{Scheme}://*:{ServicePort}</DockerServiceUrl>
+  </PropertyGroup>
   <ItemGroup>
-    <None Include="docker-compose.override.yml">
-      <DependentUpon>docker-compose.yml</DependentUpon>
-    </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
   </ItemGroup>

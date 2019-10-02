@@ -14,15 +14,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj" />
     <ProjectReference Include="..\..\..\src\SimplCommerce.WebHost\SimplCommerce.WebHost.csproj" />
-    <!--<ProjectReference Include="..\..\..\src\SimplCommerce.WebHost\SimplCommerce.WebHost.csproj" />-->
     <ProjectReference Include="..\..\..\src\StormyCommerce.Core\StormyCommerce.Core.csproj" />
     <ProjectReference Include="..\..\..\src\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
-  </ItemGroup>
-  <!--<ItemGroup>
-    <ProjectReference Include="\..\..\..\src\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
-    <ProjectReference Include="\..\..\..\src\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
-    <ProjectReference Include="\..\..\..\src\StormyCommerce.Core\StormyCommerce.Core.csproj" />
-    <ProjectReference Include="\..\..\..\src\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
-  </ItemGroup>-->
+  </ItemGroup>  
   
 </Project>

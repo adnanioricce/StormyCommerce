@@ -76,7 +76,7 @@ jobs:
     inputs:
       packageType: 'sdk'
       version: '2.2.401'
-  - script: dotnet build --configuration $(buildConfiguration)
+  - script: dotnet build SimplCommerce.sln --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
   - script: ./run-tests.sh
     displayName: 'run tests'    

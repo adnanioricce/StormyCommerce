@@ -7,9 +7,10 @@ namespace StormyCommerce.Core.Models
         public string Code { get; }
         public string Description { get; }
         public Exception ThrowedException { get; set; }
-        public Error(string code,string description,Exception throwedException)
+
+        public Error(string code, string description, Exception throwedException)
         {
-            Code = code; 
+            Code = code;
             Description = description;
             ThrowedException = throwedException;
         }

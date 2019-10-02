@@ -1,7 +1,6 @@
-namespace StormyCommerce.Infraestructure
+﻿namespace StormyCommerce.Infraestructure
 {
     public class WitthoeftStore
     {
-        
-    }    
+    }
 }

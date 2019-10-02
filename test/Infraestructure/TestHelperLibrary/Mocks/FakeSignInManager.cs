@@ -21,8 +21,8 @@ namespace TestHelperLibrary.Mocks
             new Mock<IAuthenticationSchemeProvider>().Object
         )
         {
-
         }
+
         public override Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent, bool lockoutOnFailure)
         {
             return Task.FromResult(SignInResult.Success);

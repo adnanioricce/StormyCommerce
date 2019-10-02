@@ -1,8 +1,8 @@
-using System;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Module.Customer.Models;
+using System;
 
 namespace StormyCommerce.Module.Customer.Data
 {
@@ -11,7 +11,6 @@ namespace StormyCommerce.Module.Customer.Data
         private readonly StormyDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        
 
         public IdentityInitializer(
             StormyDbContext context,
@@ -37,23 +36,35 @@ namespace StormyCommerce.Module.Customer.Data
                             $"Erro durante a criação da role {Roles.Admin}.");
                     }
                 }
+                if (!_roleManager.RoleExistsAsync(Roles.Guest).Result)
+                {
+                    var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Guest)).Result;
+                    if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Guest}");
+                }
+                if (!_roleManager.RoleExistsAsync(Roles.Customer).Result)
+                {
+                    var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Customer)).Result;
+                    if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Customer}");
+                }
 
                 CreateUser(
                     //TODO: actually, I think is not secure to initialize this here...
                     new ApplicationUser()
                     {
-                        UserName = "admin_stormycommerce",
-                        Email = "admin-stormycommerce@teste.com.br",
-                        EmailConfirmed = true
-                    }, "AdminStormyCommerce01!", Roles.Admin);
-
+                        UserName = "stormyadmin",
+                        Email = "stormycommerce@gmail.com",
+                        EmailConfirmed = true,
+                        Role = new IdentityRole(Roles.Admin)
+                    }, "!D4vpassword",Roles.Admin);                
                 CreateUser(
+                    //TODO: actually, I think is not secure to initialize this here...
                     new ApplicationUser()
                     {
-                        UserName = "usrinvalido_api",
-                        Email = "usrinvalido-api@teste.com.br",
-                        EmailConfirmed = true
-                    }, "UsrInvStormyCommerceAPI01!");
+                        UserName = "stormydev",
+                        Email = "adnangonzaga@gmail.com",
+                        EmailConfirmed = true,
+                        Role = new IdentityRole(Roles.Customer)
+                    }, "!D4velopment",Roles.Customer);                
             }
         }
 

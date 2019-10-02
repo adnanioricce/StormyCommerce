@@ -1,5 +1,5 @@
+﻿using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
-using Microsoft.IdentityModel.Tokens;
 
 namespace StormyCommerce.Module.Customer.Models
 {
@@ -7,6 +7,7 @@ namespace StormyCommerce.Module.Customer.Models
     {
         public SecurityKey Key { get; }
         public SigningCredentials SigningCredentials { get; }
+
         public SigningConfigurations()
         {
             using (var provider = new RSACryptoServiceProvider(2048))

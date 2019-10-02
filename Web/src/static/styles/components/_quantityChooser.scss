@@ -1,0 +1,43 @@
+.quantity-chooser{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: $product-option-chooser-width;
+  height: $product-option-chooser-height;
+  margin: 0;
+  input,.minus-button,.plus-button{
+    border: 1px solid $primary-color;
+    color: $primary-color;
+    
+    height: $product-option-chooser-height;
+    width:  $product-option-chooser-width / 3 - 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include noselect;
+  }
+  input{
+    font-size: 1.25rem;
+    font-family: "Roboto", sans-serif;
+
+  }
+  .minus-button, .plus-button{
+    transition: transform .05s ease-in-out;
+    &:active{
+      transform: scale(.9);
+    }
+    img{
+      $size: 25%;
+      height: $size;
+      width: $size;
+    }
+  }
+  .minus-button{
+
+  }
+  .plus-button{
+
+  }
+}

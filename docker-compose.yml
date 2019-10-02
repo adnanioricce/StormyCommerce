@@ -2,24 +2,53 @@ version: '3.4'
 
 services:
   simplcommerce.webhost:
-    image: ${DOCKER_REGISTRY-}simplcommercewebhost
+    image: stormy-webhost
     build:
       context: .
-      dockerfile: Dockerfile
-    ports:
-        - "80:8000"
+      dockerfile: Dockerfile    
     depends_on:
         - database
-    container_name: 'stormy_webhost'
-
-    
-
-  database:
-    image: postgres
-    container_name: 'postgres'
-    restart: always
+    container_name: 'stormy_webhost'    
     environment:
-        - "POSTGRES_PASSWORD=postgres"
-        - "POSTGRES_USER=postgres"
-        - "POSTGRES_DB=stormydb"
-
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://*:443;http://*:80
+      - ASPNETCORE_HTTPS_PORT=44388
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=simpldevpassword
+      - ASPNETCORE_Kestrel__Certificates__Development__Password=simpldevpassword
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/SimplCommerce.WebHost.pfx
+    networks:
+      - stormy-net
+    ports:
+      - "49209:80"
+      - "44388:443"
+    volumes:      
+      - ${HOME}/.aspnet/https:/https:ro
+      - ${HOME}/.microsoft/usersecrets:/.microsoft/usersecrets:ro
+  database:
+    image: stormydb
+    container_name: 'stormydb'    
+    ports:
+      - "5432"
+    restart: always
+    networks:
+      - stormy-net
+    environment:
+        - "POSTGRES_PASSWORD=docker"
+        - "POSTGRES_USER=docker"        
+    volumes:
+      - data:/var/lib/postgresql/data      
+    networks: 
+      - stormy-net
+  client-app:
+    image: witthoeft-storefront
+    container_name: 'client'
+    ports:
+      -  3000
+    networks:
+      - stormy-net
+        
+volumes:
+  data:
+networks:
+  stormy-net:
+    driver: bridge

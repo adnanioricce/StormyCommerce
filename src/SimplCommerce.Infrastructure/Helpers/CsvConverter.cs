@@ -65,9 +65,9 @@ namespace SimplCommerce.Infrastructure.Helpers
             foreach (var obj in data)
             {
                 var vals = obj.GetType().GetProperties().Select(pi => new
-                    {
-                        Value = pi.GetValue(obj, null)
-                    }
+                {
+                    Value = pi.GetValue(obj, null)
+                }
                 );
 
                 string line = string.Empty;
