@@ -23,7 +23,7 @@ namespace Modules.Test.Orders
     {
         private CheckoutController CreateController()
         {
-            return new CheckoutController(CreateOrderService(), CreatePaymentService(), CreateShippingService(), CreateLoggerService());
+            return new CheckoutController(CreateOrderService(), CreatePaymentService(), CreateLoggerService());
             IOrderService CreateOrderService()
             {
                 var mockService = new Mock<IOrderService>();
@@ -82,7 +82,7 @@ namespace Modules.Test.Orders
                 Items = Seeders.StormyProductSeed(2).ToListProductDto().ToList()
             };
             //Act
-            var result = await controller.CheckoutBoleto(checkoutObj);
+            var result = await controller.Checkout(checkoutObj);
             //Assert
             var returnResult = Assert.IsAssignableFrom<OkObjectResult>(result);
             var returnedObject = (returnResult.Value as OrderDto);

@@ -38,20 +38,12 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
             _mapper = mapper;                      
             _emailSender = emailSender;  
         }
-        [HttpPost("/boleto")]
+        [HttpPost("charge/boleto")]
         [ValidateModel]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckoutBoleto([FromBody]TransactionVm transactionVm)
-        {
-            var transaction = _mapper.Map<TransactionVm, Transaction>(transactionVm);
-            var payment = _mapper.Map<Payment>(transactionVm);
-            var shipping = _mapper.Map<Shipment>(transactionVm);
-            await _shipmentRepository.AddAsync(shipping);
-            payment.PaymentStatus = PaymentStatus.Pending;
-            await _paymentRepository.AddAsync(payment);
-            transaction.Save();     
-            var result = _pagarMeWrapper.CreateBoleto(transaction);            
-            return Ok(result);
-        }
+        public async Task<IActionResult> Charge([FromBody]TransactionVm transactionVm)
+        {           
+            return Ok(await _pagarMeWrapper.Charge(transactionVm));
+        }        
     }
 }

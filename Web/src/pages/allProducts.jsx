@@ -5,7 +5,7 @@ import filterSVG from '../static/assets/icons/filter.svg';
 import searchSVG from '../static/assets/icons/search.svg';
 import orderSVG from '../static/assets/icons/order.svg';
 import ProductCard from '../components/ProductCard';
-
+import { ProductClient } from '../services/ProductClient';
 const ProductsListModifier = () => {
   return (
     <div className="product-list-modifiers-container">
@@ -34,7 +34,7 @@ const ProductsCounter = ({ productsQuantity }) => {
 };
 
 const Products = ({ products }) => {
-  // console.log(products);
+  
 
   return (
     <Page>
@@ -44,7 +44,6 @@ const Products = ({ products }) => {
     </Page>
   );
 };
-
 Products.getInitialProps = async () => {
   const response = await api.get('/products');
   const { data: products } = response;

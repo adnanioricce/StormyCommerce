@@ -295,5 +295,37 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.Status, ReviewStatus.Approved);
             return fakeReview.Generate(count);
         }
+        //TODO:A clean way to write all this?
+        public static List<StormyOrder> OrderSeed(int count = 1,bool ignoreId = false)
+        {
+            // var fakeOrder = new Faker<StormyOrder>("pt_BR")
+            //     .RuleFor(v => v.Id,f => ignoreId ? 0 : ++f.IndexVariable)
+            //     .RuleFor(v => v.IsCancelled,f => f.Random.Bool(0.2f))
+            //     .RuleFor(v => v.LastModified,f => f.Date.Recent())
+            //     .RuleFor(v => v.Note,f => f.Lorem.Sentence())
+            //     .Rules((f,v) => {
+            //         v.Id = ignoreId ? 0 : ++f.IndexVariable; 
+            //         v.IsCancelled = f.Random.Bool(0.2f);
+            //         v.LastModified = f.Date.Recent(); 
+            //         v.Note = f.Lorem.Sentence(); 
+            //         v.TotalPrice = f.Finance.Amount(1.99m,400); 
+            //         v.Discount = f.Finance.Amount(0,v.TotalPrice); 
+            //         v.TotalWeight = f.Random.Decimal(0.3m,2);
+            //         var fakeOrderItem = new Faker<OrderItem>().Rules((innerF,innerV) => {
+            //             innerV.Order = v; 
+            //             innerV.StormyOrderId = innerV.Id;
+            //             innerV.Id = ignoreId ? 0 : ++innerF.IndexVariable; 
+            //             innerV.IsDeleted = false; 
+            //             innerV.LastModified = v.LastModified; 
+            //             // innerV.Price = v                                                  
+            //         });
+            //         v.Items = f.Make<OrderItem>(f.Random.Int(1,count))
+                    
+                     
+
+
+            //     })
+            return new List<StormyOrder>();
+        }
     }
 }

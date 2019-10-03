@@ -1,4 +1,5 @@
 ﻿using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Module.PagarMe.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -59,7 +60,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
 
         [DataType(DataType.Url)]
         public string PostbackUrl { get; set; }
-        public string PaymentMethod { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
         public string CaptureMethod { get; set; }
         public string AntifraudScore { get; set; }
 
@@ -76,7 +77,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public PagarMeCustomerVm Customer { get; set; }
         public BillingVm Billing { get; set; }
         public ShippingVm Shipping { get; set; }
-        public PagarMeItem Items { get; set; }
+        public List<PagarMeItem> Items { get; set; }
         public Address Address { get; set; }
         public List<Document> Documents { get; set; }
         //TODO:Define a metadata object
