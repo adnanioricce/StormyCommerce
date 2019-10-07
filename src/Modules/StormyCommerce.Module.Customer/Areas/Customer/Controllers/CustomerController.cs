@@ -35,7 +35,6 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         }
         //public async Task<StormyCustomer> GetCustomerByEmail()
         //{
-
         //}
         [HttpPost("address/create")]
         [ValidateModel]
@@ -53,7 +52,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             await _customerService.CreateCustomerReviewAsync(_mapper.Map<Review>(review),review.Email.ToUpper());
             return Ok();
         }
-        [HttpGet("admin/customer/list")]
+        [HttpGet("customer/list")]
         [Authorize("Admin")]
         [ValidateModel]
         public async Task<IList<StormyCustomer>> GetCustomersAsync(int minLimit, long maxLimit)

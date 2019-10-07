@@ -98,9 +98,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> EditProduct([FromBody]ProductDto _model)
         {
-            var model = _mapper.Map<StormyProduct>(_model);            
-            if(model == null) return BadRequest();
-
+            var model = _mapper.Map<StormyProduct>(_model);                        
             await _productService.UpdateProductAsync(model);
             return Ok();
             //if(!result.Success){

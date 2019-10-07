@@ -18,7 +18,8 @@ namespace StormyCommerce.Module.PagarMe.Services
         private readonly IStormyRepository<Shipment> _shipmentRepository;
         private readonly IStormyRepository<StormyOrder> _orderRepository;
         private readonly HttpClient _httpClient;
-        public ShippingService(IStormyRepository<Shipment> shipmentRepository,IStormyRepository<StormyOrder> orderRepository)
+        public ShippingService(IStormyRepository<Shipment> shipmentRepository,
+        IStormyRepository<StormyOrder> orderRepository)
         {
             _shipmentRepository = shipmentRepository;
             _orderRepository = orderRepository;

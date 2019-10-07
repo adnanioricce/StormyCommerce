@@ -36,7 +36,13 @@ function product({ currentProduct, relatedProducts, ...props }) {
     </Page>
   );
 }
-
+product.componentDidMount = () => {
+  const name = query.name.replace(/-/g, ' ');
+  const response = await apiClient.getProductById(name);
+  const { data: products } = response;
+  const currentProduct = products.filter(e => e.name === name)[0];
+  return { ...props, currentProduct };
+}
 product.getInitialProps = async ({ query }, ...props) => {  
   // const client = new Client("https://172.17.0.2:443");    
   // const response = await client.getCategoryById(query);
