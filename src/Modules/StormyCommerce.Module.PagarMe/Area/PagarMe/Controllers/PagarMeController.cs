@@ -44,8 +44,13 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
         [ValidateAntiForgeryToken]
         //TODO:Create a postback endpoint
         public async Task<IActionResult> Charge([FromBody]TransactionVm transactionVm)
-        {                       
-            return Ok(await _pagarMeWrapper.Charge(transactionVm));
+        {             
+            var result = await _pagarMeWrapper.Charge(transactionVm);
+            if(!result.Success) return BadRequest($"A error occured in the payment process \n Error Object:{result}");
+
+            // Transaction tr = new Transaction();
+                                
+            return Ok();
         }
         [HttpPost("charge_postback")]
         [ValidateModel]

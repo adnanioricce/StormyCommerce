@@ -2,27 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StormyCommerce.Module.Orders.Area.Models
+namespace StormyCommerce.Module.Orders.Area.Models.Correios
 {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/")]
-    public partial class cResultadoServicos
+    public class cResultado
     {
 
-        private cServicosCalculo[] servicosCalculoField;
+        private cServico[] servicosField;
 
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 0)]
         [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable = false)]
-        public cServicosCalculo[] ServicosCalculo
+        public cServico[] Servicos
         {
             get
             {
-                return this.servicosCalculoField;
+                return this.servicosField;
             }
             set
             {
-                this.servicosCalculoField = value;
+                this.servicosField = value;
             }
         }
     }
+
+    
 }

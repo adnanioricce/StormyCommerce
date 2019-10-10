@@ -1,4 +1,4 @@
-﻿namespace StormyCommerce.Module.Orders.Area.Models
+﻿namespace StormyCommerce.Module.Orders.Area.Models.Correios
 {
     public static class FormatCode 
     {

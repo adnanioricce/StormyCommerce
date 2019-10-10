@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StormyCommerce.Module.Orders.Area.Models
+namespace StormyCommerce.Module.Orders.Area.Models.Correios
 {
     public class CalculateShippingResponseModel
     {

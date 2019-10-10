@@ -1,6 +1,7 @@
 ﻿using Moq;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Module.Orders.Area.Models;
+using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
 using System.Linq;
 using System.Net.Http;

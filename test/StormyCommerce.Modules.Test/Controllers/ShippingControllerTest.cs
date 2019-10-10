@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Xunit.Abstractions;
 using StormyCommerce.Module.Orders.Area.Models;
 using System.Linq;
+using StormyCommerce.Module.Orders.Area.Models.Correios;
 
 namespace StormyCommerce.Modules.Test.Controllers
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StormyCommerce.Module.Orders.Area.Models
+namespace StormyCommerce.Module.Orders.Area.Models.Correios
 {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://tempuri.org/")]
     public partial class versao

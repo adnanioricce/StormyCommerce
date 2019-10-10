@@ -17,7 +17,7 @@ namespace StormyCommerce.Core.Services.Orders
     {
         private readonly IStormyRepository<StormyOrder> _orderRepository;
         private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;
-
+        
         public OrderService(IStormyRepository<StormyOrder> orderRepository
             , IStormyRepository<OrderHistory> orderHistoryRepository)
         {

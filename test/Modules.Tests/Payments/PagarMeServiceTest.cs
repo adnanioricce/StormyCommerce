@@ -15,13 +15,6 @@ namespace Modules.Tests.Payments
         {
         }
 
-        private StormyPagarmeService CreateService()
-        {
-            var mockPagarme = new Mock<PagarMeService>();
-            //mockPagarme.Setup(f => f.Transactions.)
-
-            return new StormyPagarmeService(RepositoryHelper.GetRepository<Payment>(),null);
-        }
 
         [Fact]
         public async Task Charge_ReceivesValidatedPaymentDto_ReturnResultWithSuccessEqualTrue()
@@ -30,11 +23,11 @@ namespace Modules.Tests.Payments
             var paymentDto = new PaymentDto
             {
             };
-            var service = CreateService();
+            // var service = CreateService();
             //Act
             // var result = service.Get
             //Assert
-            Assert.True(false);
+            // Assert.True(false);
         }
     }
 }

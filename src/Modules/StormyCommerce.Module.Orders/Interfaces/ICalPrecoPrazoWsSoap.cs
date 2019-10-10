@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ServiceModel;
-using StormyCommerce.Module.Orders.Area.Models;
+﻿using StormyCommerce.Module.Orders.Area.Models.Correios;
 
 namespace StormyCommerce.Module.Orders.Interfaces
 {

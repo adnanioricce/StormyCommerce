@@ -10,6 +10,7 @@ using StormyCommerce.Core.Models.Dtos.GatewayRequests;
 using StormyCommerce.Module.Orders.Interfaces;
 using StormyCommerce.Module.Orders.Area.Models;
 using static StormyCommerce.Module.Orders.Services.CalcPrecoPrazoWSSoapClient;
+using StormyCommerce.Module.Orders.Area.Models.Correios;
 
 namespace StormyCommerce.Module.Orders.Services
 {
