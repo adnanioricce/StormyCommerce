@@ -23,7 +23,7 @@ namespace Modules.Test.Orders
     {
         private CheckoutController CreateController()
         {
-            return new CheckoutController(CreateOrderService(), CreatePaymentService(), CreateLoggerService());
+            return new CheckoutController(CreateOrderService(), CreatePaymentService(), CreateLoggerService(),null,null,null);
             IOrderService CreateOrderService()
             {
                 var mockService = new Mock<IOrderService>();

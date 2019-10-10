@@ -43,22 +43,22 @@ namespace StormyCommerce.Modules.IntegrationTest.Controllers
                 Amount = 2100,
                 PaymentMethod = paymentMethod,
                 Customer = new PagarMeCustomerVm{
-                    ExternalId = 1,
+                    ExternalId = "1234",
                     Name = "Rick",
-                    Type = "Individual",
+                    Type = 0,
                     Country = "br",
                     Email = "rick@morty.com",
                     Documents = new List<Document>{
                         new Document{
-                        Type = "Cpf",
+                        Type = 0,
                         Number = "30621143049"
                         },
                         new Document{
-                        Type = "Cnpj",
+                        Type = 1,
                         Number = "83134932000154"
                         }
                     },
-                    PhoneNumbers = new string[]
+                    PhoneNumbers = new List<string>
                     {
                         "+5511982738291",
                         "+5511829378291"

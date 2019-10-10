@@ -17,9 +17,11 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         [Required]
         public BillingVm Billing { get; set; }
         [Required]
-        public ShippingVm Shipping { get; set; }        
+        public ShippingVm Shipping { get; set; }    
+        [Required]    
+        public string ShippingMethod { get; set; }
         public List<PagarMeItem> Items { get; set; }
-        public PaymentMethod PaymentMethod { get; } = PaymentMethod.Boleto;
+        public StormyCommerce.Module.PagarMe.Models.PaymentMethod PaymentMethod { get; } = StormyCommerce.Module.PagarMe.Models.PaymentMethod.Boleto;
         
         public TransactionVm ToTransactionVm(StormyCustomer customer)
         {

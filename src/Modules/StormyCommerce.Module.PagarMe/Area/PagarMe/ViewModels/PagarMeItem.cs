@@ -6,6 +6,8 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
     {
         [Required]
         public string Id { get; set; }
+        [Required]
+        public string StormyProductId { get; set; }
 
         [Required]
         public string Title { get; set; }
