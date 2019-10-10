@@ -1,5 +1,5 @@
-﻿using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Common;
+﻿using PagarMe;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Module.PagarMe.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,15 +21,27 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public List<PagarMeItem> Items { get; set; }
         public PaymentMethod PaymentMethod { get; } = PaymentMethod.Boleto;
         
-        public TransactionVm ToTransactionVm(PagarMeCustomerVm customer)
+        public TransactionVm ToTransactionVm(StormyCustomer customer)
         {
             return new TransactionVm{
-                Amount = this.Amount,
-                Customer = customer,
+                Amount = this.Amount,                
                 Billing = this.Billing,
                 Shipping = this.Shipping,
                 Items = this.Items,
-                PaymentMethod = this.PaymentMethod                
+                PaymentMethod = this.PaymentMethod,
+                Customer = new PagarMeCustomerVm {
+                ExternalId = customer.UserId,
+                    Name = customer.FullName,
+                    Type = (int)CustomerType.Individual,
+                    Country = "br",
+                    Email = customer.Email,
+                    Documents = new System.Collections.Generic.List<ViewModels.Document>{
+                        new ViewModels.Document{
+                            Type = (int)DocumentType.Cpf,
+                            Number = customer.CPF,
+                        }
+                    }                
+                }
             };
         }
     }

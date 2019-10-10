@@ -45,7 +45,7 @@ namespace StormyCommerce.Core.Entities
         public long PaymentId { get; set; }
         public long ShipmentId { get; set; }
         public bool PickUpInStore { get; set; }
-        public bool IsCancelled { get; set; }
+        public bool IsCancelled { get; set; } = false;
         public string ShippingMethod { get; set; }
         public string PaymentMethod { get; set; }
         public string TrackNumber { get; set; }

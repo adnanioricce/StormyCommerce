@@ -29,7 +29,7 @@ namespace StormyCommerce.Module.PagarMe.Services
         {
             return (List<Transaction>)(await _pagarMeService.Transactions.FindAllAsync(new Transaction()));
         }
-        public async Task<Result> Charge(TransactionVm transactionVm)
+        public async Task<Result> ChargeAsync(TransactionVm transactionVm)
         {      
             var transaction = _mapper.Map<Transaction>(transactionVm);
             transaction.Async = true;

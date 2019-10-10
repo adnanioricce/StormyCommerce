@@ -19,6 +19,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public string AcquirerId { get; set; }
         public string AcquirerResponseCode { get; set; }
         public string AuthorizationCode { get; set; }
+        public bool Async { get; set; } 
 
         [StringLength(13)]
         public string SoftDescriptor { get; set; }
