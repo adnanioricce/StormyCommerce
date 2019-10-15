@@ -4,8 +4,8 @@ using System.Runtime.Serialization;
 namespace StormyCommerce.Module.Orders.Area.Models.Correios
 {
     [Serializable]
-    [KnownType(typeof(CalculateShippingModel))]
-    public class CalculateShippingModel
+    [KnownType(typeof(CalcPrecoPrazoModel))]
+    public class CalcPrecoPrazoModel
     {
         public string nCdEmpresa { get; set; }
         public string sDsSenha { get; set; }

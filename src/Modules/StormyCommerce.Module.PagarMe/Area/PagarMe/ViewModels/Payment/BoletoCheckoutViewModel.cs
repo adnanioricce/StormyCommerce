@@ -16,7 +16,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public string CustomerEmail { get; set; }        
         [Required]
         public BillingVm Billing { get; set; }
-        [Required]
+        
         public ShippingVm Shipping { get; set; }    
         [Required]    
         public string ShippingMethod { get; set; }

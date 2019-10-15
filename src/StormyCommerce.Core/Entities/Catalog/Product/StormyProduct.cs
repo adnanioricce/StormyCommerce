@@ -47,9 +47,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public long MediaId { get; set; }
         public long VendorId { get; set; }
         public long CategoryId { get; set; }
-        public long ProductLinksId { get; set; }
-        public long TaxClassId { get; set; }
-        public long LatestUpdatedById { get; set; }
+        public long? ProductLinksId { get; set; }
+        public long? TaxClassId { get; set; }
+        public long? LatestUpdatedById { get; set; }
         public StormyVendor Vendor { get; set; }
         public Brand Brand { get; set; }
         public Category Category { get; set; }
@@ -62,6 +62,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
         public double UnitWeight { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public int? Diameter { get; set; }
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }
         public int ReviewsCount { get; set; }
@@ -135,6 +138,11 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         {
             var medias = this.Medias;
             return medias.Select(media => media.ToMediaDto()).ToList();
+        }
+        public int CalculateDimensions()
+        {
+            //TODO:Calculate products with diameter
+            return this.Width * this.Height; 
         }
     }
 }

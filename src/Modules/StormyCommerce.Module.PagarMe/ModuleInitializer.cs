@@ -10,8 +10,7 @@ namespace StormyCommerce.Module.PagarMe
     public class ModuleInitializer : IModuleInitializer
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            throw new System.NotImplementedException();
+        {            
         }
 
         public void ConfigureServices(IServiceCollection serviceCollection)

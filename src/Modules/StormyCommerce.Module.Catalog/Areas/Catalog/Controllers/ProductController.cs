@@ -7,9 +7,11 @@ using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Module.Customer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StormyCommerce.Core.Interfaces;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
@@ -21,13 +23,15 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IAppLogger<ProductController> _logger;
         private readonly IMapper _mapper;
 
         //TODO:Change the notification type
-        public ProductController(IProductService productService, IMapper mapper)
+        public ProductController(IProductService productService, IMapper mapper,IAppLogger<ProductController> logger)
         {
             _productService = productService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         ///<summary>
@@ -40,7 +44,6 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         {
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null) return NotFound("Requested product didn't exist");
-
             return _mapper.Map<StormyProduct, ProductOverviewDto>(product);
         }
 
@@ -89,7 +92,13 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         public async Task<ActionResult> CreateProduct([FromBody]ProductDto _model)
         {
             var model = new StormyProduct(_model);
-            await _productService.InsertProductAsync(model);
+            try{
+                await _productService.InsertProductAsync(model);                
+            }            
+            //TODO:Change to a more specific Exception
+            catch(Exception ex){
+                _logger.LogError($"don't was possible to create product, application returned the following exception:{ex}");
+            }
             return Ok();
         }
 
@@ -100,10 +109,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         {
             var model = _mapper.Map<StormyProduct>(_model);                        
             await _productService.UpdateProductAsync(model);
-            return Ok();
-            //if(!result.Success){
-            //	return Result.Ok();
-            //}
+            return Ok();            
         }
 
         [HttpGet]

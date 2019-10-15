@@ -18,10 +18,11 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
             modelBuilder.Entity<StormyOrder>(order =>
             {
                 order.HasOne(prop => prop.Payment).WithOne(prop => prop.Order).HasForeignKey<Payment>(prop => prop.StormyOrderId);
+                order.HasOne(prop => prop.Shipment).WithOne(prop => prop.Order).HasForeignKey<Shipment>(prop => prop.StormyOrderId);
+                // order.HasOne(prop => prop.Customer).WithMany(prop => prop.Orders)
                 order.Property(prop => prop.OrderUniqueKey).IsRequired();
                 order.Property(prop => prop.PaymentMethod).HasMaxLength(450).IsRequired();
-                order.Property(prop => prop.Note).HasMaxLength(1000);
-                order.Property(prop => prop.PaymentMethod).HasMaxLength(450);
+                order.Property(prop => prop.Note).HasMaxLength(1000);                
                 order.HasQueryFilter(prop => prop.IsDeleted == false);
                 order.Property(prop => prop.Id).ValueGeneratedOnAdd();
             });

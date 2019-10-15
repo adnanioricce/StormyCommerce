@@ -16,8 +16,7 @@ namespace StormyCommerce.Core.Services.Orders
     public class OrderService : IOrderService
     {
         private readonly IStormyRepository<StormyOrder> _orderRepository;
-        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;
-        
+        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;        
         public OrderService(IStormyRepository<StormyOrder> orderRepository
             , IStormyRepository<OrderHistory> orderHistoryRepository)
         {
@@ -60,18 +59,38 @@ namespace StormyCommerce.Core.Services.Orders
         {
             var _entity = await _orderRepository.GetByIdAsync(id);
 
-            if (_entity == null) return Result.Fail("Entity don't exist");
-
+            if (_entity == null) return Result.Fail("Entity don't exist");            
             await _orderRepository.UpdateAsync(entity);
 
+            var orderHistory = new OrderHistory { 
+                StormyOrderId = _entity.Id,
+                Order = _entity,
+                CurrentStatus = entity.Status,
+                OldStatus = _entity.Status,
+                CreatedById = _entity.StormyCustomerId,
+                CreatedBy = _entity.Customer
+            };
             return Result.Ok();
         }
+        public async Task<Result<OrderDto>> GetOrderByUniqueIdAsync(Guid uniqueId)
+        {
+            _orderRepository.Table
+            .Include(order => order.Items)
+            .Include(order => order.ShippingAddress)
+            .Include(order => order.Payment)
+            .Include(order => order.Shipment); 
 
+            var result = await _orderRepository.Table
+            .Where(o => o.OrderUniqueKey.ToString().Equals(uniqueId.ToString()))
+            .FirstOrDefaultAsync();
+            return new Result<OrderDto>(result.ToOrderDto(),true,"No error");
+        }
         public async Task<Result<OrderDto>> GetOrderByIdAsync(long id)
         {
             _orderRepository.Table
                 .Include(order => order.Items)
-                .Include(order => order.ShippingAddress);
+                .Include(order => order.ShippingAddress)
+                .Include(order => order.Customer);
 
             var entity = await _orderRepository.GetByIdAsync(id);
 

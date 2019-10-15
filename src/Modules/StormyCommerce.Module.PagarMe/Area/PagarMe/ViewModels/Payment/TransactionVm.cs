@@ -77,9 +77,9 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public int SubscriptionId { get; set; }
         public PagarMeCustomerVm Customer { get; set; }
         public BillingVm Billing { get; set; }
-        public ShippingVm Shipping { get; set; }
-        public List<PagarMeItem> Items { get; set; }
+        public ShippingVm Shipping { get; set; }        
         public Address Address { get; set; }
+        public List<PagarMeItem> Items { get; set; }
         public List<Document> Documents { get; set; }
         //TODO:Define a metadata object
         public object Metadata { get; set; }

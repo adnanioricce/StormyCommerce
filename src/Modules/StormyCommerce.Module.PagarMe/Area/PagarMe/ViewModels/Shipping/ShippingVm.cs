@@ -7,14 +7,11 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
     {
         [Required]
         public string Name { get; set; }
-
         [Required]
         [DataType(DataType.Currency)]
         public int Fee { get; set; }
-
         public string DeliveryDate { get; set; }
         public bool Expedited { get; set; }
-
         [Required]
         public Address Address { get; set; }
     }

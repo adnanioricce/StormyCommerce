@@ -18,7 +18,9 @@ using AutoMapper;
 using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Models.Dtos;
-
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Module.Orders.Area.Models.Correios;
+using StormyCommerce.Module.Orders.Services;
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
     [Area("Orders")]
@@ -28,13 +30,16 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     public class CheckoutController : Controller
     {
         private readonly IOrderService _orderService;
-        private readonly IPaymentService _paymentService;        
-        private readonly PagarMeWrapper _pagarmeService;
+        private readonly IPaymentService _paymentService;                
         private readonly ICustomerService _customerService;
+        private readonly CorreiosService _correiosService;
+        private readonly IShippingService _shippingService;
+        private readonly PagarMeWrapper _pagarmeService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
         public CheckoutController(IOrderService orderService, 
-        IPaymentService paymentService, 
+        IPaymentService paymentService,
+        IShippingService shippingService, 
         ILogger logger,
         PagarMeWrapper pagarMeService,
         ICustomerService customerService,
@@ -42,6 +47,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         {
             _orderService = orderService;            
             _paymentService = paymentService;
+            _shippingService = shippingService;
             _logger = logger;
             _pagarmeService = pagarMeService;
             _customerService = customerService;
@@ -60,15 +66,15 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         [HttpPost("boleto")]
         [ValidateModel]        
         public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutViewModel boletoCheckoutViewModel)
-        {
+        {                        
             //TODO:Get current customer instead
             ////1 - Pass Customer to transaction model
             var customer = await _customerService.GetCustomerByUserNameOrEmail("",boletoCheckoutViewModel.CustomerEmail);
             var transaction = boletoCheckoutViewModel.ToTransactionVm(customer);
-            ////2 - Define a postback url
+            ////2 - Define a postback url            
             transaction.PostbackUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/Checkout/postback";
             transaction.Async = true;            
-            ////3 - Perform a charge operation
+            ////3 - Perform a charge operation            
             var result = await _pagarmeService.ChargeAsync(transaction);            
             ////4 - Check if operation was confirmed
             if(!result.Success) return BadRequest($"failed on the payment charge process, see the error code for more info\n {result.Error}");            
@@ -76,25 +82,37 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var payment = _mapper.Map<PaymentDto>(transaction);            
             ////5 - Register new Order with payment
             var price = transaction.Amount / 100;            
-            var order = new StormyOrder{
-                Customer = customer,
-                DeliveryCost = transaction.Shipping.Fee, 
-                DeliveryDate = Convert.ToDateTime(transaction.Shipping.DeliveryDate),
-                PaymentMethod = "boleto",
-                Payment = _mapper.Map<Payment>(payment),
-                ShippingStatus = Core.Entities.Shipping.ShippingStatus.NotShippedYet,
-                Status = OrderStatus.New,   
-                ShippingMethod = boletoCheckoutViewModel.ShippingMethod,                             
-                //TODO:maybe a value object for the price operations? they don't seem like a value type for me
-                TotalPrice = price,
-                ShippingAddress = transaction.Shipping.Address,                                
-            };
+            var order = BuildOrder(transaction,_mapper.Map<Payment>(payment),boletoCheckoutViewModel);
             transaction.Items.ForEach(item => 
             order.Items.Add(
                 _mapper.Map<OrderItem>(item)
-                ));            
+                ));                                 
+            var shipment = _shippingService.BuildShipmentForOrder(order.ToOrderDto());            
+            shipment.Order = order;             
+            order.Shipment = shipment;
+            if(shipment.DeliveryCost <= 0 && !order.PickUpInStore){
+                var calcResult = await _correiosService.DefaultDeliveryCalculation(shipment);                
+                shipment.DeliveryCost = calcResult.Servicos.FirstOrDefault();
+                order.Shipment = shipment;
+            }                            
             await _orderService.CreateOrderAsync(order);
             return Ok();
+            StormyOrder BuildOrder(TransactionVm _transactionVm,Payment _payment,BoletoCheckoutViewModel checkoutVm){
+                return new StormyOrder{
+                    Customer = customer,
+                    DeliveryCost = _transactionVm.Shipping.Fee, 
+                    DeliveryDate = Convert.ToDateTime(_transactionVm.Shipping.DeliveryDate),
+                    PaymentMethod = "boleto",
+                    Payment = _payment,
+                    ShippingStatus = Core.Entities.Shipping.ShippingStatus.NotShippedYet,
+                    Status = OrderStatus.New,   
+                    ShippingMethod = checkoutVm.ShippingMethod,                             
+                    //TODO:maybe a value object for the price operations? they don't seem like a value type for me
+                    TotalPrice = price,
+                    ShippingAddress = _transactionVm.Shipping.Address                                                
+                };           
+            }                                                    
         }
-    }
+        
+    }    
 }
