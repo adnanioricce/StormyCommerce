@@ -1,17 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Models.Dtos.GatewayRequests;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Module.Orders.Services;
-using StormyCommerce.Api.Framework.IocContainer;
+using StormyCommerce.Api.Framework.Ioc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace StormyCommerce.Module.Orders.Services
@@ -41,7 +35,7 @@ namespace StormyCommerce.Module.Orders.Services
             shipment.BillingAddress = Container.OriginAddress;
             shipment.WhoReceives = order.WhoReceives;
             shipment.Status = ShippingStatus.NotShippedYet;             
-            shipment.Order = new StormyOrder(0,order);
+            shipment.Order = order;
             return shipment;
         }        
         public async Task CreateShipmentAsync(Shipment shipment)

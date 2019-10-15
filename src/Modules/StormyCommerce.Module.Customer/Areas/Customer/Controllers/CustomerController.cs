@@ -41,7 +41,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         public async Task<IActionResult> AddAddressAsync([FromBody]Address address)
         {
             //TODO:Write method to get current request user
-            //this.HttpContext.User.Identity.Name
+            //this.HttpContext.User.Identity.Name                                    
             await _customerService.AddCustomerAddressAsync(address, 0);
             return new OkObjectResult(Result.Ok());
         }

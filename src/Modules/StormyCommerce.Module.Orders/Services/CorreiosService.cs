@@ -30,8 +30,9 @@ namespace StormyCommerce.Module.Orders.Services
         public async Task<cResultado> CalculateDeliveryPriceAndTime(CalcPrecoPrazoModel model)
         {
             var soapClient = new CalcPrecoPrazoWSSoapClient(EndpointConfiguration.CalcPrecoPrazoWSSoap);            
-            var response = await _correiosSoapWs.CalcPrecoPrazoAsync(Container.Configuration["Correios:CodigoEmpresa"],
+            var response = await _correiosSoapWs.CalcPrecoPrazoAsync(Container.Configuration["Correios:CodigoEmpresa"],                
                 Container.Configuration["Correios:Senha"],                
+                model.nCdServico,
                 Container.Configuration["Correios:OriginPostalCode"],
                 model.sCepDestino,
                 model.nVlPeso,
@@ -60,7 +61,7 @@ namespace StormyCommerce.Module.Orders.Services
                     nVlAltura = shipment.TotalHeight,
                     nVlLargura = shipment.TotalWidth,                        
                     nVlDiametro = 0, 
-                    nVlPeso = shipment.TotalWeight,
+                    nVlPeso = shipment.TotalWeight.ToString(),
                     nCdFormato = (int)FormatCode.CaixaOuPacote, 
                     sCepDestino = shipment.DestinationAddress.PostalCode,
                     sCdMaoPropria = "N",

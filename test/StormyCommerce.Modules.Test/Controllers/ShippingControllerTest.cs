@@ -29,14 +29,14 @@ namespace StormyCommerce.Modules.Test.Controllers
         public async Task CalculateDeliveryCostAsync_WhenReceivesCalculateDeliveryVm_ReturnAllShippingOption()
         {
             //Given
-            var model = new CalculateShippingModel {
+            var model = new CalcPrecoPrazoModel {
                 nCdEmpresa = "",
                 sDsSenha = "",
                 nCdServico = ServiceCode.Sedex,
                 sCepOrigem = "19190970",
                 sCepDestino = "19570970",
                 nVlPeso = "1",
-                nCdFormato = FormatCode.CaixaOuPacote,
+                nCdFormato = (int)FormatCode.CaixaOuPacote,
                 nVlComprimento = 15,
                 nVlAltura = 10,
                 nVlLargura = 10,

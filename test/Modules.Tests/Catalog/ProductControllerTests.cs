@@ -25,24 +25,13 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         public ProductControllerTests()
         {
             var dbContext = DbContextHelper.GetDbContext();
-            //dbContext.AddRange(Seeders.EntitySeed(10, "Product"));
-            //dbContext.AddRange(Seeders.EntitySeed(6, "Category"));
-            //dbContext.SaveChanges();
-            //dbContext.AddRange(Seeders.BrandSeed(16));
-            //dbContext.SaveChanges();
-            //dbContext.AddRange(Seeders.CategorySeed(16));
-            //dbContext.SaveChanges();
-            //dbContext.AddRange(Seeders.StormyVendorSeed(16));
-            //dbContext.SaveChanges();
-            //dbContext.AddRange(Seeders.MediaSeed(16));
-            //dbContext.SaveChanges();
             dbContext.AddRange(Seeders.StormyProductSeed(16));
             dbContext.SaveChanges();
             _repository = new StormyRepository<StormyProduct>(dbContext);
             var profile = new CatalogProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             var mapper = configuration.CreateMapper();
-            _productController = new ProductController(new ProductService(_repository), mapper);
+            _productController = new ProductController(new ProductService(_repository), mapper,null);
         }
 
         [Fact]

@@ -68,31 +68,34 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutViewModel boletoCheckoutViewModel)
         {                        
             //TODO:Get current customer instead
-            ////1 - Pass Customer to transaction model
+            
             var customer = await _customerService.GetCustomerByUserNameOrEmail("",boletoCheckoutViewModel.CustomerEmail);
             var transaction = boletoCheckoutViewModel.ToTransactionVm(customer);
-            ////2 - Define a postback url            
+            
             transaction.PostbackUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/Checkout/postback";
             transaction.Async = true;            
-            ////3 - Perform a charge operation            
+            
             var result = await _pagarmeService.ChargeAsync(transaction);            
-            ////4 - Check if operation was confirmed
+            
             if(!result.Success) return BadRequest($"failed on the payment charge process, see the error code for more info\n {result.Error}");            
-            //TODO:pass all this to automapper            
+            
             var payment = _mapper.Map<PaymentDto>(transaction);            
-            ////5 - Register new Order with payment
+            //TODO:define price type
+            //the price has to be represented in cents
             var price = transaction.Amount / 100;            
             var order = BuildOrder(transaction,_mapper.Map<Payment>(payment),boletoCheckoutViewModel);
             transaction.Items.ForEach(item => 
             order.Items.Add(
                 _mapper.Map<OrderItem>(item)
                 ));                                 
-            var shipment = _shippingService.BuildShipmentForOrder(order.ToOrderDto());            
+            var shipment = _shippingService.BuildShipmentForOrder(order);            
             shipment.Order = order;             
             order.Shipment = shipment;
             if(shipment.DeliveryCost <= 0 && !order.PickUpInStore){
                 var calcResult = await _correiosService.DefaultDeliveryCalculation(shipment);                
-                shipment.DeliveryCost = calcResult.Servicos.FirstOrDefault();
+                shipment.DeliveryCost = decimal.Parse(calcResult.Servicos.FirstOrDefault().Valor
+                .Replace("R$","")
+                .Replace(",","."));
                 order.Shipment = shipment;
             }                            
             await _orderService.CreateOrderAsync(order);

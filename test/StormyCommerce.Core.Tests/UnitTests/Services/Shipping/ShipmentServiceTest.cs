@@ -18,7 +18,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Shipping
             var fakeHttpClient = new Mock<HttpClient>();
             fakeHttpClient.Setup(f => f.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(new HttpResponseMessage(System.Net.HttpStatusCode.OK));
-            return new CorreiosService(RepositoryHelper.GetRepository<Shipment>(), fakeHttpClient.Object,null);
+            return new CorreiosService(RepositoryHelper.GetRepository<Shipment>(),new CalcPrecoPrazoWSSoapClient());
         }
 
         public ShipmentServiceTest()
