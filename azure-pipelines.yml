@@ -83,6 +83,8 @@ jobs:
     displayName: 'dotnet build $(buildConfiguration)'
   - script: ./run-tests.sh
     displayName: 'run tests'    
+    condition: succeededOrFailed()
+  - script: dotnet build src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj --configuration $(buildConfiguration)
   - task: PublishTestResults@2
     displayName: 'Publish Test Results **/*.trx'
     condition: succeededOrFailed()
@@ -90,3 +92,4 @@ jobs:
       testResultsFormat: VSTest
       testResultsFiles: '**/*.trx' 
   - task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'
