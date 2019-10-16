@@ -46,8 +46,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
         public async Task<IActionResult> Charge([FromBody]TransactionVm transactionVm)
         {             
             var result = await _pagarMeWrapper.ChargeAsync(transactionVm);
-            if(!result.Success) return BadRequest($"A error occured in the payment process \n Error Object:{result.Error}");            
-            // Transaction tr = new Transaction();
+            if(!result.Success) return BadRequest($"A error occured in the payment process \n Error Object:{result.Error}");                        
                                 
             return Ok();
         }
@@ -59,7 +58,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
             //TODO:Write new order,shipment and related to the database
             _pagarMeWrapper.CaptureTransaction(model.IdOrToken, model.Amount);
             var transaction = _pagarMeWrapper.GetTransactionById(model.IdOrToken);
-            //TODO: Not finished
+            //transaction.
             return Ok();
         }
         [HttpPost("refund")]

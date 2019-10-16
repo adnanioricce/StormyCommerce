@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
-using StormyCommerce.Module.Orders.Area.Models.Correios;
 using AutoMapper;
+using System.Collections.Generic;
+using StormyCommerce.Module.Orders.Area.Models;
+using System.Linq;
 // using StormyCommerce.Module.Shipping.Models;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
@@ -22,9 +24,8 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         }
         [HttpPost("calcdelivery")]
         [ValidateModel]
-        public async Task<ActionResult<cResultado>> CalculateDeliveryCost(CalcPrecoPrazoModel model){
-            cResultado response = await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<CalcPrecoPrazoModel>(model));                        
-            return Ok(new { result = response });
+        public async Task<ActionResult<List<DeliveryCalculationOptionResponse>>> CalculateDeliveryCost(CalcPrecoPrazoModel model) {                        
+            return Ok(new { result = await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<CalcPrecoPrazoModel>(model)) });
         }       
     }
 }

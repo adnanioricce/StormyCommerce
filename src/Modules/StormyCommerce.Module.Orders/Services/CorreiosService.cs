@@ -13,23 +13,21 @@ using StormyCommerce.Module.Orders.Area.Models;
 using static StormyCommerce.Module.Orders.Services.CalcPrecoPrazoWSSoapClient;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace StormyCommerce.Module.Orders.Services
 {
     //TODO:What to return in GetShippmentOptionsAsync?
     public class CorreiosService 
-    {
-        private readonly IStormyRepository<Shipment> _shipmentRepository;        
+    {        
         private readonly ICalcPrecoPrazoWSSoap _correiosSoapWs;        
-        public CorreiosService(IStormyRepository<Shipment> shipmentRepository,
-        ICalcPrecoPrazoWSSoap correiosSoapWs)
-        {
-            _shipmentRepository = shipmentRepository;            
+        public CorreiosService(ICalcPrecoPrazoWSSoap correiosSoapWs)
+        {            
             _correiosSoapWs = correiosSoapWs;
         }                
-        public async Task<cResultado> CalculateDeliveryPriceAndTime(CalcPrecoPrazoModel model)
-        {
-            var soapClient = new CalcPrecoPrazoWSSoapClient(EndpointConfiguration.CalcPrecoPrazoWSSoap);            
+        public async Task<DeliveryCalculationResponse> CalculateDeliveryPriceAndTime(CalcPrecoPrazoModel model)
+        {                        
             var response = await _correiosSoapWs.CalcPrecoPrazoAsync(Container.Configuration["Correios:CodigoEmpresa"],                
                 Container.Configuration["Correios:Senha"],                
                 model.nCdServico,
@@ -43,17 +41,19 @@ namespace StormyCommerce.Module.Orders.Services
                 model.nVlDiametro,
                 model.sCdMaoPropria,
                 model.nVlValorDeclarado,
-                model.sCdAvisoRecebimento);
-            return response;
+                model.sCdAvisoRecebimento);            
+            return new DeliveryCalculationResponse
+            {
+                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => new DeliveryCalculationOptionResponse(s)))
+            }; 
         }        
-        public async Task<cResultado> DefaultDeliveryCalculation(Shipment shipment)
-        {
-            var soapClient = new CalcPrecoPrazoWSSoapClient(EndpointConfiguration.CalcPrecoPrazoWSSoap);
-            var model = GetDefaultShippingCalcModel(shipment); 
-            // return await _correiosSoapWs.CalcPrecoPrazoAsync();
-            throw new NotImplementedException();
+        public async Task<DeliveryCalculationResponse> DefaultDeliveryCalculation(Shipment shipment)
+        {            
+            var response = await CalculateDeliveryPriceAndTime(GetDefaultShippingCalcModel(shipment));
+            return response;            
         }         
-        private CalcPrecoPrazoModel GetDefaultShippingCalcModel(Shipment shipment){                            
+        private CalcPrecoPrazoModel GetDefaultShippingCalcModel(Shipment shipment)
+        {                            
             return new CalcPrecoPrazoModel {             
                     nCdEmpresa = Container.Configuration["Correios:CodigoEmpresa"],
                     sDsSenha = Container.Configuration["Correios:Senha"],          
@@ -66,7 +66,7 @@ namespace StormyCommerce.Module.Orders.Services
                     sCepDestino = shipment.DestinationAddress.PostalCode,
                     sCdMaoPropria = "N",
                     //TODO: this is the corrected value or the total?
-                    nVlValorDeclarado = shipment.Order.TotalPrice / 10                       
+                    nVlValorDeclarado = shipment.Order.TotalPrice                       
             };
         }
     }

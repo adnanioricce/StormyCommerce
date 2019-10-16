@@ -30,19 +30,30 @@ namespace StormyCommerce.Module.Mapping.Mappings
             CreateMap<Item, PagarMeItem>();
             CreateMap<OrderItemDto, Item>();
 
-            CreateMap<Transaction, PaymentDto>();
+            CreateMap<Transaction, PaymentDto>()
+                .ForMember(src => src.Amount,opt => opt.MapFrom(src => src.Amount))
+                .ForMember(src => src.CreatedOn,opt => opt.MapFrom(src => src.DateCreated))
+                .ForMember(src => src.GatewayTransactionId,opt => opt.MapFrom(src => src.Id))
+                .ForMember(src => src.PaymentFee,opt => opt.MapFrom(src => src.Id))
+                .ForMember(src => src.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod));
+                //TODO:Need better way to map this
+                //.ForMember(src => src.PaymentStatus,opt => opt.MapFrom(src => src.Status)                
+
+            //CreateMap<PaymentDto, Transaction>();                
             CreateMap<TransactionVm,StormyOrder>()
                 .ForMember(p => p.TotalPrice,opt => opt.MapFrom(src => (src.Amount / 100).ToString()))
                 .ForMember(p => p.DeliveryCost,opt => opt.MapFrom(src => src.Shipping.Fee))
                 .ForMember(p => p.DeliveryDate,opt => opt.MapFrom(src => Convert.ToDateTime(src.Shipping.DeliveryDate)))
                 .ForMember(p => p.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod))
                 .ForMember(p => p.Customer,opt => opt.MapFrom(src => src.Customer))
-                .ForMember(p => p.ShippingAddress,opt => opt.MapFrom(src => src.Shipping.Address));
+                .ForMember(p => p.ShippingAddress,opt => opt.MapFrom(src => src.Shipping.Address))
+                .ForMember(p => p.Items,opt => opt.MapFrom(src => src.Items));
 
             CreateMap<Item, OrderItemDto>();
-            CreateMap<OrderItemDto, Item>();
-            CreateMap<PagarMeItem,OrderItem>()
-                .ForMember(p => p.Price,opt => opt.MapFrom(src => $"R${src.UnitPrice}"));                
+            CreateMap<OrderItemDto, Item>();                
+            CreateMap<PagarMeItem, OrderItem>()
+                .ForMember(p => p.Price, opt => opt.MapFrom(src => $"R${src.UnitPrice}"))
+                .ForMember(p => p.ProductName, opt => opt.MapFrom(src => src.Title));                
                 // .ForMember(p => p.Product,opt => opt.MapFrom(src => src.));
         }
     }

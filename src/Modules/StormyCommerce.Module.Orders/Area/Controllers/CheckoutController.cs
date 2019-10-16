@@ -52,17 +52,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             _pagarmeService = pagarMeService;
             _customerService = customerService;
             _mapper = mapper;
-        }
-
-        ///<summary>
-        /// Nothing working yet
-        ///</summary>
-        [HttpPost]
-        [ValidateModel]
-        public async Task<IActionResult> Checkout([FromBody]CheckoutOrderVm checkoutVm)
-        {                        
-            throw new NotImplementedException();
-        }
+        }        
         [HttpPost("boleto")]
         [ValidateModel]        
         public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutViewModel boletoCheckoutViewModel)
@@ -89,17 +79,16 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 _mapper.Map<OrderItem>(item)
                 ));                                 
             var shipment = _shippingService.BuildShipmentForOrder(order);            
-            shipment.Order = order;             
-            order.Shipment = shipment;
+            shipment.Order = order;                         
             if(shipment.DeliveryCost <= 0 && !order.PickUpInStore){
                 var calcResult = await _correiosService.DefaultDeliveryCalculation(shipment);                
-                shipment.DeliveryCost = decimal.Parse(calcResult.Servicos.FirstOrDefault().Valor
+                shipment.DeliveryCost = decimal.Parse(calcResult.Options.FirstOrDefault().Price
                 .Replace("R$","")
                 .Replace(",","."));
                 order.Shipment = shipment;
             }                            
-            await _orderService.CreateOrderAsync(order);
-            return Ok();
+            
+            return Ok(await _orderService.CreateOrderAsync(order));
             StormyOrder BuildOrder(TransactionVm _transactionVm,Payment _payment,BoletoCheckoutViewModel checkoutVm){
                 return new StormyOrder{
                     Customer = customer,

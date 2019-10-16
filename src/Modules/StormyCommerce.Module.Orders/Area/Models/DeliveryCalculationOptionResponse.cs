@@ -1,4 +1,4 @@
-using StormyCommerce.Module.Orders.Area.Models.Correios;
+﻿using StormyCommerce.Module.Orders.Area.Models.Correios;
 namespace StormyCommerce.Module.Orders.Area.Models
 {
     public class DeliveryCalculationOptionResponse
@@ -16,6 +16,5 @@ namespace StormyCommerce.Module.Orders.Area.Models
         public string HourOfDay { get; private set; }
         public string Price { get; private set; }
         public int Service { get; private set; }        
-
     }
 }

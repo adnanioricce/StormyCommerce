@@ -18,7 +18,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Shipping
             var fakeHttpClient = new Mock<HttpClient>();
             fakeHttpClient.Setup(f => f.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(new HttpResponseMessage(System.Net.HttpStatusCode.OK));
-            return new CorreiosService(RepositoryHelper.GetRepository<Shipment>(),new CalcPrecoPrazoWSSoapClient());
+            return new CorreiosService(new CalcPrecoPrazoWSSoapClient());
         }
 
         public ShipmentServiceTest()
@@ -28,29 +28,13 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Shipping
         [Fact]
         public async Task CalculateDeliveryPrice_OriginAndReceiverPostalCodes_ShouldReturnPriceAndDeliveryTime()
         {
-            //Arrange
-            // var calculateShippingModel = new CalculateShippingModel{
-            //     nCdEmpresa = "",
-            //     nCdServico = ServiceCode.SedexAVista,
-            //     nVlAltura = 5.0m,
-            //     nVlLargura = 5.0m,
-            //     nVlDiametro = 0.0m,
-            //     nVlComprimento = 5.0m,
-            //     nVlPeso = "0.5kg",
-            //     nCdFormato = 1,
-            //     nVlValorDeclarado = 0,
-            //     sDsSenha = "",
-            //     sCdMaoPropria = "N",
-            //     sCdAvisoRecebimento = "N",
-            //     sCepOrigem = "01330000",
-            //     sCepDestino = "65930000"
-            // };
+            //Arrange            
             var service = CreateService();
             //Act
             var result = await service.CalculateDeliveryPriceAndTime(null);
             //Assert
-            cServico containPrice = result.Servicos.ToList().FirstOrDefault(s => s.Valor == "R$14.55");
-            Assert.NotNull(containPrice);
+            var containPrice = result.Options.FirstOrDefault(s => s.Price == "R$14.55");
+            Assert.NotNull(containPrice);            
         }
 
         [Fact]

@@ -27,7 +27,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Shipping
         {
             //Arrange 
             var shipment = Seeders.ShipmentSeed().First();
-            var service = new ShippingService(RepositoryHelper.GetRepository<Shipment>(),RepositoryHelper.GetRepository<StormyOrder>(),new CorreiosService(null,new CalcPrecoPrazoWSSoapClient()));
+            var service = new ShippingService(RepositoryHelper.GetRepository<Shipment>(),RepositoryHelper.GetRepository<StormyOrder>(),new CorreiosService(new CalcPrecoPrazoWSSoapClient()));
             //Act 
             await service.CreateShipmentAsync(shipment);
             //Assert
