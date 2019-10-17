@@ -8,6 +8,7 @@ using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Entities.Vendor;
+using StormyCommerce.Core.Models;
 using System;
 using System.Collections.Generic;
 
@@ -35,8 +36,8 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.StockTrackingIsEnabled, true)
                 .RuleFor(v => v.Ranking, f => f.IndexVariable)
                 .RuleFor(v => v.Note, f => f.Lorem.Text())
-                .RuleFor(v => v.Price, f => f.Commerce.Price(1, 100, 2, "R$"))
-                .RuleFor(v => v.OldPrice, f => f.Commerce.Price(2, 200, 2, "R$"))
+                .RuleFor(v => v.Price, f => Price.GetPriceFromString(f.Commerce.Price(1, 100, 2, "R$")))
+                .RuleFor(v => v.OldPrice, f => Price.GetPriceFromString(f.Commerce.Price(2, 200, 2, "R$")))
                 .RuleFor(v => v.HasDiscountApplied, false)
                 .RuleFor(v => v.IsPublished, true)
                 .RuleFor(v => v.Status, "Good")
@@ -55,18 +56,15 @@ namespace StormyCommerce.Api.Framework.Extensions
         }
         public static List<Shipment> ShipmentSeed(int count = 1)
         {
-            var fakeShipment = new Faker<Shipment>("pt_BR")
-                .RuleFor(v => v.Width, f => f.Random.Decimal(5.0m, 10.0m))
-                .RuleFor(v => v.Height, f => f.Random.Decimal(5.0m, 10.0m))
+            var fakeShipment = new Faker<Shipment>("pt_BR")                
                 .RuleFor(v => v.Id, f => ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, DateTimeOffset.UtcNow)
-                .RuleFor(v => v.Price, f => f.Random.Decimal(8.90m, 42.90m))
+                .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(8.90m, 42.90m))
                 .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<string>("PAC", "Sedex"))
                 .RuleFor(v => v.ShipmentProvider, "Correios")
                 .RuleFor(v => v.ShippedDate, f => f.Date.Recent())
-                .RuleFor(v => v.TotalWeight, f => f.Random.Decimal(5.0m, 20.0m))
-                .RuleFor(v => v.Diameter, 0.0m)
+                .RuleFor(v => v.TotalWeight, f => f.Random.Decimal(5.0m, 20.0m))                
                 .RuleFor(v => v.DeliveryDate, f => f.Date.Recent(4))
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(3.0m, 62.0m))
                 .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4))
@@ -294,6 +292,38 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.RatingLevel, f => f.Random.Int(0, 5))
                 .RuleFor(v => v.Status, ReviewStatus.Approved);
             return fakeReview.Generate(count);
+        }
+        //TODO:A clean way to write all this?
+        public static List<StormyOrder> OrderSeed(int count = 1,bool ignoreId = false)
+        {
+            // var fakeOrder = new Faker<StormyOrder>("pt_BR")
+            //     .RuleFor(v => v.Id,f => ignoreId ? 0 : ++f.IndexVariable)
+            //     .RuleFor(v => v.IsCancelled,f => f.Random.Bool(0.2f))
+            //     .RuleFor(v => v.LastModified,f => f.Date.Recent())
+            //     .RuleFor(v => v.Note,f => f.Lorem.Sentence())
+            //     .Rules((f,v) => {
+            //         v.Id = ignoreId ? 0 : ++f.IndexVariable; 
+            //         v.IsCancelled = f.Random.Bool(0.2f);
+            //         v.LastModified = f.Date.Recent(); 
+            //         v.Note = f.Lorem.Sentence(); 
+            //         v.TotalPrice = f.Finance.Amount(1.99m,400); 
+            //         v.Discount = f.Finance.Amount(0,v.TotalPrice); 
+            //         v.TotalWeight = f.Random.Decimal(0.3m,2);
+            //         var fakeOrderItem = new Faker<OrderItem>().Rules((innerF,innerV) => {
+            //             innerV.Order = v; 
+            //             innerV.StormyOrderId = innerV.Id;
+            //             innerV.Id = ignoreId ? 0 : ++innerF.IndexVariable; 
+            //             innerV.IsDeleted = false; 
+            //             innerV.LastModified = v.LastModified; 
+            //             // innerV.Price = v                                                  
+            //         });
+            //         v.Items = f.Make<OrderItem>(f.Random.Int(1,count))
+                    
+                     
+
+
+            //     })
+            return new List<StormyOrder>();
         }
     }
 }

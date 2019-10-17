@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -38,20 +39,52 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
             _mapper = mapper;                      
             _emailSender = emailSender;  
         }
-        [HttpPost("/boleto")]
+        [HttpPost("charge")]
         [ValidateModel]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckoutBoleto([FromBody]TransactionVm transactionVm)
+        //TODO:Create a postback endpoint
+        public async Task<IActionResult> Charge([FromBody]TransactionVm transactionVm)
+        {             
+            var result = await _pagarMeWrapper.ChargeAsync(transactionVm);
+            if(!result.Success) return BadRequest($"A error occured in the payment process \n Error Object:{result.Error}");                        
+                                
+            return Ok();
+        }
+        [HttpPost("charge_postback")]
+        [ValidateModel]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChargePostback([FromBody]PostBackModel model)
         {
-            var transaction = _mapper.Map<TransactionVm, Transaction>(transactionVm);
-            var payment = _mapper.Map<Payment>(transactionVm);
-            var shipping = _mapper.Map<Shipment>(transactionVm);
-            await _shipmentRepository.AddAsync(shipping);
-            payment.PaymentStatus = PaymentStatus.Pending;
-            await _paymentRepository.AddAsync(payment);
-            transaction.Save();     
-            var result = _pagarMeWrapper.CreateBoleto(transaction);            
-            return Ok(result);
+            //TODO:Write new order,shipment and related to the database
+            _pagarMeWrapper.CaptureTransaction(model.IdOrToken, model.Amount);
+            var transaction = _pagarMeWrapper.GetTransactionById(model.IdOrToken);
+            //transaction.
+            return Ok();
+        }
+        [HttpPost("refund")]
+        [ValidateModel]
+        [ValidateAntiForgeryToken]
+        public IActionResult Refund(string transactionId)
+        {
+            _pagarMeWrapper.RefundTransaction(transactionId);
+            return Ok();
+        }
+        //TODO:Change to a internal domain model
+        [HttpGet("list")]
+        [ValidateModel]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles.Admin)]
+        public async Task<List<Transaction>> GetAllTransactions()
+        {
+            return await _pagarMeWrapper.GetAllTransactionAsync();
+        }
+        [HttpGet]
+        [ValidateModel]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles.Admin)]
+        public async Task<Transaction> GetTransactionById(string id)
+        {
+            return await _pagarMeWrapper.GetTransactionByIdAsync(id);
         }
     }
 }

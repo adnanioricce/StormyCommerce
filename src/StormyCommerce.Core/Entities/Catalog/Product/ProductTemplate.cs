@@ -6,6 +6,8 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
     public class ProductTemplate : BaseEntity
     {
         public string Name { get; set; }
+        public long StormyProductId { get; set; }
+        public StormyProduct Product { get; set; }
 
         public IList<ProductTemplateProductAttribute> ProductAttributes { get; protected set; } = new List<ProductTemplateProductAttribute>();
 

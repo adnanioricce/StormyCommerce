@@ -46,7 +46,7 @@ namespace Modules.Test
 
         private EntityService CreateEntityService()
         {
-            return new EntityService(RepositoryHelper.GetRepository<Entity>());
+            return new EntityService(TestHelperLibrary.Utils.RepositoryHelper.GetRepository<Entity>());
         }
 
         [Fact]

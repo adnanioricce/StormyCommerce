@@ -1,8 +1,10 @@
 ﻿using StormyCommerce.Core.Entities.Vendor;
+using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Module.Catalog.Dtos;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
@@ -18,12 +20,12 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             Id = productDto.Id;
             Slug = productDto.Slug;
             ProductName = productDto.ProductName;
-            OldPrice = productDto.OldPrice;
-            Price = productDto.Price;
+            OldPrice = Core.Models.Price.GetPriceFromString(productDto.OldPrice);
+            Price = Core.Models.Price.GetPriceFromString(productDto.Price);
             QuantityPerUnity = productDto.QuantityPerUnity;
             UnitPrice = productDto.UnitPrice;
             UnitsInStock = productDto.UnitsInStock;
-            UnitSize = Convert.ToDecimal(productDto.UnitSize);
+            UnitSize = Convert.ToDecimal(productDto.UnitSize.Replace("cm",""));
             UnitsOnOrder = productDto.UnitsOnOrder;
             UnitWeight = productDto.UnitWeight;
             ThumbnailImage = productDto.ThumbnailImage;
@@ -47,9 +49,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public long MediaId { get; set; }
         public long VendorId { get; set; }
         public long CategoryId { get; set; }
-        public long ProductLinksId { get; set; }
-        public long TaxClassId { get; set; }
-        public long LatestUpdatedById { get; set; }
+        public long? ProductLinksId { get; set; }
+        public long? TaxClassId { get; set; }
+        public long? LatestUpdatedById { get; set; }
         public StormyVendor Vendor { get; set; }
         public Brand Brand { get; set; }
         public Category Category { get; set; }
@@ -62,6 +64,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
         public double UnitWeight { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public int? Diameter { get; set; }
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }
         public int ReviewsCount { get; set; }
@@ -77,8 +82,10 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public List<ProductOptionValue> OptionValues { get; protected set; } = new List<ProductOptionValue>();
         public int Ranking { get; set; }
         public string Note { get; set; }
-        public string Price { get; set; }
-        public string OldPrice { get; set; }
+        // [NotMapped]
+        public Price Price { get; set; }
+        // [NotMapped]
+        public Price OldPrice { get; set; }
         public string SpecialPrice { get; set; }
         public DateTime? SpecialPriceStart { get; set; }
         public DateTime? SpecialPriceEnd { get; set; }        
@@ -135,6 +142,11 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         {
             var medias = this.Medias;
             return medias.Select(media => media.ToMediaDto()).ToList();
+        }
+        public int CalculateDimensions()
+        {
+            //TODO:Calculate products with diameter
+            return this.Width * this.Height; 
         }
     }
 }

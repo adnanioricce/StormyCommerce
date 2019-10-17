@@ -6,10 +6,11 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StormyCommerce.Module.PagarMe.Services
-{
-    //TODO:
+{    
     public class PagarMeWrapper
     {
         private readonly PagarMeService _pagarMeService;
@@ -19,35 +20,41 @@ namespace StormyCommerce.Module.PagarMe.Services
         IStormyRepository<Payment> paymentRepository,
         IMapper mapper)
         {            
+            //if this doesn't work, try PagarMeService.GetDefaultService()
             _pagarMeService = pagarMeService;            
             _paymentRepository = paymentRepository;
             _mapper = mapper;            
-        }                
-        public Result SaveTransaction(Transaction transaction)
-        {   
-            transaction.Save();
-            return Result.Ok();            
-        }           
-        public Result<string> CreateBoleto(Transaction transaction)
-        {      
-            var transactionResult = SaveTransaction(transaction);      
-            if(!transactionResult.Success){
-                return Result.Fail<string>(transactionResult.Error);   
-            }            
-            var entryTransaction = _pagarMeService.Transactions.Find(transaction.Id,true);
-            return Result.Ok<string>(entryTransaction.BoletoUrl);
+        }        
+        public async Task<List<Transaction>> GetAllTransactionAsync()
+        {
+            return (List<Transaction>)(await _pagarMeService.Transactions.FindAllAsync(new Transaction()));
         }
-        // public 
-        //public Result CheckoutBoleto(Transaction transaction)
-        //{
-        //    var transaction = _mapper.Map<TransactionVm, Transaction>(transactionVm);
-        //    var payment = _mapper.Map<Payment>(transaction);
-        //    var shipping = _mapper.Map<Shipment>(transaction);
-
-        //    payment.PaymentStatus = PaymentStatus.Pending;
-        //    await _paymentRepository.AddAsync(payment);
-        //    transaction.Save();
-        //}
-        
+        public async Task<Result> ChargeAsync(TransactionVm transactionVm)
+        {      
+            var transaction = _mapper.Map<Transaction>(transactionVm);
+            transaction.Async = true;
+            transaction.PaymentMethod = (PaymentMethod)transactionVm.PaymentMethod;
+            await transaction.SaveAsync();                                          
+            return Result.Ok();
+        }
+        public Result CaptureTransaction(string idOrToken,int amount)
+        {
+            var transaction = _pagarMeService.Transactions.Find(idOrToken);
+            transaction.Capture(amount);
+            return Result.Ok("Operation captured with success");
+        }
+        public Transaction GetTransactionById(string id)
+        {
+            return _pagarMeService.Transactions.Find(id,true);
+        }                
+        public void RefundTransaction(string transactionId)
+        {
+            var transaction = _pagarMeService.Transactions.Find(transactionId);
+            transaction.Refund();
+        }
+        public Task<Transaction> GetTransactionByIdAsync(string id)
+        {
+            return _pagarMeService.Transactions.FindAsync(id);
+        }
     }
 }

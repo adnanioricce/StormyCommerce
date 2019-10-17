@@ -7,7 +7,8 @@ namespace StormyCommerce.Module.Mapping.Mappings
     {
         public ShippingProfile()
         {
-            
+            //TODO:Define mappings 
+            // CreateMap<
         }
     }
 }

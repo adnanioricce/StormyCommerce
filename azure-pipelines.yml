@@ -57,7 +57,10 @@ jobs:
     displayName: 'dotnet build'
   - task: PowerShell@2
     inputs:
-      filePath: .\run-tests.ps1
+      filePath: '.\run-tests.ps1'
+      errorActionPreference: 'continue'
+      ignoreLASTEXITCODE: true
+      pwsh: true
     displayName: 'run tests'
   - task: PublishTestResults@2
     displayName: 'Publish Test Results **/*.trx'
@@ -80,9 +83,21 @@ jobs:
     displayName: 'dotnet build $(buildConfiguration)'
   - script: ./run-tests.sh
     displayName: 'run tests'    
+    condition: succeededOrFailed()
+  
   - task: PublishTestResults@2
     displayName: 'Publish Test Results **/*.trx'
     condition: succeededOrFailed()
     inputs:
       testResultsFormat: VSTest
       testResultsFiles: '**/*.trx' 
+    
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: publish 
+      publishWebProjects: True
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory'
+      zipAfterPublish: True
+  - script: dotnet build src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj 
+  - task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'

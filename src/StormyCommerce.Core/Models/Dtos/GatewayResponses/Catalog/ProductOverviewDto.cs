@@ -28,8 +28,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public long Id { get; private set; }
         public string ProductName { get; private set; }
         public string Slug { get; private set; }
-        public string Price { get; private set; }
-        public string OldPrice { get; private set; }
+        public Price Price { get; private set; }
+        public Price OldPrice { get; private set; }
         public bool HasDiscountApplied { get; private set; }
         public bool IsPublished { get; private set; }
         public bool AvailableForPreorder { get; private set; }

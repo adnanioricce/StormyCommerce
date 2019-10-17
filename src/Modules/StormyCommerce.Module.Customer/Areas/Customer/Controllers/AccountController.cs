@@ -37,9 +37,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         [ValidateModel]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmailAsync(string userId,string code)
-        {
-            if (userId == null || code == null ) return BadRequest();
-
+        {            
             var appUser = _identityService.GetUserById(userId);
 
             if (appUser == null) return BadRequest("user with given email not found");

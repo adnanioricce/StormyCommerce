@@ -73,7 +73,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
             StormyOrder entry = new StormyOrder(0)
             {
                 OrderUniqueKey = orderUniqueKey,
-                CustomerId = 1,
+                StormyCustomerId = 1,
                 Status = OrderStatus.New,
                 PickUpInStore = false,
                 IsDeleted = false,
@@ -117,7 +117,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
             StormyOrder entity = new StormyOrder(2)
             {
                 OrderUniqueKey = orderUniqueKey,
-                CustomerId = 1,
+                StormyCustomerId = 1,
                 Status = OrderStatus.New,
                 PickUpInStore = false,
                 IsDeleted = false,

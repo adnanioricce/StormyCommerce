@@ -2,6 +2,7 @@
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Models;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
 {
@@ -61,7 +62,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 .OnDelete(DeleteBehavior.Cascade);
             });
             modelBuilder.Entity<StormyProduct>(entity =>
-            {
+            {                
                 entity.HasQueryFilter(product => !product.IsDeleted);
                 entity.Property(p => p.Price);
                 entity.Property(p => p.OldPrice);
@@ -78,36 +79,31 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(product => product.UnitsOnOrder).IsRequired();
                 entity.Property(product => product.QuantityPerUnity).IsRequired();
                 entity.Property(product => product.ProductCost).IsRequired();
-                entity.Property(product => product.OldPrice);
-                entity.Property(product => product.Price);
-                entity.Property(product => product.Discount);
+                entity.Property(product => product.OldPrice)
+                    .HasConversion<string>(price => price.Value,dbValue => Price.GetPriceFromString(dbValue)).HasColumnType("decimal(18,4)");
+                entity.Property(product => product.Price)
+                    .HasConversion<string>(price => price.Value,dbValue => Price.GetPriceFromString(dbValue)).HasColumnType("decimal(18,4)");                
                 entity.Property(product => product.UnitSize).IsRequired();
                 entity.Property(product => product.UnitPrice).IsRequired();
                 entity.Property(product => product.UnitsInStock).IsRequired();
                 entity.Property(product => product.TypeName).IsRequired();
-                entity.Property(product => product.Status).IsRequired();
-                entity.Property(product => product.ThumbnailImage);
-                //entity.HasData(Seeders.StormyProductSeed(50));
+                entity.Property(product => product.Status).IsRequired();                                             
             });
 
             modelBuilder.Entity<ProductOption>(entity =>
             {
             });
             modelBuilder.Entity<Media>(entity =>
-            {
-                // entity.HasData();
-                //entity.HasData(Seeders.MediaSeed(50));
+            {                
             });
-            modelBuilder.Entity<Stock>(e => {
-                // e.HasMany(prop => prop.Orders).WithOne(prop => prop.)
+            modelBuilder.Entity<Stock>(e => {                
             });
             modelBuilder.Entity<Brand>(entity =>
             {
                 entity.HasQueryFilter(brand => brand.IsDeleted == false)
                 .Property(brand => brand.Slug)
                 .HasMaxLength(450)
-                .IsRequired();
-                //entity.HasData(Seeders.BrandSeed(10));
+                .IsRequired();                
             });
         }
     }

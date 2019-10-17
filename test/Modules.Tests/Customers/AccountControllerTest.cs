@@ -34,7 +34,7 @@ namespace Modules.Test.Customers
         private CustomerController CreateController()
         {
             var service = ServiceTestFactory.GetCustomerService();
-            return new CustomerController(service,ServiceTestFactory.GetFakeMapper());
+            return new CustomerController(service,null,ServiceTestFactory.GetFakeMapper());
         }
 
         // private Mock
@@ -47,7 +47,7 @@ namespace Modules.Test.Customers
             var _customers = Seeders.StormyCustomerSeed(15);
             dbContext.Add(_customers);
             dbContext.SaveChanges();
-            var controller = new CustomerController(new CustomerService(null,new StormyRepository<StormyCustomer>(dbContext)),null);
+            var controller = new CustomerController(new CustomerService(null,new StormyRepository<StormyCustomer>(dbContext)),null,null);
             //Act
             var result = await controller.AddAddressAsync(addressObject);
             var returnResult = Assert.IsAssignableFrom<OkResult>(result);
@@ -67,7 +67,7 @@ namespace Modules.Test.Customers
             var seed = Seeders.ReviewSeed(1).First();
             seed.Author = customers.First();
             var review = new CustomerReviewDto(seed);
-            var controller = new CustomerController(new CustomerService(RepositoryHelper.GetRepository<Review>(dbContext),customerRepo),ServiceTestFactory.GetFakeMapper());
+            var controller = new CustomerController(new CustomerService(RepositoryHelper.GetRepository<Review>(dbContext),customerRepo),null,ServiceTestFactory.GetFakeMapper());
             //Act
             var result = await controller.WriteReviewAsync(review);
             var returnResult = Assert.IsAssignableFrom<OkResult>(result);
@@ -100,7 +100,7 @@ namespace Modules.Test.Customers
             dbContext.AddRange(customer);
             dbContext.SaveChanges();
             var customerRepo = RepositoryHelper.GetRepository<StormyCustomer>(dbContext);
-            var controller = new CustomerController(new CustomerService(null, customerRepo),null);
+            var controller = new CustomerController(new CustomerService(null, customerRepo),null,null);
             //Act
             var result = await controller.GetCustomerByEmailOrUsernameAsync(customer.Email,"");
             //var contenxt = Assert.

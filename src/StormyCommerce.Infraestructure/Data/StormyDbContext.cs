@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,10 @@ namespace StormyCommerce.Infraestructure.Data
 {
     //TODO: Methods to execute sql
     public class StormyDbContext : IdentityDbContext,IStormyDbContext
-    {
+    {        
         public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)
         {
+            
         }
 
         public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
@@ -47,8 +49,7 @@ namespace StormyCommerce.Infraestructure.Data
             //RegisterConvention(modelBuilder);
             RegisterCustomMappings(modelBuilder, typeConfigurations);
             base.OnModelCreating(modelBuilder);
-        }
-
+        }                 
         //TODO:Move this to a helper class
         private void ValidateEntities()
         {

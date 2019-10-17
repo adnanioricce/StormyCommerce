@@ -52,6 +52,7 @@
     "react-use": "^10.5.0",
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5",
+    "remote-redux-devtools": "^0.5.16",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
   }

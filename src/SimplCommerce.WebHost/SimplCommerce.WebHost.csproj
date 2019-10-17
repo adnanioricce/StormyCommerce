@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+  
   <PropertyGroup>
     <TaskFolder Condition=" '$(MSBuildRuntimeType)' == 'Core' ">netcoreapp2.0</TaskFolder>
     <TaskFolder Condition=" '$(MSBuildRuntimeType)' != 'Core' ">net46</TaskFolder>
@@ -15,7 +15,10 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="wwwroot\**\*;modules.json;appsettings.json;Modules\**\*;Themes\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -25,15 +28,16 @@
   <ItemGroup>    
     <ProjectReference Include="..\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
     <ProjectReference Include="..\Modules\StormyCommerce.Module.Orders\StormyCommerce.Module.Orders.csproj" />
-    <ProjectReference Include="..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
-    <ProjectReference Include="..\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj" />    
+    <ProjectReference Include="..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />    
     <ProjectReference Include="..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
     <ProjectReference Include="..\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
+    <ProjectReference Include="..\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj" />    
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.6" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.1-dev-00767" />
@@ -49,7 +53,12 @@
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\" />
+  </ItemGroup>
+
   <Target Name="CopyModule" AfterTargets="Build">
     <CopyModuleTask ProjectDir="$(ProjectDir)" TargetFramework="netcoreapp2.2" BuildConfiguration="$(ConfigurationName)" />
   </Target>
+  
 </Project>

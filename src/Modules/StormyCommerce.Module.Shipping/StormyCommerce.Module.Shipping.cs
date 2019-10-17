@@ -1,3 +1,0 @@
-namespace StormyCommerce.Module.Shipping
-{    
-}

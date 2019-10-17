@@ -134,18 +134,17 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         [ValidateModel]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {            
-            var user =  _identityService.GetUserByEmail(model.Email);
-            _logger.LogInformation("Searching for user");
+            var user =  _identityService.GetUserByEmail(model.Email);            
+
+            //TODO:what if the user really forgot? how he will access it?
             if (user == null || !(await _identityService.IsEmailConfirmedAsync(user))) return BadRequest();            
-            _logger.LogInformation("user validated");
-            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-            // Send an email with this link
-            var code = await _identityService.GeneratePasswordResetTokenAsync(user);
-            _logger.LogInformation("reset password Code generated");
+            _logger.LogInformation("user validated");            
+
+            var code = await _identityService.GeneratePasswordResetTokenAsync(user);            
+
             var callbackUrl = Url.Action("ResetPasswordAsync", "Account", 
             new { userId = user.Id, code = code },
-             protocol: HttpContext.Request.Scheme);
-            _logger.LogInformation("callback url created");
+             protocol: HttpContext.Request.Scheme);            
             await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                 $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");                        
             _logger.LogInformation("password recover email Sended");

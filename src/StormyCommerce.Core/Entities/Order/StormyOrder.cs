@@ -17,9 +17,8 @@ namespace StormyCommerce.Core.Entities
             Id = id;
         }
 
-        public StormyOrder(long id, OrderDto orderDto)
-        {
-            Id = id;
+        public StormyOrder(long id, OrderDto orderDto) : this(id)
+        {            
             Comment = orderDto.Comment;
             DeliveryCost = orderDto.DeliveryCost;
             DeliveryDate = orderDto.DeliveryDate;
@@ -35,18 +34,16 @@ namespace StormyCommerce.Core.Entities
             Status = orderDto.Status;
             OrderDate = orderDto.OrderDate;
         }
-
-        public StormyOrder()
-        {
-        }
-
+        public StormyOrder(){}
         public Guid OrderUniqueKey { get; set; }
-        public long CustomerId { get; set; }
+        public long StormyCustomerId { get; set; }
+        public string UserId { get; set; }
         public long PaymentId { get; set; }
         public long ShipmentId { get; set; }
         public bool PickUpInStore { get; set; }
-        public bool IsCancelled { get; set; }
+        public bool IsCancelled { get; set; } = false;
         public string ShippingMethod { get; set; }
+        public string WhoReceives { get; set; }
         public string PaymentMethod { get; set; }
         public string TrackNumber { get; set; }
         public string Note { get; set; }
@@ -64,7 +61,7 @@ namespace StormyCommerce.Core.Entities
         public DateTime ShippedDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         public DateTime? PaymentDate { get; set; }
-        public IList<OrderItem> Items { get; set; } = new List<OrderItem>();
+        public List<OrderItem> Items { get; set; } = new List<OrderItem>();
         public Shipment Shipment { get; set; }
         public OrderStatus Status { get; set; }
         public ShippingStatus ShippingStatus { get; set; }

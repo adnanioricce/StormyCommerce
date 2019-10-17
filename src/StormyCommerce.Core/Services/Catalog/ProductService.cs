@@ -73,19 +73,18 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             return _productRepository.Table.Where(f => f.VendorId == vendorId).Count();
         }
-
-        /// <summary>
-        /// NOT IMPLEMENTED, DONT USE
-        /// </summary>
-        /// <param name="categoryIds"></param>
-        /// <param name="storeId"></param>
-        /// <returns></returns>
-        public int GetNumberOfProductsInCategory(IList<int> categoryIds = null)
+        
+        public int GetNumberOfProductsInCategory(IList<long> categoryIds = null)
         {
             if(categoryIds == null) return 0;
+            
             var products = new List<StormyProduct>();
-            return 0;
-
+            foreach (int id in categoryIds)
+            {
+                products = _productRepository.Table.Where(p => p.CategoryId == id).ToList();
+            }
+                                   
+            return products.Count;
         }
 
         public async Task<StormyProduct> GetProductByIdAsync(long productId)

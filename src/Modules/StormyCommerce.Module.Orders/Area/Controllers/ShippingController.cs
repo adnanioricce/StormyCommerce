@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using AutoMapper;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Models.Dtos.GatewayRequests;
-using StormyCommerce.Module.Orders.Area.Models;
+using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
+using AutoMapper;
+using System.Collections.Generic;
+using StormyCommerce.Module.Orders.Area.Models;
+using System.Linq;
 // using StormyCommerce.Module.Shipping.Models;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
@@ -21,18 +16,16 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     public class ShippingController : ControllerBase
     {
         private readonly CorreiosService _correiosService;        
-        public ShippingController(CorreiosService correiosService)
+        private readonly IMapper _mapper;
+        public ShippingController(CorreiosService correiosService,IMapper mapper)
         {
             _correiosService = correiosService;            
+            _mapper = mapper;
         }
         [HttpPost("calcdelivery")]
         [ValidateModel]
-        public async Task<ActionResult<cResultado>> CalculateDeliveryCost(CalculateShippingModel model)
-        {
-            //?The map is actually unecessary, what is the point actually? this don't is even on the domain model 
-            //Try at least to create a more readable version of the service if you plan to wrap it
-            var response = await _correiosService.CalculateDeliveryPriceAndTime(model);                        
-            return Ok(new { result = response });
+        public async Task<ActionResult<List<DeliveryCalculationOptionResponse>>> CalculateDeliveryCost(CalcPrecoPrazoModel model) {                        
+            return Ok(new { result = await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<CalcPrecoPrazoModel>(model)) });
         }       
     }
 }

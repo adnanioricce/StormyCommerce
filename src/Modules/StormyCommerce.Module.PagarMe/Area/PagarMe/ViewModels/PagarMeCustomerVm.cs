@@ -7,16 +7,15 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
     public class PagarMeCustomerVm
     {
         public int Id { get; set; }
-        public long ExternalId { get; set; }
-        public string Type { get; set; }
+        public string ExternalId { get; set; }
+        public int Type { get; set; }
         public string Country { get; set; }
         public string DocumentType { get; set; }
         public string Name { get; set; }
 
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-
-        public string[] PhoneNumbers { get; set; }
+        public List<string> PhoneNumbers { get; set; } = new List<string>();
         public DateTime? BornAt { get; set; }
         public string BirthDay { get; set; }
         public string Gender { get; set; }
