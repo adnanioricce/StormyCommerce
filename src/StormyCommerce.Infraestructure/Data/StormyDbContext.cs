@@ -49,8 +49,7 @@ namespace StormyCommerce.Infraestructure.Data
             //RegisterConvention(modelBuilder);
             RegisterCustomMappings(modelBuilder, typeConfigurations);
             base.OnModelCreating(modelBuilder);
-        }
-
+        }                 
         //TODO:Move this to a helper class
         private void ValidateEntities()
         {

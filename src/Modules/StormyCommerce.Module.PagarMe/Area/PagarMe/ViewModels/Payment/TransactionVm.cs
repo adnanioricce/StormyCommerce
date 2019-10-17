@@ -64,14 +64,11 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public PaymentMethod PaymentMethod { get; set; }
         public string CaptureMethod { get; set; }
         public string AntifraudScore { get; set; }
-
         [DataType(DataType.Url)]
         public string BoletoUrl { get; set; }
         public string BoletoBarcode { get; set; }
-
         [DataType(DataType.Date)]
         public string BoletoExpirationDate { get; set; }
-
         public string Referer { get; set; }
         public string IP { get; set; }
         public int SubscriptionId { get; set; }

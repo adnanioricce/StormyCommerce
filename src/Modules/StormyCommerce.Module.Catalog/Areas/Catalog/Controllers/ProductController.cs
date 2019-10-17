@@ -18,7 +18,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
     [Area("Catalog")]
     [ApiController]
-    [Route("api/[Controller]/[Action]")]    
+    [Route("api/[Controller]")]    
     [EnableCors("Default")]
     public class ProductController : Controller
     {
@@ -37,7 +37,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         ///<summary>
         /// Get a more simplified version of a specified product
         ///</summary>
-        [HttpGet]
+        [HttpGet("get_overview")]
         [ValidateModel]
         [AllowAnonymous]
         public async Task<ActionResult<ProductOverviewDto>> GetProductOverviewAsync(long id)
@@ -47,7 +47,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             return _mapper.Map<StormyProduct, ProductOverviewDto>(product);
         }
 
-        [HttpGet]
+        [HttpGet("list")]
         [ValidateModel]
         [AllowAnonymous]
         //TODO:Check if request is from Admin
@@ -62,7 +62,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             return result.ToList();
         }
 
-        [HttpGet]
+        [HttpGet("homepage")]
         [ValidateModel]
         [AllowAnonymous]
         public async Task<ActionResult<IList<ProductDto>>> GetAllProductsOnHomepage(int limit)
@@ -74,7 +74,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             return mappedProducts.ToList();
         }
 
-        [HttpGet]
+        [HttpGet("get")]
         [ValidateModel]
         [AllowAnonymous]
         public async Task<ActionResult<ProductDto>> GetProductById(long id)
@@ -86,9 +86,9 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             return product;
         }
         
-        [HttpPost]
+        [HttpPost("create")]
         [ValidateModel]
-        [Authorize(Roles = Roles.Admin)]
+        [Authorize(Roles.Admin)]
         public async Task<ActionResult> CreateProduct([FromBody]ProductDto _model)
         {
             var model = new StormyProduct(_model);
@@ -101,27 +101,32 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             }
             return Ok();
         }
-
-        [HttpPut]
+        
+        [HttpPut("edit")]
         [ValidateModel]
-        [Authorize(Roles = Roles.Admin)]
+        [Authorize(Roles.Admin)]
         public async Task<IActionResult> EditProduct([FromBody]ProductDto _model)
-        {
-            var model = _mapper.Map<StormyProduct>(_model);                        
-            await _productService.UpdateProductAsync(model);
+        {            
+            var model = _mapper.Map<StormyProduct>(_model);       
+            try{                 
+                await _productService.UpdateProductAsync(model);
+            }catch(Exception ex){
+                _logger.LogStackTrace(ex.Message,ex);
+                throw ex;
+            }
             return Ok();            
         }
 
-        [HttpGet]
+        [HttpGet("getlength/category")]
         [ValidateModel]
         [AllowAnonymous]
-        public ActionResult<int> GetNumberOfProductsInCategory(IList<int> categoryIds)
+        public ActionResult<int> GetNumberOfProductsInCategory(IList<long> categoryIds)
         {
             var model = _productService.GetNumberOfProductsInCategory(categoryIds);
             return model;
         }
 
-        [HttpGet]
+        [HttpGet("list/category")]
         [ValidateModel]
         [AllowAnonymous]
         public async Task<IList<ProductDto>> GetAllProductsOnCategory(int categoryId, int limit)

@@ -136,6 +136,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {            
             var user =  _identityService.GetUserByEmail(model.Email);            
 
+            //TODO:what if the user really forgot? how he will access it?
             if (user == null || !(await _identityService.IsEmailConfirmedAsync(user))) return BadRequest();            
             _logger.LogInformation("user validated");            
 

@@ -57,8 +57,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         [ValidateModel]        
         public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutViewModel boletoCheckoutViewModel)
         {                        
-            //TODO:Get current customer instead
-            
+            //TODO:Get current customer instead            
             var customer = await _customerService.GetCustomerByUserNameOrEmail("",boletoCheckoutViewModel.CustomerEmail);
             var transaction = boletoCheckoutViewModel.ToTransactionVm(customer);
             
@@ -73,7 +72,8 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             //TODO:define price type
             //the price has to be represented in cents
             var price = transaction.Amount / 100;            
-            var order = BuildOrder(transaction,_mapper.Map<Payment>(payment),boletoCheckoutViewModel);
+            var order = _mapper.Map<StormyOrder>(transaction);
+            // var order = BuildOrder(_mapper.Map<Payment>(payment),boletoCheckoutViewModel);
             transaction.Items.ForEach(item => 
             order.Items.Add(
                 _mapper.Map<OrderItem>(item)
@@ -89,19 +89,17 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             }                            
             
             return Ok(await _orderService.CreateOrderAsync(order));
-            StormyOrder BuildOrder(TransactionVm _transactionVm,Payment _payment,BoletoCheckoutViewModel checkoutVm){
+
+            StormyOrder BuildOrder(Payment _payment,BoletoCheckoutViewModel checkoutVm){
                 return new StormyOrder{
-                    Customer = customer,
-                    DeliveryCost = _transactionVm.Shipping.Fee, 
-                    DeliveryDate = Convert.ToDateTime(_transactionVm.Shipping.DeliveryDate),
+                    Customer = customer,                    
                     PaymentMethod = "boleto",
                     Payment = _payment,
                     ShippingStatus = Core.Entities.Shipping.ShippingStatus.NotShippedYet,
                     Status = OrderStatus.New,   
                     ShippingMethod = checkoutVm.ShippingMethod,                             
                     //TODO:maybe a value object for the price operations? they don't seem like a value type for me
-                    TotalPrice = price,
-                    ShippingAddress = _transactionVm.Shipping.Address                                                
+                    TotalPrice = price,                                                               
                 };           
             }                                                    
         }

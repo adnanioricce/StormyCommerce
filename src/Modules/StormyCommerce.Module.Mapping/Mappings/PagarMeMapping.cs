@@ -4,6 +4,7 @@ using PagarMe;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Order;
+using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels;
@@ -20,10 +21,16 @@ namespace StormyCommerce.Module.Mapping.Mappings
                 .ForMember(tr => tr.Customer, opt => opt.MapFrom(src => src.Customer))
                 .ForMember(tr => tr.Item, opt => opt.MapFrom(src => src.Items))                
                 .ForMember(tr => tr.Shipping, opt => opt.MapFrom(src => src.Shipping));
+            CreateMap<BillingVm,Address>()
+                .ForPath(dest => dest.Zipcode,opt => opt.MapFrom(src => src.Address.PostalCode))
+                .ForPath(dest => dest.StreetNumber,opt => opt.MapFrom(src => src.Address.Number))
+                .ForPath(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.Address.District));
             CreateMap<BillingVm, Billing>();
             CreateMap<Billing, BillingVm>()
                 .ForMember(dest => dest.Address,opt => opt.MapFrom(src => src.Address));            
-            CreateMap<StormyCustomer, PagarMeCustomerVm>();
+            CreateMap<StormyCustomer, PagarMeCustomerVm>()
+                .ForMember(dest => dest.ExternalId,opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.Billing,opt => opt.MapFrom(src => src.DefaultBillingAddress));                
             CreateMap<PagarMeCustomerVm, StormyCustomer>();
                 
             
@@ -47,14 +54,14 @@ namespace StormyCommerce.Module.Mapping.Mappings
                 .ForMember(p => p.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod))
                 .ForMember(p => p.Customer,opt => opt.MapFrom(src => src.Customer))
                 .ForMember(p => p.ShippingAddress,opt => opt.MapFrom(src => src.Shipping.Address))
-                .ForMember(p => p.Items,opt => opt.MapFrom(src => src.Items));
+                .ForMember(p => p.Items,opt => opt.MapFrom(src => src.Items))
+                .ForMember(p => p.Customer,opt => opt.MapFrom(src => src.Customer));                
 
             CreateMap<Item, OrderItemDto>();
             CreateMap<OrderItemDto, Item>();                
             CreateMap<PagarMeItem, OrderItem>()
-                .ForMember(p => p.Price, opt => opt.MapFrom(src => $"R${src.UnitPrice}"))
-                .ForMember(p => p.ProductName, opt => opt.MapFrom(src => src.Title));                
-                // .ForMember(p => p.Product,opt => opt.MapFrom(src => src.));
+                .ForMember(p => p.Price, opt => opt.MapFrom(src => Price.GetPriceFromCents("R$", src.UnitPrice)))
+                .ForMember(p => p.ProductName, opt => opt.MapFrom(src => src.Title));                                
         }
     }
 }

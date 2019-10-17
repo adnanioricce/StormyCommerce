@@ -38,6 +38,11 @@ namespace StormyCommerce.Module.Orders.Area.Models
         [Required]
         public decimal Width { get; set; }
         ///<summary>
+        /// Length of the object in centimeters        
+        ///</summary>
+        [Required]
+        public decimal Length { get; set; }
+        ///<summary>
         /// Diameter of the object in centimeters        
         ///</summary>
         [Required]

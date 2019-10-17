@@ -44,8 +44,7 @@ namespace StormyCommerce.Module.Orders.Services
         }
 
         public async Task CreateShipmentAsync(StormyOrder order)
-        {
-            
+        {            
             throw new NotImplementedException();            
         }
         public async Task<Shipment> GetShipmentById(long id)

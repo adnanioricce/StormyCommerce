@@ -8,6 +8,7 @@ using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Entities.Vendor;
+using StormyCommerce.Core.Models;
 using System;
 using System.Collections.Generic;
 
@@ -35,8 +36,8 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.StockTrackingIsEnabled, true)
                 .RuleFor(v => v.Ranking, f => f.IndexVariable)
                 .RuleFor(v => v.Note, f => f.Lorem.Text())
-                .RuleFor(v => v.Price, f => f.Commerce.Price(1, 100, 2, "R$"))
-                .RuleFor(v => v.OldPrice, f => f.Commerce.Price(2, 200, 2, "R$"))
+                .RuleFor(v => v.Price, f => Price.GetPriceFromString(f.Commerce.Price(1, 100, 2, "R$")))
+                .RuleFor(v => v.OldPrice, f => Price.GetPriceFromString(f.Commerce.Price(2, 200, 2, "R$")))
                 .RuleFor(v => v.HasDiscountApplied, false)
                 .RuleFor(v => v.IsPublished, true)
                 .RuleFor(v => v.Status, "Good")

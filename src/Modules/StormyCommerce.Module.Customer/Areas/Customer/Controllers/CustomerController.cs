@@ -10,6 +10,7 @@ using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Infraestructure.Entities;
+using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Models;
 using System;
 using System.Collections.Generic;
@@ -26,11 +27,13 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;
+        private readonly IUserIdentityService _identityService;
         private readonly IMapper _mapper;
 
-        public CustomerController(ICustomerService customerService,IMapper mapper)
+        public CustomerController(ICustomerService customerService,IUserIdentityService identityService,IMapper mapper)
         {
             _customerService = customerService;
+            _identityService = identityService;
             _mapper = mapper;
         }
         //public async Task<StormyCustomer> GetCustomerByEmail()
@@ -39,11 +42,10 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         [HttpPost("address/create")]
         [ValidateModel]
         public async Task<IActionResult> AddAddressAsync([FromBody]Address address)
-        {
-            //TODO:Write method to get current request user
-            //this.HttpContext.User.Identity.Name                                    
-            await _customerService.AddCustomerAddressAsync(address, 0);
-            return new OkObjectResult(Result.Ok());
+        {            
+            var customer = GetCurrentCustomer();                               
+            await _customerService.AddCustomerAddressAsync(address,customer.Id);
+            return Ok();
         }
         [HttpPost("review/create")]
         [ValidateModel]        
@@ -52,14 +54,14 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             await _customerService.CreateCustomerReviewAsync(_mapper.Map<Review>(review),review.Email.ToUpper());
             return Ok();
         }
-        [HttpGet("customer/list")]
+        [HttpGet("list")]
         [Authorize("Admin")]
         [ValidateModel]
         public async Task<IList<StormyCustomer>> GetCustomersAsync(int minLimit, long maxLimit)
         {
             return await _customerService.GetAllCustomersAsync(minLimit,maxLimit);
         }
-        [HttpGet("customer/getbyemail")]
+        [HttpGet("getbyemail")]
         [ValidateModel]
         public async Task<ActionResult<CustomerDto>> GetCustomerByEmailOrUsernameAsync(string email,string username)
         {
@@ -92,7 +94,10 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             return Ok();
         }
 
-        // public async Task<IActionResult> CreateUserReview()
-        // [HttpPo]
+        private async Task<StormyCustomer> GetCurrentCustomer()
+        {
+            var user = await _identityService.GetUserByClaimPrincipal(User);           
+            return await _customerService.GetCustomerByUserNameOrEmail(user.NormalizedUserName,user.NormalizedEmail);  
+        }
     }
 }

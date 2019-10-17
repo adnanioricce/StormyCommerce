@@ -13,7 +13,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
 {
     [Area("Orders")]
     [ApiController]
-    [Route("api/[Controller]/[Action]")]
+    [Route("api/[Controller]")]
     [Authorize]
     public class OrderController
     {
@@ -28,14 +28,6 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             _orderService = orderService;
             _logger = logger;
             _shippingService = shippingService;
-        }
-
-        [HttpPost("/create")]
-        [ValidateModel]
-        public async Task CreateOrder([FromBody]OrderDto orderDto)
-        {
-            throw new NotImplementedException();
-            //_orderService.CreateOrderAsync(orderDto);
-        }
+        }        
     }
 }

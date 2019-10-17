@@ -18,6 +18,6 @@ namespace StormyCommerce.Infraestructure.Data
                 entity.Property(prop => prop.Value).HasMaxLength(450).IsRequired();
                 entity.Property(prop => prop.Module).HasMaxLength(450).IsRequired();
             });
-        }
+        }        
     }
 }

@@ -2,6 +2,7 @@
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
@@ -16,7 +17,7 @@ namespace StormyCommerce.Core.Services.Orders
     public class OrderService : IOrderService
     {
         private readonly IStormyRepository<StormyOrder> _orderRepository;
-        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;        
+        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;          
         public OrderService(IStormyRepository<StormyOrder> orderRepository
             , IStormyRepository<OrderHistory> orderHistoryRepository)
         {
@@ -31,7 +32,7 @@ namespace StormyCommerce.Core.Services.Orders
 
             order.Status = OrderStatus.Canceled;
             order.LastModified = DateTimeOffset.UtcNow;
-            order.Items.ToList().ForEach(item =>
+            order.Items.ForEach(item =>
             {
                 item.Product.UnitsInStock += item.Quantity;
                 item.Product.UnitsOnOrder -= item.Quantity;
@@ -47,9 +48,13 @@ namespace StormyCommerce.Core.Services.Orders
             if (entry == null)
                 return new Result<OrderDto>(entry.ToOrderDto(), false, "We need valid info to create a order,order data don't have any data");
             if (entry.Items == null)
-                return new Result<OrderDto>(entry.ToOrderDto(), false, "You have no items to create a order");
-
-            await _orderRepository.AddAsync(entry);
+                return new Result<OrderDto>(entry.ToOrderDto(), false, "You have no items to create a order");            
+            entry.Items.ForEach(o => {
+                o.Product.UnitsInStock -= o.Quantity; 
+                o.Product.UnitsOnOrder += o.Quantity;                                
+            });
+            await _orderRepository.AddAsync(entry);   
+                                
             return Result.Ok<OrderDto>(entry.ToOrderDto());
         }
 

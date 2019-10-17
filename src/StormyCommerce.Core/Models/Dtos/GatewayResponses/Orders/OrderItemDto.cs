@@ -14,7 +14,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         }
 
         public string ProductName { get; private set; }
-        public string Price { get; private set; }
+        public Price Price { get; private set; }
         public int Quantity { get; private set; }
         public ProductDto Product { get; private set; }
 
