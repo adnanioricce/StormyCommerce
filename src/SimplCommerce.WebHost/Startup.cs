@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,8 +20,9 @@ using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Logging;
 using StormyCommerce.Module.Customer.Data;
+using SimplCommerce.Module.SampleData;
 using Swashbuckle.AspNetCore.Swagger;
-using System;
+
 using System.IO;
 using System.Net.Http;
 using System.Text.Encodings.Web;
@@ -127,7 +124,11 @@ namespace SimplCommerce.WebHost
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "StormyCommerce API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { 
+                    Title = "StormyCommerce API", 
+                    Version = "v1",
+                    Description = "a customized version of the <a href='https://github.com/simplcommerce/SimplCommerce'>SimplCommerce</a> project, build to finish a final paper project"                    
+                    });
             });
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
@@ -181,6 +182,7 @@ namespace SimplCommerce.WebHost
                 var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
                 var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
                 new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
+                dbContext.SeedDatabase();
             }
         }
     }
