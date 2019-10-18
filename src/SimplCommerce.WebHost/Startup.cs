@@ -182,7 +182,7 @@ namespace SimplCommerce.WebHost
                 var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
                 var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
                 new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
-                dbContext.SeedDatabase();
+                dbContext.SeedDbContext();
             }
         }
     }
