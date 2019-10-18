@@ -96,7 +96,7 @@ jobs:
     inputs:
       command: publish 
       publishWebProjects: True
-      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory'
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: True
   - script: dotnet build src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj 
   - task: PublishBuildArtifacts@1
