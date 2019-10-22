@@ -28,7 +28,7 @@ namespace StormyCommerce.Module.Orders.Services
             _orderRepository.Table.Include(o => o.Shipment);
             _correiosService = correiosService;
         }
-        public async Task<Shipment> BuildShipmentForOrder(StormyOrder order)
+        public virtual async Task<Shipment> BuildShipmentForOrder(StormyOrder order)
         {            
             var shipment = new Shipment().CalculateShipmentMeasures(order.Items);            
             shipment.ShipmentProvider = "Correios";                        

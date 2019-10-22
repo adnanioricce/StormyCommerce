@@ -6,6 +6,7 @@ using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,13 +44,14 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         [Fact]
         public async Task GetCustomerReviewsAsync_ExistingEntityWithIdEqual1And2Reviews_ReturnAllReviewsCreatedByTheCustomer()
         {
-            //Given
-            long id = 1;
+            //Given    
+            var customer = Seeders.StormyCustomerSeed().First();        
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
-            context.Add(Seeders.StormyCustomerSeed().First());
+            context.Add(customer);
+            context.SaveChanges();
             var service = CreateCustomerService(context);
             //When
-            var reviews = await service.GetCustomerReviewsAsync(id);
+            var reviews = await service.GetCustomerReviewsAsync(customer.Id);
             //Then
             Assert.Equal(1, reviews.Count);
         }
@@ -58,13 +60,14 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         {
             //Given
             var customer = Seeders.StormyCustomerSeed().First();
+            var entryReview = customer.CustomerReviews.First();
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
             context.Add(customer);
             var service = CreateCustomerService(context);
             //When
-            var review = await service.GetCustomerReviewByIdAsync(customer.UserId,customer.CustomerReviewsId);            
+            var review = await service.GetCustomerReviewByIdAsync(customer.UserId,entryReview.Id);            
             //Then
-            Assert.Equal(customer.CustomerReviewsId, review.Id);
+            Assert.Equal(entryReview.Id, review.Id);
         }
         [Fact]
         public void GetCustomersCount_NoInputDatabase_ReturnNumberEntiesOnTheGivenTable()
@@ -88,6 +91,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             //Arrange             
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
             context.AddRange(Seeders.StormyCustomerSeed(2));
+            context.SaveChanges();
             var service = CreateCustomerService(context);
             var count = service.GetCustomersCount();
             //Act
@@ -103,6 +107,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             //Arrange                   
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
             context.Add(sampleCustomer);
+            context.SaveChanges();
             var service = CreateCustomerService(context);            
             //Act
             var customer = await service.GetCustomerByUserNameOrEmail("",sampleCustomer.Email);
@@ -114,7 +119,8 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         {
             //Arrange                               
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
-            context.AddRange(sampleCustomer);
+            context.Add(sampleCustomer);
+            context.SaveChanges();
             var service = CreateCustomerService(context);     
             //Act
             var customer = await service.GetCustomerByUserNameOrEmail(sampleCustomer.UserName, "");
@@ -128,7 +134,9 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         {
             //Arrange
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
-            context.AddRange(sampleCustomer);
+            var customer = Seeders.StormyCustomerSeed().FirstOrDefault();
+            context.AddRange(customer);
+            context.SaveChanges();
             var service = CreateCustomerService(context);     
             var review = new Review
             {
@@ -139,7 +147,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
                 ReviewerName = "simple name",
             };
             //Act
-            await service.CreateCustomerReviewAsync(review, sampleCustomer.NormalizedEmail);
+            await service.CreateCustomerReviewAsync(review, customer.Email);
 
             var createdReview = context.Find<Review>(review.Id);
             //Assert
@@ -167,6 +175,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             long customerId = 1;            
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
             context.AddRange(sampleCustomer);
+            context.SaveChanges();
             var service = CreateCustomerService(context);     
             //Act
             await service.AddCustomerAddressAsync(address, customerId);
@@ -176,16 +185,19 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         public async Task EditCustomerReviewAsync_ReceivesEntityWithIdEqualExistingEntity_WriteChangesFromGivenEntityToExistingEntity()
         {
             //Given
-            var givenReview = Seeders.ReviewSeed(1).First();
+            var givenReview = sampleCustomer.CustomerReviews.First();            
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
-            context.Add(sampleCustomer);
+            context.Add(sampleCustomer);                        
+            context.SaveChanges();
             var service = CreateCustomerService(context);     
+            var oldReviewStatus = givenReview.Status;
             //When
+            givenReview.Status = ReviewStatus.Pending;
             await service.EditCustomerReviewAsync(givenReview, sampleCustomer.Id);
             //Then
             var editedReview = await service.GetCustomerReviewByIdAsync(sampleCustomer.UserId, givenReview.Id);
             Assert.Equal(givenReview.Id, editedReview.Id);
-            Assert.NotEqual(givenReview.LastModified, editedReview.LastModified);            
+            Assert.NotEqual(oldReviewStatus, editedReview.Status);            
         }
         #endregion
         #region Delete Operations
@@ -194,9 +206,11 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         {
             //Arrange 
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
-            context.AddRange(sampleCustomer);
+            context.AddRange(Seeders.ReviewSeed());
+            context.SaveChanges();
             var service = CreateCustomerService(context);     
-            var customer = Seeders.StormyCustomerSeed().First();                        
+            
+
             //Act
             await service.DeleteCustomerReviewByIdAsync(1, sampleCustomer.Id);
             var entry = await service.GetCustomerReviewByIdAsync(sampleCustomer.UserId, 1);

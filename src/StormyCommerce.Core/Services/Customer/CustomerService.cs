@@ -28,7 +28,7 @@ namespace StormyCommerce.Core.Services.Customer
         public async Task CreateCustomerReviewAsync(Review review, string normalizedEmail)
         {
             var customer = await _customerRepository.Table
-            .FirstOrDefaultAsync(f => f.NormalizedEmail.Equals(normalizedEmail,StringComparison.OrdinalIgnoreCase));
+            .FirstOrDefaultAsync(f => f.Email.Equals(normalizedEmail));
             if (review == null) throw new ArgumentNullException("given review entity is null");
             if (customer == null) throw new ArgumentNullException("given customer is null");
             // review.Author = customer;
@@ -50,26 +50,27 @@ namespace StormyCommerce.Core.Services.Customer
 
         public async Task<Review> GetCustomerReviewByIdAsync(string customerId, long? reviewId)
         {
-            return await _reviewRepository.Table
-            .Include(r => r.Author)
-            .Where(r => r.StormyCustomerId.Equals(customerId) && r.Id == reviewId)
-            .FirstAsync();
-            
+            return await _reviewRepository.GetByIdAsync(reviewId);            
         }
 
         public async Task EditCustomerReviewAsync(Review review, long customerId)
-        {
-            var oldReview = await _reviewRepository.GetByIdAsync(review.Id);
-            oldReview = review;
-            await _reviewRepository.SaveChangesAsync();
+        {            
+            var oldReview = await _reviewRepository.GetByIdAsync(review.Id) ?? throw new ArgumentNullException();
+            oldReview.Comment = review.Comment;
+            oldReview.RatingLevel = review.RatingLevel;
+            oldReview.Status = review.Status;
+            oldReview.Title = review.Title;
+            oldReview.ReviewerName = review.ReviewerName;
+            oldReview.IsDeleted = review.IsDeleted;
+                        
+            await _reviewRepository.UpdateAsync(oldReview);
         }
 
         public async Task DeleteCustomerReviewByIdAsync(long reviewId, long customerId)
-        {
-            // var review = await _reviewRepository.Table.FirstOrDefaultAsync(r => r.Id == reviewId && r.StormyCustomerId == customerId);
+        {            
             var review = await _reviewRepository.GetByIdAsync(reviewId);
             review.IsDeleted = true;
-            await _reviewRepository.SaveChangesAsync();
+            await _reviewRepository.UpdateAsync(review);            
         }
 
         public async Task<IList<CustomerAddress>> GetAllCustomerAddressByIdAsync(long id)
@@ -160,9 +161,10 @@ namespace StormyCommerce.Core.Services.Customer
         public async Task<StormyCustomer> GetCustomerByUserNameOrEmail(string username, string email)
         {
             return await _customerRepository
-            .Table
-            .Include(c => c.CustomerReviews)
-            .FirstOrDefaultAsync(f => f.UserName.Equals(username,StringComparison.OrdinalIgnoreCase) || f.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+            .Table            
+            .FirstOrDefaultAsync(
+                f => f.UserName.Equals(username) || 
+                f.Email.Equals(email));
         }
 
         public Task EditCustomerReviewAsync(Review review, StormyCustomer customer)

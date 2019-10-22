@@ -35,7 +35,7 @@ namespace StormyCommerce.Core.Services.Orders
             var order = await _orderRepository.GetByIdAsync(id);
             if (order == null) return new Result<OrderDto>(null, false, "order don't exist");
 
-            order.Status = OrderStatus.Canceled;
+            order.Status = OrderStatus.Canceled;            
             order.LastModified = DateTimeOffset.UtcNow;
             order.Items.ForEach(item =>
             {
@@ -70,10 +70,8 @@ namespace StormyCommerce.Core.Services.Orders
         public async Task<Result> EditOrderAsync(long id, StormyOrder entity)
         {
             var _entity = await _orderRepository.GetByIdAsync(id);
-
-            if (_entity == null) return Result.Fail("Entity don't exist");            
+            if (_entity == null) return Result.Fail("Entity don't exist");                    
             await _orderRepository.UpdateAsync(entity);
-
             var orderHistory = new OrderHistory { 
                 StormyOrderId = _entity.Id,
                 Order = _entity,
