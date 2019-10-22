@@ -18,16 +18,16 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             ProductName = product.ProductName;
             Slug = product.Slug;
             QuantityPerUnity = product.QuantityPerUnity;
-            UnitSize = product.UnitSize.ToString();
+            AvailableSizes = AvailableSizes;
+            Height = product.Height;
+            Width = product.Width;
+            Length = product.Length;
             Discount = product.Discount;
             UnitWeight = product.UnitWeight;
             UnitsInStock = product.UnitsInStock;
             UnitsOnOrder = product.UnitsOnOrder;
             Price = product.Price.Value;
-            OldPrice = product.OldPrice.Value;
-            // Category = new CategoryDto(product.Category);
-            // Brand = new BrandDto(product.Brand);
-            // Vendor = new VendorDto(product.Vendor);
+            OldPrice = product.OldPrice.Value;            
         }
 
         public ProductDto(StormyProduct product)
@@ -36,7 +36,10 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             ProductName = product.ProductName;
             Slug = product.Slug;
             QuantityPerUnity = product.QuantityPerUnity;
-            UnitSize = product.UnitSize.ToString();
+            AvailableSizes = product.AvailableSizes;
+            Height = product.Height;
+            Width = product.Width;
+            Length = product.Length;
             Discount = product.Discount;
             UnitWeight = product.UnitWeight;
             UnitsInStock = product.UnitsInStock;
@@ -54,9 +57,12 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public string ProductName { get; set; }
         public string Slug { get; set; }
         public int QuantityPerUnity { get; set; }
-        public string UnitSize { get; set; }
+        public string AvailableSizes { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
+        public decimal Height { get; set; }
+        public decimal Width { get; set; }
+        public decimal Length { get; set; }
         public double UnitWeight { get; set; }
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }
@@ -66,7 +72,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public CategoryDto Category { get; set; }
         public BrandDto Brand { get; set; }
         public VendorDto Vendor { get; set; }
-        public List<Media> Medias { get; set; }
+        public List<ProductMedia> Medias { get; set; }
 
         public StormyProduct ToStormyProduct()
         {
@@ -75,7 +81,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
                 ProductName = this.ProductName,
                 Slug = this.Slug,
                 QuantityPerUnity = this.QuantityPerUnity,
-                UnitSize = Convert.ToDecimal(this.UnitSize),
+                AvailableSizes = this.AvailableSizes,
                 UnitPrice = this.UnitPrice,
                 Discount = this.Discount,
                 UnitWeight = this.UnitWeight,

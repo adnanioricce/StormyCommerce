@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SimplCommerce.WebHost.Migrations
 {
@@ -13,7 +12,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Street = table.Column<string>(nullable: true),
@@ -33,32 +32,6 @@ namespace SimplCommerce.WebHost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Address", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ApplicationUser",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    NormalizedUserName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    NormalizedEmail = table.Column<string>(nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    RefreshTokenHash = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ApplicationUser", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,7 +92,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
@@ -138,7 +111,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 450, nullable: false),
@@ -185,7 +158,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 450, nullable: false)
@@ -200,7 +173,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 450, nullable: false)
@@ -211,33 +184,60 @@ namespace SimplCommerce.WebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductTemplate",
+                name: "Stock",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductTemplate", x => x.Id);
+                    table.PrimaryKey("PK_Stock", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Wishlist",
+                name: "StormyCustomer",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    CustomerId = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(nullable: true),
+                    CPF = table.Column<string>(maxLength: 9, nullable: true),
+                    NormalizedEmail = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    DefaultShippingAddressId = table.Column<long>(nullable: true),
+                    DefaultBillingAddressId = table.Column<long>(nullable: true),
+                    CustomerReviewsId = table.Column<long>(nullable: false),
+                    CustomerWishlistId = table.Column<long>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    NormalizedUserName = table.Column<string>(nullable: true),
+                    FullName = table.Column<string>(maxLength: 450, nullable: true),
+                    Email = table.Column<string>(nullable: false),
+                    RefreshTokenHash = table.Column<string>(nullable: true),
+                    Role = table.Column<string>(nullable: true),
+                    CreatedOn = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Wishlist", x => x.Id);
+                    table.PrimaryKey("PK_StormyCustomer", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StormyCustomer_Address_DefaultBillingAddressId",
+                        column: x => x.DefaultBillingAddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_StormyCustomer_Address_DefaultShippingAddressId",
+                        column: x => x.DefaultShippingAddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -245,13 +245,12 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     CompanyName = table.Column<string>(nullable: true),
                     ContactTitle = table.Column<string>(nullable: true),
-                    AddressId = table.Column<int>(nullable: false),
-                    AddressId1 = table.Column<long>(nullable: true),
+                    AddressId = table.Column<long>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     WebSite = table.Column<string>(nullable: true),
@@ -264,9 +263,42 @@ namespace SimplCommerce.WebHost.Migrations
                 {
                     table.PrimaryKey("PK_StormyVendor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StormyVendor_Address_AddressId1",
-                        column: x => x.AddressId1,
+                        name: "FK_StormyVendor_Address_AddressId",
+                        column: x => x.AddressId,
                         principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApplicationUser",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: true),
+                    NormalizedUserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    NormalizedEmail = table.Column<string>(nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    RefreshTokenHash = table.Column<string>(nullable: true),
+                    RoleId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUser", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUser_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -276,7 +308,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -297,7 +329,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -382,7 +414,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Slug = table.Column<string>(maxLength: 450, nullable: false),
@@ -402,47 +434,114 @@ namespace SimplCommerce.WebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StormyCustomer",
+                name: "ProductAttribute",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    CPF = table.Column<string>(maxLength: 9, nullable: true),
-                    NormalizedEmail = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    DefaultShippingAddressId = table.Column<long>(nullable: true),
-                    DefaultBillingAddressId = table.Column<long>(nullable: true),
-                    CustomerReviewsId = table.Column<long>(nullable: false),
-                    CustomerWishlistId = table.Column<long>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    FullName = table.Column<string>(maxLength: 450, nullable: true),
-                    Email = table.Column<string>(nullable: false),
-                    CreatedOn = table.Column<DateTimeOffset>(nullable: false)
+                    GroupId = table.Column<long>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StormyCustomer", x => x.Id);
+                    table.PrimaryKey("PK_ProductAttribute", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StormyCustomer_Wishlist_CustomerWishlistId",
-                        column: x => x.CustomerWishlistId,
-                        principalTable: "Wishlist",
+                        name: "FK_ProductAttribute_ProductAttributeGroup_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "ProductAttributeGroup",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Review",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    LastModified = table.Column<DateTimeOffset>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    StormyCustomerId = table.Column<long>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Comment = table.Column<string>(nullable: true),
+                    ReviewerName = table.Column<string>(nullable: true),
+                    RatingLevel = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Review", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StormyCustomer_Address_DefaultBillingAddressId",
-                        column: x => x.DefaultBillingAddressId,
-                        principalTable: "Address",
+                        name: "FK_Review_StormyCustomer_StormyCustomerId",
+                        column: x => x.StormyCustomerId,
+                        principalTable: "StormyCustomer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StormyOrder",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    LastModified = table.Column<DateTimeOffset>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    OrderUniqueKey = table.Column<Guid>(nullable: false),
+                    StormyCustomerId = table.Column<long>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    PaymentId = table.Column<long>(nullable: false),
+                    ShipmentId = table.Column<long>(nullable: false),
+                    PickUpInStore = table.Column<bool>(nullable: false),
+                    IsCancelled = table.Column<bool>(nullable: false),
+                    Note = table.Column<string>(maxLength: 1000, nullable: true),
+                    Comment = table.Column<string>(nullable: true),
+                    Discount = table.Column<decimal>(nullable: false),
+                    Tax = table.Column<decimal>(nullable: false),
+                    TotalPrice = table.Column<decimal>(nullable: false),
+                    OrderDate = table.Column<DateTime>(nullable: false),
+                    RequiredDate = table.Column<DateTime>(nullable: false),
+                    PaymentDate = table.Column<DateTime>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    StockId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StormyOrder", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StormyOrder_Stock_StockId",
+                        column: x => x.StockId,
+                        principalTable: "Stock",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_StormyCustomer_Address_DefaultShippingAddressId",
-                        column: x => x.DefaultShippingAddressId,
-                        principalTable: "Address",
+                        name: "FK_StormyOrder_StormyCustomer_StormyCustomerId",
+                        column: x => x.StormyCustomerId,
+                        principalTable: "StormyCustomer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wishlist",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false),
+                    StormyCustomerId = table.Column<int>(nullable: false),
+                    LastModified = table.Column<DateTimeOffset>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    CustomerId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wishlist", x => new { x.Id, x.StormyCustomerId });
+                    table.UniqueConstraint("AK_Wishlist_Id", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Wishlist_StormyCustomer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "StormyCustomer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -452,7 +551,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     SKU = table.Column<string>(nullable: false),
@@ -465,21 +564,26 @@ namespace SimplCommerce.WebHost.Migrations
                     MetaTitle = table.Column<string>(nullable: true),
                     CreatedById = table.Column<long>(nullable: false),
                     BrandId = table.Column<long>(nullable: false),
-                    MediaId = table.Column<long>(nullable: false),
+                    MediaId = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     VendorId = table.Column<long>(nullable: false),
                     CategoryId = table.Column<long>(nullable: false),
-                    ProductLinksId = table.Column<long>(nullable: false),
-                    TaxClassId = table.Column<long>(nullable: false),
-                    LatestUpdatedById = table.Column<long>(nullable: false),
+                    ProductLinksId = table.Column<long>(nullable: true),
+                    TaxClassId = table.Column<long>(nullable: true),
+                    LatestUpdatedById = table.Column<long>(nullable: true),
                     TypeName = table.Column<string>(nullable: false),
                     ShortDescription = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Specification = table.Column<string>(nullable: true),
                     QuantityPerUnity = table.Column<int>(nullable: false),
-                    UnitSize = table.Column<decimal>(nullable: false),
+                    AvailableSizes = table.Column<string>(nullable: true),
                     UnitPrice = table.Column<decimal>(nullable: false),
                     Discount = table.Column<decimal>(nullable: false),
                     UnitWeight = table.Column<double>(nullable: false),
+                    Height = table.Column<decimal>(nullable: false),
+                    Width = table.Column<decimal>(nullable: false),
+                    Length = table.Column<decimal>(nullable: false),
+                    Diameter = table.Column<int>(nullable: true),
                     UnitsInStock = table.Column<int>(nullable: false),
                     UnitsOnOrder = table.Column<int>(nullable: false),
                     ReviewsCount = table.Column<int>(nullable: false),
@@ -489,8 +593,8 @@ namespace SimplCommerce.WebHost.Migrations
                     ThumbnailImage = table.Column<string>(nullable: true),
                     Ranking = table.Column<int>(nullable: false),
                     Note = table.Column<string>(nullable: true),
-                    Price = table.Column<string>(nullable: true),
-                    OldPrice = table.Column<string>(nullable: true),
+                    Price = table.Column<string>(type: "decimal(18,4)", nullable: true),
+                    OldPrice = table.Column<string>(type: "decimal(18,4)", nullable: true),
                     SpecialPrice = table.Column<string>(nullable: true),
                     SpecialPriceStart = table.Column<DateTime>(nullable: true),
                     SpecialPriceEnd = table.Column<DateTime>(nullable: true),
@@ -514,7 +618,8 @@ namespace SimplCommerce.WebHost.Migrations
                     NotApprovedRatingSum = table.Column<int>(nullable: false),
                     ApprovedTotalReviews = table.Column<int>(nullable: false),
                     NotApprovedTotalReviews = table.Column<int>(nullable: false),
-                    RatingAverage = table.Column<int>(nullable: false)
+                    RatingAverage = table.Column<int>(nullable: false),
+                    StockId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -532,6 +637,12 @@ namespace SimplCommerce.WebHost.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_StormyProduct_Stock_StockId",
+                        column: x => x.StockId,
+                        principalTable: "Stock",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_StormyProduct_StormyVendor_VendorId",
                         column: x => x.VendorId,
                         principalTable: "StormyVendor",
@@ -540,27 +651,29 @@ namespace SimplCommerce.WebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Review",
+                name: "Payment",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    StormyCustomerId = table.Column<long>(nullable: false),
-                    Title = table.Column<string>(nullable: true),
-                    Comment = table.Column<string>(nullable: true),
-                    ReviewerName = table.Column<string>(nullable: true),
-                    RatingLevel = table.Column<int>(nullable: false),
-                    Status = table.Column<int>(nullable: false)
+                    StormyOrderId = table.Column<long>(nullable: false),
+                    CreatedOn = table.Column<DateTimeOffset>(nullable: false),
+                    Amount = table.Column<decimal>(nullable: false),
+                    PaymentFee = table.Column<decimal>(nullable: false),
+                    PaymentMethod = table.Column<string>(nullable: true),
+                    GatewayTransactionId = table.Column<string>(nullable: true),
+                    PaymentStatus = table.Column<int>(nullable: false),
+                    FailureMessage = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Review", x => x.Id);
+                    table.PrimaryKey("PK_Payment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Review_StormyCustomer_StormyCustomerId",
-                        column: x => x.StormyCustomerId,
-                        principalTable: "StormyCustomer",
+                        name: "FK_Payment_StormyOrder_StormyOrderId",
+                        column: x => x.StormyOrderId,
+                        principalTable: "StormyOrder",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -570,27 +683,31 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    StormyCustomerId = table.Column<long>(nullable: false),
+                    StormyOrderId = table.Column<long>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
+                    StormyCustomerId = table.Column<long>(nullable: false),
                     WhoReceives = table.Column<string>(nullable: true),
                     TrackNumber = table.Column<string>(maxLength: 250, nullable: true),
                     ShipmentMethod = table.Column<string>(nullable: true),
-                    ShipmentProviderName = table.Column<string>(nullable: true),
+                    ShipmentServiceName = table.Column<string>(nullable: true),
+                    ShipmentProvider = table.Column<string>(nullable: true),
                     TotalWeight = table.Column<decimal>(nullable: false),
+                    TotalHeight = table.Column<decimal>(nullable: false),
+                    TotalWidth = table.Column<decimal>(nullable: false),
+                    TotalArea = table.Column<decimal>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
-                    ShippedDate = table.Column<DateTime>(nullable: false),
-                    DeliveryDate = table.Column<DateTime>(nullable: false),
+                    ShippedDate = table.Column<DateTime>(nullable: true),
+                    DeliveryDate = table.Column<DateTime>(nullable: true),
+                    ExpectedDeliveryDate = table.Column<DateTime>(nullable: true),
+                    ExpectedHourOfDay = table.Column<DateTime>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
-                    Price = table.Column<decimal>(nullable: false),
                     DeliveryCost = table.Column<decimal>(nullable: false),
                     BillingAddressId = table.Column<long>(nullable: false),
                     DestinationAddressId = table.Column<long>(nullable: false),
-                    Height = table.Column<decimal>(nullable: false),
-                    Width = table.Column<decimal>(nullable: false),
-                    Diameter = table.Column<decimal>(nullable: false)
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -613,13 +730,20 @@ namespace SimplCommerce.WebHost.Migrations
                         principalTable: "StormyCustomer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Shipment_StormyOrder_StormyOrderId",
+                        column: x => x.StormyOrderId,
+                        principalTable: "StormyOrder",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Media",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Caption = table.Column<string>(nullable: true),
@@ -640,32 +764,32 @@ namespace SimplCommerce.WebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductAttribute",
+                name: "ProductAttributeValue",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    GroupId = table.Column<long>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    StormyProductId = table.Column<long>(nullable: true)
+                    AttributeId = table.Column<long>(nullable: false),
+                    ProductId = table.Column<long>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductAttribute", x => x.Id);
+                    table.PrimaryKey("PK_ProductAttributeValue", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductAttribute_ProductAttributeGroup_GroupId",
-                        column: x => x.GroupId,
-                        principalTable: "ProductAttributeGroup",
+                        name: "FK_ProductAttributeValue_ProductAttribute_AttributeId",
+                        column: x => x.AttributeId,
+                        principalTable: "ProductAttribute",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductAttribute_StormyProduct_StormyProductId",
-                        column: x => x.StormyProductId,
+                        name: "FK_ProductAttributeValue_StormyProduct_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "StormyProduct",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -707,7 +831,7 @@ namespace SimplCommerce.WebHost.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     OptionId = table.Column<long>(nullable: false),
@@ -734,11 +858,33 @@ namespace SimplCommerce.WebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductTemplate",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    LastModified = table.Column<DateTimeOffset>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    StormyProductId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductTemplate", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductTemplate_StormyProduct_StormyProductId",
+                        column: x => x.StormyProductId,
+                        principalTable: "StormyProduct",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WishlistItem",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
@@ -765,152 +911,17 @@ namespace SimplCommerce.WebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShipmentItem",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LastModified = table.Column<DateTimeOffset>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    ShipmentId = table.Column<int>(nullable: false),
-                    OrderItemId = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    UnitWeight = table.Column<decimal>(nullable: false),
-                    ShipmentId1 = table.Column<long>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ShipmentItem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ShipmentItem_Shipment_ShipmentId1",
-                        column: x => x.ShipmentId1,
-                        principalTable: "Shipment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StormyOrder",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LastModified = table.Column<DateTimeOffset>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    OrderUniqueKey = table.Column<Guid>(nullable: false),
-                    CustomerId = table.Column<long>(nullable: false),
-                    PaymentId = table.Column<long>(nullable: false),
-                    ShipmentId = table.Column<long>(nullable: false),
-                    PickUpInStore = table.Column<bool>(nullable: false),
-                    IsCancelled = table.Column<bool>(nullable: false),
-                    ShippingMethod = table.Column<string>(nullable: true),
-                    PaymentMethod = table.Column<string>(maxLength: 450, nullable: false),
-                    TrackNumber = table.Column<string>(nullable: true),
-                    Note = table.Column<string>(maxLength: 1000, nullable: true),
-                    Comment = table.Column<string>(nullable: true),
-                    Discount = table.Column<decimal>(nullable: false),
-                    Tax = table.Column<decimal>(nullable: false),
-                    TotalWeight = table.Column<decimal>(nullable: false),
-                    TotalPrice = table.Column<decimal>(nullable: false),
-                    DeliveryCost = table.Column<decimal>(nullable: false),
-                    ShippingAddressId = table.Column<long>(nullable: true),
-                    OrderDate = table.Column<DateTime>(nullable: false),
-                    RequiredDate = table.Column<DateTime>(nullable: false),
-                    ShippedDate = table.Column<DateTime>(nullable: false),
-                    DeliveryDate = table.Column<DateTime>(nullable: false),
-                    PaymentDate = table.Column<DateTime>(nullable: true),
-                    Status = table.Column<int>(nullable: false),
-                    ShippingStatus = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StormyOrder", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StormyOrder_StormyCustomer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "StormyCustomer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StormyOrder_Shipment_ShipmentId",
-                        column: x => x.ShipmentId,
-                        principalTable: "Shipment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StormyOrder_Address_ShippingAddressId",
-                        column: x => x.ShippingAddressId,
-                        principalTable: "Address",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductAttributeValue",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LastModified = table.Column<DateTimeOffset>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    AttributeId = table.Column<long>(nullable: false),
-                    ProductId = table.Column<long>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductAttributeValue", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductAttributeValue_ProductAttribute_AttributeId",
-                        column: x => x.AttributeId,
-                        principalTable: "ProductAttribute",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductAttributeValue_StormyProduct_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "StormyProduct",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductTemplateProductAttribute",
-                columns: table => new
-                {
-                    ProductTemplateId = table.Column<long>(nullable: false),
-                    ProductAttributeId = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductTemplateProductAttribute", x => new { x.ProductTemplateId, x.ProductAttributeId });
-                    table.ForeignKey(
-                        name: "FK_ProductTemplateProductAttribute_ProductAttribute_ProductAtt~",
-                        column: x => x.ProductAttributeId,
-                        principalTable: "ProductAttribute",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProductTemplateProductAttribute_ProductTemplate_ProductTemp~",
-                        column: x => x.ProductTemplateId,
-                        principalTable: "ProductTemplate",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OrderItem",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Sqlite:Autoincrement", true),
                     LastModified = table.Column<DateTimeOffset>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     Price = table.Column<string>(nullable: true),
                     StormyProductId = table.Column<long>(nullable: false),
                     StormyOrderId = table.Column<long>(nullable: false),
-                    ProductName = table.Column<string>(nullable: true),
                     ShipmentId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -937,34 +948,33 @@ namespace SimplCommerce.WebHost.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payment",
+                name: "ProductTemplateProductAttribute",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LastModified = table.Column<DateTimeOffset>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    StormyOrderId = table.Column<long>(nullable: false),
-                    CreatedOn = table.Column<DateTimeOffset>(nullable: false),
-                    Amount = table.Column<decimal>(nullable: false),
-                    PaymentFee = table.Column<decimal>(nullable: false),
-                    PaymentMethod = table.Column<string>(nullable: true),
-                    GatewayTransactionId = table.Column<string>(nullable: true),
-                    PaymentStatus = table.Column<int>(nullable: false),
-                    FailureMessage = table.Column<string>(nullable: true)
+                    ProductTemplateId = table.Column<long>(nullable: false),
+                    ProductAttributeId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payment", x => x.Id);
+                    table.PrimaryKey("PK_ProductTemplateProductAttribute", x => new { x.ProductTemplateId, x.ProductAttributeId });
                     table.ForeignKey(
-                        name: "FK_Payment_StormyOrder_StormyOrderId",
-                        column: x => x.StormyOrderId,
-                        principalTable: "StormyOrder",
+                        name: "FK_ProductTemplateProductAttribute_ProductAttribute_ProductAttributeId",
+                        column: x => x.ProductAttributeId,
+                        principalTable: "ProductAttribute",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductTemplateProductAttribute_ProductTemplate_ProductTemplateId",
+                        column: x => x.ProductTemplateId,
+                        principalTable: "ProductTemplate",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
-            
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUser_RoleId",
+                table: "ApplicationUser",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -1040,11 +1050,6 @@ namespace SimplCommerce.WebHost.Migrations
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductAttribute_StormyProductId",
-                table: "ProductAttribute",
-                column: "StormyProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ProductAttributeValue_AttributeId",
                 table: "ProductAttributeValue",
                 column: "AttributeId");
@@ -1075,6 +1080,11 @@ namespace SimplCommerce.WebHost.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductTemplate_StormyProductId",
+                table: "ProductTemplate",
+                column: "StormyProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductTemplateProductAttribute_ProductAttributeId",
                 table: "ProductTemplateProductAttribute",
                 column: "ProductAttributeId");
@@ -1100,14 +1110,9 @@ namespace SimplCommerce.WebHost.Migrations
                 column: "StormyCustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShipmentItem_ShipmentId1",
-                table: "ShipmentItem",
-                column: "ShipmentId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StormyCustomer_CustomerWishlistId",
-                table: "StormyCustomer",
-                column: "CustomerWishlistId",
+                name: "IX_Shipment_StormyOrderId",
+                table: "Shipment",
+                column: "StormyOrderId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -1121,19 +1126,14 @@ namespace SimplCommerce.WebHost.Migrations
                 column: "DefaultShippingAddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StormyOrder_CustomerId",
+                name: "IX_StormyOrder_StockId",
                 table: "StormyOrder",
-                column: "CustomerId");
+                column: "StockId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StormyOrder_ShipmentId",
+                name: "IX_StormyOrder_StormyCustomerId",
                 table: "StormyOrder",
-                column: "ShipmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StormyOrder_ShippingAddressId",
-                table: "StormyOrder",
-                column: "ShippingAddressId");
+                column: "StormyCustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StormyProduct_BrandId",
@@ -1147,14 +1147,25 @@ namespace SimplCommerce.WebHost.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_StormyProduct_StockId",
+                table: "StormyProduct",
+                column: "StockId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StormyProduct_VendorId",
                 table: "StormyProduct",
                 column: "VendorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StormyVendor_AddressId1",
+                name: "IX_StormyVendor_AddressId",
                 table: "StormyVendor",
-                column: "AddressId1");
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wishlist_CustomerId",
+                table: "Wishlist",
+                column: "CustomerId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_WishlistItem_ProductId1",
@@ -1218,9 +1229,6 @@ namespace SimplCommerce.WebHost.Migrations
                 name: "Review");
 
             migrationBuilder.DropTable(
-                name: "ShipmentItem");
-
-            migrationBuilder.DropTable(
                 name: "WishlistItem");
 
             migrationBuilder.DropTable(
@@ -1233,7 +1241,7 @@ namespace SimplCommerce.WebHost.Migrations
                 name: "EntityType");
 
             migrationBuilder.DropTable(
-                name: "StormyOrder");
+                name: "Shipment");
 
             migrationBuilder.DropTable(
                 name: "ProductOption");
@@ -1245,7 +1253,10 @@ namespace SimplCommerce.WebHost.Migrations
                 name: "ProductTemplate");
 
             migrationBuilder.DropTable(
-                name: "Shipment");
+                name: "Wishlist");
+
+            migrationBuilder.DropTable(
+                name: "StormyOrder");
 
             migrationBuilder.DropTable(
                 name: "ProductAttributeGroup");
@@ -1263,10 +1274,10 @@ namespace SimplCommerce.WebHost.Migrations
                 name: "Category");
 
             migrationBuilder.DropTable(
-                name: "StormyVendor");
+                name: "Stock");
 
             migrationBuilder.DropTable(
-                name: "Wishlist");
+                name: "StormyVendor");
 
             migrationBuilder.DropTable(
                 name: "Address");

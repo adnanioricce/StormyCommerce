@@ -41,7 +41,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         //}
         [HttpPost("address/create")]
         [ValidateModel]
-        public async Task<IActionResult> AddAddressAsync([FromBody]Address address)
+        public async Task<IActionResult> AddAddressAsync([FromBody]CustomerAddress address)
         {            
             var customer = GetCurrentCustomer();                               
             await _customerService.AddCustomerAddressAsync(address,customer.Id);

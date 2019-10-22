@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 namespace StormyCommerce.Module.Orders.Area.Models
 {
@@ -26,7 +28,7 @@ namespace StormyCommerce.Module.Orders.Area.Models
         /// 3 - Envelope
         ///</summary>
         [Required]
-        public FormatCode FormatCode { get; set; }
+        public FormatCode FormatCode { get; set; }        
         ///<summary>
         /// Height of the object in centimeters        
         ///</summary>
@@ -47,8 +49,14 @@ namespace StormyCommerce.Module.Orders.Area.Models
         ///</summary>
         [Required]
         public decimal Diameter { get; set; }
+        public decimal Weight { get; set; }
         ///<summary>
-        /// The destination postal code for the shipping        
+        ///(Optional)
+        /// The origin postal code of the ship object.
+        ///</summary>
+        public string OriginPostalCode { get; set; }
+        ///<summary>
+        /// The destination postal code to ship the object
         ///</summary>
         // public string OriginPostalCode { get; set; }
         [Required]

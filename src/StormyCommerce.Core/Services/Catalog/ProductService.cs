@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models;
 using System;
@@ -14,10 +15,19 @@ namespace StormyCommerce.Core.Services.Catalog
     {
         private const string ProductEntityTypeId = "Product";
         private readonly IStormyRepository<StormyProduct> _productRepository;        
-
-        public ProductService(IStormyRepository<StormyProduct> productRepository)
+        //TODO: I Think a service for this is unecessary        
+        public ProductService(IStormyRepository<StormyProduct> productRepository
+        )
         {
             _productRepository = productRepository;
+            _productRepository
+            .Table
+            .Include(p => p.Brand)
+            .Include(p => p.Category)
+                .ThenInclude(c => c.Parent)
+            .Include(p => p.Vendor)                             
+            .Include(p => p.Medias)
+            .Load();
         }
 
         //TODO:write failing test cases
@@ -50,6 +60,10 @@ namespace StormyCommerce.Core.Services.Catalog
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 1, long endIndex = 15)
         {
             return await _productRepository.Table
+                .Include(prop => prop.Category)
+                .Include(prop => prop.Medias)
+                .Include(prop => prop.Brand)
+                .Include(prop => prop.Vendor)                
                 .Where(product => product.Id <= endIndex && product.Id >= startIndex)
                 .ToListAsync();
         }
@@ -89,12 +103,20 @@ namespace StormyCommerce.Core.Services.Catalog
 
         public async Task<StormyProduct> GetProductByIdAsync(long productId)
         {
-            return await _productRepository.GetByIdAsync(productId);
+            return await _productRepository.Table
+            .Include(p => p.Brand)
+            .Include(p => p.Category)                
+            .Include(p => p.Vendor)                
+            .Include(p => p.Medias)                
+            .Where(p => p.Id == productId)
+            .FirstAsync();
         }
 
         public async Task<StormyProduct> GetProductBySkuAsync(string sku)
         {
-            return await Task.Run(() => _productRepository.Table.FirstOrDefault(entity => entity.SKU == sku));
+            return await _productRepository.Table
+            .Where(p => p.SKU.Equals(sku,StringComparison.OrdinalIgnoreCase))
+            .FirstAsync();
         }
 
         public async Task<IList<StormyProduct>> GetProductsByIdsAsync(long[] productIds)
@@ -124,6 +146,7 @@ namespace StormyCommerce.Core.Services.Catalog
         //TODO:Create slugs with EntityService
         public async Task InsertProductAsync(StormyProduct product)
         {
+            product.Slug = product.GenerateSlug();            
             await _productRepository.AddAsync(product);
         }
 

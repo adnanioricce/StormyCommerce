@@ -1,4 +1,5 @@
 ﻿using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Entities.Customer;
 using System.ComponentModel.DataAnnotations;
 
 namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
@@ -13,6 +14,6 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public string DeliveryDate { get; set; }
         public bool Expedited { get; set; }
         [Required]
-        public Address Address { get; set; }
+        public ShippingAddressModel Address { get; set; }
     }
 }

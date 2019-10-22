@@ -1,20 +1,21 @@
-﻿using StormyCommerce.Module.Orders.Area.Models.Correios;
+﻿using System;
+using StormyCommerce.Module.Orders.Area.Models.Correios;
 namespace StormyCommerce.Module.Orders.Area.Models
 {
     public class DeliveryCalculationOptionResponse
     {
         public DeliveryCalculationOptionResponse(cServico calcModel)
         {
-            DeliveryTime = calcModel.PrazoEntrega;
-            DeliveryDate = calcModel.DataMaxEntrega;
-            HourOfDay = calcModel.HoraMaxEntrega;
+            DeliveryDeadline = Convert.ToDateTime(calcModel.PrazoEntrega);
+            DeliveryMaxDate = Convert.ToDateTime(calcModel.DataMaxEntrega);
+            HourOfDay = Convert.ToDateTime(calcModel.HoraMaxEntrega);
             Price = calcModel.Valor;
-            Service = calcModel.Codigo;
+            Service = calcModel.Codigo.ToString();
         }
-        public string DeliveryTime { get; private set; }
-        public string DeliveryDate { get; private set; }
-        public string HourOfDay { get; private set; }
+        public DateTime DeliveryDeadline { get; private set; }
+        public DateTime DeliveryMaxDate { get; private set; }
+        public DateTime HourOfDay { get; private set; }
         public string Price { get; private set; }
-        public int Service { get; private set; }        
+        public string Service { get; private set; }        
     }
 }

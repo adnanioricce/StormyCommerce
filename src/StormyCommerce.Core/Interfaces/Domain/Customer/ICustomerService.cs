@@ -12,13 +12,13 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
     {
         Task CreateCustomerReviewAsync(Review review, string normalizedEmail);
 
-        Task AddCustomerAddressAsync(Address address, long customerIds);
+        Task AddCustomerAddressAsync(CustomerAddress address, long customerIds);
 
         Task<IList<Review>> GetCustomerReviewsAsync(long customerId);
 
-        Task<Review> GetCustomerReviewByIdAsync(long customerId, long reviewId);
+        Task<Review> GetCustomerReviewByIdAsync(string customerId, long? reviewId);
 
-        Task<IList<Address>> GetAllCustomerAddressByIdAsync(long id);
+        Task<IList<CustomerAddress>> GetAllCustomerAddressByIdAsync(long id);
 
         Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id);
 

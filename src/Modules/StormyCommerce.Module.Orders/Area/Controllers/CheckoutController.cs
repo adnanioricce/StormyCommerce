@@ -54,54 +54,18 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
-        [ValidateModel]        
+        [ValidateModel]                
         public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutViewModel boletoCheckoutViewModel)
-        {                        
-            //TODO:Get current customer instead            
-            var customer = await _customerService.GetCustomerByUserNameOrEmail("",boletoCheckoutViewModel.CustomerEmail);
-            var transaction = boletoCheckoutViewModel.ToTransactionVm(customer);
-            
+        {                                    
+            var customer = await _customerService.GetCustomerByUserNameOrEmail("",HttpContext.User.Claims.FirstOrDefault(c => c.Type == "email").Value);
+            var transaction = boletoCheckoutViewModel.ToTransactionVm(customer);            
             transaction.PostbackUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/Checkout/postback";
-            transaction.Async = true;            
-            
-            var result = await _pagarmeService.ChargeAsync(transaction);            
-            
-            if(!result.Success) return BadRequest($"failed on the payment charge process, see the error code for more info\n {result.Error}");            
-            
-            var payment = _mapper.Map<PaymentDto>(transaction);            
-            //TODO:define price type
-            //the price has to be represented in cents
-            var price = transaction.Amount / 100;            
+            transaction.Async = true;                        
+            var result = await _pagarmeService.ChargeAsync(transaction);                                    
             var order = _mapper.Map<StormyOrder>(transaction);
-            // var order = BuildOrder(_mapper.Map<Payment>(payment),boletoCheckoutViewModel);
-            transaction.Items.ForEach(item => 
-            order.Items.Add(
-                _mapper.Map<OrderItem>(item)
-                ));                                 
-            var shipment = _shippingService.BuildShipmentForOrder(order);            
-            shipment.Order = order;                         
-            if(shipment.DeliveryCost <= 0 && !order.PickUpInStore){
-                var calcResult = await _correiosService.DefaultDeliveryCalculation(shipment);                
-                shipment.DeliveryCost = decimal.Parse(calcResult.Options.FirstOrDefault().Price
-                .Replace("R$","")
-                .Replace(",","."));
-                order.Shipment = shipment;
-            }                            
-            
-            return Ok(await _orderService.CreateOrderAsync(order));
-
-            StormyOrder BuildOrder(Payment _payment,BoletoCheckoutViewModel checkoutVm){
-                return new StormyOrder{
-                    Customer = customer,                    
-                    PaymentMethod = "boleto",
-                    Payment = _payment,
-                    ShippingStatus = Core.Entities.Shipping.ShippingStatus.NotShippedYet,
-                    Status = OrderStatus.New,   
-                    ShippingMethod = checkoutVm.ShippingMethod,                             
-                    //TODO:maybe a value object for the price operations? they don't seem like a value type for me
-                    TotalPrice = price,                                                               
-                };           
-            }                                                    
+            order.Payment.PaymentStatus = result.Success ? PaymentStatus.Pending : PaymentStatus.Failed;                        
+            order.Status = OrderStatus.New;                                                                 
+            return Ok(await _orderService.CreateOrderAsync(order));            
         }
         
     }    

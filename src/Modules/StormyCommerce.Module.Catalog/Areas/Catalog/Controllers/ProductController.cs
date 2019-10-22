@@ -89,11 +89,10 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         [HttpPost("create")]
         [ValidateModel]
         [Authorize(Roles.Admin)]
-        public async Task<ActionResult> CreateProduct([FromBody]ProductDto _model)
-        {
-            var model = new StormyProduct(_model);
+        public async Task<ActionResult> CreateProduct([FromBody]StormyProduct _model)
+        {            
             try{
-                await _productService.InsertProductAsync(model);                
+                await _productService.InsertProductAsync(_model);                
             }            
             //TODO:Change to a more specific Exception
             catch(Exception ex){
@@ -105,11 +104,10 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         [HttpPut("edit")]
         [ValidateModel]
         [Authorize(Roles.Admin)]
-        public async Task<IActionResult> EditProduct([FromBody]ProductDto _model)
-        {            
-            var model = _mapper.Map<StormyProduct>(_model);       
+        public async Task<IActionResult> EditProduct([FromBody]StormyProduct _model)
+        {                        
             try{                 
-                await _productService.UpdateProductAsync(model);
+                await _productService.UpdateProductAsync(_model);
             }catch(Exception ex){
                 _logger.LogStackTrace(ex.Message,ex);
                 throw ex;

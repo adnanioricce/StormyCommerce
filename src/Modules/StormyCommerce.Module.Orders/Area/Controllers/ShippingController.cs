@@ -7,6 +7,9 @@ using AutoMapper;
 using System.Collections.Generic;
 using StormyCommerce.Module.Orders.Area.Models;
 using System.Linq;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces.Domain.Shipping;
 // using StormyCommerce.Module.Shipping.Models;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
@@ -16,16 +19,19 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     public class ShippingController : ControllerBase
     {
         private readonly CorreiosService _correiosService;        
+        private readonly IShippingService _shippingService;
         private readonly IMapper _mapper;
-        public ShippingController(CorreiosService correiosService,IMapper mapper)
+        public ShippingController(CorreiosService correiosService,IShippingService shippingService,IMapper mapper)
         {
             _correiosService = correiosService;            
+            _shippingService = shippingService;
             _mapper = mapper;
         }
         [HttpPost("calcdelivery")]
         [ValidateModel]
-        public async Task<ActionResult<List<DeliveryCalculationOptionResponse>>> CalculateDeliveryCost(CalcPrecoPrazoModel model) {                        
+        public async Task<ActionResult<List<DeliveryCalculationOptionResponse>>> CalculateDeliveryCost(DeliveryCalculationRequest model) 
+        {                                    
             return Ok(new { result = await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<CalcPrecoPrazoModel>(model)) });
-        }       
+        }               
     }
 }

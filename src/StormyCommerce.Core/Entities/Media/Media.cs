@@ -11,7 +11,7 @@ namespace StormyCommerce.Core.Entities.Media
         public string FileName { get; set; }
 
         public MediaType MediaType { get; set; }
-        public string SeoFileName { get; set; }
+        public string SeoFileName { get; set; }        
 
         public MediaDto ToMediaDto()
         {

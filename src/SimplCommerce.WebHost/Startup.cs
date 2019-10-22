@@ -27,6 +27,9 @@ using System.IO;
 using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using System.Reflection;
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimplCommerce.WebHost
 {
@@ -129,6 +132,9 @@ namespace SimplCommerce.WebHost
                     Version = "v1",
                     Description = "a customized version of the <a href='https://github.com/simplcommerce/SimplCommerce'>SimplCommerce</a> project, build to finish a final paper project"                    
                     });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
@@ -178,11 +184,17 @@ namespace SimplCommerce.WebHost
             }
             using (var scope = app.ApplicationServices.CreateScope())
             {                
-                var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>();
-                var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-                var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
-                new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
-                dbContext.SeedDatabase();
+                using(var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>()){
+                    if(dbContext.Database.IsSqlite()){                    
+                        if(dbContext.Database.EnsureDeleted()){                        
+                            dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                        }
+                    }
+                    var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                    var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                    new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
+                    dbContext.SeedDbContext();
+                }
             }
         }
     }

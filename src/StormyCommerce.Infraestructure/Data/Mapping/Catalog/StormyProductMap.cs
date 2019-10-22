@@ -10,17 +10,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
     public class StormyProductMap : IStormyModelBuilder
     {
         public void Build(ModelBuilder modelBuilder)
-        {
-            //modelBuilder.Model.GetEntityTypes().ToList().ForEach(entity =>
-            //{
-            //    entity.GetOrAddProperty("IsDeleted", typeof(bool));
-            //    var parameter = Expression.Parameter(entity.ClrType);
-            //    var propertyMethodInfo = typeof(EF).GetMethod("Property").MakeGenericMethod(typeof(bool));
-            //    var isDeletedProperty = Expression.Call(propertyMethodInfo, parameter, Expression.Constant("IsDeleted"));
-            //    BinaryExpression compareExpression = Expression.MakeBinary(ExpressionType.Equal, isDeletedProperty, Expression.Constant(false));
-            //    var lambda = Expression.Lambda(compareExpression, parameter);
-            //    modelBuilder.Entity(entity.ClrType).HasQueryFilter(lambda);
-            //});
+        {            
             modelBuilder.Entity<ProductLink>(entity =>
             {
                 entity.HasOne(x => x.Product)
@@ -67,12 +57,10 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(p => p.Price);
                 entity.Property(p => p.OldPrice);
                 entity.Property(product => product.BrandId);
-                entity.HasOne(product => product.Brand).WithMany().HasForeignKey(p => p.BrandId);
-                entity.Property(product => product.VendorId);
-                entity.HasOne(product => product.Vendor).WithMany().HasForeignKey(p => p.VendorId);
-                entity.Property(product => product.MediaId);
-                entity.HasMany(product => product.Medias).WithOne().HasForeignKey(m => m.Id);
-                entity.HasMany(product => product.Links).WithOne().HasForeignKey(l => l.Id);
+                entity.HasOne(product => product.Brand).WithMany().HasForeignKey(p => p.BrandId);                
+                entity.HasOne(product => product.Vendor).WithMany(prop => prop.Products).HasForeignKey(p => p.VendorId);                
+                entity.HasMany(product => product.Medias).WithOne().HasForeignKey(m => m.StormyProductId).OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(product => product.Links).WithOne(l => l.Product).HasForeignKey(l => l.ProductId);
                 entity.HasOne(product => product.Category).WithOne();
                 entity.Property(product => product.SKU).IsRequired();
                 entity.Property(product => product.ProductName).HasMaxLength(400).IsRequired();
@@ -82,8 +70,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(product => product.OldPrice)
                     .HasConversion<string>(price => price.Value,dbValue => Price.GetPriceFromString(dbValue)).HasColumnType("decimal(18,4)");
                 entity.Property(product => product.Price)
-                    .HasConversion<string>(price => price.Value,dbValue => Price.GetPriceFromString(dbValue)).HasColumnType("decimal(18,4)");                
-                entity.Property(product => product.UnitSize).IsRequired();
+                    .HasConversion<string>(price => price.Value,dbValue => Price.GetPriceFromString(dbValue)).HasColumnType("decimal(18,4)");                                
                 entity.Property(product => product.UnitPrice).IsRequired();
                 entity.Property(product => product.UnitsInStock).IsRequired();
                 entity.Property(product => product.TypeName).IsRequired();
@@ -93,14 +80,19 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             modelBuilder.Entity<ProductOption>(entity =>
             {
             });
-            modelBuilder.Entity<Media>(entity =>
+            modelBuilder.Entity<ProductMedia>(entity =>
             {                
+                entity.HasKey(prop => prop.Id);                
+                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();                                              
             });
-            modelBuilder.Entity<Stock>(e => {                
+            modelBuilder.Entity<Stock>(e => { 
+                e.Property(prop => prop.Id).ValueGeneratedOnAdd();
             });
             modelBuilder.Entity<Brand>(entity =>
             {
-                entity.HasQueryFilter(brand => brand.IsDeleted == false)
+                entity.HasKey(prop => prop.Id); 
+                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
+                entity.HasQueryFilter(brand => !brand.IsDeleted)
                 .Property(brand => brand.Slug)
                 .HasMaxLength(450)
                 .IsRequired();                

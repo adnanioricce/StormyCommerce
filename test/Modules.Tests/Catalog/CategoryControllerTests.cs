@@ -90,8 +90,7 @@ namespace Modules.Test
             var repository = RepositoryHelper.GetRepository<Category>();
             // Arrange
             var category = _data.Find(c => c.Id == 1);
-            category.Parent = _data.Find(c => c.Id == 2);
-            category.AddChildren(_data.LastOrDefault());
+            category.Parent = _data.Find(c => c.Id == 2);            
             category.Name += " Updated";
             // Act
             var result = await _categoryController.EditCategory(category);

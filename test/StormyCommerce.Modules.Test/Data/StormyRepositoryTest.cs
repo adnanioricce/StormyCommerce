@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Testing;
+using SimplCommerce.WebHost;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
@@ -9,14 +11,15 @@ using Xunit;
 
 namespace StormyCommerce.Modules.IntegrationTest.Data
 {
-    public class StormyRepositoryTests<TEntity> : IDisposable where TEntity : BaseEntity
+    public class StormyRepositoryTests<TEntity> : IClassFixture<WebApplicationFactory<TestStartup>> ,IDisposable where TEntity : BaseEntity
     {
         private IStormyRepository<TEntity> _repository;
 
         //private Mock<StormyDbContext> mockStormyDbContext;
 
-        public StormyRepositoryTests()
-        {
+        public StormyRepositoryTests(WebApplicationFactory<Startup> factory)
+        {            
+            
             _repository = CreateStormyRepository<TEntity>();
         }
 

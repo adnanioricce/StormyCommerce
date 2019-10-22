@@ -30,6 +30,14 @@ namespace StormyCommerce.Core.Tests.Helpers
                 VendorId = 1,
                 UnitPrice = (decimal)49.99,
                 UnitsInStock = 30,
+                Category = new Entities.Catalog.Category{
+                    Name = "Shirts"
+                },
+                TypeName = "T-Shirt",
+                Brand = new Brand{
+                    Name = "Nike"
+                },
+                ProductName = "Zeus"
             };
         }
 
@@ -66,20 +74,11 @@ namespace StormyCommerce.Core.Tests.Helpers
                     VendorId = 1,
                     Vendor = new StormyVendor
                     {
-                        Address = new Address
-                        {
-                            City = "NoWhere",
-                            Complement = "A simple complement",
-                            FirstAddress = "first Address",
-                            LastModified = DateTime.UtcNow,
-                            Number = Guid.NewGuid().ToString("N"),
-                            PhoneNumber = "9999999-11",
-                            PostalCode = "12345678-9",
-                            SecondAddress = "Second Address",
-                            State = "Hell",
-                            Street = "Mcdonalds",
-                        },
-                        AddressId = 1,
+                        Address = new VendorAddress{
+                            Address = new Address("BR","Hell","NoWhere","Disney","Mcdonalds","First address","Second address","12345678-9","4002","A simple complement")
+                        }
+                        ,
+                        VendorAddressId = 1,
                         CompanyName = "SimpleCompany",
                         ContactTitle = "Simple and a bit trustful",
                         TypeGoods = "Fashion",

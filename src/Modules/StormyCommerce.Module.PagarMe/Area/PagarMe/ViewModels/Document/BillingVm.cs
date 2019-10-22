@@ -7,7 +7,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
     {
         [Required]
         // [DataType(DataType.Custom)]
-        public Address Address { get; set; }
+        public ShippingAddressModel Address { get; set; }
 
         [Required]
         public string Name { get; set; }

@@ -92,10 +92,9 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         {
             // Arrange
             var product = Seeders.StormyProductSeed(1).FirstOrDefault();
-
-            var model = new ProductDto(product, 21);
+            product.Id = 21;
             // Act
-            var result = await _productController.CreateProduct(model);
+            var result = await _productController.CreateProduct(product);
             // Assert
             var objResult = Assert.IsAssignableFrom<OkResult>(result);
             Assert.Equal(200, objResult.StatusCode);

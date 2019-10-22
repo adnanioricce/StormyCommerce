@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System;
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Module.PagarMe.Models;
+using StormyCommerce.Core.Entities.Customer;
 
 namespace StormyCommerce.Modules.IntegrationTest.Controllers
 {
@@ -63,11 +64,11 @@ namespace StormyCommerce.Modules.IntegrationTest.Controllers
                         "+5511982738291",
                         "+5511829378291"
                     },
-                    BirthDay = new DateTime(1991, 12, 12).ToString("yyyy-MM-dd"),
+                    BirthDay = new DateTime(1991, 12, 12),
                 },
                     Billing = new BillingVm{
                         Name = "Morty",
-                        Address = new Address
+                        Address = new ShippingAddressModel
                         {
                             Country = "br",
                             State = "sp",
@@ -83,7 +84,7 @@ namespace StormyCommerce.Modules.IntegrationTest.Controllers
                         Fee = 100,
                         DeliveryDate = DateTime.UtcNow.AddDays(4).ToString("yyyy-MM-dd"),
                         Expedited = false,
-                        Address = new Address
+                        Address = new ShippingAddressModel
                         {
                             Country = "br",
                             State = "sp",
