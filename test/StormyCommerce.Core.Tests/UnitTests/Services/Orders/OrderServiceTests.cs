@@ -83,12 +83,11 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
         public async Task CreateOrderAsync_ValidOrderInput_ReturnSuccessResultWithOrderDto()
         {
             // Arrange
-            var service = new OrderService(RepositoryHelper.GetRepository<StormyOrder>(),this.mockStormyRepositoryOrderHistory.Object,CreateFakeShippingService());
+            var service = new OrderService(RepositoryHelper.GetRepository<StormyOrder>(),null,CreateFakeShippingService());
             var orderUniqueKey = Guid.NewGuid();
             StormyOrder entry = Seeders.StormyOrderSeed().First();
             // Act
-            Result<OrderDto> result = await service.CreateOrderAsync(
-                entry);
+            Result<OrderDto> result = await service.CreateOrderAsync(entry);
 
             // Assert
             Assert.True(result.Success);

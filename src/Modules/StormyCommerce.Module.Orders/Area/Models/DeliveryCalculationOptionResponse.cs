@@ -6,9 +6,11 @@ namespace StormyCommerce.Module.Orders.Area.Models
     {
         public DeliveryCalculationOptionResponse(cServico calcModel)
         {
-            DeliveryDeadline = Convert.ToDateTime(calcModel.PrazoEntrega);
-            DeliveryMaxDate = Convert.ToDateTime(calcModel.DataMaxEntrega);
-            HourOfDay = Convert.ToDateTime(calcModel.HoraMaxEntrega);
+            DeliveryDeadline = DateTime.Now.AddDays(Convert.ToInt32(calcModel.PrazoEntrega));
+            if(!String.IsNullOrEmpty(calcModel.DataMaxEntrega))
+                DeliveryMaxDate = DateTime.Now.AddDays(Convert.ToInt32(calcModel.DataMaxEntrega));
+            if(!(String.IsNullOrEmpty(calcModel.HoraMaxEntrega)))
+                HourOfDay = DateTime.Now.AddDays(Convert.ToInt32(calcModel.HoraMaxEntrega));
             Price = calcModel.Valor;
             Service = calcModel.Codigo.ToString();
         }

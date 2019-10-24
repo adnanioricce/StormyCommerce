@@ -31,8 +31,7 @@
     <ProjectReference Include="..\..\src\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
     <ProjectReference Include="..\..\src\StormyCommerce.Core\StormyCommerce.Core.csproj" />
     <ProjectReference Include="..\..\src\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
-    <ProjectReference Include="..\Infraestructure\TestHelperLibrary\TestHelperLibrary.csproj" />
-    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Shipping\StormyCommerce.Module.Shipping.csproj" />
+    <ProjectReference Include="..\Infraestructure\TestHelperLibrary\TestHelperLibrary.csproj" />    
     <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Orders\StormyCommerce.Module.Orders.csproj" />
   </ItemGroup>
 

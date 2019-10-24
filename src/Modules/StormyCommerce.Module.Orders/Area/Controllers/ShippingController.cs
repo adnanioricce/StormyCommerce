@@ -30,8 +30,9 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         [HttpPost("calcdelivery")]
         [ValidateModel]
         public async Task<ActionResult<List<DeliveryCalculationOptionResponse>>> CalculateDeliveryCost(DeliveryCalculationRequest model) 
-        {                                    
-            return Ok(new { result = await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<CalcPrecoPrazoModel>(model)) });
-        }               
+        {                                      
+            return Ok(new { result = await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<DeliveryCalculationRequest,CalcPrecoPrazoModel>(model)) });
+        }              
+        
     }
 }

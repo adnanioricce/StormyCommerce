@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AutoMapper;
 using StormyCommerce.Module.Orders.Area.Models;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
@@ -26,11 +26,11 @@ namespace StormyCommerce.Module.Mapping.Mappings
             CreateMap<cResultado,DeliveryCalculationResponse>()
                 .ForMember(dest => dest.Options,opt => opt.MapFrom(src => src.Servicos));
             CreateMap<cServico,DeliveryCalculationOptionResponse>()
-                .ForMember(dest => dest.DeliveryDeadline,opt => opt.MapFrom(src => Convert.ToDateTime(src.PrazoEntrega)))
-                .ForMember(dest => dest.DeliveryMaxDate,opt => opt.MapFrom(src => Convert.ToDateTime(src.DataMaxEntrega)))
-                .ForMember(dest => dest.HourOfDay,opt => opt.MapFrom(src => src.HoraMaxEntrega))
+                .ForMember(dest => dest.DeliveryDeadline,opt => opt.MapFrom(src => DateTime.Now.AddDays(Convert.ToInt32(src.PrazoEntrega))))
+                .ForMember(dest => dest.DeliveryMaxDate,opt => opt.MapFrom(src => DateTime.Now.AddDays(Convert.ToInt32(src.DataMaxEntrega))))
+                .ForMember(dest => dest.HourOfDay,opt => opt.MapFrom(src => DateTime.Now.AddDays(Convert.ToInt32(src.HoraMaxEntrega))))
                 .ForMember(dest => dest.Price,opt => opt.MapFrom(src => src.Valor))
                 .ForMember(dest => dest.Service,opt => opt.MapFrom(src => src.Codigo.ToString()));                
-        }
+        }        
     }
 }

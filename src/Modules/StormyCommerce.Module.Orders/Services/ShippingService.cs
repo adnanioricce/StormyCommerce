@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Interfaces;
@@ -25,7 +25,7 @@ namespace StormyCommerce.Module.Orders.Services
         {
             _shipmentRepository = shipmentRepository;
             _orderRepository = orderRepository;
-            _orderRepository.Table.Include(o => o.Shipment);
+            
             _correiosService = correiosService;
         }
         public virtual async Task<Shipment> BuildShipmentForOrder(StormyOrder order)
@@ -55,16 +55,18 @@ namespace StormyCommerce.Module.Orders.Services
 
         public async Task CreateShipmentAsync(StormyOrder order)
         {            
-            throw new NotImplementedException();            
+            var shipment = await BuildShipmentForOrder(order);
+            await CreateShipmentAsync(shipment);
         }
         public async Task<Shipment> GetShipmentById(long id)
         {
+            _orderRepository.Table.Include(o => o.Shipment);
             return await _shipmentRepository.GetByIdAsync(id);
         }
         public async Task<Shipment> GetShipmentByOrderIdAsync(long orderId)
         {
-            var order = await _orderRepository.GetByIdAsync(orderId);
-            return order.Shipment;
+            var shipment = await _shipmentRepository.Table.Include(o => o.Order).Where(o => o.StormyOrderId == orderId).FirstOrDefaultAsync();
+            return shipment;
         }
         public async Task<Shipment> GetShipmentByOrderIdAsync(Guid uniqueOrderId)
         {
