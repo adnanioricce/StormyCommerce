@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Module.Customer.Models;
 using System.Collections.Generic;
@@ -73,7 +74,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         public async Task<IActionResult> EditCategory(Category category)
         {
             await _categoryService.UpdateAsync(category);
-            return Ok("Updated With Success");
+            return Ok(Result.Ok("Updated With Success"));
         }
     }
 }

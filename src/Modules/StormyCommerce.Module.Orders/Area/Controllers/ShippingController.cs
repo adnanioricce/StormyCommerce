@@ -10,6 +10,7 @@ using System.Linq;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
+using StormyCommerce.Module.Orders.Area.Models.Shipping;
 // using StormyCommerce.Module.Shipping.Models;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
@@ -32,7 +33,6 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         public async Task<ActionResult<List<DeliveryCalculationOptionResponse>>> CalculateDeliveryCost(DeliveryCalculationRequest model) 
         {                                      
             return Ok(new { result = await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<DeliveryCalculationRequest,CalcPrecoPrazoModel>(model)) });
-        }              
-        
+        }                              
     }
 }

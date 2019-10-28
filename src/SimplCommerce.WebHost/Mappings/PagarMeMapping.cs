@@ -11,8 +11,9 @@ using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 using StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels;
+using Document = StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels.Document;
 
-namespace StormyCommerce.Module.Mapping.Mappings
+namespace StormyCommerce.WebHost.Mappings
 {
     public class PagarMeMapping : Profile
     {
@@ -75,7 +76,7 @@ namespace StormyCommerce.Module.Mapping.Mappings
                 .ForMember(dest => dest.Country,opt => opt.MapFrom(src => src.FullName))
                 .AfterMap((dto,vm) => {
                     vm.PhoneNumbers.Add(dto.PhoneNumber); 
-                    vm.Documents.Add( new PagarMe.Area.PagarMe.ViewModels.Document{
+                    vm.Documents.Add( new Document{
                         Type = "cpf",
                         Number = dto.CPF                        
                         });
@@ -89,7 +90,7 @@ namespace StormyCommerce.Module.Mapping.Mappings
                 .ForMember(dest => dest.Country,opt => opt.MapFrom(src => src.FullName))                
                 .AfterMap((dto,vm) => {
                     vm.PhoneNumbers.Add(dto.PhoneNumber); 
-                    vm.Documents.Add( new PagarMe.Area.PagarMe.ViewModels.Document{
+                    vm.Documents.Add( new Document{
                         Type = "cpf",
                         Number = dto.CPF                        
                         });

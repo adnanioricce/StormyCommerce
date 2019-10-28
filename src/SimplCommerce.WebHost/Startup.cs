@@ -103,6 +103,7 @@ namespace SimplCommerce.WebHost
             });
 
             services.AddStormyDataStore(_configuration);
+            services.AddMappings();
             //services.AddCustomizedIdentity(_configuration);
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));

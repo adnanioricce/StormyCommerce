@@ -9,8 +9,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         [Required]
         public string ExternalId { get; set; }        
         [Required]
-        public int Type { get; set; }
-        [Required]
+        public string Type { get; set; } = "Individual";        
         public string Country { get; set; } = "br";        
         [Required]
         public string Name { get; set; }

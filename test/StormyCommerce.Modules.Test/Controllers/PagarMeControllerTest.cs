@@ -42,20 +42,20 @@ namespace StormyCommerce.Modules.IntegrationTest.Controllers
         private TransactionVm GetFakeTransactionVm(PaymentMethod paymentMethod){
             return new TransactionVm{
                 Amount = 2100,
-                PaymentMethod = paymentMethod,
+                PaymentMethod = PagarMe.PaymentMethod.Boleto,
                 Customer = new PagarMeCustomerVm{
                     ExternalId = "1234",
                     Name = "Rick",
-                    Type = 0,
+                    // Type = 0,
                     Country = "br",
                     Email = "rick@morty.com",
                     Documents = new List<Document>{
                         new Document{
-                        Type = 0,
+                        Type = "cpf",
                         Number = "30621143049"
                         },
                         new Document{
-                        Type = 1,
+                        Type = "cpf",
                         Number = "83134932000154"
                         }
                     },

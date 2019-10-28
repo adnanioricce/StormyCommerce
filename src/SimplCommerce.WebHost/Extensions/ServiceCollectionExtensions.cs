@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web.ModelBinders;
 using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.WebHost.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -193,7 +195,18 @@ namespace SimplCommerce.WebHost.Extensions
             });
             return services;
         }
-
+        public static IServiceCollection AddMappings(this IServiceCollection services)
+        {
+            var config = new MapperConfiguration(mc => {
+                mc.AddProfile(new CatalogProfile());
+                mc.AddProfile(new CustomerProfile());
+                mc.AddProfile(new ShippingProfile());
+                mc.AddProfile(new PagarMeMapping());
+            });
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+            return services;
+        } 
         private static void TryLoadModuleAssembly(string moduleFolderPath, ModuleInfo module)
         {
             const string binariesFolderName = "bin";

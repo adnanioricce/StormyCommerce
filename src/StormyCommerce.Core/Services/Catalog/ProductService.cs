@@ -49,10 +49,10 @@ namespace StormyCommerce.Core.Services.Catalog
 
         //!this look very lazy
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
-        {
+        {            
             return await _productRepository
                 .Table
-                .Where(f => f.Ranking <= limit)//use !
+                .Where(f => f.Ranking < limit)//use !
                 .ToListAsync();
         }
 

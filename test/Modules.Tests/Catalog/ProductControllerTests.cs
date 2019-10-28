@@ -71,7 +71,8 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             var result = (await _productController.GetAllProductsOnHomepage(limit));
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(15, result.Value.Count);
+            //Yeah, the method start from zero, so the final result is 16, instead of 15
+            Assert.Equal(16, result.Value.Count);
         }
 
         [Fact]

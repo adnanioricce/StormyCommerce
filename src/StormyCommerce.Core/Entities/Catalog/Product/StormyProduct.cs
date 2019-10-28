@@ -142,8 +142,8 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         }
         
         public decimal CalculateDimensions()
-        {            
-            return this.Width * this.Height; 
+        {                        
+            return ((Length * Height) * 2) + ((Width * Length) * 2) + ((Height * Width) * 2);
         }
     }
 }

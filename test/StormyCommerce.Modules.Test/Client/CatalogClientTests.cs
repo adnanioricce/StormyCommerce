@@ -1,4 +1,7 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Moq;
+using SimplCommerce.WebHost;
 using StormyCommerce.Api.Client.Catalog;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog;
@@ -7,23 +10,21 @@ using StormyCommerce.Core.Entities.Vendor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace StormyCommerce.Modules.IntegrationTest.Client
 {
-    public class CatalogClientTests : IDisposable
+    public class CatalogClientTests : IClassFixture<WebApplicationFactory<Startup>>,IDisposable
     {
         private MockRepository mockRepository;
-
-
-
-        public CatalogClientTests()
+        private HttpClient _client;
+        public CatalogClientTests(WebApplicationFactory<Startup> factory)
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-
+            // this.mockRepository = new MockRepository(MockBehavior.Strict);  
+            _client = factory.CreateClient();          
         }
 
         public void Dispose()
@@ -33,7 +34,7 @@ namespace StormyCommerce.Modules.IntegrationTest.Client
 
         private CatalogClient CreateCatalogClient()
         {
-            return new CatalogClient("http://localhost:5001");
+            return new CatalogClient(_client);
         }
 
         [Fact]
@@ -231,9 +232,7 @@ namespace StormyCommerce.Modules.IntegrationTest.Client
             CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);
 
             // Act
-            var result = await catalogClient.GetProductOverviewAsync(
-                id,
-                cancellationToken);
+            var result = await catalogClient.GetProductOverviewAsync(id,cancellationToken);
 
             // Assert
             Assert.Equal(id,result.Id);

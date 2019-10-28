@@ -5,6 +5,9 @@ using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Entities;
 using System;
 using System.Collections.Generic;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Core.Extensions;
+using StormyCommerce.Core.Models;
 
 namespace StormyCommerce.Core.Entities
 {
@@ -31,6 +34,7 @@ namespace StormyCommerce.Core.Entities
         public decimal TotalWeight { get; set; }
         public decimal TotalHeight { get; set; }
         public decimal TotalWidth { get; set; }
+        public decimal TotalLength { get; set; }
         public decimal TotalArea { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? ShippedDate { get; set; }
@@ -49,14 +53,30 @@ namespace StormyCommerce.Core.Entities
         {
             Shipment shipment = new Shipment();                   
             items.ForEach(item => {
-                shipment.TotalHeight += item.Quantity * item.Product.Height;
-                shipment.TotalWidth += item.Quantity * item.Product.Width;
-                shipment.TotalWeight += item.Quantity * (decimal)item.Product.UnitWeight;
-                shipment.TotalArea += item.Quantity * item.Product.CalculateDimensions();
+                var measure = new Measure(item);
+                SetDimensions(measure,shipment);                
                 item.Shipment = shipment;
                 shipment.Items.Add(item);
             });
             return shipment;
         }
+        public Shipment CalculateShipmentMeasures(List<OrderItemDto> items)
+        {
+            Shipment shipment = new Shipment();
+            items.ForEach(item => {
+                var measure = new Measure(item);       
+                SetDimensions(measure,shipment);                                                     
+            });
+            return shipment;
+        }        
+        private void SetDimensions(Measure measure,Shipment shipment)
+        {
+            shipment.TotalArea += measure.Area; 
+            shipment.TotalHeight += measure.Height; 
+            shipment.TotalLength += measure.Length;
+            shipment.TotalWeight += measure.Weight; 
+            shipment.TotalWidth += measure.Width;
+        }
+        
     }
 }

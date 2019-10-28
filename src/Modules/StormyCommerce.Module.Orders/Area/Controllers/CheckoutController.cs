@@ -21,6 +21,9 @@ using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
+using StormyCommerce.Module.Orders.Area.Models.Orders;
+using StormyCommerce.Core.Models;
+
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
     [Area("Orders")]
@@ -55,17 +58,30 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         }        
         [HttpPost("boleto")]
         [ValidateModel]                
-        public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutViewModel boletoCheckoutViewModel)
-        {                                    
-            var customer = await _customerService.GetCustomerByUserNameOrEmail("",HttpContext.User.Claims.FirstOrDefault(c => c.Type == "email").Value);
-            var transaction = boletoCheckoutViewModel.ToTransactionVm(customer);            
+        public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutRequest requestModel)
+        {                             
+            var customer = await _customerService.GetCustomerByUserNameOrEmail("",HttpContext.User.Claims.FirstOrDefault(c => c.Type == "email").Value);            
+            var transaction = _mapper.Map<TransactionVm>(requestModel);                                                
             transaction.PostbackUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/Checkout/postback";
             transaction.Async = true;                        
+            transaction.Customer = _mapper.Map<PagarMeCustomerVm>(customer);
             var result = await _pagarmeService.ChargeAsync(transaction);                                    
-            var order = _mapper.Map<StormyOrder>(transaction);
+            var order = _mapper.Map<StormyOrder>(transaction);            
             order.Payment.PaymentStatus = result.Success ? PaymentStatus.Pending : PaymentStatus.Failed;                        
-            order.Status = OrderStatus.New;                                                                 
-            return Ok(await _orderService.CreateOrderAsync(order));            
+            order.Status = OrderStatus.New;                                                                             
+            //?I think you should do the inverse, receive a OrderDto and after that return a new OrderDto
+            Result<OrderDto> orderDto = await _orderService.CreateOrderAsync(order);                
+            return Ok(new BoletoCheckoutResponse{
+                Result = orderDto,
+                BoletoUrl = transaction.BoletoUrl,
+                BoletoBarcode = transaction.BoletoBarcode
+            });            
+        }
+        [HttpPost("postback")]
+        [ValidateModel]
+        public async Task<IActionResult> CheckoutPostback()
+        {
+            return NoContent();
         }
         
     }    
