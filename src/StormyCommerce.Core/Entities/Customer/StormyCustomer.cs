@@ -23,7 +23,7 @@ namespace StormyCommerce.Core.Entities.Customer
             UserName = customerDto.UserName;
             FullName = customerDto.FullName;
             DefaultBillingAddress = customerDto.DefaultBillingAddress;
-            DefaultShippingAddress = customerDto.DefaultShippingAddress;
+            DefaultShippingAddress = customerDto.DefaultShippingAddress;            
         }
         
         public string UserId { get; set; }

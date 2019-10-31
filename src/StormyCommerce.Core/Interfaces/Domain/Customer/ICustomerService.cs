@@ -36,8 +36,8 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
         Task EditCustomerReviewAsync(Review review, StormyCustomer customer);
 
         Task DeleteCustomerReviewByIdAsync(long reviewId, long customerId);
-
-        Task CreateCustomerAsync(StormyCustomer customer);
+        
+        Task CreateCustomerAsync(StormyCustomer customer);        
 
         Task CreateCustomerAsync(CustomerDto appUser);
 

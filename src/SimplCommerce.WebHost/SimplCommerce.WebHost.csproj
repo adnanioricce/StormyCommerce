@@ -18,6 +18,7 @@
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="wwwroot\**\*;modules.json;appsettings.json;Modules\**\*;Themes\**\*;Views\**\*">

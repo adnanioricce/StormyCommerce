@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SimplCommerce.Infrastructure;
@@ -31,7 +32,15 @@ namespace SimplCommerce.WebHost
             IServiceCollection services = new ServiceCollection();
             GlobalConfiguration.ContentRootPath = contentRootPath;
             services.AddModules(contentRootPath);
-            services.AddStormyDataStore(_configuration);
+            if(environmentName.Equals("Development")){
+               services.AddDbContextPool<StormyDbContext>(options => {
+                   options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                   options.EnableDetailedErrors();
+                   options.EnableSensitiveDataLogging();
+               });
+            } else{
+                services.AddStormyDataStore(_configuration);
+            }            
             var _serviceProvider = services.BuildServiceProvider();
             return _serviceProvider.GetRequiredService<StormyDbContext>();
         }
