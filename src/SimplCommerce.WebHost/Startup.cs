@@ -100,16 +100,16 @@ namespace SimplCommerce.WebHost
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-            if(_hostingEnvironment.IsProduction()){
-                services.AddStormyDataStore(_configuration);
-            } else {
+            });                        
+            // if(_hostingEnvironment.IsProduction()){
+            //     services.AddStormyDataStore(_configuration);
+            // } else {
                 services.AddDbContextPool<StormyDbContext>(options => {
                     options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                     options.EnableDetailedErrors();
                     options.EnableSensitiveDataLogging();
                 });
-            }
+            // }
             services.AddMappings();
             //services.AddCustomizedIdentity(_configuration);
             services.AddHttpClient();                        

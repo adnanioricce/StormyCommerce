@@ -16,6 +16,7 @@ COPY ["src/Modules/SimplCommerce.Module.EmailSenderSendgrid/SimplCommerce.Module
 COPY ["src/Modules/SimplCommerce.Module.SampleData/SimplCommerce.Module.SampleData.csproj", "src/Modules/SimplCommerce.Module.SampleData/"]
 COPY ["src/Modules/StormyCommerce.Module.Orders/StormyCommerce.Module.Orders.csproj", "src/Modules/StormyCommerce.Module.Orders/"]
 COPY ["src/Modules/StormyCommerce.Module.PagarMe/StormyCommerce.Module.PagarMe.csproj", "src/Modules/StormyCommerce.Module.PagarMe/"]
+# COPY Directory.Build.props ./
 RUN dotnet restore "src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj"
 COPY . .
 WORKDIR "/src/src/SimplCommerce.WebHost"

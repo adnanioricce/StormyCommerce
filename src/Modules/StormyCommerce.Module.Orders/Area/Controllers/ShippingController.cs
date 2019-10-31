@@ -11,6 +11,7 @@ using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Module.Orders.Area.Models.Shipping;
+using StormyCommerce.Core.Models;
 // using StormyCommerce.Module.Shipping.Models;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
@@ -28,11 +29,12 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         }
         [HttpPost("calcdelivery")]
         [ValidateModel]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<List<DeliveryCalculationOptionResponse>>> CalculateDeliveryCost(DeliveryCalculationRequest model) 
         {                                      
-            return Ok(new { result = await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<DeliveryCalculationRequest,CalcPrecoPrazoModel>(model)) });
+            return Ok(Result.Ok(await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<DeliveryCalculationRequest,CalcPrecoPrazoModel>(model))));
         }                              
-        [HttpPost("calcdelivery")]
+        [HttpPost("calcdelivery_fororder")]
         [ValidateModel]
         public async Task<ActionResult<List<DeliveryCalculationOptionResponse>>> CalculateDeliveryCost(DeliveryCalculationForOrderRequest model)
         {
@@ -53,7 +55,6 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 Weight = (int)weight,
                 ValorDeclarado = totalPrice / 100,
                 WarningOfReceiving = "N",
-
             };                         
             if(itemsCount <= 5){
                 request.Width = 15; 
