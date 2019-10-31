@@ -16,5 +16,6 @@
     <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
     <ProjectReference Include="..\StormyCommerce.Module.PagarMe\StormyCommerce.Module.PagarMe.csproj" />
+    <ProjectReference Include="..\StormyCommerce.Module.Orders\StormyCommerce.Module.Orders.csproj" />
   </ItemGroup>
 </Project>

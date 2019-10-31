@@ -12,8 +12,8 @@ namespace StormyCommerce.Core.Interfaces
 
         Task<IList<T>> GetAllByIdsAsync(long[] ids);
 
+        Task<T> GetByIdAsync(params object[] keyValues);
         Task<T> GetByIdAsync(long id);
-
         Task UpdateAsync(T entity);
 
         Task UpdateCollectionAsync(IEnumerable<T> entities);

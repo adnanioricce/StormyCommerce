@@ -1,7 +1,9 @@
-﻿using StormyCommerce.Core.Entities.Common;
-using StormyCommerce.Module.PagarMe.Models;
+﻿using PagarMe;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using PaymentMethod = PagarMe.PaymentMethod;
+using PagarMe.Model;
+using System;
 
 namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
 {
@@ -11,7 +13,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public string Object { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        public TransactionStatus Status { get; set; }
 
         public string RefuseReason { get; set; }
         public string StatusReason { get; set; }
@@ -28,7 +30,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public string Nsu { get; set; }
 
         [DataType(DataType.Date)]
-        public string DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
 
         [DataType(DataType.Date)]
         public string DateUpdated { get; set; }
@@ -75,7 +77,7 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels
         public PagarMeCustomerVm Customer { get; set; }
         public BillingVm Billing { get; set; }
         public ShippingVm Shipping { get; set; }        
-        public Address Address { get; set; }
+        public ShippingAddressModel Address { get; set; }
         public List<PagarMeItem> Items { get; set; }
         public List<Document> Documents { get; set; }
         //TODO:Define a metadata object

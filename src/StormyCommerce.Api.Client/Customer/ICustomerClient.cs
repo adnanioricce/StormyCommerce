@@ -13,7 +13,7 @@ namespace StormyCommerce.Api.Client.Customer
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Result> AddAddressAsync(Address address = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Result> AddAddressAsync(CustomerAddress address = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>

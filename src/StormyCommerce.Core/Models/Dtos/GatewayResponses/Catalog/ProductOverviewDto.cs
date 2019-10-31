@@ -1,4 +1,5 @@
 ﻿using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Module.Catalog.Dtos;
 using System.Collections.Generic;
 
@@ -22,7 +23,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             AvailableForPreorder = product.AvailableForPreorder;
             ThumbnailImage = product.ThumbnailImage;
             Category = new CategoryDto(product.Category);
-            Medias = product.ToMediasDtos();
+            Medias = product.Medias;
         }
 
         public long Id { get; private set; }
@@ -38,6 +39,6 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public string ThumbnailImage { get; private set; }
 
         public CategoryDto Category { get; private set; } = new CategoryDto();
-        public List<MediaDto> Medias { get; private set; } = new List<MediaDto>();
+        public List<ProductMedia> Medias { get; private set; } = new List<ProductMedia>();
     }
 }

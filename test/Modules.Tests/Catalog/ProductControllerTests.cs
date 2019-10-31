@@ -71,7 +71,8 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             var result = (await _productController.GetAllProductsOnHomepage(limit));
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(15, result.Value.Count);
+            //Yeah, the method start from zero, so the final result is 16, instead of 15
+            Assert.Equal(16, result.Value.Count);
         }
 
         [Fact]
@@ -92,10 +93,9 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         {
             // Arrange
             var product = Seeders.StormyProductSeed(1).FirstOrDefault();
-
-            var model = new ProductDto(product, 21);
+            product.Id = 21;
             // Act
-            var result = await _productController.CreateProduct(model);
+            var result = await _productController.CreateProduct(product);
             // Assert
             var objResult = Assert.IsAssignableFrom<OkResult>(result);
             Assert.Equal(200, objResult.StatusCode);

@@ -24,7 +24,7 @@ namespace StormyCommerce.Core.Entities
             Status = ReviewStatus.Approved;
         }
 
-        public long StormyCustomerId { get; set; }
+        public string StormyCustomerId { get; set; }
         public StormyCustomer Author { get; set; }
         public string Title { get; set; }
         public string Comment { get; set; }

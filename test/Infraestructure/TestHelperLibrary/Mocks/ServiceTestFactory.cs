@@ -33,15 +33,7 @@ namespace TestHelperLibrary.Mocks
         {
             var context = DbContextHelper.GetDbContext();
             context.AddRange(Seeders.StormyCustomerSeed(10));
-            context.SaveChanges();
-            var reviews = Seeders.ReviewSeed(10);
-            var addresses = Seeders.AddressSeed(5);
-            reviews.ForEach(f => f.StormyCustomerId = 1);
-            addresses.ForEach(f => f.OwnerId = 1);
-            context.AddRange(reviews);
-            context.SaveChanges();
-            context.AddRange(addresses);
-            context.SaveChanges();
+            context.SaveChanges();                                            
             var reviewRepository = new StormyRepository<Review>(context);
             var customerRepository = new StormyRepository<StormyCustomer>(context);
             return new CustomerService(reviewRepository, customerRepository);

@@ -26,9 +26,9 @@
             return new Result<TValue>(value, true, null);
         }
 
-        public static Result<TValue> Fail<TValue>(string error)
+        public static Result<TValue> Fail<TValue>(string error,TValue errorObject)
         {
-            return new Result<TValue>(default(TValue), false, error);
+            return new Result<TValue>(errorObject, false, error);
         }
     }
 }

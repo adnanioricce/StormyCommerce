@@ -16,8 +16,7 @@ namespace StormyCommerce.Core.Entities.Order
         public Price Price { get; set; }
         public long StormyProductId { get; set; }
         public long StormyOrderId { get; set; }
-        public StormyOrder Order { get; set; }
-        public string ProductName { get; set; }
+        public StormyOrder Order { get; set; }        
         public long ShipmentId { get; set; }
         public Shipment Shipment { get; set; }
 

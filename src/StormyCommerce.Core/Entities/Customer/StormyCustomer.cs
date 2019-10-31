@@ -25,22 +25,22 @@ namespace StormyCommerce.Core.Entities.Customer
             DefaultBillingAddress = customerDto.DefaultBillingAddress;
             DefaultShippingAddress = customerDto.DefaultShippingAddress;
         }
-
+        
         public string UserId { get; set; }
         public string CPF { get; set; }
         public string NormalizedEmail { get; set; }
         public string PhoneNumber { get; set; }
         public bool PhoneNumberConfirmed { get; set; }
-        public bool EmailConfirmed { get; set; }
-        public IList<Address> CustomerAddresses { get; set; } = new List<Address>();
-        public Address DefaultShippingAddress { get; set; }
+        public bool EmailConfirmed { get; set; }        
+        public List<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();
+        public CustomerAddress DefaultShippingAddress { get; set; }
         public long? DefaultShippingAddressId { get; set; }
-        public Address DefaultBillingAddress { get; set; }
+        public CustomerAddress DefaultBillingAddress { get; set; }
         public long? DefaultBillingAddressId { get; set; }
-        public long CustomerReviewsId { get; set; }
+        public long? CustomerReviewsId { get; set; }
         public IList<Review> CustomerReviews { get; set; } = new List<Review>();
         // public IList<StormyOrder> Orders { get; set; } = new List<StormyOrder>();
-        public long CustomerWishlistId { get; set; }
+        public long? CustomerWishlistId { get; set; }
         public Wishlist CustomerWishlist { get; set; }
         public string UserName { get; set; }
         public string NormalizedUserName { get; set; }

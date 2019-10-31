@@ -30,9 +30,7 @@ namespace StormyCommerce.Modules.IntegrationTest.Controllers
             order.Customer = Seeders.StormyCustomerSeed().First();
             // order.Items = Seeders.OrderItemSeed();
             // order.Payment = Seeders.PaymentSeed();
-            order.Shipment = Seeders.ShipmentSeed().First();
-            order.ShippingAddress = order.Shipment.DestinationAddress;
-            order.ShippingStatus = Core.Entities.Shipping.ShippingStatus.NotShippedYet;
+            order.Shipment = Seeders.ShipmentSeed().First();                        
             order.Status = Core.Entities.Order.OrderStatus.New;            
             //Act
             var response = await _client.PostAsJsonAsync("/api/order/create",order);

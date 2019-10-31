@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web.ModelBinders;
 using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.WebHost.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -91,16 +93,7 @@ namespace SimplCommerce.WebHost.Extensions
             }
 
             return services;
-        }
-
-        public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services, IList<ModuleInfo> modules)
-        {
-            // services.AddAuthentication(options => {
-            //     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //     options
-            // });
-            return services;
-        }
+        }        
 
         public static IServiceCollection AddCustomizedMvc(this IServiceCollection services, IList<ModuleInfo> modules)
         {
@@ -188,12 +181,23 @@ namespace SimplCommerce.WebHost.Extensions
         {
             services.AddDbContextPool<StormyDbContext>(options =>
             {
-	    	    options.UseInMemoryDatabase("InMemoryStormyDb");
-                // options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));	    	    
+                options.EnableSensitiveDataLogging();
             });
             return services;
         }
-
+        public static IServiceCollection AddMappings(this IServiceCollection services)
+        {
+            var config = new MapperConfiguration(mc => {
+                mc.AddProfile(new CatalogProfile());
+                mc.AddProfile(new CustomerProfile());
+                mc.AddProfile(new ShippingProfile());
+                mc.AddProfile(new PagarMeMapping());
+            });
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+            return services;
+        } 
         private static void TryLoadModuleAssembly(string moduleFolderPath, ModuleInfo module)
         {
             const string binariesFolderName = "bin";

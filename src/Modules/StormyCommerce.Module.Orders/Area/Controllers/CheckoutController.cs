@@ -21,6 +21,9 @@ using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
+using StormyCommerce.Module.Orders.Area.Models.Orders;
+using StormyCommerce.Core.Models;
+
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
     [Area("Orders")]
@@ -29,80 +32,50 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     [Authorize("Customer")]
     public class CheckoutController : Controller
     {
-        private readonly IOrderService _orderService;
-        private readonly IPaymentService _paymentService;                
+        private readonly IOrderService _orderService;                      
         private readonly ICustomerService _customerService;
-        private readonly CorreiosService _correiosService;
-        private readonly IShippingService _shippingService;
         private readonly PagarMeWrapper _pagarmeService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
-        public CheckoutController(IOrderService orderService, 
-        IPaymentService paymentService,
-        IShippingService shippingService, 
+        public CheckoutController(IOrderService orderService,         
         ILogger logger,
         PagarMeWrapper pagarMeService,
         ICustomerService customerService,
         IMapper mapper)
         {
-            _orderService = orderService;            
-            _paymentService = paymentService;
-            _shippingService = shippingService;
+            _orderService = orderService;                        
             _logger = logger;
             _pagarmeService = pagarMeService;
             _customerService = customerService;
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
-        [ValidateModel]        
-        public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutViewModel boletoCheckoutViewModel)
-        {                        
-            //TODO:Get current customer instead            
-            var customer = await _customerService.GetCustomerByUserNameOrEmail("",boletoCheckoutViewModel.CustomerEmail);
-            var transaction = boletoCheckoutViewModel.ToTransactionVm(customer);
-            
+        [ValidateModel]                
+        public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutRequest requestModel)
+        {                             
+            var customer = await _customerService.GetCustomerByUserNameOrEmail("",HttpContext.User.Claims.FirstOrDefault(c => c.Type == "email").Value);            
+            var transaction = _mapper.Map<TransactionVm>(requestModel);                                                
             transaction.PostbackUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/Checkout/postback";
-            transaction.Async = true;            
-            
-            var result = await _pagarmeService.ChargeAsync(transaction);            
-            
-            if(!result.Success) return BadRequest($"failed on the payment charge process, see the error code for more info\n {result.Error}");            
-            
-            var payment = _mapper.Map<PaymentDto>(transaction);            
-            //TODO:define price type
-            //the price has to be represented in cents
-            var price = transaction.Amount / 100;            
-            var order = _mapper.Map<StormyOrder>(transaction);
-            // var order = BuildOrder(_mapper.Map<Payment>(payment),boletoCheckoutViewModel);
-            transaction.Items.ForEach(item => 
-            order.Items.Add(
-                _mapper.Map<OrderItem>(item)
-                ));                                 
-            var shipment = _shippingService.BuildShipmentForOrder(order);            
-            shipment.Order = order;                         
-            if(shipment.DeliveryCost <= 0 && !order.PickUpInStore){
-                var calcResult = await _correiosService.DefaultDeliveryCalculation(shipment);                
-                shipment.DeliveryCost = decimal.Parse(calcResult.Options.FirstOrDefault().Price
-                .Replace("R$","")
-                .Replace(",","."));
-                order.Shipment = shipment;
-            }                            
-            
-            return Ok(await _orderService.CreateOrderAsync(order));
-
-            StormyOrder BuildOrder(Payment _payment,BoletoCheckoutViewModel checkoutVm){
-                return new StormyOrder{
-                    Customer = customer,                    
-                    PaymentMethod = "boleto",
-                    Payment = _payment,
-                    ShippingStatus = Core.Entities.Shipping.ShippingStatus.NotShippedYet,
-                    Status = OrderStatus.New,   
-                    ShippingMethod = checkoutVm.ShippingMethod,                             
-                    //TODO:maybe a value object for the price operations? they don't seem like a value type for me
-                    TotalPrice = price,                                                               
-                };           
-            }                                                    
+            transaction.Async = true;                        
+            transaction.Customer = _mapper.Map<PagarMeCustomerVm>(customer);
+            var result = await _pagarmeService.ChargeAsync(transaction);                                    
+            var order = _mapper.Map<StormyOrder>(transaction);            
+            order.Payment.PaymentStatus = result.Success ? PaymentStatus.Pending : PaymentStatus.Failed;                        
+            order.Status = OrderStatus.New;                                                                             
+            //?I think you should do the inverse, receive a OrderDto and after that return a new OrderDto
+            Result<OrderDto> orderDto = await _orderService.CreateOrderAsync(order);                
+            _logger.LogInformation($"Order Created at {nameof(CheckoutBoleto)} in {nameof(CheckoutController)}");
+            return Ok(new BoletoCheckoutResponse{
+                Result = orderDto,
+                BoletoUrl = transaction.BoletoUrl,
+                BoletoBarcode = transaction.BoletoBarcode
+            });                        
         }
-        
+        [HttpPost("postback")]
+        [ValidateModel]
+        public async Task<IActionResult> CheckoutPostback()
+        {
+            return NoContent();
+        }        
     }    
 }

@@ -23,14 +23,12 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     public class AccountController : Controller
     {
         private readonly IUserIdentityService _identityService;
-        private readonly ICustomerService _customerService;
-        private readonly IMapper _mapper;
+        private readonly ICustomerService _customerService;        
         private readonly IAppLogger<AuthenticationController> _logger;
-        public AccountController(IUserIdentityService identityService,ICustomerService customerService,IMapper mapper,IAppLogger<AuthenticationController> logger)
+        public AccountController(IUserIdentityService identityService,ICustomerService customerService,IAppLogger<AuthenticationController> logger)
         {
             _identityService = identityService;
-            _customerService = customerService;
-            _mapper = mapper;
+            _customerService = customerService;            
             _logger = logger;
         }
         [HttpGet("ConfirmEmail")]

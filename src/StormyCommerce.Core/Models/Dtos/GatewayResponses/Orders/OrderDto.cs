@@ -1,5 +1,6 @@
 ﻿using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Entities.Shipping;
 using System;
@@ -13,18 +14,11 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
     {
         public OrderDto(StormyOrder product)
         {
-            OrderUniqueKey = product.OrderUniqueKey;
-            ShippingMethod = product.ShippingMethod;
-            TrackNumber = product.TrackNumber;
+            OrderUniqueKey = product.OrderUniqueKey;            
             Comment = product.Comment;
-            Tax = product.Tax;
-            TotalWeight = product.TotalWeight;
-            TotalPrice = product.TotalPrice;
-            DeliveryCost = product.DeliveryCost;
-            ShippingAddress = product.ShippingAddress;
-            OrderDate = product.OrderDate;
-            ShippedDate = product.ShippedDate;
-            DeliveryDate = product.DeliveryDate;
+            Tax = product.Tax;            
+            TotalPrice = product.TotalPrice;            
+            OrderDate = product.OrderDate;            
             PaymentDate = product.PaymentDate;
             Status = product.Status;
             IsCancelled = IsCancelled;
@@ -42,7 +36,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         public decimal TotalWeight { get; private set; }
         public decimal TotalPrice { get; private set; }
         public decimal DeliveryCost { get; private set; }        
-        public Address ShippingAddress { get; private set; }
+        #warning //! Possibly data leak
+        public CustomerAddress ShippingAddress { get; private set; }
         public DateTime OrderDate { get; private set; }
         public DateTime ShippedDate { get; private set; }
         public DateTime DeliveryDate { get; private set; }

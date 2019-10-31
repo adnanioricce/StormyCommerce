@@ -8,8 +8,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping
         public void Build(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<EntityType>(entity =>
-            {
-                //entity.HasKey(prop => prop.Id);
+            {                
                 entity.Property(prop => prop.Id).HasMaxLength(450);
                 entity.Property(prop => prop.AreaName).HasMaxLength(450);
                 entity.Property(prop => prop.RoutingController).HasMaxLength(450);

@@ -67,16 +67,7 @@ namespace StormyCommerce.Module.Customer
             serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();
             serviceCollection.AddScoped<ICustomerService, CustomerService>();
         }
-
-        private async Task DeveloperLogin(HttpContext httpContext)
-        {
-            var UserManager = httpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
-            var signInManager = httpContext.RequestServices.GetRequiredService<SignInManager<ApplicationUser>>();
-
-            var _user = await UserManager.FindByNameAsync("a random user");
-
-            await signInManager.SignInAsync(_user, isPersistent: false);
-        }
+        
 
         //TODO: Move this to a extension method, like used on WebHost
         private void AddCustomizedIdentity(IServiceCollection services)

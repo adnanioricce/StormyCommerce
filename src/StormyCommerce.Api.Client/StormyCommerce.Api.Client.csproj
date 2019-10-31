@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
     <ProjectReference Include="..\Modules\StormyCommerce.Module.Orders\StormyCommerce.Module.Orders.csproj" />
     <ProjectReference Include="..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
