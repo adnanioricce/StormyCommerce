@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TestHelperLibrary.Mocks;
 using TestHelperLibrary.Utils;
 using Xunit;
 
@@ -18,13 +17,8 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
 {
     public class CustomerServiceTest
     {
-        #region Variables
-        private readonly ICustomerService _service;
-        private readonly DbContextOptions<StormyDbContext> _dbContextOptions = DbContextHelper.GetDbOptions();
-        private readonly StormyCustomer sampleCustomer = Seeders.StormyCustomerSeed().First();
-        private readonly Review sampleReview = Seeders.ReviewSeed(1).First();
-        private readonly List<Review> reviews = Seeders.ReviewSeed(10);
-        private readonly DbContextOptions<StormyDbContext> dbContextOptions = DbContextHelper.GetDbOptions();
+        #region Variables                
+        private readonly StormyCustomer sampleCustomer = Seeders.StormyCustomerSeed().First();          
         #endregion
         public CustomerServiceTest()
         {
@@ -92,13 +86,11 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
             context.AddRange(Seeders.StormyCustomerSeed(2));
             context.SaveChanges();
-            var service = CreateCustomerService(context);
-            var count = service.GetCustomersCount();
+            var service = CreateCustomerService(context);            
             //Act
             var customers = await service.GetAllCustomersAsync(minLimit, maxLimit);
 
-            //Assert 
-            //&& customers.Count <= count
+            //Assert             
             Assert.True(customers.Count <= maxLimit);
         }
         [Fact]        

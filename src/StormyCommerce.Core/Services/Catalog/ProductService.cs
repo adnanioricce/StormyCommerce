@@ -12,8 +12,7 @@ using System.Threading.Tasks;
 namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductService : IProductService
-    {
-        private const string ProductEntityTypeId = "Product";
+    {        
         private readonly IStormyRepository<StormyProduct> _productRepository;        
         //TODO: I Think a service for this is unecessary        
         public ProductService(IStormyRepository<StormyProduct> productRepository
@@ -29,25 +28,12 @@ namespace StormyCommerce.Core.Services.Catalog
             .Include(p => p.Medias)
             .Load();
         }
-
+        #region Read Methods
         //TODO:write failing test cases
         public async Task<Result<IList<StormyProduct>>> GetAllProductsByCategory(int categoryId, int limit = 15)
         {
             return new Result<IList<StormyProduct>>(await _productRepository.Table.Where(product => product.CategoryId == categoryId && product.Id <= limit).ToListAsync(), true, "none");
         }
-
-        public async Task DeleteProduct(StormyProduct product)
-        {
-            product.IsDeleted = true;
-            await _productRepository.UpdateAsync(product);
-        }
-
-        public async Task DeleteProducts(IList<StormyProduct> products)
-        {
-            await UpdateProductsAsync(products);
-        }
-
-        //!this look very lazy
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
         {            
             return await _productRepository
@@ -72,8 +58,7 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             return await _productRepository.Table
                 .Include(product => product.Brand)
-                .Include(product => product.Category)
-                .Include(product => product.LinkedProductLinks)
+                .Include(product => product.Category)                
                 .Include(product => product.Links)
                 .Include(product => product.Medias)
                 .Include(product => product.OptionValues)
@@ -142,19 +127,45 @@ namespace StormyCommerce.Core.Services.Catalog
                  .Where(p => p.VendorId == product.VendorId)
                  .Sum(p => p.UnitsInStock - p.UnitsOnOrder);
         }
+        #endregion
+        #region Delete methods
+        public async Task DeleteProduct(StormyProduct product)
+        {
+            product.IsDeleted = true;
+            await _productRepository.UpdateAsync(product);
+        }
 
+        public async Task DeleteProducts(IList<StormyProduct> products)
+        {
+            await UpdateProductsAsync(products);
+        }
+        public Task DeleteProductAsync(StormyProduct product)
+        {
+            throw new NotImplementedException();
+        }
+        public Task DeleteProductsAsync(IList<StormyProduct> products)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion                
+        #region Insert Methods
         //TODO:Create slugs with EntityService
         public async Task InsertProductAsync(StormyProduct product)
         {
-            product.Slug = product.GenerateSlug();            
-            await _productRepository.AddAsync(product);
+            product.Slug = product.GenerateSlug();     
+            try {                   
+                await _productRepository.AddAsync(product);
+            } catch(Exception ex){
+                throw ex;
+            }
         }
 
         public async Task InsertProductsAsync(IList<StormyProduct> products)
         {
             await _productRepository.AddCollectionAsync(products);
         }
-
+        #endregion
+        #region Update Methods
         public async Task UpdateProductAsync(StormyProduct product)
         {
             await _productRepository.UpdateAsync(product);
@@ -164,15 +175,7 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             await _productRepository.UpdateCollectionAsync(products);
         }
-
-        public Task DeleteProductAsync(StormyProduct product)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteProductsAsync(IList<StormyProduct> products)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
+        
     }
 }

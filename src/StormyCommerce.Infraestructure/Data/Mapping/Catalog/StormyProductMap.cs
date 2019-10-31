@@ -24,15 +24,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 .WithMany(p => p.Links)
                 .HasForeignKey(x => x.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
-            });
-            modelBuilder.Entity<ProductLink>(entity =>
-            {
-                entity.HasOne(x => x.LinkedProduct)
-                .WithMany(p => p.LinkedProductLinks)
-                .HasForeignKey(x => x.LinkedProductId)
-                .OnDelete(DeleteBehavior.Restrict);
-                // entity.HasData(Seeders.ProductLinkSeed(50));
-            });
+            });            
             modelBuilder.Entity<ProductTemplateProductAttribute>(entity =>
             {
                 entity.HasKey(t => new { t.ProductTemplateId, t.ProductAttributeId });
@@ -63,8 +55,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.HasMany(product => product.Links).WithOne(l => l.Product).HasForeignKey(l => l.ProductId);
                 entity.HasOne(product => product.Category).WithOne();
                 entity.Property(product => product.SKU).IsRequired();
-                entity.Property(product => product.ProductName).HasMaxLength(400).IsRequired();
-                entity.Property(product => product.UnitsOnOrder).IsRequired();
+                entity.Property(product => product.ProductName).HasMaxLength(400).IsRequired();                
                 entity.Property(product => product.QuantityPerUnity).IsRequired();
                 entity.Property(product => product.ProductCost).IsRequired();
                 entity.Property(product => product.OldPrice)
@@ -72,9 +63,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(product => product.Price)
                     .HasConversion<string>(price => price.Value,dbValue => Price.GetPriceFromString(dbValue)).HasColumnType("decimal(18,4)");                                
                 entity.Property(product => product.UnitPrice).IsRequired();
-                entity.Property(product => product.UnitsInStock).IsRequired();
-                entity.Property(product => product.TypeName).IsRequired();
-                entity.Property(product => product.Status).IsRequired();                                             
+                entity.Property(product => product.UnitsInStock).IsRequired();                
             });
 
             modelBuilder.Entity<ProductOption>(entity =>

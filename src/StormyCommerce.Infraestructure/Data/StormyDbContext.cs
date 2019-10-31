@@ -44,9 +44,7 @@ namespace StormyCommerce.Infraestructure.Data
             Type baseType = typeof(IStormyModelBuilder);
             var typeConfigurations = Assembly.GetExecutingAssembly()
                 .GetTypes()
-                .Where(type => baseType.IsAssignableFrom(type) && !type.IsInterface);
-            //RegisterEntities(modelBuilder, typeConfigurations);
-            //RegisterConvention(modelBuilder);
+                .Where(type => baseType.IsAssignableFrom(type) && !type.IsInterface);            
             RegisterCustomMappings(modelBuilder, typeConfigurations);
             base.OnModelCreating(modelBuilder);
         }                 
@@ -68,36 +66,6 @@ namespace StormyCommerce.Infraestructure.Data
                 }
             }
         }
-
-        private static void RegisterConvention(ModelBuilder modelBuilder)
-        {
-            foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            {
-                if (entity.ClrType.Namespace != null)
-                {
-                    var nameParts = entity.ClrType.Namespace.Split('.');
-                    var tableName = string.Concat(nameParts[2], "_", entity.ClrType.Name);
-                    modelBuilder.Entity(entity.Name).ToTable(tableName);
-                }
-            }
-
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
-        }
-
-        private static void RegisterEntities(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
-        {
-            var entityTypes = typeToRegisters.Where(x => x.GetTypeInfo()
-            .IsSubclassOf(typeof(BaseEntity)) ||
-            x.GetTypeInfo().IsSubclassOf(typeof(EntityWithBaseTypeId<>)));
-            foreach (var type in entityTypes)
-            {
-                modelBuilder.Entity(type);
-            }
-        }
-
         private static void RegisterCustomMappings(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
         {
             var customModelBuilderTypes = typeToRegisters.Where(x => typeof(IStormyModelBuilder).IsAssignableFrom(x));

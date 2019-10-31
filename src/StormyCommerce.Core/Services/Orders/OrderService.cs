@@ -80,6 +80,7 @@ namespace StormyCommerce.Core.Services.Orders
                 CreatedById = _entity.StormyCustomerId,
                 CreatedBy = _entity.Customer
             };
+            await _orderHistoryRepository.AddAsync(orderHistory);
             return Result.Ok();
         }
         public async Task<Result<OrderDto>> GetOrderByUniqueIdAsync(Guid uniqueId)

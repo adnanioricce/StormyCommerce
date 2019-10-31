@@ -19,7 +19,7 @@ namespace StormyCommerce.Api.Framework.Extensions
 {
     public static class Seeders
     {
-        public static List<StormyProduct> StormyProductSeed(int count = 1, bool omitId = false)
+        public static List<StormyProduct> StormyProductSeed(int count = 1)
         {
             var fakeProduct = new Faker<StormyProduct>("pt_BR")
                 .Rules((f,v) => {
@@ -28,8 +28,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.IsDeleted = false; 
                     v.ThumbnailImage = f.Image.LoremPixelUrl(category:LoremPixelCategory.Fashion);
                     v.SKU = f.Commerce.Random.AlphaNumeric(16);
-                    v.Slug = f.Lorem.Slug();
-                    v.TypeName = f.Commerce.Categories(1)[0];
+                    v.Slug = f.Lorem.Slug();                    
                     v.QuantityPerUnity = f.Commerce.Random.Even(0, 100);
                     v.AvailableSizes = "GG,G,M,P,PP";
                     v.UnitPrice = f.Commerce.Random.Decimal(0, 100.0m);
@@ -43,8 +42,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.Price = Price.GetPriceFromString(f.Commerce.Price(1, 100, 2, "R$"));
                     v.OldPrice = Price.GetPriceFromString(f.Commerce.Price(2, 200, 2, "R$"));
                     v.HasDiscountApplied = false;
-                    v.IsPublished = true;
-                    v.Status = "Good";
+                    v.IsPublished = true;                    
                     v.NotReturnable = false;
                     v.ProductCost = f.Random.Decimal();
                     v.AvailableForPreorder = false;
@@ -52,14 +50,14 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.LatestUpdatedOn = f.Date.Between(f.Date.Recent(), f.Date.Soon());
                     v.PreOrderAvailabilityStartDate = f.Date.Future();                    
                     v.Brand = Seeders.BrandSeed(omitId:true).First(); 
-                    var vendor = Seeders.StormyVendorSeed(omitId:true).First();
+                    var vendor = Seeders.StormyVendorSeed().First();
                     vendor.Address = new VendorAddress{
                         Address = new Core.Entities.Common.Address("br","sp","Varginha","distrito 9","rua do conhecimento","","","40028922","666","busque conhecimento")
                         
                     };                    
                     v.Vendor = vendor;
                     
-                    Seeders.MediaSeed(1,true).ForEach(m => {                                                                                       
+                    Seeders.MediaSeed(1).ForEach(m => {                                                                                       
                         
                         v.AddMedia(m);
                     });
@@ -108,7 +106,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             return fakeEntity.Generate(count);
         }
 
-        public static List<ProductAttributeGroup> ProductAttributeGroupSeed(int count = 1, bool omitId = false)
+        public static List<ProductAttributeGroup> ProductAttributeGroupSeed(int count = 1)
         {
             var fakeProductAttributeGroup = new Faker<ProductAttributeGroup>("pt_BR")
                .RuleFor(v => v.IsDeleted, false)
@@ -142,7 +140,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             return fakeProductLink.Generate(count);
         }
 
-        public static List<ProductMedia> MediaSeed(int count = 1, bool omitId = false)
+        public static List<ProductMedia> MediaSeed(int count = 1)
         {            
             var fakeMedias = new Faker<ProductMedia>("pt_BR")
                 .Rules((f,v) => {        
@@ -171,10 +169,9 @@ namespace StormyCommerce.Api.Framework.Extensions
             return fakeBrands.Generate(count);
         }
 
-        public static List<StormyVendor> StormyVendorSeed(int count = 1, bool omitId = false)
+        public static List<StormyVendor> StormyVendorSeed(int count = 1)
         {
-            var fakeVendors = new Faker<StormyVendor>("pt_BR")
-                // .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
+            var fakeVendors = new Faker<StormyVendor>("pt_BR")                
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(27))
                 .RuleFor(v => v.CompanyName, f => f.Company.CompanyName())
@@ -252,7 +249,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.OrderUniqueKey = f.Commerce.Random.Guid();
                     var shipment = Seeders.ShipmentSeed(omitId:true).First();
                     var customer = Seeders.StormyCustomerSeed(omitId:true).First();
-                    customer.Id = customer.Id + 10;
+                    customer.Id += 10;
                     shipment.Order = v;
                     shipment.Customer = customer;                
                     v.Shipment = shipment;

@@ -19,11 +19,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
         Task<Review> GetCustomerReviewByIdAsync(string customerId, long? reviewId);
 
         Task<IList<CustomerAddress>> GetAllCustomerAddressByIdAsync(long id);
-
-        Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id);
-
-        Task<IList<Payment>> GetAllCustomerPaymentsByIdAsync(long id);
-
+        
         Task<IList<StormyCustomer>> GetAllCustomersAsync();
         Task<IList<StormyCustomer>> GetAllCustomersAsync(long minLimit,long maxLimit);
         int GetCustomersCount();

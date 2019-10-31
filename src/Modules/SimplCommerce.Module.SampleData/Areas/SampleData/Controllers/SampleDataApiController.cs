@@ -24,7 +24,7 @@ namespace SimplCommerce.Module.SampleData.Areas.SampleData.Controllers
             {
                 var destinationAddresses = Seeders.AddressSeed(10);
                 var billingAddresses = Seeders.AddressSeed(10);
-                billingAddresses.ForEach(a => a.Id = a.Id + 10);
+                billingAddresses.ForEach(a => a.Id += 10);
                 var reviews = Seeders.ReviewSeed(10);
                 var stormyCustomers = Seeders.StormyCustomerSeed(10);                
                 _stormyDbContext.AddRange(destinationAddresses);

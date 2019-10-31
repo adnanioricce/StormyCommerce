@@ -138,13 +138,17 @@ namespace StormyCommerce.Module.Orders.Services
             if ((endpointConfiguration == EndpointConfiguration.CalcPrecoPrazoWSSoap12))
             {
                 var result = new CustomBinding();
-                var textBindingElement = new TextMessageEncodingBindingElement();
-                textBindingElement.MessageVersion = MessageVersion.CreateVersion(EnvelopeVersion.Soap12, AddressingVersion.None);
+                var textBindingElement = new TextMessageEncodingBindingElement
+                {
+                    MessageVersion = MessageVersion.CreateVersion(EnvelopeVersion.Soap12, AddressingVersion.None)
+                };
                 result.Elements.Add(textBindingElement);
-                var httpBindingElement = new HttpTransportBindingElement();
-                httpBindingElement.AllowCookies = true;
-                httpBindingElement.MaxBufferSize = int.MaxValue;
-                httpBindingElement.MaxReceivedMessageSize = int.MaxValue;
+                var httpBindingElement = new HttpTransportBindingElement
+                {
+                    AllowCookies = true,
+                    MaxBufferSize = int.MaxValue,
+                    MaxReceivedMessageSize = int.MaxValue
+                };
                 result.Elements.Add(httpBindingElement);
                 return result;
             }

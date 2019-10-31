@@ -20,7 +20,7 @@ namespace StormyCommerce.Core.Tests.Helpers
         {
             return new List<Entity>
             {
-                new Entity(1)
+                new Entity()
                 {
                     EntityId = 1,
                     IsDeleted = false,
@@ -29,7 +29,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                     Name = "Woman",
                     Slug = "woman",
                 },
-                new Entity(2)
+                new Entity()
                 {
                     EntityId = 2,
                     EntityTypeId = "Brand",
@@ -38,7 +38,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                     IsDeleted = false,
                     LastModified = DateTimeOffset.UtcNow
                 },
-                new Entity(3)
+                new Entity()
                 {
                     EntityId = 3,
                     EntityTypeId = "Product",

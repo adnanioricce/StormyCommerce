@@ -32,25 +32,18 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     [Authorize("Customer")]
     public class CheckoutController : Controller
     {
-        private readonly IOrderService _orderService;
-        private readonly IPaymentService _paymentService;                
+        private readonly IOrderService _orderService;                      
         private readonly ICustomerService _customerService;
-        private readonly CorreiosService _correiosService;
-        private readonly IShippingService _shippingService;
         private readonly PagarMeWrapper _pagarmeService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
-        public CheckoutController(IOrderService orderService, 
-        IPaymentService paymentService,
-        IShippingService shippingService, 
+        public CheckoutController(IOrderService orderService,         
         ILogger logger,
         PagarMeWrapper pagarMeService,
         ICustomerService customerService,
         IMapper mapper)
         {
-            _orderService = orderService;            
-            _paymentService = paymentService;
-            _shippingService = shippingService;
+            _orderService = orderService;                        
             _logger = logger;
             _pagarmeService = pagarMeService;
             _customerService = customerService;
@@ -71,18 +64,18 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             order.Status = OrderStatus.New;                                                                             
             //?I think you should do the inverse, receive a OrderDto and after that return a new OrderDto
             Result<OrderDto> orderDto = await _orderService.CreateOrderAsync(order);                
+            _logger.LogInformation($"Order Created at {nameof(CheckoutBoleto)} in {nameof(CheckoutController)}");
             return Ok(new BoletoCheckoutResponse{
                 Result = orderDto,
                 BoletoUrl = transaction.BoletoUrl,
                 BoletoBarcode = transaction.BoletoBarcode
-            });            
+            });                        
         }
         [HttpPost("postback")]
         [ValidateModel]
         public async Task<IActionResult> CheckoutPostback()
         {
             return NoContent();
-        }
-        
+        }        
     }    
 }

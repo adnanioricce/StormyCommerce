@@ -86,13 +86,13 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
 
         public async Task<TEntity> GetByIdAsync(params object[] keyValues)
         {
-            var entity = await DbSet.FindAsync(keyValues) ?? throw new ArgumentNullException($"Requested entity id {keyValues.ToString()} Don't exist");
+            var entity = await DbSet.FindAsync(keyValues);
             context.Entry(entity).State = EntityState.Detached;
             return entity;
         }
         public async Task<TEntity> GetByIdAsync(long id)
         {
-            var entity = await DbSet.FindAsync(id) ?? throw new ArgumentNullException($"Requested entity id Don't exist");
+            var entity = await DbSet.FindAsync(id);
             context.Entry(entity).State = EntityState.Detached;
             return entity;
         }

@@ -9,18 +9,7 @@ namespace SimplCommerce.Module.SampleData
         {                        
             dbContext.AddRange(Seeders.StormyCustomerSeed(10,true));
             dbContext.SaveChanges();           
-            var products = Seeders.StormyProductSeed(50,true); 
-            // foreach (var item in products)
-            // {
-            //     dbContext.AddRange(item.Medias);
-            //     dbContext.SaveChanges();
-            //     dbContext.Add(item.Brand);
-            //     dbContext.SaveChanges();
-            //     dbContext.Add(item.Category);
-            //     dbContext.SaveChanges();
-            //     dbContext.Add(item.Vendor);
-            //     dbContext.SaveChanges();
-            // }
+            var products = Seeders.StormyProductSeed(50);             
             dbContext.AddRange(products);
             dbContext.SaveChanges();            
             

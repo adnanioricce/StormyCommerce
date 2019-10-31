@@ -11,7 +11,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
     {
         private ProductTemplateService CreateService()
         {
-            return new ProductTemplateService(RepositoryHelper.GetRepository<ProductTemplate>(),RepositoryHelper.GetRepository<ProductAttribute>(),new ProductTemplateProductAttributeRepository(DbContextHelper.GetDbContext()));
+            return new ProductTemplateService(RepositoryHelper.GetRepository<ProductTemplate>(),new ProductTemplateProductAttributeRepository(DbContextHelper.GetDbContext()));
         }
         [Fact]
         public async Task CreateProductTemplateAsync_ReceivesProductTemplateEntity_CreateNewProductTemplateOnDatabase()

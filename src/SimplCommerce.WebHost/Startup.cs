@@ -190,11 +190,12 @@ namespace SimplCommerce.WebHost
             {
                 moduleInitializer.Configure(app, env);
             }
-            using (var scope = app.ApplicationServices.CreateScope())
-            {                
-                using(var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>()){
-                    if(dbContext.Database.IsSqlite()){                    
-                        if(dbContext.Database.EnsureDeleted()){                        
+            using (var scope = app.ApplicationServices.CreateScope()){
+                using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>()){
+                    if (dbContext.Database.IsSqlite())
+                    {
+                        if (dbContext.Database.EnsureDeleted())
+                        {
                             dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
                         }
                     }
