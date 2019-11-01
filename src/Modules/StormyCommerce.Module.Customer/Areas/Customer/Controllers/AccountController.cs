@@ -57,7 +57,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                 Email = confirmedUser.Email,
                 EmailConfirmed = confirmedUser.EmailConfirmed,
                 NormalizedEmail = confirmedUser.NormalizedEmail,
-                UserId = confirmedUser.Id,
+                UserId = confirmedUser.Id,                
                 PhoneNumber = confirmedUser.PhoneNumber,
                 PhoneNumberConfirmed = confirmedUser.PhoneNumberConfirmed,
                 UserName = confirmedUser.UserName,

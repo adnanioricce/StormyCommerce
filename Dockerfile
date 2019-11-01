@@ -1,46 +1,31 @@
-FROM stormycommerce/base-sdk:latest AS build-env
-RUN ls -l
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
 WORKDIR /app
-COPY . ./
-
-RUN sed -i 's#<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.3" />#<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />#' src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj
-RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Program.cs
-RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Extensions/ServiceCollectionExtensions.cs
-RUN sed -i 's/2.2.300/2.2.401/' global.json
-
-RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost/appsettings.docker.json src/SimplCommerce.WebHost/appsettings.json
-# ef core migrations run in debug, so we have to build in Debug for copying module correctly 
-RUN dotnet build SimplCommerce.sln 
-RUN cd src/SimplCommerce.WebHost \
-	&& dotnet ef migrations add initialSchema \	
-    && dotnet ef migrations script -o dbscript.sql     
-
-RUN dotnet build *.sln -c Release \
-    && cd src/SimplCommerce.WebHost \    
-    && dotnet build -c Release \
-    && dotnet publish -c Release -o out
-
-# remove BOM for psql	
-RUN sed -i -e '1s/^\xEF\xBB\xBF//' /app/src/SimplCommerce.WebHost/dbscript.sql
-
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+EXPOSE 80
 EXPOSE 443
-# hack to make postgresql-client install work on slim
-RUN mkdir -p /usr/share/man/man1 \
-    && mkdir -p /usr/share/man/man7
 
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends postgresql-client \
-	&& apt-get install libgdiplus -y \
-	&& rm -rf /var/lib/apt/lists/*
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+WORKDIR /src
+RUN ls -l
+COPY ["src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj", "src/SimplCommerce.WebHost/"]
+COPY ["src/Modules/StormyCommerce.Module.Catalog/StormyCommerce.Module.Catalog.csproj", "src/Modules/StormyCommerce.Module.Catalog/"]
+COPY ["src/StormyCommerce.Core/StormyCommerce.Core.csproj", "src/StormyCommerce.Core/"]
+COPY ["src/SimplCommerce.Infrastructure/SimplCommerce.Infrastructure.csproj", "src/SimplCommerce.Infrastructure/"]
+COPY ["src/StormyCommerce.Infraestructure/StormyCommerce.Infraestructure.csproj", "src/StormyCommerce.Infraestructure/"]
+COPY ["src/StormyCommerce.Api.Framework/StormyCommerce.Api.Framework.csproj", "src/StormyCommerce.Api.Framework/"]
+COPY ["src/Modules/StormyCommerce.Module.Customer/StormyCommerce.Module.Customer.csproj", "src/Modules/StormyCommerce.Module.Customer/"]
+COPY ["src/Modules/SimplCommerce.Module.EmailSenderSendgrid/SimplCommerce.Module.EmailSenderSendgrid.csproj", "src/Modules/SimplCommerce.Module.EmailSenderSendgrid/"]
+COPY ["src/Modules/SimplCommerce.Module.SampleData/SimplCommerce.Module.SampleData.csproj", "src/Modules/SimplCommerce.Module.SampleData/"]
+COPY ["src/Modules/StormyCommerce.Module.Orders/StormyCommerce.Module.Orders.csproj", "src/Modules/StormyCommerce.Module.Orders/"]
+COPY ["src/Modules/StormyCommerce.Module.PagarMe/StormyCommerce.Module.PagarMe.csproj", "src/Modules/StormyCommerce.Module.PagarMe/"]
+RUN dotnet restore "src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj"
+COPY . .
+WORKDIR "/src/src/SimplCommerce.WebHost"
+RUN dotnet build "SimplCommerce.WebHost.csproj" -c Release -o /app
 
-WORKDIR /app	
-COPY --from=build-env /app/src/SimplCommerce.WebHost/out ./
-#COPY --from=build-env /var/lib/postgresql/data/dbscript.sql ./
+FROM build AS publish
+RUN dotnet publish "SimplCommerce.WebHost.csproj" -c Release -o /app
 
-# RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so 
-COPY --from=build-env /app/docker-entrypoint.sh /
-RUN chmod 755 /docker-entrypoint.sh
-#RUN chmod 755 /var/lib/postgresql/data/dbscript.sql
-#RUN chmod 755 /var/lib/postgresql/data/seedScript.sql
-ENTRYPOINT ["/docker-entrypoint.sh"]
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "SimplCommerce.WebHost.dll"]

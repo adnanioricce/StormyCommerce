@@ -23,49 +23,47 @@ namespace StormyCommerce.Module.Customer.Data
         }
 
         public void Initialize()
-        {
-            if (_context.Database.EnsureCreated())
+        {            
+            if (!_roleManager.RoleExistsAsync(Roles.Admin).Result)
             {
-                if (!_roleManager.RoleExistsAsync(Roles.Admin).Result)
+                var resultado = _roleManager.CreateAsync(
+                    new IdentityRole(Roles.Admin)).Result;
+                if (!resultado.Succeeded)
                 {
-                    var resultado = _roleManager.CreateAsync(
-                        new IdentityRole(Roles.Admin)).Result;
-                    if (!resultado.Succeeded)
-                    {
-                        throw new Exception(
-                            $"Erro durante a criação da role {Roles.Admin}.");
-                    }
+                    throw new Exception(
+                        $"Erro durante a criação da role {Roles.Admin}.");
                 }
-                if (!_roleManager.RoleExistsAsync(Roles.Guest).Result)
-                {
-                    var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Guest)).Result;
-                    if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Guest}");
-                }
-                if (!_roleManager.RoleExistsAsync(Roles.Customer).Result)
-                {
-                    var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Customer)).Result;
-                    if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Customer}");
-                }
-
-                CreateUser(
-                    //TODO: actually, I think is not secure to initialize this here...
-                    new ApplicationUser()
-                    {
-                        UserName = "stormyadmin",
-                        Email = "stormycommerce@gmail.com",
-                        EmailConfirmed = true,
-                        Role = new IdentityRole(Roles.Admin)
-                    }, "!D4vpassword",Roles.Admin);                
-                CreateUser(
-                    //TODO: actually, I think is not secure to initialize this here...
-                    new ApplicationUser()
-                    {
-                        UserName = "stormydev",
-                        Email = "adnangonzaga@gmail.com",
-                        EmailConfirmed = true,
-                        Role = new IdentityRole(Roles.Customer)
-                    }, "!D4velopment",Roles.Customer);                
             }
+            if (!_roleManager.RoleExistsAsync(Roles.Guest).Result)
+            {
+                var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Guest)).Result;
+                if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Guest}");
+            }
+            if (!_roleManager.RoleExistsAsync(Roles.Customer).Result)
+            {
+                var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Customer)).Result;
+                if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Customer}");
+            }
+
+            CreateUser(
+                //TODO: actually, I think is not secure to initialize this here...
+                new ApplicationUser()
+                {
+                    UserName = "stormyadmin",
+                    Email = "stormycommerce@gmail.com",
+                    EmailConfirmed = true,
+                    Role = new ApplicationRole(Roles.Admin)
+                }, "!D4vpassword",Roles.Admin);                
+            CreateUser(
+                //TODO: actually, I think is not secure to initialize this here...
+                new ApplicationUser()
+                {
+                    UserName = "stormydev",
+                    Email = "adnangonzaga@gmail.com",
+                    EmailConfirmed = true,
+                    Role = new ApplicationRole(Roles.Customer)
+                }, "!D4velopment",Roles.Customer);                
+            
         }
 
         private void CreateUser(
@@ -78,11 +76,11 @@ namespace StormyCommerce.Module.Customer.Data
                 var resultado = _userManager
                     .CreateAsync(user, password).Result;
 
-                if (resultado.Succeeded &&
-                    !String.IsNullOrWhiteSpace(initialRole))
-                {
-                    _userManager.AddToRoleAsync(user, initialRole).Wait();
-                }
+                // if (resultado.Succeeded &&
+                //     !String.IsNullOrWhiteSpace(initialRole))
+                // {
+                //     _userManager.AddToRoleAsync(user, initialRole).Wait();
+                // }
             }
         }
     }

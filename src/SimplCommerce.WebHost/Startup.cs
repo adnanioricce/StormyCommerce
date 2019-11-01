@@ -101,10 +101,16 @@ namespace SimplCommerce.WebHost
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddStormyDataStore(_configuration);
-            services.AddMappings();
-            //services.AddCustomizedIdentity(_configuration);
+            if(_hostingEnvironment.IsProduction()){
+                services.AddStormyDataStore(_configuration);
+            } else {
+                services.AddDbContextPool<StormyDbContext>(options => {
+                    options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                    options.EnableDetailedErrors();
+                    options.EnableSensitiveDataLogging();
+                });
+            }
+            services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
             services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));

@@ -19,12 +19,12 @@ COPY ["src/Modules/StormyCommerce.Module.PagarMe/StormyCommerce.Module.PagarMe.c
 RUN dotnet restore "src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj"
 COPY . .
 WORKDIR "/src/src/SimplCommerce.WebHost"
-RUN dotnet build "SimplCommerce.WebHost.csproj" -c Release -o /app
+RUN dotnet build "SimplCommerce.WebHost.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "SimplCommerce.WebHost.csproj" -c Release -o /app
+RUN dotnet publish "SimplCommerce.WebHost.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app .
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "SimplCommerce.WebHost.dll"]

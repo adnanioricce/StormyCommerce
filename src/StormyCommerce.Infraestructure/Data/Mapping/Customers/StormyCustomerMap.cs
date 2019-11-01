@@ -14,6 +14,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
             {                                
                 entity.HasKey(prop => prop.Id);
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
+                entity.Property(prop => prop.UserId).ValueGeneratedOnAdd();
                 entity.HasQueryFilter(f => f.IsDeleted == false);                                
                 entity
                     .HasOne(prop => prop.CustomerWishlist)
@@ -50,8 +51,10 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
             });            
             modelBuilder.Entity<ApplicationUser>(entity =>
             {
-                entity.HasKey(prop => prop.Id);
+                entity.HasKey(prop => prop.Id);                
+                entity.HasOne(prop => prop.Role);
             });
+            modelBuilder.Entity<ApplicationRole>();
             modelBuilder.Entity<Review>(entity =>
             {                
                 entity.HasKey(prop => prop.Id);

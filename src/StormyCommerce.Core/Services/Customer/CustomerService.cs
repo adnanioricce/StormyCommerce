@@ -16,7 +16,7 @@ namespace StormyCommerce.Core.Services.Customer
     public class CustomerService : ICustomerService
     {
         private readonly IStormyRepository<Review> _reviewRepository;
-        private readonly IStormyRepository<StormyCustomer> _customerRepository;
+        private readonly IStormyRepository<StormyCustomer> _customerRepository;        
 
         public CustomerService(IStormyRepository<Review> reviewRepository,
         IStormyRepository<StormyCustomer> customerRepository)
@@ -24,19 +24,26 @@ namespace StormyCommerce.Core.Services.Customer
             _reviewRepository = reviewRepository;
             _customerRepository = customerRepository;            
         }
-
+        #region Create Operations
         public async Task CreateCustomerReviewAsync(Review review, string normalizedEmail)
         {
             var customer = await _customerRepository.Table
             .FirstOrDefaultAsync(f => f.Email.Equals(normalizedEmail));
             if (review == null) throw new ArgumentNullException("given review entity is null");
-            if (customer == null) throw new ArgumentNullException("given customer is null");
-            // review.Author = customer;
-            // await _reviewRepository.AddAsync(review);
+            if (customer == null) throw new ArgumentNullException("given customer is null");            
             customer.CustomerReviews.Add(review);
             await _customerRepository.UpdateAsync(customer);
+        }        
+        public async Task CreateCustomerAsync(StormyCustomer customer)
+        {
+            await _customerRepository.AddAsync(customer);
         }
-
+        public async Task CreateCustomerAsync(CustomerDto appUser)
+        {
+            var customer = new StormyCustomer(appUser);
+            await _customerRepository.AddAsync(customer);
+        }
+        #endregion
         public async Task<IList<Review>> GetCustomerReviewsAsync(long customerId)
         {
             // _customerRepository.Table
@@ -90,16 +97,7 @@ namespace StormyCommerce.Core.Services.Customer
             throw new NotImplementedException();
         }
 
-        public async Task CreateCustomerAsync(StormyCustomer customer)
-        {
-            await _customerRepository.AddAsync(customer);
-        }
-
-        public async Task CreateCustomerAsync(CustomerDto appUser)
-        {
-            var customer = new StormyCustomer(appUser);
-            await _customerRepository.AddAsync(customer);
-        }
+        
 
         public async Task EditCustomerAsync(CustomerDto customer)
         {
