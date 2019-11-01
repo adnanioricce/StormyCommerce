@@ -15,7 +15,7 @@ namespace SimplCommerce.WebHost
     {
         public StormyDbContext CreateDbContext(string[] args)
         {
-            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
 
             var contentRootPath = Directory.GetCurrentDirectory();
 

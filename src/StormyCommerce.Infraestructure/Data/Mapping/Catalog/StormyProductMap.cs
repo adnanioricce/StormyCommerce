@@ -44,10 +44,10 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 .OnDelete(DeleteBehavior.Cascade);
             });
             modelBuilder.Entity<StormyProduct>(entity =>
-            {                
-                entity.HasQueryFilter(product => !product.IsDeleted);
-                entity.Property(p => p.Price);
-                entity.Property(p => p.OldPrice);
+            {
+                entity.HasKey(prop => prop.Id);
+                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
+                entity.HasQueryFilter(product => !product.IsDeleted);                
                 entity.Property(product => product.BrandId);
                 entity.HasOne(product => product.Brand).WithMany().HasForeignKey(p => p.BrandId);                
                 entity.HasOne(product => product.Vendor).WithMany(prop => prop.Products).HasForeignKey(p => p.VendorId);                
@@ -58,10 +58,8 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(product => product.ProductName).HasMaxLength(400).IsRequired();                
                 entity.Property(product => product.QuantityPerUnity).IsRequired();
                 entity.Property(product => product.ProductCost).IsRequired();
-                entity.Property(product => product.OldPrice)
-                    .HasConversion<string>(price => price.Value,dbValue => Price.GetPriceFromString(dbValue)).HasColumnType("decimal(18,4)");
-                entity.Property(product => product.Price)
-                    .HasConversion<string>(price => price.Value,dbValue => Price.GetPriceFromString(dbValue)).HasColumnType("decimal(18,4)");                                
+                entity.Ignore(product => product.Price);
+                entity.Ignore(product => product.OldPrice);
                 entity.Property(product => product.UnitPrice).IsRequired();
                 entity.Property(product => product.UnitsInStock).IsRequired();                
             });

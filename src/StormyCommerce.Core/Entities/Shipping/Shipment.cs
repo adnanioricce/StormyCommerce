@@ -10,10 +10,7 @@ using StormyCommerce.Core.Extensions;
 using StormyCommerce.Core.Models;
 
 namespace StormyCommerce.Core.Entities
-{
-    //! Is to little info, should this exist?
-    //TODO:Is the reference to StormyCustomerId useful?Why not use only the UserId?
-    //TODO:Define a property to know the "metrics" of a shipment object
+{    
     public class Shipment : BaseEntity
     {
         public Shipment(long id)
@@ -22,10 +19,7 @@ namespace StormyCommerce.Core.Entities
         }
         public Shipment(){}                        
         public long StormyOrderId { get; set; }
-        public StormyOrder Order { get; set; }
-        public string UserId { get; set; }
-        public long StormyCustomerId { get; set; }
-        public StormyCustomer Customer { get; set; }
+        public StormyOrder Order { get; set; }        
         public string WhoReceives { get; set; }
         public string TrackNumber { get; set; }
         public string ShipmentMethod { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StormyCommerce.Infraestructure.Data;
@@ -10,9 +11,10 @@ using StormyCommerce.Infraestructure.Data;
 namespace SimplCommerce.WebHost.Migrations
 {
     [DbContext(typeof(StormyDbContext))]
-    partial class StormyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191101203122_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -965,11 +967,9 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BillingAddressId")
-                        .IsUnique();
+                    b.HasIndex("BillingAddressId");
 
-                    b.HasIndex("DestinationAddressId")
-                        .IsUnique();
+                    b.HasIndex("DestinationAddressId");
 
                     b.HasIndex("StormyOrderId")
                         .IsUnique();
@@ -1425,19 +1425,19 @@ namespace SimplCommerce.WebHost.Migrations
             modelBuilder.Entity("StormyCommerce.Core.Entities.Shipment", b =>
                 {
                     b.HasOne("StormyCommerce.Core.Entities.Customer.CustomerAddress", "BillingAddress")
-                        .WithOne()
-                        .HasForeignKey("StormyCommerce.Core.Entities.Shipment", "BillingAddressId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("BillingAddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("StormyCommerce.Core.Entities.Customer.CustomerAddress", "DestinationAddress")
-                        .WithOne()
-                        .HasForeignKey("StormyCommerce.Core.Entities.Shipment", "DestinationAddressId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("DestinationAddressId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("StormyCommerce.Core.Entities.StormyOrder", "Order")
                         .WithOne("Shipment")
                         .HasForeignKey("StormyCommerce.Core.Entities.Shipment", "StormyOrderId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.StormyOrder", b =>

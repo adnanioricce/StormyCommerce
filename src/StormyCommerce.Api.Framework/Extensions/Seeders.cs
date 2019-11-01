@@ -74,7 +74,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         }
         public static List<Shipment> ShipmentSeed(int count = 1,bool omitId = false)
         {
-            var fakeShipment = new Faker<Shipment>("pt_BR")                
+            var fakeShipment = new Faker<Shipment>("pt_BR")
                 .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, DateTimeOffset.UtcNow)
@@ -82,15 +82,13 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<string>("PAC", "Sedex"))
                 .RuleFor(v => v.ShipmentProvider, "Correios")
                 .RuleFor(v => v.ShippedDate, f => f.Date.Recent())
-                .RuleFor(v => v.TotalWeight, f => f.Random.Decimal(5.0m, 20.0m))                
+                .RuleFor(v => v.TotalWeight, f => f.Random.Decimal(5.0m, 20.0m))
                 .RuleFor(v => v.DeliveryDate, f => f.Date.Recent(4))
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(3.0m, 62.0m))
                 .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4))
                 .RuleFor(v => v.Comment, f => f.Lorem.Sentence())
                 .RuleFor(v => v.BillingAddressId, f => f.IndexVariable)
-                .RuleFor(v => v.DestinationAddressId, f => f.IndexVariable + 1)
-                .RuleFor(v => v.StormyCustomerId, f => f.IndexVariable);
-                //.RuleFor(v => v.;
+                .RuleFor(v => v.DestinationAddressId, f => f.IndexVariable + 1);                               
             return fakeShipment.Generate(count);
         }
         public static List<Entity> EntitySeed(int count = 1, string entityType = "Product", bool omitId = false)
@@ -250,10 +248,8 @@ namespace StormyCommerce.Api.Framework.Extensions
                     var shipment = Seeders.ShipmentSeed(omitId:true).First();
                     var customer = Seeders.StormyCustomerSeed(omitId:true).First();
                     customer.Id += 10;
-                    shipment.Order = v;
-                    shipment.Customer = customer;                
-                    v.Shipment = shipment;
-                    v.Customer = shipment.Customer;
+                    shipment.Order = v;                              
+                    v.Shipment = shipment;                    
                     var items = Seeders.OrderItemSeed(2);                    
                     var product = Seeders.StormyProductSeed().First();
                     product.Id = product.Id + 50;

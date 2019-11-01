@@ -68,7 +68,6 @@ jobs:
     inputs:
       testResultsFormat: VSTest
       testResultsFiles: '**/*.trx' 
-
 - job: LinuxRelease
   pool:
     vmImage: 'Ubuntu 16.04'

@@ -145,8 +145,12 @@ namespace SimplCommerce.WebHost.Extensions
         public static IServiceCollection AddStormyDataStore(this IServiceCollection services, IConfiguration configuration)
         {
             
-            services.AddDbContextPool<StormyDbContext>(options => {                                                    
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));                                                    
+            services.AddDbContextPool<StormyDbContext>(options => {
+                string connectionString = configuration.GetConnectionString("TestConnection");
+                Console.WriteLine(connectionString);
+                Console.Out.Write(connectionString);
+                options.UseSqlServer(connectionString,b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
             });
             return services;
