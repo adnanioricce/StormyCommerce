@@ -12,10 +12,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
 {
     public class StormyProduct : BaseEntity
     {
-        public StormyProduct(long id)
-        {
+        public StormyProduct(long id){
             Id = id;
-        }
+        }     
         public StormyProduct(ProductDto productDto)
         {
             Id = productDto.Id;
@@ -56,11 +55,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public long? LatestUpdatedById { get; set; }
         public StormyVendor Vendor { get; set; }
         public Brand Brand { get; set; }
-        public Category Category { get; set; }
-        public string TypeName { get; set; }
+        public Category Category { get; set; }        
         public string ShortDescription { get; set; }
-        public string Description { get; set; }
-        public string Specification { get; set; }
+        public string Description { get; set; }        
         public int QuantityPerUnity { get; set; }
         public string AvailableSizes { get; set; }
         public decimal UnitPrice { get; set; }
@@ -73,13 +70,13 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }
         public int ReviewsCount { get; set; }
-        public bool ProductAvailable { get; set; }
+        public bool ProductAvailable { get; set; } = true;
         public bool DiscountAvailable { get; set; }
         public bool StockTrackingIsEnabled { get; set; } = true;
         public string ThumbnailImage { get; set; }
         public List<ProductMedia> Medias { get; protected set; } = new List<ProductMedia>();
         public List<ProductLink> Links { get; protected set; } = new List<ProductLink>();
-        public List<ProductLink> LinkedProductLinks { get; protected set; } = new List<ProductLink>();        
+        // public List<ProductLink> LinkedProductLinks { get; protected set; } = new List<ProductLink>();        
         public List<ProductAttributeValue> AttributeValues { get; protected set; } = new List<ProductAttributeValue>();
         public List<ProductOptionValue> OptionValues { get; protected set; } = new List<ProductOptionValue>();
         public int Ranking { get; set; }
@@ -90,8 +87,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public DateTime? SpecialPriceStart { get; set; }
         public DateTime? SpecialPriceEnd { get; set; }        
         public bool HasDiscountApplied { get; set; }
-        public bool IsPublished { get; set; }
-        public string Status { get; set; }
+        public bool IsPublished { get; set; }        
         public bool NotReturnable { get; set; }
         public bool AvailableForPreorder { get; set; }
         public bool HasOptions { get; set; }
@@ -134,16 +130,16 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         }
         public string GenerateSlug()
         {
-            return String.Format($"{0}-{1}-{2}-{3}",this.Category.Name,this.Brand,this.TypeName,this.ProductName);
+            return String.Format($"{0}-{1}-{2}",this.Category.Name,this.Brand,this.ProductName);
         }
-        public ProductDto ToProductDto(StormyProduct product)
+        public ProductDto ToProductDto()
         {
             return new ProductDto(this);
         }
         
         public decimal CalculateDimensions()
-        {                        
-            return ((Length * Height) * 2) + ((Width * Length) * 2) + ((Height * Width) * 2);
+        {                      
+            return Height + Width + Length;
         }
     }
 }

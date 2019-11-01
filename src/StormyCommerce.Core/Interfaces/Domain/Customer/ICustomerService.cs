@@ -1,7 +1,5 @@
 ﻿using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Models.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,11 +17,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
         Task<Review> GetCustomerReviewByIdAsync(string customerId, long? reviewId);
 
         Task<IList<CustomerAddress>> GetAllCustomerAddressByIdAsync(long id);
-
-        Task<IList<StormyOrder>> GetAllCustomerOrdersByIdAsync(long id);
-
-        Task<IList<Payment>> GetAllCustomerPaymentsByIdAsync(long id);
-
+        
         Task<IList<StormyCustomer>> GetAllCustomersAsync();
         Task<IList<StormyCustomer>> GetAllCustomersAsync(long minLimit,long maxLimit);
         int GetCustomersCount();

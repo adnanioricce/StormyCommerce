@@ -17,7 +17,7 @@ namespace StormyCommerce.Core.Entities
             var compareTo = obj as BaseEntity;
             if (ReferenceEquals(this, compareTo))
                 return true;
-            if (ReferenceEquals(null, compareTo))
+            if (compareTo is null)
                 return false;
 
             return Id.Equals(compareTo.Id);
@@ -25,9 +25,9 @@ namespace StormyCommerce.Core.Entities
 
         public static bool operator ==(BaseEntity a, BaseEntity b)
         {
-            if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            if (a is null && b is null)
                 return true;
-            if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
+            if (a is null || b is null)
                 return false;
 
             return a.Equals(b);

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
@@ -33,7 +34,14 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             _mapper = mapper;
             _logger = logger;
         }
-
+        [HttpGet("search")]
+        [ValidateModel]
+        [AllowAnonymous]
+        [ProducesDefaultResponseType(typeof(ProductSearchResponse))]
+        public async Task<IActionResult> SearchProducts(string searchPattern)
+        {
+            return Ok(_mapper.Map<ProductSearchResponse>(await _productService.SearchProductsBySearchPattern(searchPattern)));
+        }
         ///<summary>
         /// Get a more simplified version of a specified product
         ///</summary>
@@ -89,14 +97,17 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         [HttpPost("create")]
         [ValidateModel]
         [Authorize(Roles.Admin)]
-        public async Task<ActionResult> CreateProduct([FromBody]StormyProduct _model)
+        public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
         {            
-            try{
-                await _productService.InsertProductAsync(_model);                
+            try
+            {
+                var model = _mapper.Map<StormyProduct>(_model);
+                await _productService.InsertProductAsync(model);                
             }            
             //TODO:Change to a more specific Exception
             catch(Exception ex){
                 _logger.LogError($"don't was possible to create product, application returned the following exception:{ex}");
+                return BadRequest($"application failed to perform given operation. Given exception:{ex.Message}");
             }
             return Ok();
         }

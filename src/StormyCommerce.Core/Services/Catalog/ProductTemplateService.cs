@@ -10,17 +10,14 @@ namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductTemplateService : IProductTemplateService
     {
-        private readonly IStormyRepository<ProductTemplate> _productTemplateRepository;
-        private readonly IStormyRepository<ProductAttribute> _productAttributeRepository;
+        private readonly IStormyRepository<ProductTemplate> _productTemplateRepository;        
         private readonly IProductTemplateProductAttributeRepository _productTemplateProductAttributeRepository;
 
         //Why this exists?
-        public ProductTemplateService(IStormyRepository<ProductTemplate> productTemplateRepository,
-            IStormyRepository<ProductAttribute> productAttributeRepository,
+        public ProductTemplateService(IStormyRepository<ProductTemplate> productTemplateRepository,            
             IProductTemplateProductAttributeRepository productTemplateProductAttribute)
         {
-            _productTemplateRepository = productTemplateRepository;
-            _productAttributeRepository = productAttributeRepository;
+            _productTemplateRepository = productTemplateRepository;            
             _productTemplateProductAttributeRepository = productTemplateProductAttribute;
         }
 

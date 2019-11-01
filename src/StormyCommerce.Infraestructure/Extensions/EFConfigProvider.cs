@@ -20,8 +20,7 @@ namespace StormyCommerce.Infraestructure.Extensions
             var builder = new DbContextOptionsBuilder<EFConfigurationDbContext>();
             OptionsAction(builder);
 
-            using (var dbContext = new EFConfigurationDbContext(builder.Options))
-            {
+            using(var dbContext = new EFConfigurationDbContext(builder.Options)){
                 Data = dbContext.AppSettings.ToDictionary(c => c.Id, c => c.Value);
             }
         }

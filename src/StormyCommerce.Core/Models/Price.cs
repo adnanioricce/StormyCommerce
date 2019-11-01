@@ -6,7 +6,7 @@ namespace StormyCommerce.Core.Models
 {
     public class Price : ValueObject
     {        
-        private decimal _value = decimal.Zero;                
+        private readonly decimal _value = decimal.Zero;                
         public string Currency { get; }
         public string Value { get { return $"{Currency}{_value}"; } }        
         private Price(string currency,decimal value)

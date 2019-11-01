@@ -32,8 +32,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 UnitsInStock = 30,
                 Category = new Entities.Catalog.Category{
                     Name = "Shirts"
-                },
-                TypeName = "T-Shirt",
+                },                
                 Brand = new Brand{
                     Name = "Nike"
                 },

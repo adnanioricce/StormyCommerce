@@ -9,14 +9,11 @@ namespace StormyCommerce.Core.Extensions
         {            
             return CalculateDimensions(productDto.Height,productDto.Height,productDto.Length);
         }
-        
-        private static decimal CalculateClothingDimensions(decimal height,decimal width)
-        {
-            throw new NotImplementedException();
-        }
+                
         private static decimal CalculateDimensions(decimal height,decimal width,decimal length)
         {
-            return ((length * height) * 2) + ((width * length) * 2) + ((height * width) * 2);
+            return length + height + width;
         }
+        
     }
 }

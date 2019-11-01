@@ -12,7 +12,7 @@ namespace SimplCommerce.Infrastructure.Modules
         public IEnumerable<ModuleInfo> GetModules()
         {
             var modulesPath = Path.Combine(GlobalConfiguration.ContentRootPath, ModulesFilename);
-            using (var reader = new StreamReader(modulesPath))
+            using(var reader = new StreamReader(modulesPath))
             {
                 string content = reader.ReadToEnd();
                 dynamic modulesData = JsonConvert.DeserializeObject(content);

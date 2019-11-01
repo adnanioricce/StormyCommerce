@@ -10,8 +10,7 @@ namespace StormyCommerce.Infraestructure.Helpers
             string result;
             using (var stream = assembly.GetManifestResourceStream(path))
             {
-                using (var reader = new StreamReader(stream))
-                {
+                using (var reader = new StreamReader(stream)){
                     result = reader.ReadToEnd();
                 }
             }

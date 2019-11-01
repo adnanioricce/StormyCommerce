@@ -44,8 +44,7 @@ namespace SimplCommerce.Module.SampleData.Services
             IEnumerable<string> files = Directory.GetFiles(imageFolder);
             foreach (var file in files)
             {
-                using (var stream = File.Open(file, FileMode.Open, FileAccess.Read))
-                {
+                using(var stream = File.Open(file, FileMode.Open, FileAccess.Read)){
                     await _mediaService.SaveMediaAsync(stream, Path.GetFileName(file));
                 }
             }

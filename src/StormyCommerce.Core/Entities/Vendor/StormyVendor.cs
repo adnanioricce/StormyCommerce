@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Common;
-
 namespace StormyCommerce.Core.Entities.Vendor
 {
     public class StormyVendor : BaseEntity
@@ -10,10 +9,7 @@ namespace StormyCommerce.Core.Entities.Vendor
         {
             Id = id;
         }
-
-        public StormyVendor()
-        {
-        }
+        public StormyVendor(){}        
 
         public string CompanyName { get; set; }
         public string ContactTitle { get; set; }     

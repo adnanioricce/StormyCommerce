@@ -18,23 +18,24 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
 {
     public class OrderServiceTests : IDisposable
     {
-        private MockRepository mockRepository;
-        private Mock<IStormyRepository<StormyOrder>> mockStormyRepositoryStormyOrder;
+        private MockRepository mockRepository;        
         private Mock<IStormyRepository<OrderHistory>> mockStormyRepositoryOrderHistory;
 
         public OrderServiceTests()
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-            this.mockStormyRepositoryStormyOrder = this.mockRepository.Create<IStormyRepository<StormyOrder>>();
-            this.mockStormyRepositoryOrderHistory = this.mockRepository.Create<IStormyRepository<OrderHistory>>();
+            this.mockRepository = new MockRepository(MockBehavior.Strict);            
+            this.mockStormyRepositoryOrderHistory = this.mockRepository.Create<IStormyRepository<OrderHistory>>();            
+            // this.mockStormyRepositoryOrderHistory.Setup(r => r.AddAsync(It.IsAny<OrderHistory>()))
         }
 
         public void Dispose()
         {
             this.mockRepository.VerifyAll();
         }
-
+        private StormyRepository<OrderHistory> CreateFakeOrderHistoryRepository()
+        {
+            throw new NotImplementedException();
+        }
         private OrderService CreateService()
         {
             return new OrderService(

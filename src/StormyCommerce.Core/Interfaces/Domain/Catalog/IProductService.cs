@@ -7,9 +7,11 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
 {
     public interface IProductService
     {
+        
         Task DeleteProductAsync(StormyProduct product);
 
         Task DeleteProductsAsync(IList<StormyProduct> products);
+        Task<List<StormyProduct>> SearchProductsBySearchPattern(string searchPattern);
 
         Task<Result<IList<StormyProduct>>> GetAllProductsByCategory(int categoryId, int limit = 15);
 
