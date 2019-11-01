@@ -6,6 +6,7 @@ using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using StormyCommerce.Module.Catalog.Dtos;
 
 namespace StormyCommerce.WebHost.Mappings
@@ -19,7 +20,8 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dto => dto.Category, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dto => dto.Vendor, opt => opt.MapFrom(src => src.Vendor))                
                 .ForPath(dto => dto.OldPrice,opt => opt.MapFrom(src => src.OldPrice.Value))
-                .ForPath(dto => dto.Price,opt => opt.MapFrom(src => src.Price.Value));                
+                .ForPath(dto => dto.Price,opt => opt.MapFrom(src => src.Price.Value));
+            CreateMap<StormyProduct, ProductSearchResponse>();
             CreateMap<StormyProduct, VendorDto>();
             CreateMap<StormyProduct, BrandDto>();
             CreateMap<StormyProduct, CategoryDto>();

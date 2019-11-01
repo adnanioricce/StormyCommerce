@@ -10,7 +10,10 @@ using Newtonsoft.Json;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web.ModelBinders;
+using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.Infraestructure.Logging;
 using StormyCommerce.WebHost.Mappings;
 using System;
 using System.Collections.Generic;
@@ -146,10 +149,8 @@ namespace SimplCommerce.WebHost.Extensions
         {
             
             services.AddDbContextPool<StormyDbContext>(options => {
-                string connectionString = configuration.GetConnectionString("TestConnection");
-                Console.WriteLine(connectionString);
-                Console.Out.Write(connectionString);
-                options.UseSqlServer(connectionString,b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                options.UseLoggerFactory(Container.loggerFactory);
+                options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
             });

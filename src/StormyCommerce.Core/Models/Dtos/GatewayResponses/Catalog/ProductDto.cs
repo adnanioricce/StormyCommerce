@@ -55,6 +55,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
 
         public long Id { get; set; }
         public string ProductName { get; set; }
+        public string ShortDescription { get; set; }
+        public bool ProductAvailable { get; set; }
         public string Slug { get; set; }
         public int QuantityPerUnity { get; set; }
         public string AvailableSizes { get; set; }

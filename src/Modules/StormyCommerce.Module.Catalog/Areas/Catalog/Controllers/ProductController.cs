@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
+using StormyCommerce.Core.Models;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
@@ -37,10 +38,12 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         [HttpGet("search")]
         [ValidateModel]
         [AllowAnonymous]
-        [ProducesDefaultResponseType(typeof(ProductSearchResponse))]
-        public async Task<IActionResult> SearchProducts(string searchPattern)
+        [ProducesResponseType(typeof(ProductSearchResponse),200)]
+        public async Task<Result<List<ProductSearchResponse>>> SearchProducts(string searchPattern)
         {
-            return Ok(_mapper.Map<ProductSearchResponse>(await _productService.SearchProductsBySearchPattern(searchPattern)));
+            var products = await _productService.SearchProductsBySearchPattern(searchPattern);
+            var mappedProduct = _mapper.Map<List<StormyProduct>,List<ProductSearchResponse>>(products);
+            return Result.Ok(mappedProduct);
         }
         ///<summary>
         /// Get a more simplified version of a specified product

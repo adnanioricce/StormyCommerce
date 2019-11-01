@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using System.Text.Encodings.Web;
@@ -23,7 +23,7 @@ namespace StormyCommerce.Modules.IntegrationTest
 {
     public class TestStartup : Startup
     {
-        public TestStartup(IConfiguration configuration, IHostingEnvironment hostingEnvironment, ILogger<Startup> logger) : base(configuration, hostingEnvironment, logger)
+        public TestStartup(IConfiguration configuration, IHostingEnvironment hostingEnvironment, ILogger<Startup> logger,ILoggerFactory loggerFactory) : base(configuration, hostingEnvironment, logger,loggerFactory)
         {
         }
 

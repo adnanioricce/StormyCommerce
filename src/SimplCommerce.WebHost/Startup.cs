@@ -38,11 +38,12 @@ namespace SimplCommerce.WebHost
         protected readonly IHostingEnvironment _hostingEnvironment;
         protected readonly IConfiguration _configuration;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment, ILogger<Startup> logger)
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment, ILogger<Startup> logger,ILoggerFactory loggerFactory)
         {
             _configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
             Container.Configuration = configuration;
+            Container.loggerFactory = loggerFactory;
             string defaultCertPath = configuration.GetSection("Kestrel:Certificate:Default:Path").Value;
             logger.LogInformation($"Kestrel Default cert path: {defaultCertPath}");
             if (!string.IsNullOrEmpty(defaultCertPath))
@@ -201,7 +202,10 @@ namespace SimplCommerce.WebHost
                     var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
                     var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
                     new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
-                    dbContext.SeedDbContext();
+                    if (!dbContext.Database.IsSqlServer())
+                    {
+                        dbContext.SeedDbContext();
+                    }
                 }
             }
         }
