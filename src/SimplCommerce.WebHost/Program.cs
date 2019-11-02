@@ -38,8 +38,7 @@ namespace SimplCommerce.WebHost
             var env = hostingContext.HostingEnvironment;
             var configuration = configBuilder.Build();
             configBuilder.AddEntityFrameworkConfig(options =>
-                    options.UseInMemoryDatabase("InMemoryStormyDb")
-                    // options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
+                    options.UseSqlServer(configuration.GetConnectionString("TestConnection"),b => b.MigrationsAssembly("SimplCommerce.WebHost"))                    
             );
             Log.Logger = new LoggerConfiguration()
                        .ReadFrom.Configuration(configuration)
