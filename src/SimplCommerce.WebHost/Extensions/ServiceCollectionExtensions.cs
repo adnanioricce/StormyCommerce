@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,11 @@ using Newtonsoft.Json;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web.ModelBinders;
+using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.Infraestructure.Logging;
+using StormyCommerce.WebHost.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -91,50 +96,7 @@ namespace SimplCommerce.WebHost.Extensions
             }
 
             return services;
-        }
-
-        public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services, IList<ModuleInfo> modules)
-        {
-            // services.AddAuthentication(options => {
-            //     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            //     options
-            // });
-            return services;
-        }
-
-        public static IServiceCollection AddCustomizedMvc(this IServiceCollection services, IList<ModuleInfo> modules)
-        {
-            var mvcBuilder = services
-                .AddMvc(o =>
-                {
-                    o.EnableEndpointRouting = false;
-                    o.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
-                    o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                })
-                //.AddRazorOptions(o =>
-                //{
-                //    foreach (var module in modules.Where(x => !x.IsBundledWithHost))
-                //    {
-                //        o.AdditionalCompilationReferences.Add(MetadataReference.CreateFromFile(module.Assembly.Location));
-                //    }
-                //})
-                //.AddViewLocalization()
-                //.AddModelBindingMessagesLocalizer(services)
-                //.AddDataAnnotationsLocalization(o =>
-                //{
-                //    var factory = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
-                //    var L = factory.Create(null);
-                //    o.DataAnnotationLocalizerProvider = (t, f) => L;
-                //})
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            foreach (var module in modules.Where(x => !x.IsBundledWithHost))
-            {
-                AddApplicationPart(mvcBuilder, module.Assembly);
-            }
-
-            return services;
-        }
+        }        
 
         /// <summary>
         /// localize ModelBinding messages, e.g. when user enters string value instead of number...
@@ -182,18 +144,30 @@ namespace SimplCommerce.WebHost.Extensions
                     mvcBuilder.PartManager.ApplicationParts.Add(part);
                 }
             }
-        }
-
+        }                
         public static IServiceCollection AddStormyDataStore(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContextPool<StormyDbContext>(options =>
-            {
-	    	    options.UseInMemoryDatabase("InMemoryStormyDb");
-                // options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+            
+            services.AddDbContextPool<StormyDbContext>(options => {
+                options.UseLoggerFactory(Container.loggerFactory);
+                options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                options.EnableDetailedErrors();
+                options.EnableSensitiveDataLogging();
             });
             return services;
         }
-
+        public static IServiceCollection AddMappings(this IServiceCollection services)
+        {
+            var config = new MapperConfiguration(mc => {
+                mc.AddProfile(new CatalogProfile());
+                mc.AddProfile(new CustomerProfile());
+                mc.AddProfile(new ShippingProfile());
+                mc.AddProfile(new PagarMeMapping());
+            });
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+            return services;
+        } 
         private static void TryLoadModuleAssembly(string moduleFolderPath, ModuleInfo module)
         {
             const string binariesFolderName = "bin";

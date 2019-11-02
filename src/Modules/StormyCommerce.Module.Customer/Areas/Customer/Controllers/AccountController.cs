@@ -1,19 +1,14 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
-using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
-using StormyCommerce.Module.Customer.Services;
 using System;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 {
@@ -23,14 +18,12 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     public class AccountController : Controller
     {
         private readonly IUserIdentityService _identityService;
-        private readonly ICustomerService _customerService;
-        private readonly IMapper _mapper;
+        private readonly ICustomerService _customerService;        
         private readonly IAppLogger<AuthenticationController> _logger;
-        public AccountController(IUserIdentityService identityService,ICustomerService customerService,IMapper mapper,IAppLogger<AuthenticationController> logger)
+        public AccountController(IUserIdentityService identityService,ICustomerService customerService,IAppLogger<AuthenticationController> logger)
         {
             _identityService = identityService;
-            _customerService = customerService;
-            _mapper = mapper;
+            _customerService = customerService;            
             _logger = logger;
         }
         [HttpGet("ConfirmEmail")]
@@ -57,7 +50,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                 Email = confirmedUser.Email,
                 EmailConfirmed = confirmedUser.EmailConfirmed,
                 NormalizedEmail = confirmedUser.NormalizedEmail,
-                UserId = confirmedUser.Id,
+                UserId = confirmedUser.Id,                
                 PhoneNumber = confirmedUser.PhoneNumber,
                 PhoneNumberConfirmed = confirmedUser.PhoneNumberConfirmed,
                 UserName = confirmedUser.UserName,

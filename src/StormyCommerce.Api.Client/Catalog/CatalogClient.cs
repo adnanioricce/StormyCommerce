@@ -1,169 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Stormycommerce.Module.Orders.Area.ViewModels;
 using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Core.Entities.Common;
-using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 
 namespace StormyCommerce.Api.Client.Catalog
 {
-    // public class CatalogClient : IClient
-    // {
-        // private string _baseUrl = "https://localhost:443";
-        // public string BaseUrl { get { return _baseUrl; } set { _baseUrl = value; } }
-        // //protected JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+    public class CatalogClient : ICatalogClient
+    {
+        private string _baseUrl = "https://localhost:443";
+        public string BaseUrl { get { return _baseUrl; } set { _baseUrl = value; } }
+        private readonly HttpClient _client = new HttpClient();
+        public CatalogClient(string baseUrl)
+        {
+            _baseUrl = BaseUrl;
+            _client.BaseAddress = new Uri(baseUrl);
+        }
+        public CatalogClient(HttpClient client)
+        {
+            _client = client;
+        }
+        private async Task<Result> Post<T>(string endpoint,T model)
+        {            
+            var response = await _client.PostAsJsonAsync(endpoint, model);
+            var result = await response.Content.ReadAsAsync<Result>();
+            return result;
+        }
+        private async Task<T> Get<T>(string endpoint,long? id)
+        {
+            if(id == null || id == 0)
+            {
+                var response = await _client.GetAsync(endpoint);
+                return await response.Content.ReadAsAsync<T>();
+            }
+            var path = String.Format($"{endpoint}?id={0}", id);
+            var result = await _client.GetAsync(path);
+            return await result.Content.ReadAsAsync<T>();
+        }
+        private async Task<T> Get<T>(string endpoint,params long[] ids)
+        {            
+            var stringBuilder = new StringBuilder();            
+            stringBuilder.AppendJoin($"categoryIds={0}",ids);
+            var path = String.Format($"/api/Product/getlength/category?{stringBuilder.ToString()}");
+            var result = await _client.GetAsync(path);
+            return await result.Content.ReadAsAsync<T>();
+        }
 
-        // //partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-        // //partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, string url);
-        // //partial void PrepareRequest(System.Net.Http.HttpClient client, System.Net.Http.HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
-        // //partial void ProcessResponse(System.Net.Http.HttpClient client, System.Net.Http.HttpResponseMessage response);
+        public Task<Result> CreateCategoryAsync(Category category = null, CancellationToken cancellationToken = default)
+        {
+            return Post("/api/Category/create", category);
+        }
 
+        public Task<Result> CreateProductAsync(StormyProduct _model = null, CancellationToken cancellationToken = default)
+        {
+            return Post("/api/Product/create", _model);
+        }
 
-        // public Task<Result> AddAddressAsync(Address address = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        public async Task<Result> EditCategoryAsync(Category category = null, CancellationToken cancellationToken = default)
+        {
+            var response = await _client.PutAsJsonAsync("/api/Product/edit",category);
+            var result = await response.Content.ReadAsAsync<Result<string>>();
+            return result;
+        }
 
-        // public Task<Result> CheckoutBoletoAsync(CheckoutOrderVm checkoutVm = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        public Task<Result> EditProductAsync(StormyProduct _model = null, CancellationToken cancellationToken = default)
+        {
+            return Post("/api/Product/edit",_model);
+        }
 
-        // public Task<Result> ConfirmEmailAsync(string email = null, string code = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        public Task<List<CategoryDto>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return Get<List<CategoryDto>>("/api/Category/list", 0);
+        }
 
-        // public Task<Result> CreateCategoryAsync(Category category = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        public Task<List<ProductDto>> GetAllProductsAsync(long? startIndex = null, long? endIndex = null, CancellationToken cancellationToken = default)
+        {
+            return Get<List<ProductDto>>($"/api/Product?startIndex={startIndex}&endIndex={endIndex}", 0);
+        }
 
-        // public Task<Result> CreateCustomerAsync(CustomerDto customerDto = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        public Task<List<ProductDto>> GetAllProductsOnCategoryAsync(int? categoryId = null, int? limit = null, CancellationToken cancellationToken = default)
+        {
+            return Get<List<ProductDto>>($"/api/Product/list/category?limit={limit}",categoryId);
+        }
 
-        // public Task<Result> CreateOrderAsync(OrderDto orderDto = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        public Task<List<ProductDto>> GetAllProductsOnHomepageAsync(int? limit = null, CancellationToken cancellationToken = default)
+        {            
+            return Get<List<ProductDto>>($"/api/Product/homepage?limit={limit}",0);
+        }
 
-        // public Task<Result> CreateProductAsync(ProductDto _model = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
+        public Task<CategoryDto> GetCategoryByIdAsync(long? id = null, CancellationToken cancellationToken = default)
+        {
+            return Get<CategoryDto>($"/api/Category", id);
+        }
 
-        // public Task<Result> EditCategoryAsync(string id, Category category = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result> EditProductAsync(ProductDto _model = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result> ForgotPasswordAsync(ForgotPasswordViewModel model = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<ICollection<CategoryDto>>> GetAllAsync(CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<ICollection<ProductDto>>> GetAllProductsAsync(long? startIndex = null, long? endIndex = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<ICollection<ProductDto>>> GetAllProductsOnCategoryAsync(int? categoryId = null, int? limit = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<ICollection<ProductDto>>> GetAllProductsOnHomepageAsync(int? limit = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<CategoryDto>> GetCategoryByIdAsync(long id, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<CustomerDto>> GetCustomerByEmailOrUsernameAsync(string email = null, string username = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<ICollection<StormyCustomer>>> GetCustomersAsync(int? minLimit = null, long? maxLimit = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<int>> GetNumberOfProductsInCategoryAsync(IEnumerable<int> categoryIds = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<ProductDto>> GetProductByIdAsync(string _0, long? id = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<ProductOverviewDto>> GetProductOverviewAsync(string _0, long? id = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result<string>> LoginAsync(SignInVm signInVm = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result> RegisterAsync(SignUpVm signUpVm = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result> ResetPasswordAsync(ResetPasswordViewModel model = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result> SeedDatabaseAsync(CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<Result> WriteReviewAsync(CustomerReviewDto review = null, CancellationToken cancellationToken = default)
-        // {
-        //     throw new NotImplementedException();
-        // }
-        //    private System.Net.Http.HttpClient _httpClient;
-        //    private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
-
-        //    public Client(System.Net.Http.HttpClient httpClient)
-        //    {
-        //        _httpClient = httpClient;
-        //        _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() =>
-        //        {
-        //            var settings = new Newtonsoft.Json.JsonSerializerSettings();
-        //            UpdateJsonSerializerSettings(settings);
-        //            return settings;
-        //        });
-        //    }
-    // }
+        public Task<int> GetNumberOfProductsInCategoryAsync(IEnumerable<long> categoryIds = null, CancellationToken cancellationToken = default)
+        {
+            return Get<int>("/api/Product/getlength/category",categoryIds.ToArray());
+        }
+        public Task<ProductDto> GetProductByIdAsync(long? id = null, CancellationToken cancellationToken = default)
+        {
+            return Get<ProductDto>("/api/Product", id);
+        }
+        public Task<ProductOverviewDto> GetProductOverviewAsync(long? id = null, CancellationToken cancellationToken = default)
+        {
+            return Get<ProductOverviewDto>("/api/Product/get_overview",id);
+        }
+    }
 }

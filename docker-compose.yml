@@ -10,7 +10,7 @@ services:
         - database
     container_name: 'stormy_webhost'    
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=https://*:443;http://*:80
       - ASPNETCORE_HTTPS_PORT=44388
       - ASPNETCORE_Kestrel__Certificates__Default__Password=simpldevpassword
@@ -25,7 +25,7 @@ services:
       - ${HOME}/.aspnet/https:/https:ro
       - ${HOME}/.microsoft/usersecrets:/.microsoft/usersecrets:ro
   database:
-    image: stormydb
+    image: postgres
     container_name: 'stormydb'    
     ports:
       - "5432"
@@ -33,19 +33,12 @@ services:
     networks:
       - stormy-net
     environment:
-        - "POSTGRES_PASSWORD=docker"
-        - "POSTGRES_USER=docker"        
+        - "POSTGRES_PASSWORD=postgres"
+        - "POSTGRES_USER=postgres"        
     volumes:
       - data:/var/lib/postgresql/data      
     networks: 
-      - stormy-net
-  client-app:
-    image: witthoeft-storefront
-    container_name: 'client'
-    ports:
-      -  3000
-    networks:
-      - stormy-net
+      - stormy-net  
         
 volumes:
   data:

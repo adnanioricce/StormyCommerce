@@ -28,14 +28,14 @@ namespace SimplCommerce.Module.EmailSenderSendgrid
             Contract.Requires(string.IsNullOrWhiteSpace(subject));
             Contract.Requires(string.IsNullOrWhiteSpace(message));
 
-            var sendGridMessage = new SendGridMessage();
-
-            sendGridMessage.From = new EmailAddress(_from);
-            sendGridMessage.AddTo(new EmailAddress(email));
-            sendGridMessage.Subject = subject;
-            sendGridMessage.HtmlContent = isHtml ? message : "";
-            sendGridMessage.PlainTextContent = isHtml ? Regex.Replace(message, "<[^>]*>", "") : message;
-
+            var sendGridMessage = new SendGridMessage
+            {
+                From = new EmailAddress(_from),
+                Subject = subject,
+                HtmlContent = isHtml ? message : "",
+                PlainTextContent = isHtml ? Regex.Replace(message,"<[^>]*>","") : message,                
+            };
+            sendGridMessage.AddTo(new EmailAddress(email));            
             var client = new SendGridClient(_apiKey);
             await client.SendEmailAsync(sendGridMessage);
         }

@@ -24,20 +24,10 @@ namespace StormyCommerce.Module.PagarMe.Area.PagarMe.Controllers
     [EnableCors("Default")]
     public class PagarMeController : Controller
     {
-        private readonly PagarMeWrapper _pagarMeWrapper;
-        private readonly IStormyRepository<Payment> _paymentRepository;
-        private readonly IStormyRepository<Shipment> _shipmentRepository;
-        private readonly IMapper _mapper;
-        private readonly IEmailSender _emailSender;
-        public PagarMeController(PagarMeWrapper pagarMeWrapper,
-        IStormyRepository<Payment> paymentRepository,
-        IMapper mapper,
-        IEmailSender emailSender)
+        private readonly PagarMeWrapper _pagarMeWrapper;        
+        public PagarMeController(PagarMeWrapper pagarMeWrapper)
         {
-            _pagarMeWrapper = pagarMeWrapper;
-            _paymentRepository = paymentRepository;
-            _mapper = mapper;                      
-            _emailSender = emailSender;  
+            _pagarMeWrapper = pagarMeWrapper;            
         }
         [HttpPost("charge")]
         [ValidateModel]

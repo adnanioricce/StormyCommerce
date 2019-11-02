@@ -169,7 +169,6 @@ PublishProfiles/
 logs/
 
 # SimplCommerce.WebHost
-src/SimplCommerce.WebHost/appsettings.json
 src/SimplCommerce.WebHost/Properties/PublishProfiles
 src/SimplCommerce.WebHost/logs
 src/SimplCommerce.WebHost/logs/*

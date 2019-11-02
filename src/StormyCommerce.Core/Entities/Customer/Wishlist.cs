@@ -5,8 +5,8 @@ namespace StormyCommerce.Core.Entities.Customer
 {
     public class Wishlist : BaseEntity
     {
-        public int CustomerId { get; set; }
-        public StormyCustomer Customer { get; set; }
+        public long StormyCustomerId { get; set; }
+        public StormyCustomer Customer { get; set; }        
         public ICollection<WishlistItem> WishlistItems { get; set; }
 
         /// <summary>

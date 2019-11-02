@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Bogus.DataSets;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
@@ -6,73 +7,88 @@ using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Entities.Order;
+using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StormyCommerce.Api.Framework.Extensions
 {
     public static class Seeders
     {
-        public static List<StormyProduct> StormyProductSeed(int count = 1, bool omitId = false)
+        public static List<StormyProduct> StormyProductSeed(int count = 1)
         {
             var fakeProduct = new Faker<StormyProduct>("pt_BR")
-                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
-                .RuleFor(v => v.ProductName, f => f.Commerce.ProductName())
-                .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.ThumbnailImage,f => f.Image.LoremFlickrUrl())
-                .RuleFor(v => v.SKU, f => f.Commerce.Random.AlphaNumeric(16))
-                .RuleFor(v => v.Slug, f => f.Lorem.Slug())
-                .RuleFor(v => v.TypeName, f => f.Commerce.Categories(1)[0])
-                .RuleFor(v => v.QuantityPerUnity, f => f.Commerce.Random.Even(0, 100))
-                .RuleFor(v => v.UnitSize, f => f.Commerce.Random.Decimal(0, 10.0m))
-                .RuleFor(v => v.UnitPrice, f => f.Commerce.Random.Decimal(0, 100.0m))
-                .RuleFor(v => v.UnitWeight, f => f.Random.Double())
-                .RuleFor(v => v.UnitsInStock, f => f.Random.Int(2, 10))
-                .RuleFor(v => v.UnitsOnOrder, f => f.Random.Int(0, 2))
-                .RuleFor(v => v.ProductAvailable, true)
-                .RuleFor(v => v.StockTrackingIsEnabled, true)
-                .RuleFor(v => v.Ranking, f => f.IndexVariable)
-                .RuleFor(v => v.Note, f => f.Lorem.Text())
-                .RuleFor(v => v.Price, f => Price.GetPriceFromString(f.Commerce.Price(1, 100, 2, "R$")))
-                .RuleFor(v => v.OldPrice, f => Price.GetPriceFromString(f.Commerce.Price(2, 200, 2, "R$")))
-                .RuleFor(v => v.HasDiscountApplied, false)
-                .RuleFor(v => v.IsPublished, true)
-                .RuleFor(v => v.Status, "Good")
-                .RuleFor(v => v.NotReturnable, f => false)
-                .RuleFor(v => v.ProductCost, f => f.Random.Decimal())
-                .RuleFor(v => v.AvailableForPreorder, f => false)
-                .RuleFor(v => v.CreatedOn, f => f.Date.Past())
-                .RuleFor(v => v.LatestUpdatedOn, f => f.Date.Between(f.Date.Recent(), f.Date.Soon()))
-                .RuleFor(v => v.PreOrderAvailabilityStartDate, f => f.Date.Future())
-                .RuleFor(v => v.BrandId, f => f.IndexVariable)
-                .RuleFor(v => v.CategoryId, f => f.IndexVariable)
-                .RuleFor(v => v.VendorId, f => f.IndexVariable)
-                .RuleFor(v => v.MediaId, f => f.IndexVariable);
-            var products = fakeProduct.Generate(count);
-            return products;
+                .Rules((f,v) => {
+                    v.Id = 0;
+                    v.ProductName = f.Commerce.ProductName();
+                    v.IsDeleted = false; 
+                    v.ThumbnailImage = f.Image.LoremPixelUrl(category:LoremPixelCategory.Fashion);
+                    v.SKU = f.Commerce.Random.AlphaNumeric(16);
+                    v.Slug = f.Lorem.Slug();                    
+                    v.QuantityPerUnity = f.Commerce.Random.Even(0, 100);
+                    v.AvailableSizes = "GG,G,M,P,PP";
+                    v.UnitPrice = f.Commerce.Random.Decimal(0, 100.0m);
+                    v.UnitWeight = f.Random.Double();
+                    v.UnitsInStock = f.Random.Int(2, 10);
+                    v.UnitsOnOrder = f.Random.Int(0, 2);
+                    v.ProductAvailable = true;
+                    v.StockTrackingIsEnabled = true;
+                    v.Ranking = f.IndexVariable;
+                    v.Note = f.Lorem.Sentence();
+                    v.Price = Price.GetPriceFromString(f.Commerce.Price(1, 100, 2, "R$"));
+                    v.OldPrice = Price.GetPriceFromString(f.Commerce.Price(2, 200, 2, "R$"));
+                    v.HasDiscountApplied = false;
+                    v.IsPublished = true;                    
+                    v.NotReturnable = false;
+                    v.ProductCost = f.Random.Decimal();
+                    v.AvailableForPreorder = false;
+                    v.CreatedOn = f.Date.Past();
+                    v.LatestUpdatedOn = f.Date.Between(f.Date.Recent(), f.Date.Soon());
+                    v.PreOrderAvailabilityStartDate = f.Date.Future();                    
+                    v.Brand = Seeders.BrandSeed(omitId:true).First(); 
+                    var vendor = Seeders.StormyVendorSeed().First();
+                    vendor.Address = new VendorAddress{
+                        Address = new Core.Entities.Common.Address("br","sp","Varginha","distrito 9","rua do conhecimento","","","40028922","666","busque conhecimento")
+                        
+                    };                    
+                    v.Vendor = vendor;
+                    
+                    Seeders.MediaSeed(1).ForEach(m => {                                                                                       
+                        
+                        v.AddMedia(m);
+                    });
+                    v.ThumbnailImage = f.Image.LoremPixelUrl(LoremPixelCategory.Fashion);
+                    var category = Seeders.CategorySeed(omitId:true).First();                    
+                    var parentCategory = Seeders.CategorySeed(omitId:true).First();                                                            
+                    category.Parent = parentCategory;
+                    v.Category = category;                             
+                    v.Width = f.Random.Decimal(1.0m,20.0m);
+                    v.Height = f.Random.Decimal(1.0m,20.0m);
+                    v.Length = f.Random.Decimal(1.0m,20.0m);
+                });
+            return fakeProduct.Generate(count);
         }
-        public static List<Shipment> ShipmentSeed(int count = 1)
+        public static List<Shipment> ShipmentSeed(int count = 1,bool omitId = false)
         {
-            var fakeShipment = new Faker<Shipment>("pt_BR")                
-                .RuleFor(v => v.Id, f => ++f.IndexVariable)
+            var fakeShipment = new Faker<Shipment>("pt_BR")
+                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, DateTimeOffset.UtcNow)
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(8.90m, 42.90m))
                 .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<string>("PAC", "Sedex"))
                 .RuleFor(v => v.ShipmentProvider, "Correios")
                 .RuleFor(v => v.ShippedDate, f => f.Date.Recent())
-                .RuleFor(v => v.TotalWeight, f => f.Random.Decimal(5.0m, 20.0m))                
+                .RuleFor(v => v.TotalWeight, f => f.Random.Decimal(5.0m, 20.0m))
                 .RuleFor(v => v.DeliveryDate, f => f.Date.Recent(4))
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(3.0m, 62.0m))
                 .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4))
                 .RuleFor(v => v.Comment, f => f.Lorem.Sentence())
                 .RuleFor(v => v.BillingAddressId, f => f.IndexVariable)
-                .RuleFor(v => v.DestinationAddressId, f => f.IndexVariable + 1)
-                .RuleFor(v => v.StormyCustomerId, f => f.IndexVariable);
-                //.RuleFor(v => v.;
+                .RuleFor(v => v.DestinationAddressId, f => f.IndexVariable + 1);                               
             return fakeShipment.Generate(count);
         }
         public static List<Entity> EntitySeed(int count = 1, string entityType = "Product", bool omitId = false)
@@ -88,7 +104,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             return fakeEntity.Generate(count);
         }
 
-        public static List<ProductAttributeGroup> ProductAttributeGroupSeed(int count = 1, bool omitId = false)
+        public static List<ProductAttributeGroup> ProductAttributeGroupSeed(int count = 1)
         {
             var fakeProductAttributeGroup = new Faker<ProductAttributeGroup>("pt_BR")
                .RuleFor(v => v.IsDeleted, false)
@@ -122,15 +138,17 @@ namespace StormyCommerce.Api.Framework.Extensions
             return fakeProductLink.Generate(count);
         }
 
-        public static List<Media> MediaSeed(int count = 1, bool omitId = false)
-        {
-            var fakeMedias = new Faker<Media>("pt_BR")
-                .RuleFor(v => v.Id, f => ++f.IndexVariable)
-                .RuleFor(v => v.FileName, f => f.Image.LoremPixelUrl("fashion"))
-                .RuleFor(v => v.FileSize, f => f.System.Random.Int())
-                .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, f => f.Date.Recent(14))
-                .RuleFor(v => v.MediaType, MediaType.Image);
+        public static List<ProductMedia> MediaSeed(int count = 1)
+        {            
+            var fakeMedias = new Faker<ProductMedia>("pt_BR")
+                .Rules((f,v) => {        
+                    v.Id = f.IndexFaker;            
+                    v.FileName = f.Image.LoremPixelUrl(LoremPixelCategory.Fashion);
+                    v.FileSize = f.System.Random.Int(5,100);
+                    v.IsDeleted = false;
+                    v.LastModified = f.Date.Recent(14);
+                    v.MediaType = MediaType.Image;
+                });
             return fakeMedias.Generate(count);
         }
 
@@ -149,10 +167,9 @@ namespace StormyCommerce.Api.Framework.Extensions
             return fakeBrands.Generate(count);
         }
 
-        public static List<StormyVendor> StormyVendorSeed(int count = 1, bool omitId = false)
+        public static List<StormyVendor> StormyVendorSeed(int count = 1)
         {
-            var fakeVendors = new Faker<StormyVendor>("pt_BR")
-                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
+            var fakeVendors = new Faker<StormyVendor>("pt_BR")                
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(27))
                 .RuleFor(v => v.CompanyName, f => f.Company.CompanyName())
@@ -169,7 +186,7 @@ namespace StormyCommerce.Api.Framework.Extensions
 
         public static List<Category> CategorySeed(int count = 1, bool omitId = false)
         {
-            var fakeCategory = new Faker<Category>("pt_BR")
+            var fakeCategory = new Faker<Category>("pt_BR")                
                 .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.LastModified, f => f.Date.Recent(24))
                 .RuleFor(v => v.Description, f => f.Lorem.Text())
@@ -180,56 +197,95 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.MetaDescription, f => f.Lorem.Text())
                 .RuleFor(v => v.Slug, f => f.Lorem.Slug())
                 .RuleFor(v => v.Name, f => f.Commerce.Categories(1)[0])
-                .RuleFor(v => v.ThumbnailImageUrl, f => f.Image.LoremPixelUrl("fashion"));
-            // .RuleFor(v => v.ParentId,f => f.Random.Int(1,count));
+                .RuleFor(v => v.ThumbnailImageUrl, f => f.Image.LoremPixelUrl("fashion"));                
             return fakeCategory.Generate(count);
         }
 
-        public static List<Address> AddressSeed(int count = 1, bool omitId = false)
+        public static List<CustomerAddress> AddressSeed(int count = 1, bool omitId = false)
         {
-            var fakeAddress = new Faker<Address>("pt_BR")
-                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
+            var fakeAddress = new Faker<CustomerAddress>("pt_BR")
+                .RuleFor(v => v.Id,f => omitId ? 0 : f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.FirstAddress, f => f.Address.StreetName())
-                .RuleFor(v => v.SecondAddress, f => f.Address.SecondaryAddress())
-                .RuleFor(v => v.PostalCode, f => f.Address.ZipCode())
-                .RuleFor(v => v.PhoneNumber, f => f.Phone.PhoneNumber())
-                .RuleFor(v => v.Street, f => f.Address.StreetAddress())
-                .RuleFor(v => v.State, f => f.Address.State())
-                .RuleFor(v => v.Number, f => f.Address.BuildingNumber())
-                .RuleFor(v => v.City, f => f.Address.City());
+                .RuleFor(v => v.Address, f => new Core.Entities.Common.Address
+                    (
+                        "BR",f.Address.State(),f.Address.StreetName(),
+                        f.Address.StreetName(),
+                        f.Address.StreetAddress(),
+                        f.Address.Direction(),
+                        f.Address.SecondaryAddress(),
+                        f.Address.ZipCode(),
+                        f.Address.BuildingNumber(),
+                        "no complement"
+                    )
+                );
             return fakeAddress.Generate(count);
         }
 
         public static List<StormyOrder> StormyOrderSeed(int count = 1)
         {
             var fakeOrder = new Faker<StormyOrder>("pt_BR")
-                .RuleFor(v => v.Comment, f => f.Lorem.Sentence())
-                .RuleFor(v => v.DeliveryCost, f => f.Finance.Amount(0, 100))
-                .RuleFor(v => v.DeliveryDate, f => f.Date.Soon(14))
-                .RuleFor(v => v.Discount, f => f.Finance.Amount(1, 100))
-                .RuleFor(v => v.IsCancelled, false)
-                .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, f => f.Date.Recent(14))
-                .RuleFor(v => v.Note, f => f.Lorem.Text())
-                .RuleFor(v => v.OrderDate, f => f.Date.Recent(4))
-                .RuleFor(v => v.PaymentDate, f => f.Date.Recent(2))
-                .RuleFor(v => v.PaymentMethod, f => f.Finance.TransactionType())
-                .RuleFor(v => v.PickUpInStore, f => f.Random.Bool())
-                .RuleFor(v => v.RequiredDate, f => f.Date.Soon(7))
-                .RuleFor(v => v.ShippedDate, f => f.Date.Soon(7))
-                .RuleFor(v => v.ShippingMethod, "Default")
-                .RuleFor(v => v.ShippingStatus, f => f.PickRandomWithout<ShippingStatus>())
-                .RuleFor(v => v.Status, f => f.PickRandomWithout<OrderStatus>())
-                .RuleFor(v => v.Tax, f => f.Finance.Amount(0, 50))
-                .RuleFor(v => v.TotalPrice, f => f.Finance.Amount(0, 100))
-                .RuleFor(v => v.TotalWeight, f => f.Commerce.Random.Decimal(1, 500))
-                .RuleFor(v => v.TrackNumber, f => f.Address.Random.AlphaNumeric(24))
-                .RuleFor(v => v.OrderUniqueKey, f => f.Commerce.Random.Guid());
-
+                .Rules((f,v) => {
+                    v.Comment = f.Lorem.Sentence();
+                    v.Discount = f.Finance.Amount(1, 100);
+                    v.IsCancelled = false;                    
+                    v.LastModified = f.Date.Recent(14);
+                    v.Note = f.Lorem.Text();
+                    v.OrderDate = f.Date.Recent(4);
+                    v.PaymentDate = f.Date.Recent(2);                    
+                    v.PickUpInStore = f.Random.Bool();
+                    v.RequiredDate = f.Date.Soon(7);                                                
+                    v.Status = f.PickRandom(new []{OrderStatus.New
+                        ,OrderStatus.OnHold
+                        ,OrderStatus.Complete
+                        ,OrderStatus.PendingPayment
+                        ,OrderStatus.PaymentReceived
+                        ,OrderStatus.Shipped
+                        ,OrderStatus.Shipping
+                        });
+                    v.Tax = f.Finance.Amount(0, 50);
+                    v.TotalPrice = f.Finance.Amount(0, 100);                             
+                    v.OrderUniqueKey = f.Commerce.Random.Guid();
+                    var shipment = Seeders.ShipmentSeed(omitId:true).First();
+                    var customer = Seeders.StormyCustomerSeed(omitId:true).First();
+                    customer.Id += 10;
+                    shipment.Order = v;                              
+                    v.Shipment = shipment;                    
+                    var items = Seeders.OrderItemSeed(2);                    
+                    var product = Seeders.StormyProductSeed().First();
+                    product.Id = product.Id + 50;
+                    int i = 0;
+                    items.ForEach(item => {
+                        item.Id += ++i + item.Id + f.IndexVariable;
+                        item.Product = product;
+                        item.Order = v;
+                        item.Shipment = shipment;
+                        v.AddItem(item);
+                    });                       
+                    var payment = Seeders.PaymentSeed();
+                    payment.Order = v; 
+                    payment.Amount = v.TotalPrice;
+                    payment.Id = 0;
+                    v.Payment = payment;                                                                                              
+                });                
             return fakeOrder.Generate(count);
         }
-
+        public static Payment PaymentSeed()
+        {
+            var fakePayment = new Faker<Payment>("pt_BR")
+                .RuleFor(v => v.PaymentFee,f => f.Finance.Amount())
+                .RuleFor(v => v.PaymentMethod,f => f.PickRandom(new [] {"boleto","credit_card"}))
+                .RuleFor(v => v.PaymentStatus,f => f.PickRandom(new [] {PaymentStatus.Authorized,PaymentStatus.Successful}))
+                .RuleFor(v => v.GatewayTransactionId,f => f.Finance.RoutingNumber())
+                .RuleFor(v => v.CreatedOn, DateTime.UtcNow);
+            return fakePayment.Generate(1).First();
+        }
+        public static List<OrderItem> OrderItemSeed(int count = 1)
+        {
+            var fakeOrderItem = new Faker<OrderItem>("pt_BR")                
+                .RuleFor(v => v.Price,f => Price.GetPriceFromCents("R$",f.Finance.Amount()))
+                .RuleFor(v => v.Quantity,f => f.Random.Int(1,5));           
+            return fakeOrderItem.Generate(count);     
+        }
         public static List<ProductTemplateProductAttribute> ProductTemplateProductAttribute(int count = 1)
         {
             var fakeProductTemplateProductAttribute = new Faker<ProductTemplateProductAttribute>("pt_BR")
@@ -246,38 +302,35 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.Name, f => f.Commerce.Product())
                 .RuleFor(v => v.ProductAttributes, ProductTemplateProductAttribute(count));
             return fakeProductTemplate.Generate(count);
-        }
+        }        
 
-        public static List<Review> ReviewSeed(int count = 1)
-        {
-            var fakeReview = new Faker<Review>("pt_BR")
-                .RuleFor(v => v.Id, f => ++f.IndexVariable)
-                .RuleFor(v => v.Comment, f => f.Rant.Review("product"))
-                .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, DateTime.UtcNow)
-                .RuleFor(v => v.RatingLevel, f => f.Random.Int(0, 5))
-                .RuleFor(v => v.Title, f => f.Lorem.Sentence());
-            return fakeReview.Generate(count);
-        }
-
-        public static List<StormyCustomer> StormyCustomerSeed(int count = 1)
+        public static List<StormyCustomer> StormyCustomerSeed(int count = 1,bool omitId = false)
         {
             var fakeCustomer = new Faker<StormyCustomer>()
-                .RuleFor(v => v.Id, f => ++f.IndexVariable)
-                .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, DateTime.UtcNow)
-                .RuleFor(v => v.Email, f => f.Internet.Email())
-                .RuleFor(v => v.EmailConfirmed, true)
-                .RuleFor(v => v.PhoneNumber, f => f.Person.Phone)
-                .RuleFor(v => v.PhoneNumberConfirmed, true)
-                .RuleFor(v => v.UserId, Guid.NewGuid().ToString())
-                .RuleFor(v => v.UserName, f => f.Internet.UserName())
-                .RuleFor(v => v.CPF, "000000000")
-                .RuleFor(v => v.CreatedOn, DateTime.UtcNow);
-            // .RuleFor(v => v.CustomerReviewsId, f => f.IndexVariable)
-            // .RuleFor(v => v.CustomerWishlistId, f => f.IndexVariable)
-            // .RuleFor(v => v.DefaultBillingAddressId, f => f.IndexVariable)
-            // .RuleFor(v => v.DefaultShippingAddressId, f => f.IndexVariable);
+                .Rules((f,v) => {            
+
+                    v.Id += omitId ? 0 : 2 + ++f.IndexVariable;
+                    v.IsDeleted = false;
+                    v.LastModified = DateTime.UtcNow;
+                    v.Email = f.Internet.Email();
+                    v.EmailConfirmed = true;
+                    v.PhoneNumber = f.Person.Phone;
+                    v.PhoneNumberConfirmed =  true;
+                    v.UserId =  Guid.NewGuid().ToString();
+                    v.UserName = f.Internet.UserName();
+                    v.CPF =  "000000000";
+                    v.CreatedOn =  DateTime.UtcNow;
+                    var addresses = Seeders.AddressSeed(2);                                    
+                    v.DefaultBillingAddress = addresses.First(); 
+                    v.DefaultShippingAddress = addresses.Last();                    
+                    v.Addresses.AddRange(addresses);                    
+                    var review = Seeders.ReviewSeed(count,omitId).First();
+                    review.Id += f.IndexVariable;
+                    review.Author = v; 
+                    v.CustomerReviews.Add(review);
+                    //TODO: Seed WishList                    
+                });                
+            
             return fakeCustomer.Generate(count);
         }
 
@@ -285,45 +338,13 @@ namespace StormyCommerce.Api.Framework.Extensions
         {
             var fakeReview = new Faker<Review>("pt_BR")
                 .RuleFor(v => v.Id, f => ignoreId ? 0 : ++f.IndexVariable)
-                .RuleFor(v => v.StormyCustomerId, f => f.IndexVariable)
+                .RuleFor(v => v.StormyCustomerId, Guid.NewGuid().ToString())
                 .RuleFor(v => v.Title, f => f.Lorem.Sentence())
                 .RuleFor(v => v.Comment, f => f.Rant.Review())
                 .RuleFor(v => v.ReviewerName, f => f.Person.FullName)
                 .RuleFor(v => v.RatingLevel, f => f.Random.Int(0, 5))
                 .RuleFor(v => v.Status, ReviewStatus.Approved);
             return fakeReview.Generate(count);
-        }
-        //TODO:A clean way to write all this?
-        public static List<StormyOrder> OrderSeed(int count = 1,bool ignoreId = false)
-        {
-            // var fakeOrder = new Faker<StormyOrder>("pt_BR")
-            //     .RuleFor(v => v.Id,f => ignoreId ? 0 : ++f.IndexVariable)
-            //     .RuleFor(v => v.IsCancelled,f => f.Random.Bool(0.2f))
-            //     .RuleFor(v => v.LastModified,f => f.Date.Recent())
-            //     .RuleFor(v => v.Note,f => f.Lorem.Sentence())
-            //     .Rules((f,v) => {
-            //         v.Id = ignoreId ? 0 : ++f.IndexVariable; 
-            //         v.IsCancelled = f.Random.Bool(0.2f);
-            //         v.LastModified = f.Date.Recent(); 
-            //         v.Note = f.Lorem.Sentence(); 
-            //         v.TotalPrice = f.Finance.Amount(1.99m,400); 
-            //         v.Discount = f.Finance.Amount(0,v.TotalPrice); 
-            //         v.TotalWeight = f.Random.Decimal(0.3m,2);
-            //         var fakeOrderItem = new Faker<OrderItem>().Rules((innerF,innerV) => {
-            //             innerV.Order = v; 
-            //             innerV.StormyOrderId = innerV.Id;
-            //             innerV.Id = ignoreId ? 0 : ++innerF.IndexVariable; 
-            //             innerV.IsDeleted = false; 
-            //             innerV.LastModified = v.LastModified; 
-            //             // innerV.Price = v                                                  
-            //         });
-            //         v.Items = f.Make<OrderItem>(f.Random.Int(1,count))
-                    
-                     
-
-
-            //     })
-            return new List<StormyOrder>();
-        }
+        }        
     }
 }

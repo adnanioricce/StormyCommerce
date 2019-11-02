@@ -20,7 +20,6 @@ namespace StormyCommerce.Module.Orders.Area.Models.Correios
         public decimal nVlDiametro  { get; set; }
         public string sCdMaoPropria { get; set; }
         public decimal nVlValorDeclarado { get; set; }
-        public string sCdAvisoRecebimento { get; set; }
-        // public string MyProperty { get; set; }
+        public string sCdAvisoRecebimento { get; set; }        
     }
 }

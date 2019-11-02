@@ -1,9 +1,0 @@
-.loading-screen{
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  &.active{
-    opacity: 1;
-    pointer-events: all;
-  }
-}

@@ -20,6 +20,7 @@ namespace StormyCommerce.Module.Mapping
                 mc.AddProfile(new CatalogProfile());
                 mc.AddProfile(new CustomerProfile());
                 mc.AddProfile(new PagarMeMapping());
+                mc.AddProfile(new ShippingProfile());
             });
             IMapper mapper = mapConfig.CreateMapper();
             serviceCollection.AddSingleton(mapper);

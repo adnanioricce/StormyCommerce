@@ -13,16 +13,13 @@ namespace StormyCommerce.Module.PagarMe.Services
 {    
     public class PagarMeWrapper
     {
-        private readonly PagarMeService _pagarMeService;
-        private readonly IStormyRepository<Payment> _paymentRepository;
+        private readonly PagarMeService _pagarMeService;        
         private readonly IMapper _mapper;
-        public PagarMeWrapper(PagarMeService pagarMeService,
-        IStormyRepository<Payment> paymentRepository,
+        public PagarMeWrapper(PagarMeService pagarMeService,        
         IMapper mapper)
         {            
             //if this doesn't work, try PagarMeService.GetDefaultService()
-            _pagarMeService = pagarMeService;            
-            _paymentRepository = paymentRepository;
+            _pagarMeService = pagarMeService;                        
             _mapper = mapper;            
         }        
         public async Task<List<Transaction>> GetAllTransactionAsync()

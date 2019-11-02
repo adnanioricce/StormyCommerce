@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
+using StormyCommerce.Core.Models;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
@@ -33,7 +35,16 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             _mapper = mapper;
             _logger = logger;
         }
-
+        [HttpGet("search")]
+        [ValidateModel]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(ProductSearchResponse),200)]
+        public async Task<Result<List<ProductSearchResponse>>> SearchProducts(string searchPattern)
+        {
+            var products = await _productService.SearchProductsBySearchPattern(searchPattern);
+            var mappedProduct = _mapper.Map<List<StormyProduct>,List<ProductSearchResponse>>(products);
+            return Result.Ok(mappedProduct);
+        }
         ///<summary>
         /// Get a more simplified version of a specified product
         ///</summary>
@@ -89,15 +100,17 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         [HttpPost("create")]
         [ValidateModel]
         [Authorize(Roles.Admin)]
-        public async Task<ActionResult> CreateProduct([FromBody]ProductDto _model)
-        {
-            var model = new StormyProduct(_model);
-            try{
+        public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
+        {            
+            try
+            {
+                var model = _mapper.Map<StormyProduct>(_model);
                 await _productService.InsertProductAsync(model);                
             }            
             //TODO:Change to a more specific Exception
             catch(Exception ex){
                 _logger.LogError($"don't was possible to create product, application returned the following exception:{ex}");
+                return BadRequest($"application failed to perform given operation. Given exception:{ex.Message}");
             }
             return Ok();
         }
@@ -105,11 +118,10 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         [HttpPut("edit")]
         [ValidateModel]
         [Authorize(Roles.Admin)]
-        public async Task<IActionResult> EditProduct([FromBody]ProductDto _model)
-        {            
-            var model = _mapper.Map<StormyProduct>(_model);       
+        public async Task<IActionResult> EditProduct([FromBody]StormyProduct _model)
+        {                        
             try{                 
-                await _productService.UpdateProductAsync(model);
+                await _productService.UpdateProductAsync(_model);
             }catch(Exception ex){
                 _logger.LogStackTrace(ex.Message,ex);
                 throw ex;

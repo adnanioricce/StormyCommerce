@@ -11,6 +11,7 @@ using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
+using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         //}
         [HttpPost("address/create")]
         [ValidateModel]
-        public async Task<IActionResult> AddAddressAsync([FromBody]Address address)
+        public async Task<IActionResult> AddAddressAsync([FromBody]CustomerAddress address)
         {            
             var customer = GetCurrentCustomer();                               
             await _customerService.AddCustomerAddressAsync(address,customer.Id);
@@ -65,23 +66,19 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         [ValidateModel]
         public async Task<ActionResult<CustomerDto>> GetCustomerByEmailOrUsernameAsync(string email,string username)
         {
-            return new CustomerDto(await _customerService.GetCustomerByUserNameOrEmail(email, username));
+            return _mapper.Map<CustomerDto>(await _customerService.GetCustomerByUserNameOrEmail(email, username));
         }
         [HttpPost("createcustomer")]
+        [AllowAnonymous]
         [ValidateModel]
-        public async Task<IActionResult> CreateCustomerAsync([FromBody]CustomerDto customerDto)
-        {            
-            var customer = await _customerService.GetCustomerByUserNameOrEmail(customerDto.UserName, customerDto.Email);
-
+        public async Task<IActionResult> CreateCustomerAsync([FromBody]CreateCustomerRequest model)
+        {                        
+            var customer = await _customerService.GetCustomerByUserNameOrEmail(model.UserName, model.Email);
             if (customer != null) return BadRequest("Given Email or Username already exists");                
-
-            if (customerDto == null) return BadRequest("given request is null");
-
-            customer = _mapper.Map<CustomerDto, StormyCustomer>(customerDto);
-
+            customer = _mapper.Map<CreateCustomerRequest, StormyCustomer>(model);
             if (customer == null) return BadRequest("failed to map given customer");
 
-            await _customerService.CreateCustomerAsync(customerDto);
+            await _customerService.CreateCustomerAsync(customer);
             return Ok();
         }
         [HttpPost("edit")]

@@ -29,8 +29,7 @@ namespace StormyCommerce.Core.Entities.Catalog
             IsPublished = category.IsPublished;
             IncludeInMenu = category.IncludeInMenu;
             ParentId = category.ParentId;
-            Parent = category.Parent == null ? new Category() : category.Parent;
-            Childrens = category.Childrens;
+            Parent = category.Parent ?? new Category();            
             ThumbnailImageUrl = category.ThumbnailImageUrl;
         }
 
@@ -47,15 +46,9 @@ namespace StormyCommerce.Core.Entities.Catalog
             IsPublished = category.IsPublished;
             IncludeInMenu = category.IncludeInMenu;
             ParentId = category.ParentId;
-            Parent = category.Parent;
-            Childrens = category.Childrens;
+            Parent = category.Parent;            
             ThumbnailImageUrl = category.ThumbnailImageUrl;
-        }
-
-        public List<CategoryDto> ToCategoryDtoChildrens()
-        {
-            return this.Childrens.Select(children => new CategoryDto(children)).ToList();
-        }
+        }        
 
         public string Name { get; set; }
         public string Slug { get; set; }
@@ -67,18 +60,8 @@ namespace StormyCommerce.Core.Entities.Catalog
         public bool IsPublished { get; set; }
         public bool IncludeInMenu { get; set; }
         public long? ParentId { get; set; }
-        public Category Parent { get; set; }
-        public IList<Category> Childrens { get; protected set; } = new List<Category>();
-        public string ThumbnailImageUrl { get; set; }
-
-        public void AddChildren(Category category)
-        {
-            Childrens.Add(category);
-        }
-
-        public void AddChildren(List<Category> categories)
-        {
-            categories.ForEach(c => Childrens.Add(c));
-        }
+        public long? ChildrenId { get; set; }
+        public Category Parent { get; set; }        
+        public string ThumbnailImageUrl { get; set; }        
     }
 }

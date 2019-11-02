@@ -7,6 +7,7 @@ using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
+using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using StormyCommerce.Module.Catalog.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,7 +72,8 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             var result = (await _productController.GetAllProductsOnHomepage(limit));
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(15, result.Value.Count);
+            //Yeah, the method start from zero, so the final result is 16, instead of 15
+            Assert.Equal(16, result.Value.Count);
         }
 
         [Fact]
@@ -91,14 +93,41 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
         public async Task CreateProduct_GivenModelIsValidDto_CreateNewEntryOnDatabase()
         {
             // Arrange
-            var product = Seeders.StormyProductSeed(1).FirstOrDefault();
-
-            var model = new ProductDto(product, 21);
+            var model = GetCreateProductRequestModel(Seeders.StormyProductSeed().FirstOrDefault());            
             // Act
             var result = await _productController.CreateProduct(model);
             // Assert
             var objResult = Assert.IsAssignableFrom<OkResult>(result);
             Assert.Equal(200, objResult.StatusCode);
+        }
+        private CreateProductRequest GetCreateProductRequestModel(StormyProduct product)
+        {
+            return new CreateProductRequest{
+                Description = product.Description,
+                ShortDescription = product.Description,
+                SKU = product.SKU,
+                Diameter = product.Diameter,
+                Height = product.Height,
+                Length = product.Length,
+                Width = product.Width,
+                AvailableSizes = "P,M,G,GG",
+                ProductCost = product.ProductCost,
+                ProductName = product.ProductName,
+                Brand = new BrandDto(product.Brand),
+                Category = new CategoryDto(product.Category),
+                Vendor = new VendorDto(product.Vendor),
+                QuantityPerUnity = product.QuantityPerUnity,
+                UnitPrice = product.UnitPrice,
+                UnitWeight = product.UnitWeight,
+                UnitsInStock = product.UnitsInStock,
+                ProductAvailable = true,
+                ThumbnailImage = product.ThumbnailImage,
+                Medias = product.Medias,
+                Links = product.Links.Select(p => p.ToProductLinkDto()).ToList(),
+                Note = product.Note,
+                Ranking = product.Ranking,                
+                Discount = product.Discount,
+            };
         }
     }
 }
