@@ -24,8 +24,8 @@ namespace StormyCommerce.Core.Services.Catalog
             .Include(p => p.Brand)
             .Include(p => p.Category)
                 .ThenInclude(c => c.Parent)
-            .Include(p => p.Vendor)
-            .Include(p => p.Medias)
+            .Include(p => p.Vendor) 
+            .Include(P => P.Medias)                
             .Load();
         }
         #region Read Methods
@@ -49,8 +49,7 @@ namespace StormyCommerce.Core.Services.Catalog
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 1, long endIndex = 15)
         {
             return await _productRepository.Table
-                .Include(prop => prop.Category)
-                .Include(prop => prop.Medias)
+                .Include(prop => prop.Category)                
                 .Include(prop => prop.Brand)
                 .Include(prop => prop.Vendor)
                 .Where(product => product.Id <= endIndex && product.Id >= startIndex)
@@ -178,10 +177,7 @@ namespace StormyCommerce.Core.Services.Catalog
                 .Include(p => p.Medias)
                 .Include(p => p.Links)
                 .FirstOrDefaultAsync();                                
-            createdProduct.ProductName = createdProduct.ProductName.Replace(' ','-');
-            // medias.ForEach(m => createdProduct.AddMedia(m));
-            // links.ForEach(link => createdProduct.AddProductLinks(link));
-            // await _productRepository.UpdateAsync(createdProduct);
+            createdProduct.ProductName = createdProduct.ProductName.Replace(' ','-');            
         }
 
         public async Task InsertProductsAsync(IList<StormyProduct> products)
@@ -203,8 +199,7 @@ namespace StormyCommerce.Core.Services.Catalog
         public async Task<List<StormyProduct>> SearchProductsBySearchPattern(string searchPattern)
         {
             return await _productRepository.Table
-                .Where(p => EF.Functions.Like(p.ProductName, "%" + searchPattern + "%"))
-                //.Where(p => EF.Functions.Like(p.ShortDescription, $"%{searchPattern}%"))
+                .Where(p => EF.Functions.Like(p.ProductName, "%" + searchPattern + "%"))                
                 .ToListAsync();                                        
         }
         #endregion
