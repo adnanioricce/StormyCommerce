@@ -10,7 +10,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             modelBuilder.Entity<Category>(builder =>
             {
                 builder.HasQueryFilter(category => category.IsDeleted == false);
-                builder.HasKey(category => category.Id);
+                builder.HasKey(category => category.Id);                
                 builder.Property(category => category.Name).HasMaxLength(450).IsRequired();
                 builder.Property(category => category.Slug).HasMaxLength(450).IsRequired();
                 builder.Property(category => category.MetaTitle).HasMaxLength(450);

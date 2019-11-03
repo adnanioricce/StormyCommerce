@@ -30,13 +30,16 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dto => dto.Category, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dto => dto.Medias, opt => opt.MapFrom(src => src.Medias))
                 .ForMember(dto => dto.ThumbnailImage, opt => opt.MapFrom(src => src.ThumbnailImage));
+            CreateMap<CreateProductRequest,StormyProduct>();                
             CreateMap<Brand, BrandDto>();
             CreateMap<Category, CategoryDto>()
                 .ForMember(dto => dto.Parent,opt => opt.MapFrom(src => src.Parent));                
+            CreateMap<CategoryDto, Category>()
+                .ForMember(c => c.Id,opt => opt.MapFrom(cdto => cdto.Id));
             CreateMap<StormyVendor, VendorDto>();
             CreateMap<Media, MediaDto>();
             CreateMap<VendorDto, StormyVendor>();
-            CreateMap<CategoryDto, Category>();
+            
             CreateMap<BrandDto, Brand>();
             CreateMap<ProductDto, StormyProduct>()                                
                 .ForPath(src => src.OldPrice.Value,opt => opt.MapFrom(src => Price.GetPriceFromString(src.OldPrice)))

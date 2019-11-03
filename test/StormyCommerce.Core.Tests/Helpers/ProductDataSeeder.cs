@@ -36,7 +36,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 Brand = new Brand{
                     Name = "Nike"
                 },
-                ProductName = "Zeus"
+                ProductName = "Nike Shirt Zeus"
             };
         }
 

@@ -114,6 +114,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Assert
             Assert.Equal(sampleProduct, product);
             Assert.Equal(sampleProduct.Id, product.Id);
+            Assert.Equal("Nike-Shirt-Zeus",sampleProduct.ProductName);
         }
 
         [Fact]
