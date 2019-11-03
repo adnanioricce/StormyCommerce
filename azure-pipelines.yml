@@ -89,8 +89,7 @@ jobs:
     condition: succeededOrFailed()
     inputs:
       testResultsFormat: VSTest
-      testResultsFiles: '**/*.trx' 
-    
+      testResultsFiles: '**/*.trx'  
   - task: DotNetCoreCLI@2
     inputs:
       command: publish 
@@ -100,3 +99,4 @@ jobs:
   - script: dotnet build src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj 
   - task: PublishBuildArtifacts@1
   displayName: 'publish artifacts'
+
