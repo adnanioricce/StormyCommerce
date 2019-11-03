@@ -32,6 +32,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(c => c.Id,opt => opt.MapFrom(cdto => cdto.Id));
             CreateMap<StormyVendor, VendorDto>();
             CreateMap<Media, MediaDto>();
+            CreateMap<ProductMedia,ProductMediaDto>();
             CreateMap<VendorDto, StormyVendor>();
             
             CreateMap<BrandDto, Brand>();
