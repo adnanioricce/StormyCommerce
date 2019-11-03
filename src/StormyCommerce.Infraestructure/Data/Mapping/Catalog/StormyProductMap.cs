@@ -53,7 +53,10 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.HasOne(product => product.Vendor).WithMany(prop => prop.Products).HasForeignKey(p => p.VendorId);                
                 entity.HasMany(product => product.Medias).WithOne().HasForeignKey(m => m.StormyProductId).OnDelete(DeleteBehavior.Cascade);
                 entity.HasMany(product => product.Links).WithOne(l => l.Product).HasForeignKey(l => l.ProductId);
-                entity.HasOne(product => product.Category).WithOne();
+                entity.HasOne(product => product.Category)
+                .WithMany()
+                .HasForeignKey(prop => prop.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);                
                 entity.Property(product => product.SKU).IsRequired();
                 entity.Property(product => product.ProductName).HasMaxLength(400).IsRequired();                
                 entity.Property(product => product.QuantityPerUnity).IsRequired();
@@ -70,7 +73,11 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
             modelBuilder.Entity<ProductMedia>(entity =>
             {                
                 entity.HasKey(prop => prop.Id);                
-                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();                                              
+                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();   
+                entity.HasOne(prop => prop.Product)
+                .WithMany(p => p.Medias)
+                .HasForeignKey(p => p.StormyProductId)
+                .OnDelete(DeleteBehavior.Restrict);                                           
             });
             modelBuilder.Entity<Stock>(e => { 
                 e.Property(prop => prop.Id).ValueGeneratedOnAdd();

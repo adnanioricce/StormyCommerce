@@ -199,11 +199,11 @@ namespace SimplCommerce.WebHost
                             dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
                         }
                     }
-                    var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-                    var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
-                    new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
                     if (!dbContext.Database.IsSqlServer())
                     {
+                        var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                        var roleManager = (RoleManager<ApplicationRole>)scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
+                        new IdentityInitializer(dbContext, userManager, roleManager).Initialize();                   
                         dbContext.SeedDbContext();
                     }
                 }

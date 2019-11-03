@@ -43,10 +43,8 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public string Slug { get; set; }
         public string MetaKeywords { get; set; }
         public string MetaDescription { get; set; }
-        public string MetaTitle { get; set; }
-        public long CreatedById { get; set; }
-        public long BrandId { get; set; }
-        public long ProductMediaId { get; set; }
+        public string MetaTitle { get; set; }        
+        public long BrandId { get; set; }        
         public long VendorId { get; set; }
         public long CategoryId { get; set; }
         public long? MediaId { get; set; }
@@ -108,6 +106,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public int RatingAverage { get; set; }        
         public void AddMedia(ProductMedia media)
         {
+            media.Product = this;
             Medias.Add(media);
         }
 
@@ -130,16 +129,16 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         }
         public string GenerateSlug()
         {
-            return String.Format($"{0}-{1}-{2}",this.Category.Name,this.Brand,this.ProductName);
+            return String.Format($"{0}-{1}-{2}",this.Category.Name,this.Brand.Name,this.ProductName);
         }
         public ProductDto ToProductDto()
         {
             return new ProductDto(this);
         }
         
-        public decimal CalculateDimensions()
+        public decimal CalculateDimensions(int quantity)
         {                      
-            return Height + Width + Length;
+            return Height * Width * Length * quantity;
         }
     }
 }

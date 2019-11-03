@@ -47,7 +47,7 @@ namespace StormyCommerce.Modules.IntegrationTest
                         }
                     }
                     var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-                    var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                    var roleManager = (RoleManager<ApplicationRole>)scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
                     new IdentityInitializer(dbContext, userManager, roleManager).Initialize();                    
                     dbContext.SeedDbContext();                    
                 }

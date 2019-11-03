@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +12,10 @@ namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductService : IProductService
     {
-        private readonly IStormyRepository<StormyProduct> _productRepository;
+        private readonly IStormyRepository<StormyProduct> _productRepository;           
+
         //TODO: I Think a service for this is unecessary        
-        public ProductService(IStormyRepository<StormyProduct> productRepository
+        public ProductService(IStormyRepository<StormyProduct> productRepository        
         )
         {
             _productRepository = productRepository;
@@ -33,13 +32,16 @@ namespace StormyCommerce.Core.Services.Catalog
         //TODO:write failing test cases
         public async Task<Result<IList<StormyProduct>>> GetAllProductsByCategory(int categoryId, int limit = 15)
         {
-            return new Result<IList<StormyProduct>>(await _productRepository.Table.Where(product => product.CategoryId == categoryId && product.Id <= limit).ToListAsync(), true, "none");
+            return new Result<IList<StormyProduct>>(await _productRepository.Table
+            .Where(product => product.CategoryId == categoryId)
+            .Take(limit)
+            .ToListAsync(), true, "none");
         }
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
         {
             return await _productRepository
                 .Table
-                .Where(f => f.Id < limit)//use !
+                .Take(limit)
                 .ToListAsync();
         }
 
@@ -138,11 +140,18 @@ namespace StormyCommerce.Core.Services.Catalog
 
         public async Task DeleteProducts(IList<StormyProduct> products)
         {
+            products.ToList().ForEach(p => p.IsDeleted = true);
             await UpdateProductsAsync(products);
         }
-        public Task DeleteProductAsync(StormyProduct product)
+        public async Task DeleteProductAsync(StormyProduct product)
         {
-            throw new NotImplementedException();
+            var entry = await _productRepository.GetByIdAsync(product.Id) ?? throw new ArgumentNullException("product don't exist");
+            try{
+                _productRepository.Delete(entry);
+            } catch(Exception ex){                
+                throw ex; 
+            }
+
         }
         public Task DeleteProductsAsync(IList<StormyProduct> products)
         {
@@ -152,13 +161,27 @@ namespace StormyCommerce.Core.Services.Catalog
         #region Insert Methods
         //TODO:Create slugs with EntityService
         public async Task InsertProductAsync(StormyProduct product)
-        {
-            product.Slug = product.GenerateSlug();
-            try {
+        {                                 
+            product.Price = Price.GetPriceFromCents("R$",product.UnitPrice);
+            product.OldPrice = Price.GetPriceFromCents("R$",product.UnitPrice);            
+            try 
+            {                
                 await _productRepository.AddAsync(product);
+                                                                                        
             } catch (Exception ex) {
                 throw ex;
             }
+            var createdProduct = await _productRepository.Table
+                .Where(p => p.Id == product.Id)
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Medias)
+                .Include(p => p.Links)
+                .FirstOrDefaultAsync();                                
+            createdProduct.ProductName = createdProduct.ProductName.Replace(' ','-');
+            // medias.ForEach(m => createdProduct.AddMedia(m));
+            // links.ForEach(link => createdProduct.AddProductLinks(link));
+            // await _productRepository.UpdateAsync(createdProduct);
         }
 
         public async Task InsertProductsAsync(IList<StormyProduct> products)
@@ -185,6 +208,10 @@ namespace StormyCommerce.Core.Services.Catalog
                 .ToListAsync();                                        
         }
         #endregion
+        private bool IsSlugValid(StormyProduct product,string brandName,string categoryName)
+        {
+            return product.ProductName.Contains(brandName) && product.ProductName.Contains(categoryName);
+        }
 
     }
 }

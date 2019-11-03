@@ -24,8 +24,9 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
         public OrderServiceTests()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);            
-            this.mockStormyRepositoryOrderHistory = this.mockRepository.Create<IStormyRepository<OrderHistory>>();            
-            // this.mockStormyRepositoryOrderHistory.Setup(r => r.AddAsync(It.IsAny<OrderHistory>()))
+            this.mockStormyRepositoryOrderHistory = this.mockRepository.Create<IStormyRepository<OrderHistory>>();       
+            this.mockStormyRepositoryOrderHistory.Setup(r => r.AddAsync(It.IsAny<OrderHistory>()))
+            .Callback(() => Console.WriteLine(""));                 
         }
 
         public void Dispose()

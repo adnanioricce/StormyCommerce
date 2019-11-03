@@ -10,12 +10,12 @@ namespace StormyCommerce.Module.Customer.Data
     {
         private readonly StormyDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         public IdentityInitializer(
             StormyDbContext context,
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<ApplicationRole> roleManager)
         {
             _context = context;
             _userManager = userManager;
@@ -27,7 +27,7 @@ namespace StormyCommerce.Module.Customer.Data
             if (!_roleManager.RoleExistsAsync(Roles.Admin).Result)
             {
                 var resultado = _roleManager.CreateAsync(
-                    new IdentityRole(Roles.Admin)).Result;
+                    new ApplicationRole(Roles.Admin)).Result;
                 if (!resultado.Succeeded)
                 {
                     throw new Exception(
@@ -36,12 +36,12 @@ namespace StormyCommerce.Module.Customer.Data
             }
             if (!_roleManager.RoleExistsAsync(Roles.Guest).Result)
             {
-                var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Guest)).Result;
+                var resultado = _roleManager.CreateAsync(new ApplicationRole(Roles.Guest)).Result;
                 if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Guest}");
             }
             if (!_roleManager.RoleExistsAsync(Roles.Customer).Result)
             {
-                var resultado = _roleManager.CreateAsync(new IdentityRole(Roles.Customer)).Result;
+                var resultado = _roleManager.CreateAsync(new ApplicationRole(Roles.Customer)).Result;
                 if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Customer}");
             }
 

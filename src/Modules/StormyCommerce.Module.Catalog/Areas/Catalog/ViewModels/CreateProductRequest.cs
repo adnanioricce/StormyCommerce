@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Entities.Vendor;
+
 namespace StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels
 {
     public class CreateProductRequest
@@ -12,11 +14,11 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels
         [Required]
         public string SKU { get; set; }       
         [Required]
-        public BrandDto Brand { get; set; }
+        public Brand Brand { get; set; }
         [Required]
         public CategoryDto Category { get; set; } 
         [Required]
-        public VendorDto Vendor { get; set; }
+        public StormyVendor Vendor { get; set; }
         [Required]
         [StringLength(450)]
         public string ShortDescription { get; set; }
