@@ -1,29 +1,35 @@
-﻿using System.Text.Encodings.Web;
-using System.Text.Unicode;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.WebEncoders;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.IdentityModel.Logging;
 using SimplCommerce.Infrastructure;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.WebHost.Extensions;
-using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Infraestructure.Data.Repositories;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.Infraestructure.Data.Repositories;
+using StormyCommerce.Infraestructure.Entities;
+using StormyCommerce.Infraestructure.Logging;
 using StormyCommerce.Module.Customer.Data;
+using SimplCommerce.Module.SampleData;
+using Swashbuckle.AspNetCore.Swagger;
+
+using System.IO;
+using System.Net.Http;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+using System.Reflection;
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimplCommerce.WebHost
 {
@@ -31,44 +37,91 @@ namespace SimplCommerce.WebHost
     {
         protected readonly IHostingEnvironment _hostingEnvironment;
         protected readonly IConfiguration _configuration;
-        private string _moviesApiKey = null;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment, ILogger<Startup> logger,ILoggerFactory loggerFactory)
         {
             _configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
-            Container.Configuration = configuration;            
+            Container.Configuration = configuration;
+            Container.loggerFactory = loggerFactory;
+            string defaultCertPath = configuration.GetSection("Kestrel:Certificate:Default:Path").Value;
+            logger.LogInformation($"Kestrel Default cert path: {defaultCertPath}");
+            if (!string.IsNullOrEmpty(defaultCertPath))
+            {
+                if (File.Exists(defaultCertPath))
+                {
+                    logger.LogInformation("Default Cert file exists");
+                }
+                else
+                {
+                    logger.LogInformation("Default Cert file does not exists!");
+                }
+            }
+            logger.LogInformation($"Kestrel Default cert pass:{_configuration.GetSection("Kestrel:Certificates:Default:Password")}");
+
+            string devCertPath = configuration.GetSection("Kestrel:Certificates:Development:Path").Value;
+            logger.LogInformation($"Kestrel Development cert path:{devCertPath}");
+            if (!string.IsNullOrEmpty(devCertPath))
+            {
+                if (File.Exists(devCertPath))
+                {
+                    logger.LogInformation("Development Cert file exists");
+                }
+                else
+                {
+                    logger.LogInformation("Development Cert file does NOT exists!");
+                }
+            }
+            logger.LogInformation($"Kestrel Development cert pass: {_configuration.GetSection("Kestrel:Certificates:Development:Password")}");
+            Container.Configuration = configuration;
+            logger.LogInformation("************Inside constructor logging https details*****************");
+            logger.LogInformation($"Kestrel cert path:- {configuration.GetSection("Kestrel:Certificates:Default:Path").Value}");
+            if (File.Exists(configuration.GetSection("Kestrel:Certificates:Default:Path").Value))
+                logger.LogInformation("************Cert file exist:)*****************");
+            else
+            {
+                logger.LogInformation("************Cert file don't exist:)*****************");
+            }
+            logger.LogInformation($"Kestrel cert path:- {configuration.GetSection("Kestrel:Certificates:Default:Password").Value}");
         }
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
-            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;            
+            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;
+            services.AddApiVersioning(options => {
+                options.ReportApiVersions = true;
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+            });
+            // services.AddSingleModule(_hostingEnvironment.ContentRootPath,"StormyCommerce.Module.Shipping");
             services.AddModules(_hostingEnvironment.ContentRootPath);
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddStormyDataStore(_configuration);
-            //services.AddCustomizedIdentity(_configuration);
-            services.AddHttpClient();
-            services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));            
-            //TODO: Move this to a module
-            // services.AddTransient<UserManager<ApplicationUser>>();
-            // services.AddTransient<SignInManager<ApplicationUser>>();
-            //services.AddCustomizedLocalization();
-
-            // services.AddCustomizedMvc(GlobalConfiguration.Modules);
+            if(_hostingEnvironment.IsProduction()){
+                services.AddStormyDataStore(_configuration);
+            } else {
+                services.AddDbContextPool<StormyDbContext>(options => {
+                    options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                    options.EnableDetailedErrors();
+                    options.EnableSensitiveDataLogging();
+                });
+            }
+            services.AddMappings();            
+            services.AddHttpClient();                        
+            services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
+            services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+            services.AddTransient<HttpClient>();
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander()); });
             services.Configure<WebEncoderOptions>(options =>
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
-            });            
+            });
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-Token");
             services.AddSingleton<AutoValidateAntiforgeryTokenAuthorizationFilter, CookieOnlyAutoValidateAntiforgeryTokenAuthorizationFilter>();
             services.AddCloudscribePagination();
@@ -80,25 +133,32 @@ namespace SimplCommerce.WebHost
                 moduleInitializer.ConfigureServices(services);
             }
 
-            //services.AddScoped<ServiceFactory>(p => p.GetService);            
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "StormyCommerce API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { 
+                    Title = "StormyCommerce API", 
+                    Version = "v1",
+                    Description = "a customized version of the <a href='https://github.com/simplcommerce/SimplCommerce'>SimplCommerce</a> project, build to finish a final paper project"                    
+                    });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
-            services.AddMvc();
-            services.AddCors(o => o.AddPolicy("Default",builder => {
+            services.AddCors(o => o.AddPolicy("Default", builder =>
+            {
                 builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();
-                builder.AllowAnyHeader();
+                builder.AllowAnyHeader();                
             }));
+            services.AddMvc();
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var result = string.IsNullOrEmpty(_moviesApiKey) ? "Null" : "Not Null";            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                IdentityModelEventSource.ShowPII = true;
             }
             else
             {
@@ -107,15 +167,14 @@ namespace SimplCommerce.WebHost
                     a => a.UseExceptionHandler("/Home/Error")
                 );
                 app.UseHsts();
-            }
-
+            }            
             app.UseWhen(
                 context => !context.Request.Path.StartsWithSegments("/api"),
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
             );
 
-            app.UseHttpsRedirection();
-            app.UseCustomizedStaticFiles(env);
+            // app.UseHttpsRedirection();
+            // app.UseCustomizedStaticFiles(env);
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -124,19 +183,31 @@ namespace SimplCommerce.WebHost
             });
 
             app.UseCookiePolicy();
-            // app.UseCustomizedIdentity();
-            //app.UseCustomizedRequestLocalization();
-            //app.UseCustomizedMvc();
-            app.UseMvc();
-            
-            
-
+            app.UseCors("Default");
+            app.UseMvc();            
             var moduleInitializers = app.ApplicationServices.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
             {
                 moduleInitializer.Configure(app, env);
-            }                        
+            }
+            using (var scope = app.ApplicationServices.CreateScope()){
+                using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>()){
+                    if (dbContext.Database.IsSqlite())
+                    {
+                        if (dbContext.Database.EnsureDeleted())
+                        {
+                            dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                        }
+                    }
+                    var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                    var roleManager = (RoleManager<IdentityRole>)scope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                    new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
+                    if (!dbContext.Database.IsSqlServer())
+                    {
+                        dbContext.SeedDbContext();
+                    }
+                }
+            }
         }
-        
     }
 }

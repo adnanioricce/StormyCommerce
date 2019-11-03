@@ -1,12 +1,12 @@
 ﻿// Reference from Maarten Balliauw, https://blog.maartenballiauw.be/post/2017/08/01/building-a-scheduled-cache-updater-in-aspnet-core-2.html
 
+using Microsoft.Extensions.Hosting;
+using NCrontab;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using NCrontab;
 
 namespace SimplCommerce.Infrastructure.Tasks.Scheduling
 {

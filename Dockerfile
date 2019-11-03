@@ -1,47 +1,18 @@
-FROM stormycommerce/base-sdk:latest AS build-env
-  
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 COPY . ./
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
+RUN dotnet restore "src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj"
+RUN dotnet build SimplCommerce.sln
+WORKDIR "/src/SimplCommerce.WebHost"
+RUN dotnet build "SimplCommerce.WebHost.csproj" -c Release -o /app
 
-RUN sed -i 's#<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.1" />#<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />#' src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj
-RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Program.cs
-RUN sed -i 's/UseSqlServer/UseNpgsql/' src/SimplCommerce.WebHost/Extensions/ServiceCollectionExtensions.cs
+FROM build AS publish
+RUN dotnet publish "SimplCommerce.WebHost.csproj" -c Release -o /app
 
-RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost/appsettings.docker.json src/SimplCommerce.WebHost/appsettings.json
-
-# ef core migrations run in debug, so we have to build in Debug for copying module correctly 
-RUN dotnet restore SimplCommerce.sln & dotnet build SimplCommerce.sln\
-    && cd src/SimplCommerce.WebHost \
-    && dotnet ef migrations add initialSchema \
-    && dotnet ef migrations script -o dbscript.sql
-
-RUN dotnet build *.sln -c Release \
-    && cd src/SimplCommerce.WebHost \
-    && ls -l \
-    && dotnet build -c Release \
-    && dotnet publish -c Release -o out
-
-# remove BOM for psql	
-RUN sed -i -e '1s/^\xEF\xBB\xBF//' /app/src/SimplCommerce.WebHost/dbscript.sql
-
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
-
-# hack to make postgresql-client install work on slim
-RUN mkdir -p /usr/share/man/man1 \
-    && mkdir -p /usr/share/man/man7
-
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends postgresql-client \
-	&& apt-get install libgdiplus -y \
-	&& rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app	
-COPY --from=build-env /app/src/SimplCommerce.WebHost/out ./
-COPY --from=build-env /app/src/SimplCommerce.WebHost/dbscript.sql ./
-
-#RUN curl -SL "https://github.com/rdvojmoc/DinkToPdf/raw/v1.0.8/v0.12.4/64%20bit/libwkhtmltox.so" --output ./libwkhtmltox.so
-
-COPY --from=build-env /app/docker-entrypoint.sh /
-RUN chmod 755 /docker-entrypoint.sh
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "SimplCommerce.WebHost.dll"]

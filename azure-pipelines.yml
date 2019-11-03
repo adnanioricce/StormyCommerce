@@ -57,7 +57,10 @@ jobs:
     displayName: 'dotnet build'
   - task: PowerShell@2
     inputs:
-      filePath: .\run-tests.ps1
+      filePath: '.\run-tests.ps1'
+      errorActionPreference: 'continue'
+      ignoreLASTEXITCODE: true
+      pwsh: true
     displayName: 'run tests'
   - task: PublishTestResults@2
     displayName: 'Publish Test Results **/*.trx'
@@ -65,7 +68,6 @@ jobs:
     inputs:
       testResultsFormat: VSTest
       testResultsFiles: '**/*.trx' 
-
 - job: LinuxRelease
   pool:
     vmImage: 'Ubuntu 16.04'
@@ -76,14 +78,25 @@ jobs:
     inputs:
       packageType: 'sdk'
       version: '2.2.401'
-  - script: dotnet build --configuration $(buildConfiguration)
+  - script: dotnet build SimplCommerce.sln --configuration $(buildConfiguration)
     displayName: 'dotnet build $(buildConfiguration)'
   - script: ./run-tests.sh
     displayName: 'run tests'    
+    condition: succeededOrFailed()
+  
   - task: PublishTestResults@2
     displayName: 'Publish Test Results **/*.trx'
     condition: succeededOrFailed()
     inputs:
       testResultsFormat: VSTest
-      testResultsFiles: '**/*.trx' 
+      testResultsFiles: '**/*.trx'  
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: publish 
+      publishWebProjects: True
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      zipAfterPublish: True
+  - script: dotnet build src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj 
   - task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'
+

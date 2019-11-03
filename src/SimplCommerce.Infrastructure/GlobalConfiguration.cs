@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using SimplCommerce.Infrastructure.Localization;
+﻿using SimplCommerce.Infrastructure.Localization;
 using SimplCommerce.Infrastructure.Modules;
+using System.Collections.Generic;
 
 namespace SimplCommerce.Infrastructure
 {

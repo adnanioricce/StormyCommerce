@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace SimplCommerce.Infrastructure.Web
 {

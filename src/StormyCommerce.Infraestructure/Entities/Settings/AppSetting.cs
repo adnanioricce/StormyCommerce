@@ -7,6 +7,7 @@
         {
             Id = id;
         }
+
         public string Value { get; set; }
         public string Module { get; set; }
         public bool IsVisibleInCommonSettingPage { get; set; }

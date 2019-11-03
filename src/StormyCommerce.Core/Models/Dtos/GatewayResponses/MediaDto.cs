@@ -6,12 +6,13 @@ namespace StormyCommerce.Module.Catalog.Dtos
     {
         public MediaDto()
         {
-
         }
+
         public MediaDto(Media media)
         {
             Filename = media.FileName;
         }
-        public string Filename { get; private set; }        
+
+        public string Filename { get; private set; }
     }
 }

@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
-using StormyCommerce.Core.Entities.Catalog.Product;
+﻿using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Models;
+using System.Threading.Tasks;
 
 namespace StormyCommerce.Core.Interfaces.Domain.Catalog
 {
     public interface IProductTemplateService
     {
-        Task<ProductTemplate> GetProductTemplateByIdAsync(long id);
-        Task CreateProductTemplateAsync(ProductTemplate productTemplate);
-        Task EditProductTemplateAsync(long id,ProductTemplate productTemplate);
-    }    
+        Task<Result<ProductTemplate>> GetProductTemplateByIdAsync(long id);
+
+        Task<Result> CreateProductTemplateAsync(ProductTemplate productTemplate);
+
+        Task<Result> EditProductTemplateAsync(long id, ProductTemplate productTemplate);
+    }
 }

@@ -1,13 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore.Design;
-using SimplCommerce.WebHost.Extensions;
 using SimplCommerce.Infrastructure;
+using SimplCommerce.WebHost.Extensions;
 using StormyCommerce.Infraestructure.Data;
-using StormyCommerce.Infraestructure.Extensions;
-using SimplCommerce.Module.SampleData;
+using System;
+using System.IO;
 
 namespace SimplCommerce.WebHost
 {
@@ -16,7 +15,7 @@ namespace SimplCommerce.WebHost
     {
         public StormyDbContext CreateDbContext(string[] args)
         {
-            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
 
             var contentRootPath = Directory.GetCurrentDirectory();
 
@@ -33,9 +32,17 @@ namespace SimplCommerce.WebHost
             IServiceCollection services = new ServiceCollection();
             GlobalConfiguration.ContentRootPath = contentRootPath;
             services.AddModules(contentRootPath);
-            services.AddStormyDataStore(_configuration);
+            if(environmentName.Equals("Development")){
+               services.AddDbContextPool<StormyDbContext>(options => {
+                   options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                   options.EnableDetailedErrors();
+                   options.EnableSensitiveDataLogging();
+               });
+            } else{
+                services.AddStormyDataStore(_configuration);
+            }            
             var _serviceProvider = services.BuildServiceProvider();
-            return _serviceProvider.GetRequiredService<StormyDbContext>();                        
+            return _serviceProvider.GetRequiredService<StormyDbContext>();
         }
     }
 }

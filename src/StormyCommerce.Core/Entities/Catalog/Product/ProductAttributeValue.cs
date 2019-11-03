@@ -1,6 +1,4 @@
-﻿using StormyCommerce.Core.Entities.Catalog.Product;
-
-namespace StormyCommerce.Core.Entities.Catalog.Product
+﻿namespace StormyCommerce.Core.Entities.Catalog.Product
 {
     public class ProductAttributeValue : BaseEntity
     {

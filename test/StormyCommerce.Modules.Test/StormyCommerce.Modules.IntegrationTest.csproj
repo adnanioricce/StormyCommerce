@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
     <PackageReference Include="xunit" Version="2.4.0" />
@@ -18,14 +19,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
-    <ProjectReference Include="..\src\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
-    <ProjectReference Include="..\src\SimplCommerce.WebHost\SimplCommerce.WebHost.csproj" />
-    <ProjectReference Include="..\test\Infraestructure\TestHelperLibrary\TestHelperLibrary.csproj" />
+    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
+    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />    
+    <ProjectReference Include="..\..\src\SimplCommerce.WebHost\SimplCommerce.WebHost.csproj" />    
+    <ProjectReference Include="..\..\src\StormyCommerce.Api.Client\StormyCommerce.Api.Client.csproj" />
+    <ProjectReference Include="..\..\test\Infraestructure\TestHelperLibrary\TestHelperLibrary.csproj" />
+    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.PagarMe\StormyCommerce.Module.PagarMe.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Api\" />
+    <Folder Include="Modules\" />
   </ItemGroup>
 
 </Project>

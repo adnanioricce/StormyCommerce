@@ -1,16 +1,17 @@
-﻿using System;
-using System.Linq;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure;
+using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Localization;
+using System;
+using System.Linq;
+using System.Security.Claims;
+
 namespace SimplCommerce.WebHost.Extensions
 {
     public static class ApplicationBuilderExtensions
@@ -111,7 +112,7 @@ namespace SimplCommerce.WebHost.Extensions
             options
                 .AddSupportedCultures(supportedCultures)
                 .AddSupportedUICultures(supportedCultures)
-                .SetDefaultCulture(GlobalConfiguration.DefaultCulture)                
+                .SetDefaultCulture(GlobalConfiguration.DefaultCulture)
             );
 
             return app;

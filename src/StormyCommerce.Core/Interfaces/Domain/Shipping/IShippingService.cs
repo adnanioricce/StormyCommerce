@@ -1,13 +1,17 @@
-﻿using System.Threading.Tasks;
-
+﻿using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Core.Models.Dtos.GatewayRequests;
+using System.Threading.Tasks;
+using System;
 namespace StormyCommerce.Core.Interfaces.Domain.Shipping
 {
     //?Should I do this here or on the client?
     public interface IShippingService
     {
-        Task<object> GetShippmentOptionsAsync(object address);        
-        Task<object> CalculateDeliveryPrice(object address);
-        Task<object> CreateShipmentTicketAsync(object orderObject);
-        Task<object> CheckAddressAsync(object addressObject);
+        Task CreateShipmentAsync(Shipment shipment);
+        Task CreateShipmentAsync(StormyOrder order);                
+        Task<Shipment> BuildShipmentForOrder(StormyOrder order);        
+        Task<Shipment> GetShipmentByOrderIdAsync(long orderId);
+        Task<Shipment> GetShipmentByOrderIdAsync(Guid uniqueOrderId);
     }
 }

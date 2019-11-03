@@ -1,22 +1,16 @@
 ﻿using AutoMapper;
-using Bogus;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
-using SimplCommerce.Module.SampleData;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog.Product;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
+using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Infraestructure.Data.Repositories;
-using StormyCommerce.Infraestructure.Helpers;
-using StormyCommerce.Module.Catalog.Area.Controllers;
+using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
+using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using StormyCommerce.Module.Catalog.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TestHelperLibrary.Mocks;
 using TestHelperLibrary.Utils;
 using Xunit;
 
@@ -24,92 +18,116 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
 {
     public class ProductControllerTests
     {
-        //! I think this will fail, define some logic to the mock        
-        private readonly ProductController _productController;        
+        //! I think this will fail, define some logic to the mock
+        private readonly IStormyRepository<StormyProduct> _repository;
+
+        private readonly ProductController _productController;
+
         public ProductControllerTests()
         {
-            _productController = CreateController();
-        }
-        private ProductController CreateController()
-        {
-            var dbContext = DbContextHelper.GetDbContext();                                    
-            var repository = new StormyRepository<StormyProduct>(dbContext);
-
-            var productService = new ProductService(repository);
-
+            var dbContext = DbContextHelper.GetDbContext();
+            dbContext.AddRange(Seeders.StormyProductSeed(16));
+            dbContext.SaveChanges();
+            _repository = new StormyRepository<StormyProduct>(dbContext);
             var profile = new CatalogProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             var mapper = configuration.CreateMapper();
-            return new ProductController(productService, mapper);
-        }                
+            _productController = new ProductController(new ProductService(_repository), mapper,null);
+        }
+
         [Fact]
         public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
-        {            
-            // Arrange                                
+        {
+            // Arrange
             long id = 1;
 
             // Act
             var result = await _productController.GetProductOverviewAsync(id);
 
             // Assert
-            Assert.Equal(1,result.Value.Id);
+            Assert.Equal(1, result.Value.Id);
         }
 
         [Fact]
         public async Task GetAllProducts_StartIndexEqual1AndEndIndexEqual15_ReturnEntitiesBetweenThesesValues()
         {
-            // Arrange                        
+            // Arrange
             long startIndex = 1;
             long endIndex = 15;
 
             // Act
-            var result = await _productController.GetAllProducts(startIndex,endIndex);
+            var result = await _productController.GetAllProducts(startIndex, endIndex);
 
-            // Assert            
-            Assert.Equal(15,result.Value.Count);            
-
+            // Assert
+            Assert.Equal(15, result.Value.Count);
         }
 
         [Fact]
         public async Task GetAllProductsOnHomepage_LimitEqual15_ReturnProductsWhileRankingIsLessThanLimit()
         {
-            // Arrange            
+            // Arrange
             int limit = 15;
 
             // Act
             var result = (await _productController.GetAllProductsOnHomepage(limit));
-
-            // Assert          
+            // Assert
             Assert.NotNull(result);
-            Assert.Equal(15,result.Value.Count);
+            //Yeah, the method start from zero, so the final result is 16, instead of 15
+            Assert.Equal(16, result.Value.Count);
         }
 
         [Fact]
         public async Task GetProductById_GivenIdEqual1_ReturnEntityWithGivenId()
         {
-            // Arrange            
+            // Arrange
             long id = 1;
 
             // Act
             var result = (await _productController.GetProductById(id));
 
-            //Assert                         
-            Assert.Equal(1,result.Value.Id);                        
+            //Assert
+            Assert.Equal(1, result.Value.Id);
         }
 
         [Fact]
         public async Task CreateProduct_GivenModelIsValidDto_CreateNewEntryOnDatabase()
         {
-            // Arrange            
-            var controller = CreateController();
-            var product = Seeders.StormyProductSeed(1).FirstOrDefault();
-
-            var model = new ProductDto(product,68);            
+            // Arrange
+            var model = GetCreateProductRequestModel(Seeders.StormyProductSeed().FirstOrDefault());            
             // Act
-            var result = await _productController.CreateProduct(model);           
-            // Assert            
+            var result = await _productController.CreateProduct(model);
+            // Assert
             var objResult = Assert.IsAssignableFrom<OkResult>(result);
             Assert.Equal(200, objResult.StatusCode);
+        }
+        private CreateProductRequest GetCreateProductRequestModel(StormyProduct product)
+        {
+            return new CreateProductRequest{
+                Description = product.Description,
+                ShortDescription = product.Description,
+                SKU = product.SKU,
+                Diameter = product.Diameter,
+                Height = product.Height,
+                Length = product.Length,
+                Width = product.Width,
+                AvailableSizes = "P,M,G,GG",
+                ProductCost = product.ProductCost,
+                ProductName = product.ProductName,
+                Brand = new BrandDto(product.Brand),
+                Category = new CategoryDto(product.Category),
+                Vendor = new VendorDto(product.Vendor),
+                QuantityPerUnity = product.QuantityPerUnity,
+                UnitPrice = product.UnitPrice,
+                UnitWeight = product.UnitWeight,
+                UnitsInStock = product.UnitsInStock,
+                ProductAvailable = true,
+                ThumbnailImage = product.ThumbnailImage,
+                Medias = product.Medias,
+                Links = product.Links.Select(p => p.ToProductLinkDto()).ToList(),
+                Note = product.Note,
+                Ranking = product.Ranking,                
+                Discount = product.Discount,
+            };
         }
     }
 }

@@ -19,6 +19,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 LastModified = DateTimeOffset.UtcNow
             };
         }
+
         public static List<OrderItem> GetOrderItemListData()
         {
             return new List<OrderItem>

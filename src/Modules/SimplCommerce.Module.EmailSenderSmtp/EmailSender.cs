@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks; 
+﻿using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
-using MailKit.Net.Smtp;
-using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Infraestructure.Interfaces;
+using System.Threading.Tasks;
 
 namespace SimplCommerce.Module.EmailSenderSmtp
 {

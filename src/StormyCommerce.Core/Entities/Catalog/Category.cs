@@ -1,23 +1,23 @@
-﻿using StormyCommerce.Core.Entities.Media;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+﻿using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+
 namespace StormyCommerce.Core.Entities.Catalog
 {
-	//TODO:Change DataAnotation mapping to FluentAPI mapping
-	public class Category : BaseEntity
-	{
+    //TODO:Change DataAnotation mapping to FluentAPI mapping
+    public class Category : BaseEntity
+    {
         public Category()
         {
-            
         }
+
         public Category(long id)
         {
             Id = id;
         }
+
         public Category(Category category)
-        {            
+        {
             Id = category.Id;
             Name = category.Name;
             Slug = category.Slug;
@@ -29,11 +29,11 @@ namespace StormyCommerce.Core.Entities.Catalog
             IsPublished = category.IsPublished;
             IncludeInMenu = category.IncludeInMenu;
             ParentId = category.ParentId;
-            Parent = category.Parent;
-            Childrens = category.Childrens;
+            Parent = category.Parent ?? new Category();            
             ThumbnailImageUrl = category.ThumbnailImageUrl;
         }
-        public Category(Category category,long id)
+
+        public Category(Category category, long id)
         {
             Id = id;
             Name = category.Name;
@@ -46,34 +46,22 @@ namespace StormyCommerce.Core.Entities.Catalog
             IsPublished = category.IsPublished;
             IncludeInMenu = category.IncludeInMenu;
             ParentId = category.ParentId;
-            Parent = category.Parent;
-            Childrens = category.Childrens;
+            Parent = category.Parent;            
             ThumbnailImageUrl = category.ThumbnailImageUrl;
-        }
-        public List<CategoryDto> ToCategoryDtoChildrens()
-        {
-            return this.Childrens.Select(children => new CategoryDto(children)).ToList();
-        }	    
-	    public string Name { get; set; }       
-        public string Slug { get; set; }	    
+        }        
+
+        public string Name { get; set; }
+        public string Slug { get; set; }
         public string MetaTitle { get; set; }
         public string MetaKeywords { get; set; }
-	    public string MetaDescription { get; set; }
+        public string MetaDescription { get; set; }
         public string Description { get; set; }
-	    public int DisplayOrder { get; set; }
+        public int DisplayOrder { get; set; }
         public bool IsPublished { get; set; }
-	    public bool IncludeInMenu { get; set; }     
-	    public long? ParentId { get; set; }
-        public Category Parent { get; set; }
-	    public IList<Category> Childrens { get; protected set; } = new List<Category>();
-        public string ThumbnailImageUrl { get; set; }                     
-        public void AddChildren(Category category)
-        {
-            Childrens.Add(category);            
-        }
-        public void AddChildren(List<Category> categories)
-        {            
-            categories.ForEach(c => Childrens.Add(c));
-        }
+        public bool IncludeInMenu { get; set; }
+        public long? ParentId { get; set; }
+        public long? ChildrenId { get; set; }
+        public Category Parent { get; set; }        
+        public string ThumbnailImageUrl { get; set; }        
     }
 }

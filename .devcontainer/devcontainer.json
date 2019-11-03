@@ -10,7 +10,7 @@
 	// "settings":  { "workbench.colorTheme": "Quiet Light" },
 
 	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "dotnet restore",
+	// "postCreateCommand": "dotnet build SimplCommerce.sln",
 
 	"extensions": [
 		"ms-vscode.csharp"

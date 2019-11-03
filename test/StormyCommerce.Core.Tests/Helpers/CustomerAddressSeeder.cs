@@ -7,19 +7,18 @@ namespace StormyCommerce.Core.Tests.Helpers
     {
         public static CustomerAddress GetCustomerAddressData()
         {
-            return new CustomerAddress(1)
+            return new CustomerAddress(2)
             {
-                City = "São Paulo",
-                State = "SP",
-                PostalCode = "01001-000",
-                Street = "Praça da Sé",
-                Complement = "lado ímpar",
-                Country = "Brasil",
-                FirstAddress = "Sé",
-                Number = "4002",
-                PhoneNumber = "8922",                
-                LastModified = DateTimeOffset.UtcNow,
-                IsDeleted = false,
+                Address = new Entities.Common.Address("br",
+                "SP",
+                "São Paulo",
+                "Sé",                
+                "Praça da Sé",                
+                "Vila alguma coisa",
+                "rua doutor sem nome",
+                "01001-000",
+                "4002",
+                "lado ímpar")                                   
             };
         }
     }

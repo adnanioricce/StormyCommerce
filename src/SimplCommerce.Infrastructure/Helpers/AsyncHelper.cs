@@ -75,8 +75,9 @@ namespace SimplCommerce.Infrastructure.Helpers
         {
             private bool done;
             public Exception InnerException { get; set; }
-            readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
-            readonly Queue<Tuple<SendOrPostCallback, object>> items =
+            private readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
+
+            private readonly Queue<Tuple<SendOrPostCallback, object>> items =
                 new Queue<Tuple<SendOrPostCallback, object>>();
 
             public override void Send(SendOrPostCallback d, object state)

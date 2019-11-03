@@ -1,7 +1,7 @@
-﻿using System;
+﻿using StormyCommerce.Core.Entities.Customer;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Customer;
+
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
     public class ProductPriceHistory : BaseEntity

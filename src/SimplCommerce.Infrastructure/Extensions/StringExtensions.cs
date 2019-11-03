@@ -25,7 +25,7 @@ namespace SimplCommerce.Infrastructure.Extensions
         {
             return string.IsNullOrWhiteSpace(str);
         }
-        
+
         /// <summary>
         /// Uses string.Split method to split given string by given separator.
         /// </summary>
@@ -99,7 +99,7 @@ namespace SimplCommerce.Infrastructure.Extensions
 
             return char.ToLower(str[0], culture) + str.Substring(1);
         }
-        
+
         /// <summary>
         /// Converts string to enum value.
         /// </summary>
@@ -167,7 +167,7 @@ namespace SimplCommerce.Infrastructure.Extensions
 
             if (str.Length == 1)
             {
-                return invariantCulture ? str.ToUpperInvariant(): str.ToUpper();
+                return invariantCulture ? str.ToUpperInvariant() : str.ToUpper();
             }
 
             return (invariantCulture ? char.ToUpperInvariant(str[0]) : char.ToUpper(str[0])) + str.Substring(1);

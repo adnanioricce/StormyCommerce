@@ -1,21 +1,24 @@
 ﻿using StormyCommerce.Core.Entities.Common;
 using System;
+using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Entities.Customer
-{
-    //TODO:Put all Address Data Here, avoid joins on the database
-    public class CustomerAddress : Address
+{    
+    public class CustomerAddress : IEntityWithBaseTypeId<long>
     {
-        public CustomerAddress()
-        {
-
-        }
-        public CustomerAddress(int id)
+        public CustomerAddress(){}
+        public CustomerAddress(long id)
         {
             Id = id;
-        }
-        public long CustomerId { get; set; }
-        public StormyCustomer Customer { get; set; }        
-        public DateTimeOffset? LastUsedOn { get; set; }
+        }        
+        public long Id { get; set; }
+        public Address Address { get; set; }
+        public string WhoReceives { get; set; }        
+        public bool IsDeleted { get; set; }
+        public string UserId { get; set; }
+        public StormyCustomer Owner { get; set; }
+        
+
+        
     }
 }

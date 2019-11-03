@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
-using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Settings;
 
 namespace SimplCommerce.Module.EmailSenderSmtp.Data
 {
@@ -8,11 +8,11 @@ namespace SimplCommerce.Module.EmailSenderSmtp.Data
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppSetting>().HasData(
-                new AppSetting("SmtpServer") { Module = "EmailSenderSmpt", IsVisibleInCommonSettingPage = false, Value = "smtp.gmail.com" },
-                new AppSetting("SmtpPort") { Module = "EmailSenderSmpt", IsVisibleInCommonSettingPage = false, Value = "587" },
-                new AppSetting("SmtpUsername") { Module = "EmailSenderSmpt", IsVisibleInCommonSettingPage = false, Value = "" },
-                new AppSetting("SmtpPassword") { Module = "EmailSenderSmpt", IsVisibleInCommonSettingPage = false, Value = "" }
+            modelBuilder.Entity<AppSettings>().HasData(
+                new AppSettings("SmtpServer") { Module = "EmailSenderSmpt", IsVisibleInCommonSettingPage = false, Value = "smtp.gmail.com" },
+                new AppSettings("SmtpPort") { Module = "EmailSenderSmpt", IsVisibleInCommonSettingPage = false, Value = "587" },
+                new AppSettings("SmtpUsername") { Module = "EmailSenderSmpt", IsVisibleInCommonSettingPage = false, Value = "" },
+                new AppSettings("SmtpPassword") { Module = "EmailSenderSmpt", IsVisibleInCommonSettingPage = false, Value = "" }
             );
         }
     }
