@@ -48,12 +48,8 @@ namespace StormyCommerce.Core.Services.Catalog
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 1, long endIndex = 15)
         {
             return await _productRepository.Table
-<<<<<<< HEAD
                 .Include(prop => prop.Categories)
                 .Include(prop => prop.Medias)
-=======
-                .Include(prop => prop.Category)                
->>>>>>> a4dcc739f5e095d405c790207ba7858b070d21c2
                 .Include(prop => prop.Brand)
                 .Include(prop => prop.Vendor)
                 .Where(product => product.Id <= endIndex && product.Id >= startIndex)
