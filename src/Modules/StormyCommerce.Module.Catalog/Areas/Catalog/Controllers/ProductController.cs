@@ -32,7 +32,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         private readonly IStormyRepository<Category> _categoryRepository;  
         private readonly IStormyRepository<StormyVendor> _vendorRepository;  
         private readonly IStormyRepository<Brand> _brandRepository;  
-
+        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;
         private readonly IAppLogger<ProductController> _logger;
         private readonly IMapper _mapper;
 
@@ -42,6 +42,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         IStormyRepository<Category> categoryRepository,
         IStormyRepository<StormyVendor> vendorRepository,
         IStormyRepository<Brand> brandRepository,
+        IStormyRepository<ProductCategory> productCategoryRepository,
         IMapper mapper,
         IAppLogger<ProductController> logger)
         {
@@ -50,6 +51,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             _categoryRepository = categoryRepository;
             _vendorRepository = vendorRepository;
             _brandRepository = brandRepository;
+            _productCategoryRepository = productCategoryRepository;
             _mapper = mapper;
             _logger = logger;
         }
@@ -121,6 +123,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
         {               
             var medias = new List<ProductMedia>();
+            var categories = new List<ProductCategory>();
             _model.Medias.ForEach(async (m) => {
                 if(m.Id != 0){
                     medias.Add(await _productMediaRepository.GetByIdAsync(m.Id));
@@ -128,14 +131,19 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
                     medias.Add(m);      
                 }
             });            
+            _model.Categories.ForEach(async (category) => {
+                if(category.Id != 0){
+                    categories.Add(await _productCategoryRepository.GetByIdAsync(category.Id));
+                } else {
+                    categories.Add(category);
+                }
+            });
             _model.Medias = medias;
             var model = _mapper.Map<StormyProduct>(_model);                                 
             model.BrandId = _model.Brand.Id; 
-            model.VendorId = _model.Vendor.Id;                      
-            model.ProductLinksId = 0;
-            model.MediaId = 0;
+            model.VendorId = _model.Vendor.Id;                                              
             model.Brand = null; 
-            model.Vendor = null;                                                               
+            model.Vendor = null;            
                         
             try
             {                                                        

@@ -31,8 +31,7 @@ namespace StormyCommerce.WebHost.Mappings
             CreateMap<OrderItemDto, Item>();                
             CreateMap<PagarMeItem, OrderItem>()
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => Price.GetPriceFromCents("R$", src.UnitPrice)))
-                .ForPath(dest => dest.Product.ProductName, opt => opt.MapFrom(src => src.Title))                
-                .ForPath(dest => dest.Product.Category.Name,opt => opt.MapFrom(src => src.Category));                
+                .ForPath(dest => dest.Product.ProductName, opt => opt.MapFrom(src => src.Title));                                
         }
         public void TransactionMap()
         {

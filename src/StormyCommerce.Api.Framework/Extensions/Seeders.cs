@@ -62,10 +62,9 @@ namespace StormyCommerce.Api.Framework.Extensions
                         v.AddMedia(m);
                     });
                     v.ThumbnailImage = f.Image.LoremPixelUrl(LoremPixelCategory.Fashion);
-                    var category = Seeders.CategorySeed(omitId:true).First();                    
-                    var parentCategory = Seeders.CategorySeed(omitId:true).First();                                                            
-                    category.Parent = parentCategory;
-                    v.Category = category;                             
+                    var category = ProductCategorySeed(omitId:true).First();                    
+                    category.Product = v;
+                    v.Categories.Add(category);
                     v.Width = f.Random.Decimal(1.0m,20.0m);
                     v.Height = f.Random.Decimal(1.0m,20.0m);
                     v.Length = f.Random.Decimal(1.0m,20.0m);
@@ -198,6 +197,16 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.Slug, f => f.Lorem.Slug())
                 .RuleFor(v => v.Name, f => f.Commerce.Categories(1)[0])
                 .RuleFor(v => v.ThumbnailImageUrl, f => f.Image.LoremPixelUrl("fashion"));                
+            return fakeCategory.Generate(count);
+        }
+        public static List<ProductCategory> ProductCategorySeed(int count = 1, bool omitId = false)
+        {
+            var fakeCategory = new Faker<ProductCategory>("pt_BR")                
+                .Rules((f,v) => 
+                {
+                    v.Category = Seeders.CategorySeed(omitId:true).First();
+                    v.DisplayOrder = f.Random.Int(1,104);                    
+                });
             return fakeCategory.Generate(count);
         }
 

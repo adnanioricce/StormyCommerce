@@ -8,7 +8,7 @@ using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
 using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
-using StormyCommerce.Module.Catalog.Extensions;
+using StormyCommerce.WebHost.Mappings;
 using System.Linq;
 using System.Threading.Tasks;
 using TestHelperLibrary.Utils;
@@ -114,7 +114,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
                 ProductCost = product.ProductCost,
                 ProductName = product.ProductName,
                 Brand = product.Brand,
-                Category = new CategoryDto(product.Category),
+                
                 Vendor = product.Vendor,
                 QuantityPerUnity = product.QuantityPerUnity,
                 UnitPrice = product.UnitPrice,
