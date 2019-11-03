@@ -16,7 +16,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels
         [Required]
         public Brand Brand { get; set; }
         [Required]
-        public CategoryDto Category { get; set; } 
+        public List<ProductCategory> Categories { get; set; } = new List<ProductCategory>();
         [Required]
         public StormyVendor Vendor { get; set; }
         [Required]
@@ -45,8 +45,8 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels
         public bool ProductAvailable { get; set; }
         [Required]
         public string ThumbnailImage { get; set; }                
-        public List<ProductMedia> Medias { get; set; }
-        public List<ProductLinkDto> Links { get; set; }
+        public List<ProductMedia> Medias { get; set; } = new List<ProductMedia>();
+        public List<ProductLinkDto> Links { get; set; } = new List<ProductLinkDto>();
         public string Note { get; set; }        
         public int Ranking { get; set; }
         public decimal ProductCost { get; set; }

@@ -52,11 +52,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.HasOne(product => product.Brand).WithMany().HasForeignKey(p => p.BrandId);                
                 entity.HasOne(product => product.Vendor).WithMany(prop => prop.Products).HasForeignKey(p => p.VendorId);                
                 entity.HasMany(product => product.Medias).WithOne().HasForeignKey(m => m.StormyProductId).OnDelete(DeleteBehavior.Cascade);
-                entity.HasMany(product => product.Links).WithOne(l => l.Product).HasForeignKey(l => l.ProductId);
-                entity.HasOne(product => product.Category)
-                .WithMany()
-                .HasForeignKey(prop => prop.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);                
+                entity.HasMany(product => product.Links).WithOne(l => l.Product).HasForeignKey(l => l.ProductId);                
                 entity.Property(product => product.SKU).IsRequired();
                 entity.Property(product => product.ProductName).HasMaxLength(400).IsRequired();                
                 entity.Property(product => product.QuantityPerUnity).IsRequired();
@@ -66,7 +62,17 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(product => product.UnitPrice).IsRequired();
                 entity.Property(product => product.UnitsInStock).IsRequired();                
             });
-
+            modelBuilder.Entity<ProductCategory>(entity => {
+                entity.HasKey(prop => prop.Id);
+                entity.HasOne(prop => prop.Product)
+                .WithMany(prop => prop.Categories)
+                .HasForeignKey(prop => prop.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(prop => prop.Category)
+                .WithMany()                
+                .HasForeignKey(prop => prop.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+            });
             modelBuilder.Entity<ProductOption>(entity =>
             {
             });

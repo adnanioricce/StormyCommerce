@@ -40,10 +40,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public string Gtin { get; set; }
         public string NormalizedName { get; set; }
         public string ProductName { get; set; }
-        public string Slug { get; set; }
-        public string MetaKeywords { get; set; }
-        public string MetaDescription { get; set; }
-        public string MetaTitle { get; set; }        
+        public string Slug { get; set; }        
         public long BrandId { get; set; }        
         public long VendorId { get; set; }
         public long CategoryId { get; set; }
@@ -53,7 +50,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public long? LatestUpdatedById { get; set; }
         public StormyVendor Vendor { get; set; }
         public Brand Brand { get; set; }
-        public Category Category { get; set; }        
+        public List<ProductCategory> Categories { get; private set; } = new List<ProductCategory>();
         public string ShortDescription { get; set; }
         public string Description { get; set; }        
         public int QuantityPerUnity { get; set; }
@@ -129,7 +126,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         }
         public string GenerateSlug()
         {
-            return String.Format($"{0}-{1}-{2}",this.Category.Name,this.Brand.Name,this.ProductName);
+            return this.ProductName.Replace(' ','-');
         }
         public ProductDto ToProductDto()
         {
