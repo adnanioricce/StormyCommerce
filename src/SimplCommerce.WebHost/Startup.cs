@@ -22,7 +22,6 @@ using StormyCommerce.Infraestructure.Logging;
 using StormyCommerce.Module.Customer.Data;
 using SimplCommerce.Module.SampleData;
 using Swashbuckle.AspNetCore.Swagger;
-
 using System.IO;
 using System.Net.Http;
 using System.Text.Encodings.Web;
@@ -41,7 +40,7 @@ namespace SimplCommerce.WebHost
         public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment, ILogger<Startup> logger,ILoggerFactory loggerFactory)
         {
             _configuration = configuration;
-            _hostingEnvironment = hostingEnvironment;
+            _hostingEnvironment = hostingEnvironment;            
             Container.Configuration = configuration;
             Container.loggerFactory = loggerFactory;
             string defaultCertPath = configuration.GetSection("Kestrel:Certificate:Default:Path").Value;
@@ -88,13 +87,12 @@ namespace SimplCommerce.WebHost
         public virtual void ConfigureServices(IServiceCollection services)
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
-            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;
+            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;                   
             services.AddApiVersioning(options => {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-            });
-            // services.AddSingleModule(_hostingEnvironment.ContentRootPath,"StormyCommerce.Module.Shipping");
+            });            
             services.AddModules(_hostingEnvironment.ContentRootPath);
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -198,7 +196,7 @@ namespace SimplCommerce.WebHost
                         {
                             dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
                         }
-                    }
+                    }                    
                     if (!dbContext.Database.IsSqlServer())
                     {
                         var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();

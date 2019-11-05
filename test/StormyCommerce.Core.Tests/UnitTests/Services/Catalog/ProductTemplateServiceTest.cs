@@ -36,8 +36,9 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Catalog
             long id = 1;
             var service = CreateService();
             //When
-            
+            var template = await service.GetProductTemplateByIdAsync(id);
             //Then
+            Assert.Equal(id,template.Value.Id);
         }
     }
 }

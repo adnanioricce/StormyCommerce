@@ -9,6 +9,7 @@ using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+using StormyCommerce.Core.Models.Requests;
 
 namespace StormyCommerce.Api.Client.Catalog
 {
@@ -57,7 +58,7 @@ namespace StormyCommerce.Api.Client.Catalog
             return Post("/api/Category/create", category);
         }
 
-        public Task<Result> CreateProductAsync(StormyProduct _model = null, CancellationToken cancellationToken = default)
+        public Task<Result> CreateProductAsync(CreateProductRequest _model = null, CancellationToken cancellationToken = default)
         {
             return Post("/api/Product/create", _model);
         }

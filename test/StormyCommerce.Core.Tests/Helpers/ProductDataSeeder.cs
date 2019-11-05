@@ -12,21 +12,11 @@ namespace StormyCommerce.Core.Tests.Helpers
         {
             return new StormyProduct(54)
             {
-                SKU = "33E353EE-40A9-4AAA-9FA4-E0A196DC10ED",
-                AllowCustomerReview = true,
-                ApprovedRatingSum = 5,
-                ApprovedTotalReviews = 32,
-                AvailableForPreorder = false,
+                SKU = "33E353EE-40A9-4AAA-9FA4-E0A196DC10ED",                
                 BrandId = 1,
                 CreatedOn = new DateTime(2019, 05, 10),
                 IsDeleted = false,
-                Discount = (decimal)9.99,
-                DiscountAvailable = false,
-                HasDiscountApplied = false,
-                PreOrderAvailabilityStartDate = null,
-                ProductAvailable = true,
-                NotApprovedRatingSum = 2,
-                NotApprovedTotalReviews = 10,
+                Discount = (decimal)9.99,                
                 VendorId = 1,
                 UnitPrice = (decimal)49.99,
                 UnitsInStock = 30,                       
@@ -44,11 +34,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 new StormyProduct(51)
                 {
                     ProductName = "camiseta com nome legal",
-                    SKU = Guid.NewGuid().ToString("N"),
-                    AllowCustomerReview = true,
-                    ApprovedRatingSum = 5,
-                    ApprovedTotalReviews = 32,
-                    AvailableForPreorder = false,
+                    SKU = Guid.NewGuid().ToString("N"),                    
                     Brand = new Brand
                     {
                         IsDeleted = false,
@@ -60,13 +46,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                     BrandId = 1,
                     CreatedOn = new DateTime(2019,05,10),
                     IsDeleted = false,
-                    Discount = (decimal)9.99,
-                    DiscountAvailable = false,
-                    HasDiscountApplied = false,
-                    PreOrderAvailabilityStartDate = null,
-                    ProductAvailable = true,
-                    NotApprovedRatingSum = 2,
-                    NotApprovedTotalReviews = 10,
+                    Discount = (decimal)9.99,                    
                     VendorId = 1,
                     Vendor = new StormyVendor
                     {
@@ -89,8 +69,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                     UnitPrice = (decimal)49.99,
                     UnitsInStock = 30,
                 },
-                new StormyProduct{
-                    Ranking = 7,
+                new StormyProduct{                    
                     SKU = "33E386EE-40A9-4AAA-9FA4-E0A196DC10ED",
                     UnitsInStock = 4,
                     VendorId = 1,
@@ -98,33 +77,25 @@ namespace StormyCommerce.Core.Tests.Helpers
                     Vendor = new StormyVendor{
                     }
                 },
-                new StormyProduct{
-                    Ranking = 6,
-                    ProductAvailable = true,
+                new StormyProduct{                    
                     UnitsInStock = 10,
                     VendorId = 1,
                     Vendor = new StormyVendor{
                     }
                 },
-                new StormyProduct{
-                    Ranking = 5,
-                    ProductAvailable = true,
+                new StormyProduct{                    
                     UnitsInStock = 2,
                     VendorId = 4,
                     Vendor = new StormyVendor{
                     }
                 },
-                new StormyProduct{
-                    Ranking = 4,
-                    ProductAvailable = true,
+                new StormyProduct{                    
                     UnitsInStock = 4,
                     VendorId = 5,
                     Vendor = new StormyVendor{
                     }
                 },
-                new StormyProduct{
-                    Ranking = 3,
-                    ProductAvailable = true,
+                new StormyProduct{                    
                     UnitsInStock = 8,
                     VendorId = 6,
                     Vendor = new StormyVendor{

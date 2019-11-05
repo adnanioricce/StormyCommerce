@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
+namespace StormyCommerce.Module.Catalog.Controllers
 {
     [Area("Catalog")]
     [ApiController]
