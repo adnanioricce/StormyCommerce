@@ -3,14 +3,13 @@ using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Module.Catalog.Dtos;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
 {
     public class ProductDto
     {
-        public ProductDto()
-        {
-        }
+        public ProductDto(){}
 
         public ProductDto(StormyProduct product, long id)
         {
@@ -47,9 +46,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             Price = product.Price.Value;
             OldPrice = product.OldPrice.Value;
             ThumbnailImage = product.ThumbnailImage;
-            Medias = product.Medias;
-            Brand = new BrandDto(product.Brand);
-            Category = product.Category == null ? new CategoryDto() : new CategoryDto(product.Category);
+            Medias = product.Medias.Select(p => new ProductMediaDto(p)).ToList();
+            Brand = new BrandDto(product.Brand);                        
             Vendor = new VendorDto(product.Vendor);
         }
 
@@ -71,10 +69,10 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public string Price { get; set; }
         public string OldPrice { get; set; }
         public string ThumbnailImage { get; set; }
-        public CategoryDto Category { get; set; }
+        public List<ProductCategory> Categories { get; set; } = new List<ProductCategory>();
         public BrandDto Brand { get; set; }
         public VendorDto Vendor { get; set; }
-        public List<ProductMedia> Medias { get; set; }
+        public List<ProductMediaDto> Medias { get; set; }
 
         public StormyProduct ToStormyProduct()
         {

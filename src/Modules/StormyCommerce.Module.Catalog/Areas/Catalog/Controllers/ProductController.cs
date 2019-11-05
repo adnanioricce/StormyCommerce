@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Entities.Catalog;
+using StormyCommerce.Core.Entities.Vendor;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
@@ -24,14 +27,31 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
     [EnableCors("Default")]
     public class ProductController : Controller
     {
-        private readonly IProductService _productService;
+        private readonly IProductService _productService;      
+        private readonly IStormyRepository<ProductMedia> _productMediaRepository;  
+        private readonly IStormyRepository<Category> _categoryRepository;  
+        private readonly IStormyRepository<StormyVendor> _vendorRepository;  
+        private readonly IStormyRepository<Brand> _brandRepository;  
+        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;
         private readonly IAppLogger<ProductController> _logger;
         private readonly IMapper _mapper;
 
         //TODO:Change the notification type
-        public ProductController(IProductService productService, IMapper mapper,IAppLogger<ProductController> logger)
+        public ProductController(IProductService productService,
+        IStormyRepository<ProductMedia> productMediaRepository,
+        IStormyRepository<Category> categoryRepository,
+        IStormyRepository<StormyVendor> vendorRepository,
+        IStormyRepository<Brand> brandRepository,
+        IStormyRepository<ProductCategory> productCategoryRepository,
+        IMapper mapper,
+        IAppLogger<ProductController> logger)
         {
-            _productService = productService;
+            _productService = productService;            
+            _productMediaRepository = productMediaRepository;
+            _categoryRepository = categoryRepository;
+            _vendorRepository = vendorRepository;
+            _brandRepository = brandRepository;
+            _productCategoryRepository = productCategoryRepository;
             _mapper = mapper;
             _logger = logger;
         }
@@ -101,11 +121,33 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         [ValidateModel]
         [Authorize(Roles.Admin)]
         public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
-        {            
+        {               
+            var medias = new List<ProductMedia>();
+            var categories = new List<ProductCategory>();
+            _model.Medias.ForEach(async (m) => {
+                if(m.Id != 0){
+                    medias.Add(await _productMediaRepository.GetByIdAsync(m.Id));
+                } else {
+                    medias.Add(m);      
+                }
+            });            
+            _model.Categories.ForEach(async (category) => {
+                if(category.Id != 0){
+                    categories.Add(await _productCategoryRepository.GetByIdAsync(category.Id));
+                } else {
+                    categories.Add(category);
+                }
+            });
+            _model.Medias = medias;
+            var model = _mapper.Map<StormyProduct>(_model);                                 
+            model.BrandId = _model.Brand.Id; 
+            model.VendorId = _model.Vendor.Id;                                              
+            model.Brand = null; 
+            model.Vendor = null;            
+                        
             try
-            {
-                var model = _mapper.Map<StormyProduct>(_model);
-                await _productService.InsertProductAsync(model);                
+            {                                                        
+                await _productService.InsertProductAsync(model);                                
             }            
             //TODO:Change to a more specific Exception
             catch(Exception ex){

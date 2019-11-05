@@ -29,14 +29,11 @@ namespace StormyCommerce.Core.Tests.Helpers
                 NotApprovedTotalReviews = 10,
                 VendorId = 1,
                 UnitPrice = (decimal)49.99,
-                UnitsInStock = 30,
-                Category = new Entities.Catalog.Category{
-                    Name = "Shirts"
-                },                
+                UnitsInStock = 30,                       
                 Brand = new Brand{
                     Name = "Nike"
                 },
-                ProductName = "Zeus"
+                ProductName = "Nike Shirt Zeus"
             };
         }
 

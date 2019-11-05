@@ -114,6 +114,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Assert
             Assert.Equal(sampleProduct, product);
             Assert.Equal(sampleProduct.Id, product.Id);
+            Assert.Equal("Nike-Shirt-Zeus",sampleProduct.ProductName);
         }
 
         [Fact]
@@ -127,7 +128,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             sampleProducts.ForEach(p =>
             {
                 p.Brand = new Brand(p.BrandId);
-                p.Category = new Category(p.CategoryId);
+                p.Categories.AddRange(p.Categories);
                 p.Vendor = new StormyVendor(p.VendorId);
                 new StormyProduct(new ProductDto(p), p.Id);
             });

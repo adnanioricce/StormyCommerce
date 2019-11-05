@@ -8,7 +8,7 @@ using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
 using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
-using StormyCommerce.Module.Catalog.Extensions;
+using StormyCommerce.WebHost.Mappings;
 using System.Linq;
 using System.Threading.Tasks;
 using TestHelperLibrary.Utils;
@@ -32,7 +32,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             var profile = new CatalogProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             var mapper = configuration.CreateMapper();
-            _productController = new ProductController(new ProductService(_repository), mapper,null);
+            _productController = new ProductController(new ProductService(_repository),null,null,null,null,null, mapper,null);
         }
 
         [Fact]
@@ -113,9 +113,9 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
                 AvailableSizes = "P,M,G,GG",
                 ProductCost = product.ProductCost,
                 ProductName = product.ProductName,
-                Brand = new BrandDto(product.Brand),
-                Category = new CategoryDto(product.Category),
-                Vendor = new VendorDto(product.Vendor),
+                Brand = product.Brand,
+                
+                Vendor = product.Vendor,
                 QuantityPerUnity = product.QuantityPerUnity,
                 UnitPrice = product.UnitPrice,
                 UnitWeight = product.UnitWeight,

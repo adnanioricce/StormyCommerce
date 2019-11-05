@@ -11,6 +11,7 @@ namespace StormyCommerce.Core.Models
             {
                 Height += item.Quantity * item.Product.Height;
                 Width += item.Quantity * item.Product.Width;
+                Length += item.Quantity * item.Product.Length;
                 Weight += item.Quantity * (decimal)item.Product.UnitWeight;
                 Area += item.Quantity * item.Product.GetDimensions();
             }
@@ -18,13 +19,15 @@ namespace StormyCommerce.Core.Models
             {
                 Height += item.Quantity * item.Product.Height;
                 Width += item.Quantity * item.Product.Width;
+                Length += item.Quantity * item.Product.Length;                
                 Weight += item.Quantity * (decimal)item.Product.UnitWeight;
-                Area += item.Quantity * item.Product.CalculateDimensions();
+                Area += item.Product.CalculateDimensions(item.Quantity);
             }
             public decimal Area { get; set; }
             public decimal Height { get; set; }
             public decimal Width { get; set; }
             public decimal Weight { get; set; }
             public decimal Length { get; set; }
+            public decimal Diameter { get; set; }
         }
 }

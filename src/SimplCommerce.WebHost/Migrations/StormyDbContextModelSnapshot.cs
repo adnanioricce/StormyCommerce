@@ -328,6 +328,31 @@ namespace SimplCommerce.WebHost.Migrations
                     b.ToTable("ProductAttributeValue");
                 });
 
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CategoryId");
+
+                    b.Property<int>("DisplayOrder");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTimeOffset>("LastModified");
+
+                    b.Property<long>("ProductId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductCategory");
+                });
+
             modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductLink", b =>
                 {
                     b.Property<long>("Id")
@@ -457,8 +482,6 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long>("CategoryId");
 
-                    b.Property<long>("CreatedById");
-
                     b.Property<DateTime?>("CreatedOn");
 
                     b.Property<string>("Description");
@@ -499,12 +522,6 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long?>("MediaId");
 
-                    b.Property<string>("MetaDescription");
-
-                    b.Property<string>("MetaKeywords");
-
-                    b.Property<string>("MetaTitle");
-
                     b.Property<string>("NormalizedName");
 
                     b.Property<int>("NotApprovedRatingSum");
@@ -522,8 +539,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<decimal>("ProductCost");
 
                     b.Property<long?>("ProductLinksId");
-
-                    b.Property<long>("ProductMediaId");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -575,9 +590,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
-
-                    b.HasIndex("CategoryId")
-                        .IsUnique();
 
                     b.HasIndex("StockId");
 
@@ -1225,6 +1237,19 @@ namespace SimplCommerce.WebHost.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductCategory", b =>
+                {
+                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct", "Product")
+                        .WithMany("Categories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductLink", b =>
                 {
                     b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct", "LinkedProduct")
@@ -1277,11 +1302,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.Brand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Category", "Category")
-                        .WithOne()
-                        .HasForeignKey("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct", "CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("StormyCommerce.Core.Entities.Stock")
@@ -1381,10 +1401,10 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Media.ProductMedia", b =>
                 {
-                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct")
+                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct", "Product")
                         .WithMany("Medias")
                         .HasForeignKey("StormyProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Order.OrderItem", b =>

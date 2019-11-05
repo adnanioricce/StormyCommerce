@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +12,17 @@ namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductService : IProductService
     {
-        private readonly IStormyRepository<StormyProduct> _productRepository;
+        private readonly IStormyRepository<StormyProduct> _productRepository;           
+
         //TODO: I Think a service for this is unecessary        
-        public ProductService(IStormyRepository<StormyProduct> productRepository
+        public ProductService(IStormyRepository<StormyProduct> productRepository        
         )
         {
             _productRepository = productRepository;
             _productRepository
             .Table
             .Include(p => p.Brand)
-            .Include(p => p.Category)
-                .ThenInclude(c => c.Parent)
+            .Include(p => p.Categories)                
             .Include(p => p.Vendor)
             .Include(p => p.Medias)
             .Load();
@@ -33,13 +31,16 @@ namespace StormyCommerce.Core.Services.Catalog
         //TODO:write failing test cases
         public async Task<Result<IList<StormyProduct>>> GetAllProductsByCategory(int categoryId, int limit = 15)
         {
-            return new Result<IList<StormyProduct>>(await _productRepository.Table.Where(product => product.CategoryId == categoryId && product.Id <= limit).ToListAsync(), true, "none");
+            return new Result<IList<StormyProduct>>(await _productRepository.Table
+            .Where(product => product.CategoryId == categoryId)
+            .Take(limit)
+            .ToListAsync(), true, "none");
         }
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
         {
             return await _productRepository
                 .Table
-                .Where(f => f.Id < limit)//use !
+                .Take(limit)
                 .ToListAsync();
         }
 
@@ -47,7 +48,7 @@ namespace StormyCommerce.Core.Services.Catalog
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 1, long endIndex = 15)
         {
             return await _productRepository.Table
-                .Include(prop => prop.Category)
+                .Include(prop => prop.Categories)
                 .Include(prop => prop.Medias)
                 .Include(prop => prop.Brand)
                 .Include(prop => prop.Vendor)
@@ -59,7 +60,7 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             return await _productRepository.Table
                 .Include(product => product.Brand)
-                .Include(product => product.Category)
+                .Include(product => product.Categories)
                 .Include(product => product.Links)
                 .Include(product => product.Medias)
                 .Include(product => product.OptionValues)
@@ -91,7 +92,7 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             return await _productRepository.Table
             .Include(p => p.Brand)
-            .Include(p => p.Category)
+            .Include(p => p.Categories)
             .Include(p => p.Vendor)
             .Include(p => p.Medias)
             .Where(p => p.Id == productId)
@@ -138,11 +139,18 @@ namespace StormyCommerce.Core.Services.Catalog
 
         public async Task DeleteProducts(IList<StormyProduct> products)
         {
+            products.ToList().ForEach(p => p.IsDeleted = true);
             await UpdateProductsAsync(products);
         }
-        public Task DeleteProductAsync(StormyProduct product)
+        public async Task DeleteProductAsync(StormyProduct product)
         {
-            throw new NotImplementedException();
+            var entry = await _productRepository.GetByIdAsync(product.Id) ?? throw new ArgumentNullException("product don't exist");
+            try{
+                _productRepository.Delete(entry);
+            } catch(Exception ex){                
+                throw ex; 
+            }
+
         }
         public Task DeleteProductsAsync(IList<StormyProduct> products)
         {
@@ -152,13 +160,24 @@ namespace StormyCommerce.Core.Services.Catalog
         #region Insert Methods
         //TODO:Create slugs with EntityService
         public async Task InsertProductAsync(StormyProduct product)
-        {
-            product.Slug = product.GenerateSlug();
-            try {
+        {                                 
+            product.Price = Price.GetPriceFromCents("R$",product.UnitPrice);
+            product.OldPrice = Price.GetPriceFromCents("R$",product.UnitPrice);            
+            try 
+            {                
                 await _productRepository.AddAsync(product);
+                                                                                        
             } catch (Exception ex) {
                 throw ex;
             }
+            var createdProduct = await _productRepository.Table
+                .Where(p => p.Id == product.Id)
+                .Include(p => p.Categories)
+                .Include(p => p.Brand)
+                .Include(p => p.Medias)
+                .Include(p => p.Links)
+                .FirstOrDefaultAsync();                                
+            createdProduct.ProductName = createdProduct.ProductName.Replace(' ','-');            
         }
 
         public async Task InsertProductsAsync(IList<StormyProduct> products)
@@ -180,11 +199,14 @@ namespace StormyCommerce.Core.Services.Catalog
         public async Task<List<StormyProduct>> SearchProductsBySearchPattern(string searchPattern)
         {
             return await _productRepository.Table
-                .Where(p => EF.Functions.Like(p.ProductName, "%" + searchPattern + "%"))
-                //.Where(p => EF.Functions.Like(p.ShortDescription, $"%{searchPattern}%"))
+                .Where(p => EF.Functions.Like(p.ProductName, "%" + searchPattern + "%"))                
                 .ToListAsync();                                        
         }
         #endregion
+        private bool IsSlugValid(StormyProduct product,string brandName,string categoryName)
+        {
+            return product.ProductName.Contains(brandName) && product.ProductName.Contains(categoryName);
+        }
 
     }
 }

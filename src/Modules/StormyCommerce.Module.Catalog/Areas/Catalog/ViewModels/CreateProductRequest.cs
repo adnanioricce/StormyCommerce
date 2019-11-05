@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Entities.Vendor;
+
 namespace StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels
 {
     public class CreateProductRequest
@@ -12,11 +14,11 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels
         [Required]
         public string SKU { get; set; }       
         [Required]
-        public BrandDto Brand { get; set; }
+        public Brand Brand { get; set; }
         [Required]
-        public CategoryDto Category { get; set; } 
+        public List<ProductCategory> Categories { get; set; } = new List<ProductCategory>();
         [Required]
-        public VendorDto Vendor { get; set; }
+        public StormyVendor Vendor { get; set; }
         [Required]
         [StringLength(450)]
         public string ShortDescription { get; set; }
@@ -43,8 +45,8 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels
         public bool ProductAvailable { get; set; }
         [Required]
         public string ThumbnailImage { get; set; }                
-        public List<ProductMedia> Medias { get; set; }
-        public List<ProductLinkDto> Links { get; set; }
+        public List<ProductMedia> Medias { get; set; } = new List<ProductMedia>();
+        public List<ProductLinkDto> Links { get; set; } = new List<ProductLinkDto>();
         public string Note { get; set; }        
         public int Ranking { get; set; }
         public decimal ProductCost { get; set; }
