@@ -50,10 +50,10 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
         public double UnitWeight { get; set; }
-        public decimal Height { get; set; }
-        public decimal Width { get; set; }
-        public decimal Length { get; set; }
-        public int? Diameter { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public double Length { get; set; }
+        public double? Diameter { get; set; }
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }                
         public string ThumbnailImage { get; set; }
@@ -100,9 +100,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             return new ProductDto(this);
         }
         
-        public decimal CalculateDimensions(int quantity)
+        public double CalculateDimensions()
         {                      
-            return Height * Width * Length * quantity;
+            return Height * Width * Length;
         }
     }
 }

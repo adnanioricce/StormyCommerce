@@ -50,9 +50,9 @@ namespace StormyCommerce.Api.Framework.Extensions
                     var category = ProductCategorySeed(omitId:true).First();                    
                     // category.Product = v;
                     v.Categories.Add(category);
-                    v.Width = f.Random.Decimal(1.0m,20.0m);
-                    v.Height = f.Random.Decimal(1.0m,20.0m);
-                    v.Length = f.Random.Decimal(1.0m,20.0m);
+                    v.Width = f.Random.Double(1.0,20.0);
+                    v.Height = f.Random.Double(1.0,20.0);
+                    v.Length = f.Random.Double(1.0,20.0);
                 });
             return fakeProduct.Generate(count);
         }
@@ -66,7 +66,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<string>("PAC", "Sedex"))
                 .RuleFor(v => v.ShipmentProvider, "Correios")
                 .RuleFor(v => v.ShippedDate, f => f.Date.Recent())
-                .RuleFor(v => v.TotalWeight, f => f.Random.Decimal(5.0m, 20.0m))
+                .RuleFor(v => v.TotalWeight, f => f.Random.Double(5.0, 20.0))
                 .RuleFor(v => v.DeliveryDate, f => f.Date.Recent(4))
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(3.0m, 62.0m))
                 .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4))

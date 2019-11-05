@@ -6,12 +6,11 @@ using StormyCommerce.Module.Orders.Services;
 using AutoMapper;
 using System.Collections.Generic;
 using StormyCommerce.Module.Orders.Area.Models;
-using System.Linq;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Module.Orders.Area.Models.Shipping;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces.Domain.Shipping;
+using System;
 // using StormyCommerce.Module.Shipping.Models;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
@@ -21,10 +20,12 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     public class ShippingController : ControllerBase
     {
         private readonly CorreiosService _correiosService;                
+        private readonly IShippingService _shippingService;
         private readonly IMapper _mapper;
-        public ShippingController(CorreiosService correiosService,IMapper mapper)
+        public ShippingController(CorreiosService correiosService,IShippingService shippingService,IMapper mapper)
         {
             _correiosService = correiosService;                        
+            _shippingService = shippingService;
             _mapper = mapper;
         }
         [HttpPost("calcdelivery")]
@@ -40,35 +41,20 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         {
             //TODO:Do a research about the sizes of clothes, different kinds of clothes will give different dimensions
             //TODO:Wrap all this in ShippingService
-            int itemsCount = 0; 
-            double weight = 0;
-            decimal totalPrice = 0;
-            model.Items.ForEach(item => {
-                itemsCount += item.Quantity;
-                weight += item.Product.UnitWeight * item.Quantity;
-                totalPrice += item.Price.GetPriceValueInDecimal();
-            });            
+            var shipment = _shippingService.CalculateShipmentDimensions(_mapper.Map<StormyOrder>(model.Order));                                                
             var request = new DeliveryCalculationRequest{
                 //TODO:Need to compare with all options of shipping
                 ServiceCode = ServiceCode.PacAVista,
                 FormatCode = FormatCode.CaixaOuPacote,
-                Weight = (int)weight,
-                ValorDeclarado = totalPrice / 100,
+                Weight = shipment.TotalWeight < 0.3 ? 0.3m : (decimal)shipment.TotalWeight,
+                Height = shipment.TotalHeight < 2 ? 2 : (decimal)shipment.CubeRoot,
+                Width = shipment.TotalWidth < 11 ? 11 : (decimal)shipment.CubeRoot,
+                Length = shipment.TotalLength < 16 ? 16 : (decimal)shipment.CubeRoot,   
+                Diameter = (decimal)Math.Sqrt(Math.Pow(shipment.TotalLength,2) + Math.Pow(shipment.TotalWidth,2)),             
+                DestinationPostalCode = model.DestinationPostalCode,
+                ValorDeclarado = shipment.Order.TotalPrice / 100,
                 WarningOfReceiving = "N",
-            };                         
-            if(itemsCount <= 5){
-                request.Width = 15; 
-                request.Height = 3; 
-                request.Length = 11;
-            } else if(itemsCount <= 15 && itemsCount > 5){
-                request.Width = 20; 
-                request.Height = 7; 
-                request.Length = 11; 
-            } else if(itemsCount <= 30 && itemsCount > 15){
-                request.Width = 25; 
-                request.Height = 11; 
-                request.Length = 15; 
-            }
+            };                                     
             return Ok(new {result = await _correiosService.CalculateDeliveryPriceAndTime(_mapper.Map<CalcPrecoPrazoModel>(request)) });            
         }
     }
