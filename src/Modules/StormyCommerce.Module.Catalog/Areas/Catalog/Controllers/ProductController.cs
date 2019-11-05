@@ -12,14 +12,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Vendor;
+using StormyCommerce.Core.Models.Requests;
+using Microsoft.EntityFrameworkCore;
 
 //! Remember to make a security check here.
-namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
+namespace StormyCommerce.Module.Catalog.Controllers
 {
     [Area("Catalog")]
     [ApiController]
@@ -85,11 +86,8 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         public async Task<ActionResult<IList<ProductDto>>> GetAllProducts(long startIndex = 1, long endIndex = 15)
         {
             var products = await _productService.GetAllProductsAsync(startIndex, endIndex);
-
             if (products == null) return NotFound("Products not found");
-
             var result = _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products);
-
             return result.ToList();
         }
 
@@ -121,36 +119,14 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
         [ValidateModel]
         [Authorize(Roles.Admin)]
         public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
-        {               
-            var medias = new List<ProductMedia>();
-            var categories = new List<ProductCategory>();
-            _model.Medias.ForEach(async (m) => {
-                if(m.Id != 0){
-                    medias.Add(await _productMediaRepository.GetByIdAsync(m.Id));
-                } else {
-                    medias.Add(m);      
-                }
-            });            
-            _model.Categories.ForEach(async (category) => {
-                if(category.Id != 0){
-                    categories.Add(await _productCategoryRepository.GetByIdAsync(category.Id));
-                } else {
-                    categories.Add(category);
-                }
-            });
-            _model.Medias = medias;
-            var model = _mapper.Map<StormyProduct>(_model);                                 
-            model.BrandId = _model.Brand.Id; 
-            model.VendorId = _model.Vendor.Id;                                              
-            model.Brand = null; 
-            model.Vendor = null;            
-                        
+        {                                       
+            var model = _mapper.Map<StormyProduct>(_model);
+                                                     
             try
             {                                                        
                 await _productService.InsertProductAsync(model);                                
-            }            
-            //TODO:Change to a more specific Exception
-            catch(Exception ex){
+            }                        
+            catch(DbUpdateException ex){
                 _logger.LogError($"don't was possible to create product, application returned the following exception:{ex}");
                 return BadRequest($"application failed to perform given operation. Given exception:{ex.Message}");
             }

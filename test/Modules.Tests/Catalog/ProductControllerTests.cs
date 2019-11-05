@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-using StormyCommerce.Core.Services.Catalog;
+using StormyCommerce.Core.Models.Requests;
 using StormyCommerce.Infraestructure.Data.Repositories;
-using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
-using StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels;
+using StormyCommerce.Module.Catalog.Controllers;
 using StormyCommerce.WebHost.Mappings;
 using System.Linq;
 using System.Threading.Tasks;
+using TestHelperLibrary.Mocks;
 using TestHelperLibrary.Utils;
 using Xunit;
 
@@ -32,7 +31,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             var profile = new CatalogProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             var mapper = configuration.CreateMapper();
-            _productController = new ProductController(new ProductService(_repository),null,null,null,null,null, mapper,null);
+            _productController = new ProductController(ServiceTestFactory.GetProductService(),null,null,null,null,null, mapper,null);
         }
 
         [Fact]
@@ -113,8 +112,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
                 AvailableSizes = "P,M,G,GG",
                 ProductCost = product.ProductCost,
                 ProductName = product.ProductName,
-                Brand = product.Brand,
-                
+                Brand = product.Brand,                
                 Vendor = product.Vendor,
                 QuantityPerUnity = product.QuantityPerUnity,
                 UnitPrice = product.UnitPrice,
@@ -124,8 +122,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
                 ThumbnailImage = product.ThumbnailImage,
                 Medias = product.Medias,
                 Links = product.Links.Select(p => p.ToProductLinkDto()).ToList(),
-                Note = product.Note,
-                Ranking = product.Ranking,                
+                Note = product.Note,                          
                 Discount = product.Discount,
             };
         }

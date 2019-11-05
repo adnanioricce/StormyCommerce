@@ -34,16 +34,18 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                     .HasOne(prop => prop.DefaultBillingAddress)
                     .WithMany()
                     .HasForeignKey(customer => customer.DefaultBillingAddressId)                                    
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
                 entity
                     .HasOne(customer => customer.DefaultShippingAddress)
                     .WithMany()
                     .HasForeignKey(customer => customer.DefaultShippingAddressId)                    
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
                 entity
                     .HasIndex(prop => prop.DefaultBillingAddressId)
                     .IsUnique(false);
-                entity.HasIndex(prop => prop.DefaultShippingAddressId).IsUnique();
+                entity
+                    .HasIndex(prop => prop.DefaultShippingAddressId)
+                    .IsUnique(false);
                 entity.Property(prop => prop.FullName).HasMaxLength(450);
                 entity.Property(prop => prop.CPF).HasMaxLength(9);
                 entity.Property(prop => prop.Email).IsRequired();

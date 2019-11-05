@@ -8,6 +8,7 @@ using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Tests.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
+using TestHelperLibrary.Mocks;
 using TestHelperLibrary.Utils;
 using Xunit;
 
@@ -23,7 +24,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             _repository = RepositoryHelper.GetRepository<StormyProduct>();
             _repository.AddCollectionAsync(Seeders.StormyProductSeed(6));
             Task.WaitAll();
-            _service = new ProductService(_repository);
+            _service = ServiceTestFactory.GetProductService();
         }
 
         [Theory]
@@ -79,7 +80,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
             //Arrange
             var repo = RepositoryHelper.GetRepository<StormyProduct>();
             await repo.AddCollectionAsync(Seeders.StormyProductSeed(10));
-            var service = new ProductService(repo);
+            var service = ServiceTestFactory.GetProductService();
             //Act
             var stockQuantity = service.GetTotalStockQuantity();
             //Assert
@@ -121,7 +122,7 @@ namespace StormyCommerce.Core.Test.UnitTests.Services.Catalog
         public async Task InsertProductsAsync()
         {
             var repo = RepositoryHelper.GetRepository<StormyProduct>();
-            var service = new ProductService(repo);
+            var service = ServiceTestFactory.GetProductService();
             //Act
             var sampleProducts = Seeders.StormyProductSeed(2);
             //TODO:I think I made a mistake when creating all this...

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-
-namespace StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels
+﻿namespace StormyCommerce.Core.Models.Requests
 {
     public class ProductSearchResponse
     {

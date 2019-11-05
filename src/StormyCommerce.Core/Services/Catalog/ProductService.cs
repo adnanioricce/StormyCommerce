@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models;
@@ -12,20 +14,24 @@ namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductService : IProductService
     {
-        private readonly IStormyRepository<StormyProduct> _productRepository;           
-
+        private readonly IStormyRepository<StormyProduct> _productRepository;    
+        private readonly IStormyRepository<ProductMedia> _productMediaRepository;  
+        private readonly IStormyRepository<Media> _mediaRepository;     
+        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;
+        private readonly IStormyRepository<Category> _categoryRepository;
         //TODO: I Think a service for this is unecessary        
-        public ProductService(IStormyRepository<StormyProduct> productRepository        
+        public ProductService(IStormyRepository<StormyProduct> productRepository,
+        IStormyRepository<ProductMedia> productMediaRepository,
+        IStormyRepository<Media> mediaRepository,
+        IStormyRepository<ProductCategory> productCategoryRepository,
+        IStormyRepository<Category> categoryRepository        
         )
         {
             _productRepository = productRepository;
-            _productRepository
-            .Table
-            .Include(p => p.Brand)
-            .Include(p => p.Categories)                
-            .Include(p => p.Vendor)
-            .Include(p => p.Medias)
-            .Load();
+            _productMediaRepository = productMediaRepository;            
+            _mediaRepository = mediaRepository;
+            _productCategoryRepository = productCategoryRepository;
+            _categoryRepository = categoryRepository;
         }
         #region Read Methods
         //TODO:write failing test cases
@@ -43,16 +49,18 @@ namespace StormyCommerce.Core.Services.Catalog
                 .Take(limit)
                 .ToListAsync();
         }
-
-        //TODO:Create other method for the includes
+        
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 1, long endIndex = 15)
         {
+            //TODO:change this to a SQL query
             return await _productRepository.Table
-                .Include(prop => prop.Categories)
+                .Include(prop => prop.Categories)  
+                    .ThenInclude(prop => prop.Category)                  
                 .Include(prop => prop.Medias)
+                    .ThenInclude(productMedia => productMedia.Media)
                 .Include(prop => prop.Brand)
                 .Include(prop => prop.Vendor)
-                .Where(product => product.Id <= endIndex && product.Id >= startIndex)
+                .Where(product => product.Id <= endIndex && product.Id >= startIndex)                
                 .ToListAsync();
         }
 
@@ -62,7 +70,7 @@ namespace StormyCommerce.Core.Services.Catalog
                 .Include(product => product.Brand)
                 .Include(product => product.Categories)
                 .Include(product => product.Links)
-                .Include(product => product.Medias)
+                .Include(product => product.Medias)                    
                 .Include(product => product.OptionValues)
                 .Include(product => product.Vendor)
                 .Where(product => product.Id >= startIndex && product.Id <= endIndex)
@@ -157,27 +165,15 @@ namespace StormyCommerce.Core.Services.Catalog
             throw new NotImplementedException();
         }
         #endregion                
-        #region Insert Methods
-        //TODO:Create slugs with EntityService
+        #region Insert Methods        
         public async Task InsertProductAsync(StormyProduct product)
-        {                                 
+        {                                                      
             product.Price = Price.GetPriceFromCents("R$",product.UnitPrice);
-            product.OldPrice = Price.GetPriceFromCents("R$",product.UnitPrice);            
-            try 
-            {                
-                await _productRepository.AddAsync(product);
-                                                                                        
-            } catch (Exception ex) {
-                throw ex;
-            }
-            var createdProduct = await _productRepository.Table
-                .Where(p => p.Id == product.Id)
-                .Include(p => p.Categories)
-                .Include(p => p.Brand)
-                .Include(p => p.Medias)
-                .Include(p => p.Links)
-                .FirstOrDefaultAsync();                                
-            createdProduct.ProductName = createdProduct.ProductName.Replace(' ','-');            
+            product.Slug = product.ProductName.Replace(' ','-');           
+            if(product.BrandId != 0) product.Brand = null;
+            if(product.VendorId != 0) product.Vendor = null;                                   
+            
+            await _productRepository.AddAsync(product);                        
         }
 
         public async Task InsertProductsAsync(IList<StormyProduct> products)

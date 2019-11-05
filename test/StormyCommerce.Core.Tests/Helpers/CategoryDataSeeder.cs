@@ -14,14 +14,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                     Slug = "categoria-camisas",
                     Name = "Camisas",
                     Description = "Descrição Camisas",
-                    IsPublished = true,
-                    Parent = new Category
-                    {
-                        Slug = "categoria-vestimentas",
-                        ParentId = 1,
-                        Name = "Roupas",
-                        IsPublished = true
-                    },
+                    IsPublished = true,                    
                 }
             };
         }

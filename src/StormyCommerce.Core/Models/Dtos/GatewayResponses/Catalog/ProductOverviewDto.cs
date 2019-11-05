@@ -16,10 +16,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             Id = product.Id;
             ProductName = product.ProductName;
             Slug = product.Slug;
-            Price = product.Price;
-            OldPrice = product.OldPrice;
-            HasDiscountApplied = product.HasDiscountApplied;            
-            AvailableForPreorder = product.AvailableForPreorder;
+            Price = product.Price;            
             ThumbnailImage = product.ThumbnailImage;
             Categories = product.Categories;
             Medias = product.Medias;
@@ -28,10 +25,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public long Id { get; private set; }
         public string ProductName { get; private set; }
         public string Slug { get; private set; }
-        public Price Price { get; private set; }
-        public Price OldPrice { get; private set; }
-        public bool HasDiscountApplied { get; private set; }
-        public bool AvailableForPreorder { get; private set; }
+        public Price Price { get; private set; }        
         
         public string ThumbnailImage { get; private set; }
         public List<ProductCategory> Categories { get; private set; } = new List<ProductCategory>();

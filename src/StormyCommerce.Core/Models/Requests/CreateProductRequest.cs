@@ -5,7 +5,7 @@ using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Entities.Vendor;
 
-namespace StormyCommerce.Module.Catalog.Areas.Catalog.ViewModels
+namespace StormyCommerce.Core.Models.Requests
 {
     public class CreateProductRequest
     {

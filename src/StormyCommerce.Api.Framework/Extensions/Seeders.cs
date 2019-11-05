@@ -34,36 +34,21 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.UnitPrice = f.Commerce.Random.Decimal(0, 100.0m);
                     v.UnitWeight = f.Random.Double();
                     v.UnitsInStock = f.Random.Int(2, 10);
-                    v.UnitsOnOrder = f.Random.Int(0, 2);
-                    v.ProductAvailable = true;
-                    v.StockTrackingIsEnabled = true;
-                    v.Ranking = f.IndexVariable;
+                    v.UnitsOnOrder = f.Random.Int(0, 2);                    
                     v.Note = f.Lorem.Sentence();
                     v.Price = Price.GetPriceFromString(f.Commerce.Price(1, 100, 2, "R$"));
-                    v.OldPrice = Price.GetPriceFromString(f.Commerce.Price(2, 200, 2, "R$"));
-                    v.HasDiscountApplied = false;
-                    v.IsPublished = true;                    
-                    v.NotReturnable = false;
-                    v.ProductCost = f.Random.Decimal();
-                    v.AvailableForPreorder = false;
-                    v.CreatedOn = f.Date.Past();
-                    v.LatestUpdatedOn = f.Date.Between(f.Date.Recent(), f.Date.Soon());
-                    v.PreOrderAvailabilityStartDate = f.Date.Future();                    
+                    v.ProductCost = f.Random.Decimal();                
+                    v.CreatedOn = f.Date.Past();                                       
                     v.Brand = Seeders.BrandSeed(omitId:true).First(); 
                     var vendor = Seeders.StormyVendorSeed().First();
                     vendor.Address = new VendorAddress{
-                        Address = new Core.Entities.Common.Address("br","sp","Varginha","distrito 9","rua do conhecimento","","","40028922","666","busque conhecimento")
-                        
+                        Address = new Core.Entities.Common.Address("br","sp","Varginha","distrito 9","rua do conhecimento","","","40028922","666","busque conhecimento")                        
                     };                    
-                    v.Vendor = vendor;
-                    
-                    Seeders.MediaSeed(1).ForEach(m => {                                                                                       
-                        
-                        v.AddMedia(m);
-                    });
+                    v.Vendor = vendor;                    
+                    Seeders.MediaSeed(1).ForEach(m =>v.AddMedia(m));
                     v.ThumbnailImage = f.Image.LoremPixelUrl(LoremPixelCategory.Fashion);
                     var category = ProductCategorySeed(omitId:true).First();                    
-                    category.Product = v;
+                    // category.Product = v;
                     v.Categories.Add(category);
                     v.Width = f.Random.Decimal(1.0m,20.0m);
                     v.Height = f.Random.Decimal(1.0m,20.0m);
@@ -142,11 +127,12 @@ namespace StormyCommerce.Api.Framework.Extensions
             var fakeMedias = new Faker<ProductMedia>("pt_BR")
                 .Rules((f,v) => {        
                     v.Id = f.IndexFaker;            
-                    v.FileName = f.Image.LoremPixelUrl(LoremPixelCategory.Fashion);
-                    v.FileSize = f.System.Random.Int(5,100);
-                    v.IsDeleted = false;
-                    v.LastModified = f.Date.Recent(14);
-                    v.MediaType = MediaType.Image;
+                    var media = new Media{
+                        FileName = f.Image.LoremFlickrUrl(),
+                        FileSize = f.System.Random.Int(24,1024),
+                        MediaType = MediaType.Image
+                    };
+                    v.Media = media;                                        
                 });
             return fakeMedias.Generate(count);
         }
@@ -192,8 +178,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.DisplayOrder, f => f.IndexFaker)
                 .RuleFor(v => v.IncludeInMenu, true)
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.IsPublished, true)
-                .RuleFor(v => v.MetaDescription, f => f.Lorem.Text())
+                .RuleFor(v => v.IsPublished, true)                
                 .RuleFor(v => v.Slug, f => f.Lorem.Slug())
                 .RuleFor(v => v.Name, f => f.Commerce.Categories(1)[0])
                 .RuleFor(v => v.ThumbnailImageUrl, f => f.Image.LoremPixelUrl("fashion"));                
