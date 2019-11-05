@@ -25,8 +25,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             UnitWeight = product.UnitWeight;
             UnitsInStock = product.UnitsInStock;
             UnitsOnOrder = product.UnitsOnOrder;
-            Price = product.Price.Value;
-            OldPrice = product.OldPrice.Value;            
+            Price = product.Price.Value;                  
         }
 
         public ProductDto(StormyProduct product)
@@ -43,10 +42,10 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             UnitWeight = product.UnitWeight;
             UnitsInStock = product.UnitsInStock;
             UnitsOnOrder = product.UnitsOnOrder;
-            Price = product.Price.Value;
-            OldPrice = product.OldPrice.Value;
+            Price = product.Price.Value;            
             ThumbnailImage = product.ThumbnailImage;
-            Medias = product.Medias.Select(p => new ProductMediaDto(p)).ToList();
+            Medias = product.Medias.Select(m => new ProductMediaDto(m)).ToList();
+            Categories = product.Categories.Select(c => new ProductCategoryDto(c)).ToList();
             Brand = new BrandDto(product.Brand);                        
             Vendor = new VendorDto(product.Vendor);
         }
@@ -69,7 +68,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public string Price { get; set; }
         public string OldPrice { get; set; }
         public string ThumbnailImage { get; set; }
-        public List<ProductCategory> Categories { get; set; } = new List<ProductCategory>();
+        public List<ProductCategoryDto> Categories { get; set; } = new List<ProductCategoryDto>();
         public BrandDto Brand { get; set; }
         public VendorDto Vendor { get; set; }
         public List<ProductMediaDto> Medias { get; set; }
@@ -87,8 +86,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
                 UnitWeight = this.UnitWeight,
                 UnitsInStock = this.UnitsInStock,
                 UnitsOnOrder = this.UnitsOnOrder,
-                Price = Core.Models.Price.GetPriceFromString(this.Price),
-                OldPrice = Core.Models.Price.GetPriceFromString(this.OldPrice)                
+                Price = Core.Models.Price.GetPriceFromString(this.Price),                        
             };
         }
     }

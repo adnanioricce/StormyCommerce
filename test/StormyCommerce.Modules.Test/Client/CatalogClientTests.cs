@@ -7,6 +7,7 @@ using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Vendor;
+using StormyCommerce.Core.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,8 @@ namespace StormyCommerce.Modules.IntegrationTest.Client
         private HttpClient _client;
         public CatalogClientTests(WebApplicationFactory<Startup> factory)
         {
-            // this.mockRepository = new MockRepository(MockBehavior.Strict);  
+            // factory.WithWebHostBuilder((config) => {                                
+            // })
             _client = factory.CreateClient();          
         }
 
@@ -56,16 +58,11 @@ namespace StormyCommerce.Modules.IntegrationTest.Client
         public async Task CreateProductAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var catalogClient = this.CreateCatalogClient();
-            Category category = Seeders.CategorySeed().First();
-            StormyVendor vendor = Seeders.StormyVendorSeed().First();
-            Brand brand = Seeders.BrandSeed().First();            
+            var catalogClient = this.CreateCatalogClient();            
             StormyProduct _model = Seeders.StormyProductSeed().First();
-            CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);
-            //TODO:Create the other entities Separately
+            CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);            
             // Act
-            var result = await catalogClient.CreateProductAsync(_model,cancellationToken);
-
+            var result = await catalogClient.CreateProductAsync(GetCreateProductRequestModel(_model),cancellationToken);
             // Assert
             Assert.True(result.Success);
         }
@@ -236,6 +233,33 @@ namespace StormyCommerce.Modules.IntegrationTest.Client
 
             // Assert
             Assert.Equal(id,result.Id);
+        }
+        private CreateProductRequest GetCreateProductRequestModel(StormyProduct product)
+        {
+            return new CreateProductRequest{
+                Description = product.Description,
+                ShortDescription = product.Description,
+                SKU = product.SKU,
+                Diameter = product.Diameter,
+                Height = product.Height,
+                Length = product.Length,
+                Width = product.Width,
+                AvailableSizes = "P,M,G,GG",
+                ProductCost = product.ProductCost,
+                ProductName = product.ProductName,
+                Brand = product.Brand,                
+                Vendor = product.Vendor,
+                QuantityPerUnity = product.QuantityPerUnity,
+                UnitPrice = product.UnitPrice,
+                UnitWeight = product.UnitWeight,
+                UnitsInStock = product.UnitsInStock,
+                ProductAvailable = true,
+                ThumbnailImage = product.ThumbnailImage,
+                Medias = product.Medias,
+                Links = product.Links.Select(p => p.ToProductLinkDto()).ToList(),
+                Note = product.Note,        
+                Discount = product.Discount,
+            };
         }
     }
 }

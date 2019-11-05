@@ -1,0 +1,43 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using StormyCommerce.Api.Framework.Filters;
+using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Services.Catalog;
+
+namespace StormyCommerce.Module.Catalog.Controllers
+{
+    [Area("Catalog")]
+    [ApiController]
+    [Route("api/[Controller]")]
+    [Authorize("admin")]
+    [EnableCors("Default")]
+    public class BrandController : Controller
+    {
+        private readonly BrandService _brandService;
+        public BrandController(BrandService brandService)
+        {
+            _brandService = brandService;   
+        }
+        [HttpPost("create")]
+        [ValidateModel]
+        public async Task<IActionResult> CreateBrand([FromBody]Brand brand)
+        {
+            await _brandService.AddAsync(brand);
+            return Ok(Result.Ok());
+        }
+        [HttpGet("get")]        
+        public async Task<Brand> GetBrandById(int id)
+        {
+            return await _brandService.GetBrandByIdAsync(id);
+        }
+        [HttpGet("list")]        
+        public async Task<IList<Brand>> GetAllBrand()
+        {
+            return await _brandService.GetAllBrandsAsync();
+        }
+    }
+}

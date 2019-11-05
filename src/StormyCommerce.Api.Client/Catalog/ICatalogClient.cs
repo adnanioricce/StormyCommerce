@@ -5,6 +5,7 @@ using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Models.Requests;
 
 namespace StormyCommerce.Api.Client.Catalog
 {
@@ -65,7 +66,7 @@ namespace StormyCommerce.Api.Client.Catalog
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Result> CreateProductAsync(StormyProduct _model = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Result> CreateProductAsync(CreateProductRequest _model = null, CancellationToken cancellationToken = default(CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>

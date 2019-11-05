@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StormyCommerce.Infraestructure.Data;
@@ -10,9 +11,10 @@ using StormyCommerce.Infraestructure.Data;
 namespace SimplCommerce.WebHost.Migrations
 {
     [DbContext(typeof(StormyDbContext))]
-    partial class StormyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191104194236_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,6 +211,14 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<DateTimeOffset>("LastModified");
 
+                    b.Property<string>("MetaDescription");
+
+                    b.Property<string>("MetaKeywords")
+                        .HasMaxLength(450);
+
+                    b.Property<string>("MetaTitle")
+                        .HasMaxLength(450);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(450);
@@ -222,6 +232,8 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<string>("ThumbnailImageUrl");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Category");
                 });
@@ -477,6 +489,8 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTimeOffset>("LastModified");
+
+                    b.Property<DateTime?>("LatestUpdatedOn");
 
                     b.Property<decimal>("Length");
 
@@ -1163,6 +1177,13 @@ namespace SimplCommerce.WebHost.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Category", b =>
+                {
+                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Category", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+                });
+
             modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductAttribute", b =>
                 {
                     b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.ProductAttributeGroup", "Group")
@@ -1309,12 +1330,12 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasOne("StormyCommerce.Core.Entities.Customer.CustomerAddress", "DefaultBillingAddress")
                         .WithMany()
                         .HasForeignKey("DefaultBillingAddressId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("StormyCommerce.Core.Entities.Customer.CustomerAddress", "DefaultShippingAddress")
                         .WithMany()
                         .HasForeignKey("DefaultShippingAddressId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.Wishlist", b =>

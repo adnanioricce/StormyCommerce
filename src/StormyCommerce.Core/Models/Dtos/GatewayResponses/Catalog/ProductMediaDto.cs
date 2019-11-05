@@ -5,13 +5,19 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
     public class ProductMediaDto
     {
         public ProductMediaDto(){}
-        public ProductMediaDto(ProductMedia media)
+        public ProductMediaDto(Media media)
         {
-            Filename = media.FileName;
+            FileName = media.FileName;
             FileSize = media.FileSize;
             SeoFilename = media.SeoFileName;
         }
-        public string Filename { get; set; }
+        public ProductMediaDto(ProductMedia media)
+        {
+            FileName = media.Media.FileName;
+            FileSize = media.Media.FileSize;
+            SeoFilename = media.Media.SeoFileName;
+        }
+        public string FileName { get; set; }
         public int FileSize { get; set; }
         public string SeoFilename { get; set; }
     }

@@ -2,11 +2,8 @@
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-using StormyCommerce.Module.Catalog.Dtos;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
@@ -19,8 +16,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         {
             Id = productDto.Id;
             Slug = productDto.Slug;
-            ProductName = productDto.ProductName;
-            OldPrice = Core.Models.Price.GetPriceFromString(productDto.OldPrice);
+            ProductName = productDto.ProductName;            
             Price = Core.Models.Price.GetPriceFromString(productDto.Price);
             QuantityPerUnity = productDto.QuantityPerUnity;
             UnitPrice = productDto.UnitPrice;
@@ -36,8 +32,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         }
         public StormyProduct(){}
 
-        public string SKU { get; set; }
-        public string Gtin { get; set; }
+        public string SKU { get; set; }        
         public string NormalizedName { get; set; }
         public string ProductName { get; set; }
         public string Slug { get; set; }        
@@ -45,12 +40,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public long VendorId { get; set; }
         public long CategoryId { get; set; }
         public long? MediaId { get; set; }
-        public long? ProductLinksId { get; set; }
-        public long? TaxClassId { get; set; }
-        public long? LatestUpdatedById { get; set; }
+        public long? ProductLinksId { get; set; }                
         public StormyVendor Vendor { get; set; }
-        public Brand Brand { get; set; }
-        public List<ProductCategory> Categories { get; private set; } = new List<ProductCategory>();
+        public Brand Brand { get; set; }        
         public string ShortDescription { get; set; }
         public string Description { get; set; }        
         public int QuantityPerUnity { get; set; }
@@ -63,43 +55,18 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public decimal Length { get; set; }
         public int? Diameter { get; set; }
         public int UnitsInStock { get; set; }
-        public int UnitsOnOrder { get; set; }
-        public int ReviewsCount { get; set; }
-        public bool ProductAvailable { get; set; } = true;
-        public bool DiscountAvailable { get; set; }
-        public bool StockTrackingIsEnabled { get; set; } = true;
+        public int UnitsOnOrder { get; set; }                
         public string ThumbnailImage { get; set; }
-        public List<ProductMedia> Medias { get; protected set; } = new List<ProductMedia>();
-        public List<ProductLink> Links { get; protected set; } = new List<ProductLink>();
-        // public List<ProductLink> LinkedProductLinks { get; protected set; } = new List<ProductLink>();        
-        public List<ProductAttributeValue> AttributeValues { get; protected set; } = new List<ProductAttributeValue>();
-        public List<ProductOptionValue> OptionValues { get; protected set; } = new List<ProductOptionValue>();
-        public int Ranking { get; set; }
+        public List<ProductMedia> Medias { get; set; } = new List<ProductMedia>();
+        public List<ProductLink> Links { get; set; } = new List<ProductLink>();           
+        public List<ProductAttributeValue> AttributeValues { get; set; } = new List<ProductAttributeValue>();
+        public List<ProductOptionValue> OptionValues { get; set; } = new List<ProductOptionValue>();        
+        public List<ProductCategory> Categories { get; set; } = new List<ProductCategory>();
         public string Note { get; set; }        
-        public Price Price { get; set; }        
-        public Price OldPrice { get; set; }
-        public string SpecialPrice { get; set; }
-        public DateTime? SpecialPriceStart { get; set; }
-        public DateTime? SpecialPriceEnd { get; set; }        
-        public bool HasDiscountApplied { get; set; }
-        public bool IsPublished { get; set; }        
-        public bool NotReturnable { get; set; }
-        public bool AvailableForPreorder { get; set; }
-        public bool HasOptions { get; set; }
-        public bool IsVisibleIndividually { get; set; }
-        public bool IsFeatured { get; set; }
-        public bool IsCallForPricing { get; set; }
-        public bool IsAllowToOrder { get; set; }        
-        public decimal ProductCost { get; set; }
-        public DateTime? PreOrderAvailabilityStartDate { get; set; }
+        public Price Price { get; set; }                                                                                                      
+        public decimal ProductCost { get; set; }        
         public DateTime? PublishedOn { get; set;}
-        public DateTime? CreatedOn { get; set; }
-        public DateTime? LatestUpdatedOn { get; set; }
-        public bool AllowCustomerReview { get; set; }
-        public int ApprovedRatingSum { get; set; }
-        public int NotApprovedRatingSum { get; set; }
-        public int ApprovedTotalReviews { get; set; }
-        public int NotApprovedTotalReviews { get; set; }
+        public DateTime? CreatedOn { get; set; }            
         public int RatingAverage { get; set; }        
         public void AddMedia(ProductMedia media)
         {

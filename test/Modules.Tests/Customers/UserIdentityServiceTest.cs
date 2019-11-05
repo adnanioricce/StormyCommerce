@@ -41,7 +41,7 @@ namespace Modules.Test.Customers
             //Arrange
             var user = new ApplicationUser { UserName = null, Email = null };
             //Act & Assert
-            var result = Assert.ThrowsAsync<ArgumentNullException>(async () => await Service.CreateUserAsync(user, null));
+            var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await Service.CreateUserAsync(user, null));
         }
 
         [Fact]

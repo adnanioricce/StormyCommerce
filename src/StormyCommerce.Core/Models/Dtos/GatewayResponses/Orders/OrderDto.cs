@@ -35,9 +35,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         public decimal Tax { get; private set; }
         public decimal TotalWeight { get; private set; }
         public decimal TotalPrice { get; private set; }
-        public decimal DeliveryCost { get; private set; }        
-        #warning //! Possibly data leak
-        public CustomerAddress ShippingAddress { get; private set; }
+        public decimal DeliveryCost { get; private set; }                
+        public CustomerAddressDto ShippingAddress { get; private set; }
         public DateTime OrderDate { get; private set; }
         public DateTime ShippedDate { get; private set; }
         public DateTime DeliveryDate { get; private set; }

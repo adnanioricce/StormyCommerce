@@ -7,9 +7,7 @@ namespace StormyCommerce.Core.Entities.Catalog
     //TODO:Change DataAnotation mapping to FluentAPI mapping
     public class Category : BaseEntity
     {
-        public Category()
-        {
-        }
+        public Category(){}
 
         public Category(long id)
         {
@@ -20,16 +18,12 @@ namespace StormyCommerce.Core.Entities.Catalog
         {
             Id = category.Id;
             Name = category.Name;
-            Slug = category.Slug;
-            MetaTitle = category.MetaTitle;
-            MetaKeywords = category.MetaKeywords;
-            MetaDescription = category.MetaDescription;
+            Slug = category.Slug;            
             Description = category.Description;
             DisplayOrder = category.DisplayOrder;
             IsPublished = category.IsPublished;
             IncludeInMenu = category.IncludeInMenu;
-            ParentId = category.ParentId;
-            Parent = category.Parent ?? new Category();            
+            ParentId = category.ParentId;               
             ThumbnailImageUrl = category.ThumbnailImageUrl;
         }
 
@@ -37,31 +31,23 @@ namespace StormyCommerce.Core.Entities.Catalog
         {
             Id = id;
             Name = category.Name;
-            Slug = category.Slug;
-            MetaTitle = category.MetaTitle;
-            MetaKeywords = category.MetaKeywords;
-            MetaDescription = category.MetaDescription;
+            Slug = category.Slug;            
             Description = category.Description;
             DisplayOrder = category.DisplayOrder;
             IsPublished = category.IsPublished;
             IncludeInMenu = category.IncludeInMenu;
-            ParentId = category.ParentId;
-            Parent = category.Parent;            
+            ParentId = category.ParentId;            
             ThumbnailImageUrl = category.ThumbnailImageUrl;
         }        
 
         public string Name { get; set; }
-        public string Slug { get; set; }
-        public string MetaTitle { get; set; }
-        public string MetaKeywords { get; set; }
-        public string MetaDescription { get; set; }
+        public string Slug { get; set; }        
         public string Description { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsPublished { get; set; }
         public bool IncludeInMenu { get; set; }
         public long? ParentId { get; set; }
-        public long? ChildrenId { get; set; }
-        public Category Parent { get; set; }        
+        public long? ChildrenId { get; set; }               
         public string ThumbnailImageUrl { get; set; }        
     }
 }

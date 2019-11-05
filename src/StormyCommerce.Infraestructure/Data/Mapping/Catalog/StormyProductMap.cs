@@ -57,8 +57,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(product => product.ProductName).HasMaxLength(400).IsRequired();                
                 entity.Property(product => product.QuantityPerUnity).IsRequired();
                 entity.Property(product => product.ProductCost).IsRequired();
-                entity.Ignore(product => product.Price);
-                entity.Ignore(product => product.OldPrice);
+                entity.Ignore(product => product.Price);                
                 entity.Property(product => product.UnitPrice).IsRequired();
                 entity.Property(product => product.UnitsInStock).IsRequired();                
             });
@@ -67,23 +66,36 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.HasOne(prop => prop.Product)
                 .WithMany(prop => prop.Categories)
                 .HasForeignKey(prop => prop.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
                 entity.HasOne(prop => prop.Category)
                 .WithMany()                
                 .HasForeignKey(prop => prop.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
             });
             modelBuilder.Entity<ProductOption>(entity =>
             {
+            });
+            modelBuilder.Entity<Media>(entity => {
+                entity.HasKey(prop => prop.Id);
+                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
+                
             });
             modelBuilder.Entity<ProductMedia>(entity =>
             {                
                 entity.HasKey(prop => prop.Id);                
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd();   
+                entity.HasOne(prop => prop.Media)
+                .WithMany()
+                .HasForeignKey(prop => prop.MediaId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
                 entity.HasOne(prop => prop.Product)
                 .WithMany(p => p.Medias)
                 .HasForeignKey(p => p.StormyProductId)
-                .OnDelete(DeleteBehavior.Restrict);                                           
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();                                           
             });
             modelBuilder.Entity<Stock>(e => { 
                 e.Property(prop => prop.Id).ValueGeneratedOnAdd();
