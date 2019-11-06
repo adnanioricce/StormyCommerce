@@ -47,14 +47,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             var customer = GetCurrentCustomer();                               
             await _customerService.AddCustomerAddressAsync(address,customer.Id);
             return Ok();
-        }
-        [HttpPost("review/create")]
-        [ValidateModel]        
-        public async Task<IActionResult> WriteReviewAsync([FromBody]CustomerReviewDto review)
-        {
-            await _customerService.CreateCustomerReviewAsync(_mapper.Map<Review>(review),review.Email.ToUpper());
-            return Ok();
-        }
+        }        
         [HttpGet("list")]
         [Authorize("Admin")]
         [ValidateModel]

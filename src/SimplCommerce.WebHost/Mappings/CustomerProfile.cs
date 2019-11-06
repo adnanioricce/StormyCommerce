@@ -3,6 +3,7 @@ using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Infraestructure.Entities;
+using StormyCommerce.Module.Customer.Models.Requests;
 
 namespace StormyCommerce.WebHost.Mappings
 {
@@ -17,6 +18,7 @@ namespace StormyCommerce.WebHost.Mappings
             CreateMap<StormyCustomer, CustomerDto>();                
             CreateMap<StormyCustomer, ApplicationUser>();                
             CreateMap<ApplicationUser, StormyCustomer>();
+            CreateMap<WriteReviewRequest, Review>();
         }
     }
 }

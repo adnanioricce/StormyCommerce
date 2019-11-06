@@ -10,11 +10,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
     {
         Task CreateCustomerReviewAsync(Review review, string normalizedEmail);
 
-        Task AddCustomerAddressAsync(CustomerAddress address, long customerIds);
-
-        Task<IList<Review>> GetCustomerReviewsAsync(long customerId);
-
-        Task<Review> GetCustomerReviewByIdAsync(string customerId, long? reviewId);
+        Task AddCustomerAddressAsync(CustomerAddress address, long customerIds);               
 
         Task<IList<CustomerAddress>> GetAllCustomerAddressByIdAsync(long id);
         
@@ -23,13 +19,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
         int GetCustomersCount();
         Task<StormyCustomer> GetCustomerByIdAsync(long id);
 
-        Task<StormyCustomer> GetCustomerByUserNameOrEmail(string username, string email);
-
-        Task EditCustomerReviewAsync(Review review, long customerId);
-
-        Task EditCustomerReviewAsync(Review review, StormyCustomer customer);
-
-        Task DeleteCustomerReviewByIdAsync(long reviewId, long customerId);
+        Task<StormyCustomer> GetCustomerByUserNameOrEmail(string username, string email);        
         
         Task CreateCustomerAsync(StormyCustomer customer);        
 

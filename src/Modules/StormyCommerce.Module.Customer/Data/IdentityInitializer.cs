@@ -74,13 +74,7 @@ namespace StormyCommerce.Module.Customer.Data
             if (_userManager.FindByNameAsync(user.UserName).Result == null)
             {
                 var resultado = _userManager
-                    .CreateAsync(user, password).Result;
-
-                // if (resultado.Succeeded &&
-                //     !String.IsNullOrWhiteSpace(initialRole))
-                // {
-                //     _userManager.AddToRoleAsync(user, initialRole).Wait();
-                // }
+                    .CreateAsync(user, password).Result;                
             }
         }
     }

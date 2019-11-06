@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -7,13 +7,14 @@ using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Services.Catalog;
+using StormyCommerce.Module.Customer.Models;
 
 namespace StormyCommerce.Module.Catalog.Controllers
 {
     [Area("Catalog")]
     [ApiController]
     [Route("api/[Controller]")]
-    [Authorize("admin")]
+    [Authorize(Roles.Admin)]
     [EnableCors("Default")]
     public class BrandController : Controller
     {
