@@ -24,18 +24,28 @@ namespace StormyCommerce.Module.Orders.Services
         )
         {
             _shipmentRepository = shipmentRepository;
-            _orderRepository = orderRepository;
-            
+            _orderRepository = orderRepository;            
             _correiosService = correiosService;
         }
-        public virtual async Task<Shipment> BuildShipmentForOrder(StormyOrder order)
+        public Shipment CalculateShipmentDimensions(StormyOrder order)
         {            
             var shipment = new Shipment().CalculateShipmentMeasures(order.Items);            
             shipment.ShipmentProvider = "Correios";                        
             shipment.BillingAddress = Container.OriginAddress;            
             shipment.Status = ShippingStatus.NotShippedYet;             
             shipment.Order = order;                            
-            if(shipment.DeliveryCost <= 0 && !order.PickUpInStore){
+           
+            return shipment;
+        }            
+        public async Task CreateShipmentAsync(Shipment shipment)
+        {        
+            await _shipmentRepository.AddAsync(shipment);
+        }
+
+        public async Task CreateShipmentAsync(StormyOrder order)
+        {            
+            var shipment = CalculateShipmentDimensions(order);
+            if(!order.PickUpInStore){
                 var calcResult = await _correiosService.DefaultDeliveryCalculation(shipment);                
                 var shippingOption = calcResult.Options.FirstOrDefault();
                 shipment.ExpectedDeliveryDate = shippingOption.DeliveryDeadline; 
@@ -43,19 +53,8 @@ namespace StormyCommerce.Module.Orders.Services
                 shipment.DeliveryDate = shippingOption.DeliveryMaxDate;
                 shipment.ShipmentMethod = GetShippingMethod(shippingOption.Service);
                 shipment.DeliveryCost = Price.GetPriceFromString(shippingOption.Price).GetPriceValueInDecimal();
-                order.Shipment = shipment;
-                return shipment;
+                order.Shipment = shipment;                
             }
-            return shipment;
-        }            
-        public async Task CreateShipmentAsync(Shipment shipment)
-        {            
-            await _shipmentRepository.AddAsync(shipment);
-        }
-
-        public async Task CreateShipmentAsync(StormyOrder order)
-        {            
-            var shipment = await BuildShipmentForOrder(order);
             await CreateShipmentAsync(shipment);
         }
         public async Task<Shipment> GetShipmentById(long id)
@@ -72,7 +71,18 @@ namespace StormyCommerce.Module.Orders.Services
         {
             var order = await _orderRepository.Table.Where(o => o.OrderUniqueKey == uniqueOrderId).FirstOrDefaultAsync();
             return  order.Shipment;
-        }        
+        }      
+        public async Task<Shipment> CalculateDeliveryCost(Shipment shipment,string serviceCode)
+        {            
+            var calcResult = await _correiosService.DefaultDeliveryCalculation(shipment);                
+            var shippingOption = calcResult.Options.FirstOrDefault(s => s.Service.Equals(serviceCode));
+            shipment.ExpectedDeliveryDate = shippingOption.DeliveryDeadline; 
+            shipment.ExpectedHourOfDay = shippingOption.HourOfDay; 
+            shipment.DeliveryDate = shippingOption.DeliveryMaxDate;
+            shipment.ShipmentMethod = GetShippingMethod(shippingOption.Service);
+            shipment.DeliveryCost = Price.GetPriceFromString(shippingOption.Price).GetPriceValueInDecimal();            
+            return shipment;       
+        }  
         private string GetShippingMethod(string serviceCode)
         {
             switch (serviceCode)

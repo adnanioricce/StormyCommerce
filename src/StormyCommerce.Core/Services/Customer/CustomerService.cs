@@ -129,17 +129,7 @@ namespace StormyCommerce.Core.Services.Customer
         public int GetCustomersCount()
         {
             return _customerRepository.Table.Where(c => !c.IsDeleted).ToList().Count();
-        }
-        public async Task<IList<Review>> GetCustomerReviewsAsync(long customerId)
-        {            
-            var customer = await _customerRepository.Table
-            .Include(c => c.CustomerReviews).FirstOrDefaultAsync(c => c.Id == customerId);
-            return customer.CustomerReviews;
-        }
-        public async Task<Review> GetCustomerReviewByIdAsync(string customerId, long? reviewId)
-        {
-            return await _reviewRepository.GetByIdAsync(reviewId);            
-        }
+        }        
         public async Task<IList<CustomerAddress>> GetAllCustomerAddressByIdAsync(long id)
         {
             return (await _customerRepository.Table.Include(a => a.Addresses).FirstOrDefaultAsync(c => c.Id == id)).Addresses;

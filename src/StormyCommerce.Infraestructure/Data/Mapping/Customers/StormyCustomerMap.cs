@@ -63,16 +63,35 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.HasOne(prop => prop.Author)
                     .WithMany(customer => customer.CustomerReviews)
                     .HasForeignKey(prop => prop.StormyCustomerId)
-                    .HasPrincipalKey(prop => prop.UserId);
+                    .HasPrincipalKey(prop => prop.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
                 entity.HasQueryFilter(prop => prop.IsDeleted == false);                
             });
             modelBuilder.Entity<Wishlist>(entity =>
             {
                 entity.HasKey(prop => new {prop.Id,prop.StormyCustomerId});
-                entity.HasOne(p => p.Customer).WithOne(p => p.CustomerWishlist).HasPrincipalKey<StormyCustomer>(c => c.Id);
-                entity.HasMany(prop => prop.WishlistItems).WithOne(prop => prop.Wishlist).HasPrincipalKey(prop => prop.Id);
+                entity.HasOne(p => p.Customer)
+                .WithOne(p => p.CustomerWishlist)
+                .HasPrincipalKey<StormyCustomer>(c => c.Id)
+                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasMany(prop => prop.WishlistItems)
+                .WithOne(prop => prop.Wishlist)
+                .HasPrincipalKey(prop => prop.Id)
+                .OnDelete(DeleteBehavior.Cascade);
                 entity.HasQueryFilter(prop => !prop.IsDeleted);
+            });
+            modelBuilder.Entity<WishlistItem>(entity =>
+            {
+                entity.HasKey(prop => new { prop.Id, prop.WishlistId });
+                entity.HasOne(prop => prop.Product)
+                .WithMany()
+                .HasForeignKey(prop => prop.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(prop => prop.Wishlist)
+                .WithMany()
+                .HasForeignKey(prop => prop.WishlistId)
+                .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

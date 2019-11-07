@@ -34,12 +34,12 @@ namespace StormyCommerce.Core.Models.Requests
         [Required]
         public double UnitWeight { get; set; }
         [Required]
-        public decimal Height { get; set; }
+        public double Height { get; set; }
         [Required]
-        public decimal Width { get; set; }
+        public double Width { get; set; }
         [Required]
-        public decimal Length { get; set; }
-        public int? Diameter { get; set; }
+        public double Length { get; set; }
+        public double? Diameter { get; set; }
         [Required]
         public int UnitsInStock { get; set; }        
         public bool ProductAvailable { get; set; }

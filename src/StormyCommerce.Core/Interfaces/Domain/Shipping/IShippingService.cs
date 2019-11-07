@@ -10,8 +10,10 @@ namespace StormyCommerce.Core.Interfaces.Domain.Shipping
     {
         Task CreateShipmentAsync(Shipment shipment);
         Task CreateShipmentAsync(StormyOrder order);                
-        Task<Shipment> BuildShipmentForOrder(StormyOrder order);        
+        Shipment CalculateShipmentDimensions(StormyOrder order);     
+        Task<Shipment> CalculateDeliveryCost(Shipment shipment,string serviceCode);   
         Task<Shipment> GetShipmentByOrderIdAsync(long orderId);
         Task<Shipment> GetShipmentByOrderIdAsync(Guid uniqueOrderId);
+
     }
 }

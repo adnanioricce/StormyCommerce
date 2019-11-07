@@ -59,9 +59,9 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public string AvailableSizes { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
-        public decimal Height { get; set; }
-        public decimal Width { get; set; }
-        public decimal Length { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public double Length { get; set; }
         public double UnitWeight { get; set; }
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }

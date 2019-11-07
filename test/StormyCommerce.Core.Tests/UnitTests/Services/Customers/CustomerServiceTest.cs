@@ -34,35 +34,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         }        
         #endregion
         #region Expected Scenario
-        #region Read Operations
-        [Fact]
-        public async Task GetCustomerReviewsAsync_ExistingEntityWithIdEqual1And2Reviews_ReturnAllReviewsCreatedByTheCustomer()
-        {
-            //Given    
-            var customer = Seeders.StormyCustomerSeed().First();        
-            var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
-            context.Add(customer);
-            context.SaveChanges();
-            var service = CreateCustomerService(context);
-            //When
-            var reviews = await service.GetCustomerReviewsAsync(customer.Id);
-            //Then
-            Assert.Equal(1, reviews.Count);
-        }
-        [Fact]
-        public async Task GetCustomerReviewByIdAsync_ReviewCreatedByUserWithGivenId_ReturnGivenEntityCreatedByCustomer()
-        {
-            //Given
-            var customer = Seeders.StormyCustomerSeed().First();
-            var entryReview = customer.CustomerReviews.First();
-            var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
-            context.Add(customer);
-            var service = CreateCustomerService(context);
-            //When
-            var review = await service.GetCustomerReviewByIdAsync(customer.UserId,entryReview.Id);            
-            //Then
-            Assert.Equal(entryReview.Id, review.Id);
-        }
+        #region Read Operations                
         [Fact]
         public void GetCustomersCount_NoInputDatabase_ReturnNumberEntiesOnTheGivenTable()
         {
@@ -172,46 +144,9 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             //Act
             await service.AddCustomerAddressAsync(address, customerId);
             //Assert
-        }
-        [Fact]
-        public async Task EditCustomerReviewAsync_ReceivesEntityWithIdEqualExistingEntity_WriteChangesFromGivenEntityToExistingEntity()
-        {
-            //Given
-            var givenReview = sampleCustomer.CustomerReviews.First();            
-            var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
-            context.Add(sampleCustomer);                        
-            context.SaveChanges();
-            var service = CreateCustomerService(context);     
-            var oldReviewStatus = givenReview.Status;
-            //When
-            givenReview.Status = ReviewStatus.Pending;
-            await service.EditCustomerReviewAsync(givenReview, sampleCustomer.Id);
-            //Then
-            var editedReview = await service.GetCustomerReviewByIdAsync(sampleCustomer.UserId, givenReview.Id);
-            Assert.Equal(givenReview.Id, editedReview.Id);
-            Assert.NotEqual(oldReviewStatus, editedReview.Status);            
-        }
+        }        
         #endregion
-        #region Delete Operations
-        [Fact]
-        public async Task DeleteCustomerReviewByIdAsync_GivenIdFromExistingEntity_SetIsDeletedFieldToTrue()
-        {
-            //Arrange 
-            var context = DbContextHelper.GetDbContext(DbContextHelper.GetDbOptions());
-            context.AddRange(Seeders.ReviewSeed());
-            context.SaveChanges();
-            var service = CreateCustomerService(context);     
-            
-
-            //Act
-            await service.DeleteCustomerReviewByIdAsync(1, sampleCustomer.Id);
-            var entry = await service.GetCustomerReviewByIdAsync(sampleCustomer.UserId, 1);
-            //Assert
-            Assert.True(entry.IsDeleted);
-        }
-
-       
-
+        #region Delete Operations           
         [Fact]
         public async Task DeleteCustomerByIdAsync_ReceivesIdFromExistingStormyCustomerEntity_SetIsDeletedToTrue()
         {
