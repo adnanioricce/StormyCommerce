@@ -14,13 +14,16 @@ namespace StormyCommerce.Core.Services.Customer
     public class CustomerService : ICustomerService
     {
         private readonly IStormyRepository<Review> _reviewRepository;
+        private readonly IStormyRepository<Wishlist> _wishListRepository;
         private readonly IStormyRepository<StormyCustomer> _customerRepository;        
 
         public CustomerService(IStormyRepository<Review> reviewRepository,
-        IStormyRepository<StormyCustomer> customerRepository)
+        IStormyRepository<StormyCustomer> customerRepository,
+        IStormyRepository<Wishlist> wishListRepository)
         {
             _reviewRepository = reviewRepository;
-            _customerRepository = customerRepository;            
+            _customerRepository = customerRepository;
+            _wishListRepository = wishListRepository;
         }                                
         
         #region Create Methods
@@ -90,8 +93,7 @@ namespace StormyCommerce.Core.Services.Customer
         public async Task<IList<StormyCustomer>> GetAllCustomersAsync()
         {
             _customerRepository.Table
-            .Include(f => f.CustomerReviews)
-            .Include(f => f.CustomerWishlist)
+            .Include(f => f.CustomerReviews)            
             .Include(f => f.DefaultBillingAddress)
             .Include(f => f.DefaultShippingAddress)            
             .Load();
@@ -100,8 +102,7 @@ namespace StormyCommerce.Core.Services.Customer
         public async Task<IList<StormyCustomer>> GetAllCustomersAsync(long minLimit,long maxLimit)
         {            
             return await _customerRepository.Table
-                .Include(f => f.CustomerReviews)
-                .Include(f => f.CustomerWishlist)
+                .Include(f => f.CustomerReviews)                
                 .Include(f => f.DefaultBillingAddress)
                 .Include(f => f.DefaultShippingAddress)                
                 .Where(c => c.Id >= minLimit && c.Id <= maxLimit).ToListAsync();
@@ -133,7 +134,19 @@ namespace StormyCommerce.Core.Services.Customer
         public async Task<IList<CustomerAddress>> GetAllCustomerAddressByIdAsync(long id)
         {
             return (await _customerRepository.Table.Include(a => a.Addresses).FirstOrDefaultAsync(c => c.Id == id)).Addresses;
-        }                
-        #endregion                        
+        }
+
+        public async Task AddWishListItem(StormyCustomer customer,long productId)
+        {
+            var wishList = await _wishListRepository.GetByIdAsync(customer.CustomerWishlistId);
+            wishList.WishlistItems.Add(new WishlistItem
+            {
+                Id = 0,
+                Wishlist = wishList,
+                ProductId = productId
+            });
+            await _wishListRepository.UpdateAsync(wishList);
+        }
+        #endregion
     }
 }

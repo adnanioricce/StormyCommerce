@@ -9,7 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
+using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Entities;
@@ -59,6 +61,7 @@ namespace StormyCommerce.Module.Customer
             serviceCollection.AddScoped<RoleManager<IdentityRole>>();
             serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();
             serviceCollection.AddScoped<ICustomerService, CustomerService>();
+            serviceCollection.AddTransient<IReviewService, ReviewService>();
         }
         
 

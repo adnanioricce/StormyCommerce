@@ -37,10 +37,10 @@ namespace StormyCommerce.Core.Services.Catalog
         //TODO:write failing test cases
         public async Task<Result<IList<StormyProduct>>> GetAllProductsByCategory(int categoryId, int limit = 15)
         {
-            return new Result<IList<StormyProduct>>(await _productRepository.Table
-            .Where(product => product.CategoryId == categoryId)
-            .Take(limit)
-            .ToListAsync(), true, "none");
+            return Result.Ok<IList<StormyProduct>>(await _productCategoryRepository.Table
+                .Where(prop => prop.CategoryId == categoryId)
+                .Select(prop => prop.Product)
+                .ToListAsync());
         }
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
         {
@@ -101,8 +101,10 @@ namespace StormyCommerce.Core.Services.Catalog
             return await _productRepository.Table
             .Include(p => p.Brand)
             .Include(p => p.Categories)
+                .ThenInclude(p => p.Category)
             .Include(p => p.Vendor)
             .Include(p => p.Medias)
+                .ThenInclude(p => p.Media)
             .Where(p => p.Id == productId)
             .FirstAsync();
         }

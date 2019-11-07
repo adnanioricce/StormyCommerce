@@ -1,5 +1,4 @@
-﻿using StormyCommerce.Core.Entities.Common;
-using StormyCommerce.Core.Models.Dtos;
+﻿using StormyCommerce.Core.Models.Dtos;
 using System;
 using System.Collections.Generic;
 
@@ -38,10 +37,8 @@ namespace StormyCommerce.Core.Entities.Customer
         public CustomerAddress DefaultBillingAddress { get; set; }
         public long? DefaultBillingAddressId { get; set; }
         public long? CustomerReviewsId { get; set; }
-        public IList<Review> CustomerReviews { get; set; } = new List<Review>();
-        // public IList<StormyOrder> Orders { get; set; } = new List<StormyOrder>();
-        public long? CustomerWishlistId { get; set; }
-        public Wishlist CustomerWishlist { get; set; }
+        public List<Review> CustomerReviews { get; set; } = new List<Review>();        
+        public long? CustomerWishlistId { get; set; }        
         public string UserName { get; set; }
         public string NormalizedUserName { get; set; }
         public string FullName { get; set; }

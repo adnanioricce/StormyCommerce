@@ -43,9 +43,29 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> WriteReview(WriteReviewRequest model)
         {
             var review = _mapper.Map<Review>(model);            
-            await _reviewService.CreateReviewCustomerAsync(review);            
+            await _reviewService.CreateReviewAsync(review);            
             return Ok(Result.Ok("Review was added with sucess"));
         }
-
+        [HttpPost("edit")]
+        [ValidateModel]
+        public async Task<IActionResult> EditReview(Review review)
+        {
+            try
+            {
+                await _reviewService.EditReviewAsync(review);                
+            }
+            catch(DbUpdateException ex)
+            {
+                throw ex;
+            }
+            return Ok();
+        }
+        [HttpPost("delete")]
+        [ValidateModel]
+        public async Task<IActionResult> DeleteReview(long reviewId)
+        {
+            await _reviewService.DeleteReviewAsync(reviewId);
+            return Ok();
+        }
     }
 }

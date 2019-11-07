@@ -30,7 +30,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
         {            
             var reviewRepo = new StormyRepository<Review>(context);
             var customerRepo = new StormyRepository<StormyCustomer>(context);
-            return new CustomerService(reviewRepo, customerRepo);
+            return new CustomerService(reviewRepo, customerRepo,null);
         }        
         #endregion
         #region Expected Scenario
@@ -41,7 +41,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             //Arrange 
             var dbContext = DbContextHelper.GetDbContext();
             var seed = Seeders.StormyCustomerSeed(4);
-            var service = new CustomerService(null, RepositoryHelper.GetRepository<StormyCustomer>(dbContext,seed));
+            var service = new CustomerService(null, RepositoryHelper.GetRepository<StormyCustomer>(dbContext,seed),null);
             //Act 
             var count = service.GetCustomersCount();
             //Assert

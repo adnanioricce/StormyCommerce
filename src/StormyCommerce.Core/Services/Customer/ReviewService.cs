@@ -17,11 +17,20 @@ namespace StormyCommerce.Core.Services.Customer
         {
             _reviewRepository = reviewRepository;            
         }
-        public async Task CreateReviewCustomerAsync(Review review)
+        public async Task CreateReviewAsync(Review review)
         {
             await _reviewRepository.AddAsync(review);
         }
-
+        public async Task EditReviewAsync(Review review)
+        {
+            await _reviewRepository.UpdateAsync(review);
+        }
+        public async Task DeleteReviewAsync(long reviewId)
+        {
+            var review = await _reviewRepository.GetByIdAsync(reviewId);
+            review.IsDeleted = true;
+            await _reviewRepository.UpdateAsync(review);
+        }
         public async Task<Review> GetCustomerReviewByIdAsync(long id)
         {
             return await _reviewRepository.Table                

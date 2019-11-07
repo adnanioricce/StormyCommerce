@@ -22,7 +22,8 @@ namespace StormyCommerce.Module.Catalog
             serviceCollection.AddScoped<ICategoryService, CategoryService>();
             serviceCollection.AddScoped<IEntityService, EntityService>();
             serviceCollection.AddScoped<IMediaService, MediaService>();
-            serviceCollection.AddScoped<IProductTemplateService, ProductTemplateService>();
+            serviceCollection.AddScoped<IProductTemplateService, ProductTemplateService>();            
+            serviceCollection.AddTransient<IBrandService, BrandService>();
         }
     }
 }

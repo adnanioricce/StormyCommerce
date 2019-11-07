@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Bogus.DataSets;
+using StormyCommerce.Api.Framework.Seeders.Customer;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
@@ -319,10 +320,13 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.DefaultShippingAddress = addresses.Last();                    
                     v.Addresses.AddRange(addresses);                    
                     var review = Seeders.ReviewSeed(count,omitId).First();
-                    review.Id += f.IndexVariable;
-                    review.Author = v; 
+                    review.Id += omitId ? 0 : f.IndexVariable;
+                    review.Author = v;
+                    review.Product = StormyProductSeed().First();
+                    var wishList = WishListSeeder.SingleWishListSeed(v, WishListSeeder.WishListItemsSeed(StormyProductSeed(1)));
+                    wishList.Id = 0;                    
                     v.CustomerReviews.Add(review);
-                    //TODO: Seed WishList                    
+                                 
                 });                
             
             return fakeCustomer.Generate(count);
@@ -331,8 +335,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<Review> ReviewSeed(int count = 1, bool ignoreId = false)
         {
             var fakeReview = new Faker<Review>("pt_BR")
-                .RuleFor(v => v.Id, f => ignoreId ? 0 : ++f.IndexVariable)
-                .RuleFor(v => v.StormyCustomerId, Guid.NewGuid().ToString())
+                .RuleFor(v => v.Id, f => ignoreId ? 0 : ++f.IndexVariable)                
                 .RuleFor(v => v.Title, f => f.Lorem.Sentence())
                 .RuleFor(v => v.Comment, f => f.Rant.Review())
                 .RuleFor(v => v.ReviewerName, f => f.Person.FullName)

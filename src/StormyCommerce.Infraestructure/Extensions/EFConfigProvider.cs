@@ -21,6 +21,10 @@ namespace StormyCommerce.Infraestructure.Extensions
             OptionsAction(builder);
 
             using(var dbContext = new EFConfigurationDbContext(builder.Options)){
+                if (dbContext.Database.EnsureDeleted())
+                {
+                    dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                }
                 Data = dbContext.AppSettings.ToDictionary(c => c.Id, c => c.Value);
             }
         }

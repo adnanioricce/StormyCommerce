@@ -19,7 +19,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
             var repository = RepositoryHelper.GetRepository<Review>();
             var service = (IReviewService)(new ReviewService(repository));
             //Act 
-            await service.CreateReviewCustomerAsync(review);
+            await service.CreateReviewAsync(review);
             var createdReview = repository.Table.Last();
             //Assert
             Assert.Equal(review, createdReview);
@@ -60,8 +60,6 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
                 //Assert
                 Assert.Equal(review, entry);
             }
-
-
         }
     }
 }

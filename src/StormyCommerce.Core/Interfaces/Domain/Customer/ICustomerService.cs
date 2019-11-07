@@ -10,8 +10,8 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
     {
         Task CreateCustomerReviewAsync(Review review, string normalizedEmail);
 
-        Task AddCustomerAddressAsync(CustomerAddress address, long customerIds);               
-
+        Task AddCustomerAddressAsync(CustomerAddress address, long customerIds);
+        Task AddWishListItem(StormyCustomer customer,long productId);
         Task<IList<CustomerAddress>> GetAllCustomerAddressByIdAsync(long id);
         
         Task<IList<StormyCustomer>> GetAllCustomersAsync();

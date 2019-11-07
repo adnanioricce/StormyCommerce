@@ -41,7 +41,7 @@ namespace TestHelperLibrary.Mocks
             context.SaveChanges();                                            
             var reviewRepository = new StormyRepository<Review>(context);
             var customerRepository = new StormyRepository<StormyCustomer>(context);
-            return new CustomerService(reviewRepository, customerRepository);
+            return new CustomerService(reviewRepository, customerRepository,null);
         }
 
         public static IMapper GetFakeMapper()

@@ -36,10 +36,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             _customerService = customerService;
             _identityService = identityService;
             _mapper = mapper;
-        }
-        //public async Task<StormyCustomer> GetCustomerByEmail()
-        //{
-        //}
+        }        
         [HttpPost("address/create")]
         [ValidateModel]
         public async Task<IActionResult> AddAddressAsync([FromBody]CustomerAddress address)
@@ -81,6 +78,14 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             var customer = await _customerService.GetCustomerByUserNameOrEmail(customerDto.UserName,customerDto.Email);
             if(customer == null) return NotFound("Customer was not found");
             await _customerService.EditCustomerAsync(customerDto);
+            return Ok();
+        }
+        [HttpPost("add_wishlistitem")]     
+        [ValidateModel]
+        public async Task<IActionResult> AddItemToWishList(long productId)
+        {
+            var customer = await GetCurrentCustomer();
+            await _customerService.AddWishListItem(customer, productId);
             return Ok();
         }
 

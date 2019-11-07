@@ -29,6 +29,7 @@ using System.Text.Unicode;
 using System.Reflection;
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace SimplCommerce.WebHost
 {
@@ -100,7 +101,7 @@ namespace SimplCommerce.WebHost
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            if(_hostingEnvironment.IsProduction()){
+            if(!_hostingEnvironment.IsDevelopment()){
                 services.AddStormyDataStore(_configuration);
             } else {
                 services.AddDbContextPool<StormyDbContext>(options => {
@@ -148,7 +149,15 @@ namespace SimplCommerce.WebHost
                 builder.AllowAnyMethod();
                 builder.AllowAnyHeader();                
             }));
-            services.AddMvc();
+            if (_hostingEnvironment.IsDevelopment()) 
+            { 
+                services.AddMvc(x => {
+                    x.Filters.Add(new AllowAnonymousFilter());
+                });
+            }else
+            {
+                services.AddMvc();
+            }
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -157,6 +166,7 @@ namespace SimplCommerce.WebHost
             {
                 app.UseDeveloperExceptionPage();
                 IdentityModelEventSource.ShowPII = true;
+                
             }
             else
             {
@@ -176,7 +186,7 @@ namespace SimplCommerce.WebHost
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "StormyCommerce API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "StormyCommerce API V1");                
                 c.RoutePrefix = string.Empty;
             });
 

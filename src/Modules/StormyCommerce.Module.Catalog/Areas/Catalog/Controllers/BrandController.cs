@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Module.Customer.Models;
@@ -18,8 +19,8 @@ namespace StormyCommerce.Module.Catalog.Controllers
     [EnableCors("Default")]
     public class BrandController : Controller
     {
-        private readonly BrandService _brandService;
-        public BrandController(BrandService brandService)
+        private readonly IBrandService _brandService;
+        public BrandController(IBrandService brandService)
         {
             _brandService = brandService;   
         }
