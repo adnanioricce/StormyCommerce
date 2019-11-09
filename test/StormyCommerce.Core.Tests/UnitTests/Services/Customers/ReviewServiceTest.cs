@@ -39,7 +39,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Customers
                 var repository = RepositoryHelper.GetRepository<Review>(dbContext);
                 var service = (IReviewService)(new ReviewService(repository));
                 //Act
-                var entries = await service.GetCustomerReviews(customer.UserId);
+                var entries = await service.GetCustomerReviews(customer.Id);
                 //Assert
                 Assert.Equal(reviews, entries);
             }

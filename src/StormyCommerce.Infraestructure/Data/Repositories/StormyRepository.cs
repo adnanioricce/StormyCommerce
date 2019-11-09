@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StormyCommerce.Infraestructure.Data.Repositories
 {
-    public class StormyRepository<TEntity> : IStormyRepository<TEntity> where TEntity : BaseEntity
+    public class StormyRepository<TEntity> : IStormyRepository<TEntity> where TEntity : EntityWithBaseTypeId<long>
     {
         //? I ask myself:what is the difference between this and a readonly field? and Why Protected?
         private readonly StormyDbContext context;

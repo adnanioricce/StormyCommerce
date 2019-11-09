@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -7,8 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Models.Requests;
 
@@ -22,10 +25,12 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     public class ReviewController : Controller
     {
         private readonly IReviewService _reviewService;
+        private readonly IUserIdentityService _identityService;
         private readonly IMapper _mapper;
-        public ReviewController(IReviewService reviewService, IMapper mapper)
+        public ReviewController(IReviewService reviewService, IUserIdentityService identityService, IMapper mapper)
         {
             _reviewService = reviewService;
+            _identityService = identityService;
             _mapper = mapper;
         }
         [HttpGet("list")]
@@ -42,7 +47,9 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         [ValidateModel]
         public async Task<IActionResult> WriteReview(WriteReviewRequest model)
         {
-            var review = _mapper.Map<Review>(model);            
+            var review = _mapper.Map<Review>(model);
+            var customer = GetCurrentCustomer();
+            review.StormyCustomerId = customer.Id;
             await _reviewService.CreateReviewAsync(review);            
             return Ok(Result.Ok("Review was added with sucess"));
         }
@@ -66,6 +73,10 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {
             await _reviewService.DeleteReviewAsync(reviewId);
             return Ok();
+        }        
+        private StormyCustomer GetCurrentCustomer()
+        {
+            return _identityService.GetUserByEmail(this.HttpContext.User.Claims.FirstOrDefault(c => c.Type.Contains("emailaddress")).Value);
         }
     }
 }

@@ -123,10 +123,12 @@ namespace StormyCommerce.Module.Catalog.Controllers
         [HttpPut("edit")]
         [ValidateModel]
         [Authorize(Roles.Admin)]
-        public async Task<IActionResult> EditProduct([FromBody]StormyProduct _model)
+        public async Task<IActionResult> EditProduct([FromBody]EditProductRequest _model)
         {                        
-            try{                 
-                await _productService.UpdateProductAsync(_model);
+            try{
+                var entry = await _productService.GetProductByIdAsync(_model.Id);
+                var product = _mapper.Map<EditProductRequest,StormyProduct>(_model,entry);
+                await _productService.UpdateProductAsync(product);
             }catch(Exception ex){
                 _logger.LogStackTrace(ex.Message,ex);
                 throw ex;

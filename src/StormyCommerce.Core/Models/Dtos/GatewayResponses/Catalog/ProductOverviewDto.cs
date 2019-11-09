@@ -14,7 +14,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             Id = product.Id;
             ProductName = product.ProductName;
             Slug = product.Slug;
-            Price = product.Price;            
+            Price = Price.GetPriceFromString(product.Price);            
             ThumbnailImage = product.ThumbnailImage;
             Categories = product.Categories.Select(c => new ProductCategoryDto(c)).ToList();
             Medias = product.Medias;

@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Infraestructure.Entities;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
 {
@@ -13,9 +10,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
             modelBuilder.Entity<StormyCustomer>(entity =>
             {                                
                 entity.HasKey(prop => prop.Id);
-                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
-                entity.Property(prop => prop.UserId).ValueGeneratedOnAdd();
-                entity.HasQueryFilter(f => f.IsDeleted == false);                                               
+                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();                                                                               
                 entity.HasMany(prop => prop.Addresses)
                     .WithOne(prop => prop.Owner)
                     .HasForeignKey(prop => prop.UserId);
@@ -39,12 +34,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.Property(prop => prop.CPF).HasMaxLength(9);
                 entity.Property(prop => prop.Email).IsRequired();
                 entity.Ignore(customer => customer.Addresses);
-            });            
-            modelBuilder.Entity<ApplicationUser>(entity =>
-            {
-                entity.HasKey(prop => prop.Id);                
-                entity.HasOne(prop => prop.Role);
-            });
+            });                       
             modelBuilder.Entity<ApplicationRole>();
             
             

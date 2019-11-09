@@ -37,7 +37,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.UnitsInStock = f.Random.Int(2, 10);
                     v.UnitsOnOrder = f.Random.Int(0, 2);                    
                     v.Note = f.Lorem.Sentence();
-                    v.Price = Price.GetPriceFromString(f.Commerce.Price(1, 100, 2, "R$"));
+                    v.Price = f.Commerce.Price(1, 100, 2, "R$");
                     v.ProductCost = f.Random.Decimal();                
                     v.CreatedOn = f.Date.Past();                                       
                     v.Brand = Seeders.BrandSeed(omitId:true).First(); 
@@ -302,16 +302,13 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<StormyCustomer> StormyCustomerSeed(int count = 1,bool omitId = false)
         {
             var fakeCustomer = new Faker<StormyCustomer>()
-                .Rules((f,v) => {            
+                .Rules((f,v) => {
 
-                    v.Id += omitId ? 0 : 2 + ++f.IndexVariable;
-                    v.IsDeleted = false;
-                    v.LastModified = DateTime.UtcNow;
+                    v.Id = Guid.NewGuid().ToString();                
                     v.Email = f.Internet.Email();
                     v.EmailConfirmed = true;
                     v.PhoneNumber = f.Person.Phone;
-                    v.PhoneNumberConfirmed =  true;
-                    v.UserId =  Guid.NewGuid().ToString();
+                    v.PhoneNumberConfirmed =  true;                    
                     v.UserName = f.Internet.UserName();
                     v.CPF =  "000000000";
                     v.CreatedOn =  DateTime.UtcNow;

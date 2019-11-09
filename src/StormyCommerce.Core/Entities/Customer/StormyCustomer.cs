@@ -1,15 +1,15 @@
-﻿using StormyCommerce.Core.Models.Dtos;
+﻿using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Core.Models.Dtos;
 using System;
 using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Entities.Customer
-{
-    //TODO:Completely get rid of AppUser dependency. You can implement your own types https://docs.microsoft.com/pt-br/aspnet/core/security/authentication/identity-custom-storage-providers?view=aspnetcore-2.2#customize-the-user-class
-    public class StormyCustomer : BaseEntity
+{    
+    public class StormyCustomer : IdentityUser<string>,IEntityWithBaseTypeId<string>
     {
         public StormyCustomer(){}
 
-        public StormyCustomer(long id)
+        public StormyCustomer(string id)
         {
             Id = id;
         }
@@ -23,14 +23,8 @@ namespace StormyCommerce.Core.Entities.Customer
             FullName = customerDto.FullName;
             DefaultBillingAddress = customerDto.DefaultBillingAddress;
             DefaultShippingAddress = customerDto.DefaultShippingAddress;            
-        }
-        
-        public string UserId { get; set; }
-        public string CPF { get; set; }
-        public string NormalizedEmail { get; set; }
-        public string PhoneNumber { get; set; }
-        public bool PhoneNumberConfirmed { get; set; }
-        public bool EmailConfirmed { get; set; }        
+        }                
+        public string CPF { get; set; }             
         public List<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();
         public CustomerAddress DefaultShippingAddress { get; set; }
         public long? DefaultShippingAddressId { get; set; }
@@ -38,13 +32,10 @@ namespace StormyCommerce.Core.Entities.Customer
         public long? DefaultBillingAddressId { get; set; }
         public long? CustomerReviewsId { get; set; }
         public List<Review> CustomerReviews { get; set; } = new List<Review>();        
-        public long? CustomerWishlistId { get; set; }        
-        public string UserName { get; set; }
-        public string NormalizedUserName { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
+        public long? CustomerWishlistId { get; set; }                
+        public string FullName { get; set; }        
         public string RefreshTokenHash { get; set; }
-        public string Role { get; set; }
-        public DateTimeOffset CreatedOn { get; set; }
+        public List<IdentityRole> Roles { get; set; }
+        public DateTimeOffset CreatedOn { get; set; }        
     }
 }

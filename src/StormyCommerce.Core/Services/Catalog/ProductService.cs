@@ -169,8 +169,7 @@ namespace StormyCommerce.Core.Services.Catalog
         #endregion                
         #region Insert Methods        
         public async Task InsertProductAsync(StormyProduct product)
-        {                                                      
-            product.Price = Price.GetPriceFromCents("R$",product.UnitPrice);
+        {            
             product.Slug = product.ProductName.Replace(' ','-');           
             if(product.BrandId != 0) product.Brand = null;
             if(product.VendorId != 0) product.Vendor = null;                                   
@@ -185,7 +184,7 @@ namespace StormyCommerce.Core.Services.Catalog
         #endregion
         #region Update Methods
         public async Task UpdateProductAsync(StormyProduct product)
-        {
+        {            
             await _productRepository.UpdateAsync(product);
         }
 
