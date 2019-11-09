@@ -7,7 +7,6 @@ using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
-using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
@@ -27,21 +26,18 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         private readonly IUserIdentityService _identityService;
         private readonly IEmailSender _emailSender;
         private readonly ITokenService _tokenService;
-        private readonly IAppLogger<AuthenticationController> _logger;
-        private readonly ICustomerService _customerService;
+        private readonly IAppLogger<AuthenticationController> _logger;        
         private readonly IMapper _mapper;
         public AuthenticationController(IUserIdentityService identityService,
         ITokenService tokenService,
         IEmailSender emailSender,
-        IAppLogger<AuthenticationController> logger,
-        ICustomerService customerService,
+        IAppLogger<AuthenticationController> logger,        
         IMapper mapper)
         {
             _identityService = identityService;
             _emailSender = emailSender;
             _tokenService = tokenService;
-            _logger = logger;
-            _customerService = customerService;
+            _logger = logger;            
             _mapper = mapper;
         }
 
@@ -79,12 +75,15 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 
             if(user != null) return BadRequest("username already exists");
 
-            var result = await _identityService.CreateUserAsync(new ApplicationUser
+            var result = await _identityService.CreateUserAsync(new StormyCustomer
             {                
                 UserName = signUpVm.UserName,
                 Email = signUpVm.Email,
-                Role = new ApplicationRole(Roles.Guest)
-            }, signUpVm.Password);
+                Roles = new System.Collections.Generic.List<IdentityRole>
+                {
+                    new IdentityRole(Roles.Guest)
+                }
+            }, signUpVm.Password);            
             if (!result.Succeeded) return BadRequest("Don't was possible to create user");
 
             var appUser = _identityService.GetUserByEmail(signUpVm.Email);

@@ -3,18 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
-using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
-using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace StormyCommerce.Module.Customer.Areas.Controllers
@@ -22,7 +18,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
     [Area("Customer")]
     [ApiController]
     [Route("api/[Controller]")]
-    [Authorize("Customer")]
+    [Authorize(Roles.Customer)]
     //[ValidateAntiForgeryToken]
     [EnableCors("Default")]
     public class CustomerController : Controller
@@ -36,65 +32,34 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
             _customerService = customerService;
             _identityService = identityService;
             _mapper = mapper;
-        }
-        //public async Task<StormyCustomer> GetCustomerByEmail()
-        //{
-        //}
+        }        
         [HttpPost("address/create")]
         [ValidateModel]
         public async Task<IActionResult> AddAddressAsync([FromBody]CustomerAddress address)
         {            
-            var customer = GetCurrentCustomer();                               
+            var customer = await GetCurrentCustomer();                               
             await _customerService.AddCustomerAddressAsync(address,customer.Id);
             return Ok();
-        }
-        [HttpPost("review/create")]
-        [ValidateModel]        
-        public async Task<IActionResult> WriteReviewAsync([FromBody]CustomerReviewDto review)
-        {
-            await _customerService.CreateCustomerReviewAsync(_mapper.Map<Review>(review),review.Email.ToUpper());
-            return Ok();
-        }
+        }        
         [HttpGet("list")]
-        [Authorize("Admin")]
+        [Authorize(Roles.Admin)]
         [ValidateModel]
-        public async Task<IList<StormyCustomer>> GetCustomersAsync(int minLimit, long maxLimit)
+        public IList<StormyCustomer> GetCustomersAsync()
         {
-            return await _customerService.GetAllCustomersAsync(minLimit,maxLimit);
-        }
-        [HttpGet("getbyemail")]
+            return _identityService.GetUserManager().Users.ToList();
+        }                      
+        [HttpPost("add_wishlistitem")]     
         [ValidateModel]
-        public async Task<ActionResult<CustomerDto>> GetCustomerByEmailOrUsernameAsync(string email,string username)
+        public async Task<IActionResult> AddItemToWishList(long productId)
         {
-            return _mapper.Map<CustomerDto>(await _customerService.GetCustomerByUserNameOrEmail(email, username));
-        }
-        [HttpPost("createcustomer")]
-        [AllowAnonymous]
-        [ValidateModel]
-        public async Task<IActionResult> CreateCustomerAsync([FromBody]CreateCustomerRequest model)
-        {                        
-            var customer = await _customerService.GetCustomerByUserNameOrEmail(model.UserName, model.Email);
-            if (customer != null) return BadRequest("Given Email or Username already exists");                
-            customer = _mapper.Map<CreateCustomerRequest, StormyCustomer>(model);
-            if (customer == null) return BadRequest("failed to map given customer");
-
-            await _customerService.CreateCustomerAsync(customer);
-            return Ok();
-        }
-        [HttpPost("edit")]
-        [ValidateModel]        
-        public async Task<IActionResult> EditCustomerAsync([FromBody]CustomerDto customerDto)
-        {
-            var customer = await _customerService.GetCustomerByUserNameOrEmail(customerDto.UserName,customerDto.Email);
-            if(customer == null) return NotFound("Customer was not found");
-            await _customerService.EditCustomerAsync(customerDto);
+            var customer = await GetCurrentCustomer();
+            await _customerService.AddWishListItem(customer, productId);
             return Ok();
         }
 
         private async Task<StormyCustomer> GetCurrentCustomer()
         {
-            var user = await _identityService.GetUserByClaimPrincipal(User);           
-            return await _customerService.GetCustomerByUserNameOrEmail(user.NormalizedUserName,user.NormalizedEmail);  
+            return await _identityService.GetUserByClaimPrincipal(User);                       
         }
     }
 }

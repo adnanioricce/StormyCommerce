@@ -25,11 +25,12 @@ namespace StormyCommerce.Core.Entities
         public string ShipmentMethod { get; set; }
         public string ShipmentServiceName { get; set; }
         public string ShipmentProvider { get; set; }
-        public decimal TotalWeight { get; set; }
-        public decimal TotalHeight { get; set; }
-        public decimal TotalWidth { get; set; }
-        public decimal TotalLength { get; set; }
-        public decimal TotalArea { get; set; }
+        public double TotalWeight { get; set; }
+        public double TotalHeight { get; set; }        
+        public double TotalWidth { get; set; }
+        public double TotalLength { get; set; }
+        public double TotalArea { get; set; }
+        public double CubeRoot { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? ShippedDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
@@ -42,35 +43,21 @@ namespace StormyCommerce.Core.Entities
         public long DestinationAddressId { get; set; }
         public CustomerAddress DestinationAddress { get; set; }        
         public ShippingStatus Status { get; set; }        
-        public List<OrderItem> Items { get; set; } = new List<OrderItem>();
+        public List<OrderItem> Items { get; set; } = new List<OrderItem>();        
         public Shipment CalculateShipmentMeasures(List<OrderItem> items)
-        {
-            Shipment shipment = new Shipment();                   
-            items.ForEach(item => {
-                var measure = new Measure(item);
-                SetDimensions(measure,shipment);                
-                item.Shipment = shipment;
-                shipment.Items.Add(item);
-            });
-            return shipment;
-        }
-        public Shipment CalculateShipmentMeasures(List<OrderItemDto> items)
         {
             Shipment shipment = new Shipment();
             items.ForEach(item => {
-                var measure = new Measure(item);       
-                SetDimensions(measure,shipment);                                                     
+                shipment.TotalHeight = item.Product.Height;
+                shipment.TotalWidth = item.Product.Width;
+                shipment.TotalLength = item.Product.Length;
+                shipment.TotalArea += item.Product.Width * item.Product.Height * item.Product.Length * item.Quantity;
+                shipment.TotalWeight += item.Product.UnitWeight * item.Quantity;                                                                    
             });
+            shipment.CubeRoot = Math.Ceiling(Math.Pow(shipment.TotalArea,(double)1/3));
             return shipment;
         }        
-        private void SetDimensions(Measure measure,Shipment shipment)
-        {
-            shipment.TotalArea += measure.Area; 
-            shipment.TotalHeight += measure.Height; 
-            shipment.TotalLength += measure.Length;
-            shipment.TotalWeight += measure.Weight; 
-            shipment.TotalWidth += measure.Width;
-        }
+        
         
     }
 }

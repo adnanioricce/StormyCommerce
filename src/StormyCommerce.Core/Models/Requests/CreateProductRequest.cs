@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
@@ -28,18 +28,21 @@ namespace StormyCommerce.Core.Models.Requests
         public int QuantityPerUnity { get; set; }
         [Required]
         public string AvailableSizes { get; set; }
+        [DataType(DataType.Currency)]
         [Required]
         public decimal UnitPrice { get; set; }
+        [DataType(DataType.Currency)]
+        public Price Price { get; set; }
         public decimal Discount { get; set; }
         [Required]
         public double UnitWeight { get; set; }
         [Required]
-        public decimal Height { get; set; }
+        public double Height { get; set; }
         [Required]
-        public decimal Width { get; set; }
+        public double Width { get; set; }
         [Required]
-        public decimal Length { get; set; }
-        public int? Diameter { get; set; }
+        public double Length { get; set; }
+        public double? Diameter { get; set; }
         [Required]
         public int UnitsInStock { get; set; }        
         public bool ProductAvailable { get; set; }

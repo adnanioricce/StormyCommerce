@@ -7,6 +7,6 @@ namespace StormyCommerce.Module.Orders.Area.Models.Shipping
     public class DeliveryCalculationForOrderRequest
     {        
         public string DestinationPostalCode { get; set; }
-        public List<OrderItemDto> Items { get; set; }
+        public OrderDto Order { get; set; }
     }
 }

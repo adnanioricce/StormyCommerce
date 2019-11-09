@@ -6,7 +6,7 @@ namespace StormyCommerce.Core.Entities.Customer
     public class Wishlist : BaseEntity
     {
         public long StormyCustomerId { get; set; }
-        public StormyCustomer Customer { get; set; }        
+        public StormyCustomer Customer { get; set; }
         public ICollection<WishlistItem> WishlistItems { get; set; }
 
         /// <summary>
@@ -15,10 +15,8 @@ namespace StormyCommerce.Core.Entities.Customer
         /// <param name="productId">the Id of the product been added</param>
         public void AddItem(int productId)
         {
-            var item = WishlistItems.FirstOrDefault(f => f.ProductId == productId);
-            //?Should this be a more loud return?Throw a exception maybe
-            if (item != null)
-                return;
+            var item = WishlistItems.FirstOrDefault(f => f.ProductId == productId);            
+            if (item != null) return;
 
             WishlistItems.Add(item);
         }

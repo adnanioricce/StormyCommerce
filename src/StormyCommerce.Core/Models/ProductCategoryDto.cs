@@ -1,4 +1,4 @@
-using StormyCommerce.Core.Entities.Catalog;
+﻿using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 
@@ -15,6 +15,6 @@ namespace StormyCommerce.Core.Models
         {
             Category = new CategoryDto(category);
         }
-        public CategoryDto Category { get; set; }
+        public CategoryDto Category { get; private set; }
     }
 }

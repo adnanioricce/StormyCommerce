@@ -54,7 +54,7 @@ namespace StormyCommerce.Core.Services.Orders
                 return new Result<OrderDto>(entry.ToOrderDto(), false, "We need valid info to create a order,order data don't have any data");
             if (entry.Items == null)
                 return new Result<OrderDto>(entry.ToOrderDto(), false, "You have no items to create a order");                                                            
-            var shipment = await _shippingService.BuildShipmentForOrder(entry);            
+            var shipment = _shippingService.CalculateShipmentDimensions(entry);            
             entry.Shipment = shipment;
             entry.Items.ForEach(o => {
                 o.Product.UnitsInStock -= o.Quantity; 
