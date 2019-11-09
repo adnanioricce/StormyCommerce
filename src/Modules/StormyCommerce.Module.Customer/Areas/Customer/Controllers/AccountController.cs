@@ -49,6 +49,6 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             if (!result.Succeeded) return BadRequest();
 
             return Ok();
-        }
+        }                
     }
 }
