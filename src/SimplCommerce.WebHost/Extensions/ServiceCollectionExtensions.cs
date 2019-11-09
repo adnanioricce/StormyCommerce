@@ -210,7 +210,10 @@ namespace SimplCommerce.WebHost.Extensions
                 }
             }
         }
-
+        public static void AddSampleData(this StormyDbContext dbContext)
+        {
+            
+        }
         private static void RegisterModuleInitializerServices(ModuleInfo module, ref IServiceCollection services)
         {
             var moduleInitializerType = module.Assembly.GetTypes()
