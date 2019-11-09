@@ -17,13 +17,11 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     [EnableCors("Default")]
     public class AccountController : Controller
     {
-        private readonly IUserIdentityService _identityService;
-        private readonly ICustomerService _customerService;        
+        private readonly IUserIdentityService _identityService;          
         private readonly IAppLogger<AuthenticationController> _logger;
-        public AccountController(IUserIdentityService identityService,ICustomerService customerService,IAppLogger<AuthenticationController> logger)
+        public AccountController(IUserIdentityService identityService,IAppLogger<AuthenticationController> logger)
         {
-            _identityService = identityService;
-            _customerService = customerService;            
+            _identityService = identityService;                    
             _logger = logger;
         }
         [HttpGet("ConfirmEmail")]
@@ -32,40 +30,11 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> ConfirmEmailAsync(string userId,string code)
         {            
             var appUser = _identityService.GetUserById(userId);
-
-            if (appUser == null) return BadRequest("user with given email not found");
-
-            _logger.LogInformation($"User validated at {DateTimeOffset.UtcNow}");
-
+            if (appUser == null) return BadRequest("user with given email not found");            
             var result = await _identityService.ConfirmEmailAsync(appUser,code);
-
-            if(!result.Succeeded) return BadRequest();            
-
-            _logger.LogInformation($"Email confirmed at {DateTimeOffset.UtcNow}");
-
-            var confirmedUser = _identityService.GetUserById(userId);
-            await _identityService.AssignUserToRole(confirmedUser, Roles.Customer);
-            var customer = new StormyCustomer
-            {
-                Email = confirmedUser.Email,
-                EmailConfirmed = confirmedUser.EmailConfirmed,
-                NormalizedEmail = confirmedUser.NormalizedEmail,
-                UserId = confirmedUser.Id,                
-                PhoneNumber = confirmedUser.PhoneNumber,
-                PhoneNumberConfirmed = confirmedUser.PhoneNumberConfirmed,
-                UserName = confirmedUser.UserName,
-                NormalizedUserName = confirmedUser.NormalizedUserName,
-                RefreshTokenHash = confirmedUser.RefreshTokenHash,     
-                Role = Roles.Customer,
-                LastModified = DateTimeOffset.UtcNow,
-                CreatedOn = DateTimeOffset.UtcNow,
-                IsDeleted = false
-            };
-
-            await _customerService.CreateCustomerAsync(customer);
-
-            _logger.LogInformation($"new customer registered at {DateTimeOffset.UtcNow}");            
-
+            if(!result.Succeeded) return BadRequest();                              
+            await _identityService.AssignUserToRole(appUser, Roles.Customer);
+            await _identityService.EditUserAsync(appUser);            
             return Ok(new { Message = $"Email confirmation performed With Success at {DateTimeOffset.UtcNow}" });            
         }
         [HttpPost("ResetPassword")]

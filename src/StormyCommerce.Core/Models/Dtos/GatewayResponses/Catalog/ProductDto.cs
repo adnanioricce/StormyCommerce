@@ -25,7 +25,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             UnitWeight = product.UnitWeight;
             UnitsInStock = product.UnitsInStock;
             UnitsOnOrder = product.UnitsOnOrder;
-            Price = product.Price.Value;                  
+            Price = product.Price;                  
         }
 
         public ProductDto(StormyProduct product)
@@ -42,11 +42,12 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             UnitWeight = product.UnitWeight;
             UnitsInStock = product.UnitsInStock;
             UnitsOnOrder = product.UnitsOnOrder;
-            Price = product.Price.Value;            
+            Price = product.Price;            
             ThumbnailImage = product.ThumbnailImage;
             Medias = product.Medias.Select(m => new ProductMediaDto(m)).ToList();
             Categories = product.Categories.Select(c => new ProductCategoryDto(c)).ToList();
             Brand = new BrandDto(product.Brand);                        
+
             Vendor = new VendorDto(product.Vendor);
         }
 
@@ -59,9 +60,9 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public string AvailableSizes { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
-        public decimal Height { get; set; }
-        public decimal Width { get; set; }
-        public decimal Length { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public double Length { get; set; }
         public double UnitWeight { get; set; }
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }
@@ -86,7 +87,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
                 UnitWeight = this.UnitWeight,
                 UnitsInStock = this.UnitsInStock,
                 UnitsOnOrder = this.UnitsOnOrder,
-                Price = Core.Models.Price.GetPriceFromString(this.Price),                        
+                Price = this.Price,                        
             };
         }
     }

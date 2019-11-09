@@ -80,8 +80,7 @@ namespace StormyCommerce.WebHost.Mappings
                         Number = dto.CPF                        
                         });
                     });
-            CreateMap<StormyCustomer, PagarMeCustomerVm>()
-                .ForMember(dest => dest.ExternalId,opt => opt.MapFrom(src => src.UserId))
+            CreateMap<StormyCustomer, PagarMeCustomerVm>()                
                 .ForMember(dest => dest.Name,opt => opt.MapFrom(src => src.FullName))
                 .ForMember(dest => dest.Email,opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Billing,opt => opt.MapFrom(src => src.DefaultBillingAddress))
@@ -97,7 +96,7 @@ namespace StormyCommerce.WebHost.Mappings
             CreateMap<PagarMeCustomerVm, StormyCustomer>()
                 .ForMember(p => p.DefaultBillingAddress,opt => opt.MapFrom(src => src.Billing))
                 .ForMember(p => p.DefaultShippingAddress,opt => opt.MapFrom(src => src.Shipping))
-                .ForMember(p => p.UserId,opt => opt.MapFrom(src => src.ExternalId))
+                .ForMember(p => p.Id,opt => opt.MapFrom(src => src.ExternalId))
                 .ForMember(p => p.FullName,opt => opt.MapFrom(src => src.Name))
                 .ForMember(p => p.PhoneNumber,opt => opt.MapFrom(src => src.PhoneNumbers.Count > 0 ? src.PhoneNumbers.First() : ""));
             CreateMap<BillingVm,Address>()

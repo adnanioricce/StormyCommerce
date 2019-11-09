@@ -1,20 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Infraestructure.Data;
-using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Module.Customer.Models;
 using System;
+using System.Collections.Generic;
 
 namespace StormyCommerce.Module.Customer.Data
 {
     public class IdentityInitializer
     {
         private readonly StormyDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<StormyCustomer> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
         public IdentityInitializer(
             StormyDbContext context,
-            UserManager<ApplicationUser> userManager,
+            UserManager<StormyCustomer> userManager,
             RoleManager<ApplicationRole> roleManager)
         {
             _context = context;
@@ -47,40 +48,39 @@ namespace StormyCommerce.Module.Customer.Data
 
             CreateUser(
                 //TODO: actually, I think is not secure to initialize this here...
-                new ApplicationUser()
+                new StormyCustomer()
                 {
                     UserName = "stormyadmin",
                     Email = "stormycommerce@gmail.com",
                     EmailConfirmed = true,
-                    Role = new ApplicationRole(Roles.Admin)
+                    Roles = new List<IdentityRole>()
+                    {
+                        new IdentityRole(Roles.Admin)
+                    }
                 }, "!D4vpassword",Roles.Admin);                
             CreateUser(
                 //TODO: actually, I think is not secure to initialize this here...
-                new ApplicationUser()
+                new StormyCustomer()
                 {
                     UserName = "stormydev",
                     Email = "adnangonzaga@gmail.com",
                     EmailConfirmed = true,
-                    Role = new ApplicationRole(Roles.Customer)
+                    Roles = new List<IdentityRole>{
+                        new IdentityRole(Roles.Customer) 
+                    }
                 }, "!D4velopment",Roles.Customer);                
             
         }
 
         private void CreateUser(
-            ApplicationUser user,
+            StormyCustomer user,
             string password,
             string initialRole = null)
         {
             if (_userManager.FindByNameAsync(user.UserName).Result == null)
             {
                 var resultado = _userManager
-                    .CreateAsync(user, password).Result;
-
-                // if (resultado.Succeeded &&
-                //     !String.IsNullOrWhiteSpace(initialRole))
-                // {
-                //     _userManager.AddToRoleAsync(user, initialRole).Wait();
-                // }
+                    .CreateAsync(user, password).Result;                
             }
         }
     }

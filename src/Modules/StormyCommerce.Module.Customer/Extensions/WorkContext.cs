@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
-using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Interfaces;
 using System;
 using System.Linq;
@@ -21,11 +18,11 @@ namespace StormyCommerce.Module.Customer.Extensions
 
         private StormyCustomer _currentUser;
         private readonly IUserIdentityService _userIdentityService;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<StormyCustomer> _userManager;
         private readonly HttpContext _httpContext;
         private readonly ICustomerService _customerService;
 
-        public WorkContext(UserManager<ApplicationUser> userManager,
+        public WorkContext(UserManager<StormyCustomer> userManager,
          IHttpContextAccessor contextAccessor, 
          ICustomerService customerService,
          IUserIdentityService userIdentityService)
@@ -36,26 +33,26 @@ namespace StormyCommerce.Module.Customer.Extensions
             _userIdentityService = userIdentityService;
         }
 
-        public async Task<ApplicationUser> GetCurrentApplicationUser()
+        public async Task<StormyCustomer> GetCurrentApplicationUser()
         {
             if (_currentUser != null)
             {
-                return _userIdentityService.GetUserById(_currentUser.UserId);
+                return _userIdentityService.GetUserById(_currentUser.Id);
             }
             var contextUser = _userIdentityService.GetUserById(_httpContext.User.Claims.FirstOrDefault(c => c.Type.Equals("sub")).Value);            
 
-            if (contextUser != null && contextUser.Id == _currentUser.UserId)
+            if (contextUser != null && contextUser.Id == _currentUser.Id)
             {
                 return contextUser;
             }                      
             return await CreateGuestUser();              
            
         }
-        public async Task<ApplicationUser> CreateGuestUser()
+        public async Task<StormyCustomer> CreateGuestUser()
         {
             var userGuid = Guid.NewGuid().ToString();
             var dummyEmail = string.Format("{0}@guest.simplcommerce.com", userGuid);
-            var guestUser = new ApplicationUser
+            var guestUser = new StormyCustomer
             {                 
                 Id = userGuid,
                 Email = dummyEmail,
@@ -63,14 +60,12 @@ namespace StormyCommerce.Module.Customer.Extensions
             };            
             var createResult = await _userIdentityService.CreateUserAsync(guestUser,"1qazZAQ!");
             await _userIdentityService.AssignUserToRole(guestUser, "guest");
-            SetUserGuidCookies(new Guid(_currentUser.UserId));
+            SetUserGuidCookies(new Guid(_currentUser.Id));
             return guestUser;
         }
         public async Task<StormyCustomer> GetCurrentCustomer()
         {
-            return await _customerService.GetCustomerByUserNameOrEmail(
-                username:"",
-                email:_httpContext.User.Claims.FirstOrDefault(c => c.Type.Equals("Email")).Value);
+            throw new NotImplementedException();
         }
 
         private Guid? GetUserGuidFromCookies()
@@ -85,7 +80,7 @@ namespace StormyCommerce.Module.Customer.Extensions
 
         private void SetUserGuidCookies(Guid userGuid)
         {
-            _httpContext.Response.Cookies.Append(UserGuidCookiesName, _currentUser.UserId, new CookieOptions
+            _httpContext.Response.Cookies.Append(UserGuidCookiesName, _currentUser.Id, new CookieOptions
             {
                 Expires = DateTime.UtcNow.AddYears(5),
                 HttpOnly = true,

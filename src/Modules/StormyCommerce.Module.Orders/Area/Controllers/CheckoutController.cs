@@ -23,6 +23,7 @@ using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Infraestructure.Interfaces;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -33,27 +34,27 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     public class CheckoutController : Controller
     {
         private readonly IOrderService _orderService;                      
-        private readonly ICustomerService _customerService;
+        private readonly IUserIdentityService _identityService;
         private readonly PagarMeWrapper _pagarmeService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
         public CheckoutController(IOrderService orderService,         
         ILogger logger,
         PagarMeWrapper pagarMeService,
-        ICustomerService customerService,
+        IUserIdentityService userIdentityService,
         IMapper mapper)
         {
             _orderService = orderService;                        
             _logger = logger;
             _pagarmeService = pagarMeService;
-            _customerService = customerService;
+            _identityService = userIdentityService;
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
         [ValidateModel]                
         public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutRequest requestModel)
         {                             
-            var customer = await _customerService.GetCustomerByUserNameOrEmail("",HttpContext.User.Claims.FirstOrDefault(c => c.Type == "email").Value);            
+            var customer = _identityService.GetUserByEmail(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "email").Value);            
             var transaction = _mapper.Map<TransactionVm>(requestModel);                                                
             transaction.PostbackUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/Checkout/postback";
             transaction.Async = true;                        

@@ -29,14 +29,13 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.Property<string>("Name")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("StormyCustomerId");
 
                     b.HasKey("Id");
 
@@ -45,9 +44,9 @@ namespace SimplCommerce.WebHost.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles");
+                    b.HasIndex("StormyCustomerId");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
+                    b.ToTable("AspNetRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -468,21 +467,19 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("Diameter");
+                    b.Property<double?>("Diameter");
 
                     b.Property<decimal>("Discount");
 
-                    b.Property<decimal>("Height");
+                    b.Property<double>("Height");
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTimeOffset>("LastModified");
 
-                    b.Property<decimal>("Length");
+                    b.Property<double>("Length");
 
                     b.Property<long?>("MediaId");
-
-                    b.Property<string>("NormalizedName");
 
                     b.Property<string>("Note");
 
@@ -521,7 +518,7 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long>("VendorId");
 
-                    b.Property<decimal>("Width");
+                    b.Property<double>("Width");
 
                     b.HasKey("Id");
 
@@ -534,6 +531,22 @@ namespace SimplCommerce.WebHost.Migrations
                     b.ToTable("StormyProduct");
                 });
 
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("NormalizedName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicationRole");
+                });
+
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.CustomerAddress", b =>
                 {
                     b.Property<long>("Id")
@@ -542,7 +555,7 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<long?>("OwnerId");
+                    b.Property<string>("OwnerId");
 
                     b.Property<string>("UserId");
 
@@ -557,12 +570,15 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.StormyCustomer", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
 
                     b.Property<string>("CPF")
                         .HasMaxLength(9);
+
+                    b.Property<string>("ConcurrencyStamp");
 
                     b.Property<DateTimeOffset>("CreatedOn");
 
@@ -582,13 +598,15 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<string>("FullName")
                         .HasMaxLength(450);
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("LockoutEnabled");
 
-                    b.Property<DateTimeOffset>("LastModified");
+                    b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail");
 
                     b.Property<string>("NormalizedUserName");
+
+                    b.Property<string>("PasswordHash");
 
                     b.Property<string>("PhoneNumber");
 
@@ -596,11 +614,9 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("RefreshTokenHash");
 
-                    b.Property<string>("Role");
+                    b.Property<string>("SecurityStamp");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd();
+                    b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName");
 
@@ -615,9 +631,13 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.Wishlist", b =>
                 {
-                    b.Property<long>("Id");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("StormyCustomerId");
+
+                    b.Property<string>("CustomerId");
 
                     b.Property<bool>("IsDeleted");
 
@@ -625,8 +645,9 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.HasKey("Id", "StormyCustomerId");
 
-                    b.HasIndex("StormyCustomerId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId")
+                        .IsUnique()
+                        .HasFilter("[CustomerId] IS NOT NULL");
 
                     b.ToTable("Wishlist");
                 });
@@ -637,25 +658,29 @@ namespace SimplCommerce.WebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("AddedAt");
+                    b.Property<long>("WishlistId");
 
-                    b.Property<bool>("Deleted");
+                    b.Property<DateTime>("AddedAt");
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTimeOffset>("LastModified");
 
-                    b.Property<int>("ProductId");
+                    b.Property<long>("ProductId");
 
-                    b.Property<long?>("ProductId1");
+                    b.Property<long?>("WishlistId1");
 
-                    b.Property<long>("WishlistId");
+                    b.Property<long?>("WishlistStormyCustomerId");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "WishlistId");
 
-                    b.HasIndex("ProductId1");
+                    b.HasAlternateKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("WishlistId");
+
+                    b.HasIndex("WishlistId1", "WishlistStormyCustomerId");
 
                     b.ToTable("WishlistItem");
                 });
@@ -847,13 +872,18 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<string>("StormyCustomerId");
+                    b.Property<string>("StormyCustomerId")
+                        .IsRequired();
+
+                    b.Property<long>("StormyProductId");
 
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
 
                     b.HasIndex("StormyCustomerId");
+
+                    b.HasIndex("StormyProductId");
 
                     b.ToTable("Review");
                 });
@@ -888,6 +918,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
+                    b.Property<double>("CubeRoot");
+
                     b.Property<decimal>("DeliveryCost");
 
                     b.Property<DateTime?>("DeliveryDate");
@@ -914,15 +946,15 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long>("StormyOrderId");
 
-                    b.Property<decimal>("TotalArea");
+                    b.Property<double>("TotalArea");
 
-                    b.Property<decimal>("TotalHeight");
+                    b.Property<double>("TotalHeight");
 
-                    b.Property<decimal>("TotalLength");
+                    b.Property<double>("TotalLength");
 
-                    b.Property<decimal>("TotalWeight");
+                    b.Property<double>("TotalWeight");
 
-                    b.Property<decimal>("TotalWidth");
+                    b.Property<double>("TotalWidth");
 
                     b.Property<string>("TrackNumber")
                         .HasMaxLength(250);
@@ -966,6 +998,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("Comment");
 
+                    b.Property<string>("CustomerId");
+
                     b.Property<decimal>("Discount");
 
                     b.Property<bool>("IsCancelled");
@@ -1005,9 +1039,9 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StockId");
+                    b.HasIndex("CustomerId");
 
-                    b.HasIndex("StormyCustomerId");
+                    b.HasIndex("StockId");
 
                     b.ToTable("StormyOrder");
                 });
@@ -1067,55 +1101,11 @@ namespace SimplCommerce.WebHost.Migrations
                     b.ToTable("VendorAddress");
                 });
 
-            modelBuilder.Entity("StormyCommerce.Infraestructure.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp");
-
-                    b.Property<string>("Email");
-
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("NormalizedEmail");
-
-                    b.Property<string>("NormalizedUserName");
-
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("RefreshTokenHash");
-
-                    b.Property<string>("RoleId");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("ApplicationUser");
-                });
-
-            modelBuilder.Entity("StormyCommerce.Infraestructure.Entities.ApplicationRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.HasDiscriminator().HasValue("ApplicationRole");
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer")
+                        .WithMany("Roles")
+                        .HasForeignKey("StormyCustomerId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1320,22 +1310,27 @@ namespace SimplCommerce.WebHost.Migrations
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.Wishlist", b =>
                 {
                     b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Customer")
-                        .WithOne("CustomerWishlist")
-                        .HasForeignKey("StormyCommerce.Core.Entities.Customer.Wishlist", "StormyCustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithOne()
+                        .HasForeignKey("StormyCommerce.Core.Entities.Customer.Wishlist", "CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.WishlistItem", b =>
                 {
                     b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId1");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("StormyCommerce.Core.Entities.Customer.Wishlist", "Wishlist")
-                        .WithMany("WishlistItems")
+                        .WithMany()
                         .HasForeignKey("WishlistId")
                         .HasPrincipalKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.Wishlist")
+                        .WithMany("WishlistItems")
+                        .HasForeignKey("WishlistId1", "WishlistStormyCustomerId");
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Entity", b =>
@@ -1390,8 +1385,12 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Author")
                         .WithMany("CustomerReviews")
                         .HasForeignKey("StormyCustomerId")
-                        .HasPrincipalKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct", "Product")
+                        .WithMany()
+                        .HasForeignKey("StormyProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Shipment", b =>
@@ -1414,14 +1413,13 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.StormyOrder", b =>
                 {
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId");
+
                     b.HasOne("StormyCommerce.Core.Entities.Stock")
                         .WithMany("Orders")
                         .HasForeignKey("StockId");
-
-                    b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("StormyCustomerId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Vendor.StormyVendor", b =>
@@ -1469,13 +1467,6 @@ namespace SimplCommerce.WebHost.Migrations
                                 .HasForeignKey("StormyCommerce.Core.Entities.Common.Address", "VendorAddressId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
-                });
-
-            modelBuilder.Entity("StormyCommerce.Infraestructure.Entities.ApplicationUser", b =>
-                {
-                    b.HasOne("StormyCommerce.Infraestructure.Entities.ApplicationRole", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
                 });
 #pragma warning restore 612, 618
         }

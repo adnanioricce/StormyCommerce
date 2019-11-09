@@ -62,8 +62,8 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
             null,
             new CorreiosService(new CalcPrecoPrazoWSSoapClient()));
             mockShippingService
-            .Setup(s => s.BuildShipmentForOrder(It.IsAny<StormyOrder>()))
-            .ReturnsAsync(It.IsAny<Shipment>());
+            .Setup(s => s.CalculateShipmentDimensions(It.IsAny<StormyOrder>()))
+            .Returns(It.IsAny<Shipment>());
             return mockShippingService.Object;
         }        
         [Fact]

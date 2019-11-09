@@ -9,7 +9,20 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE TABLE [ApplicationRole] (
+        [Id] nvarchar(450) NOT NULL,
+        [Name] nvarchar(max) NULL,
+        [NormalizedName] nvarchar(max) NULL,
+        [ConcurrencyStamp] nvarchar(max) NULL,
+        CONSTRAINT [PK_ApplicationRole] PRIMARY KEY ([Id])
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [AppSettings] (
         [Id] nvarchar(450) NOT NULL,
@@ -22,21 +35,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
-BEGIN
-    CREATE TABLE [AspNetRoles] (
-        [Id] nvarchar(450) NOT NULL,
-        [Name] nvarchar(256) NULL,
-        [NormalizedName] nvarchar(256) NULL,
-        [ConcurrencyStamp] nvarchar(max) NULL,
-        [Discriminator] nvarchar(max) NOT NULL,
-        CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
-    );
-END;
-
-GO
-
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [AspNetUsers] (
         [Id] nvarchar(450) NOT NULL,
@@ -60,7 +59,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [Brand] (
         [Id] bigint NOT NULL IDENTITY,
@@ -77,7 +76,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [Category] (
         [Id] bigint NOT NULL IDENTITY,
@@ -85,9 +84,6 @@ BEGIN
         [IsDeleted] bit NOT NULL,
         [Name] nvarchar(450) NOT NULL,
         [Slug] nvarchar(450) NOT NULL,
-        [MetaTitle] nvarchar(450) NULL,
-        [MetaKeywords] nvarchar(450) NULL,
-        [MetaDescription] nvarchar(max) NULL,
         [Description] nvarchar(450) NOT NULL,
         [DisplayOrder] int NOT NULL,
         [IsPublished] bit NOT NULL,
@@ -95,14 +91,13 @@ BEGIN
         [ParentId] bigint NULL,
         [ChildrenId] bigint NULL,
         [ThumbnailImageUrl] nvarchar(max) NULL,
-        CONSTRAINT [PK_Category] PRIMARY KEY ([Id]),
-        CONSTRAINT [FK_Category_Category_ParentId] FOREIGN KEY ([ParentId]) REFERENCES [Category] ([Id]) ON DELETE NO ACTION
+        CONSTRAINT [PK_Category] PRIMARY KEY ([Id])
     );
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [EntityType] (
         [Id] nvarchar(450) NOT NULL,
@@ -117,7 +112,24 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE TABLE [Media] (
+        [Id] bigint NOT NULL IDENTITY,
+        [LastModified] datetimeoffset NOT NULL,
+        [IsDeleted] bit NOT NULL,
+        [Caption] nvarchar(max) NULL,
+        [FileSize] int NOT NULL,
+        [FileName] nvarchar(max) NULL,
+        [MediaType] int NOT NULL,
+        [SeoFileName] nvarchar(max) NULL,
+        CONSTRAINT [PK_Media] PRIMARY KEY ([Id])
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [ProductAttributeGroup] (
         [Id] bigint NOT NULL IDENTITY,
@@ -130,7 +142,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [ProductOption] (
         [Id] bigint NOT NULL IDENTITY,
@@ -143,7 +155,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [Stock] (
         [Id] bigint NOT NULL IDENTITY,
@@ -155,7 +167,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [VendorAddress] (
         [Id] bigint NOT NULL IDENTITY,
@@ -177,48 +189,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
-BEGIN
-    CREATE TABLE [ApplicationUser] (
-        [Id] nvarchar(450) NOT NULL,
-        [UserName] nvarchar(max) NULL,
-        [NormalizedUserName] nvarchar(max) NULL,
-        [Email] nvarchar(max) NULL,
-        [NormalizedEmail] nvarchar(max) NULL,
-        [EmailConfirmed] bit NOT NULL,
-        [PasswordHash] nvarchar(max) NULL,
-        [SecurityStamp] nvarchar(max) NULL,
-        [ConcurrencyStamp] nvarchar(max) NULL,
-        [PhoneNumber] nvarchar(max) NULL,
-        [PhoneNumberConfirmed] bit NOT NULL,
-        [TwoFactorEnabled] bit NOT NULL,
-        [LockoutEnd] datetimeoffset NULL,
-        [LockoutEnabled] bit NOT NULL,
-        [AccessFailedCount] int NOT NULL,
-        [RefreshTokenHash] nvarchar(max) NULL,
-        [RoleId] nvarchar(450) NULL,
-        CONSTRAINT [PK_ApplicationUser] PRIMARY KEY ([Id]),
-        CONSTRAINT [FK_ApplicationUser_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE NO ACTION
-    );
-END;
-
-GO
-
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
-BEGIN
-    CREATE TABLE [AspNetRoleClaims] (
-        [Id] int NOT NULL IDENTITY,
-        [RoleId] nvarchar(450) NOT NULL,
-        [ClaimType] nvarchar(max) NULL,
-        [ClaimValue] nvarchar(max) NULL,
-        CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY ([Id]),
-        CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE
-    );
-END;
-
-GO
-
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [AspNetUserClaims] (
         [Id] int NOT NULL IDENTITY,
@@ -232,7 +203,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [AspNetUserLogins] (
         [LoginProvider] nvarchar(450) NOT NULL,
@@ -246,20 +217,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
-BEGIN
-    CREATE TABLE [AspNetUserRoles] (
-        [UserId] nvarchar(450) NOT NULL,
-        [RoleId] nvarchar(450) NOT NULL,
-        CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY ([UserId], [RoleId]),
-        CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE,
-        CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
-    );
-END;
-
-GO
-
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [AspNetUserTokens] (
         [UserId] nvarchar(450) NOT NULL,
@@ -273,7 +231,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [Entity] (
         [Id] bigint NOT NULL IDENTITY,
@@ -290,7 +248,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [ProductAttribute] (
         [Id] bigint NOT NULL IDENTITY,
@@ -305,7 +263,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [StormyVendor] (
         [Id] bigint NOT NULL IDENTITY,
@@ -329,29 +287,20 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [StormyProduct] (
         [Id] bigint NOT NULL IDENTITY,
         [LastModified] datetimeoffset NOT NULL,
         [IsDeleted] bit NOT NULL,
         [SKU] nvarchar(max) NOT NULL,
-        [Gtin] nvarchar(max) NULL,
-        [NormalizedName] nvarchar(max) NULL,
         [ProductName] nvarchar(400) NOT NULL,
         [Slug] nvarchar(max) NULL,
-        [MetaKeywords] nvarchar(max) NULL,
-        [MetaDescription] nvarchar(max) NULL,
-        [MetaTitle] nvarchar(max) NULL,
-        [CreatedById] bigint NOT NULL,
         [BrandId] bigint NOT NULL,
-        [ProductMediaId] bigint NOT NULL,
         [VendorId] bigint NOT NULL,
         [CategoryId] bigint NOT NULL,
         [MediaId] bigint NULL,
         [ProductLinksId] bigint NULL,
-        [TaxClassId] bigint NULL,
-        [LatestUpdatedById] bigint NULL,
         [ShortDescription] nvarchar(max) NULL,
         [Description] nvarchar(max) NULL,
         [QuantityPerUnity] int NOT NULL,
@@ -359,46 +308,21 @@ BEGIN
         [UnitPrice] decimal(18,2) NOT NULL,
         [Discount] decimal(18,2) NOT NULL,
         [UnitWeight] float NOT NULL,
-        [Height] decimal(18,2) NOT NULL,
-        [Width] decimal(18,2) NOT NULL,
-        [Length] decimal(18,2) NOT NULL,
-        [Diameter] int NULL,
+        [Height] float NOT NULL,
+        [Width] float NOT NULL,
+        [Length] float NOT NULL,
+        [Diameter] float NULL,
         [UnitsInStock] int NOT NULL,
         [UnitsOnOrder] int NOT NULL,
-        [ReviewsCount] int NOT NULL,
-        [ProductAvailable] bit NOT NULL,
-        [DiscountAvailable] bit NOT NULL,
-        [StockTrackingIsEnabled] bit NOT NULL,
         [ThumbnailImage] nvarchar(max) NULL,
-        [Ranking] int NOT NULL,
         [Note] nvarchar(max) NULL,
-        [SpecialPrice] nvarchar(max) NULL,
-        [SpecialPriceStart] datetime2 NULL,
-        [SpecialPriceEnd] datetime2 NULL,
-        [HasDiscountApplied] bit NOT NULL,
-        [IsPublished] bit NOT NULL,
-        [NotReturnable] bit NOT NULL,
-        [AvailableForPreorder] bit NOT NULL,
-        [HasOptions] bit NOT NULL,
-        [IsVisibleIndividually] bit NOT NULL,
-        [IsFeatured] bit NOT NULL,
-        [IsCallForPricing] bit NOT NULL,
-        [IsAllowToOrder] bit NOT NULL,
         [ProductCost] decimal(18,2) NOT NULL,
-        [PreOrderAvailabilityStartDate] datetime2 NULL,
         [PublishedOn] datetime2 NULL,
         [CreatedOn] datetime2 NULL,
-        [LatestUpdatedOn] datetime2 NULL,
-        [AllowCustomerReview] bit NOT NULL,
-        [ApprovedRatingSum] int NOT NULL,
-        [NotApprovedRatingSum] int NOT NULL,
-        [ApprovedTotalReviews] int NOT NULL,
-        [NotApprovedTotalReviews] int NOT NULL,
         [RatingAverage] int NOT NULL,
         [StockId] bigint NULL,
         CONSTRAINT [PK_StormyProduct] PRIMARY KEY ([Id]),
         CONSTRAINT [FK_StormyProduct_Brand_BrandId] FOREIGN KEY ([BrandId]) REFERENCES [Brand] ([Id]) ON DELETE CASCADE,
-        CONSTRAINT [FK_StormyProduct_Category_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [Category] ([Id]) ON DELETE CASCADE,
         CONSTRAINT [FK_StormyProduct_Stock_StockId] FOREIGN KEY ([StockId]) REFERENCES [Stock] ([Id]) ON DELETE NO ACTION,
         CONSTRAINT [FK_StormyProduct_StormyVendor_VendorId] FOREIGN KEY ([VendorId]) REFERENCES [StormyVendor] ([Id]) ON DELETE NO ACTION
     );
@@ -406,7 +330,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [ProductAttributeValue] (
         [Id] bigint NOT NULL IDENTITY,
@@ -423,7 +347,24 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE TABLE [ProductCategory] (
+        [Id] bigint NOT NULL IDENTITY,
+        [LastModified] datetimeoffset NOT NULL,
+        [IsDeleted] bit NOT NULL,
+        [DisplayOrder] int NOT NULL,
+        [CategoryId] bigint NOT NULL,
+        [ProductId] bigint NOT NULL,
+        CONSTRAINT [PK_ProductCategory] PRIMARY KEY ([Id]),
+        CONSTRAINT [FK_ProductCategory_Category_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [Category] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_ProductCategory_StormyProduct_ProductId] FOREIGN KEY ([ProductId]) REFERENCES [StormyProduct] ([Id]) ON DELETE NO ACTION
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [ProductLink] (
         [Id] bigint NOT NULL IDENTITY,
@@ -440,26 +381,23 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [ProductMedia] (
         [Id] bigint NOT NULL IDENTITY,
         [LastModified] datetimeoffset NOT NULL,
         [IsDeleted] bit NOT NULL,
-        [Caption] nvarchar(max) NULL,
-        [FileSize] int NOT NULL,
-        [FileName] nvarchar(max) NULL,
-        [MediaType] int NOT NULL,
-        [SeoFileName] nvarchar(max) NULL,
-        [StormyProductId] bigint NULL,
+        [MediaId] bigint NOT NULL,
+        [StormyProductId] bigint NOT NULL,
         CONSTRAINT [PK_ProductMedia] PRIMARY KEY ([Id]),
-        CONSTRAINT [FK_ProductMedia_StormyProduct_StormyProductId] FOREIGN KEY ([StormyProductId]) REFERENCES [StormyProduct] ([Id]) ON DELETE CASCADE
+        CONSTRAINT [FK_ProductMedia_Media_MediaId] FOREIGN KEY ([MediaId]) REFERENCES [Media] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_ProductMedia_StormyProduct_StormyProductId] FOREIGN KEY ([StormyProductId]) REFERENCES [StormyProduct] ([Id]) ON DELETE NO ACTION
     );
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [ProductOptionValue] (
         [Id] bigint NOT NULL IDENTITY,
@@ -478,7 +416,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [ProductTemplate] (
         [Id] bigint NOT NULL IDENTITY,
@@ -493,7 +431,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [ProductTemplateProductAttribute] (
         [ProductTemplateId] bigint NOT NULL,
@@ -506,7 +444,32 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE TABLE [AspNetRoleClaims] (
+        [Id] int NOT NULL IDENTITY,
+        [RoleId] nvarchar(450) NOT NULL,
+        [ClaimType] nvarchar(max) NULL,
+        [ClaimValue] nvarchar(max) NULL,
+        CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY ([Id])
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE TABLE [AspNetUserRoles] (
+        [UserId] nvarchar(450) NOT NULL,
+        [RoleId] nvarchar(450) NOT NULL,
+        CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY ([UserId], [RoleId]),
+        CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [Shipment] (
         [Id] bigint NOT NULL IDENTITY,
@@ -518,11 +481,12 @@ BEGIN
         [ShipmentMethod] nvarchar(max) NULL,
         [ShipmentServiceName] nvarchar(max) NULL,
         [ShipmentProvider] nvarchar(max) NULL,
-        [TotalWeight] decimal(18,2) NOT NULL,
-        [TotalHeight] decimal(18,2) NOT NULL,
-        [TotalWidth] decimal(18,2) NOT NULL,
-        [TotalLength] decimal(18,2) NOT NULL,
-        [TotalArea] decimal(18,2) NOT NULL,
+        [TotalWeight] float NOT NULL,
+        [TotalHeight] float NOT NULL,
+        [TotalWidth] float NOT NULL,
+        [TotalLength] float NOT NULL,
+        [TotalArea] float NOT NULL,
+        [CubeRoot] float NOT NULL,
         [CreatedOn] datetime2 NOT NULL,
         [ShippedDate] datetime2 NULL,
         [DeliveryDate] datetime2 NULL,
@@ -539,37 +503,54 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [StormyCustomer] (
-        [Id] bigint NOT NULL IDENTITY,
-        [LastModified] datetimeoffset NOT NULL,
-        [IsDeleted] bit NOT NULL,
-        [UserId] nvarchar(450) NOT NULL,
-        [CPF] nvarchar(9) NULL,
+        [Id] nvarchar(450) NOT NULL,
+        [UserName] nvarchar(max) NULL,
+        [NormalizedUserName] nvarchar(max) NULL,
+        [Email] nvarchar(max) NOT NULL,
         [NormalizedEmail] nvarchar(max) NULL,
+        [EmailConfirmed] bit NOT NULL,
+        [PasswordHash] nvarchar(max) NULL,
+        [SecurityStamp] nvarchar(max) NULL,
+        [ConcurrencyStamp] nvarchar(max) NULL,
         [PhoneNumber] nvarchar(max) NULL,
         [PhoneNumberConfirmed] bit NOT NULL,
-        [EmailConfirmed] bit NOT NULL,
+        [TwoFactorEnabled] bit NOT NULL,
+        [LockoutEnd] datetimeoffset NULL,
+        [LockoutEnabled] bit NOT NULL,
+        [AccessFailedCount] int NOT NULL,
+        [CPF] nvarchar(9) NULL,
         [DefaultShippingAddressId] bigint NULL,
         [DefaultBillingAddressId] bigint NULL,
         [CustomerReviewsId] bigint NULL,
         [CustomerWishlistId] bigint NULL,
-        [UserName] nvarchar(max) NULL,
-        [NormalizedUserName] nvarchar(max) NULL,
         [FullName] nvarchar(450) NULL,
-        [Email] nvarchar(max) NOT NULL,
         [RefreshTokenHash] nvarchar(max) NULL,
-        [Role] nvarchar(max) NULL,
         [CreatedOn] datetimeoffset NOT NULL,
-        CONSTRAINT [PK_StormyCustomer] PRIMARY KEY ([Id]),
-        CONSTRAINT [AK_StormyCustomer_UserId] UNIQUE ([UserId])
+        CONSTRAINT [PK_StormyCustomer] PRIMARY KEY ([Id])
     );
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE TABLE [AspNetRoles] (
+        [Id] nvarchar(450) NOT NULL,
+        [Name] nvarchar(256) NULL,
+        [NormalizedName] nvarchar(256) NULL,
+        [ConcurrencyStamp] nvarchar(max) NULL,
+        [StormyCustomerId] nvarchar(450) NULL,
+        CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id]),
+        CONSTRAINT [FK_AspNetRoles_StormyCustomer_StormyCustomerId] FOREIGN KEY ([StormyCustomerId]) REFERENCES [StormyCustomer] ([Id]) ON DELETE NO ACTION
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [CustomerAddress] (
         [Id] bigint NOT NULL IDENTITY,
@@ -586,7 +567,7 @@ BEGIN
         [WhoReceives] nvarchar(max) NULL,
         [IsDeleted] bit NOT NULL,
         [UserId] nvarchar(max) NULL,
-        [OwnerId] bigint NULL,
+        [OwnerId] nvarchar(450) NULL,
         CONSTRAINT [PK_CustomerAddress] PRIMARY KEY ([Id]),
         CONSTRAINT [FK_CustomerAddress_StormyCustomer_OwnerId] FOREIGN KEY ([OwnerId]) REFERENCES [StormyCustomer] ([Id]) ON DELETE NO ACTION
     );
@@ -594,26 +575,28 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [Review] (
         [Id] bigint NOT NULL IDENTITY,
         [LastModified] datetimeoffset NOT NULL,
         [IsDeleted] bit NOT NULL,
-        [StormyCustomerId] nvarchar(450) NULL,
+        [StormyCustomerId] nvarchar(450) NOT NULL,
+        [StormyProductId] bigint NOT NULL,
         [Title] nvarchar(max) NULL,
         [Comment] nvarchar(max) NULL,
         [ReviewerName] nvarchar(max) NULL,
         [RatingLevel] int NOT NULL,
         [Status] int NOT NULL,
         CONSTRAINT [PK_Review] PRIMARY KEY ([Id]),
-        CONSTRAINT [FK_Review_StormyCustomer_StormyCustomerId] FOREIGN KEY ([StormyCustomerId]) REFERENCES [StormyCustomer] ([UserId]) ON DELETE CASCADE
+        CONSTRAINT [FK_Review_StormyCustomer_StormyCustomerId] FOREIGN KEY ([StormyCustomerId]) REFERENCES [StormyCustomer] ([Id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_Review_StormyProduct_StormyProductId] FOREIGN KEY ([StormyProductId]) REFERENCES [StormyProduct] ([Id]) ON DELETE NO ACTION
     );
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [StormyOrder] (
         [Id] bigint NOT NULL IDENTITY,
@@ -631,35 +614,37 @@ BEGIN
         [Discount] decimal(18,2) NOT NULL,
         [Tax] decimal(18,2) NOT NULL,
         [TotalPrice] decimal(18,2) NOT NULL,
+        [CustomerId] nvarchar(450) NULL,
         [OrderDate] datetime2 NOT NULL,
         [RequiredDate] datetime2 NOT NULL,
         [PaymentDate] datetime2 NULL,
         [Status] int NOT NULL,
         [StockId] bigint NULL,
         CONSTRAINT [PK_StormyOrder] PRIMARY KEY ([Id]),
-        CONSTRAINT [FK_StormyOrder_Stock_StockId] FOREIGN KEY ([StockId]) REFERENCES [Stock] ([Id]) ON DELETE NO ACTION,
-        CONSTRAINT [FK_StormyOrder_StormyCustomer_StormyCustomerId] FOREIGN KEY ([StormyCustomerId]) REFERENCES [StormyCustomer] ([Id]) ON DELETE CASCADE
+        CONSTRAINT [FK_StormyOrder_StormyCustomer_CustomerId] FOREIGN KEY ([CustomerId]) REFERENCES [StormyCustomer] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_StormyOrder_Stock_StockId] FOREIGN KEY ([StockId]) REFERENCES [Stock] ([Id]) ON DELETE NO ACTION
     );
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [Wishlist] (
-        [Id] bigint NOT NULL,
+        [Id] bigint NOT NULL IDENTITY,
         [StormyCustomerId] bigint NOT NULL,
         [LastModified] datetimeoffset NOT NULL,
         [IsDeleted] bit NOT NULL,
+        [CustomerId] nvarchar(450) NULL,
         CONSTRAINT [PK_Wishlist] PRIMARY KEY ([Id], [StormyCustomerId]),
         CONSTRAINT [AK_Wishlist_Id] UNIQUE ([Id]),
-        CONSTRAINT [FK_Wishlist_StormyCustomer_StormyCustomerId] FOREIGN KEY ([StormyCustomerId]) REFERENCES [StormyCustomer] ([Id]) ON DELETE CASCADE
+        CONSTRAINT [FK_Wishlist_StormyCustomer_CustomerId] FOREIGN KEY ([CustomerId]) REFERENCES [StormyCustomer] ([Id]) ON DELETE NO ACTION
     );
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [OrderItem] (
         [Id] bigint NOT NULL IDENTITY,
@@ -679,7 +664,7 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [Payment] (
         [Id] bigint NOT NULL IDENTITY,
@@ -700,351 +685,388 @@ END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE TABLE [WishlistItem] (
         [Id] bigint NOT NULL IDENTITY,
+        [WishlistId] bigint NOT NULL,
         [LastModified] datetimeoffset NOT NULL,
         [IsDeleted] bit NOT NULL,
-        [ProductId] int NOT NULL,
-        [ProductId1] bigint NULL,
-        [WishlistId] bigint NOT NULL,
+        [ProductId] bigint NOT NULL,
         [AddedAt] datetime2 NOT NULL,
-        [Deleted] bit NOT NULL,
-        CONSTRAINT [PK_WishlistItem] PRIMARY KEY ([Id]),
-        CONSTRAINT [FK_WishlistItem_StormyProduct_ProductId1] FOREIGN KEY ([ProductId1]) REFERENCES [StormyProduct] ([Id]) ON DELETE NO ACTION,
-        CONSTRAINT [FK_WishlistItem_Wishlist_WishlistId] FOREIGN KEY ([WishlistId]) REFERENCES [Wishlist] ([Id]) ON DELETE CASCADE
+        [WishlistId1] bigint NULL,
+        [WishlistStormyCustomerId] bigint NULL,
+        CONSTRAINT [PK_WishlistItem] PRIMARY KEY ([Id], [WishlistId]),
+        CONSTRAINT [AK_WishlistItem_Id] UNIQUE ([Id]),
+        CONSTRAINT [FK_WishlistItem_StormyProduct_ProductId] FOREIGN KEY ([ProductId]) REFERENCES [StormyProduct] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_WishlistItem_Wishlist_WishlistId] FOREIGN KEY ([WishlistId]) REFERENCES [Wishlist] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_WishlistItem_Wishlist_WishlistId1_WishlistStormyCustomerId] FOREIGN KEY ([WishlistId1], [WishlistStormyCustomerId]) REFERENCES [Wishlist] ([Id], [StormyCustomerId]) ON DELETE NO ACTION
     );
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
-BEGIN
-    CREATE INDEX [IX_ApplicationUser_RoleId] ON [ApplicationUser] ([RoleId]);
-END;
-
-GO
-
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_AspNetRoleClaims_RoleId] ON [AspNetRoleClaims] ([RoleId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE UNIQUE INDEX [RoleNameIndex] ON [AspNetRoles] ([NormalizedName]) WHERE [NormalizedName] IS NOT NULL;
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE INDEX [IX_AspNetRoles_StormyCustomerId] ON [AspNetRoles] ([StormyCustomerId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_AspNetUserClaims_UserId] ON [AspNetUserClaims] ([UserId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_AspNetUserLogins_UserId] ON [AspNetUserLogins] ([UserId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_AspNetUserRoles_RoleId] ON [AspNetUserRoles] ([RoleId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [EmailIndex] ON [AspNetUsers] ([NormalizedEmail]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE UNIQUE INDEX [UserNameIndex] ON [AspNetUsers] ([NormalizedUserName]) WHERE [NormalizedUserName] IS NOT NULL;
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
-BEGIN
-    CREATE INDEX [IX_Category_ParentId] ON [Category] ([ParentId]);
-END;
-
-GO
-
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_CustomerAddress_OwnerId] ON [CustomerAddress] ([OwnerId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_Entity_EntityTypeId] ON [Entity] ([EntityTypeId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_OrderItem_ShipmentId] ON [OrderItem] ([ShipmentId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_OrderItem_StormyOrderId] ON [OrderItem] ([StormyOrderId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_OrderItem_StormyProductId] ON [OrderItem] ([StormyProductId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE UNIQUE INDEX [IX_Payment_StormyOrderId] ON [Payment] ([StormyOrderId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductAttribute_GroupId] ON [ProductAttribute] ([GroupId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductAttributeValue_AttributeId] ON [ProductAttributeValue] ([AttributeId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductAttributeValue_ProductId] ON [ProductAttributeValue] ([ProductId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE INDEX [IX_ProductCategory_CategoryId] ON [ProductCategory] ([CategoryId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE INDEX [IX_ProductCategory_ProductId] ON [ProductCategory] ([ProductId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductLink_LinkedProductId] ON [ProductLink] ([LinkedProductId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductLink_ProductId] ON [ProductLink] ([ProductId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE INDEX [IX_ProductMedia_MediaId] ON [ProductMedia] ([MediaId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductMedia_StormyProductId] ON [ProductMedia] ([StormyProductId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductOptionValue_OptionId] ON [ProductOptionValue] ([OptionId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductOptionValue_ProductId] ON [ProductOptionValue] ([ProductId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductTemplate_StormyProductId] ON [ProductTemplate] ([StormyProductId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_ProductTemplateProductAttribute_ProductAttributeId] ON [ProductTemplateProductAttribute] ([ProductAttributeId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_Review_StormyCustomerId] ON [Review] ([StormyCustomerId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    CREATE INDEX [IX_Shipment_BillingAddressId] ON [Shipment] ([BillingAddressId]);
+    CREATE INDEX [IX_Review_StormyProductId] ON [Review] ([StormyProductId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    CREATE INDEX [IX_Shipment_DestinationAddressId] ON [Shipment] ([DestinationAddressId]);
+    CREATE UNIQUE INDEX [IX_Shipment_BillingAddressId] ON [Shipment] ([BillingAddressId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE UNIQUE INDEX [IX_Shipment_DestinationAddressId] ON [Shipment] ([DestinationAddressId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE UNIQUE INDEX [IX_Shipment_StormyOrderId] ON [Shipment] ([StormyOrderId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_StormyCustomer_DefaultBillingAddressId] ON [StormyCustomer] ([DefaultBillingAddressId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    CREATE UNIQUE INDEX [IX_StormyCustomer_DefaultShippingAddressId] ON [StormyCustomer] ([DefaultShippingAddressId]) WHERE [DefaultShippingAddressId] IS NOT NULL;
+    CREATE INDEX [IX_StormyCustomer_DefaultShippingAddressId] ON [StormyCustomer] ([DefaultShippingAddressId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    CREATE INDEX [IX_StormyOrder_CustomerId] ON [StormyOrder] ([CustomerId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_StormyOrder_StockId] ON [StormyOrder] ([StockId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
-BEGIN
-    CREATE INDEX [IX_StormyOrder_StormyCustomerId] ON [StormyOrder] ([StormyCustomerId]);
-END;
-
-GO
-
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_StormyProduct_BrandId] ON [StormyProduct] ([BrandId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
-BEGIN
-    CREATE UNIQUE INDEX [IX_StormyProduct_CategoryId] ON [StormyProduct] ([CategoryId]);
-END;
-
-GO
-
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_StormyProduct_StockId] ON [StormyProduct] ([StockId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_StormyProduct_VendorId] ON [StormyProduct] ([VendorId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE UNIQUE INDEX [IX_StormyVendor_VendorAddressId] ON [StormyVendor] ([VendorAddressId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    CREATE UNIQUE INDEX [IX_Wishlist_StormyCustomerId] ON [Wishlist] ([StormyCustomerId]);
+    CREATE UNIQUE INDEX [IX_Wishlist_CustomerId] ON [Wishlist] ([CustomerId]) WHERE [CustomerId] IS NOT NULL;
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    CREATE INDEX [IX_WishlistItem_ProductId1] ON [WishlistItem] ([ProductId1]);
+    CREATE INDEX [IX_WishlistItem_ProductId] ON [WishlistItem] ([ProductId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     CREATE INDEX [IX_WishlistItem_WishlistId] ON [WishlistItem] ([WishlistId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    ALTER TABLE [Shipment] ADD CONSTRAINT [FK_Shipment_StormyOrder_StormyOrderId] FOREIGN KEY ([StormyOrderId]) REFERENCES [StormyOrder] ([Id]) ON DELETE CASCADE;
+    CREATE INDEX [IX_WishlistItem_WishlistId1_WishlistStormyCustomerId] ON [WishlistItem] ([WishlistId1], [WishlistStormyCustomerId]);
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    ALTER TABLE [Shipment] ADD CONSTRAINT [FK_Shipment_CustomerAddress_BillingAddressId] FOREIGN KEY ([BillingAddressId]) REFERENCES [CustomerAddress] ([Id]) ON DELETE CASCADE;
+    ALTER TABLE [AspNetRoleClaims] ADD CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE;
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    ALTER TABLE [Shipment] ADD CONSTRAINT [FK_Shipment_CustomerAddress_DestinationAddressId] FOREIGN KEY ([DestinationAddressId]) REFERENCES [CustomerAddress] ([Id]) ON DELETE CASCADE;
+    ALTER TABLE [AspNetUserRoles] ADD CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE;
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    ALTER TABLE [StormyCustomer] ADD CONSTRAINT [FK_StormyCustomer_CustomerAddress_DefaultBillingAddressId] FOREIGN KEY ([DefaultBillingAddressId]) REFERENCES [CustomerAddress] ([Id]) ON DELETE CASCADE;
+    ALTER TABLE [Shipment] ADD CONSTRAINT [FK_Shipment_StormyOrder_StormyOrderId] FOREIGN KEY ([StormyOrderId]) REFERENCES [StormyOrder] ([Id]) ON DELETE NO ACTION;
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
-    ALTER TABLE [StormyCustomer] ADD CONSTRAINT [FK_StormyCustomer_CustomerAddress_DefaultShippingAddressId] FOREIGN KEY ([DefaultShippingAddressId]) REFERENCES [CustomerAddress] ([Id]) ON DELETE CASCADE;
+    ALTER TABLE [Shipment] ADD CONSTRAINT [FK_Shipment_CustomerAddress_BillingAddressId] FOREIGN KEY ([BillingAddressId]) REFERENCES [CustomerAddress] ([Id]) ON DELETE NO ACTION;
 END;
 
 GO
 
-IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191101203122_InitialCreate')
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    ALTER TABLE [Shipment] ADD CONSTRAINT [FK_Shipment_CustomerAddress_DestinationAddressId] FOREIGN KEY ([DestinationAddressId]) REFERENCES [CustomerAddress] ([Id]) ON DELETE NO ACTION;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    ALTER TABLE [StormyCustomer] ADD CONSTRAINT [FK_StormyCustomer_CustomerAddress_DefaultBillingAddressId] FOREIGN KEY ([DefaultBillingAddressId]) REFERENCES [CustomerAddress] ([Id]) ON DELETE NO ACTION;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
+BEGIN
+    ALTER TABLE [StormyCustomer] ADD CONSTRAINT [FK_StormyCustomer_CustomerAddress_DefaultShippingAddressId] FOREIGN KEY ([DefaultShippingAddressId]) REFERENCES [CustomerAddress] ([Id]) ON DELETE NO ACTION;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191109153819_InitialCreate')
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20191101203122_InitialCreate', N'2.2.6-servicing-10079');
+    VALUES (N'20191109153819_InitialCreate', N'2.2.6-servicing-10079');
 END;
 
 GO

@@ -5,14 +5,14 @@ namespace StormyCommerce.Core.Extensions
 {
     public static class StormyProductExtensions
     {
-        public static decimal GetDimensions(this ProductDto productDto)
+        public static double GetDimensions(this ProductDto productDto)
         {            
             return CalculateDimensions(productDto.Height,productDto.Height,productDto.Length);
         }
                 
-        private static decimal CalculateDimensions(decimal height,decimal width,decimal length)
+        private static double CalculateDimensions(double height,double width,double length)
         {
-            return length + height + width;
+            return length * height * width;
         }
         
     }

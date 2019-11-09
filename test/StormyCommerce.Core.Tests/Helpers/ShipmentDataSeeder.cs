@@ -25,7 +25,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 DeliveryDate = DateTime.Today.AddDays(3),
                 ShippedDate = DateTime.Today.AddDays(-1),
                 DeliveryCost = 20.99m,
-                TotalWeight = 0.400m,
+                TotalWeight = 0.400,
                 LastModified = DateTime.UtcNow,
                 CreatedOn = DateTime.UtcNow,
                 IsDeleted = false

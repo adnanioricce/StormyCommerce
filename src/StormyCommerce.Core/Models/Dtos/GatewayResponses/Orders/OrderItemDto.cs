@@ -7,7 +7,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
     {
         public OrderItemDto(OrderItem orderItem)
         {            
-            Price = orderItem.Product.Price;
+            Price = Price.GetPriceFromString(orderItem.Product.Price);
             Quantity = orderItem.Quantity;
             Product = new ProductDto(orderItem.Product);
         }

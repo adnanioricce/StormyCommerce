@@ -17,11 +17,11 @@ using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.SampleData;
 using SimplCommerce.WebHost;
 using SimplCommerce.WebHost.Extensions;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
-using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Module.Customer.Data;
 
 namespace StormyCommerce.Modules.IntegrationTest
@@ -46,7 +46,7 @@ namespace StormyCommerce.Modules.IntegrationTest
                             dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
                         }
                     }
-                    var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                    var userManager = (UserManager<StormyCustomer>)scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
                     var roleManager = (RoleManager<ApplicationRole>)scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
                     new IdentityInitializer(dbContext, userManager, roleManager).Initialize();                    
                     dbContext.SeedDbContext();                    
