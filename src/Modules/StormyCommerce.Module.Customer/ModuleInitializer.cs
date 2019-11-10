@@ -48,6 +48,7 @@ namespace StormyCommerce.Module.Customer
         {
             services.AddIdentity<StormyCustomer, ApplicationRole>()
                 .AddEntityFrameworkStores<StormyDbContext>()
+                .AddUserStore<StormyUserStore>()
                 .AddRoles<ApplicationRole>()                
                 .AddDefaultTokenProviders();
 
@@ -63,10 +64,10 @@ namespace StormyCommerce.Module.Customer
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
                 // Default Password settings.
-                options.Password.RequireDigit = true;
+                options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
                 //User Settings
@@ -110,6 +111,7 @@ namespace StormyCommerce.Module.Customer
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());
+                auth.AddPolicy("Guest",policy => policy.RequireClaim("Role"));
             });            
         }
     }

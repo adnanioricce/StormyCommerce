@@ -1,8 +1,6 @@
 ﻿using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Module.Orders.Area.Models;
 using StormyCommerce.Module.Orders.Services;
-using StormyCommerce.Module.PagarMe.Services;
 using System.Linq;
 using System.Threading.Tasks;
 using TestHelperLibrary.Utils;

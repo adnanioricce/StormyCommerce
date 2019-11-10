@@ -28,8 +28,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
             {
                 // orderItem.HasKey(prop => new {prop.Id,prop.StormyOrderId});
                 orderItem.HasOne(prop => prop.Order).WithMany(order => order.Items).HasForeignKey(o => o.StormyOrderId);
-                orderItem.Property(prop => prop.Price)
-                    .HasConversion(price => price.Value,dbValue => Price.GetPriceFromString(dbValue));                
+                orderItem.Property(prop => prop.Price);                    
                 orderItem.HasQueryFilter(prop => prop.IsDeleted == false);
             });
         }

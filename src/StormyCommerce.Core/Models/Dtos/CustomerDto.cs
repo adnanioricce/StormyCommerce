@@ -22,9 +22,10 @@ namespace StormyCommerce.Core.Models.Dtos
         public string Email { get; private set; }
         public IList<CustomerAddress> Addresses { get; private set; }
         public CustomerAddress DefaultBillingAddress { get; private set; }
-        public CustomerAddress DefaultShippingAddress { get; private set; }
+        public CustomerAddress DefaultShippingAddress { get; private set; }        
         public string CPF { get; private set; }
         public string PhoneNumber { get; private set; }
         public string FullName { get; private set; }
+        public bool EmailConfirmed { get; set; }
     }
 }

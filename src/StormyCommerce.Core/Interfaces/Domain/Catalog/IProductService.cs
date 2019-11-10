@@ -20,8 +20,10 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
         Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex, long endIndex);
 
         Task<StormyProduct> GetProductByIdAsync(long productId);
+        Task<StormyProduct> GetProductByNameAsync(string productName);
 
         Task<IList<StormyProduct>> GetProductsByIdsAsync(long[] productIds);
+        
 
         Task InsertProductAsync(StormyProduct product);
 

@@ -53,10 +53,11 @@ namespace StormyCommerce.Module.Customer.Data
                     UserName = "stormyadmin",
                     Email = "stormycommerce@gmail.com",
                     EmailConfirmed = true,
-                    Roles = new List<IdentityRole>()
+                    Roles = new List<ApplicationRole>()
                     {
-                        new IdentityRole(Roles.Admin)
-                    }
+                        new ApplicationRole(Roles.Admin)
+                    },
+                    
                 }, "!D4vpassword",Roles.Admin);                
             CreateUser(
                 //TODO: actually, I think is not secure to initialize this here...
@@ -65,9 +66,22 @@ namespace StormyCommerce.Module.Customer.Data
                     UserName = "stormydev",
                     Email = "adnangonzaga@gmail.com",
                     EmailConfirmed = true,
-                    Roles = new List<IdentityRole>{
-                        new IdentityRole(Roles.Customer) 
-                    }
+                    Roles = new List<ApplicationRole>{
+                        new ApplicationRole(Roles.Customer) 
+                    },
+                    DefaultBillingAddress = new CustomerAddress
+                    {
+                        Address = new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")
+                    },
+                    DefaultShippingAddress = new CustomerAddress
+                    {
+                        Address = new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"),
+                    },
+                    CPF = "10172930820",
+                    PhoneNumber = "11992887102",
+                    FullName = "Severino Francisco Daniel da Rocha",
+                    
+                    
                 }, "!D4velopment",Roles.Customer);                
             
         }

@@ -47,11 +47,33 @@ namespace StormyCommerce.Module.Orders.Services
                 Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => new DeliveryCalculationOptionResponse(s)))
             }; 
         }        
+        
         public async Task<DeliveryCalculationResponse> DefaultDeliveryCalculation(Shipment shipment)
         {            
             var response = await CalculateDeliveryPriceAndTime(GetDefaultShippingCalcModel(shipment));
             return response;            
         }         
+        public async Task<DeliveryCalculationResponse> CalculateDeliveryPriceAndTime(DeliveryCalculationRequest request)
+        {
+            var response = await _correiosSoapWs.CalcPrecoPrazoAsync(Container.Configuration["Correios:CodigoEmpresa"],
+                Container.Configuration["Correios:Senha"],
+                request.ServiceCode,
+                Container.Configuration["Correios:OriginPostalCode"],
+                request.DestinationPostalCode,
+                request.Weight.ToString(),
+                (int)request.FormatCode,
+                request.Length,
+                request.Height,
+                request.Width,
+                request.Diameter,
+                request.MaoPropria,
+                request.ValorDeclarado,
+                request.WarningOfReceiving);
+            return new DeliveryCalculationResponse
+            {
+                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => new DeliveryCalculationOptionResponse(s)))
+            };
+        }
         private CalcPrecoPrazoModel GetDefaultShippingCalcModel(Shipment shipment)
         {                            
             return new CalcPrecoPrazoModel {             

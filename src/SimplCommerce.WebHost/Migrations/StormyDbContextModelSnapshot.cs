@@ -35,16 +35,12 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("StormyCustomerId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.HasIndex("StormyCustomerId");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -542,7 +538,11 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("NormalizedName");
 
+                    b.Property<string>("StormyCustomerId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StormyCustomerId");
 
                     b.ToTable("ApplicationRole");
                 });
@@ -622,6 +622,10 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerWishlistId")
+                        .IsUnique()
+                        .HasFilter("[CustomerWishlistId] IS NOT NULL");
+
                     b.HasIndex("DefaultBillingAddressId");
 
                     b.HasIndex("DefaultShippingAddressId");
@@ -635,19 +639,13 @@ namespace SimplCommerce.WebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("StormyCustomerId");
-
-                    b.Property<string>("CustomerId");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTimeOffset>("LastModified");
 
-                    b.HasKey("Id", "StormyCustomerId");
+                    b.Property<string>("StormyCustomerId");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique()
-                        .HasFilter("[CustomerId] IS NOT NULL");
+                    b.HasKey("Id");
 
                     b.ToTable("Wishlist");
                 });
@@ -658,8 +656,6 @@ namespace SimplCommerce.WebHost.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("WishlistId");
-
                     b.Property<DateTime>("AddedAt");
 
                     b.Property<bool>("IsDeleted");
@@ -668,19 +664,17 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long>("ProductId");
 
+                    b.Property<long>("WishlistId");
+
                     b.Property<long?>("WishlistId1");
 
-                    b.Property<long?>("WishlistStormyCustomerId");
-
-                    b.HasKey("Id", "WishlistId");
-
-                    b.HasAlternateKey("Id");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
                     b.HasIndex("WishlistId");
 
-                    b.HasIndex("WishlistId1", "WishlistStormyCustomerId");
+                    b.HasIndex("WishlistId1");
 
                     b.ToTable("WishlistItem");
                 });
@@ -750,7 +744,7 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<string>("FileName");
 
-                    b.Property<int>("FileSize");
+                    b.Property<long>("FileSize");
 
                     b.Property<bool>("IsDeleted");
 
@@ -934,6 +928,8 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<DateTimeOffset>("LastModified");
 
+                    b.Property<decimal>("SafeAmount");
+
                     b.Property<string>("ShipmentMethod");
 
                     b.Property<string>("ShipmentProvider");
@@ -1101,13 +1097,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.ToTable("VendorAddress");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer")
-                        .WithMany("Roles")
-                        .HasForeignKey("StormyCustomerId");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -1251,6 +1240,13 @@ namespace SimplCommerce.WebHost.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.ApplicationRole", b =>
+                {
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer")
+                        .WithMany("Roles")
+                        .HasForeignKey("StormyCustomerId");
+                });
+
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.CustomerAddress", b =>
                 {
                     b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Owner")
@@ -1296,6 +1292,11 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.StormyCustomer", b =>
                 {
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.Wishlist")
+                        .WithOne("Customer")
+                        .HasForeignKey("StormyCommerce.Core.Entities.Customer.StormyCustomer", "CustomerWishlistId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("StormyCommerce.Core.Entities.Customer.CustomerAddress", "DefaultBillingAddress")
                         .WithMany()
                         .HasForeignKey("DefaultBillingAddressId")
@@ -1304,14 +1305,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasOne("StormyCommerce.Core.Entities.Customer.CustomerAddress", "DefaultShippingAddress")
                         .WithMany()
                         .HasForeignKey("DefaultShippingAddressId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.Wishlist", b =>
-                {
-                    b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Customer")
-                        .WithOne()
-                        .HasForeignKey("StormyCommerce.Core.Entities.Customer.Wishlist", "CustomerId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -1325,12 +1318,11 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasOne("StormyCommerce.Core.Entities.Customer.Wishlist", "Wishlist")
                         .WithMany()
                         .HasForeignKey("WishlistId")
-                        .HasPrincipalKey("Id")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("StormyCommerce.Core.Entities.Customer.Wishlist")
                         .WithMany("WishlistItems")
-                        .HasForeignKey("WishlistId1", "WishlistStormyCustomerId");
+                        .HasForeignKey("WishlistId1");
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Entity", b =>

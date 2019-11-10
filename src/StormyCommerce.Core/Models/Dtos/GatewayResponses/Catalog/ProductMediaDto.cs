@@ -18,7 +18,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             SeoFilename = media.Media.SeoFileName;
         }
         public string FileName { get; set; }
-        public int FileSize { get; set; }
+        public long FileSize { get; set; }
         public string SeoFilename { get; set; }
     }
 }

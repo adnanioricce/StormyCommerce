@@ -102,6 +102,6 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public double CalculateDimensions()
         {                      
             return Height * Width * Length;
-        }
+        }        
     }
 }
