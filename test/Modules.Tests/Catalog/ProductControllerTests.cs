@@ -31,7 +31,7 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
             var profile = new CatalogProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
             var mapper = configuration.CreateMapper();
-            _productController = new ProductController(ServiceTestFactory.GetProductService(),mapper,null);
+            _productController = new ProductController(ServiceTestFactory.GetProductService(),mapper,null,null);
         }
 
         [Fact]

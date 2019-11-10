@@ -6,6 +6,7 @@ namespace StormyCommerce.Core.Interfaces
 {
     public interface IMediaService
     {
+        Media GetMediaByFilename(string fileName);
         string GetMediaUrl(Media media);
 
         string GetMediaUrl(string filename);

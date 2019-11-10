@@ -22,8 +22,7 @@
     <ProjectReference Include="..\..\src\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj" />
     <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
     <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
-    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Orders\StormyCommerce.Module.Orders.csproj" />
-    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.PagarMe\StormyCommerce.Module.PagarMe.csproj" />    
+    <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Orders\StormyCommerce.Module.Orders.csproj" />    
     <ProjectReference Include="..\Infraestructure\TestHelperLibrary\TestHelperLibrary.csproj" />
     <ProjectReference Include="..\..\src\Modules\SimplCommerce.Module.EmailSenderSendgrid\SimplCommerce.Module.EmailSenderSendgrid.csproj" />
     <!--<ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />

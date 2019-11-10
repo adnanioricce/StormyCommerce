@@ -18,6 +18,7 @@ using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Models.Requests;
 using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Module.Catalog.Models;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Controllers
@@ -31,13 +32,15 @@ namespace StormyCommerce.Module.Catalog.Controllers
         private readonly IProductService _productService;              
         private readonly IAppLogger<ProductController> _logger;
         private readonly IMapper _mapper;
-
+        private readonly IMediaService _mediaService;
         //TODO:Change the notification type
         public ProductController(IProductService productService,        
         IMapper mapper,
+        IMediaService mediaService,
         IAppLogger<ProductController> logger)
         {
-            _productService = productService;                        
+            _productService = productService;
+            _mediaService = mediaService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -50,6 +53,13 @@ namespace StormyCommerce.Module.Catalog.Controllers
             var products = await _productService.SearchProductsBySearchPattern(searchPattern);
             var mappedProduct = _mapper.Map<List<StormyProduct>,List<ProductSearchResponse>>(products);
             return Result.Ok(mappedProduct);
+        }
+        [HttpGet("get_by_name")]
+        [ValidateModel]
+        [AllowAnonymous]        
+        public async Task<StormyProduct> GetProductByName(string productName)
+        {
+            return await _productService.GetProductByNameAsync(productName);
         }
         ///<summary>
         /// Get a more simplified version of a specified product
@@ -106,10 +116,9 @@ namespace StormyCommerce.Module.Catalog.Controllers
         [Authorize(Roles.Admin)]
         public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
         {                                       
-            var model = _mapper.Map<StormyProduct>(_model);
-                                                     
+            var model = _mapper.Map<StormyProduct>(_model);                                                                 
             try
-            {                                                        
+            {                
                 await _productService.InsertProductAsync(model);                                
             }                        
             catch(DbUpdateException ex){
@@ -117,7 +126,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
                 return BadRequest($"application failed to perform given operation. Given exception:{ex.Message}");
             }
             return Ok();
-        }
+        }        
         #endregion
         #region Put Methods
         [HttpPut("edit")]

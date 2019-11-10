@@ -14,24 +14,16 @@ namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductService : IProductService
     {
-        private readonly IStormyRepository<StormyProduct> _productRepository;    
-        private readonly IStormyRepository<ProductMedia> _productMediaRepository;  
-        private readonly IStormyRepository<Media> _mediaRepository;     
-        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;
-        private readonly IStormyRepository<Category> _categoryRepository;
+        private readonly IStormyRepository<StormyProduct> _productRepository;                
+        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;        
         //TODO: I Think a service for this is unecessary        
-        public ProductService(IStormyRepository<StormyProduct> productRepository,
-        IStormyRepository<ProductMedia> productMediaRepository,
-        IStormyRepository<Media> mediaRepository,
-        IStormyRepository<ProductCategory> productCategoryRepository,
-        IStormyRepository<Category> categoryRepository        
+        public ProductService(IStormyRepository<StormyProduct> productRepository,        
+        IStormyRepository<ProductCategory> productCategoryRepository        
         )
         {
-            _productRepository = productRepository;
-            _productMediaRepository = productMediaRepository;            
-            _mediaRepository = mediaRepository;
+            _productRepository = productRepository;            
             _productCategoryRepository = productCategoryRepository;
-            _categoryRepository = categoryRepository;
+            
         }
         #region Read Methods
         //TODO:write failing test cases
@@ -205,5 +197,9 @@ namespace StormyCommerce.Core.Services.Catalog
             return product.ProductName.Contains(brandName) && product.ProductName.Contains(categoryName);
         }
 
+        public Task<StormyProduct> GetProductByNameAsync(string productName)
+        {
+            return _productRepository.Table.Where(p => String.Equals(p.ProductName, productName, StringComparison.OrdinalIgnoreCase)).SingleAsync();
+        }
     }
 }

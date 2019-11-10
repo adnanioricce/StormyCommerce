@@ -19,7 +19,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Domain.Entities
     {
         private IProductService GetProductService(StormyDbContext dbContext)
         {
-            return new ProductService(new StormyRepository<StormyProduct>(dbContext),null,null,null,null);
+            return new ProductService(new StormyRepository<StormyProduct>(dbContext),null);
         }        
         [Fact]        
         public void SyncStock_OrderStatusEqualNew_SubtractFromTheStock()

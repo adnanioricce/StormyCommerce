@@ -149,7 +149,7 @@ namespace SimplCommerce.WebHost.Extensions
         {            
             services.AddDbContextPool<StormyDbContext>(options => {
                 options.UseLoggerFactory(Container.loggerFactory);
-                options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                options.UseSqlServer(configuration.GetConnectionString("DevConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                 // options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
@@ -210,7 +210,10 @@ namespace SimplCommerce.WebHost.Extensions
                 }
             }
         }
-
+        public static void AddSampleData(this StormyDbContext dbContext)
+        {
+            
+        }
         private static void RegisterModuleInitializerServices(ModuleInfo module, ref IServiceCollection services)
         {
             var moduleInitializerType = module.Assembly.GetTypes()

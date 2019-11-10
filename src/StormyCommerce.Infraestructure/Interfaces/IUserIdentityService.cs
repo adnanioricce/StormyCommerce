@@ -15,6 +15,7 @@ namespace StormyCommerce.Infraestructure.Interfaces
         Task<string> GeneratePasswordResetTokenAsync(StormyCustomer user);
         Task<bool> IsEmailConfirmedAsync(StormyCustomer user);
         StormyCustomer GetUserByEmail(string email);
+        Task<StormyCustomer> GetUserByEmailAsync(string email);
         StormyCustomer GetUserByUsername(string username);
         StormyCustomer GetUserById(string userId);
         PasswordVerificationResult VerifyHashPassword(StormyCustomer user,string hashedPassword,string providedPassword);

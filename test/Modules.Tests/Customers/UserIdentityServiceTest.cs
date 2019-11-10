@@ -20,7 +20,7 @@ namespace Modules.Test.Customers
         {
             _fakeUserManager = new FakeUserManager();
             var fakeSigninManager = new FakeSignInManager();
-            Service = new UserIdentityService(fakeSigninManager, _fakeUserManager);
+            Service = new UserIdentityService(fakeSigninManager, _fakeUserManager,null);
         }
 
         [Fact]

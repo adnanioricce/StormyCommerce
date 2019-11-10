@@ -277,7 +277,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<OrderItem> OrderItemSeed(int count = 1)
         {
             var fakeOrderItem = new Faker<OrderItem>("pt_BR")                
-                .RuleFor(v => v.Price,f => Price.GetPriceFromCents("R$",f.Finance.Amount()))
+                .RuleFor(v => v.Price,f => f.Commerce.Price(symbol:"R$"))
                 .RuleFor(v => v.Quantity,f => f.Random.Int(1,5));           
             return fakeOrderItem.Generate(count);     
         }

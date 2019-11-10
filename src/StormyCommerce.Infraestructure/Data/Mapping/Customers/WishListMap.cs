@@ -11,21 +11,21 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
         {
             modelBuilder.Entity<Wishlist>(entity =>
             {
-                entity.HasKey(prop => new { prop.Id, prop.StormyCustomerId });
+                entity.HasKey(prop => prop.Id);
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
                 entity.HasOne(p => p.Customer)
                 .WithOne()
-                .HasPrincipalKey<StormyCustomer>(c => c.Id)
+                .HasForeignKey<StormyCustomer>(c => c.CustomerWishlistId)
                 .OnDelete(DeleteBehavior.Restrict);
                 entity.HasMany(prop => prop.WishlistItems)
                 .WithOne(prop => prop.Wishlist)
-                .HasPrincipalKey(prop => prop.Id)
+                .HasForeignKey(prop => prop.WishlistId)
                 .OnDelete(DeleteBehavior.Restrict);
                 entity.HasQueryFilter(prop => !prop.IsDeleted);
             });
             modelBuilder.Entity<WishlistItem>(entity =>
             {
-                entity.HasKey(prop => new { prop.Id, prop.WishlistId });
+                entity.HasKey(prop => prop.Id );
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
                 entity.HasOne(prop => prop.Product)
                 .WithMany()

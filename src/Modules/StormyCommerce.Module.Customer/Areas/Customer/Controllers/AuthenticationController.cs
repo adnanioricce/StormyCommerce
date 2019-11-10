@@ -79,9 +79,9 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             {                
                 UserName = signUpVm.UserName,
                 Email = signUpVm.Email,
-                Roles = new System.Collections.Generic.List<IdentityRole>
+                Roles = new System.Collections.Generic.List<ApplicationRole>
                 {
-                    new IdentityRole(Roles.Guest)
+                    new ApplicationRole(Roles.Guest)
                 }
             }, signUpVm.Password);            
             if (!result.Succeeded) return BadRequest("Don't was possible to create user");
