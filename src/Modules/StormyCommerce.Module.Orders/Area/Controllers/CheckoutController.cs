@@ -112,7 +112,21 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         [ValidateModel]    
         public async Task<ActionResult<BoletoCheckoutResponse>> SimpleCheckoutBoleto([FromBody]SimpleBoletoCheckoutRequest request)
         {
-            throw new NotImplementedException();
+            var user = await _identityService.GetUserByClaimPrincipal(User);
+            //var pagCustomer = _pagarMeService.Customers.Find(_mapper.Map<StormyCustomer, Customer>(user));            
+            //if(pagCustomer == null)
+            //{
+                var pagCustomer = _mapper.Map<StormyCustomer, Customer>(user);                
+            //}
+            var transaction = new Transaction();
+            transaction.Customer = pagCustomer;
+            transaction.Amount = (int)(request.Amount * 100);
+            transaction.Billing = _mapper.Map<StormyCustomer, Billing>(user);
+            transaction.Async = true;
+            transaction.PostbackUrl = $"{this.HttpContext.Request.Scheme}://{this.Request.Host}/api/Checkout/postback";
+            await transaction.SaveAsync();
+            //var order = _orderService.CreateOrderAsync(_mapper.Map<Transaction, StormyOrder>(transaction));
+            return Ok(Result.Ok("transaction performed with success"));
         }
         [HttpPost("postback")]
         [ValidateModel]
@@ -146,24 +160,5 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 CubeRoot = cubeRoot,                
             };
         }
-    }    
-    public class BoletoRequest
-    {
-        public string api_key { get; set; }
-        public string payment_method { get; set; } = "boleto";
-        public int amount { get; set; }
-        public Customer customer  { get; set; }
-    }
-    public class Customer
-    {
-        public string name { get; set; }
-        public string country { get; set; } = "br";
-        public string type { get; set; } = "individual";
-        public Document[] documents  { get; set; }
-    }
-    public class Document
-    {
-        public string type { get; set; }
-        public string number { get; set; }
-    }
+    }        
 }

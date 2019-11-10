@@ -61,10 +61,34 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.FullName));
-            CreateMap<StormyCustomer, Customer>()
+            CreateMap<Core.Entities.Common.Address, Address>()
+                .ForMember(dest => dest.Complementary,opt => opt.MapFrom(src => src.Complement))
+                .ForMember(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.District))
+                .ForMember(dest => dest.StreetNumber,opt => opt.MapFrom(src => src.Number))
+                .ForMember(dest => dest.Zipcode,opt => opt.MapFrom(src => src.PostalCode));
+            CreateMap<StormyCustomer, Billing>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.FullName));
+                .ForPath(dest => dest.Address, opt => opt.MapFrom(src => src.DefaultBillingAddress.Address));
+            CreateMap<StormyCustomer, Customer>()
+                .ForMember(dest => dest.ExternalId,opt => opt.MapFrom(src => src.Id))                
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))                
+                .ForPath(dest => dest.Address,opt => opt.MapFrom(src => src.DefaultBillingAddress.Address))                            
+                .AfterMap((src,dest) => {
+                    dest.PhoneNumbers = new string[]
+                    {
+                        src.PhoneNumber
+                    };
+                    dest.Documents = new Document[]
+                    {
+                        new Document
+                        {
+                            Type = DocumentType.Cpf,
+                            Number = src.CPF
+                        }
+                    };                    
+
+                });
 
             CreateMap<Customer, StormyCustomer>()
                 .ForMember(p => p.DefaultBillingAddress, opt => opt.MapFrom(src => src.Address))
