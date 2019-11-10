@@ -22,14 +22,12 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
     //[ValidateAntiForgeryToken]
     [EnableCors("Default")]
     public class CustomerController : Controller
-    {
-        private readonly ICustomerService _customerService;
+    {        
         private readonly IUserIdentityService _identityService;
         private readonly IMapper _mapper;
 
-        public CustomerController(ICustomerService customerService,IUserIdentityService identityService,IMapper mapper)
-        {
-            _customerService = customerService;
+        public CustomerController(IUserIdentityService identityService,IMapper mapper)
+        {            
             _identityService = identityService;
             _mapper = mapper;
         }        
@@ -37,8 +35,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         [ValidateModel]
         public async Task<IActionResult> AddAddressAsync([FromBody]CustomerAddress address)
         {            
-            var customer = await GetCurrentCustomer();                               
-            await _customerService.AddCustomerAddressAsync(address,customer.Id);
+            var customer = await GetCurrentCustomer();                                           
             return Ok();
         }        
         [HttpGet("list")]
@@ -52,11 +49,17 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         [ValidateModel]
         public async Task<IActionResult> AddItemToWishList(long productId)
         {
-            var customer = await GetCurrentCustomer();
-            await _customerService.AddWishListItem(customer, productId);
+            var customer = await GetCurrentCustomer();            
             return Ok();
         }
-
+        [HttpGet("get_currentuser")]
+        [ValidateModel]
+        [Roles(Roles.Customer,Roles.Guest)]
+        public CustomerDto GetCustomerByEmail()
+        {
+            var user = _identityService.GetUserById(HttpContext.User.Claims.FirstOrDefault(c => string.Equals(c.Type,"sub"))?.Value);
+            return _mapper.Map<StormyCustomer,CustomerDto>(_identityService.GetUserById(HttpContext.User.FindFirst(c => string.Equals(c.Type,"sub")).Value));
+        }
         private async Task<StormyCustomer> GetCurrentCustomer()
         {
             return await _identityService.GetUserByClaimPrincipal(User);                       

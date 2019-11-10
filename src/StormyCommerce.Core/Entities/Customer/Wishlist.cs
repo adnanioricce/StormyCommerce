@@ -5,27 +5,31 @@ namespace StormyCommerce.Core.Entities.Customer
 {
     public class Wishlist : BaseEntity
     {
-        public long StormyCustomerId { get; set; }
+        public string StormyCustomerId { get; set; }
         public StormyCustomer Customer { get; set; }
-        public ICollection<WishlistItem> WishlistItems { get; set; }
+        public ICollection<WishlistItem> WishlistItems { get; set; } = new List<WishlistItem>();
 
         /// <summary>
         /// Adds a product available on the catalog of the store on the Wishlist
         /// </summary>
         /// <param name="productId">the Id of the product been added</param>
-        public void AddItem(int productId)
+        public void AddItem(long productId)
         {
             var item = WishlistItems.FirstOrDefault(f => f.ProductId == productId);            
             if (item != null) return;
 
-            WishlistItems.Add(item);
+            WishlistItems.Add(new WishlistItem{
+                Wishlist = this,
+                ProductId = productId
+            });
         }
 
-        public void Remove(WishlistItem wishlistItem)
+        public void Remove(long productId)
         {
-            var item = WishlistItems.FirstOrDefault(f => f.ProductId == wishlistItem.Id);
-            if (item != null)
-                WishlistItems.Remove(item);
+            var item = WishlistItems.FirstOrDefault(f => f.ProductId == productId);
+            if (item == null) return; 
+            
+            WishlistItems.Remove(this.WishlistItems.Where(i => i.ProductId == productId).FirstOrDefault());
         }
     }
 }

@@ -13,7 +13,7 @@ namespace StormyCommerce.Core.Entities.Order
         public OrderItem(){}
         public int Quantity { get; set; }
         public StormyProduct Product { get; set; }
-        public Price Price { get; set; }
+        public string Price { get; set; }
         public long StormyProductId { get; set; }
         public long StormyOrderId { get; set; }
         public StormyOrder Order { get; set; }        

@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
+using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 {
@@ -19,10 +22,12 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     {
         private readonly IUserIdentityService _identityService;          
         private readonly IAppLogger<AuthenticationController> _logger;
-        public AccountController(IUserIdentityService identityService,IAppLogger<AuthenticationController> logger)
+        private readonly IMapper _mapper;
+        public AccountController(IUserIdentityService identityService,IAppLogger<AuthenticationController> logger,IMapper mapper)
         {
             _identityService = identityService;                    
             _logger = logger;
+            _mapper = mapper;
         }
         [HttpGet("ConfirmEmail")]
         [ValidateModel]
@@ -49,6 +54,12 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             if (!result.Succeeded) return BadRequest();
 
             return Ok();
-        }                
+        }     
+        [HttpGet("get_current_user")]
+        [Authorize(Roles.Customer)]
+        public async Task<CustomerDto> GetCurrentCustomer()
+        {            
+            return _mapper.Map<StormyCustomer,CustomerDto>(await _identityService.GetUserByEmailAsync(HttpContext.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value));
+        }          
     }
 }

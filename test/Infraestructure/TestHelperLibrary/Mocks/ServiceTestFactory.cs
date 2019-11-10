@@ -17,11 +17,8 @@ namespace TestHelperLibrary.Mocks
     {
         public static ProductService GetProductService()
         {
-            return new ProductService(RepositoryHelper.GetRepository<StormyProduct>()
-            ,RepositoryHelper.GetRepository<ProductMedia>()
-            ,RepositoryHelper.GetRepository<Media>()
-            ,RepositoryHelper.GetRepository<ProductCategory>()
-            ,RepositoryHelper.GetRepository<Category>());
+            return new ProductService(RepositoryHelper.GetRepository<StormyProduct>(),            
+            RepositoryHelper.GetRepository<ProductCategory>());
         }
 
         public static CategoryService GetCategoryService()

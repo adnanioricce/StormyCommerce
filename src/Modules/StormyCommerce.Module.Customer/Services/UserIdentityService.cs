@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data.Stores;
@@ -16,12 +18,14 @@ namespace StormyCommerce.Module.Customer.Services
     {
         private readonly SignInManager<StormyCustomer> _signInManager;
         private readonly UserManager<StormyCustomer> _userManager;       
-
+        private readonly StormyUserStore _userStore;        
         public UserIdentityService(SignInManager<StormyCustomer> signInManager,
-            UserManager<StormyCustomer> identityRepository)
+            UserManager<StormyCustomer> identityRepository,
+            StormyUserStore userStore)
         {
             _signInManager = signInManager;
-            _userManager = identityRepository;            
+            _userManager = identityRepository;     
+            _userStore = userStore; 
         }
 
         public async Task<IdentityResult> CreateUserAsync(StormyCustomer user, string password)
@@ -56,12 +60,17 @@ namespace StormyCommerce.Module.Customer.Services
         {
             return _userManager.Users.FirstOrDefault(u => u.Email == email);
         }
+        public async Task<StormyCustomer> GetUserByEmailAsync(string email)
+        {            
+            return await _userStore.FindByEmailAsync(email);
+        }
         public StormyCustomer GetUserByUsername(string username)
         {
             return _userManager.Users.FirstOrDefault(u => u.UserName == username);
         }
         public StormyCustomer GetUserById(string userId)
         {
+            
             return _userManager.Users.First(u => string.Equals(u.Id, userId));
         }
         public async Task<StormyCustomer> GetUserByClaimPrincipal(ClaimsPrincipal principal)
@@ -97,11 +106,11 @@ namespace StormyCommerce.Module.Customer.Services
         }
 
         public async Task<IEnumerable<Claim>> BuildClaims(StormyCustomer user)
-        {
+        {                        
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),                              
                 new Claim(JwtRegisteredClaimNames.Iat,DateTimeOffset.UtcNow.ToString()),               
             };
             var userRoles = await _userManager.GetRolesAsync(user);

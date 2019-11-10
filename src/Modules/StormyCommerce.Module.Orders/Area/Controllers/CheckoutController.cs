@@ -1,29 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PagarMe;
-using Stormycommerce.Module.Orders.Area.ViewModels;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Interfaces.Infraestructure.ExternalServices;
-using StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels;
-using StormyCommerce.Module.PagarMe.Services;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper;
-using StormyCommerce.Core.Entities.Order;
-using StormyCommerce.Core.Entities.Payments;
-using StormyCommerce.Core.Models.Dtos;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Domain.Catalog;
+using System.Collections.Generic;
+using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Customer;
+using PagarMe.Model;
 using StormyCommerce.Infraestructure.Interfaces;
+using System.Net.Http;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -33,50 +29,141 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     [Authorize("Customer")]
     public class CheckoutController : Controller
     {
-        private readonly IOrderService _orderService;                      
+        private readonly IOrderService _orderService;
+        private readonly IProductService _productService;
+        private readonly IShippingService _shippingService;
+        private readonly CorreiosService _correiosService;
         private readonly IUserIdentityService _identityService;
-        private readonly PagarMeWrapper _pagarmeService;
-        private readonly ILogger _logger;
+        private readonly IStormyRepository<CustomerAddress> _addressRepository;
+        private readonly PagarMeService _pagarMeService;
+        //private readonly PagarMeWrapper _pagarmeService;        
         private readonly IMapper _mapper;
-        public CheckoutController(IOrderService orderService,         
-        ILogger logger,
-        PagarMeWrapper pagarMeService,
+        public CheckoutController(IOrderService orderService,
+        IProductService productService,
+        IShippingService shippingService,
+        CorreiosService correiosService,
+        //PagarMeWrapper pagarMeService,
         IUserIdentityService userIdentityService,
+        IStormyRepository<CustomerAddress> addressRepository,
+        PagarMeService pagarMeService,
         IMapper mapper)
         {
-            _orderService = orderService;                        
-            _logger = logger;
-            _pagarmeService = pagarMeService;
+            _orderService = orderService;
+            _productService = productService;
+            _shippingService = shippingService;                        
             _identityService = userIdentityService;
+            _addressRepository = addressRepository;
+            _correiosService = correiosService;
+            _pagarMeService = pagarMeService;
             _mapper = mapper;
-        }        
+        }
+        //[HttpPost("boleto")]
+        //[ValidateModel]                
+        //public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutRequest requestModel)
+        //{
+        //    Dictionary<long, StormyProduct> products = (await _productService.GetProductsByIdsAsync(requestModel.Items.Select(it => it.ProductId).ToArray())).ToDictionary(p => p.Id);
+        //    decimal amountToPay = requestModel.Items.Sum(it => products.GetValueOrDefault(it.ProductId).UnitPrice * it.Quantity);
+        //    var customer = _identityService.GetUserByEmail(HttpContext.User.Claims.FirstOrDefault(c => c.Type.Contains("email")).Value);
+        //    var shipment = await CreateShipment(products,requestModel);
+        //    shipment.SafeAmount = amountToPay / 100;
+        //    var shipcalcRequest = new DeliveryCalculationRequest
+        //    {
+        //        Height = (decimal)shipment.TotalHeight,
+        //        Width = (decimal)shipment.TotalWidth,
+        //        Length = (decimal)shipment.TotalLength,
+        //        Weight = (decimal)shipment.TotalWeight,
+        //        ValorDeclarado = shipment.SafeAmount,
+        //        DestinationPostalCode = requestModel.DestinationPostalCode,
+        //        WarningOfReceiving = "N",
+        //        ServiceCode = requestModel.ShippingMethod,
+        //        FormatCode = FormatCode.CaixaOuPacote,
+        //        Diameter = 0,
+        //        MaoPropria = "N",
+        //        OriginPostalCode = requestModel.DestinationPostalCode
+        //    };                                     
+        //    var shippingPrice = (await _correiosService.CalculateDeliveryPriceAndTime(shipcalcRequest)).Options.Min(p => p.Price).Replace("R$","").Replace(",",".");
+        //    var transaction = _mapper.Map<BoletoCheckoutRequest,TransactionVm>(requestModel);
+        //    //The pagarme service represent the value in cents,so 1000 is actually R$10            
+        //    transaction.PostbackUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/Checkout/postback";
+        //    transaction.Async = true;
+        //    transaction.Items.AddRange(_mapper.Map<List<PagarMeItem>>(products));
+        //    transaction.Customer = _mapper.Map<PagarMeCustomerVm>(customer);            
+        //    transaction.Amount = Convert.ToInt32((amountToPay + Convert.ToDecimal(shippingPrice)) * 100);            
+        //    Result<OrderDto> order = await _orderService.CreateOrderAsync(_mapper.Map<StormyOrder>(transaction));    
+
+        //    var result = await _pagarmeService.ChargeAsync(transaction);
+        //    if (!result.Success)
+        //    {
+        //        return BadRequest(Result.Fail("Don't was possible to charge the order, check the credentials and try again"));
+        //    }
+        //    order.Value.Payment.PaymentStatus = result.Success ? PaymentStatus.Pending : PaymentStatus.Failed;            
+        //    Result editResult = await _orderService.EditOrderAsync(order.Value.OrderUniqueKey,_mapper.Map<OrderDto,StormyOrder>(order.Value));             
+        //    if(!editResult.Success)
+        //    {
+        //        return BadRequest(Result.Fail("We can't validate the order,check the credentials and try again"));
+        //    }            
+        //    return Ok(new BoletoCheckoutResponse{
+        //        Result = order,
+        //        BoletoUrl = transaction.BoletoUrl,
+        //        BoletoBarcode = transaction.BoletoBarcode
+        //    });                        
+        //}
         [HttpPost("boleto")]
-        [ValidateModel]                
-        public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutRequest requestModel)
-        {                             
-            var customer = _identityService.GetUserByEmail(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "email").Value);            
-            var transaction = _mapper.Map<TransactionVm>(requestModel);                                                
-            transaction.PostbackUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/Checkout/postback";
-            transaction.Async = true;                        
-            transaction.Customer = _mapper.Map<PagarMeCustomerVm>(customer);
-            var result = await _pagarmeService.ChargeAsync(transaction);                                    
-            var order = _mapper.Map<StormyOrder>(transaction);            
-            order.Payment.PaymentStatus = result.Success ? PaymentStatus.Pending : PaymentStatus.Failed;                        
-            order.Status = OrderStatus.New;                                                                             
-            //?I think you should do the inverse, receive a OrderDto and after that return a new OrderDto
-            Result<OrderDto> orderDto = await _orderService.CreateOrderAsync(order);                
-            _logger.LogInformation($"Order Created at {nameof(CheckoutBoleto)} in {nameof(CheckoutController)}");
-            return Ok(new BoletoCheckoutResponse{
-                Result = orderDto,
-                BoletoUrl = transaction.BoletoUrl,
-                BoletoBarcode = transaction.BoletoBarcode
-            });                        
+        [ValidateModel]    
+        public async Task<ActionResult<BoletoCheckoutResponse>> SimpleCheckoutBoleto([FromBody]SimpleBoletoCheckoutRequest request)
+        {
+            throw new NotImplementedException();
         }
         [HttpPost("postback")]
         [ValidateModel]
-        public async Task<IActionResult> CheckoutPostback()
+        public async Task<IActionResult> CheckoutPostback(Postback postback)
         {
             return NoContent();
         }        
+
+        private async Task<Shipment> CreateShipment(Dictionary<long,StormyProduct> products,BoletoCheckoutRequest requestModel)
+        {
+            
+            double weight = requestModel.Items.Sum(it => products.GetValueOrDefault(it.ProductId).UnitWeight * it.Quantity);
+            double totalHeight = 0;
+            double totalWidth = 0;
+            double totalLength = 0;
+            double shipmentArea = requestModel.Items.Sum(it => {
+                var product = products.GetValueOrDefault(it.ProductId);
+                totalHeight += product.Height;
+                totalWidth += product.Width;
+                totalLength += product.Length;
+                return product.CalculateDimensions() * it.Quantity;
+                });
+            double cubeRoot = Math.Ceiling(Math.Pow(shipmentArea, (double)1 / 3));
+            return new Shipment
+            {
+                TotalWeight = weight,
+                TotalArea = shipmentArea,
+                TotalHeight = totalHeight < 2 ? 2 : cubeRoot,
+                TotalWidth = totalWidth < 16 ? 16 : cubeRoot,
+                TotalLength = totalLength < 11 ? 11 : cubeRoot,
+                CubeRoot = cubeRoot,                
+            };
+        }
     }    
+    public class BoletoRequest
+    {
+        public string api_key { get; set; }
+        public string payment_method { get; set; } = "boleto";
+        public int amount { get; set; }
+        public Customer customer  { get; set; }
+    }
+    public class Customer
+    {
+        public string name { get; set; }
+        public string country { get; set; } = "br";
+        public string type { get; set; } = "individual";
+        public Document[] documents  { get; set; }
+    }
+    public class Document
+    {
+        public string type { get; set; }
+        public string number { get; set; }
+    }
 }
