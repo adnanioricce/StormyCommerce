@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
@@ -23,6 +25,9 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {
             _wishListRepository = wishListRepository;
             _userIdentityService = userIdentityService;
+            _wishListRepository.Table
+                .Include(w => w.WishlistItems)
+                .Load();
         }
         [HttpPost("add_item")]        
         public async Task<IActionResult> WishList(long productId)
@@ -30,8 +35,8 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
             if(!(await _userIdentityService.IsEmailConfirmedAsync(user))) 
                 return BadRequest(Result.Fail("the user needs to confirm your email to perform this operation"));
-            
-            if(user.CustomerWishlistId == null){
+            var list = await _wishListRepository.Table.Where(w => string.Equals(w.StormyCustomerId, user.Id))?.FirstOrDefaultAsync();
+            if(list == null){
                 var newWishList = new Wishlist{
                     StormyCustomerId = user.Id                    
                 };
@@ -40,21 +45,30 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                           
                 await _wishListRepository.AddAsync(newWishList);
                 return Ok(Result.Ok("item added to wishlist"));
-            }
-            var wishList = await _wishListRepository.GetByIdAsync();
-            wishList.AddItem(productId);
-            await _wishListRepository.UpdateAsync(wishList);            
+            }            
+            list.AddItem(productId);
+            await _wishListRepository.UpdateAsync(list);            
             return Ok(Result.Ok("item added to wishlist"));
         }
         [HttpPost("remove_item")]
+        [Authorize(Roles.Customer)]
         public async Task<IActionResult> RemoveWishListItem(long productId)
         {
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
-            if(user.CustomerWishlistId == null) return BadRequest(Result.Fail("the user don't have any item on your wishlist"));
-            var wishList = await _wishListRepository.GetByIdAsync(user.CustomerWishlistId);
-            wishList.Remove(productId);
-            await _wishListRepository.UpdateAsync(wishList);
+            var list = await _wishListRepository.Table.Where(w => string.Equals(w.StormyCustomerId, user.Id)).SingleAsync();
+            if (list == null || list.WishlistItems.Count == 0) return BadRequest(Result.Fail("the user don't have any item on your wishlist"));            
+            list.Remove(productId);
+            await _wishListRepository.UpdateAsync(list);
             return Ok(Result.Ok("item removed from wishlist"));
+        }
+        [HttpPost("get")]
+        public async Task<Wishlist> GetWishList()
+        {
+            var user = await _userIdentityService.GetUserByClaimPrincipal(User);
+            return await _wishListRepository
+                .Table
+                .Where(w => string.Equals(w.StormyCustomerId,user.Id))
+                .SingleAsync();
         }
     }
 }

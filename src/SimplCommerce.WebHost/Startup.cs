@@ -116,7 +116,7 @@ namespace SimplCommerce.WebHost
             if (_hostingEnvironment.IsDevelopment()) 
             { 
                 services.AddMvc(x => {
-                    // x.Filters.Add(new AllowAnonymousFilter());
+                    x.Filters.Add(new AllowAnonymousFilter());
                 }).AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
