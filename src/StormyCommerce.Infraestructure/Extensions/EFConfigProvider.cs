@@ -18,10 +18,12 @@ namespace StormyCommerce.Infraestructure.Extensions
         public override void Load()
         {
             var builder = new DbContextOptionsBuilder<EFConfigurationDbContext>();
-            OptionsAction(builder);
-
-            using(var dbContext = new EFConfigurationDbContext(builder.Options)){
-                Data = dbContext.AppSettings.ToDictionary(c => c.Id, c => c.Value);
+            OptionsAction(builder);                        
+            using(var dbContext = new EFConfigurationDbContext(builder.Options)){                                
+                if(dbContext.Database.EnsureDeleted()){
+                    dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                    Data = dbContext.AppSettings.ToDictionary(c => c.Id, c => c.Value);
+                }
             }
         }
     }
