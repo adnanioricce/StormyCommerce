@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="StormyCommerce.Api.Framework.Extensions.Seeders">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAMAAEAAAgYDCQACAQBAAAwAAIAAAAAIAQAAAAA=</HashCode>
+      <FileName>Extensions\Seeders.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StormyCommerce.Api.Framework.Extensions.SeedExtensions">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\SeedExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StormyCommerce.Api.Framework.Extensions.UrlSlugRoute" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAgAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Extensions\UrlSlugRoute.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="StormyCommerce.Api.Framework.Filters.ValidateModelAttribute">
+    <Position X="6.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Filters\ValidateModelAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StormyCommerce.Api.Framework.Ioc.Container">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAEAAAAAAQAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Ioc\IocContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StormyCommerce.Api.Framework.Startup">
+    <Position X="4" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAEAAAAAEACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

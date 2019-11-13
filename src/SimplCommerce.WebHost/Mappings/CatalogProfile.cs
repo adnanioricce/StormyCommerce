@@ -22,8 +22,7 @@ namespace StormyCommerce.WebHost.Mappings
             CreateMap<StormyVendor, VendorDto>();                                        
             CreateMap<Media, MediaDto>();
             CreateMap<Media, ProductMediaDto>();                
-            CreateMap<ProductMediaDto,MediaDto>();                
-            CreateMap<ProductMedia,ProductMediaDto>();  
+            
             CategoryMap();
             ProductMap();              
         }        
@@ -36,13 +35,15 @@ namespace StormyCommerce.WebHost.Mappings
         }
         public void ProductMap()
         {
-            CreateMap<StormyProduct, ProductDto>()                                              
-                .ForPath(dto => dto.Price,opt => opt.MapFrom(src => src.Price.Value));                
+            CreateMap<StormyProduct, ProductDto>();                                                              
             CreateMap<StormyProduct, ProductSearchResponse>();                                    
             CreateMap<StormyProduct, ProductOverviewDto>();                                
-            CreateMap<CreateProductRequest,StormyProduct>();                          
-            CreateMap<ProductDto, StormyProduct>()                                                
-                .ForPath(src => src.Price.Value,opt => opt.MapFrom(src => Price.GetPriceFromString(src.Price)));
+            CreateMap<CreateProductRequest,StormyProduct>();
+            CreateMap<EditProductRequest, StormyProduct>()
+                    .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<ProductDto, StormyProduct>();                                                                
+            CreateMap<ProductMediaDto, MediaDto>();
+            CreateMap<ProductMedia, ProductMediaDto>();            
         }
     }
 

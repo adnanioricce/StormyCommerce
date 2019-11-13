@@ -1,4 +1,5 @@
-﻿using StormyCommerce.Core.Entities.Customer;
+﻿using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models.Dtos;
 
 namespace StormyCommerce.Core.Entities
@@ -26,6 +27,8 @@ namespace StormyCommerce.Core.Entities
 
         public string StormyCustomerId { get; set; }
         public StormyCustomer Author { get; set; }
+        public long StormyProductId { get; set; }
+        public StormyProduct Product { get; set; }
         public string Title { get; set; }
         public string Comment { get; set; }
         public string ReviewerName { get; set; }

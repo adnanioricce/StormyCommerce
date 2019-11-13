@@ -20,7 +20,7 @@ namespace StormyCommerce.Infraestructure.Data
         {            
         }
 
-        public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
+        public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return base.Set<TEntity>();
         }

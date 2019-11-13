@@ -6,6 +6,7 @@
 trigger:
 - master
 - stage
+- develop
 
 jobs:
 - job: Linux

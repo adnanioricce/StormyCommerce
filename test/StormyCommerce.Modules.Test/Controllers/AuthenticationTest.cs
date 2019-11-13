@@ -1,15 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using SimplCommerce.WebHost;
-using StormyCommerce.Infraestructure.Entities;
-using StormyCommerce.Infraestructure.Interfaces;
-using StormyCommerce.Module.Customer.Services;
+﻿using Microsoft.AspNetCore.TestHost;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TestHelperLibrary;
-using TestHelperLibrary.Utils;
 using Xunit;
 using Xunit.Abstractions;
 

@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Bogus.DataSets;
+using StormyCommerce.Api.Framework.Seeders.Customer;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
@@ -36,7 +37,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.UnitsInStock = f.Random.Int(2, 10);
                     v.UnitsOnOrder = f.Random.Int(0, 2);                    
                     v.Note = f.Lorem.Sentence();
-                    v.Price = Price.GetPriceFromString(f.Commerce.Price(1, 100, 2, "R$"));
+                    v.Price = f.Commerce.Price(1, 100, 2, "R$");
                     v.ProductCost = f.Random.Decimal();                
                     v.CreatedOn = f.Date.Past();                                       
                     v.Brand = Seeders.BrandSeed(omitId:true).First(); 
@@ -276,7 +277,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<OrderItem> OrderItemSeed(int count = 1)
         {
             var fakeOrderItem = new Faker<OrderItem>("pt_BR")                
-                .RuleFor(v => v.Price,f => Price.GetPriceFromCents("R$",f.Finance.Amount()))
+                .RuleFor(v => v.Price,f => f.Commerce.Price(symbol:"R$"))
                 .RuleFor(v => v.Quantity,f => f.Random.Int(1,5));           
             return fakeOrderItem.Generate(count);     
         }
@@ -301,16 +302,13 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<StormyCustomer> StormyCustomerSeed(int count = 1,bool omitId = false)
         {
             var fakeCustomer = new Faker<StormyCustomer>()
-                .Rules((f,v) => {            
+                .Rules((f,v) => {
 
-                    v.Id += omitId ? 0 : 2 + ++f.IndexVariable;
-                    v.IsDeleted = false;
-                    v.LastModified = DateTime.UtcNow;
+                    v.Id = Guid.NewGuid().ToString();                
                     v.Email = f.Internet.Email();
                     v.EmailConfirmed = true;
                     v.PhoneNumber = f.Person.Phone;
-                    v.PhoneNumberConfirmed =  true;
-                    v.UserId =  Guid.NewGuid().ToString();
+                    v.PhoneNumberConfirmed =  true;                    
                     v.UserName = f.Internet.UserName();
                     v.CPF =  "000000000";
                     v.CreatedOn =  DateTime.UtcNow;
@@ -319,10 +317,13 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.DefaultShippingAddress = addresses.Last();                    
                     v.Addresses.AddRange(addresses);                    
                     var review = Seeders.ReviewSeed(count,omitId).First();
-                    review.Id += f.IndexVariable;
-                    review.Author = v; 
+                    review.Id += omitId ? 0 : f.IndexVariable;
+                    review.Author = v;
+                    review.Product = StormyProductSeed().First();
+                    var wishList = WishListSeeder.SingleWishListSeed(v, WishListSeeder.WishListItemsSeed(StormyProductSeed(1)));
+                    wishList.Id = 0;                    
                     v.CustomerReviews.Add(review);
-                    //TODO: Seed WishList                    
+                                 
                 });                
             
             return fakeCustomer.Generate(count);
@@ -331,8 +332,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<Review> ReviewSeed(int count = 1, bool ignoreId = false)
         {
             var fakeReview = new Faker<Review>("pt_BR")
-                .RuleFor(v => v.Id, f => ignoreId ? 0 : ++f.IndexVariable)
-                .RuleFor(v => v.StormyCustomerId, Guid.NewGuid().ToString())
+                .RuleFor(v => v.Id, f => ignoreId ? 0 : ++f.IndexVariable)                
                 .RuleFor(v => v.Title, f => f.Lorem.Sentence())
                 .RuleFor(v => v.Comment, f => f.Rant.Review())
                 .RuleFor(v => v.ReviewerName, f => f.Person.FullName)

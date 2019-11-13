@@ -37,13 +37,20 @@ namespace SimplCommerce.WebHost
         {
             var env = hostingContext.HostingEnvironment;
             var configuration = configBuilder.Build();
-            configBuilder.AddEntityFrameworkConfig(options =>{
-                // if(!env.IsDevelopment()){
-                //     options.UseSqlServer(configuration.GetConnectionString("TestConnection"),b => b.MigrationsAssembly("SimplCommerce.WebHost")); 
-                // } else{
-                    options.UseSqlite("DataSource=config.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                     
-                // }
-            });
+            configBuilder.AddEntityFrameworkConfig(options => {
+                options.EnableDetailedErrors();
+                options.EnableSensitiveDataLogging();
+                if (!env.IsDevelopment())
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
+                }
+                else
+                {                    
+                    options.UseSqlite("DataSource=config.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                       
+                }
+
+                }
+            );
             Log.Logger = new LoggerConfiguration()
                        .ReadFrom.Configuration(configuration)
                        .CreateLogger();

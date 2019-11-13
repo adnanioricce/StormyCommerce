@@ -18,6 +18,7 @@ using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Models.Requests;
 using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Module.Catalog.Models;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Controllers
@@ -28,31 +29,18 @@ namespace StormyCommerce.Module.Catalog.Controllers
     [EnableCors("Default")]
     public class ProductController : Controller
     {
-        private readonly IProductService _productService;      
-        private readonly IStormyRepository<ProductMedia> _productMediaRepository;  
-        private readonly IStormyRepository<Category> _categoryRepository;  
-        private readonly IStormyRepository<StormyVendor> _vendorRepository;  
-        private readonly IStormyRepository<Brand> _brandRepository;  
-        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;
+        private readonly IProductService _productService;              
         private readonly IAppLogger<ProductController> _logger;
         private readonly IMapper _mapper;
-
+        private readonly IMediaService _mediaService;
         //TODO:Change the notification type
-        public ProductController(IProductService productService,
-        IStormyRepository<ProductMedia> productMediaRepository,
-        IStormyRepository<Category> categoryRepository,
-        IStormyRepository<StormyVendor> vendorRepository,
-        IStormyRepository<Brand> brandRepository,
-        IStormyRepository<ProductCategory> productCategoryRepository,
+        public ProductController(IProductService productService,        
         IMapper mapper,
+        IMediaService mediaService,
         IAppLogger<ProductController> logger)
         {
-            _productService = productService;            
-            _productMediaRepository = productMediaRepository;
-            _categoryRepository = categoryRepository;
-            _vendorRepository = vendorRepository;
-            _brandRepository = brandRepository;
-            _productCategoryRepository = productCategoryRepository;
+            _productService = productService;
+            _mediaService = mediaService;
             _mapper = mapper;
             _logger = logger;
         }
@@ -65,6 +53,13 @@ namespace StormyCommerce.Module.Catalog.Controllers
             var products = await _productService.SearchProductsBySearchPattern(searchPattern);
             var mappedProduct = _mapper.Map<List<StormyProduct>,List<ProductSearchResponse>>(products);
             return Result.Ok(mappedProduct);
+        }
+        [HttpGet("get_by_name")]
+        [ValidateModel]
+        [AllowAnonymous]        
+        public async Task<StormyProduct> GetProductByName(string productName)
+        {
+            return await _productService.GetProductByNameAsync(productName);
         }
         ///<summary>
         /// Get a more simplified version of a specified product
@@ -114,16 +109,16 @@ namespace StormyCommerce.Module.Catalog.Controllers
 
             return product;
         }
-        
+        #region Post Methods        
+
         [HttpPost("create")]
         [ValidateModel]
         [Authorize(Roles.Admin)]
         public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
         {                                       
-            var model = _mapper.Map<StormyProduct>(_model);
-                                                     
+            var model = _mapper.Map<StormyProduct>(_model);                                                                 
             try
-            {                                                        
+            {                
                 await _productService.InsertProductAsync(model);                                
             }                        
             catch(DbUpdateException ex){
@@ -131,22 +126,25 @@ namespace StormyCommerce.Module.Catalog.Controllers
                 return BadRequest($"application failed to perform given operation. Given exception:{ex.Message}");
             }
             return Ok();
-        }
-        
+        }        
+        #endregion
+        #region Put Methods
         [HttpPut("edit")]
         [ValidateModel]
         [Authorize(Roles.Admin)]
-        public async Task<IActionResult> EditProduct([FromBody]StormyProduct _model)
+        public async Task<IActionResult> EditProduct([FromBody]EditProductRequest _model)
         {                        
-            try{                 
-                await _productService.UpdateProductAsync(_model);
+            try{
+                var entry = await _productService.GetProductByIdAsync(_model.Id);
+                var product = _mapper.Map<EditProductRequest,StormyProduct>(_model,entry);
+                await _productService.UpdateProductAsync(product);
             }catch(Exception ex){
                 _logger.LogStackTrace(ex.Message,ex);
                 throw ex;
             }
             return Ok();            
         }
-
+        #endregion
         [HttpGet("getlength/category")]
         [ValidateModel]
         [AllowAnonymous]
@@ -164,5 +162,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
             var model = await _productService.GetAllProductsByCategory(categoryId, limit);
             return _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(model.Value);
         }
+        
+        
     }
 }

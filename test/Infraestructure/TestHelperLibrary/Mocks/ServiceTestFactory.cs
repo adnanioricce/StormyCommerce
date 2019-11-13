@@ -17,11 +17,8 @@ namespace TestHelperLibrary.Mocks
     {
         public static ProductService GetProductService()
         {
-            return new ProductService(RepositoryHelper.GetRepository<StormyProduct>()
-            ,RepositoryHelper.GetRepository<ProductMedia>()
-            ,RepositoryHelper.GetRepository<Media>()
-            ,RepositoryHelper.GetRepository<ProductCategory>()
-            ,RepositoryHelper.GetRepository<Category>());
+            return new ProductService(RepositoryHelper.GetRepository<StormyProduct>(),            
+            RepositoryHelper.GetRepository<ProductCategory>());
         }
 
         public static CategoryService GetCategoryService()
@@ -33,16 +30,7 @@ namespace TestHelperLibrary.Mocks
         {
             return new EntityService(RepositoryHelper.GetRepository<Entity>());
         }
-
-        public static CustomerService GetCustomerService(bool seeded = false)
-        {
-            var context = DbContextHelper.GetDbContext();
-            context.AddRange(Seeders.StormyCustomerSeed(10));
-            context.SaveChanges();                                            
-            var reviewRepository = new StormyRepository<Review>(context);
-            var customerRepository = new StormyRepository<StormyCustomer>(context);
-            return new CustomerService(reviewRepository, customerRepository);
-        }
+        
 
         public static IMapper GetFakeMapper()
         {

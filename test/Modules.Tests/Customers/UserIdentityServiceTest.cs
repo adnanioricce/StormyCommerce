@@ -1,4 +1,4 @@
-﻿using StormyCommerce.Infraestructure.Entities;
+﻿using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Infraestructure.Extensions;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Services;
@@ -14,13 +14,13 @@ namespace Modules.Test.Customers
     {
         public IUserIdentityService Service { get; set; }
         private readonly FakeUserManager _fakeUserManager;
-        private readonly ApplicationUser _sampleAppUser = IdentityDataSeed.ApplicationUserSeed().FirstOrDefault();
+        private readonly StormyCustomer _sampleAppUser = IdentityDataSeed.ApplicationUserSeed().FirstOrDefault();
 
         public UserIdentityServiceTest()
         {
             _fakeUserManager = new FakeUserManager();
             var fakeSigninManager = new FakeSignInManager();
-            Service = new UserIdentityService(fakeSigninManager, _fakeUserManager, null);
+            Service = new UserIdentityService(fakeSigninManager, _fakeUserManager,null);
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace Modules.Test.Customers
         public async Task CreateUserAsync_InvalidUsernameAndPassword_ShouldReturnError()
         {
             //Arrange
-            var user = new ApplicationUser { UserName = null, Email = null };
+            var user = new StormyCustomer { UserName = null, Email = null };
             //Act & Assert
             var result = await Assert.ThrowsAsync<ArgumentNullException>(async () => await Service.CreateUserAsync(user, null));
         }

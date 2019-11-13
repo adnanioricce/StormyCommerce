@@ -1,5 +1,4 @@
 ﻿using StormyCommerce.Core.Entities.Catalog;
-using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
 {

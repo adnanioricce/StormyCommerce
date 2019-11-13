@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace StormyCommerce.Infraestructure.Data.Repositories
 {
-    public class StormyRepository<TEntity> : IStormyRepository<TEntity> where TEntity : BaseEntity
+    public class StormyRepository<TEntity> : IStormyRepository<TEntity> where TEntity : EntityWithBaseTypeId<long>
     {
         //? I ask myself:what is the difference between this and a readonly field? and Why Protected?
         private readonly StormyDbContext context;
@@ -130,14 +130,8 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
 
         public async Task<IList<TEntity>> GetAllByIdsAsync(long[] ids)
         {
-            if (ids == null) throw new ArgumentNullException("Given argument is null");
-
-            var entities = new List<TEntity>();
-            await DbSet.ForEachAsync(f =>
-            {
-                entities.Add(f);
-            });
-            return entities;
+            if (ids == null) throw new ArgumentNullException("Given argument is null");                    
+            return await _dbSet.Where(p => ids.Contains(p.Id)).ToListAsync();
         }
 
         public IDbContextTransaction BeginTransaction()

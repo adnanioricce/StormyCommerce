@@ -10,6 +10,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Order
     {
         Task<Result<OrderDto>> CreateOrderAsync(StormyOrder entry);
         Task<Result> EditOrderAsync(long id, StormyOrder entity);
+        Task<Result> EditOrderAsync(Guid uniqueId, StormyOrder entity);
         Task<Result<OrderDto>> CancelOrderAsync(long id);
         Task<Result<OrderDto>> GetOrderByIdAsync(long id);
         Task<Result<IList<StormyOrder>>> GetOrdersAsync();

@@ -15,8 +15,7 @@ namespace StormyCommerce.Module.PagarMe
 
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            PagarMeService.DefaultApiKey = Container.Configuration["PagarMe:ApiKey"];
-            PagarMeService.DefaultApiEndpoint = Container.Configuration["PagarMe:EncryptionKey"];
+            
         }
     }
 }

@@ -1,28 +1,25 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PagarMe;
-using Stormycommerce.Module.Orders.Area.ViewModels;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Interfaces.Infraestructure.ExternalServices;
-using StormyCommerce.Module.PagarMe.Area.PagarMe.ViewModels;
-using StormyCommerce.Module.PagarMe.Services;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper;
-using StormyCommerce.Core.Entities.Order;
-using StormyCommerce.Core.Entities.Payments;
-using StormyCommerce.Core.Models.Dtos;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Domain.Catalog;
+using System.Collections.Generic;
+using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Customer;
+using PagarMe.Model;
+using StormyCommerce.Infraestructure.Interfaces;
+using System.Net.Http;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -32,50 +29,68 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     [Authorize("Customer")]
     public class CheckoutController : Controller
     {
-        private readonly IOrderService _orderService;                      
-        private readonly ICustomerService _customerService;
-        private readonly PagarMeWrapper _pagarmeService;
-        private readonly ILogger _logger;
+        
+        private readonly IUserIdentityService _identityService;                      
         private readonly IMapper _mapper;
-        public CheckoutController(IOrderService orderService,         
-        ILogger logger,
-        PagarMeWrapper pagarMeService,
-        ICustomerService customerService,
+        public CheckoutController(
+        IUserIdentityService userIdentityService,        
         IMapper mapper)
-        {
-            _orderService = orderService;                        
-            _logger = logger;
-            _pagarmeService = pagarMeService;
-            _customerService = customerService;
+        {                                
+            _identityService = userIdentityService;            
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
-        [ValidateModel]                
-        public async Task<IActionResult> CheckoutBoleto([FromBody]BoletoCheckoutRequest requestModel)
-        {                             
-            var customer = await _customerService.GetCustomerByUserNameOrEmail("",HttpContext.User.Claims.FirstOrDefault(c => c.Type == "email").Value);            
-            var transaction = _mapper.Map<TransactionVm>(requestModel);                                                
-            transaction.PostbackUrl = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/Checkout/postback";
-            transaction.Async = true;                        
-            transaction.Customer = _mapper.Map<PagarMeCustomerVm>(customer);
-            var result = await _pagarmeService.ChargeAsync(transaction);                                    
-            var order = _mapper.Map<StormyOrder>(transaction);            
-            order.Payment.PaymentStatus = result.Success ? PaymentStatus.Pending : PaymentStatus.Failed;                        
-            order.Status = OrderStatus.New;                                                                             
-            //?I think you should do the inverse, receive a OrderDto and after that return a new OrderDto
-            Result<OrderDto> orderDto = await _orderService.CreateOrderAsync(order);                
-            _logger.LogInformation($"Order Created at {nameof(CheckoutBoleto)} in {nameof(CheckoutController)}");
-            return Ok(new BoletoCheckoutResponse{
-                Result = orderDto,
-                BoletoUrl = transaction.BoletoUrl,
-                BoletoBarcode = transaction.BoletoBarcode
-            });                        
+        [ValidateModel]    
+        public async Task<ActionResult<BoletoCheckoutResponse>> SimpleCheckoutBoleto([FromBody]SimpleBoletoCheckoutRequest request)
+        {
+            var user = await _identityService.GetUserByClaimPrincipal(User);            
+            var pagCustomer = _mapper.Map<StormyCustomer, Customer>(user);
+
+            var transaction = new Transaction
+            {
+                Customer = pagCustomer,
+                Amount = (int)(request.Amount * 100),
+                Billing = _mapper.Map<StormyCustomer, Billing>(user),
+                Address = _mapper.Map<CustomerAddress,Address>(user.DefaultBillingAddress),
+                Shipping = _mapper.Map<CustomerAddress,Shipping>(user.DefaultShippingAddress),
+                Async = true,
+                PostbackUrl = $"{this.HttpContext.Request.Scheme}://{this.Request.Host}/api/Checkout/postback"
+            };
+            await transaction.SaveAsync();
+            //var order = _orderService.CreateOrderAsync(_mapper.Map<Transaction, StormyOrder>(transaction));
+            return Ok(Result.Ok("transaction performed with success"));
         }
         [HttpPost("postback")]
         [ValidateModel]
-        public async Task<IActionResult> CheckoutPostback()
+        public async Task<IActionResult> CheckoutPostback(Postback postback)
         {
             return NoContent();
         }        
-    }    
+
+        private async Task<Shipment> CreateShipment(Dictionary<long,StormyProduct> products,BoletoCheckoutRequest requestModel)
+        {
+            
+            double weight = requestModel.Items.Sum(it => products.GetValueOrDefault(it.ProductId).UnitWeight * it.Quantity);
+            double totalHeight = 0;
+            double totalWidth = 0;
+            double totalLength = 0;
+            double shipmentArea = requestModel.Items.Sum(it => {
+                var product = products.GetValueOrDefault(it.ProductId);
+                totalHeight += product.Height;
+                totalWidth += product.Width;
+                totalLength += product.Length;
+                return product.CalculateDimensions() * it.Quantity;
+                });
+            double cubeRoot = Math.Ceiling(Math.Pow(shipmentArea, (double)1 / 3));
+            return new Shipment
+            {
+                TotalWeight = weight,
+                TotalArea = shipmentArea,
+                TotalHeight = totalHeight < 2 ? 2 : cubeRoot,
+                TotalWidth = totalWidth < 16 ? 16 : cubeRoot,
+                TotalLength = totalLength < 11 ? 11 : cubeRoot,
+                CubeRoot = cubeRoot,                
+            };
+        }
+    }        
 }

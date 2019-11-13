@@ -31,6 +31,7 @@ namespace StormyCommerce.Core.Entities
         public double TotalLength { get; set; }
         public double TotalArea { get; set; }
         public double CubeRoot { get; set; }
+        public decimal SafeAmount { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? ShippedDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
