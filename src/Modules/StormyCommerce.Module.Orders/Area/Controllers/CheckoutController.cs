@@ -3,23 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using PagarMe;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Interfaces.Domain.Order;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper;
-using StormyCommerce.Module.Orders.Services;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using System.Collections.Generic;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Customer;
 using PagarMe.Model;
 using StormyCommerce.Infraestructure.Interfaces;
-using System.Net.Http;
+using StormyCommerce.Core.Interfaces.Domain.Order;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -29,14 +24,16 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     [Authorize("Customer")]
     public class CheckoutController : Controller
     {
-        
+        private readonly IOrderService _orderService;
         private readonly IUserIdentityService _identityService;                      
         private readonly IMapper _mapper;
         public CheckoutController(
-        IUserIdentityService userIdentityService,        
+        IUserIdentityService userIdentityService,
+        IOrderService orderService,        
         IMapper mapper)
         {                                
             _identityService = userIdentityService;            
+            _orderService = orderService;
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
@@ -45,19 +42,41 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         {
             var user = await _identityService.GetUserByClaimPrincipal(User);            
             var pagCustomer = _mapper.Map<StormyCustomer, Customer>(user);
-
+                        
             var transaction = new Transaction
             {
+                          
                 Customer = pagCustomer,
                 Amount = (int)(request.Amount * 100),
                 Billing = _mapper.Map<StormyCustomer, Billing>(user),
                 Address = _mapper.Map<CustomerAddress,Address>(user.DefaultBillingAddress),
                 Shipping = _mapper.Map<CustomerAddress,Shipping>(user.DefaultShippingAddress),
-                Async = true,
-                PostbackUrl = $"{this.HttpContext.Request.Scheme}://{this.Request.Host}/api/Checkout/postback"
-            };
-            await transaction.SaveAsync();
-            //var order = _orderService.CreateOrderAsync(_mapper.Map<Transaction, StormyOrder>(transaction));
+                Item = new Item[]{
+                    new Item{
+                        Id = "1",
+                        Title = "test item",
+                        Quantity = 1,
+                        Tangible = true,
+                        UnitPrice = 1000
+                    }
+                },                
+                PaymentMethod = PaymentMethod.Boleto
+            };        
+            transaction.Billing.Id = "1";
+            transaction.Billing.Address.Id = "1";
+            try{    
+                transaction.Save();           
+            }catch(PagarMeException ex){                                
+                Console.WriteLine($"HttpStatusCode from the PagarMeException:${ex.Error.HttpStatus}");
+                foreach(var error in ex.Error.Errors){
+                    Console.WriteLine($@"The PagarMe Service throwed the following:Type:{error.Type},
+                    Parameter:{error.Parameter},
+                    Message:{error.Message}");
+                }          
+                // ex.Error      
+                // return Result<PagarMeError>(ex.Error,ex.Error.Errors);
+                return BadRequest(Result.Fail("transaction failed"));
+            }
             return Ok(Result.Ok("transaction performed with success"));
         }
         [HttpPost("postback")]

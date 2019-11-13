@@ -35,6 +35,8 @@ namespace StormyCommerce.Core.Entities.Customer
         public long? CustomerWishlistId { get; set; }                
         public string FullName { get; set; }        
         public string RefreshTokenHash { get; set; }
+        public DateTime DateOfBirth { get; set; }        
+                
         public List<ApplicationRole> Roles { get; set; }
         public DateTimeOffset CreatedOn { get; set; }        
     }

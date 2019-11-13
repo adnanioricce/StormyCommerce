@@ -38,7 +38,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.FailureMessage,opt => opt.MapFrom(src => src.Status));
             //TODO:Need better way to map this                
             CreateMap<SimpleBoletoCheckoutRequest, Transaction>()
-                .ForMember(dest => dest.Amount,opt => opt.MapFrom(src => (int)(src.Amount * 100)));
+                .ForMember(dest => dest.Amount,opt => opt.MapFrom(src => (int)(src.Amount * 100)));                
             CreateMap<BoletoCheckoutRequest, Transaction>();
             CreateMap<Transaction, StormyOrder>()
                 .ForMember(p => p.TotalPrice,opt => opt.MapFrom(src => (src.Amount / 100)))                
@@ -67,15 +67,19 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.StreetNumber,opt => opt.MapFrom(src => src.Number))
                 .ForMember(dest => dest.Zipcode,opt => opt.MapFrom(src => src.PostalCode));
             CreateMap<StormyCustomer, Billing>()            
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
-                .ForMember(dest => dest.Id,opt => opt.MapFrom(src => src.DefaultBillingAddress.Id))
-                .ForPath(dest => dest.Address.Id,opt => opt.MapFrom(src => src.DefaultBillingAddress.Id))
-                .ForPath(dest => dest.Address, opt => opt.MapFrom(src => src.DefaultBillingAddress.Address));
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))                                
+                .ForPath(dest => dest.Address, opt => opt.MapFrom(src => src.DefaultBillingAddress.Address))
+                .AfterMap((src,dest) => {
+                    dest.Id = null;
+                });
             CreateMap<StormyCustomer, Customer>()
                 .ForMember(dest => dest.ExternalId,opt => opt.MapFrom(src => src.Id))                
+                .ForMember(dest => dest.DocumentNumber,opt => opt.MapFrom(src => src.CPF))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))                
-                .ForPath(dest => dest.Address,opt => opt.MapFrom(src => src.DefaultBillingAddress.Address))                            
+                .ForMember(dest => dest.BornAt,opt => opt.MapFrom(src => src.DateOfBirth))
+                .ForMember(dest => dest.Birthday,opt => opt.MapFrom(src => src.DateOfBirth.DayOfYear.ToString()))                            
+                .ForPath(dest => dest.Address,opt => opt.MapFrom(src => src.DefaultBillingAddress.Address))                
                 .AfterMap((src,dest) => {
                     dest.PhoneNumbers = new string[]
                     {
@@ -88,8 +92,10 @@ namespace StormyCommerce.WebHost.Mappings
                             Type = DocumentType.Cpf,
                             Number = src.CPF
                         }
-                    };                    
-
+                    };                      
+                    dest.Type = CustomerType.Individual; 
+                    dest.Country = "br";
+                    
                 });
 
             CreateMap<Customer, StormyCustomer>()
@@ -111,8 +117,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForPath(dest => dest.Address.Country,opt => opt.MapFrom(src => src.Country))
                 .ForPath(dest => dest.Address.City,opt => opt.MapFrom(src => src.City))
                 .ForPath(dest => dest.Address.State,opt => opt.MapFrom(src => src.State));                
-            CreateMap<CustomerAddress,Address>()                
-                .ForMember(dest => dest.Id,opt => opt.MapFrom(src => src.Id))                
+            CreateMap<CustomerAddress,Address>()                                       
                 .ForPath(dest => dest.Complementary,opt => opt.MapFrom(src => src.Address.Complement))                
                 .ForPath(dest => dest.Zipcode,opt => opt.MapFrom(src => src.Address.PostalCode))
                 .ForPath(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.Address.District))
@@ -121,8 +126,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForPath(dest => dest.Country,opt => opt.MapFrom(src => src.Address.Country))
                 .ForPath(dest => dest.City,opt => opt.MapFrom(src => src.Address.City))
                 .ForPath(dest => dest.State,opt => opt.MapFrom(src => src.Address.State));                
-            CreateMap<CustomerAddress,Shipping>()
-                .ForMember(dest => dest.Id,opt => opt.MapFrom(src => src.Id))
+            CreateMap<CustomerAddress,Shipping>()                
                 .ForPath(dest => dest.Address.Id,opt => opt.MapFrom(src => src.Id))
                 .ForPath(dest => dest.Address.Complementary,opt => opt.MapFrom(src => src.Address.Complement))
                 .ForPath(dest => dest.Address.Zipcode,opt => opt.MapFrom(src => src.Address.PostalCode))

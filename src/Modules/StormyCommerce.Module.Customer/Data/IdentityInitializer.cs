@@ -80,6 +80,7 @@ namespace StormyCommerce.Module.Customer.Data
                     CPF = "10172930820",
                     PhoneNumber = "11992887102",
                     FullName = "Severino Francisco Daniel da Rocha",
+                    DateOfBirth = new DateTime(2001,11,1),                    
                     
                     
                 }, "!D4velopment",Roles.Customer);                
