@@ -15,6 +15,7 @@ using StormyCommerce.Core.Entities.Customer;
 using PagarMe.Model;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Order;
+using StormyCommerce.Core.Entities.Payments;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -43,25 +44,25 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var user = await _identityService.GetUserByClaimPrincipal(User);            
             var pagCustomer = _mapper.Map<StormyCustomer, Customer>(user);
                         
-            Transaction transaction = new Transaction();
+            Transaction transaction = new Transaction{
+                Amount = 1000,
+                PaymentMethod = PaymentMethod.Boleto,
 
-            transaction.Amount = 1000;
-            transaction.PaymentMethod = PaymentMethod.Boleto;
-
-            transaction.Customer = new Customer () {
-                Country = "br",
-                Type = CustomerType.Individual,
-                Name = user.FullName,
-                Email = user.Email,                
-                Documents = new Document[]{
-                    new Document{
-                        Type = DocumentType.Cpf,
-                        Number = user.CPF
-                    }
-                },                
-                PhoneNumbers = new string[]{
-                    "+551123456789"
-                }                
+                Customer = new Customer () {
+                    Country = "br",
+                    Type = CustomerType.Individual,
+                    Name = user.FullName,
+                    Email = user.Email,                
+                    Documents = new Document[]{
+                        new Document{
+                            Type = DocumentType.Cpf,
+                            Number = user.CPF
+                        }
+                    },                
+                    PhoneNumbers = new string[]{
+                        "+551123456789"
+                    }                
+                }
             };
                          
             try{    
@@ -79,6 +80,17 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 // return Result<PagarMeError>(ex.Error,ex.Error.Errors);
                 return BadRequest(Result.Fail("transaction failed",exceptionStr));
             }
+            string boletoUrl = transaction.BoletoUrl;
+            string boletoBarcode = transaction.BoletoBarcode;
+            var payment = new Payment{
+                GatewayTransactionId = transaction.Id,
+                Amount = request.Amount,
+                PaymentMethod = request.PaymentMethod,
+                PaymentFee = transaction.Cost,
+                PaymentStatus = transaction.Status == TransactionStatus.WaitingPayment || transaction.Status == TransactionStatus.Authorized ? PaymentStatus.Pending : PaymentStatus.Failed,
+                // FailureMessage                   
+            };
+            
             return Ok(Result.Ok("transaction performed with success"));
         }
         [HttpPost("postback")]
