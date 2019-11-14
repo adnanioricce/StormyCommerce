@@ -50,8 +50,8 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                     Type = CustomerType.Individual,
                     Name = pagCustomer.Name,
                     Email = pagCustomer.Email,
-                    DocumentType = DocumentType.Cpf,
-                    DocumentNumber = pagCustomer.DocumentNumber,
+                    // DocumentType = DocumentType.Cpf,
+                    // DocumentNumber = pagCustomer.DocumentNumber,
                     Address = new Address{
                         Zipcode = pagCustomer.Address.Zipcode,
                         State = pagCustomer.Address.State,
@@ -60,6 +60,12 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                         Neighborhood = pagCustomer.Address.Neighborhood,
                         City = pagCustomer.Address.City,
                         Country = pagCustomer.Address.Country                        
+                    },
+                    Documents = new Document[]{
+                        new Document{
+                            Type = DocumentType.Cpf,
+                            Number = user.CPF
+                        }
                     },
                     PhoneNumbers = new string[]{
                         pagCustomer.PhoneNumbers.FirstOrDefault()
