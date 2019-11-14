@@ -2,7 +2,6 @@ import React,{ Component } from "react";
 import {Route,withRouter,Redirect} from "react-router";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "../../../components/Card/Card";
-import ProductClient from "stormycommerce-api-client/output/services/productClient";
 import CustomButton from "components/CustomButton/CustomButton";
 // import { ProductDto } from "stormycommerce-api-client/output/models/catalog/ProductDto";
 // import ProductCard from "./ProductCard";
@@ -43,9 +42,10 @@ export default class Product extends Component {
         }
     }
     async componentDidMount(){
-        const client = new ProductClient("https://stormycommerceapi.azurewebsites.net");        
-        const products = await client.getAllProducts();        
-        this.setState({products:products});
+        // const client = new ProductClient("https://stormycommerceapi.azurewebsites.net");        
+        // const products = await client.getAllProducts();        
+        // this.setState({products:products});
+        console.log(this);
     }
     render(){        
     const redirectToProduct = this.state.redirectToProduct;

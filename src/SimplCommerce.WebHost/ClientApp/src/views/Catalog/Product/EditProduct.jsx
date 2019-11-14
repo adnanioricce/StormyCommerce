@@ -11,8 +11,9 @@ export default class EditProduct extends Component{
         this.changeHandler = this.changeHandler.bind(this);   
     }
     async submitHandler(e) {
-        const Client = new ProductClient("https://stormycommerceapi.azurewebsites.net");
-        await Client.editProduct(e.target.value);
+        // const Client = new ProductClient("https://stormycommerceapi.azurewebsites.net");
+        // await Client.editProduct(e.target.value);
+        console.log(e);
     }
     changeHandler(e){
         this.setState({product:e.target.value});

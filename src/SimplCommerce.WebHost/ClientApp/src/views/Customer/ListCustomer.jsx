@@ -1,5 +1,5 @@
 import { Component } from "react";
-import CustomerClient from "stormycommerce-api-client";
+// import CustomerClient from "stormycommerce-api-client";
 import Card from "../../../components/Card/Card";
 import { Grid, Row, Col, Table,ListGroup,ListGroupItem,ListGroupItemHeading,ListGroupItemText  } from "react-bootstrap";
 export default class ListCustomer extends Component{
@@ -10,8 +10,9 @@ export default class ListCustomer extends Component{
         }
     }
     async componentDidMount(){
-        const client = new CustomerClient("https://stormycommerceapi.azurewebsites.net");
-        this.setState({customers: await client.getCustomers()});
+        // const client = new CustomerClient("https://stormycommerceapi.azurewebsites.net");
+        // this.setState({customers: await client.getCustomers()});
+        console.log(this);
     }
     render(){
         return <Grid fluid>            

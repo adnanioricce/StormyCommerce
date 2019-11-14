@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "../../../components/Card/Card";
-import CategoryClient from "stormycommerce-api-client/output/categoryClient";
 export default class ListCategories extends Component{
     constructor(props){
         super(props);
@@ -9,9 +8,8 @@ export default class ListCategories extends Component{
             categories:[]
         }
     }
-    async componentDidMount(){
-        const client = new CategoryClient();
-        this.setState({categories: await client.getAll()});
+    async componentDidMount(){        
+        this.setState({categories: await fetch("https://stormycommerceapi.azurewebsites.net/api/Catalog/list")});
     }
     render(){
         return (

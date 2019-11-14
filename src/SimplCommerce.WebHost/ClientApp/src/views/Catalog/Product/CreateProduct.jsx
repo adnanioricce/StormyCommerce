@@ -1,8 +1,6 @@
 import React,{ Component } from "react";
 import {  Form,FormControl,HelpBlock,ControlLabel,FormGroup  } from 'react-bootstrap';
 import CustomButton from "components/CustomButton/CustomButton";
-import {CategoryClient} from "stormycommerce-api-client/output/services/categoryClient";
-import ProductClient from "stormycommerce-api-client/output/services/productClient";
 // import { CategoryClient }from "stormycommerce-api-client/output/services/categoryClient";
 export default class CreateProduct extends Component{
     constructor(props){
@@ -13,16 +11,13 @@ export default class CreateProduct extends Component{
             vendors:[]
         }        
     }
-    async componentDidMount(){
-        const client = new CategoryClient("https://stormycommerceapi.azurewebsites.net");        
-        const categories = await client.getAll();
+    async componentDidMount(){        
+        const categories = await fetch("https://stormycommerceapi.azurewebsites.net/api/Category/list");
             console.log(categories);
             this.setState({categories:categories});        
     }
     async handleSubmit(e){
-        this.setState({product:e.target.value});
-        const client = new ProductClient("https://stormycommerceapi.azurewebsites.net");
-        await client.createProduct(this.state.product);
+        console.log(e);
     }
     render(){
         return(

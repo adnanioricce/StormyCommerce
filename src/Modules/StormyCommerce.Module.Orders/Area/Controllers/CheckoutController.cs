@@ -43,38 +43,32 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var user = await _identityService.GetUserByClaimPrincipal(User);            
             var pagCustomer = _mapper.Map<StormyCustomer, Customer>(user);
                         
-            var transaction = new Transaction
-            {
-                          
-                Customer = new Customer{
-                    Type = CustomerType.Individual,
-                    Name = pagCustomer.Name,
-                    Email = pagCustomer.Email,
-                    // DocumentType = DocumentType.Cpf,
-                    // DocumentNumber = pagCustomer.DocumentNumber,
-                    Address = new Address{
-                        Zipcode = pagCustomer.Address.Zipcode,
-                        State = pagCustomer.Address.State,
-                        Street = pagCustomer.Address.Street,                        
-                        StreetNumber = pagCustomer.Address.StreetNumber,
-                        Neighborhood = pagCustomer.Address.Neighborhood,
-                        City = pagCustomer.Address.City,
-                        Country = pagCustomer.Address.Country                        
-                    },
-                    Documents = new Document[]{
-                        new Document{
-                            Type = DocumentType.Cpf,
-                            Number = user.CPF
-                        }
-                    },
-                    PhoneNumbers = new string[]{
-                        pagCustomer.PhoneNumbers.FirstOrDefault()
-                    }                 
+            Transaction transaction = new Transaction();
+
+            transaction.Amount = 1000;
+            transaction.PaymentMethod = PaymentMethod.Boleto;
+
+            transaction.Customer = new Customer () {
+                Country = "br",
+                Type = CustomerType.Individual,
+                Name = user.FullName,
+                Email = user.Email,
+                DocumentNumber = user.CPF,
+            
+                Address = new Address () {
+                    Street = pagCustomer.Address.Street,
+                    StreetNumber = pagCustomer.Address.StreetNumber,
+                    Neighborhood = pagCustomer.Address.Neighborhood,
+                    Zipcode = pagCustomer.Address.Zipcode
                 },
-                Amount = (int)(request.Amount * 100),
-                             
-                PaymentMethod = PaymentMethod.Boleto
-            };                    
+
+                Phone = new PagarMe.Phone() {
+                    Ddi = "55",
+                    Ddd = "11",
+                    Number = "23456789"
+                }
+            };
+                         
             try{    
                 transaction.Save();           
             }catch(PagarMeException ex){                                
