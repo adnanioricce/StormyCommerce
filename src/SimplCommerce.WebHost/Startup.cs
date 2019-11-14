@@ -17,7 +17,6 @@ using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
-using StormyCommerce.Infraestructure.Entities;
 using StormyCommerce.Infraestructure.Logging;
 using StormyCommerce.Module.Customer.Data;
 using SimplCommerce.Module.SampleData;
@@ -29,6 +28,12 @@ using System.Text.Unicode;
 using System.Reflection;
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.Catalog.Product;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace SimplCommerce.WebHost
 {
@@ -43,45 +48,7 @@ namespace SimplCommerce.WebHost
             _hostingEnvironment = hostingEnvironment;            
             Container.Configuration = configuration;
             Container.loggerFactory = loggerFactory;
-            string defaultCertPath = configuration.GetSection("Kestrel:Certificate:Default:Path").Value;
-            logger.LogInformation($"Kestrel Default cert path: {defaultCertPath}");
-            if (!string.IsNullOrEmpty(defaultCertPath))
-            {
-                if (File.Exists(defaultCertPath))
-                {
-                    logger.LogInformation("Default Cert file exists");
-                }
-                else
-                {
-                    logger.LogInformation("Default Cert file does not exists!");
-                }
-            }
-            logger.LogInformation($"Kestrel Default cert pass:{_configuration.GetSection("Kestrel:Certificates:Default:Password")}");
-
-            string devCertPath = configuration.GetSection("Kestrel:Certificates:Development:Path").Value;
-            logger.LogInformation($"Kestrel Development cert path:{devCertPath}");
-            if (!string.IsNullOrEmpty(devCertPath))
-            {
-                if (File.Exists(devCertPath))
-                {
-                    logger.LogInformation("Development Cert file exists");
-                }
-                else
-                {
-                    logger.LogInformation("Development Cert file does NOT exists!");
-                }
-            }
-            logger.LogInformation($"Kestrel Development cert pass: {_configuration.GetSection("Kestrel:Certificates:Development:Password")}");
-            Container.Configuration = configuration;
-            logger.LogInformation("************Inside constructor logging https details*****************");
-            logger.LogInformation($"Kestrel cert path:- {configuration.GetSection("Kestrel:Certificates:Default:Path").Value}");
-            if (File.Exists(configuration.GetSection("Kestrel:Certificates:Default:Path").Value))
-                logger.LogInformation("************Cert file exist:)*****************");
-            else
-            {
-                logger.LogInformation("************Cert file don't exist:)*****************");
-            }
-            logger.LogInformation($"Kestrel cert path:- {configuration.GetSection("Kestrel:Certificates:Default:Password").Value}");
+            LogWebServerCert(logger);
         }
 
         public virtual void ConfigureServices(IServiceCollection services)
@@ -100,7 +67,7 @@ namespace SimplCommerce.WebHost
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            if(_hostingEnvironment.IsProduction()){
+            if(!_hostingEnvironment.IsDevelopment()){
                 services.AddStormyDataStore(_configuration);
             } else {
                 services.AddDbContextPool<StormyDbContext>(options => {
@@ -109,6 +76,9 @@ namespace SimplCommerce.WebHost
                     options.EnableSensitiveDataLogging();
                 });
             }
+            services.AddSpaStaticFiles(configuration => {
+                configuration.RootPath = "ClientApp/build";
+            });
             services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
@@ -148,7 +118,23 @@ namespace SimplCommerce.WebHost
                 builder.AllowAnyMethod();
                 builder.AllowAnyHeader();                
             }));
-            services.AddMvc();
+            if (_hostingEnvironment.IsDevelopment()) 
+            { 
+                services.AddMvc(x => {
+                    x.Filters.Add(new AllowAnonymousFilter());
+                }).AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
+            }else
+            {
+                services.AddMvc().AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
+            }
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -157,6 +143,7 @@ namespace SimplCommerce.WebHost
             {
                 app.UseDeveloperExceptionPage();
                 IdentityModelEventSource.ShowPII = true;
+                
             }
             else
             {
@@ -170,42 +157,98 @@ namespace SimplCommerce.WebHost
                 context => !context.Request.Path.StartsWithSegments("/api"),
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
             );
-
-            // app.UseHttpsRedirection();
-            // app.UseCustomizedStaticFiles(env);
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "StormyCommerce API V1");
-                c.RoutePrefix = string.Empty;
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "StormyCommerce API V1");                
+                c.RoutePrefix = "api";
             });
 
             app.UseCookiePolicy();
             app.UseCors("Default");
-            app.UseMvc();            
+            app.UseMvc();
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+                if (env.IsDevelopment())
+                {
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+                }
+            });
             var moduleInitializers = app.ApplicationServices.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
             {
                 moduleInitializer.Configure(app, env);
             }
-            using (var scope = app.ApplicationServices.CreateScope()){
-                using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>()){
+            SeedContext(app);
+            
+        }
+        private void SeedContext(IApplicationBuilder app)
+        {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
+                {
                     if (dbContext.Database.IsSqlite())
                     {
                         if (dbContext.Database.EnsureDeleted())
                         {
                             dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
                         }
-                    }                    
+                    }
                     if (!dbContext.Database.IsSqlServer())
                     {
-                        var userManager = (UserManager<ApplicationUser>)scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-                        var roleManager = (RoleManager<ApplicationRole>)scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
-                        new IdentityInitializer(dbContext, userManager, roleManager).Initialize();                   
+                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
+                        var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
+                        new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
                         dbContext.SeedDbContext();
                     }
                 }
             }
+        }
+        private void LogWebServerCert(ILogger<Startup> logger)
+        {
+            string defaultCertPath = _configuration.GetSection("Kestrel:Certificate:Default:Path").Value;
+             logger.LogInformation($"Kestrel Default cert path: {defaultCertPath}");
+            if (!string.IsNullOrEmpty(defaultCertPath))
+            {
+                if (File.Exists(defaultCertPath))
+                {
+                    logger.LogInformation("Default Cert file exists");
+                }
+                else
+                {
+                    logger.LogInformation("Default Cert file does not exists!");
+                }
+            }
+            logger.LogInformation($"Kestrel Default cert pass:{_configuration.GetSection("Kestrel:Certificates:Default:Password")}");
+
+            string devCertPath = _configuration.GetSection("Kestrel:Certificates:Development:Path").Value;
+            logger.LogInformation($"Kestrel Development cert path:{devCertPath}");
+            if (!string.IsNullOrEmpty(devCertPath))
+            {
+                if (File.Exists(devCertPath))
+                {
+                    logger.LogInformation("Development Cert file exists");
+                }
+                else
+                {
+                    logger.LogInformation("Development Cert file does NOT exists!");
+                }
+            }
+            logger.LogInformation($"Kestrel Development cert pass: {_configuration.GetSection("Kestrel:Certificates:Development:Password")}");
+            Container.Configuration = _configuration;
+            logger.LogInformation("************Inside constructor logging https details*****************");
+            logger.LogInformation($"Kestrel cert path:- {_configuration.GetSection("Kestrel:Certificates:Default:Path").Value}");
+            if (File.Exists(_configuration.GetSection("Kestrel:Certificates:Default:Path").Value))
+                logger.LogInformation("************Cert file exist:)*****************");
+            else
+            {
+                logger.LogInformation("************Cert file don't exist:)*****************");
+            }
+            logger.LogInformation($"Kestrel cert path:- {_configuration.GetSection("Kestrel:Certificates:Default:Password").Value}");
         }
     }
 }

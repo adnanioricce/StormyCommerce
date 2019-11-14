@@ -32,7 +32,7 @@ namespace SimplCommerce.WebHost
             IServiceCollection services = new ServiceCollection();
             GlobalConfiguration.ContentRootPath = contentRootPath;
             services.AddModules(contentRootPath);
-            if(environmentName.Equals("Development")){
+            if(environmentName.Equals("Development")){                
                services.AddDbContextPool<StormyDbContext>(options => {
                    options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                    options.EnableDetailedErrors();
@@ -40,7 +40,7 @@ namespace SimplCommerce.WebHost
                });
             } else{
                 services.AddStormyDataStore(_configuration);
-            }            
+            }                        
             var _serviceProvider = services.BuildServiceProvider();
             return _serviceProvider.GetRequiredService<StormyDbContext>();
         }

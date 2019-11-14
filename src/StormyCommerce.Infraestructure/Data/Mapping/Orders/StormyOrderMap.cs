@@ -17,8 +17,12 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
             });
             modelBuilder.Entity<StormyOrder>(order =>
             {
-                order.HasOne(prop => prop.Payment).WithOne(prop => prop.Order).HasForeignKey<Payment>(prop => prop.StormyOrderId);
-                order.HasOne(prop => prop.Shipment).WithOne(prop => prop.Order).HasForeignKey<Shipment>(prop => prop.StormyOrderId);                
+                order.HasOne(prop => prop.Payment)
+                    .WithOne(prop => prop.Order)
+                    .HasForeignKey<Payment>(prop => prop.StormyOrderId);
+                order.HasOne(prop => prop.Shipment)
+                .WithOne(prop => prop.Order)
+                    .HasForeignKey<Shipment>(prop => prop.StormyOrderId);                
                 order.Property(prop => prop.OrderUniqueKey).IsRequired();                
                 order.Property(prop => prop.Note).HasMaxLength(1000);                 
                 order.HasQueryFilter(prop => prop.IsDeleted == false);
@@ -28,8 +32,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
             {
                 // orderItem.HasKey(prop => new {prop.Id,prop.StormyOrderId});
                 orderItem.HasOne(prop => prop.Order).WithMany(order => order.Items).HasForeignKey(o => o.StormyOrderId);
-                orderItem.Property(prop => prop.Price)
-                    .HasConversion(price => price.Value,dbValue => Price.GetPriceFromString(dbValue));                
+                orderItem.Property(prop => prop.Price);                    
                 orderItem.HasQueryFilter(prop => prop.IsDeleted == false);
             });
         }

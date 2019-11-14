@@ -8,7 +8,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Pagar.me" Version="2.6.12" />
+    <PackageReference Include="PagarMeCore" Version="1.0.0" />
+    
     <PackageReference Include="System.ServiceModel.Http" Version="4.6.0" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="4.6.0" />
   </ItemGroup>
@@ -17,6 +18,6 @@
     <ProjectReference Include="..\..\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
     <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
-    <ProjectReference Include="..\StormyCommerce.Module.PagarMe\StormyCommerce.Module.PagarMe.csproj" />
+    <ProjectReference Include="..\..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
   </ItemGroup>
 </Project>

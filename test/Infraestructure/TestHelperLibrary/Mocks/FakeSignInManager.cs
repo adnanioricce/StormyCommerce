@@ -4,22 +4,22 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using StormyCommerce.Infraestructure.Entities;
+using StormyCommerce.Core.Entities.Customer;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace TestHelperLibrary.Mocks
 {
-    public class FakeSignInManager : SignInManager<ApplicationUser>
+    public class FakeSignInManager : SignInManager<StormyCustomer>
     {
         private readonly HttpContextAccessor _httpAccessor;
         public FakeSignInManager()
         : base(
             new Mock<FakeUserManager>().Object,
             new HttpContextAccessor(),
-            new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>().Object,
+            new Mock<IUserClaimsPrincipalFactory<StormyCustomer>>().Object,
             new Mock<IOptions<IdentityOptions>>().Object,
-            new Mock<ILogger<SignInManager<ApplicationUser>>>().Object,
+            new Mock<ILogger<SignInManager<StormyCustomer>>>().Object,
             new Mock<IAuthenticationSchemeProvider>().Object
         )
         {
@@ -32,7 +32,7 @@ namespace TestHelperLibrary.Mocks
             });
         }
 
-        public override Task<SignInResult> PasswordSignInAsync(ApplicationUser user, string password, bool isPersistent, bool lockoutOnFailure)
+        public override Task<SignInResult> PasswordSignInAsync(StormyCustomer user, string password, bool isPersistent, bool lockoutOnFailure)
         {
             return Task.FromResult(SignInResult.Success);
         }

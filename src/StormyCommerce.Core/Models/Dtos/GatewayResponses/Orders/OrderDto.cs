@@ -41,6 +41,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         public DateTime ShippedDate { get; private set; }
         public DateTime DeliveryDate { get; private set; }
         public DateTime? PaymentDate { get; private set; }
+        public PaymentDto Payment { get; set; }
         public IList<OrderItemDto> Items { get; private set; } = new List<OrderItemDto>();
         public OrderStatus Status { get; private set; }        
         public bool IsCancelled { get; private set; }

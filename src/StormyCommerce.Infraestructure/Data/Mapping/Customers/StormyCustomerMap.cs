@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Infraestructure.Entities;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
 {
@@ -13,20 +10,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
             modelBuilder.Entity<StormyCustomer>(entity =>
             {                                
                 entity.HasKey(prop => prop.Id);
-                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
-                entity.Property(prop => prop.UserId).ValueGeneratedOnAdd();
-                entity.HasQueryFilter(f => f.IsDeleted == false);                                
-                entity
-                    .HasOne(prop => prop.CustomerWishlist)
-                    .WithOne(prop => prop.Customer)
-                    .HasForeignKey<Wishlist>(prop => prop.StormyCustomerId)
-                    .OnDelete(DeleteBehavior.Cascade);
-                entity
-                    .HasMany(prop => prop.CustomerReviews)
-                    .WithOne(prop => prop.Author)
-                    .HasForeignKey(prop => prop.StormyCustomerId)
-                    .HasPrincipalKey(prop => prop.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();                                                                               
                 entity.HasMany(prop => prop.Addresses)
                     .WithOne(prop => prop.Owner)
                     .HasForeignKey(prop => prop.UserId);
@@ -50,49 +34,10 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.Property(prop => prop.CPF).HasMaxLength(9);
                 entity.Property(prop => prop.Email).IsRequired();
                 entity.Ignore(customer => customer.Addresses);
-            });            
-            modelBuilder.Entity<ApplicationUser>(entity =>
-            {
-                entity.HasKey(prop => prop.Id);                
-                entity.HasOne(prop => prop.Role);
-            });
+            });                       
             modelBuilder.Entity<ApplicationRole>();
-            modelBuilder.Entity<Review>(entity =>
-            {                
-                entity.HasKey(prop => prop.Id);
-                entity.HasOne(prop => prop.Author)
-                    .WithMany(customer => customer.CustomerReviews)
-                    .HasForeignKey(prop => prop.StormyCustomerId)
-                    .HasPrincipalKey(prop => prop.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
-                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
-                entity.HasQueryFilter(prop => prop.IsDeleted == false);                
-            });
-            modelBuilder.Entity<Wishlist>(entity =>
-            {
-                entity.HasKey(prop => new {prop.Id,prop.StormyCustomerId});
-                entity.HasOne(p => p.Customer)
-                .WithOne(p => p.CustomerWishlist)
-                .HasPrincipalKey<StormyCustomer>(c => c.Id)
-                .OnDelete(DeleteBehavior.Restrict);
-                entity.HasMany(prop => prop.WishlistItems)
-                .WithOne(prop => prop.Wishlist)
-                .HasPrincipalKey(prop => prop.Id)
-                .OnDelete(DeleteBehavior.Cascade);
-                entity.HasQueryFilter(prop => !prop.IsDeleted);
-            });
-            modelBuilder.Entity<WishlistItem>(entity =>
-            {
-                entity.HasKey(prop => new { prop.Id, prop.WishlistId });
-                entity.HasOne(prop => prop.Product)
-                .WithMany()
-                .HasForeignKey(prop => prop.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
-                entity.HasOne(prop => prop.Wishlist)
-                .WithMany()
-                .HasForeignKey(prop => prop.WishlistId)
-                .OnDelete(DeleteBehavior.Restrict);
-            });
+            
+            
         }
     }
 }

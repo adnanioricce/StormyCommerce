@@ -6,8 +6,9 @@ namespace SimplCommerce.Module.SampleData
     public static class DatabaseSeedExtensions
     {
         public static void SeedDbContext(this StormyDbContext dbContext)
-        {                        
-            dbContext.AddRange(Seeders.StormyCustomerSeed(10,true));
+        {
+            var customers = Seeders.StormyCustomerSeed(10, true);
+            dbContext.AddRange(customers);
             dbContext.SaveChanges();           
             var products = Seeders.StormyProductSeed(50);             
             dbContext.AddRange(products);

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
+using StormyCommerce.Module.Orders.Area.Models;
 
 namespace StormyCommerce.Module.Orders.Services
 {
@@ -83,6 +84,12 @@ namespace StormyCommerce.Module.Orders.Services
             shipment.DeliveryCost = Price.GetPriceFromString(shippingOption.Price).GetPriceValueInDecimal();            
             return shipment;       
         }  
+        public async Task<Shipment> CalculateDeliveryCost(DeliveryCalculationRequest request)
+        {
+            var calcResult = await _correiosService.CalculateDeliveryPriceAndTime(request);
+            var option = calcResult.Options.OrderByDescending(p => p.Price).FirstOrDefault();
+            throw new NotImplementedException();
+        }
         private string GetShippingMethod(string serviceCode)
         {
             switch (serviceCode)

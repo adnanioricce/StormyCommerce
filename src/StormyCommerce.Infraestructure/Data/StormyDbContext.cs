@@ -17,11 +17,10 @@ namespace StormyCommerce.Infraestructure.Data
     public class StormyDbContext : IdentityDbContext,IStormyDbContext
     {        
         public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)
-        {
-            
+        {            
         }
 
-        public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
+        public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return base.Set<TEntity>();
         }
@@ -68,8 +67,7 @@ namespace StormyCommerce.Infraestructure.Data
         }
         private static void RegisterCustomMappings(ModelBuilder modelBuilder, IEnumerable<Type> typeToRegisters)
         {
-            var customModelBuilderTypes = typeToRegisters.Where(x => typeof(IStormyModelBuilder).IsAssignableFrom(x));
-            //var customModelBuilderTypes = typeToRegisters;
+            var customModelBuilderTypes = typeToRegisters.Where(x => typeof(IStormyModelBuilder).IsAssignableFrom(x));            
             foreach (var builderType in customModelBuilderTypes)
             {
                 var builder = (IStormyModelBuilder)Activator.CreateInstance(builderType);

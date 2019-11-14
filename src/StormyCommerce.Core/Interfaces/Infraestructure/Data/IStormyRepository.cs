@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StormyCommerce.Core.Interfaces
 {
-    public interface IStormyRepository<T> where T : BaseEntity
+    public interface IStormyRepository<T> where T : class
     {
         Task<IList<T>> GetAllAsync();
 

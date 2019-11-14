@@ -13,11 +13,7 @@ namespace StormyCommerce.Infraestructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppSettings>(entity =>
-            {
-                entity.Property(prop => prop.Value).HasMaxLength(450).IsRequired();
-                entity.Property(prop => prop.Module).HasMaxLength(450).IsRequired();
-            });
+            modelBuilder.Entity<AppSettings>().ToTable("config_appsettings");                        
         }        
     }
 }

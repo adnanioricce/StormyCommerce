@@ -5,12 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pagar.Me" Version="2.6.12" />
+    
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
     <ProjectReference Include="..\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PagarMeCore" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

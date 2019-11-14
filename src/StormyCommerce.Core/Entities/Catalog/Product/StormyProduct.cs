@@ -17,7 +17,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
             Id = productDto.Id;
             Slug = productDto.Slug;
             ProductName = productDto.ProductName;            
-            Price = Core.Models.Price.GetPriceFromString(productDto.Price);
+            Price = productDto.Price;
             QuantityPerUnity = productDto.QuantityPerUnity;
             UnitPrice = productDto.UnitPrice;
             UnitsInStock = productDto.UnitsInStock;
@@ -32,8 +32,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         }
         public StormyProduct(){}
 
-        public string SKU { get; set; }        
-        public string NormalizedName { get; set; }
+        public string SKU { get; set; }                
         public string ProductName { get; set; }
         public string Slug { get; set; }        
         public long BrandId { get; set; }        
@@ -63,7 +62,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public List<ProductOptionValue> OptionValues { get; set; } = new List<ProductOptionValue>();        
         public List<ProductCategory> Categories { get; set; } = new List<ProductCategory>();
         public string Note { get; set; }        
-        public Price Price { get; set; }                                                                                                      
+        public string Price { get; set; }                                                                                                      
         public decimal ProductCost { get; set; }        
         public DateTime? PublishedOn { get; set;}
         public DateTime? CreatedOn { get; set; }            
@@ -103,6 +102,6 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public double CalculateDimensions()
         {                      
             return Height * Width * Length;
-        }
+        }        
     }
 }

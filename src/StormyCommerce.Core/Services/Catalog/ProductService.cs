@@ -14,33 +14,25 @@ namespace StormyCommerce.Core.Services.Catalog
 {
     public class ProductService : IProductService
     {
-        private readonly IStormyRepository<StormyProduct> _productRepository;    
-        private readonly IStormyRepository<ProductMedia> _productMediaRepository;  
-        private readonly IStormyRepository<Media> _mediaRepository;     
-        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;
-        private readonly IStormyRepository<Category> _categoryRepository;
+        private readonly IStormyRepository<StormyProduct> _productRepository;                
+        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;        
         //TODO: I Think a service for this is unecessary        
-        public ProductService(IStormyRepository<StormyProduct> productRepository,
-        IStormyRepository<ProductMedia> productMediaRepository,
-        IStormyRepository<Media> mediaRepository,
-        IStormyRepository<ProductCategory> productCategoryRepository,
-        IStormyRepository<Category> categoryRepository        
+        public ProductService(IStormyRepository<StormyProduct> productRepository,        
+        IStormyRepository<ProductCategory> productCategoryRepository        
         )
         {
-            _productRepository = productRepository;
-            _productMediaRepository = productMediaRepository;            
-            _mediaRepository = mediaRepository;
+            _productRepository = productRepository;            
             _productCategoryRepository = productCategoryRepository;
-            _categoryRepository = categoryRepository;
+            
         }
         #region Read Methods
         //TODO:write failing test cases
         public async Task<Result<IList<StormyProduct>>> GetAllProductsByCategory(int categoryId, int limit = 15)
         {
-            return new Result<IList<StormyProduct>>(await _productRepository.Table
-            .Where(product => product.CategoryId == categoryId)
-            .Take(limit)
-            .ToListAsync(), true, "none");
+            return Result.Ok<IList<StormyProduct>>(await _productCategoryRepository.Table
+                .Where(prop => prop.CategoryId == categoryId)
+                .Select(prop => prop.Product)
+                .ToListAsync());
         }
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
         {
@@ -101,8 +93,10 @@ namespace StormyCommerce.Core.Services.Catalog
             return await _productRepository.Table
             .Include(p => p.Brand)
             .Include(p => p.Categories)
+                .ThenInclude(p => p.Category)
             .Include(p => p.Vendor)
             .Include(p => p.Medias)
+                .ThenInclude(p => p.Media)
             .Where(p => p.Id == productId)
             .FirstAsync();
         }
@@ -167,8 +161,7 @@ namespace StormyCommerce.Core.Services.Catalog
         #endregion                
         #region Insert Methods        
         public async Task InsertProductAsync(StormyProduct product)
-        {                                                      
-            product.Price = Price.GetPriceFromCents("R$",product.UnitPrice);
+        {            
             product.Slug = product.ProductName.Replace(' ','-');           
             if(product.BrandId != 0) product.Brand = null;
             if(product.VendorId != 0) product.Vendor = null;                                   
@@ -183,7 +176,7 @@ namespace StormyCommerce.Core.Services.Catalog
         #endregion
         #region Update Methods
         public async Task UpdateProductAsync(StormyProduct product)
-        {
+        {            
             await _productRepository.UpdateAsync(product);
         }
 
@@ -204,5 +197,9 @@ namespace StormyCommerce.Core.Services.Catalog
             return product.ProductName.Contains(brandName) && product.ProductName.Contains(categoryName);
         }
 
+        public Task<StormyProduct> GetProductByNameAsync(string productName)
+        {
+            return _productRepository.Table.Where(p => String.Equals(p.ProductName, productName, StringComparison.OrdinalIgnoreCase)).SingleAsync();
+        }
     }
 }

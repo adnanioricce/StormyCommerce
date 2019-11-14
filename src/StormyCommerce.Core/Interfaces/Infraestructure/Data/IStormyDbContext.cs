@@ -8,7 +8,7 @@ namespace StormyCommerce.Core.Interfaces.Infraestructure.Data
 {
     public interface IStormyDbContext : IDisposable
     {
-        DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity;
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
         int SaveChanges(bool acceptAllChangesOnSuccess);
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
@@ -29,7 +30,10 @@ namespace StormyCommerce.Core.Services.Orders
             _shippingService = shippingService;
             // _orderRepository.
         }
-
+        public async Task<StormyOrder> PrepareOrder(OrderDto order)
+        {
+            throw new NotImplementedException();
+        }
         public async Task<Result<OrderDto>> CancelOrderAsync(long id)
         {
             var order = await _orderRepository.GetByIdAsync(id);
@@ -120,6 +124,11 @@ namespace StormyCommerce.Core.Services.Orders
         public async Task<Result<IList<StormyOrder>>> GetOrdersAsync()
         {
             return new Result<IList<StormyOrder>>(await _orderRepository.GetAllAsync(), true, "no error");
+        }
+
+        public Task<Result> EditOrderAsync(Guid uniqueId, StormyOrder entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

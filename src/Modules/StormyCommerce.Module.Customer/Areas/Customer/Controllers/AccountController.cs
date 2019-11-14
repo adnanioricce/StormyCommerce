@@ -1,14 +1,19 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
+using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
+using StormyCommerce.Module.Customer.Models.Requests;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 {
@@ -17,14 +22,14 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     [EnableCors("Default")]
     public class AccountController : Controller
     {
-        private readonly IUserIdentityService _identityService;
-        private readonly ICustomerService _customerService;        
+        private readonly IUserIdentityService _identityService;          
         private readonly IAppLogger<AuthenticationController> _logger;
-        public AccountController(IUserIdentityService identityService,ICustomerService customerService,IAppLogger<AuthenticationController> logger)
+        private readonly IMapper _mapper;
+        public AccountController(IUserIdentityService identityService,IAppLogger<AuthenticationController> logger,IMapper mapper)
         {
-            _identityService = identityService;
-            _customerService = customerService;            
+            _identityService = identityService;                    
             _logger = logger;
+            _mapper = mapper;
         }
         [HttpGet("ConfirmEmail")]
         [ValidateModel]
@@ -32,40 +37,11 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> ConfirmEmailAsync(string userId,string code)
         {            
             var appUser = _identityService.GetUserById(userId);
-
-            if (appUser == null) return BadRequest("user with given email not found");
-
-            _logger.LogInformation($"User validated at {DateTimeOffset.UtcNow}");
-
+            if (appUser == null) return BadRequest("user with given email not found");            
             var result = await _identityService.ConfirmEmailAsync(appUser,code);
-
-            if(!result.Succeeded) return BadRequest();            
-
-            _logger.LogInformation($"Email confirmed at {DateTimeOffset.UtcNow}");
-
-            var confirmedUser = _identityService.GetUserById(userId);
-            await _identityService.AssignUserToRole(confirmedUser, Roles.Customer);
-            var customer = new StormyCustomer
-            {
-                Email = confirmedUser.Email,
-                EmailConfirmed = confirmedUser.EmailConfirmed,
-                NormalizedEmail = confirmedUser.NormalizedEmail,
-                UserId = confirmedUser.Id,                
-                PhoneNumber = confirmedUser.PhoneNumber,
-                PhoneNumberConfirmed = confirmedUser.PhoneNumberConfirmed,
-                UserName = confirmedUser.UserName,
-                NormalizedUserName = confirmedUser.NormalizedUserName,
-                RefreshTokenHash = confirmedUser.RefreshTokenHash,     
-                Role = Roles.Customer,
-                LastModified = DateTimeOffset.UtcNow,
-                CreatedOn = DateTimeOffset.UtcNow,
-                IsDeleted = false
-            };
-
-            await _customerService.CreateCustomerAsync(customer);
-
-            _logger.LogInformation($"new customer registered at {DateTimeOffset.UtcNow}");            
-
+            if(!result.Succeeded) return BadRequest();                              
+            await _identityService.AssignUserToRole(appUser, Roles.Customer);
+            await _identityService.EditUserAsync(appUser);            
             return Ok(new { Message = $"Email confirmation performed With Success at {DateTimeOffset.UtcNow}" });            
         }
         [HttpPost("ResetPassword")]
@@ -80,6 +56,35 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             if (!result.Succeeded) return BadRequest();
 
             return Ok();
+        }     
+        [HttpPost("add_shipping_address")]
+        [ValidateModel]
+        public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddress model)
+        {
+            var user = await GetCurrentUser();
+            if (user.DefaultShippingAddress == null) {
+                user.DefaultShippingAddress = new CustomerAddress
+                {
+                    Address = model.Address,
+                    Owner = user,
+                    WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
+                };
+                await _identityService.EditUserAsync(user);
+                return Ok(Result.Ok("address added with success"));
+            }
+            user.DefaultShippingAddress.Address = model.Address;
+            await _identityService.EditUserAsync(user);
+            return Ok(Result.Ok("address updated with success"));                   
+        }
+        [HttpGet("get_current_user")]
+        [Authorize(Roles.Customer)]
+        public async Task<CustomerDto> GetCurrentCustomer()
+        {            
+            return _mapper.Map<StormyCustomer,CustomerDto>(await GetCurrentUser());
+        }          
+        private async Task<StormyCustomer> GetCurrentUser()
+        {
+            return await _identityService.GetUserByEmailAsync(HttpContext.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value);
         }
     }
 }

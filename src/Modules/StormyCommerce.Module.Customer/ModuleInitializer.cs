@@ -9,10 +9,11 @@ using Microsoft.IdentityModel.Tokens;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Infraestructure.Data;
-using StormyCommerce.Infraestructure.Entities;
+using StormyCommerce.Infraestructure.Data.Stores;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Infraestructure.Models;
 using StormyCommerce.Module.Customer.Services;
@@ -25,28 +26,7 @@ namespace StormyCommerce.Module.Customer
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseAuthentication();
-            //app.UseWhen(
-            //    context => context.Request.Path.StartsWithSegments("/api"),
-            //    a => a.Use(async (context, next) =>
-            //    {
-            //        var principal = new ClaimsPrincipal();
-
-            //        var cookiesAuthResult = await context.AuthenticateAsync("Identity.Application");
-            //        if (cookiesAuthResult?.Principal != null)
-            //        {
-            //            principal.AddIdentities(cookiesAuthResult.Principal.Identities);
-            //        }
-
-            //        var bearerAuthResult = await context.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
-            //        if (bearerAuthResult?.Principal != null)
-            //        {
-            //            principal.AddIdentities(bearerAuthResult.Principal.Identities);
-            //        }
-
-            //        context.User = principal;
-            //        await next();
-            //    }));
+            app.UseAuthentication();            
         }
 
         public void ConfigureServices(IServiceCollection serviceCollection)
@@ -54,23 +34,25 @@ namespace StormyCommerce.Module.Customer
             AddCustomizedIdentity(serviceCollection);
             serviceCollection.AddTransient<ITokenService, TokenService>();
             serviceCollection.AddTransient<IEmailSender, EmailSender>();
-            serviceCollection.AddScoped<UserManager<ApplicationUser>>();
-            serviceCollection.AddScoped<SignInManager<ApplicationUser>>();
-            serviceCollection.AddScoped<RoleManager<IdentityRole>>();
-            serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();
-            serviceCollection.AddScoped<ICustomerService, CustomerService>();
+            serviceCollection.AddScoped<UserManager<StormyCustomer>>();
+            serviceCollection.AddScoped<SignInManager<StormyCustomer>>();
+            serviceCollection.AddScoped<RoleManager<ApplicationRole>>();
+            serviceCollection.AddTransient<StormyUserStore>();
+            serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();            
+            serviceCollection.AddTransient<IReviewService, ReviewService>();
         }
         
 
         //TODO: Move this to a extension method, like used on WebHost
         private void AddCustomizedIdentity(IServiceCollection services)
         {
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddRoles<ApplicationRole>()
-                .AddEntityFrameworkStores<StormyDbContext>()                
+            services.AddIdentity<StormyCustomer, ApplicationRole>()
+                .AddEntityFrameworkStores<StormyDbContext>()
+                .AddUserStore<StormyUserStore>()
+                .AddRoles<ApplicationRole>()                
                 .AddDefaultTokenProviders();
-            //var signingConfigurations = new SigningConfigurations();
-            //services.AddSingleton(signingConfigurations);
+
+            services.AddTransient<StormyUserStore>();
             var tokenConfigurations = new TokenConfigurations();
             new ConfigureFromConfigurationOptions<TokenConfigurations>(
                 Container.Configuration.GetSection("Jwt"))
@@ -82,10 +64,10 @@ namespace StormyCommerce.Module.Customer
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
                 // Default Password settings.
-                options.Password.RequireDigit = true;
+                options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
                 //User Settings
@@ -129,6 +111,7 @@ namespace StormyCommerce.Module.Customer
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser()
                     .Build());
+                auth.AddPolicy("Guest",policy => policy.RequireClaim("Role"));
             });            
         }
     }

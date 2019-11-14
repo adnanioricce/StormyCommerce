@@ -17,10 +17,7 @@ namespace StormyCommerce.Core.Tests.Helpers
                 CPF = "40028922",
                 FullName = "Joao Arimateia Pinto",
                 DefaultShippingAddress = CustomerAddressSeeder.GetCustomerAddressData(),
-                DefaultShippingAddressId = 1,
-                UserId = sampleUserId,
-                IsDeleted = false,
-                LastModified = DateTimeOffset.UtcNow
+                DefaultShippingAddressId = 1,               
             };
         }
     }
