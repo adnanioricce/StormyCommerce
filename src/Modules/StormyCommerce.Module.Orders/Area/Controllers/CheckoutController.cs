@@ -48,22 +48,9 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                           
                 Customer = pagCustomer,
                 Amount = (int)(request.Amount * 100),
-                Billing = _mapper.Map<StormyCustomer, Billing>(user),
-                Address = _mapper.Map<CustomerAddress,Address>(user.DefaultBillingAddress),
-                Shipping = _mapper.Map<CustomerAddress,Shipping>(user.DefaultShippingAddress),
-                Item = new Item[]{
-                    new Item{
-                        Id = "1",
-                        Title = "test item",
-                        Quantity = 1,
-                        Tangible = true,
-                        UnitPrice = 1000
-                    }
-                },                
+                             
                 PaymentMethod = PaymentMethod.Boleto
-            };        
-            transaction.Billing.Id = "1";
-            transaction.Billing.Address.Id = "1";
+            };                    
             try{    
                 transaction.Save();           
             }catch(PagarMeException ex){                                

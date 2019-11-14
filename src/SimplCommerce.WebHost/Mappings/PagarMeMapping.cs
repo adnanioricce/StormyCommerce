@@ -73,12 +73,15 @@ namespace StormyCommerce.WebHost.Mappings
                     dest.Id = null;
                 });
             CreateMap<StormyCustomer, Customer>()
-                .ForMember(dest => dest.ExternalId,opt => opt.MapFrom(src => src.Id))                
-                .ForMember(dest => dest.DocumentNumber,opt => opt.MapFrom(src => src.CPF))
+                .ForMember(dest => dest.ExternalId,opt => opt.MapFrom(src => src.Id))    
+                .ForMember(dest => dest.Id,opt => opt.Ignore())    
+                // .ForMember(dest => dest.Address,opt => opt.Ignore())
+                // .ForMember(dest => dest.Addresses,opt => opt.i)        
+                // .ForMember(dest => dest.DocumentNumber,opt => opt.MapFrom(src => src.CPF))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))                
-                .ForMember(dest => dest.BornAt,opt => opt.MapFrom(src => src.DateOfBirth))
-                .ForMember(dest => dest.Birthday,opt => opt.MapFrom(src => src.DateOfBirth.DayOfYear.ToString()))                            
+                // .ForMember(dest => dest.BornAt,opt => opt.MapFrom(src => src.DateOfBirth))
+                .ForMember(dest => dest.Birthday,opt => opt.MapFrom(src => src.DateOfBirth.ToString("yyyy-MM-dd")))                            
                 .ForPath(dest => dest.Address,opt => opt.MapFrom(src => src.DefaultBillingAddress.Address))                
                 .AfterMap((src,dest) => {
                     dest.PhoneNumbers = new string[]
