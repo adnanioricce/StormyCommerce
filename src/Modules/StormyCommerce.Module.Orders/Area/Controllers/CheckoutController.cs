@@ -46,7 +46,25 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var transaction = new Transaction
             {
                           
-                Customer = pagCustomer,
+                Customer = new Customer{
+                    Type = CustomerType.Individual,
+                    Name = pagCustomer.Name,
+                    Email = pagCustomer.Email,
+                    DocumentType = DocumentType.Cpf,
+                    DocumentNumber = pagCustomer.DocumentNumber,
+                    Address = new Address{
+                        Zipcode = pagCustomer.Address.Zipcode,
+                        State = pagCustomer.Address.State,
+                        Street = pagCustomer.Address.Street,                        
+                        StreetNumber = pagCustomer.Address.StreetNumber,
+                        Neighborhood = pagCustomer.Address.Neighborhood,
+                        City = pagCustomer.Address.City,
+                        Country = pagCustomer.Address.Country                        
+                    },
+                    PhoneNumbers = new string[]{
+                        pagCustomer.PhoneNumbers.FirstOrDefault()
+                    }                 
+                },
                 Amount = (int)(request.Amount * 100),
                              
                 PaymentMethod = PaymentMethod.Boleto

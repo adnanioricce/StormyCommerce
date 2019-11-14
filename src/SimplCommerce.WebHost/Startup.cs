@@ -116,7 +116,8 @@ namespace SimplCommerce.WebHost
             {
                 builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();
-                builder.AllowAnyHeader();                
+                builder.AllowAnyHeader();   
+                builder.AllowCredentials();             
             }));
             if (_hostingEnvironment.IsDevelopment()) 
             { 
@@ -167,7 +168,13 @@ namespace SimplCommerce.WebHost
             });
 
             app.UseCookiePolicy();
-            app.UseCors("Default");
+            app.UseCors(builder => {                
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+                builder.AllowCredentials();                                
+            });
+            
             app.UseMvc();
             app.UseSpa(spa =>
             {

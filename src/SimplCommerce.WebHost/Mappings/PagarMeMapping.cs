@@ -95,6 +95,9 @@ namespace StormyCommerce.WebHost.Mappings
                             Type = DocumentType.Cpf,
                             Number = src.CPF
                         }
+                    };
+                    dest.Addresses = new Address[]{
+                        dest.Address
                     };                      
                     dest.Type = CustomerType.Individual; 
                     dest.Country = "br";
