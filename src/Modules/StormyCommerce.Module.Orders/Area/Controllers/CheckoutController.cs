@@ -53,34 +53,47 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 Type = CustomerType.Individual,
                 Name = user.FullName,
                 Email = user.Email,
+                DocumentType = DocumentType.Cpf,
                 DocumentNumber = user.CPF,
-            
+                Documents = new Document[]{
+                    new Document{
+                        Type = DocumentType.Cpf,
+                        Number = user.CPF
+                    }
+                },
                 Address = new Address () {
                     Street = pagCustomer.Address.Street,
                     StreetNumber = pagCustomer.Address.StreetNumber,
                     Neighborhood = pagCustomer.Address.Neighborhood,
                     Zipcode = pagCustomer.Address.Zipcode
                 },
-
-                Phone = new PagarMe.Phone() {
-                    Ddi = "55",
-                    Ddd = "11",
-                    Number = "23456789"
-                }
+                Addresses = new Address[]{
+                    new Address {
+                    Street = pagCustomer.Address.Street,
+                    StreetNumber = pagCustomer.Address.StreetNumber,
+                    Neighborhood = pagCustomer.Address.Neighborhood,
+                    Zipcode = pagCustomer.Address.Zipcode
+                    }   
+                },
+                PhoneNumbers = new string[]{
+                    "+551123456789"
+                }                
             };
                          
             try{    
                 transaction.Save();           
             }catch(PagarMeException ex){                                
                 Console.WriteLine($"HttpStatusCode from the PagarMeException:${ex.Error.HttpStatus}");
+                string exceptionStr = "";
                 foreach(var error in ex.Error.Errors){
-                    Console.WriteLine($@"The PagarMe Service throwed the following:Type:{error.Type},
+                    exceptionStr = $@"The PagarMe Service throwed the following:Type:{error.Type},
                     Parameter:{error.Parameter},
-                    Message:{error.Message}");
+                    Message:{error.Message}";
+                    Console.WriteLine(exceptionStr);                    
                 }          
                 // ex.Error      
                 // return Result<PagarMeError>(ex.Error,ex.Error.Errors);
-                return BadRequest(Result.Fail("transaction failed"));
+                return BadRequest(Result.Fail("transaction failed",exceptionStr));
             }
             return Ok(Result.Ok("transaction performed with success"));
         }
