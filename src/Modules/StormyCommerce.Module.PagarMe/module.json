@@ -1,0 +1,6 @@
+{
+    "id" : "StormyCommerce.Module.PagarMe",
+    "name": "PagarMe",
+    "isBundledWithHost": false,
+    "version": "1.0.0"
+}

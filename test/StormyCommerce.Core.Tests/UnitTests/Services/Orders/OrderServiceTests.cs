@@ -20,6 +20,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
     {
         private MockRepository mockRepository;        
         private Mock<IStormyRepository<OrderHistory>> mockStormyRepositoryOrderHistory;
+        // private readonly StormyCustomer customer = Seeders
 
         public OrderServiceTests()
         {
@@ -106,7 +107,7 @@ namespace StormyCommerce.Core.Tests.UnitTests.Services.Orders
             StormyOrder entity = new StormyOrder(id)
             {
                 OrderUniqueKey = orderUniqueKey,
-                StormyCustomerId = 1,
+                StormyCustomerId = "2",
                 Status = OrderStatus.New,
                 PickUpInStore = false,
                 IsDeleted = false,                

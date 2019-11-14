@@ -13,6 +13,7 @@ using StormyCommerce.Module.Customer.Models;
 
 namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     [ApiController]
     [Route("api/[Controller]")]
     [EnableCors("Default")]
@@ -68,7 +69,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             return await _wishListRepository
                 .Table
                 .Where(w => string.Equals(w.StormyCustomerId,user.Id))
-                .SingleAsync();
+                .FirstOrDefaultAsync();
         }
     }
 }

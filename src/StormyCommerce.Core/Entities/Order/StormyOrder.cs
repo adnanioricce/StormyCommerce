@@ -30,10 +30,9 @@ namespace StormyCommerce.Core.Entities
         }
         public StormyOrder(){}
         public Guid OrderUniqueKey { get; set; }
-        public long StormyCustomerId { get; set; }
-        public string UserId { get; set; }
+        public string StormyCustomerId { get; set; }        
         public long PaymentId { get; set; }
-        public long ShipmentId { get; set; }
+        public long? ShipmentId { get; set; }
         public bool PickUpInStore { get; set; }
         public bool IsCancelled { get; set; } = false;                 
         public string Note { get; set; }

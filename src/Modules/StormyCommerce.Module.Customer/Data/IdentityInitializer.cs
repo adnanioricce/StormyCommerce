@@ -78,8 +78,9 @@ namespace StormyCommerce.Module.Customer.Data
                         Address = new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"),
                     },
                     CPF = "10172930820",
-                    PhoneNumber = "11992887102",
+                    PhoneNumber = "+5511992887102",
                     FullName = "Severino Francisco Daniel da Rocha",
+                    DateOfBirth = new DateTime(2001,11,1),                    
                     
                     
                 }, "!D4velopment",Roles.Customer);                

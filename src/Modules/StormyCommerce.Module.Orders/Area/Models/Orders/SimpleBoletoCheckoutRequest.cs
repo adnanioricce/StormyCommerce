@@ -1,4 +1,6 @@
-﻿namespace StormyCommerce.Module.Orders.Area.Models.Orders
+﻿using StormyCommerce.Core.Models.Dtos;
+
+namespace StormyCommerce.Module.Orders.Area.Models.Orders
 {
     public class SimpleBoletoCheckoutRequest
     {
