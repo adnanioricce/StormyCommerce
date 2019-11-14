@@ -14,6 +14,8 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -24,11 +26,7 @@
     <Content Include="wwwroot\**\*;modules.json;appsettings.json;Modules\**\*;Themes\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ClientApp\.react-playground\index.html" />
-    <Content Include="ClientApp\.react-playground\playground.html" />
-  </ItemGroup>
+  </ItemGroup>  
 
   <ItemGroup>    
     <ProjectReference Include="..\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
@@ -62,11 +60,7 @@
   <ItemGroup>
     <Folder Include="logs\" />
     <Folder Include="Views\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="ClientApp\.react-playground\index.js" />
-  </ItemGroup>
+  </ItemGroup>  
 
   <Target Name="CopyModule" AfterTargets="Build">
     <CopyModuleTask ProjectDir="$(ProjectDir)" TargetFramework="netcoreapp2.2" BuildConfiguration="$(ConfigurationName)" />

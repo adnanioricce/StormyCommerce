@@ -32,6 +32,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.Catalog.Product;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace SimplCommerce.WebHost
 {
@@ -73,7 +75,7 @@ namespace SimplCommerce.WebHost
                     options.EnableDetailedErrors();
                     options.EnableSensitiveDataLogging();
                 });
-            }
+            }            
             services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
@@ -111,12 +113,13 @@ namespace SimplCommerce.WebHost
             {
                 builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();
-                builder.AllowAnyHeader();                
+                builder.AllowAnyHeader();   
+                builder.AllowCredentials();             
             }));
             if (_hostingEnvironment.IsDevelopment()) 
             { 
                 services.AddMvc(x => {
-                    // x.Filters.Add(new AllowAnonymousFilter());
+                    x.Filters.Add(new AllowAnonymousFilter());
                 }).AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -152,38 +155,49 @@ namespace SimplCommerce.WebHost
                 context => !context.Request.Path.StartsWithSegments("/api"),
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
             );
-
-            // app.UseHttpsRedirection();
-            // app.UseCustomizedStaticFiles(env);
+            app.UseStaticFiles();            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "StormyCommerce API V1");                
-                c.RoutePrefix = string.Empty;
+                c.RoutePrefix = "api";
             });
 
             app.UseCookiePolicy();
-            app.UseCors("Default");
+            app.UseCors(builder => {                
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+                builder.AllowCredentials();                                
+            });
+            
             app.UseMvc();            
             var moduleInitializers = app.ApplicationServices.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
             {
                 moduleInitializer.Configure(app, env);
             }
-            using (var scope = app.ApplicationServices.CreateScope()){
-                using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>()){
+            SeedContext(app);
+            
+        }
+        private void SeedContext(IApplicationBuilder app)
+        {
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
+                {
                     if (dbContext.Database.IsSqlite())
                     {
                         if (dbContext.Database.EnsureDeleted())
                         {
                             dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
                         }
-                    }                    
+                    }
                     if (!dbContext.Database.IsSqlServer())
                     {
                         var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
                         var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
-                        new IdentityInitializer(dbContext, userManager, roleManager).Initialize();                   
+                        new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
                         dbContext.SeedDbContext();
                     }
                 }

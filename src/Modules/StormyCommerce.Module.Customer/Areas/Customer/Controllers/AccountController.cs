@@ -6,10 +6,12 @@ using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
+using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
+using StormyCommerce.Module.Customer.Models.Requests;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,11 +57,35 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 
             return Ok();
         }     
+        [HttpPost("add_shipping_address")]
+        [Authorize(Roles.Customer)]
+        [ValidateModel]
+        public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddress model)
+        {
+            var user = await GetCurrentUser();
+            if (user.DefaultShippingAddress == null) {
+                user.DefaultShippingAddress = new CustomerAddress
+                {
+                    Address = model.Address,
+                    Owner = user,
+                    WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
+                };
+                await _identityService.EditUserAsync(user);
+                return Ok(Result.Ok("address added with success"));
+            }
+            user.DefaultShippingAddress.Address = model.Address;
+            await _identityService.EditUserAsync(user);
+            return Ok(Result.Ok("address updated with success"));                   
+        }
         [HttpGet("get_current_user")]
         [Authorize(Roles.Customer)]
         public async Task<CustomerDto> GetCurrentCustomer()
         {            
-            return _mapper.Map<StormyCustomer,CustomerDto>(await _identityService.GetUserByEmailAsync(HttpContext.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value));
+            return _mapper.Map<StormyCustomer,CustomerDto>(await GetCurrentUser());
         }          
+        private async Task<StormyCustomer> GetCurrentUser()
+        {
+            return await _identityService.GetUserByClaimPrincipal(User);
+        }
     }
 }

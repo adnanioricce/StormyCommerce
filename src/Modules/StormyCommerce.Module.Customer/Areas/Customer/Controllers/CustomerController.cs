@@ -51,15 +51,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         {
             var customer = await GetCurrentCustomer();            
             return Ok();
-        }
-        [HttpGet("get_currentuser")]
-        [ValidateModel]
-        [Roles(Roles.Customer,Roles.Guest)]
-        public CustomerDto GetCustomerByEmail()
-        {
-            var user = _identityService.GetUserById(HttpContext.User.Claims.FirstOrDefault(c => string.Equals(c.Type,"sub"))?.Value);
-            return _mapper.Map<StormyCustomer,CustomerDto>(_identityService.GetUserById(HttpContext.User.FindFirst(c => string.Equals(c.Type,"sub")).Value));
-        }
+        }        
         private async Task<StormyCustomer> GetCurrentCustomer()
         {
             return await _identityService.GetUserByClaimPrincipal(User);                       

@@ -40,7 +40,7 @@ namespace SimplCommerce.WebHost
                });
             } else{
                 services.AddStormyDataStore(_configuration);
-            }            
+            }                        
             var _serviceProvider = services.BuildServiceProvider();
             return _serviceProvider.GetRequiredService<StormyDbContext>();
         }

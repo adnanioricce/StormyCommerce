@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -14,6 +15,6 @@ namespace StormyCommerce.Infraestructure.Data.Stores
     {
         public StormyUserStore(StormyDbContext context, IdentityErrorDescriber describer = null) : base(context, describer)
         {
-        }
+        }        
     }
 }
