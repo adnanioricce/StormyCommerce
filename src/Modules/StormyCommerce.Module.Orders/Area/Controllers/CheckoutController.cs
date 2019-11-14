@@ -52,29 +52,13 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 Country = "br",
                 Type = CustomerType.Individual,
                 Name = user.FullName,
-                Email = user.Email,
-                DocumentType = DocumentType.Cpf,
-                DocumentNumber = user.CPF,
+                Email = user.Email,                
                 Documents = new Document[]{
                     new Document{
                         Type = DocumentType.Cpf,
                         Number = user.CPF
                     }
-                },
-                Address = new Address () {
-                    Street = pagCustomer.Address.Street,
-                    StreetNumber = pagCustomer.Address.StreetNumber,
-                    Neighborhood = pagCustomer.Address.Neighborhood,
-                    Zipcode = pagCustomer.Address.Zipcode
-                },
-                Addresses = new Address[]{
-                    new Address {
-                    Street = pagCustomer.Address.Street,
-                    StreetNumber = pagCustomer.Address.StreetNumber,
-                    Neighborhood = pagCustomer.Address.Neighborhood,
-                    Zipcode = pagCustomer.Address.Zipcode
-                    }   
-                },
+                },                
                 PhoneNumbers = new string[]{
                     "+551123456789"
                 }                

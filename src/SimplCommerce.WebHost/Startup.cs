@@ -75,10 +75,7 @@ namespace SimplCommerce.WebHost
                     options.EnableDetailedErrors();
                     options.EnableSensitiveDataLogging();
                 });
-            }
-            services.AddSpaStaticFiles(configuration => {
-                configuration.RootPath = "ClientApp/build";
-            });
+            }            
             services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
@@ -158,8 +155,7 @@ namespace SimplCommerce.WebHost
                 context => !context.Request.Path.StartsWithSegments("/api"),
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
             );
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            app.UseStaticFiles();            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -175,15 +171,7 @@ namespace SimplCommerce.WebHost
                 builder.AllowCredentials();                                
             });
             
-            app.UseMvc();
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-                if (env.IsDevelopment())
-                {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
-                }
-            });
+            app.UseMvc();            
             var moduleInitializers = app.ApplicationServices.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
             {
