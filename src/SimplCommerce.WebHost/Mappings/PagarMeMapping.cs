@@ -81,7 +81,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))                
                 // .ForMember(dest => dest.BornAt,opt => opt.MapFrom(src => src.DateOfBirth))
-                .ForMember(dest => dest.Birthday,opt => opt.MapFrom(src => src.DateOfBirth.ToString("yyyy-MM-dd")))                            
+                .ForMember(dest => dest.Birthday,opt => opt.MapFrom(src => src.DateOfBirth.Value.ToString("yyyy-MM-dd")))                            
                 .ForPath(dest => dest.Address,opt => opt.MapFrom(src => src.DefaultBillingAddress.Address))                
                 .AfterMap((src,dest) => {
                     dest.PhoneNumbers = new string[]
