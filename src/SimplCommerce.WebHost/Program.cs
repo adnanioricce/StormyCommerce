@@ -45,8 +45,8 @@ namespace SimplCommerce.WebHost
                     options.UseSqlServer(configuration.GetConnectionString("DevConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
                 }
                 else
-                {
-                    options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                       
+                {                    
+                    options.UseSqlite("DataSource=config.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                       
                 }
 
                 }

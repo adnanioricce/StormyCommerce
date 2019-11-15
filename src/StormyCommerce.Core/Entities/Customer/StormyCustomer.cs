@@ -33,8 +33,10 @@ namespace StormyCommerce.Core.Entities.Customer
         public long? CustomerReviewsId { get; set; }
         public List<Review> CustomerReviews { get; set; } = new List<Review>();        
         public long? CustomerWishlistId { get; set; }                
+        // public Phone Phone { get; set; }
         public string FullName { get; set; }        
         public string RefreshTokenHash { get; set; }
+        public DateTime DateOfBirth { get; set; }                        
         public List<ApplicationRole> Roles { get; set; }
         public DateTimeOffset CreatedOn { get; set; }        
     }

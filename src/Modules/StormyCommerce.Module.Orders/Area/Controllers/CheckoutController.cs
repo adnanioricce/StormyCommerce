@@ -3,23 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using PagarMe;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Interfaces.Domain.Order;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper;
-using StormyCommerce.Module.Orders.Services;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using System.Collections.Generic;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Customer;
 using PagarMe.Model;
 using StormyCommerce.Infraestructure.Interfaces;
-using System.Net.Http;
+using StormyCommerce.Core.Interfaces.Domain.Order;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -30,31 +25,15 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     public class CheckoutController : Controller
     {
         private readonly IOrderService _orderService;
-        private readonly IProductService _productService;
-        private readonly IShippingService _shippingService;
-        private readonly CorreiosService _correiosService;
-        private readonly IUserIdentityService _identityService;
-        private readonly IStormyRepository<CustomerAddress> _addressRepository;
-        private readonly PagarMeService _pagarMeService;
-        //private readonly PagarMeWrapper _pagarmeService;        
+        private readonly IUserIdentityService _identityService;                      
         private readonly IMapper _mapper;
-        public CheckoutController(IOrderService orderService,
-        IProductService productService,
-        IShippingService shippingService,
-        CorreiosService correiosService,
-        //PagarMeWrapper pagarMeService,
+        public CheckoutController(
         IUserIdentityService userIdentityService,
-        IStormyRepository<CustomerAddress> addressRepository,
-        PagarMeService pagarMeService,
+        IOrderService orderService,        
         IMapper mapper)
-        {
+        {                                
+            _identityService = userIdentityService;            
             _orderService = orderService;
-            _productService = productService;
-            _shippingService = shippingService;                        
-            _identityService = userIdentityService;
-            _addressRepository = addressRepository;
-            _correiosService = correiosService;
-            _pagarMeService = pagarMeService;
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
@@ -63,15 +42,43 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         {
             var user = await _identityService.GetUserByClaimPrincipal(User);            
             var pagCustomer = _mapper.Map<StormyCustomer, Customer>(user);
-       
-            var transaction = new Transaction();
-            transaction.Customer = pagCustomer;
-            transaction.Amount = (int)(request.Amount * 100);
-            transaction.Billing = _mapper.Map<StormyCustomer, Billing>(user);
-            transaction.Async = true;
-            transaction.PostbackUrl = $"{this.HttpContext.Request.Scheme}://{this.Request.Host}/api/Checkout/postback";
-            await transaction.SaveAsync();
-            //var order = _orderService.CreateOrderAsync(_mapper.Map<Transaction, StormyOrder>(transaction));
+                        
+            Transaction transaction = new Transaction();
+
+            transaction.Amount = 1000;
+            transaction.PaymentMethod = PaymentMethod.Boleto;
+
+            transaction.Customer = new Customer () {
+                Country = "br",
+                Type = CustomerType.Individual,
+                Name = user.FullName,
+                Email = user.Email,                
+                Documents = new Document[]{
+                    new Document{
+                        Type = DocumentType.Cpf,
+                        Number = user.CPF
+                    }
+                },                
+                PhoneNumbers = new string[]{
+                    "+551123456789"
+                }                
+            };
+                         
+            try{    
+                transaction.Save();           
+            }catch(PagarMeException ex){                                
+                Console.WriteLine($"HttpStatusCode from the PagarMeException:${ex.Error.HttpStatus}");
+                string exceptionStr = "";
+                foreach(var error in ex.Error.Errors){
+                    exceptionStr = $@"The PagarMe Service throwed the following:Type:{error.Type},
+                    Parameter:{error.Parameter},
+                    Message:{error.Message}";
+                    Console.WriteLine(exceptionStr);                    
+                }          
+                // ex.Error      
+                // return Result<PagarMeError>(ex.Error,ex.Error.Errors);
+                return BadRequest(Result.Fail("transaction failed",exceptionStr));
+            }
             return Ok(Result.Ok("transaction performed with success"));
         }
         [HttpPost("postback")]

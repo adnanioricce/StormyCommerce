@@ -58,6 +58,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             return Ok();
         }     
         [HttpPost("add_shipping_address")]
+        [Authorize(Roles.Customer)]
         [ValidateModel]
         public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddress model)
         {
@@ -84,7 +85,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         }          
         private async Task<StormyCustomer> GetCurrentUser()
         {
-            return await _identityService.GetUserByEmailAsync(HttpContext.User.Claims.FirstOrDefault(c => c.Type.Contains("email"))?.Value);
+            return await _identityService.GetUserByClaimPrincipal(User);
         }
     }
 }
