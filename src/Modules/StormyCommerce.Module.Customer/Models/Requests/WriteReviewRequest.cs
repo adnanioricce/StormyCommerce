@@ -11,5 +11,6 @@ namespace StormyCommerce.Module.Customer.Models.Requests
         [Required]
         public RatingLevel Rating { get; set; }
         public string ReviewerName { get; set; }        
+        public long StormyProductId { get; set; }
     }
 }
