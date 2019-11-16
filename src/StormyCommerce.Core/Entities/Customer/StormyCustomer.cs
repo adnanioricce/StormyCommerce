@@ -32,12 +32,12 @@ namespace StormyCommerce.Core.Entities.Customer
         public long? DefaultBillingAddressId { get; set; }
         public long? CustomerReviewsId { get; set; }
         public List<Review> CustomerReviews { get; set; } = new List<Review>();        
-        public long? CustomerWishlistId { get; set; }                
-        // public Phone Phone { get; set; }
+        public long? CustomerWishlistId { get; set; }    
+        public Wishlist CustomerWishlist { get; set; }        
         public string FullName { get; set; }        
         public string RefreshTokenHash { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }                        
         public List<ApplicationRole> Roles { get; set; }
-        public DateTimeOffset CreatedOn { get; set; }        
+        public DateTimeOffset CreatedOn { get; set; }              
     }
 }

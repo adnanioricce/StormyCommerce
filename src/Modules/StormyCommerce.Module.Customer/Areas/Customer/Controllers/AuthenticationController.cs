@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
+using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
+using StormyCommerce.Core.Models;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
@@ -57,9 +59,16 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             _logger.LogInformation("user logged in with success");
 
             var claims = await _identityService.BuildClaims(user);//TODO:Replace this with a extension method
-            var token = _tokenService.GenerateAccessToken(claims);            
+            var token = new AuthResponse{ 
+                AccessToken = _tokenService.GenerateAccessToken(claims),
+                RefreshToken = _tokenService.GenerateRefreshToken(),
+                ExpiresIn = new DateTimeOffset().AddMinutes(Convert.ToInt32(Container.Configuration["Authentication:Jwt:AccessTokenDurationInMinutes"]))
+            };            
+            user.RefreshTokenHash = token.RefreshToken;
+            //TODO:Add redis to handle things like things like this
+            await _identityService.EditUserAsync(user);
             //TODO:Write JWT refresh token logic
-            return Ok(new { token = token });
+            return Ok(Result.Ok(token));
         }
 
         [HttpPost("register")]
