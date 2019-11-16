@@ -79,8 +79,7 @@ namespace StormyCommerce.Module.Customer.Services
             return _userManager.Users.FirstOrDefault(u => u.UserName == username);
         }
         public StormyCustomer GetUserById(string userId)
-        {
-            
+        {            
             return _userManager.Users.First(u => string.Equals(u.Id, userId));
         }
         public async Task<StormyCustomer> GetUserByClaimPrincipal(ClaimsPrincipal principal)

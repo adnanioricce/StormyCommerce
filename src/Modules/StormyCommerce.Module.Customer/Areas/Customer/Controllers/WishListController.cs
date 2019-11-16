@@ -35,12 +35,11 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
             if(!(await _userIdentityService.IsEmailConfirmedAsync(user))) 
-                return BadRequest(Result.Fail("the user needs to confirm your email to perform this operation"));
-            // var list = await _wishListRepository.Table.Where(w => string.Equals(w.StormyCustomerId, user.Id))?.FirstOrDefaultAsync();
+                return BadRequest(Result.Fail("the user needs to confirm your email to perform this operation"));            
             if(user.CustomerWishlist == null){
                 user.CustomerWishlist = new Wishlist();
-                user.CustomerWishlist.AddItem(productId);                
-                          
+                user.CustomerWishlist.AddItem(productId);
+                user.CustomerWishlist.Customer = user;                
                 await _userIdentityService.EditUserAsync(user);
                 return Ok(Result.Ok("item added to wishlist"));
             }            

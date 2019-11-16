@@ -10,6 +10,10 @@ namespace StormyCommerce.Module.Customer.Data
     public class CustomStormyUserStore : IUserStore<StormyCustomer>
     {
         private readonly StormyDbContext dbContext;
+        public CustomStormyUserStore(StormyDbContext _dbContext)
+        {
+            dbContext = _dbContext;
+        }
         public async Task<IdentityResult> CreateAsync(StormyCustomer user, CancellationToken cancellationToken)
         {
             dbContext.Add(user);

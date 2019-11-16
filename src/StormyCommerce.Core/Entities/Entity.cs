@@ -8,6 +8,6 @@
         public string Name { get; set; }
         public long EntityId { get; set; }
         public string EntityTypeId { get; set; }
-        public EntityType EntityType { get; set; }
+        public virtual EntityType EntityType { get; set; }
     }
 }

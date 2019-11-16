@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace StormyCommerce.Core.Entities.Customer
 {
@@ -12,5 +13,6 @@ namespace StormyCommerce.Core.Entities.Customer
         {
 
         }
+        //public IList<UserRole> Users { get; set; } = new List<UserRole>
     }
 }

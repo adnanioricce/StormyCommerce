@@ -27,7 +27,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         [HttpPost("create")]
         [ValidateModel]
         public async Task<IActionResult> CreateBrand([FromBody]Brand brand)
-        {
+        {            
             await _brandService.AddAsync(brand);
             return Ok(Result.Ok());
         }

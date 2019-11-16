@@ -12,11 +12,11 @@ namespace StormyCommerce.Core.Entities.Customer
             Id = id;
         }        
         
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
         public string WhoReceives { get; set; }        
         public bool IsDeleted { get; set; }
         public string UserId { get; set; }
-        public StormyCustomer Owner { get; set; }        
+        public virtual StormyCustomer Owner { get; set; }        
 
         
     }

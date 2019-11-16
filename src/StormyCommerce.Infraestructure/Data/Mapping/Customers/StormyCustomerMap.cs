@@ -32,11 +32,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                     .IsUnique(false);
                 entity.Property(prop => prop.FullName).HasMaxLength(450);
                 entity.Property(prop => prop.CPF).HasMaxLength(9);
-                entity.Property(prop => prop.Email).IsRequired();
-                // entity.Property(prop => prop.Phone)
-                // .HasColumnType("VARCHAR(16)")
-                // .HasColumnName("Phone")
-                // .HasConversion(p => string.Format($"{p.DDI}{p.DD}{p.Number}"),p => p.ToString);
+                entity.Property(prop => prop.Email).IsRequired();                
                 entity.Ignore(customer => customer.Addresses);
             });                       
             modelBuilder.Entity<ApplicationRole>();

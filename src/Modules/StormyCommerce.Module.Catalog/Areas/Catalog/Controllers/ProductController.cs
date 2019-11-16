@@ -13,12 +13,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Entities.Media;
-using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Models.Requests;
 using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Module.Catalog.Models;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Controllers

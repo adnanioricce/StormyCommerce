@@ -6,11 +6,11 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
     {
         public long ProductId { get; set; }
 
-        public StormyProduct Product { get; set; }
+        public virtual StormyProduct Product { get; set; }
 
         public long LinkedProductId { get; set; }
 
-        public StormyProduct LinkedProduct { get; set; }
+        public virtual StormyProduct LinkedProduct { get; set; }
 
         public ProductLinkType LinkType { get; set; }
         public ProductLinkDto ToProductLinkDto(){

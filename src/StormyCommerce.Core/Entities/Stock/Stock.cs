@@ -6,9 +6,9 @@ namespace StormyCommerce.Core.Entities
 {
     public class Stock : BaseEntity
     {
-        public IEnumerable<StormyProduct> Products { get; set; }
+        public virtual IEnumerable<StormyProduct> Products { get; set; }
 
         //?Why not put this on Product Instead?
-        public IEnumerable<StormyOrder> Orders { get; set; }
+        public virtual IEnumerable<StormyOrder> Orders { get; set; }
     }
 }

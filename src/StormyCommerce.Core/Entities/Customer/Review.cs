@@ -26,9 +26,9 @@ namespace StormyCommerce.Core.Entities
         }
 
         public string StormyCustomerId { get; set; }
-        public StormyCustomer Author { get; set; }
+        public virtual StormyCustomer Author { get; set; }
         public long StormyProductId { get; set; }
-        public StormyProduct Product { get; set; }
+        public virtual StormyProduct Product { get; set; }
         public string Title { get; set; }
         public string Comment { get; set; }
         public string ReviewerName { get; set; }

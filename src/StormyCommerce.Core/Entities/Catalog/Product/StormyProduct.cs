@@ -40,8 +40,8 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public long CategoryId { get; set; }
         public long? MediaId { get; set; }
         public long? ProductLinksId { get; set; }                
-        public StormyVendor Vendor { get; set; }
-        public Brand Brand { get; set; }        
+        public virtual StormyVendor Vendor { get; set; }
+        public virtual Brand Brand { get; set; }        
         public string ShortDescription { get; set; }
         public string Description { get; set; }        
         public int QuantityPerUnity { get; set; }
@@ -56,11 +56,11 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }                
         public string ThumbnailImage { get; set; }
-        public List<ProductMedia> Medias { get; set; } = new List<ProductMedia>();
-        public List<ProductLink> Links { get; set; } = new List<ProductLink>();           
-        public List<ProductAttributeValue> AttributeValues { get; set; } = new List<ProductAttributeValue>();
-        public List<ProductOptionValue> OptionValues { get; set; } = new List<ProductOptionValue>();        
-        public List<ProductCategory> Categories { get; set; } = new List<ProductCategory>();
+        public virtual List<ProductMedia> Medias { get; set; } = new List<ProductMedia>();
+        public virtual List<ProductLink> Links { get; set; } = new List<ProductLink>();           
+        public virtual List<ProductAttributeValue> AttributeValues { get; set; } = new List<ProductAttributeValue>();
+        public virtual List<ProductOptionValue> OptionValues { get; set; } = new List<ProductOptionValue>();        
+        public virtual List<ProductCategory> Categories { get; set; } = new List<ProductCategory>();
         public string Note { get; set; }        
         public string Price { get; set; }                                                                                                      
         public decimal ProductCost { get; set; }        
