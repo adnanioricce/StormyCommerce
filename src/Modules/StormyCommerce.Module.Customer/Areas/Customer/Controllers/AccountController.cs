@@ -61,22 +61,62 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         [HttpPost("add_shipping_address")]
         [Authorize(Roles.Customer)]
         [ValidateModel]
+        //TODO:Duplicated Logic, too much ifs, refactor this
         public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddress model)
         {
             var user = await GetCurrentUser();
-            if (user.DefaultShippingAddress == null) {
-                user.DefaultShippingAddress = new CustomerAddress
+            if (!model.IsBillingAddress)
+            {
+                if (user.DefaultShippingAddress == null)
+                {
+                    user.DefaultShippingAddress = new CustomerAddress
+                    {
+                        Address = model.Address,
+                        Owner = user,
+                        WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
+                    };
+                    var result = await _identityService.EditUserAsync(user);
+                    if (!result.Success) return BadRequest(result);
+                    return Ok(new
+                    {
+                        message = "address added with success",
+                        result = result
+                    });
+                }
+                user.DefaultShippingAddress.Address = model.Address;
+                await _identityService.EditUserAsync(user);
+                return Ok(Result.Ok("address updated with success"));
+            }
+            if(user.DefaultBillingAddress == null)
+            {
+                user.DefaultBillingAddress = new CustomerAddress
                 {
                     Address = model.Address,
                     Owner = user,
                     WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
                 };
-                await _identityService.EditUserAsync(user);
-                return Ok(Result.Ok("address added with success"));
+                var result = await _identityService.EditUserAsync(user);
+                if (!result.Success) return BadRequest(result);
+                return Ok(new
+                {
+                    message = "address added with success",
+                    result = result
+                });                
             }
-            user.DefaultShippingAddress.Address = model.Address;
+            user.DefaultBillingAddress.Address = model.Address;
             await _identityService.EditUserAsync(user);
-            return Ok(Result.Ok("address updated with success"));                   
+            return Ok(Result.Ok("address updated with success"));
+        }                
+        [HttpPost("edit_account")]
+        [Authorize(Roles.Customer)]
+        [ValidateModel]
+        public async Task<IActionResult> EditAccount([FromBody]EditCustomerRequest request)
+        {
+            var currentUser = await this.GetCurrentUser();
+            _mapper.Map<EditCustomerRequest, StormyCustomer>(request,currentUser);
+            var result = await _identityService.EditUserAsync(currentUser);
+            if (!result.Success) return BadRequest(result);
+            return Ok(result);
         }
         [HttpGet("get_current_user")]
         [Authorize(Roles.Customer)]
@@ -84,9 +124,10 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {            
             return _mapper.Map<StormyCustomer,CustomerDto>(await GetCurrentUser());
         }          
-        private async Task<StormyCustomer> GetCurrentUser()
+        private Task<StormyCustomer> GetCurrentUser()
         {
-            return await _identityService.GetUserByClaimPrincipal(User);
+            return _identityService.GetUserByClaimPrincipal(User);
         }
+
     }
 }

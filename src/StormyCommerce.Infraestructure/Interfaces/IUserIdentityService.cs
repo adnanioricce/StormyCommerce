@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -29,6 +30,6 @@ namespace StormyCommerce.Infraestructure.Interfaces
         Task<IEnumerable<Claim>> BuildClaims(StormyCustomer user);
 
         Task<string> CreateEmailConfirmationCode(StormyCustomer user);
-        Task EditUserAsync(StormyCustomer customer);
+        Task<Result> EditUserAsync(StormyCustomer customer);
     }
 }

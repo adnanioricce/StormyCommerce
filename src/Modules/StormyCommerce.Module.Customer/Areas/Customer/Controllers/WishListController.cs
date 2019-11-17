@@ -25,7 +25,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public WishListController(IStormyRepository<Wishlist> wishListRepository,IUserIdentityService userIdentityService)
         {
             _wishListRepository = wishListRepository;
-            _userIdentityService = userIdentityService;
+            _userIdentityService = userIdentityService;            
             _wishListRepository.Table
                 .Include(w => w.WishlistItems)
                 .Load();
