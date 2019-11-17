@@ -6,8 +6,8 @@ namespace StormyCommerce.Core.Entities.Customer
     public class Wishlist : BaseEntity
     {
         public string StormyCustomerId { get; set; }
-        public StormyCustomer Customer { get; set; }
-        public ICollection<WishlistItem> WishlistItems { get; set; } = new List<WishlistItem>();
+        public virtual StormyCustomer Customer { get; set; }
+        public virtual ICollection<WishlistItem> WishlistItems { get; set; } = new List<WishlistItem>();
 
         /// <summary>
         /// Adds a product available on the catalog of the store on the Wishlist

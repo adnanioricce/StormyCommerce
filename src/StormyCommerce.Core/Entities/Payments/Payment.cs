@@ -10,7 +10,7 @@ namespace StormyCommerce.Core.Entities.Payments
         }
         public Payment(){}
         public long StormyOrderId { get; set; }
-        public StormyOrder Order { get; set; }
+        public virtual StormyOrder Order { get; set; }
         public DateTimeOffset CreatedOn { get; set; }
         public decimal Amount { get; set; }
         public decimal PaymentFee { get; set; }

@@ -19,7 +19,7 @@ namespace StormyCommerce.Core.Entities
         }
         public Shipment(){}                        
         public long StormyOrderId { get; set; }
-        public StormyOrder Order { get; set; }        
+        public virtual StormyOrder Order { get; set; }        
         public string WhoReceives { get; set; }
         public string TrackNumber { get; set; }
         public string ShipmentMethod { get; set; }
@@ -40,11 +40,11 @@ namespace StormyCommerce.Core.Entities
         public string Comment { get; set; }
         public decimal DeliveryCost { get; set; }        
         public long BillingAddressId { get; set; }
-        public CustomerAddress BillingAddress { get; set; }
+        public virtual CustomerAddress BillingAddress { get; set; }
         public long DestinationAddressId { get; set; }
-        public CustomerAddress DestinationAddress { get; set; }        
+        public virtual CustomerAddress DestinationAddress { get; set; }        
         public ShippingStatus Status { get; set; }        
-        public List<OrderItem> Items { get; set; } = new List<OrderItem>();        
+        public virtual List<OrderItem> Items { get; set; } = new List<OrderItem>();        
         public Shipment CalculateShipmentMeasures(List<OrderItem> items)
         {
             Shipment shipment = new Shipment();

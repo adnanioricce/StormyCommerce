@@ -13,9 +13,9 @@ namespace StormyCommerce.Core.Entities.Vendor
         public string CompanyName { get; set; }
         public string ContactTitle { get; set; }     
         public long VendorAddressId { get; set; }        
-        public VendorAddress Address { get; set; }
+        public virtual VendorAddress Address { get; set; }
         public long ProductId { get; set; }
-        public List<StormyProduct> Products { get; set; } = new List<StormyProduct>();
+        public virtual List<StormyProduct> Products { get; set; } = new List<StormyProduct>();
         public string Phone { get; set; }
         public string Email { get; set; }
         public string WebSite { get; set; }

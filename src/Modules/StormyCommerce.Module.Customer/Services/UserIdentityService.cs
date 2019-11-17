@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,7 +27,10 @@ namespace StormyCommerce.Module.Customer.Services
             _signInManager = signInManager;
             _userManager = identityRepository;     
             _userStore = userStore;
-            _userManager.Users
+            _userManager.Users                
+                .Include(u => u.CustomerWishlist)
+                    .ThenInclude(u => u.WishlistItems)
+                        .ThenInclude(u => u.Product)
                 .Include(u => u.CustomerReviews)
                 .Include(u => u.DefaultBillingAddress)
                 .Include(u => u.DefaultShippingAddress)                
@@ -76,8 +79,7 @@ namespace StormyCommerce.Module.Customer.Services
             return _userManager.Users.FirstOrDefault(u => u.UserName == username);
         }
         public StormyCustomer GetUserById(string userId)
-        {
-            
+        {            
             return _userManager.Users.First(u => string.Equals(u.Id, userId));
         }
         public async Task<StormyCustomer> GetUserByClaimPrincipal(ClaimsPrincipal principal)

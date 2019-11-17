@@ -30,6 +30,7 @@ namespace StormyCommerce.Core.Services.Catalog
 
         public async Task AddAsync(Brand entity)
         {
+            if (string.IsNullOrEmpty(entity.Slug)) entity.Slug = "";
             entity.Slug = _entityService.ToSafeSlug(entity.Slug, entity.Id, BrandEntityTypeId);
             await _brandRepository.AddAsync(entity);
             _entityService.Add(entity.Name, entity.Slug, entity.Id, BrandEntityTypeId);

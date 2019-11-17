@@ -34,9 +34,10 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             _mapper = mapper;
         }
         [HttpGet("list")]
-        public async Task<List<Review>> GetCustomerReviews(string customerId)
+        public async Task<List<Review>> GetCustomerReviews()
         {
-            return await _reviewService.GetCustomerReviews(customerId);
+            var user = await _identityService.GetUserByClaimPrincipal(User);
+            return await _reviewService.GetCustomerReviews(user.Id);
         }
         [HttpGet("get")]        
         public async Task<Review> GetReviewById(long reviewId)
@@ -53,7 +54,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             await _reviewService.CreateReviewAsync(review);            
             return Ok(Result.Ok("Review was added with sucess"));
         }
-        [HttpPost("edit")]
+        [HttpPut("edit")]
         [ValidateModel]
         public async Task<IActionResult> EditReview(Review review)
         {

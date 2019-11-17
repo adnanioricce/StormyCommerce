@@ -44,7 +44,8 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             await _identityService.EditUserAsync(appUser);            
             return Ok(new { Message = $"Email confirmation performed With Success at {DateTimeOffset.UtcNow}" });            
         }
-        [HttpPost("ResetPassword")]
+
+        [HttpPost("reset_password")]
         [ValidateModel]
         public async Task<IActionResult> ResetPasswordAsync(ResetPasswordViewModel model)
         {

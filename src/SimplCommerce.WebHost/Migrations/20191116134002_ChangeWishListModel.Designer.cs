@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StormyCommerce.Infraestructure.Data;
@@ -10,9 +11,10 @@ using StormyCommerce.Infraestructure.Data;
 namespace SimplCommerce.WebHost.Migrations
 {
     [DbContext(typeof(StormyDbContext))]
-    partial class StormyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191116134002_ChangeWishListModel")]
+    partial class ChangeWishListModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -380,34 +382,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductOption");
-                });
-
-            modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductOptionCombination", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTimeOffset>("LastModified");
-
-                    b.Property<long>("OptionId");
-
-                    b.Property<long>("ProductId");
-
-                    b.Property<int>("SortIndex");
-
-                    b.Property<string>("Value")
-                        .HasMaxLength(450);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OptionId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductOptionCombination");
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductOptionValue", b =>
@@ -1199,19 +1173,6 @@ namespace SimplCommerce.WebHost.Migrations
                         .WithMany("Links")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductOptionCombination", b =>
-                {
-                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.ProductOption", "Option")
-                        .WithMany()
-                        .HasForeignKey("OptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Catalog.Product.ProductOptionValue", b =>

@@ -4,10 +4,10 @@
     {
         public long ProductTemplateId { get; set; }
 
-        public ProductTemplate ProductTemplate { get; set; }
+        public virtual ProductTemplate ProductTemplate { get; set; }
 
         public long ProductAttributeId { get; set; }
 
-        public ProductAttribute ProductAttribute { get; set; }
+        public virtual ProductAttribute ProductAttribute { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
     {
         public string Name { get; set; }
         public long StormyProductId { get; set; }
-        public StormyProduct Product { get; set; }
+        public virtual StormyProduct Product { get; set; }
 
-        public IList<ProductTemplateProductAttribute> ProductAttributes { get; protected set; } = new List<ProductTemplateProductAttribute>();
+        public virtual IList<ProductTemplateProductAttribute> ProductAttributes { get; protected set; } = new List<ProductTemplateProductAttribute>();
 
         public void AddAttribute(long attributeId)
         {
