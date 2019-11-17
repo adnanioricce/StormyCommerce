@@ -107,7 +107,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             await _identityService.EditUserAsync(user);
             return Ok(Result.Ok("address updated with success"));
         }                
-        [HttpPost("edit_account")]
+        [HttpPut("edit_account")]
         [Authorize(Roles.Customer)]
         [ValidateModel]
         public async Task<IActionResult> EditAccount([FromBody]EditCustomerRequest request)
@@ -118,6 +118,22 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             if (!result.Success) return BadRequest(result);
             return Ok(result);
         }
+        [HttpPut("edit_shipping_address")]
+        [Authorize(Roles.Customer)]
+        [ValidateModel]
+        public async Task<IActionResult> EditAddress([FromBody]EditCustomerAddressRequest request) 
+        {
+            var currentUser = await this.GetCurrentUser();
+            _mapper.Map<EditCustomerAddressRequest, CustomerAddress>(request, currentUser.DefaultShippingAddress);
+            var result = await _identityService.EditUserAsync(currentUser);
+            if (!result.Success) return BadRequest(result);
+            return Ok(new
+            {
+                message = "shipping address edited with success",
+                result = result
+            });
+        }
+        
         [HttpGet("get_current_user")]
         [Authorize(Roles.Customer)]
         public async Task<CustomerDto> GetCurrentCustomer()

@@ -42,7 +42,7 @@ namespace SimplCommerce.WebHost
                 options.EnableSensitiveDataLogging();
                 if (!env.IsDevelopment())
                 {
-                    options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
+                    options.UseSqlServer(configuration.GetConnectionString("LocalDb"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
                 }
                 else
                 {                    
