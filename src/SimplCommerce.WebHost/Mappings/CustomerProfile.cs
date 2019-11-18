@@ -10,14 +10,17 @@ namespace StormyCommerce.WebHost.Mappings
     public class CustomerProfile : Profile
     {
         public CustomerProfile()
-        {
-            //TODO: is this necessary?
+        {            
             CreateMap<CustomerReviewDto, Review>();
             CreateMap<Review, CustomerReviewDto>();
             CreateMap<CustomerDto, StormyCustomer>();
             CreateMap<StormyCustomer, CustomerDto>();                            
             CreateMap<WriteReviewRequest, Review>();
             CreateMap<CreateCustomerRequest, StormyCustomer>();
+            CreateMap<EditCustomerRequest, StormyCustomer>()
+                .ForAllMembers(opt => opt.Condition((src,dest,srcMember) => srcMember != null));
+            CreateMap<EditCustomerAddressRequest,CustomerAddress>();
+            CreateMap<CreateShippingAddressRequest,CustomerAddress>();            
         }
     }
 }

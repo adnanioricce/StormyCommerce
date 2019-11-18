@@ -36,7 +36,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
         Task<StormyProduct> GetProductBySkuAsync(string sku);
 
         Task<IList<StormyProduct>> GetProductsBySkuAsync(string[] skuArray, int vendorId = 0);
-
+        int GetNumberOfProducts();
         int GetNumberOfProductsByVendorId(int vendorId);
 
         //TODO: Still have to create a tag entities
