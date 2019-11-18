@@ -13,23 +13,25 @@ namespace StormyCommerce.Core.Entities.Customer
         /// Adds a product available on the catalog of the store on the Wishlist
         /// </summary>
         /// <param name="productId">the Id of the product been added</param>
-        public void AddItem(long productId)
-        {
-            var item = WishlistItems.FirstOrDefault(f => f.ProductId == productId);            
-            if (item != null) return;
-
-            WishlistItems.Add(new WishlistItem{
-                Wishlist = this,
-                ProductId = productId
-            });
+        public bool AddItem(long productId)
+        {            
+            if(!WishlistItems.Any(it => it.ProductId == productId)){
+                WishlistItems.Add(new WishlistItem{
+                    Wishlist = this,
+                    ProductId = productId
+                });
+                return true;
+            }
+            return false;
         }
 
-        public void Remove(long productId)
+        public bool Remove(long productId)
         {
-            var item = WishlistItems.FirstOrDefault(f => f.ProductId == productId);
-            if (item == null) return; 
-            
-            WishlistItems.Remove(this.WishlistItems.Where(i => i.ProductId == productId).FirstOrDefault());
+            if(WishlistItems.Any(it => it.ProductId == productId)){
+                WishlistItems.Remove(this.WishlistItems.Where(i => i.ProductId == productId).FirstOrDefault());
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -150,7 +150,7 @@ namespace SimplCommerce.WebHost.Extensions
             services.AddDbContextPool<StormyDbContext>(options => {
                 options.UseLazyLoadingProxies();
                 options.UseLoggerFactory(Container.loggerFactory);
-                options.UseSqlServer(configuration.GetConnectionString("LocalDb"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                
+                options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
             });

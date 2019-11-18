@@ -92,10 +92,10 @@ namespace StormyCommerce.Module.Customer.Services
         {
             _userManager.Users
                 .Include(u => u.CustomerWishlist)
-                    .ThenInclude(u => u.WishlistItems)
-                        .ThenInclude(u => u.Product)
+                    .ThenInclude(u => u.WishlistItems)                                                
                 .Include(u => u.CustomerReviews)
-                    .ThenInclude(u => u.Product);                
+                    .ThenInclude(u => u.Product)
+                .Load();                
             return _userManager.GetUserAsync(principal);
         }
         public UserManager<StormyCustomer> GetUserManager() => _userManager;

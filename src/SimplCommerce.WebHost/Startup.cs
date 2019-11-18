@@ -70,8 +70,9 @@ namespace SimplCommerce.WebHost
             if(!_hostingEnvironment.IsDevelopment()){
                 services.AddStormyDataStore(_configuration);
             } else {
-                services.AddDbContextPool<StormyDbContext>(options => {
+                services.AddDbContextPool<StormyDbContext>(options => {                    
                     options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                    options.UseLazyLoadingProxies();
                     options.EnableDetailedErrors();
                     options.EnableSensitiveDataLogging();
                 });
