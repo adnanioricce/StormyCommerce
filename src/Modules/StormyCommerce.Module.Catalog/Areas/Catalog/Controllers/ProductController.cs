@@ -105,6 +105,12 @@ namespace StormyCommerce.Module.Catalog.Controllers
 
             return product;
         }
+        [HttpGet("get_number_of_products")]        
+        [AllowAnonymous]
+        public int GetNumberOfProducts()
+        {
+            return _productService.GetNumberOfProducts();
+        }
         #region Post Methods        
 
         [HttpPost("create")]
@@ -122,7 +128,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
                 return BadRequest($"application failed to perform given operation. Given exception:{ex.Message}");
             }
             return Ok();
-        }        
+        }             
         #endregion
         #region Put Methods
         [HttpPut("edit")]
@@ -130,7 +136,8 @@ namespace StormyCommerce.Module.Catalog.Controllers
         [Authorize(Roles.Admin)]
         public async Task<IActionResult> EditProduct([FromBody]EditProductRequest _model)
         {                        
-            try{
+            try
+            {
                 var entry = await _productService.GetProductByIdAsync(_model.Id);
                 var product = _mapper.Map<EditProductRequest,StormyProduct>(_model,entry);
                 await _productService.UpdateProductAsync(product);

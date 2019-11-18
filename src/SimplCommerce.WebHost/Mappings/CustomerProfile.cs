@@ -19,6 +19,8 @@ namespace StormyCommerce.WebHost.Mappings
             CreateMap<CreateCustomerRequest, StormyCustomer>();
             CreateMap<EditCustomerRequest, StormyCustomer>()
                 .ForAllMembers(opt => opt.Condition((src,dest,srcMember) => srcMember != null));
+            CreateMap<EditCustomerAddressRequest,CustomerAddress>();
+            CreateMap<CreateShippingAddressRequest,CustomerAddress>();            
         }
     }
 }

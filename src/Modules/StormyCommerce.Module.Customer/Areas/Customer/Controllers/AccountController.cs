@@ -62,7 +62,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         [Authorize(Roles.Customer)]
         [ValidateModel]
         //TODO:Duplicated Logic, too much ifs, refactor this
-        public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddress model)
+        public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddressRequest model)
         {
             var user = await GetCurrentUser();
             if (!model.IsBillingAddress)

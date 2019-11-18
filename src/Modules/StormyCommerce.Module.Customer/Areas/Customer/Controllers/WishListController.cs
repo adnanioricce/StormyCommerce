@@ -36,16 +36,19 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
             if(!(await _userIdentityService.IsEmailConfirmedAsync(user))) 
                 return BadRequest(Result.Fail("the user needs to confirm your email to perform this operation"));            
-            if(user.CustomerWishlist == null){
-                user.CustomerWishlist = new Wishlist();
-                user.CustomerWishlist.AddItem(productId);
-                user.CustomerWishlist.Customer = user;                
-                await _userIdentityService.EditUserAsync(user);
-                return Ok(Result.Ok("item added to wishlist"));
-            }            
+                
+            // if(user.CustomerWishlist == null){
+            //     user.CustomerWishlist = new Wishlist();
+            //     user.CustomerWishlist.AddItem(productId);
+            //     user.CustomerWishlist.Customer = user;                
+            //     var result = await _userIdentityService.EditUserAsync(user);
+            //     if(!result.Success) return BadRequest(result);
+            //     return Ok(Result.Ok(result));
+            // }            
             user.CustomerWishlist.AddItem(productId);
-            await _userIdentityService.EditUserAsync(user);            
-            return Ok(Result.Ok("item added to wishlist"));
+            var response = await _userIdentityService.EditUserAsync(user);            
+            if(!response.Success) return BadRequest(response);
+            return Ok(Result.Ok(response));
         }
         [HttpPost("remove_item")]
         [Authorize(Roles.Customer)]
