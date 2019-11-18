@@ -142,8 +142,9 @@ namespace StormyCommerce.Module.Customer.Services
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Iat,value: DateTimeOffset.UtcNow.ToString("yyyy-MM-dd")),
             };
-            var userRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
-            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
+            var userRoles = user.Roles;
+            
+            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role.Name)));
             return claims;
         }
         public Task<string> GeneratePasswordResetTokenAsync(StormyCustomer user)
