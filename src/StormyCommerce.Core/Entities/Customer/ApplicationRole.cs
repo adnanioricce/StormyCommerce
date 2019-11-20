@@ -3,16 +3,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace StormyCommerce.Core.Entities.Customer
 {
-    public class ApplicationRole : IdentityRole<string>,IEntityWithBaseTypeId<string>
+    public class ApplicationRole : IdentityRole,IEntityWithBaseTypeId<string>
     {
-        public ApplicationRole()
-        {
-
-        }
-        public ApplicationRole(string roleName) : base(roleName)
-        {
-
-        }
-        //public IList<UserRole> Users { get; set; } = new List<UserRole>
+        public ApplicationRole(string roleName) : base(roleName){}
+        public ApplicationRole(){}        
     }
 }

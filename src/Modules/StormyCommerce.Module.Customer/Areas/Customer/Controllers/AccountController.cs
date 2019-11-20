@@ -40,9 +40,8 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             if (appUser == null) return BadRequest("user with given email not found");            
             var result = await _identityService.ConfirmEmailAsync(appUser,code);
             if(!result.Succeeded) return BadRequest();                              
-            await _identityService.AssignUserToRole(appUser, Roles.Customer);
-            await _identityService.EditUserAsync(appUser);            
-            return Ok(new { Message = $"Email confirmation performed With Success at {DateTimeOffset.UtcNow}" });            
+            await _identityService.AssignUserToRole(appUser, Roles.Customer);                      
+            return Ok(Result.Ok($"Email confirmation performed With Success at {DateTimeOffset.UtcNow}"));            
         }
 
         [HttpPost("reset_password")]

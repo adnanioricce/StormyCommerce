@@ -14,6 +14,7 @@ using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
 using System;
+using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -58,7 +59,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 
             _logger.LogInformation("user logged in with success");
 
-            var claims = await _identityService.BuildClaims(user);//TODO:Replace this with a extension method
+            var claims = _identityService.BuildClaims(user);//TODO:Replace this with a extension method
             var token = new AuthResponse{ 
                 AccessToken = _tokenService.GenerateAccessToken(claims),
                 RefreshToken = _tokenService.GenerateRefreshToken(),
@@ -87,18 +88,15 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             var result = await _identityService.CreateUserAsync(new StormyCustomer
             {                
                 UserName = signUpVm.UserName,
-                Email = signUpVm.Email,
-                Roles = new System.Collections.Generic.List<ApplicationRole>
-                {
-                    new ApplicationRole(Roles.Guest)
-                }
-            }, signUpVm.Password);            
+                Email = signUpVm.Email,                            
+                
+            }, signUpVm.Password);    
+                   
             if (!result.Succeeded) return BadRequest("Don't was possible to create user");
 
-            var appUser = _identityService.GetUserByEmail(signUpVm.Email);
-
+            var appUser = _identityService.GetUserByEmail(signUpVm.Email);            
             if (appUser == null) _logger.LogError($"User is null when tried to get user after create operation on {nameof(RegisterAsync)},at {DateTimeOffset.UtcNow}");
-
+            await _identityService.AssignUserToRole(appUser,Roles.Guest); 
             var verificationCode = await _identityService.CreateEmailConfirmationCode(appUser);
 
             if (verificationCode == null) _logger.LogError($"verification code is null on {nameof(RegisterAsync)},at {DateTimeOffset.UtcNow}");
@@ -129,7 +127,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             var verifyRefreshTokenResult = _identityService.VerifyHashPassword(user, user.RefreshTokenHash, model.RefreshToken);
             if(verifyRefreshTokenResult == PasswordVerificationResult.Success)
             {
-                var claims = await _identityService.BuildClaims(user);
+                var claims = _identityService.BuildClaims(user);
                 var newToken = _tokenService.GenerateAccessToken(claims);
                 return Ok(new { token = newToken });
             }
