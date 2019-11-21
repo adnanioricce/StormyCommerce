@@ -100,7 +100,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             return NoContent();
         }        
 
-        private async Task<Shipment> CreateShipment(Dictionary<long,StormyProduct> products,BoletoCheckoutRequest requestModel)
+        private Shipment CreateShipment(Dictionary<long,StormyProduct> products,BoletoCheckoutRequest requestModel)
         {
             
             double weight = requestModel.Items.Sum(it => products.GetValueOrDefault(it.ProductId).UnitWeight * it.Quantity);

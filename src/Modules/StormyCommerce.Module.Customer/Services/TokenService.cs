@@ -37,12 +37,16 @@ namespace StormyCommerce.Module.Customer.Services
         }
 
         public string GenerateRefreshToken()
-        {
+        {            
             var randomNumber = new byte[32];
+            string token = "";
             using (var rng = RandomNumberGenerator.Create()){
                 rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
+                token = Convert.ToBase64String(randomNumber);
             }
+            return token.Replace("+",string.Empty)
+                .Replace("=",string.Empty)
+                .Replace("/",string.Empty);
         }
 
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)

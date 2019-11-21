@@ -32,15 +32,35 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                     .IsUnique(false);
                 entity.Property(prop => prop.FullName).HasMaxLength(450);
                 entity.Property(prop => prop.CPF).HasMaxLength(9);
-                entity.Property(prop => prop.Email).IsRequired();
-                // entity.Property(prop => prop.Phone)
-                // .HasColumnType("VARCHAR(16)")
-                // .HasColumnName("Phone")
-                // .HasConversion(p => string.Format($"{p.DDI}{p.DD}{p.Number}"),p => p.ToString);
+                entity.Property(prop => prop.Email).IsRequired();                
                 entity.Ignore(customer => customer.Addresses);
+
+                //Identity Mapping               
+                // Each User can have many entries in the UserRole join table
+                // entity.HasMany(e => e.UserRoles)
+                //     .WithOne(e => e.User)
+                //     .HasForeignKey(ur => ur.UserId)
+                //     .IsRequired();
+                entity.HasOne(prop => prop.Role)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
             });                       
-            modelBuilder.Entity<ApplicationRole>();
-            
+            modelBuilder.Entity<ApplicationRole>(entity => {
+                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
+                // entity.HasMany(e => e.UserRoles)
+                // .WithOne(e => e.Role)
+                // .HasForeignKey(ur => ur.RoleId)
+                // .IsRequired();
+                // entity.HasMany<ApplicationUserRole>().WithOne().HasForeignKey(ur => ur.RoleId).IsRequired();
+
+                // Each Role can have many associated RoleClaims
+                // b.HasMany<TRoleClaim>().WithOne().HasForeignKey(rc => rc.RoleId).IsRequired();
+            });            
+            // modelBuilder.Entity<ApplicationUserRole>(entity => {                
+            //     entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
+            //     entity.HasKey(e => new {e.UserId,e.Id});
+            // });
             
         }
     }

@@ -23,7 +23,14 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             _productRepository = productRepository;            
             _productCategoryRepository = productCategoryRepository;
-            
+            _productRepository.Table
+                .Include(prop => prop.Categories)
+                    .ThenInclude(prop => prop.Category)
+                .Include(prop => prop.Medias)
+                    .ThenInclude(productMedia => productMedia.Media)
+                .Include(prop => prop.Brand)
+                .Include(prop => prop.Vendor)
+                .Load();
         }
         #region Read Methods
         //TODO:write failing test cases
@@ -38,20 +45,14 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             return await _productRepository
                 .Table
+                .OrderBy(p => p.Id)
                 .Take(limit)
                 .ToListAsync();
         }
         
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 1, long endIndex = 15)
-        {
-            //TODO:change this to a SQL query
-            return await _productRepository.Table
-                .Include(prop => prop.Categories)  
-                    .ThenInclude(prop => prop.Category)                  
-                .Include(prop => prop.Medias)
-                    .ThenInclude(productMedia => productMedia.Media)
-                .Include(prop => prop.Brand)
-                .Include(prop => prop.Vendor)
+        {            
+            return await _productRepository.Table                
                 .Where(product => product.Id <= endIndex && product.Id >= startIndex)                
                 .ToListAsync();
         }
@@ -69,7 +70,10 @@ namespace StormyCommerce.Core.Services.Catalog
                 .ToListAsync();
             //.Include(product => product.)
         }
-
+        public int GetNumberOfProducts()
+        {
+            return _productRepository.Table.Count();
+        }
         public int GetNumberOfProductsByVendorId(int vendorId)
         {
             return _productRepository.Table.Where(f => f.VendorId == vendorId).Count();

@@ -30,28 +30,14 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         {            
             _identityService = identityService;
             _mapper = mapper;
-        }        
-        [HttpPost("address/create")]
-        [ValidateModel]
-        public async Task<IActionResult> AddAddressAsync([FromBody]CustomerAddress address)
-        {            
-            var customer = await GetCurrentCustomer();                                           
-            return Ok();
-        }        
+        }                   
         [HttpGet("list")]
         [Authorize(Roles.Admin)]
         [ValidateModel]
         public IList<StormyCustomer> GetCustomersAsync()
         {
             return _identityService.GetUserManager().Users.ToList();
-        }                      
-        [HttpPost("add_wishlistitem")]     
-        [ValidateModel]
-        public async Task<IActionResult> AddItemToWishList(long productId)
-        {
-            var customer = await GetCurrentCustomer();            
-            return Ok();
-        }        
+        }                                    
         private async Task<StormyCustomer> GetCurrentCustomer()
         {
             return await _identityService.GetUserByClaimPrincipal(User);                       

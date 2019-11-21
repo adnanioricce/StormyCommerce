@@ -40,11 +40,11 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             if (appUser == null) return BadRequest("user with given email not found");            
             var result = await _identityService.ConfirmEmailAsync(appUser,code);
             if(!result.Succeeded) return BadRequest();                              
-            await _identityService.AssignUserToRole(appUser, Roles.Customer);
-            await _identityService.EditUserAsync(appUser);            
-            return Ok(new { Message = $"Email confirmation performed With Success at {DateTimeOffset.UtcNow}" });            
+            await _identityService.AssignUserToRole(appUser, Roles.Customer);                      
+            return Ok(Result.Ok($"Email confirmation performed With Success at {DateTimeOffset.UtcNow}"));            
         }
-        [HttpPost("ResetPassword")]
+
+        [HttpPost("reset_password")]
         [ValidateModel]
         public async Task<IActionResult> ResetPasswordAsync(ResetPasswordViewModel model)
         {
@@ -60,32 +60,89 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         [HttpPost("add_shipping_address")]
         [Authorize(Roles.Customer)]
         [ValidateModel]
-        public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddress model)
+        //TODO:Duplicated Logic, too much ifs, refactor this
+        public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddressRequest model)
         {
             var user = await GetCurrentUser();
-            if (user.DefaultShippingAddress == null) {
-                user.DefaultShippingAddress = new CustomerAddress
+            if (!model.IsBillingAddress)
+            {
+                if (user.DefaultShippingAddress == null)
+                {
+                    user.DefaultShippingAddress = new CustomerAddress
+                    {
+                        Address = model.Address,
+                        Owner = user,
+                        WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
+                    };
+                    var result = await _identityService.EditUserAsync(user);
+                    if (!result.Success) return BadRequest(result);
+                    return Ok(new
+                    {
+                        message = "address added with success",
+                        result = result
+                    });
+                }
+                user.DefaultShippingAddress.Address = model.Address;
+                await _identityService.EditUserAsync(user);
+                return Ok(Result.Ok("address updated with success"));
+            }
+            if(user.DefaultBillingAddress == null)
+            {
+                user.DefaultBillingAddress = new CustomerAddress
                 {
                     Address = model.Address,
                     Owner = user,
                     WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
                 };
-                await _identityService.EditUserAsync(user);
-                return Ok(Result.Ok("address added with success"));
+                var result = await _identityService.EditUserAsync(user);
+                if (!result.Success) return BadRequest(result);
+                return Ok(new
+                {
+                    message = "address added with success",
+                    result = result
+                });                
             }
-            user.DefaultShippingAddress.Address = model.Address;
+            user.DefaultBillingAddress.Address = model.Address;
             await _identityService.EditUserAsync(user);
-            return Ok(Result.Ok("address updated with success"));                   
+            return Ok(Result.Ok("address updated with success"));
+        }                
+        [HttpPut("edit_account")]
+        [Authorize(Roles.Customer)]
+        [ValidateModel]
+        public async Task<IActionResult> EditAccount([FromBody]EditCustomerRequest request)
+        {
+            var currentUser = await this.GetCurrentUser();
+            _mapper.Map<EditCustomerRequest, StormyCustomer>(request,currentUser);
+            var result = await _identityService.EditUserAsync(currentUser);
+            if (!result.Success) return BadRequest(result);
+            return Ok(result);
         }
+        [HttpPut("edit_shipping_address")]
+        [Authorize(Roles.Customer)]
+        [ValidateModel]
+        public async Task<IActionResult> EditAddress([FromBody]EditCustomerAddressRequest request) 
+        {
+            var currentUser = await this.GetCurrentUser();
+            _mapper.Map<EditCustomerAddressRequest, CustomerAddress>(request, currentUser.DefaultShippingAddress);
+            var result = await _identityService.EditUserAsync(currentUser);
+            if (!result.Success) return BadRequest(result);
+            return Ok(new
+            {
+                message = "shipping address edited with success",
+                result = result
+            });
+        }
+        
         [HttpGet("get_current_user")]
         [Authorize(Roles.Customer)]
         public async Task<CustomerDto> GetCurrentCustomer()
         {            
             return _mapper.Map<StormyCustomer,CustomerDto>(await GetCurrentUser());
         }          
-        private async Task<StormyCustomer> GetCurrentUser()
+        private Task<StormyCustomer> GetCurrentUser()
         {
-            return await _identityService.GetUserByClaimPrincipal(User);
+            return _identityService.GetUserByClaimPrincipal(User);
         }
+
     }
 }

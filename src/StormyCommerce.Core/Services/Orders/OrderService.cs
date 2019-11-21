@@ -29,11 +29,7 @@ namespace StormyCommerce.Core.Services.Orders
             _orderHistoryRepository = orderHistoryRepository;
             _shippingService = shippingService;
             // _orderRepository.
-        }
-        public async Task<StormyOrder> PrepareOrder(OrderDto order)
-        {
-            throw new NotImplementedException();
-        }
+        }        
         public async Task<Result<OrderDto>> CancelOrderAsync(long id)
         {
             var order = await _orderRepository.GetByIdAsync(id);

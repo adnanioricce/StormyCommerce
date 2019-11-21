@@ -40,14 +40,14 @@ namespace SimplCommerce.WebHost
             configBuilder.AddEntityFrameworkConfig(options => {
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
-                if (!env.IsDevelopment())
-                {
-                    options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
-                }
-                else
-                {                    
+                //if (!env.IsDevelopment())
+                //{
+                //    options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
+                //}
+                //else
+                //{                    
                     options.UseSqlite("DataSource=config.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                       
-                }
+                //}
 
                 }
             );

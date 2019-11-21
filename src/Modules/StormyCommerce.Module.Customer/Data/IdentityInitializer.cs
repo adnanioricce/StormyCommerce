@@ -4,6 +4,7 @@ using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Module.Customer.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StormyCommerce.Module.Customer.Data
 {
@@ -45,30 +46,34 @@ namespace StormyCommerce.Module.Customer.Data
                 var resultado = _roleManager.CreateAsync(new ApplicationRole(Roles.Customer)).Result;
                 if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Customer}");
             }
-
-            CreateUser(
-                //TODO: actually, I think is not secure to initialize this here...
-                new StormyCustomer()
+            var adminUser = new StormyCustomer()
                 {
                     UserName = "stormyadmin",
                     Email = "stormycommerce@gmail.com",
-                    EmailConfirmed = true,
-                    Roles = new List<ApplicationRole>()
-                    {
-                        new ApplicationRole(Roles.Admin)
-                    },
+                    EmailConfirmed = true                    
                     
-                }, "!D4vpassword",Roles.Admin);                
+                                
+                    
+                };
+                // adminUser
+                // .UserRoles
+                // .Add(new ApplicationUserRole{
+                //             RoleId = _roleManager.Roles.FirstOrDefault(r => string.Equals(r.Name,Roles.Admin,StringComparison.CurrentCultureIgnoreCase)).Id,
+                //             User = adminUser                            
+                //         });
+            // _userManager.addto
+            CreateUser(adminUser
+                //TODO: actually, I think is not secure to initialize this here...
+                , "!D4vpassword",Roles.Admin);                
             CreateUser(
                 //TODO: actually, I think is not secure to initialize this here...
                 new StormyCustomer()
                 {
                     UserName = "stormydev",
                     Email = "adnangonzaga@gmail.com",
-                    EmailConfirmed = true,
-                    Roles = new List<ApplicationRole>{
-                        new ApplicationRole(Roles.Customer) 
-                    },
+                    EmailConfirmed = true                                            
+                    
+                    ,
                     DefaultBillingAddress = new CustomerAddress
                     {
                         Address = new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")
@@ -94,8 +99,12 @@ namespace StormyCommerce.Module.Customer.Data
         {
             if (_userManager.FindByNameAsync(user.UserName).Result == null)
             {
-                var resultado = _userManager
-                    .CreateAsync(user, password).Result;                
+                var resultado = _userManager.CreateAsync(user, password).Result;                
+                if(resultado.Succeeded){                                                                                 
+                    user.Role = _roleManager.Roles.FirstOrDefault(r => string.Equals(r.Name,initialRole));
+                    var result = _userManager.UpdateAsync(user).Result;
+                    // var result = _userManager.AddToRoleAsync(user,Roles.Admin).Result;
+                }
             }
         }
     }

@@ -65,7 +65,7 @@ namespace StormyCommerce.Module.Customer.Extensions
         }
         public async Task<StormyCustomer> GetCurrentCustomer()
         {
-            throw new NotImplementedException();
+            return await _userIdentityService.GetUserByClaimPrincipal(_httpContext.User);
         }
 
         private Guid? GetUserGuidFromCookies()
