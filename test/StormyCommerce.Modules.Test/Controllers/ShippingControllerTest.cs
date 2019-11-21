@@ -10,48 +10,41 @@ using Xunit.Abstractions;
 using StormyCommerce.Module.Orders.Area.Models;
 using System.Linq;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
+using StormyCommerce.Module.Orders.Services;
+using StormyCommerce.Core.Interfaces.Domain.Shipping;
+using AutoMapper;
+using StormyCommerce.Module.Orders.Area.Controllers;
 
 namespace StormyCommerce.Modules.Test.Controllers
 {
-    public class ShippingControllerTest : IClassFixture<CustomWebApplicationFactory>
+    public class ShippingControllerTest : IClassFixture<Startup>
     {
-        private readonly HttpClient _client;
-        private readonly ITestOutputHelper _output;
-        public ShippingControllerTest(CustomWebApplicationFactory factory,ITestOutputHelper output)
-        {
-            _client = factory.WithWebHostBuilder(builder => 
-            {
-                builder.UseSolutionRelativeContentRoot("src/SimplCommerce.WebHost");
-            }).CreateClient();
-            _output = output;
+        private readonly ShippingController _controller;
+        public ShippingControllerTest(CorreiosService correiosService,       
+        IMapper mapper)
+        {            
+            _controller = new ShippingController(correiosService,null,mapper);
         }
         [Fact]
         public async Task CalculateDeliveryCostAsync_WhenReceivesCalculateDeliveryVm_ReturnAllShippingOption()
         {
             //Given
-            var model = new CalcPrecoPrazoModel {
-                nCdEmpresa = "",
-                sDsSenha = "",
-                nCdServico = ServiceCode.Sedex,
-                sCepOrigem = "19190970",
-                sCepDestino = "19570970",
-                nVlPeso = "1",
-                nCdFormato = (int)FormatCode.CaixaOuPacote,
-                nVlComprimento = 15,
-                nVlAltura = 10,
-                nVlLargura = 10,
-                nVlDiametro = 0,
-                sCdMaoPropria = "N",
-                nVlValorDeclarado = 10.0m,
-                sCdAvisoRecebimento = "N"
-            };            
+            var model = new DeliveryCalculationRequest{
+                ServiceCode = "40010",
+                FormatCode = FormatCode.CaixaOuPacote,
+                Height = 3,
+                Width = 16,
+                Length = 11,
+                Diameter = 0,
+                Weight = 0.3m,
+                DestinationPostalCode = "08621030"                
+            };         
             //When
-            var response = await _client.PostAsJsonAsync("api/Shipping/calcdelivery", model);
-            _output.WriteLine($"response status code {response.StatusCode},content: {await response.Content.ReadAsStringAsync()}");
+            var response = await _controller.CalculateDeliveryCost(model);            
             //Then            
-            var result = Assert.IsType<cResultado>(response);                        
-            var serviceCost = result.Servicos.ToList().First();
-            Assert.Equal("26,10",serviceCost.Valor);
+            var result = Assert.IsType<DeliveryCalculationResponse>(response.Value);                        
+            var serviceCost = response.Value.FirstOrDefault();
+            Assert.Equal("26,10",serviceCost.Price);
         }
     }
 }
