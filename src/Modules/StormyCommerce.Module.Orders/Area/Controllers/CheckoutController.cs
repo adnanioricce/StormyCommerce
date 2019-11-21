@@ -75,9 +75,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                     Parameter:{error.Parameter},
                     Message:{error.Message}";
                     Console.WriteLine(exceptionStr);                    
-                }          
-                // ex.Error      
-                // return Result<PagarMeError>(ex.Error,ex.Error.Errors);
+                }                          
                 return BadRequest(Result.Fail("transaction failed",exceptionStr));
             }
             string boletoUrl = transaction.BoletoUrl;
@@ -88,7 +86,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 PaymentMethod = request.PaymentMethod,
                 PaymentFee = transaction.Cost,
                 PaymentStatus = transaction.Status == TransactionStatus.WaitingPayment || transaction.Status == TransactionStatus.Authorized ? PaymentStatus.Pending : PaymentStatus.Failed,
-                // FailureMessage                   
+                              
             };
             
             return Ok(Result.Ok("transaction performed with success"));

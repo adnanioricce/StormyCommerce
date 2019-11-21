@@ -178,8 +178,7 @@ namespace SimplCommerce.WebHost
             {
                 moduleInitializer.Configure(app, env);
             }
-            SeedContext(app);
-            
+            SeedContext(app);            
         }
         private void SeedContext(IApplicationBuilder app)
         {

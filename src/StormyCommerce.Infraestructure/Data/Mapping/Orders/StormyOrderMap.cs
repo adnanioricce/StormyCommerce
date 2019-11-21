@@ -21,7 +21,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
                     .WithOne(prop => prop.Order)
                     .HasForeignKey<Payment>(prop => prop.StormyOrderId);
                 order.HasOne(prop => prop.Shipment)
-                .WithOne(prop => prop.Order)
+                    .WithOne(prop => prop.Order)
                     .HasForeignKey<Shipment>(prop => prop.StormyOrderId);                
                 order.Property(prop => prop.OrderUniqueKey).IsRequired();                
                 order.Property(prop => prop.Note).HasMaxLength(1000);                 

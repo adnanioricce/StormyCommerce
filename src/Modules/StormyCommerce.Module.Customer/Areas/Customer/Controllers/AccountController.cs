@@ -23,11 +23,16 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     public class AccountController : Controller
     {
         private readonly IUserIdentityService _identityService;          
+        private readonly IEmailSender _emailSender;
         private readonly IAppLogger<AuthenticationController> _logger;
         private readonly IMapper _mapper;
-        public AccountController(IUserIdentityService identityService,IAppLogger<AuthenticationController> logger,IMapper mapper)
+        public AccountController(IUserIdentityService identityService,
+        IEmailSender emailSender,
+        IAppLogger<AuthenticationController> logger,        
+        IMapper mapper)
         {
             _identityService = identityService;                    
+            _emailSender = emailSender;
             _logger = logger;
             _mapper = mapper;
         }
@@ -132,7 +137,20 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                 result = result
             });
         }
-        
+        [HttpPost("resend_confirm_email")]
+        [Authorize(Roles.Guest)]
+        [ProducesDefaultResponseType(typeof(Result))]
+        public async Task<IActionResult> ResendConfirmationEmail()
+        {
+            var user = await GetCurrentUser();
+            var code = _identityService.CreateEmailConfirmationCode(user);
+            var callbackUrl = Url.Action("ConfirmEmailAsync", "Account", 
+            new { userId = user.Id, code = code },
+             protocol: HttpContext.Request.Scheme);            
+            await _emailSender.SendEmailAsync(user.Email, "Reset Password",
+                $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");    
+            return Ok(Result.Ok($"confirmation email was sended to {user.Email} at {DateTime.UtcNow}"));
+        }
         [HttpGet("get_current_user")]
         [Authorize(Roles.Customer)]
         public async Task<CustomerDto> GetCurrentCustomer()
