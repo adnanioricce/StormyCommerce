@@ -1,19 +1,28 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web.ModelBinders;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.Infraestructure.Data.Stores;
 using StormyCommerce.Infraestructure.Logging;
+using StormyCommerce.Infraestructure.Models;
+using StormyCommerce.Module.Customer;
 using StormyCommerce.WebHost.Mappings;
 using System;
 using System.Collections.Generic;
@@ -22,6 +31,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SimplCommerce.WebHost.Extensions
@@ -211,9 +221,74 @@ namespace SimplCommerce.WebHost.Extensions
                 }
             }
         }
-        public static void AddSampleData(this StormyDbContext dbContext)
-        {
-            
+        public static void AddCustomizedIdentity(this IServiceCollection services){
+            services.AddIdentity<StormyCustomer, ApplicationRole>()
+                .AddEntityFrameworkStores<StormyDbContext>()
+                .AddUserStore<StormyUserStore>()
+                .AddRoles<ApplicationRole>()                
+                .AddDefaultTokenProviders();
+
+            services.AddTransient<StormyUserStore>();
+            var tokenConfigurations = new TokenConfigurations();
+            new ConfigureFromConfigurationOptions<TokenConfigurations>(
+                Container.Configuration.GetSection("Jwt"))
+                    .Configure(tokenConfigurations);
+            services.Configure<IdentityOptions>(options =>
+            {
+                //Default Lockout settings
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+                // Default Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+                //User Settings
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+                //Sign In Settings
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+            });
+            services.Configure<AuthMessageSenderOptions>(Container.Configuration);
+            services.AddAuthentication(options => options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        //TODO: you probably don't need of theses classes:SigningConfigurations and TokenConfigurations
+                        ValidateIssuer = true,
+                        ValidIssuer = Container.Configuration["Authentication:Jwt:Issuer"],
+                        ValidateAudience = false,
+                        ValidAudience = "Anyone",
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Authentication:Jwt:Key"])),
+                        RequireExpirationTime = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                    };
+                });
+            services.AddAuthorization(auth =>
+            {
+                //auth.AddPolicy("Admin", policy => {
+                //    policy.RequireClaim(Roles.Admin);
+                //    policy.RequireRole(Roles.Admin);
+
+                //    });
+                auth.AddPolicy("Customer",new AuthorizationPolicyBuilder()
+                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                .RequireAuthenticatedUser()
+                .Build());
+                auth.AddPolicy("Admin", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build());
+                auth.AddPolicy("Guest",policy => policy.RequireClaim("Role"));
+            });            
         }
         private static void RegisterModuleInitializerServices(ModuleInfo module, ref IServiceCollection services)
         {

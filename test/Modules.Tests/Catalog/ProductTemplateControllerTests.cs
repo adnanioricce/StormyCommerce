@@ -1,4 +1,4 @@
-﻿namespace StormyCommerce.Modules.Test.Area.Controllers
+﻿namespace Modules.Tests
 {
     public class ProductTemplateControllerTests
     {

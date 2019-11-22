@@ -36,7 +36,7 @@ namespace StormyCommerce.Modules.IntegrationTest.Client
 
         private CatalogClient CreateCatalogClient()
         {
-            return new CatalogClient(_client);
+            return new CatalogClient("http://stormycommerce.com");
         }
 
         [Fact]

@@ -35,7 +35,7 @@ namespace StormyCommerce.Core.Entities.Customer
         public long? CustomerReviewsId { get; set; }
         public virtual List<Review> CustomerReviews { get; set; } = new List<Review>();        
         public long? CustomerWishlistId { get; set; }    
-        public virtual Wishlist CustomerWishlist { get; set; }        
+        public virtual Wishlist CustomerWishlist { get; set; }   
         public string FullName { get; set; }        
         public string RefreshTokenHash { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }                        

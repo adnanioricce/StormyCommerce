@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace StormyCommerce.Modules.IntegrationTest.Controllers
+namespace StormyCommerce.Modules.IntegrationTest.Endpoints
 {
     public class UserIdentityControllerTest : IClassFixture<CustomWebApplicationFactory>
     {        
@@ -43,11 +43,9 @@ namespace StormyCommerce.Modules.IntegrationTest.Controllers
         public async Task Post_LoginAsync_ValidInputData_Return200OkStatusCodeAndCorrectFormatting()
         {
             //Arrange
-            var data = new Dictionary<string,string>{
-               {"username" , "sampleuser"},
-               {"email", "example@email.com"},
-               {"password","!SenhaSuperSegura666"},
-               {"confirmPassword","!SenhaSuperSegura666"},
+            var data = new Dictionary<string,string>{               
+               {"email", "adnangonzaga@gmail.com"},
+               {"password","!D4velopment"}               
             };
             //Act
             await _client.PostAsJsonAsync("api/authentication/register",data);

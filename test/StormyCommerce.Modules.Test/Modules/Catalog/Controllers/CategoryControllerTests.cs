@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Catalog;
+using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Controllers;
@@ -13,16 +14,18 @@ using System.Threading.Tasks;
 using TestHelperLibrary.Utils;
 using Xunit;
 
-namespace Modules.Test
+namespace StormyCommerce.Modules.Tests.Catalog
 {
     public class CategoryControllerTests
     {
         private readonly CategoryController _categoryController;
-        private readonly List<Category> _data = Seeders.CategorySeed(15);
+        private readonly ICategoryService _categoryService;
+        private readonly List<Category> _data = Seeders.CategorySeed(5);
 
-        public CategoryControllerTests()
+        public CategoryControllerTests(ICategoryService categoryService,IMapper mapper,IAppLogger<CategoryController> logger)
         {
-            _categoryController = CreateController();
+            _categoryService = categoryService;
+            _categoryController = new CategoryController(_categoryService,mapper,logger);
         }
 
         private CategoryController CreateController()
@@ -50,7 +53,7 @@ namespace Modules.Test
             var result = await _categoryController.GetAll();
             // Assert
             //TODO: Change to check against a defined length
-            Assert.Equal(15, result.Value.Count);
+            Assert.Equal(60, result.Value.Count);
         }
 
         [Fact]
@@ -70,7 +73,8 @@ namespace Modules.Test
         public async Task CreateCategory_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var category = new Category(Seeders.CategorySeed(1).Last(), 16);
+            var category = _data.FirstOrDefault();
+            category.Id = 0;            
             // Act
             var result = await _categoryController.CreateCategory(category);
             // Assert
@@ -80,10 +84,9 @@ namespace Modules.Test
 
         [Fact]
         public async Task EditCategory_UpdatingExistingEntityWithNewChildrensAndName_ReturnAOkObjectResultIfSuccessful()
-        {
-            var repository = RepositoryHelper.GetRepository<Category>();
+        {            
             // Arrange
-            var category = _data.Find(c => c.Id == 1);              
+            var category = _data.FirstOrDefault();              
             category.Name += " Updated";
             // Act
             var result = await _categoryController.EditCategory(category);

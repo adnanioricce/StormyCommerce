@@ -55,21 +55,16 @@ namespace StormyCommerce.Module.Catalog.Controllers
         }
 
         [HttpPost("create")]
-        [Authorize("Admin")]
+        [Authorize(Roles.Admin)]
         [ValidateModel]
         public async Task<IActionResult> CreateCategory(Category category)
-        {
-            //TODO:Add validations
-            //TODO:Add Generic Response Type
-            HttpContext.Request.Headers.ToList().ForEach(h => {
-                _logger.LogInformation($"key:{h.Key},value:{h.Value}");
-            });
+        {                        
             await _categoryService.AddAsync(category);
             return Ok("Category Created");
         }
 
         [HttpPut("edit")]
-        [Authorize(Policy = Roles.Admin)]
+        [Authorize(Roles.Admin)]
         [ValidateModel]
         public async Task<IActionResult> EditCategory(Category category)
         {
