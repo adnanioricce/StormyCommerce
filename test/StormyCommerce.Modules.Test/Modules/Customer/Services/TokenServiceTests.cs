@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Module.Customer.Services;
 using System;
@@ -15,10 +16,14 @@ namespace StormyCommerce.Modules.Tests
     {
         private readonly ITokenService service;
         private readonly UserManager<StormyCustomer> userManager;
-        public TokenServiceTests(ITokenService _service, UserManager<StormyCustomer> userManager)
+        public TokenServiceTests(ITokenService _service, UserManager<StormyCustomer> userManager,IConfiguration configuration)
         {
             service = _service;
             this.userManager = userManager;
+            Container.Configuration = configuration;
+            Container.Configuration["Authentication:Jwt:Issuer"] = "TestSimplCommerce";
+            Container.Configuration["Authentication:Jwt:Key"] = "veryVerySecretKey";
+            Container.Configuration["Authentication:Jwt:AccessTokenDurationInMinutes"] = "1";
         }
         [Fact]
         public void GenerateAccessToken_StateUnderTest_ExpectedBehavior()
@@ -26,7 +31,7 @@ namespace StormyCommerce.Modules.Tests
             // Arrange                      
             IEnumerable<Claim> claims = IdentityTestUtils.GetClaims(this.userManager.GetTestCustomer());
 
-            // Act
+            // Act            
             var result = service.GenerateAccessToken(claims);
 
             // Assert

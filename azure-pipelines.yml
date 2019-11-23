@@ -79,18 +79,12 @@ jobs:
       zipAfterPublish: True
   - script: dotnet build src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj 
   - task: PublishBuildArtifacts@1
-  displayName: 'publish artifacts'
-- job: Docker Build
-  pool:
-    vmImage: 'Ubuntu 16.04'
-  variables:
-    imageName: 'stormycommerce'
-  steps:
+    displayName: 'publish artifacts'
   - task: Docker@2
-  displayName: Build and Push
-  inputs:
-    command: buildAndPush
-    repository: adnanioricce/$(imageName)
-    tags: |
-      CI      
+    inputs:
+      repository: 'adnanioricce/stormycommerce'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+      buildContext: '.'
+  
 
