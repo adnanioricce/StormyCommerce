@@ -81,6 +81,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     displayName: 'publish artifacts'
   - task: Docker@2  
+    displayName: 'build and push docker image'
     inputs:
         repository: '$(dockerId)/$(imageName)'
         command: 'buildAndPush'
