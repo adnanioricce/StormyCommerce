@@ -22,7 +22,9 @@ namespace StormyCommerce.Core.Entities.Customer
             UserName = customerDto.UserName;
             FullName = customerDto.FullName;
             DefaultBillingAddress = customerDto.DefaultBillingAddress;
-            DefaultShippingAddress = customerDto.DefaultShippingAddress;            
+            DefaultShippingAddress = customerDto.DefaultShippingAddress;         
+            
+               
         }                
         public string CPF { get; set; }             
         public virtual List<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();
@@ -33,11 +35,11 @@ namespace StormyCommerce.Core.Entities.Customer
         public long? CustomerReviewsId { get; set; }
         public virtual List<Review> CustomerReviews { get; set; } = new List<Review>();        
         public long? CustomerWishlistId { get; set; }    
-        public virtual Wishlist CustomerWishlist { get; set; }        
+        public virtual Wishlist CustomerWishlist { get; set; }   
         public string FullName { get; set; }        
         public string RefreshTokenHash { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }                        
-        public virtual List<ApplicationRole> Roles { get; set; }
+        public virtual ApplicationRole Role { get; set; } 
         public DateTimeOffset CreatedOn { get; set; }              
     }
 }

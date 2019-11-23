@@ -21,13 +21,16 @@ namespace StormyCommerce.Module.Customer.Services
     {
         private readonly SignInManager<StormyCustomer> _signInManager;
         private readonly UserManager<StormyCustomer> _userManager;       
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly StormyUserStore _userStore;        
         public UserIdentityService(SignInManager<StormyCustomer> signInManager,
             UserManager<StormyCustomer> identityRepository,
+            RoleManager<ApplicationRole> roleManager,
             StormyUserStore userStore)
         {
             _signInManager = signInManager;
             _userManager = identityRepository;     
+            _roleManager = roleManager;
             _userStore = userStore;
             _userManager.Users                
                 .Include(u => u.CustomerWishlist)
@@ -37,6 +40,7 @@ namespace StormyCommerce.Module.Customer.Services
                 .Include(u => u.DefaultBillingAddress)
                 .Include(u => u.DefaultShippingAddress)                
                 .Load();
+            _roleManager.Roles.Load();            
         }
 
         public async Task<IdentityResult> CreateUserAsync(StormyCustomer user, string password)
@@ -92,10 +96,10 @@ namespace StormyCommerce.Module.Customer.Services
         {
             _userManager.Users
                 .Include(u => u.CustomerWishlist)
-                    .ThenInclude(u => u.WishlistItems)
-                        .ThenInclude(u => u.Product)
+                    .ThenInclude(u => u.WishlistItems)                                                
                 .Include(u => u.CustomerReviews)
-                    .ThenInclude(u => u.Product);                
+                    .ThenInclude(u => u.Product)
+                .Load();                
             return _userManager.GetUserAsync(principal);
         }
         public UserManager<StormyCustomer> GetUserManager() => _userManager;
@@ -114,9 +118,7 @@ namespace StormyCommerce.Module.Customer.Services
             var identityResult = await _userManager.UpdateAsync(customer).ConfigureAwait(true);
             if (identityResult.Errors.Any())
             {
-                var strBuilder = new StringBuilder();
-                identityResult.Errors.ToList().ForEach(e => strBuilder.AppendLine($"Code:{e.Code},Description{e.Description}"));
-                return Result.Fail(strBuilder.ToString());
+                return CreateErrorMessage(identityResult);
             }
             return Result.Ok();
         }
@@ -133,7 +135,7 @@ namespace StormyCommerce.Module.Customer.Services
             return Task.FromResult(_signInManager.SignOutAsync());
         }
 
-        public async Task<IEnumerable<Claim>> BuildClaims(StormyCustomer user)
+        public IEnumerable<Claim> BuildClaims(StormyCustomer user)
         {
             if (user == null) throw new ArgumentNullException($"Given user object was null, check the stack trace");
             var claims = new List<Claim>
@@ -141,9 +143,10 @@ namespace StormyCommerce.Module.Customer.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Iat,value: DateTimeOffset.UtcNow.ToString("yyyy-MM-dd")),
-            };
-            var userRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
-            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
+            };            
+            
+            // claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role.Role.Name)));
+            claims.Add(new Claim(ClaimTypes.Role,user.Role.Name));
             return claims;
         }
         public Task<string> GeneratePasswordResetTokenAsync(StormyCustomer user)
@@ -155,9 +158,16 @@ namespace StormyCommerce.Module.Customer.Services
             return _userManager.IsEmailConfirmedAsync(user);
         }
 
-        public Task<IdentityResult> AssignUserToRole(StormyCustomer user, string roleName)
+        public async Task<Result> AssignUserToRole(StormyCustomer user, string roleName)
         {
-            return _userManager.AddToRoleAsync(user, roleName);
+            user.Role = _roleManager.Roles.Where(r => string.Equals(r.Name,roleName,StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            return await this.EditUserAsync(user);
+        }
+        private Result CreateErrorMessage(IdentityResult result)
+        {
+                var strBuilder = new StringBuilder();
+                result.Errors.ToList().ForEach(e => strBuilder.AppendLine($"Code:{e.Code},Description{e.Description}"));
+                return Result.Fail(strBuilder.ToString());
         }
     }
 }

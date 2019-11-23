@@ -12,7 +12,7 @@ namespace StormyCommerce.Infraestructure.Interfaces
         Task<IdentityResult> ConfirmEmailAsync(StormyCustomer user,string code);
         Task<IdentityResult> CreateUserAsync(StormyCustomer user, string password);
         Task<IdentityResult> ResetPasswordAsync(StormyCustomer user,string token,string newPassword);
-        Task<IdentityResult> AssignUserToRole(StormyCustomer user,string roleName);
+        Task<Result> AssignUserToRole(StormyCustomer user,string roleName);
         Task<string> GeneratePasswordResetTokenAsync(StormyCustomer user);
         Task<bool> IsEmailConfirmedAsync(StormyCustomer user);
         StormyCustomer GetUserByEmail(string email);
@@ -27,7 +27,7 @@ namespace StormyCommerce.Infraestructure.Interfaces
         //Actually, you will not signout, it's a JWT based authentication
         Task SignOutAsync();
 
-        Task<IEnumerable<Claim>> BuildClaims(StormyCustomer user);
+        IEnumerable<Claim> BuildClaims(StormyCustomer user);
 
         Task<string> CreateEmailConfirmationCode(StormyCustomer user);
         Task<Result> EditUserAsync(StormyCustomer customer);

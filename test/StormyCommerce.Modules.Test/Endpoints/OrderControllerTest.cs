@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace StormyCommerce.Modules.IntegrationTest.Controllers
+namespace StormyCommerce.Modules.IntegrationTest.Endpoints
 {
     public class OrderControllerTest : IClassFixture<CustomWebApplicationFactory>
     {
@@ -27,11 +27,7 @@ namespace StormyCommerce.Modules.IntegrationTest.Controllers
         {
             //Arrange
             var order = Seeders.StormyOrderSeed().First();
-            order.Customer = Seeders.StormyCustomerSeed().First();
-            // order.Items = Seeders.OrderItemSeed();
-            // order.Payment = Seeders.PaymentSeed();
-            order.Shipment = Seeders.ShipmentSeed().First();                        
-            order.Status = Core.Entities.Order.OrderStatus.New;            
+                     
             //Act
             var response = await _client.PostAsJsonAsync("/api/order/create",order);
             //Assert

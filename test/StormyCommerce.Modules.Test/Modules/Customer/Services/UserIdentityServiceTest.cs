@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using TestHelperLibrary.Mocks;
 using Xunit;
 
-namespace Modules.Test.Customers
+namespace StormyCommerce.Modules.Tests.Customer
 {
     public class UserIdentityServiceTest
     {
@@ -20,7 +20,7 @@ namespace Modules.Test.Customers
         {
             _fakeUserManager = new FakeUserManager();
             var fakeSigninManager = new FakeSignInManager();
-            Service = new UserIdentityService(fakeSigninManager, _fakeUserManager,null);
+            Service = new UserIdentityService(fakeSigninManager, _fakeUserManager,null,null);
         }
 
         [Fact]

@@ -26,25 +26,6 @@ jobs:
       testResultsFormat: VSTest
       testResultsFiles: '**/*.trx' 
 
-- job: macOS
-  pool:
-    vmImage: 'macOS-10.13'
-  steps:
-  - task: DotNetCoreInstaller@0
-    inputs:
-      packageType: 'sdk'
-      version: '2.2.401'
-  - script: dotnet build ./SimplCommerce.sln
-    displayName: 'dotnet build'
-  - script: ./run-tests.sh
-    displayName: 'run tests'
-  - task: PublishTestResults@2
-    displayName: 'Publish Test Results **/*.trx'
-    condition: succeededOrFailed()
-    inputs:
-      testResultsFormat: VSTest
-      testResultsFiles: '**/*.trx' 
-
 - job: Windows
   pool:
     vmImage: 'vs2017-win2016'
@@ -98,5 +79,12 @@ jobs:
       zipAfterPublish: True
   - script: dotnet build src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj 
   - task: PublishBuildArtifacts@1
-  displayName: 'publish artifacts'
+    displayName: 'publish artifacts'
+  - task: Docker@2
+    inputs:
+      repository: 'adnanioricce/stormycommerce'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+      buildContext: '.'
+  
 

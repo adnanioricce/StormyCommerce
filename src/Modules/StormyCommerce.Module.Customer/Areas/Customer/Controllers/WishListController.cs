@@ -36,26 +36,22 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
             if(!(await _userIdentityService.IsEmailConfirmedAsync(user))) 
                 return BadRequest(Result.Fail("the user needs to confirm your email to perform this operation"));            
+                
             if(user.CustomerWishlist == null){
-                user.CustomerWishlist = new Wishlist();
-                user.CustomerWishlist.AddItem(productId);
-                user.CustomerWishlist.Customer = user;                
-                await _userIdentityService.EditUserAsync(user);
-                return Ok(Result.Ok("item added to wishlist"));
+                user.CustomerWishlist = new Wishlist();                
+                user.CustomerWishlist.StormyCustomerId = user.Id;                            
             }            
-            user.CustomerWishlist.AddItem(productId);
-            await _userIdentityService.EditUserAsync(user);            
-            return Ok(Result.Ok("item added to wishlist"));
+            if(!user.CustomerWishlist.AddItem(productId)) return BadRequest(Result.Fail("Product alreadly is on wishlist"));
+            var response = await _userIdentityService.EditUserAsync(user);            
+            if(!response.Success) return BadRequest(response);
+            return Ok(Result.Ok(response));
         }
         [HttpPost("remove_item")]
         [Authorize(Roles.Customer)]
         public async Task<IActionResult> RemoveWishListItem(long productId)
         {
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
-            var list = await _wishListRepository.Table.Where(w => string.Equals(w.StormyCustomerId, user.Id)).FirstOrDefaultAsync();
-            if (list == null || list.WishlistItems.Count == 0) return BadRequest(Result.Fail("the user don't have any item on your wishlist"));            
-            list.Remove(productId);
-            await _wishListRepository.UpdateAsync(list);
+            if(!user.CustomerWishlist.Remove(productId)) return BadRequest(Result.Fail("There is no item to remove"));
             return Ok(Result.Ok("item removed from wishlist"));
         }
         [HttpGet("get")]

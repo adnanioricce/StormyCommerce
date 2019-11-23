@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models.Requests;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Controllers;
@@ -13,7 +14,7 @@ using TestHelperLibrary.Mocks;
 using TestHelperLibrary.Utils;
 using Xunit;
 
-namespace StormyCommerce.Modules.Test.Area.Controllers
+namespace StormyCommerce.Modules.Tests.Catalog
 {
     public class ProductControllerTests
     {
@@ -22,18 +23,34 @@ namespace StormyCommerce.Modules.Test.Area.Controllers
 
         private readonly ProductController _productController;
 
-        public ProductControllerTests()
-        {
-            var dbContext = DbContextHelper.GetDbContext();
-            dbContext.AddRange(Seeders.StormyProductSeed(16));
-            dbContext.SaveChanges();
-            _repository = new StormyRepository<StormyProduct>(dbContext);
-            var profile = new CatalogProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(profile));
-            var mapper = configuration.CreateMapper();
-            _productController = new ProductController(ServiceTestFactory.GetProductService(),mapper,null,null);
+        public ProductControllerTests(IProductService productService,IMapper mapper,IAppLogger<ProductController> logger)
+        {            
+            _productController = new ProductController(productService,mapper,null,logger);
         }
-
+        [Theory]
+        [InlineData("Er")]
+        [InlineData("ER")]
+        [InlineData("er")]
+        [InlineData("awesome")]
+        [InlineData("A")]        
+        [InlineData("e a")]
+        public async Task SearchProducts_ReceivesSearchPattern_ShouldReturnAllProductsWithGivenPattern(string searchPattern)
+        {                
+            //When
+            var product = await _productController.SearchProducts(searchPattern);    
+            //Then
+            Assert.True(product.Success);
+            Assert.True(product.Value.All(p => p.ProductName.Contains(searchPattern) ||
+            p.ShortDescription.Contains(searchPattern)));
+        }
+        [Fact]
+        public async Task GetNumberOfProducts_NoInput_ReturnTotalCountOfProductsOnDatabase()
+        {
+            //Act
+            var productsCount = _productController.GetNumberOfProducts();
+            //Assert
+            Assert.Equal(60,productsCount);
+        }
         [Fact]
         public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
         {
