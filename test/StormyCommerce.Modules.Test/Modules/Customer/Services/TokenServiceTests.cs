@@ -1,53 +1,62 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Module.Customer.Services;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using TestHelperLibrary.Extensions;
+using TestHelperLibrary.Utils;
 using Xunit;
 
-namespace StormyCommerce.Modules.Tests.Customer
+namespace StormyCommerce.Modules.Tests
 {
     public class TokenServiceTests
     {
+        private readonly ITokenService service;
+        private readonly UserManager<StormyCustomer> userManager;
+        public TokenServiceTests(ITokenService _service, UserManager<StormyCustomer> userManager)
+        {
+            service = _service;
+            this.userManager = userManager;
+        }
         [Fact]
         public void GenerateAccessToken_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new TokenService(TODO);
-            IEnumerable claims = null;
+            // Arrange                      
+            IEnumerable<Claim> claims = IdentityTestUtils.GetClaims(this.userManager.GetTestCustomer());
 
             // Act
-            var result = service.GenerateAccessToken(
-                claims);
+            var result = service.GenerateAccessToken(claims);
 
             // Assert
-            Assert.True(false);
+            Assert.NotNull(result);
+            Assert.IsType<string>(result);
         }
 
         [Fact]
         public void GenerateRefreshToken_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new TokenService(TODO);
-
+            // Arrange            
             // Act
             var result = service.GenerateRefreshToken();
 
             // Assert
-            Assert.True(false);
+            Assert.NotNull(result);
         }
 
         [Fact]
         public void GetPrincipalFromExpiredToken_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new TokenService(TODO);
-            string token = null;
+            // Arrange            
+            string token = service.GenerateAccessToken(IdentityTestUtils.GetClaims(this.userManager.GetTestCustomer()));
 
             // Act
-            var result = service.GetPrincipalFromExpiredToken(
-                token);
+            var result = service.GetPrincipalFromExpiredToken(token);
 
             // Assert
-            Assert.True(false);
+            Assert.NotNull(result);
+            Assert.IsType<ClaimsPrincipal>(result);
         }
     }
 }

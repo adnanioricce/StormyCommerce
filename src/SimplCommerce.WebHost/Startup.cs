@@ -54,7 +54,7 @@ namespace SimplCommerce.WebHost
         public virtual void ConfigureServices(IServiceCollection services)
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
-            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;                   
+            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;                               
             services.AddApiVersioning(options => {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
@@ -116,24 +116,12 @@ namespace SimplCommerce.WebHost
                 builder.AllowAnyMethod();
                 builder.AllowAnyHeader();   
                 builder.AllowCredentials();             
-            }));
-            if (_hostingEnvironment.IsDevelopment()) 
-            { 
-                services.AddMvc(x => {
-                    x.Filters.Add(new AllowAnonymousFilter());
-                }).AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
-            }else
+            }));                   
+            services.AddMvc().AddJsonOptions(options =>
             {
-                services.AddMvc().AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
-            }
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });                        
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)

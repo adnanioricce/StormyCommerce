@@ -13,6 +13,7 @@ using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Core.Services.Orders;
+using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Stores;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Catalog.Services;
@@ -24,9 +25,9 @@ using Xunit.DependencyInjection;
 
 namespace StormyCommerce.Modules.Tests.Modules.Extensions
 {
-    public static class StartupExtensions
+    public static class TestHelperLibrary
     {        
-        public static void AddCatalogDependencies(this IServiceCollection services)
+        public static IServiceCollection AddCatalogDependencies(this IServiceCollection services)
         {
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IBrandService, BrandService>();
@@ -37,8 +38,9 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
             services.AddTransient<IBrandService, BrandService>();
             services.AddTransient<IMediaService, MediaService>();
             services.AddTransient<IStorageService, LocalStorageService>();
+            return services;
         }
-        public static void AddOrderDependencies(this IServiceCollection services)
+        public static IServiceCollection AddOrderDependencies(this IServiceCollection services)
         {            
             services.AddTransient<ICalcPrecoPrazoWSSoap, CalcPrecoPrazoWSSoapClient>();
             services.AddTransient<IShippingService, ShippingService>();
@@ -48,8 +50,9 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
             PagarMeService.DefaultEncryptionKey = "";
             var pagarme = new PagarMeService(PagarMeService.DefaultApiKey, PagarMeService.DefaultEncryptionKey);
             services.AddSingleton(pagarme);
+            return services;
         }
-        public static void AddCustomerDependencies(this IServiceCollection services)
+        public static IServiceCollection AddCustomerDependencies(this IServiceCollection services)
         {
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IEmailSender, EmailSender>();
@@ -59,6 +62,12 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
             services.AddTransient<StormyUserStore>();
             services.AddScoped<IUserIdentityService, UserIdentityService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddIdentity<StormyCustomer, ApplicationRole>()
+                .AddEntityFrameworkStores<StormyDbContext>()
+                .AddUserStore<StormyUserStore>()
+                .AddRoles<ApplicationRole>()
+                .AddDefaultTokenProviders();
+            return services;
         }
     }
 }

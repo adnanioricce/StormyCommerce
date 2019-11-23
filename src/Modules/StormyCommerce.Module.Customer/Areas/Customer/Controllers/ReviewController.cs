@@ -46,17 +46,17 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         }
         [HttpPost("create")]
         [ValidateModel]
-        public async Task<IActionResult> WriteReview(WriteReviewRequest model)
+        public async Task<ActionResult<Result>> WriteReview(WriteReviewRequest model)
         {
             var review = _mapper.Map<Review>(model);
-            var customer = GetCurrentCustomer();
+            var customer = await _identityService.GetUserByClaimPrincipal(User);
             review.StormyCustomerId = customer.Id;            
             await _reviewService.CreateReviewAsync(review);            
-            return Ok(Result.Ok("Review was added with sucess"));
+            return Result.Ok("Review was added with sucess");
         }
         [HttpPut("edit")]
         [ValidateModel]
-        public async Task<IActionResult> EditReview(Review review)
+        public async Task<ActionResult<Result>> EditReview(Review review)
         {
             try
             {
@@ -66,18 +66,15 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             {
                 throw ex;
             }
-            return Ok();
+            return Result.Ok();
         }
         [HttpPost("delete")]
         [ValidateModel]
-        public async Task<IActionResult> DeleteReview(long reviewId)
+        public async Task<ActionResult<Result>> DeleteReview(long reviewId)
         {
+
             await _reviewService.DeleteReviewAsync(reviewId);
-            return Ok();
-        }        
-        private StormyCustomer GetCurrentCustomer()
-        {
-            return _identityService.GetUserByEmail(this.HttpContext.User.Claims.FirstOrDefault(c => c.Type.Contains("emailaddress")).Value);
-        }
+            return Result.Ok();
+        }                
     }
 }

@@ -2,13 +2,14 @@
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Module.Catalog.Controllers;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace StormyCommerce.Modules.Tests.Catalog
+namespace StormyCommerce.Modules.Tests
 {
     public class BrandControllerTests
     {
@@ -22,7 +23,7 @@ namespace StormyCommerce.Modules.Tests.Catalog
         {
             // Arrange            
             Brand brand = Seeders.BrandSeed().First();
-
+            brand.Id = 0;
             // Act
             var result = (await _controller.CreateBrand(brand)) as OkObjectResult;
 

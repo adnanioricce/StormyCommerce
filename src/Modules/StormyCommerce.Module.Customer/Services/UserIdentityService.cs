@@ -86,7 +86,7 @@ namespace StormyCommerce.Module.Customer.Services
         }
         public StormyCustomer GetUserByUsername(string username)
         {
-            return _userManager.Users.FirstOrDefault(u => u.UserName == username);
+            return _userManager.Users.FirstOrDefault(u => string.Equals(u.UserName,username,StringComparison.OrdinalIgnoreCase));
         }
         public StormyCustomer GetUserById(string userId)
         {            
@@ -96,11 +96,12 @@ namespace StormyCommerce.Module.Customer.Services
         {
             _userManager.Users
                 .Include(u => u.CustomerWishlist)
-                    .ThenInclude(u => u.WishlistItems)                                                
+                    .ThenInclude(u => u.WishlistItems)  
+                    
                 .Include(u => u.CustomerReviews)
                     .ThenInclude(u => u.Product)
                 .Load();                
-            return _userManager.GetUserAsync(principal);
+            return GetUserByEmailAsync(principal.FindFirstValue(JwtRegisteredClaimNames.Email));
         }
         public UserManager<StormyCustomer> GetUserManager() => _userManager;
 
@@ -145,6 +146,7 @@ namespace StormyCommerce.Module.Customer.Services
                 new Claim(JwtRegisteredClaimNames.Iat,value: DateTimeOffset.UtcNow.ToString("yyyy-MM-dd")),
             };            
             
+
             // claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role.Role.Name)));
             claims.Add(new Claim(ClaimTypes.Role,user.Role.Name));
             return claims;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using TestHelperLibrary.Mocks;
 using Xunit;
 
-namespace StormyCommerce.Modules.Tests.Customer
+namespace StormyCommerce.Modules.Tests
 {
     public class UserIdentityServiceTest
     {

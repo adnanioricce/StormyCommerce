@@ -101,7 +101,7 @@ namespace StormyCommerce.Module.Customer.Data
             {
                 var resultado = _userManager.CreateAsync(user, password).Result;                
                 if(resultado.Succeeded){                                                                                 
-                    user.Role = _roleManager.Roles.FirstOrDefault(r => string.Equals(r.Name,initialRole));
+                    user.Role = _roleManager.Roles.FirstOrDefault(r => string.Equals(r.Name,initialRole,StringComparison.OrdinalIgnoreCase));
                     var result = _userManager.UpdateAsync(user).Result;
                     // var result = _userManager.AddToRoleAsync(user,Roles.Admin).Result;
                 }

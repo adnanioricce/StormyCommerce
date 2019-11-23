@@ -1,69 +1,59 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
 using StormyCommerce.Module.Catalog.Models;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace StormyCommerce.Modules.Tests.Catalog
 {
-    public class MediaControllerTests : IDisposable
-    {
-        private MockRepository mockRepository;
-
-        private Mock<IMediaService> mockMediaService;
-        private Mock<IProductService> mockProductService;
-
-        public MediaControllerTests()
+    public class _controllerTests : IDisposable
+    {                
+        private readonly MediaController _controller;
+        public _controllerTests(IMediaService mediaService,IProductService productService)
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-            this.mockMediaService = this.mockRepository.Create<IMediaService>();
-            this.mockProductService = this.mockRepository.Create<IProductService>();
+            _controller = new MediaController(mediaService, productService);
         }
 
         public void Dispose()
         {
-            this.mockRepository.VerifyAll();
-        }
-
-        private MediaController CreateMediaController()
-        {
-            return new MediaController(
-                this.mockMediaService.Object,
-                this.mockProductService.Object);
-        }
+            _controller.Dispose();
+        }        
 
         [Fact]
         public async Task UploadMediaFile_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var mediaController = this.CreateMediaController();
-            CreateImageRequest model = null;
+            // Arrange           
+            CreateImageRequest model = new CreateImageRequest
+            {                
+                Filename = "image.jpg"
+            };
 
             // Act
-            var result = await mediaController.UploadMediaFile(
-                model);
-
+            var response = await _controller.UploadMediaFile(model);
+            var result = response as OkObjectResult;
             // Assert
-            Assert.True(false);
+            Assert.Equal(200,(int)result.StatusCode);            
         }
 
         [Fact]
         public async Task AddProductImage_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var mediaController = this.CreateMediaController();
-            CreateProductImageRequest _model = null;
+            // Arrange            
+            CreateProductImageRequest _model = new CreateProductImageRequest { 
+                ImageName = "image-name",                
+                ProductId = 1
+            };
 
             // Act
-            var result = await mediaController.AddProductImage(
-                _model);
+            var result = (await _controller.AddProductImage(_model)) as OkObjectResult;
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(200,(int)result.StatusCode);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace StormyCommerce.Modules.IntegrationTest
                 .UseContentRoot(AppDomain.CurrentDomain.BaseDirectory + @"\src\SimplCommerce.WebHost")
                 .UseConfiguration(configuration)
                 .UseEnvironment("Development")
-                .UseStartup<Startup>();                            
+                .UseStartup<TestStartup>();                            
             return builder;
         }                  
     }

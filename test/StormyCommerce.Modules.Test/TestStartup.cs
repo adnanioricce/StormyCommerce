@@ -58,10 +58,10 @@ namespace StormyCommerce.Modules.IntegrationTest
         {
             services.AddEntityFrameworkSqlite()
             .AddDbContext<IStormyDbContext,StormyDbContext>(
-                contextOptions => contextOptions.UseSqlite("testDb.db",
+                contextOptions => contextOptions.UseSqlite("endpointDb.db",
                 builder => builder.MigrationsAssembly(typeof(TestStartup).GetTypeInfo().Assembly.GetName().Name))
                 );            
-            services.AddModules(_hostingEnvironment.ContentRootPath);
+            services.AddModules(AppContext.BaseDirectory + @"\src\SimplCommerce.WebHost");
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

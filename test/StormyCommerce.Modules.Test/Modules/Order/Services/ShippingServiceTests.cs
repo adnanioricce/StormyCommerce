@@ -1,40 +1,45 @@
-﻿using StormyCommerce.Core.Entities;
+﻿using StormyCommerce.Api.Framework.Extensions;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Domain.Shipping;
+using StormyCommerce.Module.Orders.Area.Models;
+using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace StormyCommerce.Modules.Tests.Order
+namespace StormyCommerce.Modules.Tests
 {
     public class ShippingServiceTests
     {
+        private readonly IShippingService service;        
+        public ShippingServiceTests(IShippingService shippingService)
+        {
+            service = shippingService;
+        }
         [Fact]
         public void CalculateShipmentDimensions_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new ShippingService(TODO, TODO, TODO);
-            StormyOrder order = null;
-
+            //TODO:create a seeder that return a predictable data
+            // Arrange            
+            StormyOrder order = Seeders.StormyOrderSeed().First();
+            
             // Act
-            var result = service.CalculateShipmentDimensions(
-                order);
+            var result = service.CalculateShipmentDimensions(order);
 
             // Assert
-            Assert.True(false);
+            Assert.NotNull(result);
         }
 
         [Fact]
         public async Task CreateShipmentAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new ShippingService(TODO, TODO, TODO);
-            Shipment shipment = null;
-
+            // Arrange            
+            Shipment shipment = Seeders.ShipmentSeed().First();
             // Act
-            await service.CreateShipmentAsync(
-                shipment);
-
+            await service.CreateShipmentAsync(shipment);            
             // Assert
             Assert.True(false);
         }
@@ -42,13 +47,11 @@ namespace StormyCommerce.Modules.Tests.Order
         [Fact]
         public async Task CreateShipmentAsync_StateUnderTest_ExpectedBehavior1()
         {
-            // Arrange
-            var service = new ShippingService(TODO, TODO, TODO);
-            StormyOrder order = null;
+            // Arrange            
+            StormyOrder order = Seeders.StormyOrderSeed().First();
 
             // Act
-            await service.CreateShipmentAsync(
-                order);
+            await service.CreateShipmentAsync(order);
 
             // Assert
             Assert.True(false);
@@ -57,53 +60,46 @@ namespace StormyCommerce.Modules.Tests.Order
         [Fact]
         public async Task GetShipmentById_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new ShippingService(TODO, TODO, TODO);
-            long id = 0;
+            // Arrange            
+            long id = 1;
 
             // Act
-            var result = await service.GetShipmentById(
-                id);
+            var result = await service.GetShipmentByIdAsync(id);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(id,result.Id);
         }
 
         [Fact]
         public async Task GetShipmentByOrderIdAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new ShippingService(TODO, TODO, TODO);
-            long orderId = 0;
+            // Arrange            
+            long orderId = 1;
 
             // Act
-            var result = await service.GetShipmentByOrderIdAsync(
-                orderId);
+            var result = await service.GetShipmentByOrderIdAsync(orderId);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(orderId,result.Order.Id);
         }
 
         [Fact]
         public async Task GetShipmentByOrderIdAsync_StateUnderTest_ExpectedBehavior1()
         {
-            // Arrange
-            var service = new ShippingService(TODO, TODO, TODO);
+            // Arrange            
             Guid uniqueOrderId = default(global::System.Guid);
 
             // Act
-            var result = await service.GetShipmentByOrderIdAsync(
-                uniqueOrderId);
+            var result = await service.GetShipmentByOrderIdAsync(uniqueOrderId);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(uniqueOrderId,result.Order.OrderUniqueKey);
         }
 
         [Fact]
         public async Task CalculateDeliveryCost_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new ShippingService(TODO, TODO, TODO);
+            // Arrange            
             Shipment shipment = null;
             string serviceCode = null;
 
@@ -119,13 +115,11 @@ namespace StormyCommerce.Modules.Tests.Order
         [Fact]
         public async Task CalculateDeliveryCost_StateUnderTest_ExpectedBehavior1()
         {
-            // Arrange
-            var service = new ShippingService(TODO, TODO, TODO);
-            DeliveryCalculationRequest request = null;
+            // Arrange            
+            Shipment request = null;
 
             // Act
-            var result = await service.CalculateDeliveryCost(
-                request);
+            var result = await service.CalculateDeliveryCost(request,ServiceCode.Sedex);
 
             // Assert
             Assert.True(false);

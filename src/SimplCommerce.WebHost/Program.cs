@@ -17,7 +17,8 @@ namespace SimplCommerce.WebHost
             //var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
             try
             {
-                BuildWebHost2(args).Run();
+                var host = CreateWebHostBuilder(args).Build();
+                host.Run();
             }
             catch (Exception ex)
             {
@@ -26,12 +27,12 @@ namespace SimplCommerce.WebHost
         }
 
         // Changed to BuildWebHost2 to make EF don't pickup during design time
-        private static IWebHost BuildWebHost2(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             Microsoft.AspNetCore.WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration(SetupConfiguration)
-                .ConfigureLogging(SetupLogging)
-                .Build();
+                .ConfigureLogging(SetupLogging);
+                
 
         private static void SetupConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder configBuilder)
         {

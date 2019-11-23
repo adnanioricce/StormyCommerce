@@ -4,11 +4,10 @@ using StormyCommerce.Module.Orders.Area.Controllers;
 using StormyCommerce.Module.Orders.Area.Models;
 using StormyCommerce.Module.Orders.Area.Models.Shipping;
 using StormyCommerce.Module.Orders.Services;
-using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace StormyCommerce.Modules.Tests.Order
+namespace StormyCommerce.Modules.Tests
 {
     public class ShippingControllerTests
     {

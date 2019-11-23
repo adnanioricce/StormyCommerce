@@ -1,44 +1,54 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Infraestructure.Data.Stores;
+using StormyCommerce.Infraestructure.Interfaces;
+using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using TestHelperLibrary.Extensions;
+using TestHelperLibrary.Utils;
 using Xunit;
 
-namespace StormyCommerce.Modules.Tests.Customer
+namespace StormyCommerce.Modules.Tests
 {
     public class UserIdentityServiceTests
     {
+        private readonly IUserIdentityService service;
+        private readonly UserManager<StormyCustomer> _userManager;
+        public UserIdentityServiceTests(IUserIdentityService identityService,UserManager<StormyCustomer> userManager)
+        {
+            service = identityService;
+            _userManager = userManager;
+        }
         [Fact]
         public async Task CreateUserAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer user = null;
-            string password = null;
+            // Arrange            
+            StormyCustomer user = new StormyCustomer { 
+                Email = "example@email.com"
+            };
+            string password = "!Asdf1234";
 
             // Act
-            var result = await service.CreateUserAsync(
-                user,
-                password);
+            var result = await service.CreateUserAsync(user,password);
 
             // Assert
-            Assert.True(false);
+            Assert.True(result.Succeeded);
         }
 
         [Fact]
         public async Task ConfirmEmailAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
+            // Arrange            
             StormyCustomer user = null;
             string code = null;
 
             // Act
-            var result = await service.ConfirmEmailAsync(
-                user,
-                code);
+            var result = await service.ConfirmEmailAsync(user,code);
 
             // Assert
             Assert.True(false);
@@ -47,8 +57,7 @@ namespace StormyCommerce.Modules.Tests.Customer
         [Fact]
         public async Task ResetPasswordAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
+            // Arrange            
             StormyCustomer user = null;
             string token = null;
             string newPassword = null;
@@ -66,251 +75,184 @@ namespace StormyCommerce.Modules.Tests.Customer
         [Fact]
         public void GetUserByEmail_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            string email = null;
+            // Arrange            
+            string email = "adnangonzaga@gmail.com";
 
             // Act
-            var result = service.GetUserByEmail(
-                email);
+            var user = service.GetUserByEmail(email);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(email,user.Email);
         }
 
         [Fact]
         public async Task GetUserByEmailAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            string email = null;
+            // Arrange            
+            string email = "adnangonzaga@gmail.com";
 
             // Act
-            var result = await service.GetUserByEmailAsync(
-                email);
+            var user = await service.GetUserByEmailAsync(email);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(email,user.Email);
         }
 
         [Fact]
         public void GetUserByUsername_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            string username = null;
-
+            // Arrange            
+            string username = "stormydev";
             // Act
-            var result = service.GetUserByUsername(
-                username);
-
+            var user = service.GetUserByUsername(username);
             // Assert
-            Assert.True(false);
+            Assert.Equal(username,user.UserName);
         }
 
         [Fact]
         public void GetUserById_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            string userId = null;
+            // Arrange            
+            string userId = _userManager.Users.First().Id;
 
             // Act
-            var result = service.GetUserById(
-                userId);
+            var result = service.GetUserById(userId);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(userId,result.Id);
         }
 
         [Fact]
         public async Task GetUserByClaimPrincipal_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            ClaimsPrincipal principal = null;
-
+            // Arrange            
+            var customer = _userManager.GetTestCustomer();
+            ClaimsPrincipal principal = IdentityTestUtils.GetClaimsPrincipal(customer);            
             // Act
-            var result = await service.GetUserByClaimPrincipal(
-                principal);
+            var result = await service.GetUserByClaimPrincipal(principal);
 
-            // Assert
-            Assert.True(false);
+            // Assert   
+            var userId = principal.Claims.FirstOrDefault(c => string.Equals(c.Value, result.Id, StringComparison.OrdinalIgnoreCase));
+            var email = principal.Claims.FirstOrDefault(c => string.Equals(c.Value, result.Email, StringComparison.OrdinalIgnoreCase));
+            var role = principal.Claims.First(c => string.Equals(c.Value, result.Role.Name, StringComparison.OrdinalIgnoreCase));
+            Assert.NotNull(userId);
+            Assert.NotNull(email);
+            Assert.NotNull(role);            
         }
 
         [Fact]
         public void GetUserManager_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-
+        {            
             // Act
             var result = service.GetUserManager();
 
             // Assert
-            Assert.True(false);
+            Assert.NotNull(result);
+            Assert.IsType<UserManager<StormyCustomer>>(result);
         }
 
         [Fact]
         public async Task PasswordSignInAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer user = null;
-            string password = null;
+            // Arrange            
+            StormyCustomer user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
+            string password = "!D4velopment";
             bool isPersistent = false;
             bool lockoutInFailure = false;
 
             // Act
-            var result = await service.PasswordSignInAsync(
-                user,
-                password,
-                isPersistent,
-                lockoutInFailure);
+            var result = await service.PasswordSignInAsync(user,password,isPersistent,lockoutInFailure);
 
             // Assert
-            Assert.True(false);
+            Assert.True(result.Succeeded);
         }
 
         [Fact]
         public async Task CreateEmailConfirmationCode_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer user = null;
+            // Arrange            
+            StormyCustomer user = Seeders.StormyCustomerSeed().First();
 
             // Act
-            var result = await service.CreateEmailConfirmationCode(
-                user);
+            var result = await service.CreateEmailConfirmationCode(user);
 
-            // Assert
-            Assert.True(false);
+            // Assert            
+            Assert.True(!string.IsNullOrEmpty(result));            
         }
 
         [Fact]
         public async Task EditUserAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer customer = null;
-
+            // Arrange            
+            StormyCustomer customer = _userManager.Users.First();
+            customer.CPF = "123456789";
+            customer.SecurityStamp = Guid.NewGuid().ToString();
             // Act
-            var result = await service.EditUserAsync(
-                customer);
+            var result = await service.EditUserAsync(customer);
 
             // Assert
-            Assert.True(false);
+            Assert.True(result.Success);
         }
 
         [Fact]
         public void VerifyHashPassword_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer user = null;
-            string hashedPassword = null;
-            string providedPassword = null;
-
+            // Arrange            
+            StormyCustomer user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
+            string hashedPassword = user.PasswordHash;
+            string providedPassword = "!D4velopment";
             // Act
-            var result = service.VerifyHashPassword(
-                user,
-                hashedPassword,
-                providedPassword);
-
-            // Assert
-            Assert.True(false);
-        }
-
-        [Fact]
-        public void HashPassword_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer user = null;
-            string password = null;
-
-            // Act
-            var result = service.HashPassword(
-                user,
-                password);
-
-            // Assert
-            Assert.True(false);
-        }
-
-        [Fact]
-        public async Task SignOutAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-
-            // Act
-            await service.SignOutAsync();
-
-            // Assert
-            Assert.True(false);
-        }
-
+            var result = service.VerifyHashPassword(user,hashedPassword,providedPassword);
+            //Assert            
+        }                
         [Fact]
         public void BuildClaims_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer user = null;
-
+            // Arrange            
+            StormyCustomer user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
             // Act
-            var result = service.BuildClaims(
-                user);
-
+            var result = service.BuildClaims(user);
             // Assert
-            Assert.True(false);
+            Assert.Equal(4,result.Count());
+            Assert.Equal("Customer", result.FirstOrDefault(c => string.Equals(c.Value,user.Role.Name)).Value);
         }
 
         [Fact]
         public async Task GeneratePasswordResetTokenAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer user = null;
-
+            // Arrange            
+            StormyCustomer user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
             // Act
-            var result = await service.GeneratePasswordResetTokenAsync(
-                user);
-
+            var result = await service.GeneratePasswordResetTokenAsync(user);
             // Assert
-            Assert.True(false);
+            Assert.IsType<string>(result);
+            Assert.True(!string.IsNullOrEmpty(result));
         }
 
         [Fact]
         public async Task IsEmailConfirmedAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer user = null;
-
+            // Arrange            
+            StormyCustomer user = _userManager.Users.First();
             // Act
-            var result = await service.IsEmailConfirmedAsync(
-                user);
-
+            var result = await service.IsEmailConfirmedAsync(user);
             // Assert
-            Assert.True(false);
+            Assert.Equal(user.EmailConfirmed,result);
         }
 
         [Fact]
         public async Task AssignUserToRole_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var service = new UserIdentityService(TODO, TODO, TODO, TODO);
-            StormyCustomer user = null;
-            string roleName = null;
+            // Arrange            
+            StormyCustomer user = _userManager.Users.FirstOrDefault();
+            string roleName = Roles.Customer;
 
             // Act
-            var result = await service.AssignUserToRole(
-                user,
-                roleName);
-
+            var result = await service.AssignUserToRole(user,roleName);
+            user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Id,user.Id,StringComparison.OrdinalIgnoreCase));
             // Assert
-            Assert.True(false);
+            Assert.True(result.Success);
+            Assert.Equal(user.Role.Name, roleName);
         }
     }
 }

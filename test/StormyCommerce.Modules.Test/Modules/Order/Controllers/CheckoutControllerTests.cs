@@ -1,27 +1,29 @@
 ﻿using AutoMapper;
-using PagarMe.Model;
+using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Orders.Area.Controllers;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
-using System;
 using System.Threading.Tasks;
+using TestHelperLibrary.Extensions;
 using Xunit;
 
-namespace StormyCommerce.Modules.Tests.Order
+namespace StormyCommerce.Modules.Tests
 {
     public class CheckoutControllerTests
     {
-        private readonly CheckoutController _controller;
-        public CheckoutControllerTests(IUserIdentityService identityService,IOrderService orderService,IMapper mapper)
+        private readonly CheckoutController _controller;        
+        public CheckoutControllerTests(IUserIdentityService identityService,IOrderService orderService,IMapper mapper,UserManager<StormyCustomer> userManager)
         {
             _controller = new CheckoutController(identityService, orderService, mapper);
+            _controller.ControllerContext = userManager.CreateTestContext();
         }
         [Fact]
         public async Task SimpleCheckoutBoleto_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            SimpleBoletoCheckoutRequest request = new SimpleBoletoCheckoutRequest{
+            var request = new SimpleBoletoCheckoutRequest{
                 Amount = 12.00m
             };
 

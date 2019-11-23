@@ -111,5 +111,9 @@ namespace StormyCommerce.Module.Orders.Services
             }            
 
         }
+        public Task<Shipment> GetShipmentByIdAsync(long id)
+        {
+            return _shipmentRepository.GetByIdAsync(id);
+        }
     }
 }

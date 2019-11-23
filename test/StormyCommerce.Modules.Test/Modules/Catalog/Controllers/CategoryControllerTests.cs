@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using TestHelperLibrary.Utils;
 using Xunit;
 
-namespace StormyCommerce.Modules.Tests.Catalog
+namespace StormyCommerce.Modules.Tests
 {
     public class CategoryControllerTests
     {
@@ -53,7 +53,7 @@ namespace StormyCommerce.Modules.Tests.Catalog
             var result = await _categoryController.GetAll();
             // Assert
             //TODO: Change to check against a defined length
-            Assert.Equal(60, result.Value.Count);
+            Assert.Equal(61, result.Value.Count);
         }
 
         [Fact]
