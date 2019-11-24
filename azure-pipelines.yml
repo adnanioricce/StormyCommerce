@@ -80,11 +80,15 @@ jobs:
   - script: dotnet build src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj 
   - task: PublishBuildArtifacts@1
     displayName: 'publish artifacts'
-  - task: Docker@2
+  - task: Docker@2  
+    displayName: 'build and push docker image'
     inputs:
-      repository: 'adnanioricce/stormycommerce'
-      command: 'buildAndPush'
-      Dockerfile: '**/Dockerfile'
-      buildContext: '.'
+        repository: '$(dockerId)/$(imageName)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        buildContext: '.'
+  - script: |
+      docker login -u $(dockerId) -p $(dockerPassword)      
+    
   
 
