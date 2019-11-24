@@ -31,7 +31,8 @@ namespace StormyCommerce.Modules.Tests.Catalog
         public async Task SearchProducts_ReceivesSearchPattern_ShouldReturnAllProductsWithGivenPattern()
         {
             //When
-            var searchPattern = (await _repository.GetByIdAsync(1)).ProductName[0].ToString();
+            var sampleProduct = (await _repository.GetByIdAsync(1));
+            string searchPattern = sampleProduct.ProductName[0].ToString();
             var product = await _productController.SearchProducts(searchPattern);    
             //Then
             Assert.True(product.Success);

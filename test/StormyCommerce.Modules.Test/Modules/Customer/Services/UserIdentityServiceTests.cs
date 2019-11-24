@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Infraestructure.Data.Stores;
@@ -19,10 +20,11 @@ namespace StormyCommerce.Modules.Tests
     {
         private readonly IUserIdentityService service;
         private readonly UserManager<StormyCustomer> _userManager;
-        public UserIdentityServiceTests(IUserIdentityService identityService,UserManager<StormyCustomer> userManager)
+        public UserIdentityServiceTests(IUserIdentityService identityService,
+            UserManager<StormyCustomer> userManager)
         {
             service = identityService;
-            _userManager = userManager;
+            _userManager = userManager;            
         }
         [Fact]
         public async Task CreateUserAsync_StateUnderTest_ExpectedBehavior()
@@ -31,7 +33,7 @@ namespace StormyCommerce.Modules.Tests
             StormyCustomer user = new StormyCustomer { 
                 Email = "example@email.com"
             };
-            string password = "!Asdf1234";
+            string password = "!D4vpassword";
 
             // Act
             var result = await service.CreateUserAsync(user,password);

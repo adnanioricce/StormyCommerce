@@ -6,6 +6,8 @@
     <IsPackable>false</IsPackable>
 
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+
+    <UserSecretsId>ce9d373a-0683-4c40-beea-345b2984c1fd</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

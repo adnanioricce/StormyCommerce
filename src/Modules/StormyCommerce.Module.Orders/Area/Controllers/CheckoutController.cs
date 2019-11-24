@@ -15,6 +15,8 @@ using StormyCommerce.Core.Entities.Customer;
 using PagarMe.Model;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Order;
+using StormyCommerce.Module.Orders.Services;
+using Microsoft.AspNetCore.Cors;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -22,64 +24,34 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     [ApiController]
     [Route("api/[Controller]")]
     [Authorize("Customer")]
+    [EnableCors("Default")]
     public class CheckoutController : Controller
     {
         private readonly IOrderService _orderService;
         private readonly IUserIdentityService _identityService;                      
         private readonly IMapper _mapper;
+        private readonly PagarMeWrapper _pagarMeWrapper;
         public CheckoutController(
         IUserIdentityService userIdentityService,
         IOrderService orderService,        
+        PagarMeWrapper pagarMeWrapper,
         IMapper mapper)
         {                                
             _identityService = userIdentityService;            
             _orderService = orderService;
+            _pagarMeWrapper = pagarMeWrapper;
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
         [ValidateModel]    
         public async Task<ActionResult<BoletoCheckoutResponse>> SimpleCheckoutBoleto([FromBody]SimpleBoletoCheckoutRequest request)
         {
-            var user = await _identityService.GetUserByClaimPrincipal(User);            
-            var pagCustomer = _mapper.Map<StormyCustomer, Customer>(user);
-                        
-            Transaction transaction = new Transaction();
-
-            transaction.Amount = 1000;
-            transaction.PaymentMethod = PaymentMethod.Boleto;
-
-            transaction.Customer = new Customer () {
-                Country = "br",
-                Type = CustomerType.Individual,
-                Name = user.FullName,
-                Email = user.Email,                
-                Documents = new Document[]{
-                    new Document{
-                        Type = DocumentType.Cpf,
-                        Number = user.CPF
-                    }
-                },                
-                PhoneNumbers = new string[]{
-                    "+551123456789"
-                }                
-            };
-                         
-            try{    
-                transaction.Save();           
-            }catch(PagarMeException ex){                                
-                Console.WriteLine($"HttpStatusCode from the PagarMeException:${ex.Error.HttpStatus}");
-                string exceptionStr = "";
-                foreach(var error in ex.Error.Errors){
-                    exceptionStr = $@"The PagarMe Service throwed the following:Type:{error.Type},
-                    Parameter:{error.Parameter},
-                    Message:{error.Message}";
-                    Console.WriteLine(exceptionStr);                    
-                }          
-                // ex.Error      
-                // return Result<PagarMeError>(ex.Error,ex.Error.Errors);
-                return BadRequest(Result.Fail("transaction failed",exceptionStr));
-            }
-            return Ok(Result.Ok("transaction performed with success"));
+            var user = await _identityService.GetUserByClaimPrincipal(User);
+            var transaction = _pagarMeWrapper.CreateSimpleBoletoTransaction(request, user);
+            var result = _pagarMeWrapper.Charge(transaction);
+            if (!result.Success) return BadRequest(result);
+            
+            return Ok(result);
         }
         [HttpPost("postback")]
         [ValidateModel]
@@ -113,5 +85,6 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 CubeRoot = cubeRoot,                
             };
         }
+        
     }        
 }

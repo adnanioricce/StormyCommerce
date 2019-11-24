@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PagarMe;
 using SimplCommerce.Module.EmailSenderSendgrid;
+using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
@@ -46,10 +47,9 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
             services.AddTransient<IShippingService, ShippingService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<CorreiosService>();
-            PagarMeService.DefaultApiKey = "";
-            PagarMeService.DefaultEncryptionKey = "";
-            var pagarme = new PagarMeService(PagarMeService.DefaultApiKey, PagarMeService.DefaultEncryptionKey);
-            services.AddSingleton(pagarme);
+            PagarMeService.DefaultApiKey = Container.Configuration["PagarMe:ApiKey"];
+            PagarMeService.DefaultEncryptionKey = Container.Configuration["PagarMe:EncryptionKey"];            
+            services.AddSingleton(new PagarMeWrapper());
             return services;
         }
         public static IServiceCollection AddCustomerDependencies(this IServiceCollection services)

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SimplCommerce.Module.SampleData;
 using SimplCommerce.WebHost.Extensions;
+using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
@@ -27,6 +28,11 @@ namespace StormyCommerce.Modules.Tests
 
         protected override void ConfigureServices(IServiceCollection services)
         {
+            var configBuilder = new ConfigurationBuilder()
+                .AddUserSecrets<Startup>()
+                .Build();
+            Container.Configuration = configBuilder;
+            services.AddSingleton(configBuilder);
             services.AddMappings();
             services.AddDbContextPool<StormyDbContext>(opt => {
                 opt.UseLazyLoadingProxies();

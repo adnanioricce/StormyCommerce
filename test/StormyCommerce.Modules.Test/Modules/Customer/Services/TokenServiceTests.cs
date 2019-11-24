@@ -21,9 +21,9 @@ namespace StormyCommerce.Modules.Tests
             service = _service;
             this.userManager = userManager;
             Container.Configuration = configuration;
-            Container.Configuration["Authentication:Jwt:Issuer"] = "TestSimplCommerce";
-            Container.Configuration["Authentication:Jwt:Key"] = "veryVerySecretKey";
-            Container.Configuration["Authentication:Jwt:AccessTokenDurationInMinutes"] = "1";
+            //Container.Configuration["Authentication:Jwt:Issuer"] = "TestSimplCommerce";
+            //Container.Configuration["Authentication:Jwt:Key"] = "veryVerySecretKey";
+            //Container.Configuration["Authentication:Jwt:AccessTokenDurationInMinutes"] = "1";
         }
         [Fact]
         public void GenerateAccessToken_StateUnderTest_ExpectedBehavior()
