@@ -8,7 +8,7 @@ using SimplCommerce.WebHost;
 
 namespace StormyCommerce.Modules.IntegrationTest
 {
-    public class CustomWebApplicationFactory : WebApplicationFactory<TestStartup>
+    public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
     {             
         protected override IWebHostBuilder CreateWebHostBuilder()
         {

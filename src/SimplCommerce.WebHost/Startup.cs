@@ -80,8 +80,7 @@ namespace SimplCommerce.WebHost
             services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
-            services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-            services.AddTransient<HttpClient>();
+            services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));            
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander()); });
             services.Configure<WebEncoderOptions>(options =>
@@ -166,8 +165,7 @@ namespace SimplCommerce.WebHost
             {
                 moduleInitializer.Configure(app, env);
             }
-            SeedContext(app);
-            
+            SeedContext(app);            
         }
         private void SeedContext(IApplicationBuilder app)
         {

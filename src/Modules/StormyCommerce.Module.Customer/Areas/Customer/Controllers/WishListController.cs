@@ -46,12 +46,12 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             if(!response.Success) return BadRequest(response);
             return Ok(Result.Ok(response));
         }
-        [HttpPost("remove_item")]
-        [Authorize(Roles.Customer)]
+        [HttpPost("remove_item")]        
         public async Task<IActionResult> RemoveWishListItem(long productId)
         {
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
             if(!user.CustomerWishlist.Remove(productId)) return BadRequest(Result.Fail("There is no item to remove"));
+            await _userIdentityService.EditUserAsync(user);
             return Ok(Result.Ok("item removed from wishlist"));
         }
         [HttpGet("get")]
