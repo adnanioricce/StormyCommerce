@@ -26,7 +26,7 @@ namespace StormyCommerce.Module.Customer.Data
 
         public void Initialize()
         {            
-            if (!_roleManager.RoleExistsAsync(Roles.Admin).Result)
+           if (!_roleManager.RoleExistsAsync(Roles.Admin).Result)
             {
                 var resultado = _roleManager.CreateAsync(
                     new ApplicationRole(Roles.Admin)).Result;
@@ -51,17 +51,10 @@ namespace StormyCommerce.Module.Customer.Data
                     UserName = "stormyadmin",
                     Email = "stormycommerce@gmail.com",
                     EmailConfirmed = true                    
-                    
+                   
                                 
                     
-                };
-                // adminUser
-                // .UserRoles
-                // .Add(new ApplicationUserRole{
-                //             RoleId = _roleManager.Roles.FirstOrDefault(r => string.Equals(r.Name,Roles.Admin,StringComparison.CurrentCultureIgnoreCase)).Id,
-                //             User = adminUser                            
-                //         });
-            // _userManager.addto
+                };                
             CreateUser(adminUser
                 //TODO: actually, I think is not secure to initialize this here...
                 , "!D4vpassword",Roles.Admin);                
@@ -71,17 +64,10 @@ namespace StormyCommerce.Module.Customer.Data
                 {
                     UserName = "stormydev",
                     Email = "adnangonzaga@gmail.com",
-                    EmailConfirmed = true                                            
+                    EmailConfirmed = true ,
+                    DefaultBillingAddress = new CustomerAddress(new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")),
+                    DefaultShippingAddress = new CustomerAddress(new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")),
                     
-                    ,
-                    DefaultBillingAddress = new CustomerAddress
-                    {
-                        Address = new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")
-                    },
-                    DefaultShippingAddress = new CustomerAddress
-                    {
-                        Address = new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"),
-                    },
                     CPF = "10172930820",
                     PhoneNumber = "+5511992887102",
                     FullName = "Severino Francisco Daniel da Rocha",
@@ -98,12 +84,16 @@ namespace StormyCommerce.Module.Customer.Data
             string initialRole = null)
         {
             if (_userManager.FindByNameAsync(user.UserName).Result == null)
-            {
-                var resultado = _userManager.CreateAsync(user, password).Result;                
+            {                
+                var resultado = _userManager.CreateAsync(user, password).Result;          
+                if(user.DefaultShippingAddress != null && user.DefaultBillingAddress != null)
+                {
+                    user.DefaultShippingAddress.UserId = user.Id;
+                    user.DefaultBillingAddress.UserId = user.Id;
+                }
                 if(resultado.Succeeded){                                                                                 
                     user.Role = _roleManager.Roles.FirstOrDefault(r => string.Equals(r.Name,initialRole,StringComparison.OrdinalIgnoreCase));
-                    var result = _userManager.UpdateAsync(user).Result;
-                    // var result = _userManager.AddToRoleAsync(user,Roles.Admin).Result;
+                    var result = _userManager.UpdateAsync(user).Result;                    
                 }
             }
         }

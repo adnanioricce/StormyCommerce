@@ -85,7 +85,7 @@ namespace StormyCommerce.Module.Orders.Services
                     nVlDiametro = 0, 
                     nVlPeso = shipment.TotalWeight.ToString(),
                     nCdFormato = (int)FormatCode.CaixaOuPacote, 
-                    sCepDestino = shipment.DestinationAddress.Address.PostalCode,
+                    sCepDestino = shipment.DestinationAddress.PostalCode,
                     sCdMaoPropria = "N",
                     //TODO: this is the corrected value or the total?
                     nVlValorDeclarado = shipment.Order.TotalPrice                       

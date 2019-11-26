@@ -16,14 +16,14 @@ namespace StormyCommerce.Core.Models.Dtos
             FullName = customer.FullName;
             DefaultBillingAddress = customer.DefaultBillingAddress ?? new CustomerAddress();
             DefaultShippingAddress = customer.DefaultShippingAddress ?? new CustomerAddress();
-            Addresses = customer.Addresses ?? new List<CustomerAddress>();
+            //Addresses = customer.Addresses ?? new List<CustomerAddress>();
         }
         public string UserName { get; private set; }
         public string Email { get; private set; }
         public IList<CustomerAddress> Addresses { get; private set; }
         public CustomerAddress DefaultBillingAddress { get; private set; }
         public CustomerAddress DefaultShippingAddress { get; private set; }
-        public List<CustomerReviewDto> customerReviews { get; set; }
+        public List<CustomerReviewDto> CustomerReviews { get; private set; }
         public string CPF { get; private set; }
         public string PhoneNumber { get; private set; }
         public string FullName { get; private set; }

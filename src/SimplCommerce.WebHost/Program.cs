@@ -37,34 +37,25 @@ namespace SimplCommerce.WebHost
                 
         private static void SetupConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder configBuilder)
         {
-
             var env = hostingContext.HostingEnvironment;
-            configBuilder.AddJsonFile("appsettings.json",optional:false,reloadOnChange:false);
-            if(env.IsDevelopment()){
-                var appAssembly = Assembly.Load(new AssemblyName(env.ApplicationName));
-                if (appAssembly != null)
-                {
-                    configBuilder.AddUserSecrets(appAssembly, optional: true);
-                }
-            }
-            configBuilder.AddEnvironmentVariables();
-            var configuration = new ConfigurationBuilder().Build();
-            
+            var configuration = configBuilder.Build();
             configBuilder.AddEntityFrameworkConfig(options => {
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
-                if (!env.IsDevelopment())
-                {
-                    options.UseSqlServer(configuration.GetConnectionString("DevConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
-                }
-                else
-                {                    
-                    options.UseSqlite("DataSource=config.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                       
-                }
+                // if (!env.IsDevelopment())
+                // {
+                //    options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
+                // }
+                // else
+                // {                    
+                    // options.UseSqlite("DataSource=config.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                       
+                    options.UseSqlite("DataSource=database.db");
+                // }
 
-            });
+                }
+            );
             Log.Logger = new LoggerConfiguration()
-                       .ReadFrom.Configuration(configuration)                       
+                       .ReadFrom.Configuration(configuration)
                        .CreateLogger();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,27 +8,32 @@ using PagarMe;
 using PagarMe.Model;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Models.Dtos;
+using StormyCommerce.Core.Models.Order;
+using StormyCommerce.Core.Models.Payment.Request;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 
 namespace StormyCommerce.Module.Orders.Services
 {
     public class PagarMeWrapper
     {
-        private readonly PagarMeService _pagarMeService;        
-        public PagarMeWrapper()
+        private readonly PagarMeService _pagarMeService;
+        private readonly IMapper _mapper;
+        public PagarMeWrapper(IMapper mapper)
         {
-            _pagarMeService = PagarMeService.GetDefaultService();            
+            _pagarMeService = PagarMeService.GetDefaultService();
+            _mapper = mapper;
         }
         public async Task<List<Transaction>> GetAllTransactionAsync()
         {
             return (List<Transaction>)(await _pagarMeService.Transactions.FindAllAsync(new Transaction()));
         }
-        public Transaction CreateSimpleBoletoTransaction(SimpleBoletoCheckoutRequest request,StormyCustomer user)
+        public Transaction CreateSimpleBoletoTransaction(ProcessBoletoPaymentRequest request)
         {
             Transaction transaction = new Transaction();
             transaction.Amount = 1000;
             transaction.PaymentMethod = PaymentMethod.Boleto;
-            MapCustomerToTransactionCustomer(transaction, user);
+            MapCustomerToTransactionCustomer(transaction, request.Customer);
             return transaction;
         }
         public Result Charge(Transaction transaction)
@@ -76,7 +82,7 @@ namespace StormyCommerce.Module.Orders.Services
             }
             return exceptionStr;
         }
-        private void MapCustomerToTransactionCustomer(Transaction transaction, StormyCustomer user)
+        private void MapCustomerToTransactionCustomer(Transaction transaction, CustomerDto user)
         {
             transaction.Customer = new Customer()
             {
@@ -94,6 +100,6 @@ namespace StormyCommerce.Module.Orders.Services
                     "+551123456789"
                 }
             };
-        }
+        }        
     }
 }

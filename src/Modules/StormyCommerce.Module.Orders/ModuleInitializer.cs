@@ -6,6 +6,7 @@ using PagarMe;
 using SimplCommerce.Infrastructure.Modules;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Interfaces.Domain.Order;
+using StormyCommerce.Core.Interfaces.Domain.Payments;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Services.Orders;
 using StormyCommerce.Module.Orders.Interfaces;
@@ -26,6 +27,7 @@ namespace StormyCommerce.Module.Orders
             serviceCollection.AddTransient<IShippingService, ShippingService>();
             serviceCollection.AddTransient<IOrderService, OrderService>();            
             serviceCollection.AddTransient<CorreiosService>();
+            serviceCollection.AddTransient<IPaymentProcessor, PaymentProcessor>();
             PagarMeService.DefaultApiKey = Container.Configuration["PagarMe:ApiKey"];
             PagarMeService.DefaultEncryptionKey = Container.Configuration["PagarMe:EncryptionKey"];            
             var pagarme = new PagarMeService(PagarMeService.DefaultApiKey,PagarMeService.DefaultEncryptionKey);

@@ -199,20 +199,14 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<CustomerAddress> AddressSeed(int count = 1, bool omitId = false)
         {
             var fakeAddress = new Faker<CustomerAddress>("pt_BR")
-                .RuleFor(v => v.Id,f => omitId ? 0 : f.IndexVariable)
+                .RuleFor(v => v.Id, f => omitId ? 0 : f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.Address, f => new Core.Entities.Common.Address
-                    (
-                        "BR",f.Address.State(),f.Address.StreetName(),
-                        f.Address.StreetName(),
-                        f.Address.StreetAddress(),
-                        f.Address.Direction(),
-                        f.Address.SecondaryAddress(),
-                        f.Address.ZipCode(),
-                        f.Address.BuildingNumber(),
-                        "no complement"
-                    )
-                );
+                .RuleFor(v => v.State, f => f.Address.State())
+                .RuleFor(v => v.Street, f => f.Address.StreetName())
+                .RuleFor(v => v.District, f => f.Address.StreetSuffix())
+                .RuleFor(v => v.PostalCode, f => f.Address.ZipCode())
+                .RuleFor(v => v.Number, f => f.Address.BuildingNumber())
+                .RuleFor(v => v.Complement, "no complement");                                
             return fakeAddress.Generate(count);
         }
 
@@ -236,8 +230,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                         ,OrderStatus.PaymentReceived
                         ,OrderStatus.Shipped
                         ,OrderStatus.Shipping
-                        });
-                    v.Tax = f.Finance.Amount(0, 50);
+                        });                    
                     v.TotalPrice = f.Finance.Amount(0, 100);                             
                     v.OrderUniqueKey = f.Commerce.Random.Guid();
                     var shipment = Seeders.ShipmentSeed(omitId:true).First();
@@ -277,7 +270,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<OrderItem> OrderItemSeed(int count = 1)
         {
             var fakeOrderItem = new Faker<OrderItem>("pt_BR")                
-                .RuleFor(v => v.Price,f => f.Commerce.Price(symbol:"R$"))
+                .RuleFor(v => v.Price,f => f.Random.Decimal(1.0m,100.0m))
                 .RuleFor(v => v.Quantity,f => f.Random.Int(1,5));           
             return fakeOrderItem.Generate(count);     
         }
@@ -315,7 +308,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     var addresses = Seeders.AddressSeed(2);                                    
                     v.DefaultBillingAddress = addresses.First(); 
                     v.DefaultShippingAddress = addresses.Last();                    
-                    v.Addresses.AddRange(addresses);                    
+                    //v.Addresses.AddRange(addresses);                    
                     var review = Seeders.ReviewSeed(count,omitId).First();
                     review.Id += omitId ? 0 : f.IndexVariable;
                     review.Author = v;

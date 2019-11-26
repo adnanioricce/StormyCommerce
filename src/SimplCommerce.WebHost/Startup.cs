@@ -165,27 +165,25 @@ namespace SimplCommerce.WebHost
             {
                 moduleInitializer.Configure(app, env);
             }
-            SeedContext(app);            
+            SeedContext(app);
+            
         }
         private void SeedContext(IApplicationBuilder app)
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
-                {
-                    if (dbContext.Database.IsSqlite())
+                {                    
+                    if (dbContext.Database.EnsureDeleted())
                     {
-                        if (dbContext.Database.EnsureDeleted())
-                        {
-                            dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
-                        }
-                    }
+                        var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                    }                    
                     if (!dbContext.Database.IsSqlServer())
-                    {
+                    {                        
+                        dbContext.SeedDbContext();
                         var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
                         var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
                         new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
-                        dbContext.SeedDbContext();
                     }
                 }
             }

@@ -75,7 +75,16 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                 {
                     user.DefaultShippingAddress = new CustomerAddress
                     {
-                        Address = model.Address,
+                        PostalCode = model.Address.PostalCode,
+                        District = model.Address.District,
+                        Number = model.Address.Number,
+                        FirstAddress = model.Address.FirstAddress,
+                        SecondAddress = model.Address.SecondAddress,
+                        State = model.Address.State,
+                        Street = model.Address.Street,
+                        Country = model.Address.Country,
+                        Complement = model.Address.Complement,
+                        City = model.Address.City,                       
                         Owner = user,
                         WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
                     };
@@ -87,15 +96,14 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                         result = result
                     });
                 }
-                user.DefaultShippingAddress.Address = model.Address;
+                user.DefaultShippingAddress.SetAddress(model.Address);
                 await _identityService.EditUserAsync(user);
                 return Ok(Result.Ok("address updated with success"));
             }
             if(user.DefaultBillingAddress == null)
             {
-                user.DefaultBillingAddress = new CustomerAddress
-                {
-                    Address = model.Address,
+                user.DefaultBillingAddress = new CustomerAddress(model.Address)
+                {                    
                     Owner = user,
                     WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
                 };
@@ -107,7 +115,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                     result = result
                 });                
             }
-            user.DefaultBillingAddress.Address = model.Address;
+            user.DefaultBillingAddress.SetAddress(model.Address);
             await _identityService.EditUserAsync(user);
             return Ok(Result.Ok("address updated with success"));
         }                

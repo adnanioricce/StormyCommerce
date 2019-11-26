@@ -18,5 +18,7 @@ namespace StormyCommerce.Core.Entities.Payments
         public string GatewayTransactionId { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public string FailureMessage { get; set; }
+        public string BoletoUrl { get; set; }
+        public string BoletoBarcode { get; set; }
     }
 }

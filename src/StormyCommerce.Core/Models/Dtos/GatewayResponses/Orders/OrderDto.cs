@@ -15,8 +15,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         public OrderDto(StormyOrder product)
         {
             OrderUniqueKey = product.OrderUniqueKey;            
-            Comment = product.Comment;
-            Tax = product.Tax;            
+            Comment = product.Comment;                
             TotalPrice = product.TotalPrice;            
             OrderDate = product.OrderDate;            
             PaymentDate = product.PaymentDate;
@@ -31,8 +30,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         public string TrackNumber { get; private set; }
         public string Comment { get; private set; }
         public string WhoReceives { get; private set; }
-        public decimal Discount { get; private set; }
-        public decimal Tax { get; private set; }
+        public decimal Discount { get; private set; }        
         public decimal TotalWeight { get; private set; }
         public decimal TotalPrice { get; private set; }
         public decimal DeliveryCost { get; private set; }                

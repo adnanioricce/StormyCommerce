@@ -44,6 +44,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Catalog
         int GetTotalStockQuantity();
 
         int GetTotalStockQuantityOfProduct(StormyProduct product);
+        int GetTotalStockQuantityOfProduct(long productId);
 
         Task InsertProductsAsync(IList<StormyProduct> products);
     }

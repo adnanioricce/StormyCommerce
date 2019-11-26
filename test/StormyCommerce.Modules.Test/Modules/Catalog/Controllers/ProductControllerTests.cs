@@ -30,17 +30,18 @@ namespace StormyCommerce.Modules.Tests.Catalog
         [Fact]        
         public async Task SearchProducts_ReceivesSearchPattern_ShouldReturnAllProductsWithGivenPattern()
         {
-            //When
-            var sampleProduct = (await _repository.GetByIdAsync(1));
-            string searchPattern = sampleProduct.ProductName[0].ToString();
+            //When            
+            string searchPattern = "a";
             var product = await _productController.SearchProducts(searchPattern);    
             //Then
             Assert.True(product.Success);
             Assert.True(product.Value.All(p => p.ProductName.Contains(searchPattern) ||
             p.ShortDescription.Contains(searchPattern)));
         }
+        //[Fact]
+
         [Fact]
-        public async Task GetNumberOfProducts_NoInput_ReturnTotalCountOfProductsOnDatabase()
+        public void GetNumberOfProducts_NoInput_ReturnTotalCountOfProductsOnDatabase()
         {
             //Act
             var productsCount = _productController.GetNumberOfProducts();

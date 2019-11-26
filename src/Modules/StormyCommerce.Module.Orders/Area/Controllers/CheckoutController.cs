@@ -17,6 +17,13 @@ using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Module.Orders.Services;
 using Microsoft.AspNetCore.Cors;
+using StormyCommerce.Core.Models.Order;
+using StormyCommerce.Core.Models.Order.Response;
+using StormyCommerce.Core.Interfaces.Domain.Catalog;
+using StormyCommerce.Core.Entities.Order;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Core.Interfaces.Domain.Payments;
+using StormyCommerce.Core.Models.Dtos;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -26,20 +33,20 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     [Authorize("Customer")]
     [EnableCors("Default")]
     public class CheckoutController : Controller
-    {
+    {        
+        private readonly IUserIdentityService _identityService;        
+        private readonly IPaymentProcessor _paymentProcessor;
         private readonly IOrderService _orderService;
-        private readonly IUserIdentityService _identityService;                      
-        private readonly IMapper _mapper;
-        private readonly PagarMeWrapper _pagarMeWrapper;
+        private readonly IMapper _mapper;        
         public CheckoutController(
-        IUserIdentityService userIdentityService,
-        IOrderService orderService,        
-        PagarMeWrapper pagarMeWrapper,
+        IUserIdentityService userIdentityService,        
+        IPaymentProcessor paymentProcessor,        
+        IOrderService orderService,
         IMapper mapper)
         {                                
-            _identityService = userIdentityService;            
+            _identityService = userIdentityService;                        
+            _paymentProcessor = paymentProcessor;
             _orderService = orderService;
-            _pagarMeWrapper = pagarMeWrapper;
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
@@ -47,10 +54,12 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         public async Task<ActionResult<BoletoCheckoutResponse>> SimpleCheckoutBoleto([FromBody]SimpleBoletoCheckoutRequest request)
         {
             var user = await _identityService.GetUserByClaimPrincipal(User);
-            var transaction = _pagarMeWrapper.CreateSimpleBoletoTransaction(request, user);
-            var result = _pagarMeWrapper.Charge(transaction);
-            if (!result.Success) return BadRequest(result);
-            
+            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);            
+            var response = await _paymentProcessor.ProcessBoletoPayment(request,userDto);
+            response.Order.StormyCustomerId = user.Id;
+            //response.Order.
+            var result = await _orderService.CreateOrderAsync(response.Order);            
+            if (!result.Success) return BadRequest(result);            
             return Ok(result);
         }
         [HttpPost("postback")]
@@ -58,8 +67,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         public async Task<IActionResult> CheckoutPostback(Postback postback)
         {
             return NoContent();
-        }        
-
+        }                
         private Shipment CreateShipment(Dictionary<long,StormyProduct> products,BoletoCheckoutRequest requestModel)
         {
             
@@ -85,6 +93,6 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 CubeRoot = cubeRoot,                
             };
         }
-        
+        //private List<OrderItemDto> Map
     }        
 }

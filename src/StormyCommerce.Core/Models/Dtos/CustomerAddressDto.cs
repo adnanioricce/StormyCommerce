@@ -1,4 +1,4 @@
-using StormyCommerce.Core.Entities.Common;
+﻿using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
 
 namespace StormyCommerce.Core.Models.Dtos
@@ -8,7 +8,7 @@ namespace StormyCommerce.Core.Models.Dtos
         public CustomerAddressDto(){}
         public CustomerAddressDto(CustomerAddress address)
         {
-            Address = address.Address;
+            Address = new Address(address.Country,address.State,address.City,address.District,address.Street,address.FirstAddress,address.SecondAddress,address.PostalCode,address.PostalCode,address.Complement);
             WhoReceives = address.WhoReceives; 
             Owner = new CustomerDto(address.Owner);
         }

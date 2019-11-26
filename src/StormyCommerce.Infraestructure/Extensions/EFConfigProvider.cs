@@ -21,8 +21,15 @@ namespace StormyCommerce.Infraestructure.Extensions
             var builder = new DbContextOptionsBuilder<EFConfigurationDbContext>();
             OptionsAction(builder);
 
-            using(var dbContext = new EFConfigurationDbContext(builder.Options)){  
-                if(dbContext.Database.EnsureCreated()){                                                                
+            using (var dbContext = new EFConfigurationDbContext(builder.Options))
+            {
+                if (!dbContext.Database.IsSqlite())
+                {                    
+                    Data = dbContext.AppSettings.ToDictionary(c => c.Id, c => c.Value);
+                }
+                else
+                {
+                    dbContext.Database.EnsureCreated();
                     Data = dbContext.AppSettings.ToDictionary(c => c.Id, c => c.Value);
                 }
             }

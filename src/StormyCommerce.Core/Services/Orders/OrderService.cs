@@ -19,16 +19,18 @@ namespace StormyCommerce.Core.Services.Orders
     public class OrderService : IOrderService
     {
         private readonly IStormyRepository<StormyOrder> _orderRepository;
-        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;     
+        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;
+        private readonly IProductService _productService;
         private readonly IShippingService _shippingService;
         public OrderService(IStormyRepository<StormyOrder> orderRepository
             ,IStormyRepository<OrderHistory> orderHistoryRepository
-            ,IShippingService shippingService)
+            ,IProductService productService
+            , IShippingService shippingService)
         {
             _orderRepository = orderRepository;
             _orderHistoryRepository = orderHistoryRepository;
-            _shippingService = shippingService;
-            // _orderRepository.
+            _productService = productService;
+            _shippingService = shippingService;            
         }        
         public async Task<Result<OrderDto>> CancelOrderAsync(long id)
         {
@@ -42,8 +44,8 @@ namespace StormyCommerce.Core.Services.Orders
                 item.Product.UnitsInStock += item.Quantity;
                 item.Product.UnitsOnOrder -= item.Quantity;
             });
-            //#warning Pay attention! Be double careful when editing orders.
-            await _orderRepository.UpdateAsync(order);
+            await _productService.UpdateProductsAsync(order.Items.Select(i => i.Product).ToList());
+            //#warning Pay attention! Be double careful when editing orders.            
             return new Result<OrderDto>(order.ToOrderDto(), true, "no error");
         }
 
@@ -54,14 +56,15 @@ namespace StormyCommerce.Core.Services.Orders
                 return new Result<OrderDto>(entry.ToOrderDto(), false, "We need valid info to create a order,order data don't have any data");
             if (entry.Items == null)
                 return new Result<OrderDto>(entry.ToOrderDto(), false, "You have no items to create a order");                                                            
-            var shipment = _shippingService.CalculateShipmentDimensions(entry);            
-            entry.Shipment = shipment;
+            //var shipment = _shippingService.CalculateShipmentDimensions(entry);            
+            //entry.Shipment = shipment;            
+            await _orderRepository.AddAsync(entry);
             entry.Items.ForEach(o => {
-                o.Product.UnitsInStock -= o.Quantity; 
-                o.Product.UnitsOnOrder += o.Quantity;                                
+                o.Product.UnitsInStock -= o.Quantity;
+                o.Product.UnitsOnOrder += o.Quantity;
             });
-            await _orderRepository.AddAsync(entry);   
-                                
+            await _productService.UpdateProductsAsync(entry.Items.Select(i => i.Product).ToList());
+            //await _orderRepository.UpdateAsync(entry);
             return Result.Ok<OrderDto>(entry.ToOrderDto());
         }
 

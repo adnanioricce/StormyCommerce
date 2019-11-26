@@ -19,10 +19,12 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
             {
                 order.HasOne(prop => prop.Payment)
                     .WithOne(prop => prop.Order)
-                    .HasForeignKey<Payment>(prop => prop.StormyOrderId);
+                    .HasForeignKey<Payment>(prop => prop.StormyOrderId)
+                    .OnDelete(DeleteBehavior.Restrict);
                 order.HasOne(prop => prop.Shipment)
                     .WithOne(prop => prop.Order)
-                    .HasForeignKey<Shipment>(prop => prop.StormyOrderId);                
+                    .HasForeignKey<Shipment>(prop => prop.StormyOrderId)
+                    .OnDelete(DeleteBehavior.Restrict);                
                 order.Property(prop => prop.OrderUniqueKey).IsRequired();                
                 order.Property(prop => prop.Note).HasMaxLength(1000);                 
                 order.HasQueryFilter(prop => prop.IsDeleted == false);

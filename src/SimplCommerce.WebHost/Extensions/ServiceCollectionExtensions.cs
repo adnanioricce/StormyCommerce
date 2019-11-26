@@ -150,7 +150,8 @@ namespace SimplCommerce.WebHost.Extensions
             services.AddDbContextPool<StormyDbContext>(options => {
                 options.UseLazyLoadingProxies();
                 options.UseLoggerFactory(Container.loggerFactory);
-                options.UseSqlServer(configuration.GetConnectionString("DevConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                
+                //options.UseSqlServer(configuration.GetConnectionString("DevConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                
+                options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
             });
@@ -162,7 +163,7 @@ namespace SimplCommerce.WebHost.Extensions
                 mc.AddProfile(new CatalogProfile());
                 mc.AddProfile(new CustomerProfile());
                 mc.AddProfile(new ShippingProfile());
-                mc.AddProfile(new PagarMeMapping());
+                mc.AddProfile(new PagarMeProfile());
             });
             IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);

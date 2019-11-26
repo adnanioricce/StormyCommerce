@@ -14,6 +14,7 @@ using StormyCommerce.Module.Orders.Services;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using AutoMapper;
 using StormyCommerce.Module.Orders.Area.Controllers;
+using SimplCommerce.WebHost;
 
 namespace StormyCommerce.Modules.Test.Controllers
 {

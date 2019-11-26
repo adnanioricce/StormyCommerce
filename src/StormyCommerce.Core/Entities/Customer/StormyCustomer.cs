@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Models.Dtos;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace StormyCommerce.Core.Entities.Customer
                
         }                
         public string CPF { get; set; }             
-        public virtual List<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();
+        //public virtual List<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();
         public virtual CustomerAddress DefaultShippingAddress { get; set; }
         public long? DefaultShippingAddressId { get; set; }
         public virtual CustomerAddress DefaultBillingAddress { get; set; }
@@ -40,6 +41,8 @@ namespace StormyCommerce.Core.Entities.Customer
         public string RefreshTokenHash { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }                        
         public virtual ApplicationRole Role { get; set; } 
-        public DateTimeOffset CreatedOn { get; set; }              
+        public DateTimeOffset CreatedOn { get; set; }      
+        
+        
     }
 }

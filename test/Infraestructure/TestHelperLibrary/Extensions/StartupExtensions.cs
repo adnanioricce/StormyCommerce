@@ -9,6 +9,7 @@ using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Interfaces.Domain.Order;
+using StormyCommerce.Core.Interfaces.Domain.Payments;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Core.Services.Catalog;
@@ -46,10 +47,11 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
             services.AddTransient<ICalcPrecoPrazoWSSoap, CalcPrecoPrazoWSSoapClient>();
             services.AddTransient<IShippingService, ShippingService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IPaymentProcessor, PaymentProcessor>();
             services.AddTransient<CorreiosService>();
             PagarMeService.DefaultApiKey = Container.Configuration["PagarMe:ApiKey"];
             PagarMeService.DefaultEncryptionKey = Container.Configuration["PagarMe:EncryptionKey"];            
-            services.AddSingleton(new PagarMeWrapper());
+            services.AddSingleton<PagarMeWrapper>();
             return services;
         }
         public static IServiceCollection AddCustomerDependencies(this IServiceCollection services)

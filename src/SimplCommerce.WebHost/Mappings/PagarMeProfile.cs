@@ -9,13 +9,15 @@ using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Core.Models.Order;
+using StormyCommerce.Core.Models.Payment.Request;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 
 namespace StormyCommerce.WebHost.Mappings
 {
-    public class PagarMeMapping : Profile
+    public class PagarMeProfile : Profile
     {
-        public PagarMeMapping()
+        public PagarMeProfile()
         {
             this.ItemMap();                                                                                                                    
             this.TransactionMap();
@@ -51,8 +53,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForPath(p => p.Payment.Amount,opt => opt.MapFrom(src => src.Amount));  
             CreateMap<BoletoCheckoutRequest, Transaction>()
                 .ForMember(p => p.Amount,opt => opt.MapFrom(src => src.Amount))
-                .ForMember(p => p.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod));                
-                // .ForMember(p => p.Customer,opt => opt.MapFrom(src => src.));                                                              
+                .ForMember(p => p.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod));                            
         }
         public void CustomerMap()
         {
@@ -68,7 +69,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.Zipcode,opt => opt.MapFrom(src => src.PostalCode));
             CreateMap<StormyCustomer, Billing>()            
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))                                
-                .ForPath(dest => dest.Address, opt => opt.MapFrom(src => src.DefaultBillingAddress.Address))
+                .ForPath(dest => dest.Address, opt => opt.MapFrom(src => src.DefaultBillingAddress))
                 .AfterMap((src,dest) => {
                     dest.Id = null;
                 });
@@ -82,7 +83,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))                
                 // .ForMember(dest => dest.BornAt,opt => opt.MapFrom(src => src.DateOfBirth))
                 .ForMember(dest => dest.Birthday,opt => opt.MapFrom(src => src.DateOfBirth.Value.ToString("yyyy-MM-dd")))                            
-                .ForPath(dest => dest.Address,opt => opt.MapFrom(src => src.DefaultBillingAddress.Address))                
+                .ForPath(dest => dest.Address,opt => opt.MapFrom(src => src.DefaultBillingAddress))                
                 .AfterMap((src,dest) => {
                     dest.PhoneNumbers = new string[]
                     {
@@ -124,24 +125,24 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForPath(dest => dest.Address.City,opt => opt.MapFrom(src => src.City))
                 .ForPath(dest => dest.Address.State,opt => opt.MapFrom(src => src.State));                
             CreateMap<CustomerAddress,Address>()                                       
-                .ForPath(dest => dest.Complementary,opt => opt.MapFrom(src => src.Address.Complement))                
-                .ForPath(dest => dest.Zipcode,opt => opt.MapFrom(src => src.Address.PostalCode))
-                .ForPath(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.Address.District))
-                .ForPath(dest => dest.StreetNumber,opt => opt.MapFrom(src => src.Address.Number))
-                .ForPath(dest => dest.Street,opt => opt.MapFrom(src => src.Address.Street))
-                .ForPath(dest => dest.Country,opt => opt.MapFrom(src => src.Address.Country))
-                .ForPath(dest => dest.City,opt => opt.MapFrom(src => src.Address.City))
-                .ForPath(dest => dest.State,opt => opt.MapFrom(src => src.Address.State));                
+                .ForPath(dest => dest.Complementary,opt => opt.MapFrom(src => src.Complement))                
+                .ForPath(dest => dest.Zipcode,opt => opt.MapFrom(src => src.PostalCode))
+                .ForPath(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.District))
+                .ForPath(dest => dest.StreetNumber,opt => opt.MapFrom(src => src.Number))
+                .ForPath(dest => dest.Street,opt => opt.MapFrom(src => src.Street))
+                .ForPath(dest => dest.Country,opt => opt.MapFrom(src => src.Country))
+                .ForPath(dest => dest.City,opt => opt.MapFrom(src => src.City))
+                .ForPath(dest => dest.State,opt => opt.MapFrom(src => src.State));                
             CreateMap<CustomerAddress,Shipping>()                
                 .ForPath(dest => dest.Address.Id,opt => opt.MapFrom(src => src.Id))
-                .ForPath(dest => dest.Address.Complementary,opt => opt.MapFrom(src => src.Address.Complement))
-                .ForPath(dest => dest.Address.Zipcode,opt => opt.MapFrom(src => src.Address.PostalCode))
-                .ForPath(dest => dest.Address.Neighborhood,opt => opt.MapFrom(src => src.Address.District))
-                .ForPath(dest => dest.Address.StreetNumber,opt => opt.MapFrom(src => src.Address.Number))
-                .ForPath(dest => dest.Address.Street,opt => opt.MapFrom(src => src.Address.Street))
-                .ForPath(dest => dest.Address.Country,opt => opt.MapFrom(src => src.Address.Country))
-                .ForPath(dest => dest.Address.City,opt => opt.MapFrom(src => src.Address.City))
-                .ForPath(dest => dest.Address.State,opt => opt.MapFrom(src => src.Address.State));
+                .ForPath(dest => dest.Address.Complementary,opt => opt.MapFrom(src => src.Complement))
+                .ForPath(dest => dest.Address.Zipcode,opt => opt.MapFrom(src => src.PostalCode))
+                .ForPath(dest => dest.Address.Neighborhood,opt => opt.MapFrom(src => src.District))
+                .ForPath(dest => dest.Address.StreetNumber,opt => opt.MapFrom(src => src.Number))
+                .ForPath(dest => dest.Address.Street,opt => opt.MapFrom(src => src.Street))
+                .ForPath(dest => dest.Address.Country,opt => opt.MapFrom(src => src.Country))
+                .ForPath(dest => dest.Address.City,opt => opt.MapFrom(src => src.City))
+                .ForPath(dest => dest.Address.State,opt => opt.MapFrom(src => src.State));
             
         }
     }
