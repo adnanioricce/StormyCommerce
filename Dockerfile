@@ -3,6 +3,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 COPY . ./
+RUN sed -i 's/2.2.401/2.2.207' global.json
 RUN dotnet build SimplCommerce.sln
 RUN dotnet build *.sln -c Release \
     && cd src/SimplCommerce.WebHost \    
