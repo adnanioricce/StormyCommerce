@@ -7,7 +7,6 @@ using StormyCommerce.Api.Framework.Ioc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Area.Models;

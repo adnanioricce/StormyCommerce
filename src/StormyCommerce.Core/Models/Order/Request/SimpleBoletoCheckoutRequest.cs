@@ -10,5 +10,6 @@ namespace StormyCommerce.Core.Models.Order
         public string PaymentMethod { get; } = "boleto";
         public bool PickUpOnStore { get; set; }
         public List<CartItem> Items { get; set; }
+        public string PostalCode { get; set; }
     }
 }

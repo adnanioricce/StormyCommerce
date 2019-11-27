@@ -7,8 +7,8 @@ RUN dotnet build SimplCommerce.sln
 RUN dotnet build *.sln -c Release \
     && cd src/SimplCommerce.WebHost \    
     && dotnet build -c Release \
-    && dotnet publish -c Release -o out
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+    && dotnet publish -c Release -o /app/publish
+FROM base AS publish
 WORKDIR /app
-COPY --from=base /app .
-ENTRYPOINT ["dotnet", "SimplCommerce.WebHost.dll"]
+COPY --from=base /app/publish ./
+CMD ["dotnet", "SimplCommerce.WebHost.dll"]

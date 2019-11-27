@@ -16,14 +16,13 @@ namespace StormyCommerce.Modules.Tests
     {
         private readonly ITokenService service;
         private readonly UserManager<StormyCustomer> userManager;
-        public TokenServiceTests(ITokenService _service, UserManager<StormyCustomer> userManager,IConfiguration configuration)
+        public TokenServiceTests(ITokenService _service, UserManager<StormyCustomer> userManager)
         {
             service = _service;
             this.userManager = userManager;
-            Container.Configuration = configuration;
-            //Container.Configuration["Authentication:Jwt:Issuer"] = "TestSimplCommerce";
-            //Container.Configuration["Authentication:Jwt:Key"] = "veryVerySecretKey";
-            //Container.Configuration["Authentication:Jwt:AccessTokenDurationInMinutes"] = "1";
+            Container.Configuration["Authentication:Jwt:Issuer"] = "TestSimplCommerce";
+            Container.Configuration["Authentication:Jwt:Key"] = "veryVerySecretKey";
+            Container.Configuration["Authentication:Jwt:AccessTokenDurationInMinutes"] = "1";
         }
         [Fact]
         public void GenerateAccessToken_StateUnderTest_ExpectedBehavior()

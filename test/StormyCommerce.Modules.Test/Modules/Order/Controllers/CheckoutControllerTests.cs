@@ -32,7 +32,7 @@ namespace StormyCommerce.Modules.Tests
             IProductService productService,
             PagarMeWrapper pagarMeWrapper)
         {
-            _controller = new CheckoutController(identityService, paymentProcessor,orderService, mapper);
+            _controller = new CheckoutController(identityService, paymentProcessor,orderService,productService, mapper);
             _controller.ControllerContext = userManager.CreateTestContext();
             _productService = productService;
         }

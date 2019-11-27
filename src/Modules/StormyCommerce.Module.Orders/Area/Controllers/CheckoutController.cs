@@ -24,6 +24,7 @@ using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Interfaces.Domain.Payments;
 using StormyCommerce.Core.Models.Dtos;
+using StormyCommerce.Core.Extensions;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -37,27 +38,37 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         private readonly IUserIdentityService _identityService;        
         private readonly IPaymentProcessor _paymentProcessor;
         private readonly IOrderService _orderService;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;        
         public CheckoutController(
         IUserIdentityService userIdentityService,        
         IPaymentProcessor paymentProcessor,        
         IOrderService orderService,
+        IProductService productService,
         IMapper mapper)
         {                                
             _identityService = userIdentityService;                        
             _paymentProcessor = paymentProcessor;
             _orderService = orderService;
+            _productService = productService;
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
         [ValidateModel]    
         public async Task<ActionResult<BoletoCheckoutResponse>> SimpleCheckoutBoleto([FromBody]SimpleBoletoCheckoutRequest request)
-        {
+        {            
+            if(!(request.Items.Count > 0 && request.Items.All(i => i.Quantity > 0))) {
+                return BadRequest(Result.Fail("You can't order a item with 0 products or create a order with 0 items",request));
+            }
+            var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.StormyProductId).ToArray());
+            if(!(request.Items.HasStockForOrderItems(products)))
+            {
+                return BadRequest(Result.Fail("looks like you have items on your order that ask for quantity that the store don't have on stock now"));
+            }                        
             var user = await _identityService.GetUserByClaimPrincipal(User);
             var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);            
             var response = await _paymentProcessor.ProcessBoletoPayment(request,userDto);
-            response.Order.StormyCustomerId = user.Id;
-            //response.Order.
+            response.Order.StormyCustomerId = user.Id;            
             var result = await _orderService.CreateOrderAsync(response.Order);            
             if (!result.Success) return BadRequest(result);            
             return Ok(result);

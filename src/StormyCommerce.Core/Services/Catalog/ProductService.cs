@@ -2,9 +2,11 @@
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,7 +149,7 @@ namespace StormyCommerce.Core.Services.Catalog
                  .Table
                  .Where(p => p.VendorId == product.VendorId)
                  .Sum(p => p.UnitsInStock);
-        }
+        }        
         #endregion
         #region Delete methods
         public async Task DeleteProduct(StormyProduct product)

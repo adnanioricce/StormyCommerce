@@ -120,7 +120,8 @@ namespace SimplCommerce.WebHost
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });                        
+            });        
+            services.AddMemoryCache();                
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)

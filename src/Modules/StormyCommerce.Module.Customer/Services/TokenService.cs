@@ -22,14 +22,14 @@ namespace StormyCommerce.Module.Customer.Services
 
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Authentication:Jwt:Key"]));
 
             var jwtToken = new JwtSecurityToken(
-                issuer: _configuration["Authentication:Jwt:Issuer"],
+                issuer: Container.Configuration["Authentication:Jwt:Issuer"],
                 audience: "Anyone",
                 claims: claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddMinutes(int.Parse(_configuration["Authentication:Jwt:AccessTokenDurationInMinutes"])),
+                expires: DateTime.UtcNow.AddMinutes(int.Parse(Container.Configuration["Authentication:Jwt:AccessTokenDurationInMinutes"])),
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
             );
 
@@ -55,9 +55,9 @@ namespace StormyCommerce.Module.Customer.Services
             {
                 ValidateAudience = false,
                 ValidateIssuer = true,
-                ValidIssuer = _configuration["Authentication:Jwt:Issuer"],
+                ValidIssuer = Container.Configuration["Authentication:Jwt:Issuer"],
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Authentication:Jwt:Key"])),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Authentication:Jwt:Key"])),
                 ValidateLifetime = false //in this case, we don't care about the token's expiration date
             };
 

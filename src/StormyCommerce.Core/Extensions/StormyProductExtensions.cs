@@ -1,5 +1,11 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Core.Models.Order;
 
 namespace StormyCommerce.Core.Extensions
 {
@@ -14,6 +20,24 @@ namespace StormyCommerce.Core.Extensions
         {
             return length * height * width;
         }
-        
+        public static bool HasStockForOrderItems(this IEnumerable<OrderItemDto> items)
+        {
+            return items.All(p => (p.Product.UnitsInStock - p.Product.UnitsOnOrder) >= p.Quantity);            
+        }
+        public static bool HasStockForOrderItems(this IEnumerable<CartItem> items,IEnumerable<StormyProduct> products)
+        {
+            return MergeToItemProductDictonary(items,products)
+            .All(p => p.Value.CanOrderQuantity(p.Key.Quantity));
+        }
+        public static bool HasStockForOrderItems(this IDictionary<CartItem,StormyProduct> items)
+        {
+            return items.All(p => (p.Value.UnitsInStock - p.Value.UnitsOnOrder) >= p.Key.Quantity);
+        }
+        public static IDictionary<CartItem,StormyProduct> MergeToItemProductDictonary(this IEnumerable<CartItem> items,IEnumerable<StormyProduct> products)
+        {
+            return items           
+            .Select((item,index) => new {item,product = products.FirstOrDefault(p => p.Id == item.StormyProductId)})             
+            .ToDictionary(i => i.item,i => i.product);
+        }                
     }
 }

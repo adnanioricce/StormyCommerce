@@ -46,19 +46,34 @@ namespace StormyCommerce.Core.Entities
         public ShippingStatus Status { get; set; }        
         public virtual List<OrderItem> Items { get; set; } = new List<OrderItem>();        
         public Shipment CalculateShipmentMeasures(List<OrderItem> items)
-        {
-            Shipment shipment = new Shipment();
-            items.ForEach(item => {
-                shipment.TotalHeight = item.Product.Height;
-                shipment.TotalWidth = item.Product.Width;
-                shipment.TotalLength = item.Product.Length;
-                shipment.TotalArea += item.Product.Width * item.Product.Height * item.Product.Length * item.Quantity;
-                shipment.TotalWeight += item.Product.UnitWeight * item.Quantity;                                                                    
+        {            
+            items.ForEach(item => {                
+                this.TotalHeight += item.Product.Height;
+                this.TotalWidth += item.Product.Width;
+                this.TotalLength += item.Product.Length;                
+                this.TotalArea = item.Product.Width * item.Product.Height * item.Product.Length * item.Quantity;
+                this.TotalWeight = item.Product.UnitWeight * item.Quantity;                                                       
             });
-            shipment.CubeRoot = Math.Ceiling(Math.Pow(shipment.TotalArea,(double)1/3));
-            return shipment;
+            this.CubeRoot = Math.Ceiling(Math.Pow(this.TotalArea,(double)1/3));            
+            this.TotalHeight = this.TotalHeight < 2 ? 2 : this.CubeRoot;
+            this.TotalWidth = this.TotalWidth < 16 ? 16 : this.CubeRoot;
+            this.TotalLength = this.TotalLength < 11 ? 11 : this.CubeRoot;
+            return this;
         }        
-        
+        public Shipment CalculateShipmentMeasures(OrderItem item)
+        {                         
+            TotalArea = item.Product.Width * item.Product.Height * item.Product.Length * item.Quantity;
+            TotalWeight = item.Product.UnitWeight * item.Quantity;            
+            this.CubeRoot = Math.Ceiling(Math.Pow(this.TotalArea,(double)1/3));
+            TotalHeight = item.Product.Height < 2 ? 2 : this.CubeRoot;
+            TotalWidth = item.Product.Width < 16 ? 16 : this.CubeRoot;
+            TotalLength = item.Product.Length < 11 ? 11 : this.CubeRoot;            
+            return this;
+        }
+        public void SetShipmentMeasures()
+        {
+
+        }
         
     }
 }
