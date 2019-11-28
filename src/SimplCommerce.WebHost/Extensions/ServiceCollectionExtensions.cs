@@ -151,7 +151,8 @@ namespace SimplCommerce.WebHost.Extensions
                 options.UseLazyLoadingProxies();
                 options.UseLoggerFactory(Container.loggerFactory);
                 //options.UseSqlServer(configuration.GetConnectionString("DevConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                
-                options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                //options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));		
+                options.UseSqlServer(configuration.GetConnectionString("docker"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
             });
