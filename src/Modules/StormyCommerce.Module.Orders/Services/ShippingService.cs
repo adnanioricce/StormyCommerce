@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Area.Models;
+using StormyCommerce.Core.Shipment;
 
 namespace StormyCommerce.Module.Orders.Services
 {
@@ -28,8 +29,8 @@ namespace StormyCommerce.Module.Orders.Services
             _correiosService = correiosService;
         }
         public Shipment CalculateShipmentDimensions(StormyOrder order)
-        {            
-            var shipment = new Shipment().CalculateShipmentMeasures(order.Items);            
+        {
+            var shipment = new Shipment();           
             shipment.ShipmentProvider = "Correios";                        
             shipment.BillingAddress = Container.OriginAddress;            
             shipment.Status = ShippingStatus.NotShippedYet;             

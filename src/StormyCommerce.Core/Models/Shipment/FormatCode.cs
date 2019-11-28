@@ -1,4 +1,4 @@
-﻿namespace StormyCommerce.Module.Orders.Area.Models.Correios
+﻿namespace StormyCommerce.Core.Shipment
 {
     public enum FormatCode 
     {

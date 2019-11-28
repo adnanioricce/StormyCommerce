@@ -1,9 +1,12 @@
-using System;
+﻿using System;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Core.Models.Shipment;
 
 namespace StormyCommerce.Core.Interfaces.Domain.Shipping
 {
     public interface IShippingBuilder
     {
-        // Shipment
+        Entities.Shipment CalculateShippingMeasures(OrderDto request);
     }
 }

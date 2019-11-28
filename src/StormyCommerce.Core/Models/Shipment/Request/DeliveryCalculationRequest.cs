@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-using StormyCommerce.Module.Orders.Area.Models.Correios;
+﻿using System.ComponentModel.DataAnnotations;
+using StormyCommerce.Core.Shipment;
+
 namespace StormyCommerce.Module.Orders.Area.Models
 {
     

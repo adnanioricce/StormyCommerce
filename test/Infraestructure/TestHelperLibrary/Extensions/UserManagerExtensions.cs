@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Core.Entities.Customer;
@@ -23,7 +24,10 @@ namespace TestHelperLibrary.Extensions
             {
                 HttpContext = new DefaultHttpContext
                 {
-                    User = claimPrincipal
+                    User = claimPrincipal,
+                    
+                    
+                    
                 }
             };
         }

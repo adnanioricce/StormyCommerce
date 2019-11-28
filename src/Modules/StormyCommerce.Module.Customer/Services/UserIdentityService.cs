@@ -100,8 +100,9 @@ namespace StormyCommerce.Module.Customer.Services
                     
                 .Include(u => u.CustomerReviews)
                     .ThenInclude(u => u.Product)
-                .Load();                
-            return GetUserByEmailAsync(principal.FindFirstValue(JwtRegisteredClaimNames.Email));
+                .Load();
+            var email = principal.Claims.FirstOrDefault(c => c.Type.Contains("emailaddress"))?.Value ?? principal.FindFirstValue(JwtRegisteredClaimNames.Email);
+            return GetUserByEmailAsync(email);
         }
         public UserManager<StormyCustomer> GetUserManager() => _userManager;
 

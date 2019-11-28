@@ -29,7 +29,10 @@ namespace TestHelperLibrary.Utils
         {
             var claims = GetClaims(user);
             var identity = new ClaimsIdentity(claims, "Bearer");
-            return new ClaimsPrincipal(identity);
+            identity.AddClaims(claims);
+            var principal = new ClaimsPrincipal(identity);
+            principal.AddIdentity(identity);            
+            return principal;
         }
     }
 }

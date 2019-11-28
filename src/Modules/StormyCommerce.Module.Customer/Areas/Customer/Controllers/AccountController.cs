@@ -24,11 +24,11 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     {
         private readonly IUserIdentityService _identityService;          
         private readonly IEmailSender _emailSender;
-        private readonly IAppLogger<AuthenticationController> _logger;
+        private readonly IAppLogger<AccountController> _logger;
         private readonly IMapper _mapper;
         public AccountController(IUserIdentityService identityService,
         IEmailSender emailSender,
-        IAppLogger<AuthenticationController> logger,        
+        IAppLogger<AccountController> logger,        
         IMapper mapper)
         {
             _identityService = identityService;                    
@@ -162,8 +162,9 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         [HttpGet("get_current_user")]
         [Authorize(Roles.Customer)]
         public async Task<CustomerDto> GetCurrentCustomer()
-        {            
-            return _mapper.Map<StormyCustomer,CustomerDto>(await GetCurrentUser());
+        {
+            var user = await GetCurrentUser();
+            return _mapper.Map<StormyCustomer,CustomerDto>(user);
         }          
         private Task<StormyCustomer> GetCurrentUser()
         {

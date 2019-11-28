@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StormyCommerce.Module.Orders.Area.Models.Correios
+namespace StormyCommerce.Core.Shipment
 {
     public static class ServiceCode
     {

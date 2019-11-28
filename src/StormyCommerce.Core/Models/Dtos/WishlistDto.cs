@@ -1,9 +1,19 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using StormyCommerce.Core.Entities.Customer;
 
 namespace StormyCommerce.Core.Models.Dtos
 {
     public class WishlistDto
     {
-        public ICollection<WishListItemDto> Items { get; set; }
+        public WishlistDto()
+        {
+
+        }
+        public WishlistDto(Wishlist wishlist)
+        {
+            Items = wishlist.WishlistItems.Select(i => new WishListItemDto(i)).ToList();
+        }
+        public ICollection<WishListItemDto> Items { get; set; } = new List<WishListItemDto>();
     }
 }

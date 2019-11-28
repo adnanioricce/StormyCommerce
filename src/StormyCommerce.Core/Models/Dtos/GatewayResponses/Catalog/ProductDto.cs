@@ -47,7 +47,6 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             Medias = product.Medias.Select(m => new ProductMediaDto(m)).ToList();
             Categories = product.Categories.Select(c => new ProductCategoryDto(c)).ToList();
             Brand = new BrandDto(product.Brand);                        
-
             Vendor = new VendorDto(product.Vendor);
         }
 

@@ -2,6 +2,7 @@
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
+using StormyCommerce.Core.Shipment;
 using StormyCommerce.Module.Orders.Area.Models;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;

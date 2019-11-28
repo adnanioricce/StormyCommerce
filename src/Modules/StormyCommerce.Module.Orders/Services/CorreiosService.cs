@@ -15,6 +15,9 @@ using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 using System.Linq;
 using System.Collections.Generic;
+using StormyCommerce.Core.Shipment;
+using StormyCommerce.Core.Models.Shipment.Response;
+using StormyCommerce.Module.Orders.Extensions;
 
 namespace StormyCommerce.Module.Orders.Services
 {
@@ -44,7 +47,7 @@ namespace StormyCommerce.Module.Orders.Services
                 model.sCdAvisoRecebimento);            
             return new DeliveryCalculationResponse
             {
-                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => new DeliveryCalculationOptionResponse(s)))
+                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => s.MapToDeliveryCalculationResponse()))
             }; 
         }        
         
@@ -71,7 +74,7 @@ namespace StormyCommerce.Module.Orders.Services
                 request.WarningOfReceiving);
             return new DeliveryCalculationResponse
             {
-                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => new DeliveryCalculationOptionResponse(s)))
+                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => s.MapToDeliveryCalculationResponse()))
             };
         }
         private CalcPrecoPrazoModel GetDefaultShippingCalcModel(Shipment shipment)

@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using StormyCommerce.Core.Models.Shipment.Response;
 using StormyCommerce.Module.Orders.Area.Models;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 

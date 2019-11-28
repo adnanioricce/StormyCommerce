@@ -27,16 +27,16 @@ namespace StormyCommerce.Core.Entities.Customer
             
                
         }                
-        public string CPF { get; set; }             
+        public string CPF { get; set; }
         //public virtual List<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();
-        public virtual CustomerAddress DefaultShippingAddress { get; set; }
+        public virtual CustomerAddress DefaultShippingAddress { get; set; } = new CustomerAddress();
         public long? DefaultShippingAddressId { get; set; }
-        public virtual CustomerAddress DefaultBillingAddress { get; set; }
+        public virtual CustomerAddress DefaultBillingAddress { get; set; } = new CustomerAddress();
         public long? DefaultBillingAddressId { get; set; }
         public long? CustomerReviewsId { get; set; }
         public virtual List<Review> CustomerReviews { get; set; } = new List<Review>();        
-        public long? CustomerWishlistId { get; set; }    
-        public virtual Wishlist CustomerWishlist { get; set; }   
+        public long? CustomerWishlistId { get; set; }
+        public virtual Wishlist CustomerWishlist { get; set; } = new Wishlist();
         public string FullName { get; set; }        
         public string RefreshTokenHash { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }                        
