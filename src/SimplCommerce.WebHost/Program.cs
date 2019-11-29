@@ -49,7 +49,11 @@ namespace SimplCommerce.WebHost
                 // else
                 // {                    
                     // options.UseSqlite("DataSource=config.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                       
+<<<<<<< HEAD
                     options.UseInMemoryDatabase("ConfigDb");
+=======
+                    options.UseInMemoryDatabase("appsettings_db");
+>>>>>>> 4ed722e6fd12064c1329f8b7a3e1de54196859c4
                 // }
 
                 }

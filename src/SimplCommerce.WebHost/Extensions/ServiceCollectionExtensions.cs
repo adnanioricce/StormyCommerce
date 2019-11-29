@@ -146,11 +146,23 @@ namespace SimplCommerce.WebHost.Extensions
             }
         }                
         public static IServiceCollection AddStormyDataStore(this IServiceCollection services, IConfiguration configuration)
-        {            
+        {
+            var isOnDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER");
+            if (!string.IsNullOrEmpty(isOnDocker))
+            {
+                services.AddDbContextPool<StormyDbContext>(options => {
+                    options.UseLazyLoadingProxies();
+                    options.UseLoggerFactory(Container.loggerFactory);                    
+                    options.UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL"),
+                        b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                    options.EnableDetailedErrors();
+                    options.EnableSensitiveDataLogging();
+                });
+                return services;
+            }
             services.AddDbContextPool<StormyDbContext>(options => {
                 options.UseLazyLoadingProxies();
-                options.UseLoggerFactory(Container.loggerFactory);
-                //options.UseSqlServer(configuration.GetConnectionString("DevConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                
+                options.UseLoggerFactory(Container.loggerFactory);                
                 options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();

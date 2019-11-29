@@ -67,16 +67,16 @@ namespace SimplCommerce.WebHost
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            if(!_hostingEnvironment.IsDevelopment()){
+            /*if(!_hostingEnvironment.IsDevelopment()){ */
                 services.AddStormyDataStore(_configuration);
-            } else {
+            /*} else {
                 services.AddDbContextPool<StormyDbContext>(options => {                    
                     options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                     options.UseLazyLoadingProxies();
                     options.EnableDetailedErrors();
                     options.EnableSensitiveDataLogging();
                 });
-            }            
+            } */           
             services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
