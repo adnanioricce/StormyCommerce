@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Models;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.Controllers;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models.Requests;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TestHelperLibrary.Extensions;
 using Xunit;
@@ -17,6 +20,7 @@ namespace StormyCommerce.Modules.Tests
     {
         private readonly AccountController _controller;
         private readonly UserManager<StormyCustomer> _userManager;
+        private readonly IUserIdentityService _identityService;
         public AccountControllerTest(IUserIdentityService identityService,
             IEmailSender emailSender,
             IAppLogger<AccountController> logger,            
@@ -25,22 +29,23 @@ namespace StormyCommerce.Modules.Tests
         {
             _controller = new AccountController(identityService, emailSender, logger, mapper);
             _userManager = userManager;
+            _identityService = identityService;
             _controller.ControllerContext = _userManager.CreateTestContext();
         }
         [Fact]
         public async Task ConfirmEmailAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange            
-            string userId = null;
-            string code = null;
+            // Arrange      
+            var user = _userManager.Users.FirstOrDefault();
+            user.EmailConfirmed = false;
+            string userId = user.Id;
+            string code = await _identityService.CreateEmailConfirmationCode(user);
 
             // Act
-            var result = await _controller.ConfirmEmailAsync(
-                userId,
-                code);
-
+            var response = await _controller.ConfirmEmailAsync(userId,code);
+            var result = response as OkObjectResult;
             // Assert
-            Assert.True(false);
+            Assert.Equal(200,(int)result.StatusCode);
         }
 
         [Fact]
@@ -64,7 +69,8 @@ namespace StormyCommerce.Modules.Tests
         {
             // Arrange            
             var model = new CreateShippingAddressRequest {
-                Address = new Core.Entities.Common.Address("br", "são paulo",
+                Address = new Core.Entities.Common.Address("br", 
+                "são paulo",
                 "cidade",
                 "bairro",
                 "endereço",
@@ -88,26 +94,50 @@ namespace StormyCommerce.Modules.Tests
         public async Task EditAccount_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            EditCustomerRequest request = null;
+            var request = new EditCustomerRequest { 
+                CPF = "123456789",
+                DateOfBirth = DateTimeOffset.UtcNow.Add(DateTimeOffset.UtcNow.Subtract(DateTimeOffset.UtcNow.AddYears(18))),
+                Email = "adnangonzaga@gmail.com",
+                FullName = "adnan gonzaga",
+                PhoneNumber = "+55111234567",
+                UserName = "adnanioricce"
+                
+            };
 
             // Act
-            var result = await _controller.EditAccount(request);
-
+            var response = await _controller.EditAccount(request);
+            var statusResult = response as OkObjectResult;
+            var result = statusResult.Value as Result;
             // Assert
-            Assert.True(false);
+            Assert.Equal(200,(int)statusResult.StatusCode);
+            Assert.True(result.Success);
         }
 
         [Fact]
         public async Task EditAddress_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            EditCustomerAddressRequest request = null;
+            var request = new EditCustomerAddressRequest
+            {
+                Address = new Core.Entities.Common.Address("br",
+                "são paulo",
+                "cidade",
+                "bairro",
+                "endereço",
+                "primeiro endereço",
+                "segundo endereço",
+                "123456789",
+                "numero",
+                "complemento"),
+                WhoReceives = "aguinobaldo"
+            };
 
             // Act
-            var result = await _controller.EditAddress(request);
-
+            var response = await _controller.EditAddress(request);
+            var statusResult = response as OkObjectResult;
+            var result = response as Result;
             // Assert
-            Assert.True(false);
+            Assert.Equal(200,(int)statusResult.StatusCode);
         }
 
         [Fact]
@@ -116,10 +146,12 @@ namespace StormyCommerce.Modules.Tests
             // Arrange            
 
             // Act
-            var result = await _controller.ResendConfirmationEmail();
-
+            var response = await _controller.ResendConfirmationEmail();
+            var statusResult = response as OkObjectResult;
+            var result = statusResult.Value as Result<string>;
             // Assert
-            Assert.True(false);
+            Assert.Equal(200,(int)statusResult.StatusCode);
+            Assert.True(result.Success);
         }
 
         [Fact]
