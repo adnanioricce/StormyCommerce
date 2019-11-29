@@ -41,21 +41,8 @@ namespace SimplCommerce.WebHost
             var configuration = configBuilder.Build();
             configBuilder.AddEntityFrameworkConfig(options => {
                 options.EnableDetailedErrors();
-                options.EnableSensitiveDataLogging();
-                // if (!env.IsDevelopment())
-                // {
-                //    options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
-                // }
-                // else
-                // {                    
-                    // options.UseSqlite("DataSource=config.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                       
-<<<<<<< HEAD
-                    options.UseInMemoryDatabase("ConfigDb");
-=======
-                    options.UseInMemoryDatabase("appsettings_db");
->>>>>>> 4ed722e6fd12064c1329f8b7a3e1de54196859c4
-                // }
-
+                options.EnableSensitiveDataLogging();                
+                    options.UseInMemoryDatabase("ConfigDb");                
                 }
             );
             Log.Logger = new LoggerConfiguration()
