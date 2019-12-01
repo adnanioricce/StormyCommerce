@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Customer;
@@ -25,15 +26,18 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         private readonly IUserIdentityService _identityService;          
         private readonly IEmailSender _emailSender;
         private readonly IAppLogger<AccountController> _logger;
+        private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
         public AccountController(IUserIdentityService identityService,
         IEmailSender emailSender,
-        IAppLogger<AccountController> logger,        
+        IAppLogger<AccountController> logger,
+        ICustomerService customerService,
         IMapper mapper)
         {
             _identityService = identityService;                    
             _emailSender = emailSender;
             _logger = logger;
+            _customerService = customerService;
             _mapper = mapper;
         }
         [HttpGet("ConfirmEmail")]
@@ -60,64 +64,29 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 
             if (!result.Succeeded) return BadRequest();
 
-            return Ok();
+            return Ok(Result.Ok(result));
         }     
         [HttpPost("add_shipping_address")]
         [Authorize(Roles.Customer)]
         [ValidateModel]
         //TODO:Duplicated Logic, too much ifs, refactor this
         public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddressRequest model)
-        {
-            var user = await GetCurrentUser();
-            if (!model.IsBillingAddress)
+        {            
+            var user = await GetCurrentUser();            
+            user.Addresses.Add(new CustomerAddress(model.Address)
             {
-                if (user.DefaultShippingAddress == null)
-                {
-                    user.DefaultShippingAddress = new CustomerAddress
-                    {
-                        PostalCode = model.Address.PostalCode,
-                        District = model.Address.District,
-                        Number = model.Address.Number,
-                        FirstAddress = model.Address.FirstAddress,
-                        SecondAddress = model.Address.SecondAddress,
-                        State = model.Address.State,
-                        Street = model.Address.Street,
-                        Country = model.Address.Country,
-                        Complement = model.Address.Complement,
-                        City = model.Address.City,                       
-                        Owner = user,
-                        WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
-                    };
-                    var result = await _identityService.EditUserAsync(user);
-                    if (!result.Success) return BadRequest(result);
-                    return Ok(new
-                    {
-                        message = "address added with success",
-                        result = result
-                    });
-                }
-                user.DefaultShippingAddress.SetAddress(model.Address);
-                await _identityService.EditUserAsync(user);
-                return Ok(Result.Ok("address updated with success"));
-            }
-            if(user.DefaultBillingAddress == null)
+                Type = model.Type,
+                IsDefault = model.IsDefault,
+                WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? "" : model.WhoReceives
+            });
+            var result = await _identityService.EditUserAsync(user);
+            if (!result.Success) return BadRequest(result);
+            return Ok(new
             {
-                user.DefaultBillingAddress = new CustomerAddress(model.Address)
-                {                    
-                    Owner = user,
-                    WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
-                };
-                var result = await _identityService.EditUserAsync(user);
-                if (!result.Success) return BadRequest(result);
-                return Ok(new
-                {
-                    message = "address added with success",
-                    result = result
-                });                
-            }
-            user.DefaultBillingAddress.SetAddress(model.Address);
-            await _identityService.EditUserAsync(user);
-            return Ok(Result.Ok("address updated with success"));
+                message = "address added with success",
+                result = result
+            });
+                            
         }                
         [HttpPut("edit_account")]
         [Authorize(Roles.Customer)]
@@ -136,7 +105,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> EditAddress([FromBody]EditCustomerAddressRequest request) 
         {
             var currentUser = await this.GetCurrentUser();
-            _mapper.Map<EditCustomerAddressRequest, CustomerAddress>(request, currentUser.DefaultShippingAddress);
+            //_mapper.Map<EditCustomerAddressRequest, CustomerAddress>(request, currentUser.Addresses.FirstOrDefault(a => a.Id == request.Address));
             var result = await _identityService.EditUserAsync(currentUser);
             if (!result.Success) return BadRequest(result);
             return Ok(new
@@ -151,7 +120,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> ResendConfirmationEmail()
         {
             var user = await GetCurrentUser();
-            var code = _identityService.CreateEmailConfirmationCode(user);
+            var code = await _identityService.CreateEmailConfirmationCode(user);
             var callbackUrl = Url.Action("ConfirmEmailAsync", "Account", 
             new { userId = user.Id, code = code },
              protocol: HttpContext.Request.Scheme);            
@@ -165,7 +134,33 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {
             var user = await GetCurrentUser();
             return _mapper.Map<StormyCustomer,CustomerDto>(user);
-        }          
+        }
+        #region Delete Operations 
+        [HttpDelete("delete")]
+        [Authorize(Roles.Customer)]
+        public async Task<IActionResult> DeleteAccount(string password)
+        {
+            var currentUser = await GetCurrentUser();
+            var result = await _identityService.DeleteUserAsync(currentUser, password);
+            var isInternalError = currentUser is Result<StormyCustomer>;
+            //This is a little tricky...
+            if (isInternalError) return StatusCode(500, result);
+            if (!result.Success) return BadRequest(result);
+            return Ok(result);            
+        }
+        [HttpDelete("delete_address")]
+        [Authorize(Roles.Customer)]
+        public async Task<IActionResult> DeleteAddress(long addressId)
+        {
+            var currentUser = await GetCurrentUser();
+            var result = _customerService.DeleteAddress(currentUser, addressId);
+            if (!result.Success)
+            {
+                return BadRequest(new { result = result, customer = currentUser });
+            }
+            return Ok(new { result = result, customer = currentUser });
+        }
+        #endregion
         private Task<StormyCustomer> GetCurrentUser()
         {
             return _identityService.GetUserByClaimPrincipal(User);

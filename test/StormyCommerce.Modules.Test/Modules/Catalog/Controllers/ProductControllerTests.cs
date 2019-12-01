@@ -8,6 +8,7 @@ using StormyCommerce.Core.Models.Requests;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Controllers;
 using StormyCommerce.WebHost.Mappings;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestHelperLibrary.Mocks;
@@ -32,10 +33,10 @@ namespace StormyCommerce.Modules.Tests.Catalog
         {
             //When            
             string searchPattern = "a";
-            var product = await _productController.SearchProducts(searchPattern);    
-            //Then
-            Assert.True(product.Success);
-            Assert.True(product.Value.All(p => p.ProductName.Contains(searchPattern) ||
+            var response = await _productController.SearchProducts(searchPattern);    
+            var result = response.Value as List<ProductSearchResponse>;
+            //Then            
+            Assert.True(result.All(p => p.ProductName.Contains(searchPattern) ||
             p.ShortDescription.Contains(searchPattern)));
         }
         //[Fact]
@@ -46,7 +47,7 @@ namespace StormyCommerce.Modules.Tests.Catalog
             //Act
             var productsCount = _productController.GetNumberOfProducts();
             //Assert
-            Assert.Equal(60,productsCount);
+            Assert.Equal(63,productsCount);
         }
         [Fact]
         public async Task GetProductOverviewAsync_IdEqual1_ReturnMinifiedVersionOfProductDto()
@@ -65,7 +66,7 @@ namespace StormyCommerce.Modules.Tests.Catalog
         public async Task GetAllProducts_StartIndexEqual1AndEndIndexEqual15_ReturnEntitiesBetweenThesesValues()
         {
             // Arrange
-            long startIndex = 1;
+            long startIndex = 0;
             long endIndex = 15;
 
             // Act

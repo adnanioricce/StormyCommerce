@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Module.Customer.Models;
@@ -65,9 +66,21 @@ namespace StormyCommerce.Module.Customer.Data
                     UserName = "stormydev",
                     Email = "adnangonzaga@gmail.com",
                     EmailConfirmed = true ,
-                    DefaultBillingAddress = new CustomerAddress(new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")),
-                    DefaultShippingAddress = new CustomerAddress(new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")),
-                    
+                    //DefaultBillingAddress = new CustomerAddress(new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")),
+                    //DefaultShippingAddress = new CustomerAddress(new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")),
+                    Addresses = new List<CustomerAddress>
+                    {
+                        new CustomerAddress(new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")) 
+                        { 
+                            Type = AddressType.Billing,
+                            IsDefault = true                        
+                        },                        
+                        new CustomerAddress(new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"))
+                        {
+                            Type = AddressType.Shipping,
+                            IsDefault = true
+                        }
+                    },
                     CPF = "10172930820",
                     PhoneNumber = "+5511992887102",
                     FullName = "Severino Francisco Daniel da Rocha",
@@ -86,11 +99,11 @@ namespace StormyCommerce.Module.Customer.Data
             if (_userManager.FindByNameAsync(user.UserName).Result == null)
             {                
                 var resultado = _userManager.CreateAsync(user, password).Result;          
-                if(user.DefaultShippingAddress != null && user.DefaultBillingAddress != null)
-                {
-                    user.DefaultShippingAddress.StormyCustomerId = user.Id;
-                    user.DefaultBillingAddress.StormyCustomerId = user.Id;
-                }
+                //if(user.DefaultShippingAddress != null && user.DefaultBillingAddress != null)
+                //{
+                //    user.DefaultShippingAddress.StormyCustomerId = user.Id;
+                //    user.DefaultBillingAddress.StormyCustomerId = user.Id;
+                //}
                 if(resultado.Succeeded){                                                                                 
                     user.Role = _roleManager.Roles.FirstOrDefault(r => string.Equals(r.Name,initialRole,StringComparison.OrdinalIgnoreCase));
                     var result = _userManager.UpdateAsync(user).Result;                    

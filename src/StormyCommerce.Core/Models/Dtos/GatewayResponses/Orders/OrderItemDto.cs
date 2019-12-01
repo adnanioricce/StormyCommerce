@@ -9,7 +9,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         {            
             Price = orderItem.Price;
             Quantity = orderItem.Quantity;
-            Product = new ProductDto(orderItem.Product);
+            Product = orderItem.Product == null ? this.Product : new ProductDto(orderItem.Product);
         }
         public OrderItemDto(decimal price,int quantity,ProductDto product)
         {
@@ -24,7 +24,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
         public long Id { get; private set; }
         public decimal Price { get; private set; }
         public int Quantity { get; private set; }
-        public ProductDto Product { get; private set; }        
+        public ProductDto Product { get; private set; } = new ProductDto();       
 
         public OrderItem ToOrderItem()
         {

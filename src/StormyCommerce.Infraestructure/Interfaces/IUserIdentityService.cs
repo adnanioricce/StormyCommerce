@@ -23,13 +23,11 @@ namespace StormyCommerce.Infraestructure.Interfaces
         Task<StormyCustomer> GetUserByClaimPrincipal(ClaimsPrincipal principal);
         Task<SignInResult> PasswordSignInAsync(StormyCustomer user, string password, bool isPersistent = true, bool lockoutInFailure = false);
         UserManager<StormyCustomer> GetUserManager();
-
         //Actually, you will not signout, it's a JWT based authentication
         Task SignOutAsync();
-
         IEnumerable<Claim> BuildClaims(StormyCustomer user);
-
         Task<string> CreateEmailConfirmationCode(StormyCustomer user);
         Task<Result> EditUserAsync(StormyCustomer customer);
+        Task<Result> DeleteUserAsync(StormyCustomer user, string password);
     }
 }

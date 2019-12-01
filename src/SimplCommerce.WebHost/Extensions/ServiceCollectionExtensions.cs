@@ -153,7 +153,7 @@ namespace SimplCommerce.WebHost.Extensions
                 services.AddDbContextPool<StormyDbContext>(options => {
                     options.UseLazyLoadingProxies();
                     options.UseLoggerFactory(Container.loggerFactory);                    
-                    options.UseNpgsql(Environment.GetEnvironmentVariable("DATABASE_URL"),
+                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                     options.EnableDetailedErrors();
                     options.EnableSensitiveDataLogging();
@@ -162,9 +162,9 @@ namespace SimplCommerce.WebHost.Extensions
             }
             services.AddDbContextPool<StormyDbContext>(options => {
                 options.UseLazyLoadingProxies();
-                options.UseLoggerFactory(Container.loggerFactory);                
-                //options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));
-		options.UseNpgsql(configuration.GetConnectionString("docker"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                options.UseLoggerFactory(Container.loggerFactory);
+                options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                //options.UseNpgsql(configuration.GetConnectionString("docker"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
             });

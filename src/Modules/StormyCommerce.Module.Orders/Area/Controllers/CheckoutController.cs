@@ -77,12 +77,12 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var result = await CreateOrderForCheckout(request, userDto, user.Id);
             if (!result.Success)
             {
-                _logger.LogError(result.Error, result);
+                _logger.LogError(result.Message, result);
                 return BadRequest(result);
             }
             var shipmentCreateResult = await CreateShipmentForOrder(result,request,userDto);
             if (!shipmentCreateResult.Success) {                
-                _logger.LogError(shipmentCreateResult.Error, shipmentCreateResult);                
+                _logger.LogError(shipmentCreateResult.Message, shipmentCreateResult);                
                 return BadRequest(Result.Fail("Failed to add shipment to order. Exception was throwed when storing on database"));
             }
             var order = await _orderService.GetOrderByIdAsync(result.Value.Id);
@@ -98,12 +98,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var order = BuildOrderForCreditCardCheckout(request);
             var createOrderResult = await _orderService.CreateOrderAsync(order);
             var result = await CreateShipmentForOrder(createOrderResult, request, userDto);
-            var orderDto = await _orderService.GetOrderByIdAsync(createOrderResult.Value.Id);
-            //_paymentProcessor.ProcessPaymentAsync(request, userDto);
-            //OBS:You should have all information about the order(payment,Shipment and Customer) 
-            //before creating a Credit Card Transaction, so try to do the inverse of the boleto checkout
-            //TODO:Capture Transaction
-            //return Ok(new CheckoutResponse(order.Value));
+            var orderDto = await _orderService.GetOrderByIdAsync(createOrderResult.Value.Id);            
             return NoContent();
         }
         [HttpPost("postback")]
@@ -135,7 +130,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         private async Task<Result> CreateShipmentForOrder(Result<OrderDto> result, CheckoutRequest request,CustomerDto userDto)
         {
             var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest(result.Value, request));
-            shipment.DestinationAddressId = userDto.DefaultShippingAddress.Id;
+            shipment.DestinationAddressId = userDto.Addresses.FirstOrDefault(u => u.IsDefault && u.Type == AddressType.Shipping).Id;
             var shipmentResult = await _shippingService.CreateShipmentAsync(shipment);
             return shipmentResult;
         }

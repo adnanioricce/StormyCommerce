@@ -3,12 +3,12 @@
     public class Result
     {
         public bool Success { get; set; }
-        public string Error { get; set; }
+        public string Message { get; set; }
 
         protected Result(bool success, string error)
         {
             Success = success;
-            Error = error;
+            Message = error;
         }
 
         public static Result Fail(string error)

@@ -1,17 +1,7 @@
 ﻿using Xunit;
-using TestHelperLibrary.Mocks;
-using System.Net.Http;
-using StormyCommerce.Modules.IntegrationTest;
-using Microsoft.AspNetCore.TestHost;
-//using StormyCommerce.Module.Shipping.Areas.Shipping.Models;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Xunit.Abstractions;
-using StormyCommerce.Module.Orders.Area.Models;
 using System.Linq;
-using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using AutoMapper;
 using StormyCommerce.Module.Orders.Area.Controllers;
 using SimplCommerce.WebHost;

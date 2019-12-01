@@ -46,23 +46,25 @@ namespace StormyCommerce.Modules.Tests
         public async Task ConfirmEmailAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = null;
-            string code = null;
+            var user = _userManager.Users.FirstOrDefault(u => !string.Equals(u.UserName,"stormydev"));
+            user.EmailConfirmed = false;
+            await _userManager.UpdateAsync(user);
+            string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             // Act
             var result = await service.ConfirmEmailAsync(user,code);
 
             // Assert
-            Assert.True(false);
+            Assert.True(user.EmailConfirmed);
         }
 
         [Fact]
         public async Task ResetPasswordAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = null;
-            string token = null;
-            string newPassword = null;
+            StormyCustomer user = _userManager.Users.FirstOrDefault(u => !string.Equals(u.UserName,"stormydev"));
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            string newPassword = "!N3wpassword";
 
             // Act
             var result = await service.ResetPasswordAsync(
@@ -71,7 +73,7 @@ namespace StormyCommerce.Modules.Tests
                 newPassword);
 
             // Assert
-            Assert.True(false);
+            Assert.True(result.Succeeded);
         }
 
         [Fact]
@@ -108,7 +110,7 @@ namespace StormyCommerce.Modules.Tests
             // Act
             var user = service.GetUserByUsername(username);
             // Assert
-            Assert.Equal(username,user.UserName);
+            Assert.NotNull(user);
         }
 
         [Fact]

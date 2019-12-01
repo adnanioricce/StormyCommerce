@@ -46,8 +46,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             ThumbnailImage = product.ThumbnailImage;
             Medias = product.Medias.Select(m => new ProductMediaDto(m)).ToList();
             Categories = product.Categories.Select(c => new ProductCategoryDto(c)).ToList();
-            Brand = new BrandDto(product.Brand);                        
-            Vendor = new VendorDto(product.Vendor);
+            Brand = product.Brand == null ? this.Brand : new BrandDto(product.Brand);                        
+            Vendor = product.Vendor == null ? this.Vendor : new VendorDto(product.Vendor);
         }
 
         public long Id { get; set; }

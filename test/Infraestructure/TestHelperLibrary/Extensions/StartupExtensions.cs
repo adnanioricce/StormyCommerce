@@ -68,6 +68,7 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
             services.AddTransient<StormyUserStore>();
             services.AddScoped<IUserIdentityService, UserIdentityService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<ICustomerService, CustomerService>();
             services.AddIdentity<StormyCustomer, ApplicationRole>()
                 .AddEntityFrameworkStores<StormyDbContext>()
                 .AddUserStore<StormyUserStore>()

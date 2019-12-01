@@ -89,34 +89,34 @@ namespace StormyCommerce.Core.Services.Orders
         }
         public async Task<Result<OrderDto>> GetOrderByUniqueIdAsync(Guid uniqueId)
         {
-            _orderRepository.Table
+            _orderRepository.Query()
                .Include(order => order.Items)
                .Include(order => order.Shipment)
                    .ThenInclude(shipment => shipment.DestinationAddress)
                        .ThenInclude(customerAddress => customerAddress.Owner)
                .Include(order => order.Customer)
-                    .ThenInclude(order => order.DefaultShippingAddress)
+                    //.ThenInclude(order => order.DefaultShippingAddress)
                .Include(order => order.Payment)                    
                .Load();
-            _orderRepository.Table
+            _orderRepository.Query()
             .Include(order => order.Items)            
             .Include(order => order.Payment)
             .Include(order => order.Shipment); 
 
-            var result = await _orderRepository.Table
+            var result = await _orderRepository.Query()
             .Where(o => o.OrderUniqueKey.ToString().Equals(uniqueId.ToString()))
             .FirstOrDefaultAsync();
             return new Result<OrderDto>(result.ToOrderDto(),true,"No error");
         }
         public async Task<Result<OrderDto>> GetOrderByIdAsync(long id)
         {
-            _orderRepository.Table
+            _orderRepository.Query()
                .Include(order => order.Items)
                .Include(order => order.Shipment)
                    .ThenInclude(shipment => shipment.DestinationAddress)
                        .ThenInclude(customerAddress => customerAddress.Owner)
                .Include(order => order.Customer)
-                    .ThenInclude(order => order.DefaultShippingAddress)
+                    //.ThenInclude(order => order.DefaultShippingAddress)
                .Include(order => order.Payment)                    
                .Load();
             var entity = await _orderRepository.GetByIdAsync(id);
@@ -146,7 +146,7 @@ namespace StormyCommerce.Core.Services.Orders
 
         public async Task<StormyOrder> GetStormyOrderByUniqueIdAsync(Guid uniqueId)
         {
-            return await _orderRepository.Table.Where(o => Guid.Equals(o.OrderUniqueKey, uniqueId)).FirstOrDefaultAsync();
+            return await _orderRepository.Query().Where(o => Guid.Equals(o.OrderUniqueKey, uniqueId)).FirstOrDefaultAsync();
         }
     }
 }

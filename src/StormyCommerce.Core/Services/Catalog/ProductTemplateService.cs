@@ -35,7 +35,7 @@ namespace StormyCommerce.Core.Services.Catalog
         //TODO:change all this to a DTO
         public async Task<Result> EditProductTemplateAsync(long id, ProductTemplate productTemplate)
         {
-            var _template = _productTemplateRepository.Table
+            var _template = _productTemplateRepository.Query()
             .Include(attributes => attributes.ProductAttributes)
             .Where(template => template.Id == id)
             .FirstOrDefault();

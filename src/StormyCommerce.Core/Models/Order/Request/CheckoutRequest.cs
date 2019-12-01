@@ -20,7 +20,7 @@ namespace StormyCommerce.Core.Models.Order.Request
         public List<CartItem> Items { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public string PostalCode { get; set; }
-        public string CardHash { get; set; }
-       
+        public string CardHash { get; set; }        
+
     }
 }

@@ -26,7 +26,9 @@ namespace StormyCommerce.Core.Entities.Customer
         public string Number { get; set; }
         public string Complement { get; set; }
         public string Country { get; set; }
-        public string WhoReceives { get; set; }        
+        public string WhoReceives { get; set; }
+        public AddressType Type { get; set; }
+        public bool IsDefault { get; set; }
         public bool IsDeleted { get; set; }
         public string StormyCustomerId { get; set; }
         public virtual StormyCustomer Owner { get; set; }

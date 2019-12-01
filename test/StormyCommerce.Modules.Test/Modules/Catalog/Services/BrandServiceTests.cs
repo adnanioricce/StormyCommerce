@@ -58,7 +58,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         {
             // Arrange            
             long id = 1;
-            var brand = await service.GetBrandByIdAsync(1);
+            var brand = await service.GetBrandByIdAsync(id);
             // Act
             await service.DeleteAsync(id);
 

@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using StormyCommerce.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace StormyCommerce.Core.Interfaces
 {
     public interface IStormyRepository<T> where T : class
     {
-        Task<IList<T>> GetAllAsync();
+        Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null);
 
         Task<IList<T>> GetAllByIdsAsync(long[] ids);
 
@@ -30,7 +32,7 @@ namespace StormyCommerce.Core.Interfaces
 
         void SaveChanges();
 
-        IQueryable<T> Table { get; }
+        IQueryable<T> Query();
 
         IDbContextTransaction BeginTransaction();
     }

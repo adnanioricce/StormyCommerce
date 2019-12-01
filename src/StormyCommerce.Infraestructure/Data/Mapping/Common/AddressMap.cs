@@ -17,7 +17,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Common
                 entity.HasOne(prop => prop.Owner)
                 .WithMany()
                 .HasForeignKey(prop => prop.StormyCustomerId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
             });
             modelBuilder.Entity<VendorAddress>(entity => {
                 entity

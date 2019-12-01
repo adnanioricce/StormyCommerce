@@ -98,7 +98,7 @@ namespace StormyCommerce.Modules.Tests
             var secondProduct = await _productService.GetProductByIdAsync(4);
             int quantity = 2;
             //Arrange
-            var request = new Core.Models.Order.Request.CheckoutRequest
+            var request = new CheckoutRequest
             {
                 Amount = 12.00m,
                 Items = new List<CartItem>
@@ -116,7 +116,8 @@ namespace StormyCommerce.Modules.Tests
                 },
                 PickUpOnStore = false,
                 ShippingMethod = ShippingMethod.Sedex,
-                PostalCode = "08621030"
+                PostalCode = "08621030",
+                CardHash = "card_ci6l9fx8f0042rt16rtb477gj"
             };
             //Act
             var response = await _controller.CreditCardCheckout(request);

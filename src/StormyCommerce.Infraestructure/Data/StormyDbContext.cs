@@ -35,7 +35,7 @@ namespace StormyCommerce.Infraestructure.Data
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken)
         {
-            ValidateEntities();
+            //ValidateEntities();
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 

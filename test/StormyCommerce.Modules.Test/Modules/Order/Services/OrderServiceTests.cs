@@ -25,10 +25,11 @@ namespace StormyCommerce.Modules.Tests.Services.Orders
         [Fact]
         public async Task CancelOrderAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange            
-            long id = 1;
+            // Arrange                        
+            var order = Seeders.StormyOrderSeed().First();
+            await service.CreateOrderAsync(order);
             // Act
-            var result = await service.CancelOrderAsync(id);
+            var result = await service.CancelOrderAsync(order.Id);
 
             // Assert
             Assert.True(result.Success);
@@ -65,9 +66,10 @@ namespace StormyCommerce.Modules.Tests.Services.Orders
         [Fact]
         public async Task GetOrderByUniqueIdAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange            
-            Guid uniqueId = default(global::System.Guid);
-
+            // Arrange      
+            var order = Seeders.StormyOrderSeed().First();
+            Guid uniqueId = order.OrderUniqueKey;
+            await service.CreateOrderAsync(order);
             // Act
             var result = await service.GetOrderByUniqueIdAsync(uniqueId);
 

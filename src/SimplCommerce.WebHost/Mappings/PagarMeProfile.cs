@@ -67,7 +67,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.Zipcode,opt => opt.MapFrom(src => src.PostalCode));
             CreateMap<StormyCustomer, Billing>()            
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))                                
-                .ForPath(dest => dest.Address, opt => opt.MapFrom(src => src.DefaultBillingAddress))
+                //.ForPath(dest => dest.Address, opt => opt.MapFrom(src => src.DefaultBillingAddress))
                 .AfterMap((src,dest) => {
                     dest.Id = null;
                 });
@@ -81,7 +81,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))                
                 // .ForMember(dest => dest.BornAt,opt => opt.MapFrom(src => src.DateOfBirth))
                 .ForMember(dest => dest.Birthday,opt => opt.MapFrom(src => src.DateOfBirth.Value.ToString("yyyy-MM-dd")))                            
-                .ForPath(dest => dest.Address,opt => opt.MapFrom(src => src.DefaultBillingAddress))                
+                //.ForPath(dest => dest.Address,opt => opt.MapFrom(src => src.DefaultBillingAddress))                
                 .AfterMap((src,dest) => {
                     dest.PhoneNumbers = new string[]
                     {
@@ -104,8 +104,8 @@ namespace StormyCommerce.WebHost.Mappings
                 });
 
             CreateMap<Customer, StormyCustomer>()
-                .ForMember(p => p.DefaultBillingAddress, opt => opt.MapFrom(src => src.Address))
-                .ForMember(p => p.DefaultShippingAddress, opt => opt.MapFrom(src => src.Address))
+                //.ForMember(p => p.DefaultBillingAddress, opt => opt.MapFrom(src => src.Address))
+                //.ForMember(p => p.DefaultShippingAddress, opt => opt.MapFrom(src => src.Address))
                 .ForMember(p => p.Id, opt => opt.MapFrom(src => src.ExternalId))
                 .ForMember(p => p.FullName, opt => opt.MapFrom(src => src.Name));                
             CreateMap<Core.Entities.Common.Address,Address>()

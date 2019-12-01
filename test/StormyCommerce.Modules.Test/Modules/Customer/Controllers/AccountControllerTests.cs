@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.Controllers;
@@ -25,13 +26,14 @@ namespace StormyCommerce.Modules.Tests
             IEmailSender emailSender,
             IAppLogger<AccountController> logger,            
             IMapper mapper,
+            ICustomerService customerService,
             UserManager<StormyCustomer> userManager)
         {
-            _controller = new AccountController(identityService, emailSender, logger, mapper);
+            _controller = new AccountController(identityService, emailSender, logger,customerService,mapper);
             _userManager = userManager;
-            _identityService = identityService;
+            _identityService = identityService;            
             _controller.ControllerContext = _userManager.CreateTestContext();
-        }
+        }        
         [Fact]
         public async Task ConfirmEmailAsync_StateUnderTest_ExpectedBehavior()
         {
@@ -83,7 +85,7 @@ namespace StormyCommerce.Modules.Tests
                 "123456789",
                 "numero",
                 "complemento"),
-                IsBillingAddress = false,
+                Type = AddressType.Shipping,
                 WhoReceives = "adnan"
             };
 
@@ -170,6 +172,27 @@ namespace StormyCommerce.Modules.Tests
             Assert.NotNull(result);
             Assert.NotNull(result.Email);
             Assert.Equal("adnangonzaga@gmail.com", result.Email);
+        }
+        [Fact]
+        public async Task DeleteAccount_ReceivesPassword_ShouldReturnA200Status()
+        {
+            //Arrange 
+            string password = "!D4velopment";
+            //Act 
+            var response = await _controller.DeleteAccount(password);
+            //Assert 
+            var result = response as OkObjectResult;
+            Assert.Equal(200, (int)result.StatusCode);
+        }
+        [Fact]
+        public async Task DeleteAddress_ReceivesAddressId_Return200StatusCode()
+        {
+            var currentUser = await _controller.GetCurrentCustomer();
+            //Act 
+            var response = await _controller.DeleteAddress(currentUser.Addresses.First().Id);
+            //Assert
+            var result = response as OkObjectResult;
+            Assert.Equal(200, (int)result.StatusCode);
         }
     }
 }

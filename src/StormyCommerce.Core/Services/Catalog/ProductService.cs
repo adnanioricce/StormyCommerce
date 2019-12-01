@@ -25,7 +25,7 @@ namespace StormyCommerce.Core.Services.Catalog
         {
             _productRepository = productRepository;            
             _productCategoryRepository = productCategoryRepository;
-            _productRepository.Table
+            _productRepository.Query()
                 .Include(prop => prop.Categories)
                     .ThenInclude(prop => prop.Category)
                 .Include(prop => prop.Medias)
@@ -38,7 +38,7 @@ namespace StormyCommerce.Core.Services.Catalog
         //TODO:write failing test cases
         public async Task<Result<IList<StormyProduct>>> GetAllProductsByCategory(int categoryId, int limit = 15)
         {
-            return Result.Ok<IList<StormyProduct>>(await _productCategoryRepository.Table
+            return Result.Ok<IList<StormyProduct>>(await _productCategoryRepository.Query()
                 .Where(prop => prop.CategoryId == categoryId)
                 .Select(prop => prop.Product)
                 .ToListAsync());
@@ -46,7 +46,7 @@ namespace StormyCommerce.Core.Services.Catalog
         public async Task<IList<StormyProduct>> GetAllProductsDisplayedOnHomepageAsync(int limit)
         {
             return await _productRepository
-                .Table
+                .Query()
                 .OrderBy(p => p.Id)
                 .Take(limit)
                 .ToListAsync();
@@ -54,14 +54,14 @@ namespace StormyCommerce.Core.Services.Catalog
         
         public async Task<IList<StormyProduct>> GetAllProductsAsync(long startIndex = 1, long endIndex = 15)
         {            
-            return await _productRepository.Table                
+            return await _productRepository.Query()                
                 .Where(product => product.Id <= endIndex && product.Id >= startIndex)                
                 .ToListAsync();
         }
 
         public async Task<IList<StormyProduct>> GetAllProductsIncludingAsync(long startIndex = 1, long endIndex = 15)
         {
-            return await _productRepository.Table
+            return await _productRepository.Query()
                 .Include(product => product.Brand)
                 .Include(product => product.Categories)
                 .Include(product => product.Links)
@@ -74,11 +74,11 @@ namespace StormyCommerce.Core.Services.Catalog
         }
         public int GetNumberOfProducts()
         {
-            return _productRepository.Table.Count();
+            return _productRepository.Query().Count();
         }
         public int GetNumberOfProductsByVendorId(int vendorId)
         {
-            return _productRepository.Table.Where(f => f.VendorId == vendorId).Count();
+            return _productRepository.Query().Where(f => f.VendorId == vendorId).Count();
         }
 
         public int GetNumberOfProductsInCategory(IList<long> categoryIds = null)
@@ -88,7 +88,7 @@ namespace StormyCommerce.Core.Services.Catalog
             var products = new List<StormyProduct>();
             foreach (int id in categoryIds)
             {
-                products = _productRepository.Table.Where(p => p.CategoryId == id).ToList();
+                products = _productRepository.Query().Where(p => p.CategoryId == id).ToList();
             }
 
             return products.Count;
@@ -96,7 +96,7 @@ namespace StormyCommerce.Core.Services.Catalog
 
         public async Task<StormyProduct> GetProductByIdAsync(long productId)
         {
-            return await _productRepository.Table
+            return await _productRepository.Query()
             .Include(p => p.Brand)
             .Include(p => p.Categories)
                 .ThenInclude(p => p.Category)
@@ -108,13 +108,13 @@ namespace StormyCommerce.Core.Services.Catalog
         }
         public async Task<List<StormyProduct>> SearchProductsBySearchPattern(string searchPattern)
         {
-            return await _productRepository.Table
+            return await _productRepository.Query()
                 .Where(p => EF.Functions.Like(p.ProductName.ToLower(), "%" + searchPattern.ToLower() + "%"))
                 .ToListAsync();
         }
         public async Task<StormyProduct> GetProductBySkuAsync(string sku)
         {
-            return await _productRepository.Table
+            return await _productRepository.Query()
             .Where(p => p.SKU.Equals(sku, StringComparison.OrdinalIgnoreCase))
             .FirstAsync();
         }
@@ -125,27 +125,27 @@ namespace StormyCommerce.Core.Services.Catalog
         }
         public Task<StormyProduct> GetProductByNameAsync(string productName)
         {
-            return _productRepository.Table.Where(p => String.Equals(p.ProductName.Trim(), productName.Trim(), StringComparison.OrdinalIgnoreCase)).FirstOrDefaultAsync();
+            return _productRepository.Query().Where(p => String.Equals(p.ProductName.Trim(), productName.Trim(), StringComparison.OrdinalIgnoreCase)).FirstOrDefaultAsync();
         }
         public async Task<IList<StormyProduct>> GetProductsBySkuAsync(string[] skuArray, int vendorId = 0)
         {
-            return await _productRepository.Table.Where(p => skuArray.Contains(p.SKU)).ToListAsync();            
+            return await _productRepository.Query().Where(p => skuArray.Contains(p.SKU)).ToListAsync();            
         }
 
         public int GetTotalStockQuantity()
         {
-            return _productRepository.Table.Sum(f => f.UnitsInStock);
+            return _productRepository.Query().Sum(f => f.UnitsInStock);
         }
         public int GetTotalStockQuantityOfProduct(long productId)
         {
-            return _productRepository.Table
+            return _productRepository.Query()
                 .Where(p => p.Id == productId)
                 .Sum(p => p.UnitsInStock);
         }
         public int GetTotalStockQuantityOfProduct(StormyProduct product)
         {
             return _productRepository
-                 .Table
+                 .Query()
                  .Where(p => p.VendorId == product.VendorId)
                  .Sum(p => p.UnitsInStock);
         }        

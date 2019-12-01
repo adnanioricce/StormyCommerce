@@ -14,7 +14,8 @@ namespace StormyCommerce.WebHost.Mappings
             CreateMap<CustomerReviewDto, Review>();
             CreateMap<Review, CustomerReviewDto>();
             CreateMap<CustomerDto, StormyCustomer>();
-            CreateMap<StormyCustomer, CustomerDto>();                            
+            CreateMap<StormyCustomer, CustomerDto>();
+            CreateMap<CustomerAddress, CustomerAddressDto>();
             CreateMap<WriteReviewRequest, Review>();
             CreateMap<CreateCustomerRequest, StormyCustomer>();
             CreateMap<EditCustomerRequest, StormyCustomer>()

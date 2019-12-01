@@ -2,6 +2,7 @@
 using StormyCommerce.Core.Entities.Customer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StormyCommerce.Core.Models.Dtos
 {
@@ -14,17 +15,13 @@ namespace StormyCommerce.Core.Models.Dtos
             Email = customer.Email;
             CPF = customer.CPF;
             PhoneNumber = customer.PhoneNumber;
-            FullName = customer.FullName;
-            DefaultBillingAddress = customer.DefaultBillingAddress ?? new CustomerAddress();
-            DefaultShippingAddress = customer.DefaultShippingAddress ?? new CustomerAddress();
+            FullName = customer.FullName;            
             CustomerWishlist = new WishlistDto(customer.CustomerWishlist);
-            //Addresses = customer.Addresses ?? new List<CustomerAddress>();
+            Addresses = customer.Addresses == null ? this.Addresses : customer.Addresses.Select(c => new CustomerAddressDto(c)).ToList();
         }
         public string UserName { get; private set; }
         public string Email { get; private set; }
-        public IList<CustomerAddress> Addresses { get; private set; } = new List<CustomerAddress>();
-        public CustomerAddress DefaultBillingAddress { get; private set; }
-        public CustomerAddress DefaultShippingAddress { get; private set; }
+        public IList<CustomerAddressDto> Addresses { get; private set; } = new List<CustomerAddressDto>();        
         public List<CustomerReviewDto> CustomerReviews { get; private set; } = new List<CustomerReviewDto>();
         public string CPF { get; private set; }
         public string PhoneNumber { get; private set; }

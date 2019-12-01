@@ -37,8 +37,8 @@ namespace StormyCommerce.Module.Customer.Services
                     .ThenInclude(u => u.WishlistItems)
                         .ThenInclude(u => u.Product)
                 .Include(u => u.CustomerReviews)
-                .Include(u => u.DefaultBillingAddress)
-                .Include(u => u.DefaultShippingAddress)                
+                //.Include(u => u.DefaultBillingAddress)
+                //.Include(u => u.DefaultShippingAddress)                
                 .Load();
             _roleManager.Roles.Load();            
         }
@@ -49,14 +49,18 @@ namespace StormyCommerce.Module.Customer.Services
             {
                 throw new ArgumentNullException("was not possible to create user, the given arguments was null");
             }
-
-            var result = await _userManager.CreateAsync(user, password).ConfigureAwait(true);
+            if(string.IsNullOrEmpty(user.UserName) || string.IsNullOrWhiteSpace(user.UserName))
+            {
+                user.UserName = user.Email.Substring(0, user.Email.IndexOf("@"));
+            }
+            var result = await _userManager.CreateAsync(user, password);
             if (result == null)
             {
                 throw new ArgumentNullException($"was not possible to create user,result is null {result}, on {nameof(CreateUserAsync)}");
             }
             if (result.Errors.Any())
             {
+                var errorMessage = CreateErrorMessage(result);
                 result.Errors.ToList().ForEach(error => Console.WriteLine($"Error creating user: code:{error.Code},{error.Description}"));
             }
             if (!result.Succeeded)
@@ -96,10 +100,14 @@ namespace StormyCommerce.Module.Customer.Services
         {
             _userManager.Users
                 .Include(u => u.CustomerWishlist)
-                    .ThenInclude(u => u.WishlistItems)  
-                    
+                    .ThenInclude(u => u.WishlistItems)                      
                 .Include(u => u.CustomerReviews)
                     .ThenInclude(u => u.Product)
+                .Include(u => u.Addresses)
+                //.Include(u => u.DefaultBillingAddress)   
+                //    .ThenInclude(a => a.Owner)
+                //.Include(u => u.DefaultShippingAddress)
+                //    .ThenInclude(a => a.Owner)
                 .Load();
             var email = principal.Claims.FirstOrDefault(c => c.Type.Contains("emailaddress"))?.Value ?? principal.FindFirstValue(JwtRegisteredClaimNames.Email);
             return GetUserByEmailAsync(email);
@@ -125,8 +133,8 @@ namespace StormyCommerce.Module.Customer.Services
             return Result.Ok();
         }
         public PasswordVerificationResult VerifyHashPassword(StormyCustomer user,string hashedPassword,string providedPassword)
-        {
-            return _userManager.PasswordHasher.VerifyHashedPassword(user,hashedPassword,providedPassword);
+        {            
+            return _userManager.PasswordHasher.VerifyHashedPassword(user, hashedPassword,providedPassword);
         }
         public string HashPassword(StormyCustomer user,string password)
         {
@@ -165,6 +173,21 @@ namespace StormyCommerce.Module.Customer.Services
         {
             user.Role = _roleManager.Roles.Where(r => string.Equals(r.Name,roleName,StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
             return await this.EditUserAsync(user);
+        }
+        public async Task<Result> DeleteUserAsync(StormyCustomer user,string password)
+        {
+            var result = await _signInManager.CheckPasswordSignInAsync(user, password,false);        
+            if (!result.Succeeded)
+            {                
+                return Result.Fail("password don't match, please, check the password");
+            }
+            //if(result == PasswordVerificationResult.SuccessRehashNeeded)
+            //{
+            //TODO: need to rehash password and set the new hash on database
+            //}            
+            var identityResult = await _userManager.DeleteAsync(user);
+            if (!identityResult.Succeeded) return Result.Fail("We failed to delete the user, please try again later",user);
+            return Result.Ok("account was deleted with success!");
         }
         private Result CreateErrorMessage(IdentityResult result)
         {

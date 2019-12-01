@@ -26,7 +26,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {
             _wishListRepository = wishListRepository;
             _userIdentityService = userIdentityService;            
-            _wishListRepository.Table
+            _wishListRepository.Query()
                 .Include(w => w.WishlistItems)
                 .Load();
         }
@@ -36,11 +36,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
             if(!(await _userIdentityService.IsEmailConfirmedAsync(user))) 
                 return BadRequest(Result.Fail("the user needs to confirm your email to perform this operation"));            
-                
-            if(user.CustomerWishlist == null){
-                user.CustomerWishlist = new Wishlist();                
-                user.CustomerWishlist.StormyCustomerId = user.Id;                            
-            }            
+            
             if(!user.CustomerWishlist.AddItem(productId)) return BadRequest(Result.Fail("Product alreadly is on wishlist"));
             var response = await _userIdentityService.EditUserAsync(user);            
             if(!response.Success) return BadRequest(response);

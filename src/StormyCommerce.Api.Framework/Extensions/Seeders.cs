@@ -304,8 +304,8 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.CPF =  "000000000";
                     v.CreatedOn =  DateTime.UtcNow;
                     var addresses = Seeders.AddressSeed(2);                                    
-                    v.DefaultBillingAddress = addresses.First(); 
-                    v.DefaultShippingAddress = addresses.Last();                    
+                    //v.DefaultBillingAddress = addresses.First(); 
+                    //v.DefaultShippingAddress = addresses.Last();                    
                     //v.Addresses.AddRange(addresses);                    
                     var review = Seeders.ReviewSeed(count,omitId).First();
                     review.Id += omitId ? 0 : f.IndexVariable;
