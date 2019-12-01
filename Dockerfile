@@ -1,6 +1,5 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS base
 WORKDIR /app
-EXPOSE 80
 EXPOSE 443
 COPY . ./
 RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost/appsettings.docker.json src/SimplCommerce.WebHost/appsettings.json

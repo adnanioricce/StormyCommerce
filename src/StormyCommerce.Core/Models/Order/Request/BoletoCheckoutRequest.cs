@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using StormyCommerce.Core.Models.Dtos;
-using StormyCommerce.Core.Models.Order;
+using StormyCommerce.Core.Entities.Shipping;
 
 namespace StormyCommerce.Core.Models.Order
 {
-    public class SimpleBoletoCheckoutRequest : IValidatableObject
+    public class BoletoCheckoutRequest : IValidatableObject
     {
         [Required]
         [Range(1,9999999)]
         public decimal Amount { get; set; }
         public string PaymentMethod { get; } = "boleto";
+        public ShippingMethod ShippingMethod { get; set; }
         public bool PickUpOnStore { get; set; }
         [Required]
         public List<CartItem> Items { get; set; }        

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
+using StormyCommerce.Core.Models.Shipment.Request;
 using StormyCommerce.Module.Orders.Area.Controllers;
 using StormyCommerce.Module.Orders.Area.Models;
 using StormyCommerce.Module.Orders.Area.Models.Shipping;

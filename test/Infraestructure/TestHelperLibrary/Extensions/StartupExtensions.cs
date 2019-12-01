@@ -15,6 +15,7 @@ using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Core.Services.Orders;
+using StormyCommerce.Core.Services.Shipping;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Stores;
 using StormyCommerce.Infraestructure.Interfaces;
@@ -47,6 +48,9 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
             services.AddTransient<ICalcPrecoPrazoWSSoap, CalcPrecoPrazoWSSoapClient>();
             services.AddTransient<IShippingService, ShippingService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddSingleton<IShippingBuilder, ShippingBuilder>();
+            services.AddSingleton<IShippingProvider, CorreiosService>();
+            services.AddTransient<IShippingService, ShippingService>();
             services.AddTransient<IPaymentProcessor, PaymentProcessor>();
             services.AddTransient<CorreiosService>();
             PagarMeService.DefaultApiKey = Container.Configuration["PagarMe:ApiKey"];

@@ -30,7 +30,7 @@ namespace StormyCommerce.Module.Orders.Services
             _productService = productService;
             _mapper = mapper;
         }
-        public async Task<ProcessBoletoPaymentResponse> ProcessBoletoPayment(SimpleBoletoCheckoutRequest request,CustomerDto customerDto)
+        public async Task<ProcessBoletoPaymentResponse> ProcessBoletoPayment(BoletoCheckoutRequest request,CustomerDto customerDto)
         {
             var processRequest = await MapToProcessRequest(request,customerDto);
             var transaction = _pagarMeWrapper.CreateSimpleBoletoTransaction(processRequest);
@@ -41,7 +41,7 @@ namespace StormyCommerce.Module.Orders.Services
                 Result = result
             };
         }
-        private async Task<ProcessBoletoPaymentRequest> MapToProcessRequest(SimpleBoletoCheckoutRequest request,CustomerDto customerDto)
+        private async Task<ProcessBoletoPaymentRequest> MapToProcessRequest(BoletoCheckoutRequest request,CustomerDto customerDto)
         {
             var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.StormyProductId).ToArray());
             var items = products
@@ -72,7 +72,7 @@ namespace StormyCommerce.Module.Orders.Services
                 PaymentDate = transaction.DateCreated.Value,
                 PickUpInStore = request.PickUpOnStore,
             };
-            order.Payment = new Payment
+            order.Payment = new StormyPayment
             {
                 Amount = request.Amount,
                 CreatedOn = DateTimeOffset.UtcNow,
@@ -81,15 +81,14 @@ namespace StormyCommerce.Module.Orders.Services
                 PaymentStatus = PaymentStatus.Pending,
                 BoletoUrl = transaction.BoletoUrl,
                 BoletoBarcode = transaction.BoletoBarcode,
-                Order = order
+                //Order = order
             };
             order.Items = request.Items.Select(i => new OrderItem
             {
                 StormyProductId = i.Product.Id,
                 Quantity = i.Quantity,
                 Price = i.Price
-            }).ToList();
-            //order.Shipment = new Shipment()            
+            }).ToList();                  
             return order;
         }
     }

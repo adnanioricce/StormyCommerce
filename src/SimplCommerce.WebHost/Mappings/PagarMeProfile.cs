@@ -31,7 +31,7 @@ namespace StormyCommerce.WebHost.Mappings
         }
         public void TransactionMap()
         {           
-            CreateMap<Transaction,Payment>()
+            CreateMap<Transaction,StormyPayment>()
                 .ForMember(dest => dest.Amount,opt => opt.MapFrom(src => src.Amount))
                 .ForMember(dest => dest.CreatedOn,opt => opt.MapFrom(src => src.DateCreated))
                 .ForMember(dest => dest.GatewayTransactionId,opt => opt.MapFrom(src => src.Id))
@@ -39,9 +39,9 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod.ToString()))
                 .ForMember(dest => dest.FailureMessage,opt => opt.MapFrom(src => src.Status));
             //TODO:Need better way to map this                
-            CreateMap<SimpleBoletoCheckoutRequest, Transaction>()
-                .ForMember(dest => dest.Amount,opt => opt.MapFrom(src => (int)(src.Amount * 100)));                
-            CreateMap<BoletoCheckoutRequest, Transaction>();
+            CreateMap<Core.Models.Order.BoletoCheckoutRequest, Transaction>()
+                .ForMember(dest => dest.Amount,opt => opt.MapFrom(src => (int)(src.Amount * 100)));
+            CreateMap<Module.Orders.Area.Models.Orders.BoletoCheckoutRequest, Transaction>();
             CreateMap<Transaction, StormyOrder>()
                 .ForMember(p => p.TotalPrice,opt => opt.MapFrom(src => (src.Amount / 100)))                
                 .ForPath(p => p.Shipment.DestinationAddress,opt => opt.MapFrom(src => src.Shipping.Address))
@@ -50,8 +50,8 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForPath(p => p.Shipment.DeliveryDate,opt => opt.MapFrom(src => Convert.ToDateTime(src.Shipping.DeliveryDate)))                
                 .ForPath(p => p.Payment.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod))                                
                 .ForPath(p => p.Payment.PaymentFee,opt => opt.MapFrom(src => src.Cost))
-                .ForPath(p => p.Payment.Amount,opt => opt.MapFrom(src => src.Amount));  
-            CreateMap<BoletoCheckoutRequest, Transaction>()
+                .ForPath(p => p.Payment.Amount,opt => opt.MapFrom(src => src.Amount));
+            CreateMap<Module.Orders.Area.Models.Orders.BoletoCheckoutRequest, Transaction>()
                 .ForMember(p => p.Amount,opt => opt.MapFrom(src => src.Amount))
                 .ForMember(p => p.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod));                            
         }

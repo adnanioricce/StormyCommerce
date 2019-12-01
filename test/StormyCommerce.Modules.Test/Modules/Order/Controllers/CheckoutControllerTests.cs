@@ -4,11 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.Payments;
+using StormyCommerce.Core.Entities.Shipping;
+using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Core.Interfaces.Domain.Payments;
+using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Models.Order;
+using StormyCommerce.Core.Models.Order.Response;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Orders.Area.Controllers;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
@@ -30,9 +36,11 @@ namespace StormyCommerce.Modules.Tests
             UserManager<StormyCustomer> userManager,
             IPaymentProcessor paymentProcessor,
             IProductService productService,
+            IShippingService shippingService,
+            IAppLogger<CheckoutController> logger,
             PagarMeWrapper pagarMeWrapper)
         {
-            _controller = new CheckoutController(identityService, paymentProcessor,orderService,productService, mapper);
+            _controller = new CheckoutController(identityService, paymentProcessor,orderService,productService,shippingService,logger, mapper);
             _controller.ControllerContext = userManager.CreateTestContext();
             _productService = productService;
         }
@@ -46,7 +54,7 @@ namespace StormyCommerce.Modules.Tests
             var secondProductStock = secondProduct.UnitsInStock;
             var oldStockQuantity = _productService.GetTotalStockQuantity();
             int quantity = 1;
-            var request = new SimpleBoletoCheckoutRequest{
+            var request = new Core.Models.Order.BoletoCheckoutRequest{
                 Amount = 12.00m,
                 Items = new List<CartItem>
                 {
@@ -61,23 +69,32 @@ namespace StormyCommerce.Modules.Tests
                         StormyProductId = secondProduct.Id
                     }
                 },
-                PickUpOnStore = false
+                PickUpOnStore = false,
+                ShippingMethod = Core.Entities.Shipping.ShippingMethod.Sedex,
+                PostalCode = "08621030"                
             };
             
             
             // Act
-            var response = await _controller.SimpleCheckoutBoleto(request);
-            var result = response.Result as OkObjectResult;
-            var value = result.Value as Result;
+            var response = await _controller.BoletoCheckout(request);
+            var result = response.Result as OkObjectResult;            
+            var value = result.Value as BoletoCheckoutResponse;
 
             // Assert
             var actualStockQuantity = _productService.GetTotalStockQuantity();
-            Assert.Equal(200,(int)result.StatusCode);
-            //Assert.Equal(oldStockQuantity - (quantity * request.Items.Count), actualStockQuantity);
+            Assert.Equal(200,(int)result.StatusCode);            
             Assert.Equal(firstProductStock - quantity, firstProduct.UnitsInStock);
             Assert.Equal(secondProductStock - quantity, secondProduct.UnitsInStock);
-            Assert.True(value.Success);            
+            Assert.Equal(PaymentStatus.Pending, value.Payment.PaymentStatus);
+            //Assert.Equal(ShippingStatus.NotShippedYet,value.Shipment.)
             Assert.True(firstProduct.UnitsInStock >= 0 && secondProduct.UnitsInStock >= 0);
+            Assert.True(value.Order.Items.Count > 0);            
+            Assert.NotNull(value.Payment);
+            Assert.NotNull(value.Shipment);
+            Assert.NotNull(value.Shipment.DestinationAddress);
+            Assert.NotNull(value.Payment.GatewayTransactionId);            
+
+
         }        
 
     }

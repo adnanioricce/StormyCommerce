@@ -88,8 +88,8 @@ namespace StormyCommerce.Module.Customer.Data
                 var resultado = _userManager.CreateAsync(user, password).Result;          
                 if(user.DefaultShippingAddress != null && user.DefaultBillingAddress != null)
                 {
-                    user.DefaultShippingAddress.UserId = user.Id;
-                    user.DefaultBillingAddress.UserId = user.Id;
+                    user.DefaultShippingAddress.StormyCustomerId = user.Id;
+                    user.DefaultBillingAddress.StormyCustomerId = user.Id;
                 }
                 if(resultado.Succeeded){                                                                                 
                     user.Role = _roleManager.Roles.FirstOrDefault(r => string.Equals(r.Name,initialRole,StringComparison.OrdinalIgnoreCase));

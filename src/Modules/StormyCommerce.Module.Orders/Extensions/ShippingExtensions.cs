@@ -12,8 +12,8 @@ namespace StormyCommerce.Module.Orders.Extensions
         {
             var response = new DeliveryCalculationOptionResponse
             {
-                DeliveryDeadline = DateTimeOffset.UtcNow.AddDays(Convert.ToInt32(cServico.PrazoEntrega)),                
-                Price = cServico.Valor,
+                DeliveryDate = DateTimeOffset.UtcNow.AddDays(Convert.ToInt32(cServico.PrazoEntrega)),                
+                Price = Convert.ToDecimal(cServico.Valor.Replace("R$","").Replace(",",".")),
                 Service = cServico.Codigo.ToString()
             };
             if (!String.IsNullOrEmpty(cServico.DataMaxEntrega))

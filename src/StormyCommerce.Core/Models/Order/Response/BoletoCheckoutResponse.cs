@@ -1,11 +1,13 @@
-﻿using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+﻿using StormyCommerce.Core.Models.Dtos;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Shipping;
 
 namespace StormyCommerce.Core.Models.Order.Response
 {
     public class BoletoCheckoutResponse
     {
-        public string BoletoUrl { get; set; }
-        public string BoletoBarcode { get; set; }
-        public Result<OrderDto> Result { get; set; }
+        public PaymentDto Payment { get; set; }
+        public ShipmentDto Shipment { get; set; }
+        public OrderDto Order { get; set; }        
     }
 }

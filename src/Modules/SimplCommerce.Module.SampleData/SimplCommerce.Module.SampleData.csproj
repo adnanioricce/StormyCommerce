@@ -14,5 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Bogus" Version="28.0.2" />
+    <PackageReference Include="EntityFrameworkCore.Diagrams" Version="0.4.2" />
   </ItemGroup>
 </Project>

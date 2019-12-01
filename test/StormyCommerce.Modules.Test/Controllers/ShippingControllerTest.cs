@@ -17,6 +17,7 @@ using StormyCommerce.Module.Orders.Area.Controllers;
 using SimplCommerce.WebHost;
 using StormyCommerce.Core.Shipment;
 using StormyCommerce.Core.Models.Shipment.Response;
+using StormyCommerce.Core.Models.Shipment.Request;
 
 namespace StormyCommerce.Modules.Test.Controllers
 {
@@ -33,7 +34,7 @@ namespace StormyCommerce.Modules.Test.Controllers
         {
             //Given
             var model = new DeliveryCalculationRequest{
-                ServiceCode = "40010",
+                ShippingMethod = "40010",
                 FormatCode = FormatCode.CaixaOuPacote,
                 Height = 3,
                 Width = 16,
@@ -47,7 +48,7 @@ namespace StormyCommerce.Modules.Test.Controllers
             //Then            
             var result = Assert.IsType<DeliveryCalculationResponse>(response.Value);                        
             var serviceCost = response.Value.FirstOrDefault();
-            Assert.Equal("26,10",serviceCost.Price);
+            Assert.Equal(26.10m,serviceCost.Price);
         }
     }
 }

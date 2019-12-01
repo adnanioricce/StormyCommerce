@@ -52,16 +52,20 @@ namespace StormyCommerce.Modules.Tests
         public async Task ResetPasswordAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            ResetPasswordViewModel model = new ResetPasswordViewModel { 
-                
+            var user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email, "adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
+            ResetPasswordViewModel model = new ResetPasswordViewModel {                 
+                Code = await _identityService.GeneratePasswordResetTokenAsync(user),
+                Email = user.Email,
+                Password = "!D4vpassword",
+                ConfirmPassword = "!D4vpassword"
             };
 
             // Act
-            var result = await _controller.ResetPasswordAsync(
-                model);
+            var response = await _controller.ResetPasswordAsync(model);
+            var statusResult = response as OkObjectResult;
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(200,(int)statusResult.StatusCode);
         }
 
         [Fact]

@@ -4,21 +4,19 @@ using StormyCommerce.Core.Entities.Order;
 using System;
 using System.Collections.Generic;
 
-namespace StormyCommerce.Core.Entities
+namespace StormyCommerce.Core.Entities.Shipping
 {    
-    public class Shipment : BaseEntity
+    public class StormyShipment : BaseEntity
     {
-        public Shipment(long id)
+        public StormyShipment(long id)
         {
             Id = id;
         }
-        public Shipment(){}                        
+        public StormyShipment(){}                        
         public long StormyOrderId { get; set; }
-        public virtual StormyOrder Order { get; set; }        
-        public string WhoReceives { get; set; }
+        public virtual StormyOrder Order { get; set; }                
         public string TrackNumber { get; set; }
-        public string ShipmentMethod { get; set; }
-        public string ShipmentServiceName { get; set; }
+        public ShippingMethod ShipmentMethod { get; set; }        
         public string ShipmentProvider { get; set; }
         public double TotalWeight { get; set; }
         public double TotalHeight { get; set; }        
@@ -31,19 +29,11 @@ namespace StormyCommerce.Core.Entities
         public DateTimeOffset? ShippedDate { get; set; }
         public DateTimeOffset? DeliveryDate { get; set; }
         public DateTimeOffset? ExpectedDeliveryDate { get; set; }
-        public DateTimeOffset? ExpectedHourOfDay { get; set; }
-        public string Comment { get; set; }
-        public decimal DeliveryCost { get; set; }        
-        public long BillingAddressId { get; set; }
-        public virtual CustomerAddress BillingAddress { get; set; }
+        public DateTimeOffset? ExpectedHourOfDay { get; set; }        
+        public decimal DeliveryCost { get; set; }                
         public long DestinationAddressId { get; set; }
         public virtual CustomerAddress DestinationAddress { get; set; }        
         public ShippingStatus Status { get; set; }        
-        public virtual List<OrderItem> Items { get; set; } = new List<OrderItem>();                
-        public void SetShipmentMeasures()
-        {
-
-        }
-        
+        public virtual List<OrderItem> Items { get; set; } = new List<OrderItem>();                                
     }
 }

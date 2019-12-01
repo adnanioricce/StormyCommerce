@@ -38,13 +38,13 @@ namespace StormyCommerce.Core.Entities
         public string Comment { get; set; }
         public decimal Discount { get; set; }          
         public decimal TotalPrice { get; set; }        
-        public virtual Payment Payment { get; set; }
+        public virtual StormyPayment Payment { get; set; }
         public virtual StormyCustomer Customer { get; set; }        
         public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }        
         public DateTime? PaymentDate { get; set; }
         public virtual List<OrderItem> Items { get; set; } = new List<OrderItem>();
-        public virtual Shipment Shipment { get; set; }
+        public virtual Shipping.StormyShipment Shipment { get; set; }
         public OrderStatus Status { get; set; }        
 
         public OrderDto ToOrderDto()

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using StormyCommerce.Core.Shipment;
 
-namespace StormyCommerce.Module.Orders.Area.Models
+namespace StormyCommerce.Core.Models.Shipment.Request
 {
     
     public class DeliveryCalculationRequest
@@ -18,7 +18,7 @@ namespace StormyCommerce.Module.Orders.Area.Models
         ///</summary>
         [Required]
         [StringLength(5)]        
-        public string ServiceCode { get; set; }
+        public string ShippingMethod { get; set; }
         ///<summary>
         /// The format of the shipping box 
         /// Options:
@@ -48,12 +48,7 @@ namespace StormyCommerce.Module.Orders.Area.Models
         ///</summary>
         [Required]
         public decimal Diameter { get; set; }
-        public decimal Weight { get; set; }
-        ///<summary>
-        ///(Optional)
-        /// The origin postal code of the ship object.
-        ///</summary>
-        public string OriginPostalCode { get; set; }
+        public decimal Weight { get; set; }        
         ///<summary>
         /// The destination postal code to ship the object
         ///</summary>

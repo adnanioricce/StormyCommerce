@@ -12,8 +12,8 @@ namespace StormyCommerce.Core.Models.Dtos
             WhoReceives = address.WhoReceives; 
             Owner = new CustomerDto(address.Owner);
         }
-        public Address Address { get; set; }
+        public Address Address { get; set; } = new Address();
         public string WhoReceives { get; set; }
-        public CustomerDto Owner { get; set; }
+        public CustomerDto Owner { get; set; } = new CustomerDto();
     }
 }

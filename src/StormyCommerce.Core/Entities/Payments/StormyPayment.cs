@@ -2,16 +2,17 @@
 
 namespace StormyCommerce.Core.Entities.Payments
 {
-    public class Payment : BaseEntity
+    public class StormyPayment : BaseEntity
     {
-        public Payment(long id)
+        public StormyPayment(long id)
         {
             Id = id;
         }
-        public Payment(){}
+        public StormyPayment(){}
         public long StormyOrderId { get; set; }
-        public virtual StormyOrder Order { get; set; }
+        //public virtual StormyOrder Order { get; set; }
         public DateTimeOffset CreatedOn { get; set; }
+        public DateTimeOffset? PaidOutAt { get; set; }
         public decimal Amount { get; set; }
         public decimal PaymentFee { get; set; }
         public string PaymentMethod { get; set; }

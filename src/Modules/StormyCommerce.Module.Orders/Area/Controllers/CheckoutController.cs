@@ -25,6 +25,11 @@ using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Interfaces.Domain.Payments;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Extensions;
+using StormyCommerce.Core.Entities.Shipping;
+using StormyCommerce.Core.Interfaces.Domain.Shipping;
+using StormyCommerce.Core.Models.Shipment.Request;
+using StormyCommerce.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -39,71 +44,72 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         private readonly IPaymentProcessor _paymentProcessor;
         private readonly IOrderService _orderService;
         private readonly IProductService _productService;
-        private readonly IMapper _mapper;        
+        private readonly IShippingService _shippingService;
+        private readonly IAppLogger<CheckoutController> _logger;
+        private readonly IMapper _mapper;
         public CheckoutController(
-        IUserIdentityService userIdentityService,        
-        IPaymentProcessor paymentProcessor,        
+        IUserIdentityService userIdentityService,
+        IPaymentProcessor paymentProcessor,
         IOrderService orderService,
         IProductService productService,
+        IShippingService shippingService,
+        IAppLogger<CheckoutController> logger,
         IMapper mapper)
         {                                
             _identityService = userIdentityService;                        
             _paymentProcessor = paymentProcessor;
             _orderService = orderService;
             _productService = productService;
+            _shippingService = shippingService;
+            _logger = logger;
             _mapper = mapper;
         }        
         [HttpPost("boleto")]
         [ValidateModel]    
-        public async Task<ActionResult<BoletoCheckoutResponse>> SimpleCheckoutBoleto([FromBody]SimpleBoletoCheckoutRequest request)
+        public async Task<ActionResult<BoletoCheckoutResponse>> BoletoCheckout([FromBody] Core.Models.Order.BoletoCheckoutRequest request)
         {            
             if(!(request.Items.Count > 0 && request.Items.All(i => i.Quantity > 0))) {
                 return BadRequest(Result.Fail("You can't order a item with 0 products or create a order with 0 items",request));
             }
-            var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.StormyProductId).ToArray());
+            var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.StormyProductId).ToArray());            
             if(!(request.Items.HasStockForOrderItems(products)))
             {
-                return BadRequest(Result.Fail("looks like you have items on your order that ask for quantity that the store don't have on stock now"));
+                return BadRequest(Result.Fail("looks like you have items on your order that ask for quantity that the store don't have on stock now",new {request,products}));
             }                        
             var user = await _identityService.GetUserByClaimPrincipal(User);
             var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);            
             var response = await _paymentProcessor.ProcessBoletoPayment(request,userDto);
             response.Order.StormyCustomerId = user.Id;            
-            var result = await _orderService.CreateOrderAsync(response.Order);            
-            if (!result.Success) return BadRequest(result);            
-            return Ok(result);
+            var createOrderResult = await _orderService.CreateOrderAsync(response.Order);
+            if (!createOrderResult.Success)
+            {
+                _logger.LogError(createOrderResult.Error, createOrderResult);
+                return BadRequest(createOrderResult);
+            }
+            var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest { 
+                Order = createOrderResult.Value,
+                DestinationPostalCode = request.PostalCode,
+                ShippingMethod = request.ShippingMethod,                
+                TotalPrice = createOrderResult.Value.TotalPrice
+            });
+            shipment.DestinationAddressId = user.DefaultShippingAddress.Id;
+            var shipmentResult = await _shippingService.CreateShipmentAsync(shipment);
+            if (!shipmentResult.Success) {                
+                _logger.LogError(shipmentResult.Error, shipmentResult);                
+                return BadRequest(Result.Fail("Failed to add shipment to order. Exception was throwed when storing on database"));
+            }
+            var order = await _orderService.GetOrderByIdAsync(createOrderResult.Value.Id);
+            return Ok(new BoletoCheckoutResponse {
+               Order = order.Value,
+               Payment = order.Value.Payment,
+               Shipment = order.Value.Shipment                              
+            });
         }
         [HttpPost("postback")]
         [ValidateModel]
         public async Task<IActionResult> CheckoutPostback(Postback postback)
         {
             return NoContent();
-        }                
-        private Shipment CreateShipment(Dictionary<long,StormyProduct> products,BoletoCheckoutRequest requestModel)
-        {
-            
-            double weight = requestModel.Items.Sum(it => products.GetValueOrDefault(it.ProductId).UnitWeight * it.Quantity);
-            double totalHeight = 0;
-            double totalWidth = 0;
-            double totalLength = 0;
-            double shipmentArea = requestModel.Items.Sum(it => {
-                var product = products.GetValueOrDefault(it.ProductId);
-                totalHeight += product.Height;
-                totalWidth += product.Width;
-                totalLength += product.Length;
-                return product.CalculateDimensions() * it.Quantity;
-                });
-            double cubeRoot = Math.Ceiling(Math.Pow(shipmentArea, (double)1 / 3));
-            return new Shipment
-            {
-                TotalWeight = weight,
-                TotalArea = shipmentArea,
-                TotalHeight = totalHeight < 2 ? 2 : cubeRoot,
-                TotalWidth = totalWidth < 16 ? 16 : cubeRoot,
-                TotalLength = totalLength < 11 ? 11 : cubeRoot,
-                CubeRoot = cubeRoot,                
-            };
-        }
-        //private List<OrderItemDto> Map
+        }                        
     }        
 }

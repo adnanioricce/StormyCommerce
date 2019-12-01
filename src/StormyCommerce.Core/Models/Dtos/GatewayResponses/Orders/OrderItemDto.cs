@@ -16,7 +16,12 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders
             Price = price;
             Quantity = quantity;
             Product = product;
-        }        
+        }
+        public OrderItemDto(long id,decimal price, int quantity, ProductDto product) : this(price,quantity,product)
+        {
+            Id = id;
+        }
+        public long Id { get; private set; }
         public decimal Price { get; private set; }
         public int Quantity { get; private set; }
         public ProductDto Product { get; private set; }        

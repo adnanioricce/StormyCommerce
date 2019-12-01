@@ -28,7 +28,7 @@ namespace StormyCommerce.Core.Entities.Customer
         public string Country { get; set; }
         public string WhoReceives { get; set; }        
         public bool IsDeleted { get; set; }
-        public string UserId { get; set; }
+        public string StormyCustomerId { get; set; }
         public virtual StormyCustomer Owner { get; set; }
 
         public void SetAddress(Address address)

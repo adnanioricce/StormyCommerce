@@ -223,6 +223,10 @@ namespace SimplCommerce.WebHost.Extensions
                 }
             }
         }
+        // public static IServiceCollection ConfigureHttps(this IServiceCollection services)
+        // {
+            
+        // }
         public static void AddSampleData(this StormyDbContext dbContext)
         {
             

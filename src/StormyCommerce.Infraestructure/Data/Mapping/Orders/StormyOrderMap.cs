@@ -2,6 +2,7 @@
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Order;
 using StormyCommerce.Core.Entities.Payments;
+using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Models;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
@@ -10,20 +11,21 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Payment>(entity =>
+            modelBuilder.Entity<StormyPayment>(entity =>
             {
                 entity.HasKey(prop => prop.Id);                
-                entity.HasQueryFilter(prop => prop.IsDeleted == false);
+                entity.HasQueryFilter(prop => prop.IsDeleted == false);                
             });
             modelBuilder.Entity<StormyOrder>(order =>
             {
                 order.HasOne(prop => prop.Payment)
-                    .WithOne(prop => prop.Order)
-                    .HasForeignKey<Payment>(prop => prop.StormyOrderId)
+                    //.WithOne(prop => prop.Order)
+                    .WithOne()
+                    .HasForeignKey<StormyPayment>(prop => prop.StormyOrderId)
                     .OnDelete(DeleteBehavior.Restrict);
                 order.HasOne(prop => prop.Shipment)
                     .WithOne(prop => prop.Order)
-                    .HasForeignKey<Shipment>(prop => prop.StormyOrderId)
+                    .HasForeignKey<StormyShipment>(prop => prop.StormyOrderId)
                     .OnDelete(DeleteBehavior.Restrict);                
                 order.Property(prop => prop.OrderUniqueKey).IsRequired();                
                 order.Property(prop => prop.Note).HasMaxLength(1000);                 

@@ -10,7 +10,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Payments
 {
     public interface IPaymentProcessor
     {
-        Task<ProcessBoletoPaymentResponse> ProcessBoletoPayment(SimpleBoletoCheckoutRequest request,CustomerDto customerDto);
+        Task<ProcessBoletoPaymentResponse> ProcessBoletoPayment(BoletoCheckoutRequest request,CustomerDto customerDto);
         
     }
 }

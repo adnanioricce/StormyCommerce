@@ -57,22 +57,20 @@ namespace StormyCommerce.Api.Framework.Extensions
                 });
             return fakeProduct.Generate(count);
         }
-        public static List<Shipment> ShipmentSeed(int count = 1,bool omitId = false)
+        public static List<StormyShipment> ShipmentSeed(int count = 1,bool omitId = false)
         {
-            var fakeShipment = new Faker<Shipment>("pt_BR")
+            var fakeShipment = new Faker<StormyShipment>("pt_BR")
                 .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, DateTimeOffset.UtcNow)
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(8.90m, 42.90m))
-                .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<string>("PAC", "Sedex"))
+                .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<ShippingMethod>())
                 .RuleFor(v => v.ShipmentProvider, "Correios")
                 .RuleFor(v => v.ShippedDate, f => f.Date.Recent())
                 .RuleFor(v => v.TotalWeight, f => f.Random.Double(5.0, 20.0))
                 .RuleFor(v => v.DeliveryDate, f => f.Date.Recent(4))
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(3.0m, 62.0m))
-                .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4))
-                .RuleFor(v => v.Comment, f => f.Lorem.Sentence())
-                .RuleFor(v => v.BillingAddressId, f => f.IndexVariable)
+                .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4))                                
                 .RuleFor(v => v.DestinationAddressId, f => f.IndexVariable + 1);                               
             return fakeShipment.Generate(count);
         }
@@ -250,16 +248,16 @@ namespace StormyCommerce.Api.Framework.Extensions
                         v.AddItem(item);
                     });                       
                     var payment = Seeders.PaymentSeed();
-                    payment.Order = v; 
+                    //payment.Order = v; 
                     payment.Amount = v.TotalPrice;
                     payment.Id = 0;
                     v.Payment = payment;                                                                                              
                 });                
             return fakeOrder.Generate(count);
         }
-        public static Payment PaymentSeed()
+        public static StormyPayment PaymentSeed()
         {
-            var fakePayment = new Faker<Payment>("pt_BR")
+            var fakePayment = new Faker<StormyPayment>("pt_BR")
                 .RuleFor(v => v.PaymentFee,f => f.Finance.Amount())
                 .RuleFor(v => v.PaymentMethod,f => f.PickRandom(new [] {"boleto","credit_card"}))
                 .RuleFor(v => v.PaymentStatus,f => f.PickRandom(new [] {PaymentStatus.Authorized,PaymentStatus.Successful}))

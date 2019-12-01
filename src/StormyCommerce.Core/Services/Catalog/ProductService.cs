@@ -129,8 +129,7 @@ namespace StormyCommerce.Core.Services.Catalog
         }
         public async Task<IList<StormyProduct>> GetProductsBySkuAsync(string[] skuArray, int vendorId = 0)
         {
-            var products = _productRepository.Table.Select(entity => GetProductBySkuAsync(entity.SKU));
-            return await Task.WhenAll(products);
+            return await _productRepository.Table.Where(p => skuArray.Contains(p.SKU)).ToListAsync();            
         }
 
         public int GetTotalStockQuantity()

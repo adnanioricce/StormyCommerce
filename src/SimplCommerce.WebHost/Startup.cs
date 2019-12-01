@@ -34,6 +34,8 @@ using Newtonsoft.Json;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace SimplCommerce.WebHost
 {
@@ -58,7 +60,7 @@ namespace SimplCommerce.WebHost
             services.AddApiVersioning(options => {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 5);
             });            
             services.AddModules(_hostingEnvironment.ContentRootPath);
             services.Configure<CookiePolicyOptions>(options =>
@@ -66,17 +68,9 @@ namespace SimplCommerce.WebHost
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-            /*if(!_hostingEnvironment.IsDevelopment()){ */
-                services.AddStormyDataStore(_configuration);
-            /*} else {
-                services.AddDbContextPool<StormyDbContext>(options => {                    
-                    options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
-                    options.UseLazyLoadingProxies();
-                    options.EnableDetailedErrors();
-                    options.EnableSensitiveDataLogging();
-                });
-            } */           
+            });            
+            services.AddStormyDataStore(_configuration);
+                     
             services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
@@ -130,7 +124,7 @@ namespace SimplCommerce.WebHost
             {
                 app.UseDeveloperExceptionPage();
                 IdentityModelEventSource.ShowPII = true;
-                
+                app.AddEfDiagrams<StormyDbContext>();
             }
             else
             {
@@ -144,6 +138,7 @@ namespace SimplCommerce.WebHost
                 context => !context.Request.Path.StartsWithSegments("/api"),
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
             );
+            app.UseCustomizedHttpsConfiguration();            
             app.UseStaticFiles();            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -166,21 +161,24 @@ namespace SimplCommerce.WebHost
             {
                 moduleInitializer.Configure(app, env);
             }
-            SeedContext(app);
+            BuildDb(app);
             
         }
-        private void SeedContext(IApplicationBuilder app)
+        private void BuildDb(IApplicationBuilder app)
         {
+            if(!this._hostingEnvironment.IsDevelopment()) return;            
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
                 {                    
-                    if (dbContext.Database.EnsureDeleted())
+                    if((dbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists() && !dbContext.Database.IsSqlite()) {
+                        dbContext.Database.Migrate();
+                    }                              
+                    
+                    if (dbContext.Database.IsSqlite())
                     {
+                        dbContext.Database.EnsureDeleted();
                         var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
-                    }                    
-                    if (!dbContext.Database.IsSqlServer())
-                    {                        
                         dbContext.SeedDbContext();
                         var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
                         var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
