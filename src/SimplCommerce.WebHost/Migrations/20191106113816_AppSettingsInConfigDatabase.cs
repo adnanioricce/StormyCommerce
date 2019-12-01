@@ -5,18 +5,7 @@ namespace SimplCommerce.WebHost.Migrations
     public partial class AppSettingsInConfigDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "AppSettings");
-
-            migrationBuilder.DropIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles");
-
+        {            
             migrationBuilder.AlterColumn<double>(
                 name: "Width",
                 table: "StormyProduct",
@@ -70,13 +59,7 @@ namespace SimplCommerce.WebHost.Migrations
                 name: "TotalArea",
                 table: "Shipment",
                 nullable: false,
-                oldClrType: typeof(decimal));
-
-            migrationBuilder.AddColumn<double>(
-                name: "CubeRoot",
-                table: "Shipment",
-                nullable: false,
-                defaultValue: 0.0);
+                oldClrType: typeof(decimal));            
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",

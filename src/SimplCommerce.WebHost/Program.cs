@@ -38,13 +38,7 @@ namespace SimplCommerce.WebHost
         private static void SetupConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder configBuilder)
         {
             var env = hostingContext.HostingEnvironment;
-            var configuration = configBuilder.Build();
-            configBuilder.AddEntityFrameworkConfig(options => {
-                options.EnableDetailedErrors();
-                options.EnableSensitiveDataLogging();                
-                    options.UseInMemoryDatabase("ConfigDb");                
-                }
-            );
+            var configuration = configBuilder.Build();            
             Log.Logger = new LoggerConfiguration()
                        .ReadFrom.Configuration(configuration)
                        .CreateLogger();

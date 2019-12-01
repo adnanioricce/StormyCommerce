@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using StormyCommerce.Infraestructure.Data;
 using System;
 using System.Linq;
+using StormyCommerce.Core.Entities.Settings;
 
 namespace StormyCommerce.Infraestructure.Extensions
 {
     public class EFConfigProvider : ConfigurationProvider
     {
         private Action<DbContextOptionsBuilder> OptionsAction { get; }
-
+        public DbSet<AppSettings> AppSettings { get; set; }
         public EFConfigProvider(Action<DbContextOptionsBuilder> optionsAction)
         {
             OptionsAction = optionsAction;
@@ -22,16 +23,8 @@ namespace StormyCommerce.Infraestructure.Extensions
             OptionsAction(builder);
 
             using (var dbContext = new EFConfigurationDbContext(builder.Options))
-            {
-                if (!dbContext.Database.IsSqlite())
-                {                    
-                    Data = dbContext.AppSettings.ToDictionary(c => c.Id, c => c.Value);
-                }
-                else
-                {
-                    dbContext.Database.EnsureCreated();
-                    Data = dbContext.AppSettings.ToDictionary(c => c.Id, c => c.Value);
-                }
+            {                                   
+                Data = dbContext.AppSettings.ToDictionary(c => c.Id, c => c.Value);                
             }
         }
     }

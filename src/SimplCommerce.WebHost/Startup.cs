@@ -36,6 +36,7 @@ using StormyCommerce.Core.Entities.Catalog.Product;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Linq;
 
 namespace SimplCommerce.WebHost
 {
@@ -115,10 +116,11 @@ namespace SimplCommerce.WebHost
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });        
-            services.AddMemoryCache();                
+            services.AddMemoryCache();        
+                    
         }
 
-        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env,IAppLogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -161,18 +163,25 @@ namespace SimplCommerce.WebHost
             {
                 moduleInitializer.Configure(app, env);
             }
-            BuildDb(app);
+            BuildDb(app,logger);
             
         }
-        private void BuildDb(IApplicationBuilder app)
+        private void BuildDb(IApplicationBuilder app,IAppLogger<Startup> logger)
         {
             if(!this._hostingEnvironment.IsDevelopment()) return;            
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
                 {                    
-                    if((dbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists() && !dbContext.Database.IsSqlite()) {
-                        dbContext.Database.Migrate();
+                    if((dbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists() && !dbContext.Database.IsSqlite()) {                        
+                        try
+                        {
+                            dbContext.Database.Migrate();
+                        }catch(Exception ex){
+                            logger.LogError("Error on database migration",ex.Message);
+                            logger.LogInformation("exception throwed",ex);
+                            logger.LogStackTrace("Stacktrace:",ex.StackTrace);
+                        }
                     }                              
                     
                     if (dbContext.Database.IsSqlite())

@@ -163,7 +163,8 @@ namespace SimplCommerce.WebHost.Extensions
             services.AddDbContextPool<StormyDbContext>(options => {
                 options.UseLazyLoadingProxies();
                 options.UseLoggerFactory(Container.loggerFactory);                
-                options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                //options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+		options.UseNpgsql(configuration.GetConnectionString("docker"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
             });
