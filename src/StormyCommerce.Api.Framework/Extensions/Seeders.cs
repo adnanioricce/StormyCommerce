@@ -259,7 +259,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         {
             var fakePayment = new Faker<StormyPayment>("pt_BR")
                 .RuleFor(v => v.PaymentFee,f => f.Finance.Amount())
-                .RuleFor(v => v.PaymentMethod,f => f.PickRandom(new [] {"boleto","credit_card"}))
+                .RuleFor(v => v.PaymentMethod,f => f.PickRandom<PaymentMethod>())
                 .RuleFor(v => v.PaymentStatus,f => f.PickRandom(new [] {PaymentStatus.Authorized,PaymentStatus.Successful}))
                 .RuleFor(v => v.GatewayTransactionId,f => f.Finance.RoutingNumber())
                 .RuleFor(v => v.CreatedOn, DateTime.UtcNow);

@@ -9,6 +9,7 @@ using PagarMe.Model;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Models.Order;
 using StormyCommerce.Core.Models.Payment.Request;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
@@ -28,14 +29,28 @@ namespace StormyCommerce.Module.Orders.Services
         {
             return (List<Transaction>)(await _pagarMeService.Transactions.FindAllAsync(new Transaction()));
         }
-        public Transaction CreateSimpleBoletoTransaction(ProcessBoletoPaymentRequest request)
+        public Transaction CreateSimpleTransaction(ProcessPaymentRequest request)
         {
             Transaction transaction = new Transaction();
-            transaction.Amount = 1000;
-            transaction.PaymentMethod = PaymentMethod.Boleto;
+            transaction.Amount = request.Amount;
+            transaction.PaymentMethod = (PaymentMethod)request.PaymentMethod;
             MapCustomerToTransactionCustomer(transaction, request.Customer);
+            MapItemsToTransactionItems(transaction, request.Items);
             return transaction;
         }
+
+        private void MapItemsToTransactionItems(Transaction transaction, List<OrderItemDto> items)
+        {            
+            transaction.Item = items.Select(i => new Item
+            {
+                Id = i.Id.ToString(),
+                Quantity = i.Quantity,
+                Title = i.Product.ProductName,
+                UnitPrice = (int)(i.Product.UnitPrice * 100),                
+                Tangible = true
+            }).ToArray();
+        }
+
         public Result Charge(Transaction transaction)
         {
             try

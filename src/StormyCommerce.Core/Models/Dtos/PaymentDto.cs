@@ -29,7 +29,7 @@ namespace StormyCommerce.Core.Models.Dtos
         public DateTimeOffset CreatedOn { get; private set; }
         public DateTimeOffset? PaidOutAt { get; private set; }
         public decimal PaymentFee { get; private set; }
-        public string PaymentMethod { get; private set; }
+        public PaymentMethod PaymentMethod { get; private set; }
         public string GatewayTransactionId { get; private set; }
         public PaymentStatus PaymentStatus { get; private set; }
         public string FailureMessage { get; private set; }

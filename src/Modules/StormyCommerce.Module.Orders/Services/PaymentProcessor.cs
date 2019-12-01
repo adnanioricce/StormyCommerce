@@ -14,6 +14,7 @@ using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Models.Order;
+using StormyCommerce.Core.Models.Order.Request;
 using StormyCommerce.Core.Models.Payment.Request;
 using StormyCommerce.Core.Models.Payment.Response;
 
@@ -30,18 +31,16 @@ namespace StormyCommerce.Module.Orders.Services
             _productService = productService;
             _mapper = mapper;
         }
-        public async Task<ProcessBoletoPaymentResponse> ProcessBoletoPayment(BoletoCheckoutRequest request,CustomerDto customerDto)
+        
+        public async Task<ProcessPaymentResponse> ProcessPaymentAsync(CheckoutRequest request, CustomerDto customerDto)
         {
-            var processRequest = await MapToProcessRequest(request,customerDto);
-            var transaction = _pagarMeWrapper.CreateSimpleBoletoTransaction(processRequest);
-            var result = _pagarMeWrapper.Charge(transaction);            
+            var processRequest = await MapToProcessRequest(request, customerDto);
+            var transaction = _pagarMeWrapper.CreateSimpleTransaction(processRequest);
+            var result = _pagarMeWrapper.Charge(transaction);
             var order = MapToOrder(transaction, processRequest);
-            return new ProcessBoletoPaymentResponse { 
-                Order = order,
-                Result = result
-            };
+            return new ProcessPaymentResponse(order,result);
         }
-        private async Task<ProcessBoletoPaymentRequest> MapToProcessRequest(BoletoCheckoutRequest request,CustomerDto customerDto)
+        private async Task<ProcessPaymentRequest> MapToProcessRequest(CheckoutRequest request,CustomerDto customerDto)
         {
             var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.StormyProductId).ToArray());
             var items = products
@@ -50,17 +49,10 @@ namespace StormyCommerce.Module.Orders.Services
                     p.UnitPrice,
                     request.Items.FirstOrDefault(i => i.StormyProductId == p.Id).Quantity,
                     _mapper.Map<StormyProduct, ProductDto>(p))
-                )
-                .ToList();            
-            return new ProcessBoletoPaymentRequest {
-                Amount = (int)(request.Amount / 100),
-                Items = items,
-                Customer = customerDto,
-                PaymentMethod = request.PaymentMethod,
-                PickUpOnStore = request.PickUpOnStore
-            } ;
+                ).ToList();            
+            return new ProcessPaymentRequest(request,items,customerDto);
         }
-        private StormyOrder MapToOrder(Transaction transaction,ProcessBoletoPaymentRequest request)
+        private StormyOrder MapToOrder(Transaction transaction,ProcessPaymentRequest request)
         {
             var order = new StormyOrder
             {
@@ -69,7 +61,7 @@ namespace StormyCommerce.Module.Orders.Services
                 RequiredDate = transaction.BoletoExpirationDate.Value,
                 OrderUniqueKey = Guid.NewGuid(),
                 TotalPrice = transaction.Amount,
-                PaymentDate = transaction.DateCreated.Value,
+                PaymentDate = transaction.DateCreated,
                 PickUpInStore = request.PickUpOnStore,
             };
             order.Payment = new StormyPayment
@@ -77,11 +69,10 @@ namespace StormyCommerce.Module.Orders.Services
                 Amount = request.Amount,
                 CreatedOn = DateTimeOffset.UtcNow,
                 GatewayTransactionId = transaction.Id,
-                PaymentMethod = "boleto",
+                PaymentMethod = Core.Entities.Payments.PaymentMethod.Boleto,
                 PaymentStatus = PaymentStatus.Pending,
                 BoletoUrl = transaction.BoletoUrl,
-                BoletoBarcode = transaction.BoletoBarcode,
-                //Order = order
+                BoletoBarcode = transaction.BoletoBarcode,                
             };
             order.Items = request.Items.Select(i => new OrderItem
             {
@@ -91,6 +82,8 @@ namespace StormyCommerce.Module.Orders.Services
             }).ToList();                  
             return order;
         }
+
+        
     }
 
 }

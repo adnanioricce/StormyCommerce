@@ -14,6 +14,7 @@ using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 using StormyCommerce.Core.Models.Order;
+using StormyCommerce.Core.Models.Order.Request;
 using StormyCommerce.Core.Models.Order.Response;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Orders.Area.Controllers;
@@ -45,16 +46,15 @@ namespace StormyCommerce.Modules.Tests
             _productService = productService;
         }
         [Fact]
-        public async Task SimpleCheckoutBoleto_StateUnderTest_ExpectedBehavior()
+        public async Task CheckoutBoleto_ReceivesBoletoCheckoutRequestWithTwoItemsAndValidAmount_ReturnOrderWithPaymentAndShipment()
         {
             // Arrange    
             var firstProduct = await _productService.GetProductByIdAsync(1);
             var secondProduct = await _productService.GetProductByIdAsync(2);
             var firstProductStock = firstProduct.UnitsInStock;
-            var secondProductStock = secondProduct.UnitsInStock;
-            var oldStockQuantity = _productService.GetTotalStockQuantity();
+            var secondProductStock = secondProduct.UnitsInStock;            
             int quantity = 1;
-            var request = new Core.Models.Order.BoletoCheckoutRequest{
+            var request = new CheckoutRequest{
                 Amount = 12.00m,
                 Items = new List<CartItem>
                 {
@@ -77,25 +77,54 @@ namespace StormyCommerce.Modules.Tests
             
             // Act
             var response = await _controller.BoletoCheckout(request);
-            var result = response.Result as OkObjectResult;            
-            var value = result.Value as BoletoCheckoutResponse;
-
-            // Assert
-            var actualStockQuantity = _productService.GetTotalStockQuantity();
+            // Assert            
+            var result = response.Result as OkObjectResult;
+            var value = result.Value as CheckoutResponse;
             Assert.Equal(200,(int)result.StatusCode);            
             Assert.Equal(firstProductStock - quantity, firstProduct.UnitsInStock);
             Assert.Equal(secondProductStock - quantity, secondProduct.UnitsInStock);
-            Assert.Equal(PaymentStatus.Pending, value.Payment.PaymentStatus);
-            //Assert.Equal(ShippingStatus.NotShippedYet,value.Shipment.)
+            Assert.Equal(PaymentStatus.Pending, value.Payment.PaymentStatus);            
             Assert.True(firstProduct.UnitsInStock >= 0 && secondProduct.UnitsInStock >= 0);
             Assert.True(value.Order.Items.Count > 0);            
             Assert.NotNull(value.Payment);
             Assert.NotNull(value.Shipment);
             Assert.NotNull(value.Shipment.DestinationAddress);
             Assert.NotNull(value.Payment.GatewayTransactionId);            
-
-
         }        
+        [Fact]
+        public async Task CheckoutCreditCard_ReceivesCheckoutRequest_ShouldReturnOrderWithPaymentAndShipment()
+        {
+            var firstProduct = await _productService.GetProductByIdAsync(3);
+            var secondProduct = await _productService.GetProductByIdAsync(4);
+            int quantity = 2;
+            //Arrange
+            var request = new Core.Models.Order.Request.CheckoutRequest
+            {
+                Amount = 12.00m,
+                Items = new List<CartItem>
+                {
+                    new CartItem
+                    {
+                        Quantity = quantity,
+                        StormyProductId = firstProduct.Id
+                    },
+                    new CartItem
+                    {
+                        Quantity = quantity,
+                        StormyProductId = secondProduct.Id
+                    }
+                },
+                PickUpOnStore = false,
+                ShippingMethod = ShippingMethod.Sedex,
+                PostalCode = "08621030"
+            };
+            //Act
+            var response = await _controller.CreditCardCheckout(request);
+            //Assert
+            var result = response.Result as OkObjectResult;
+            var value = result.Value as CheckoutResponse;
+            Assert.Equal(200, (int)result.StatusCode);
+        }
 
     }
 }

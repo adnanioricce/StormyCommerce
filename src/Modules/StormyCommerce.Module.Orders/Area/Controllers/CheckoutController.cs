@@ -30,6 +30,7 @@ using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models.Shipment.Request;
 using StormyCommerce.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Core.Models.Order.Request;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -66,50 +67,91 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         }        
         [HttpPost("boleto")]
         [ValidateModel]    
-        public async Task<ActionResult<BoletoCheckoutResponse>> BoletoCheckout([FromBody] Core.Models.Order.BoletoCheckoutRequest request)
+        public async Task<ActionResult<CheckoutResponse>> BoletoCheckout([FromBody] CheckoutRequest request)
         {            
-            if(!(request.Items.Count > 0 && request.Items.All(i => i.Quantity > 0))) {
-                return BadRequest(Result.Fail("You can't order a item with 0 products or create a order with 0 items",request));
-            }
-            var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.StormyProductId).ToArray());            
-            if(!(request.Items.HasStockForOrderItems(products)))
-            {
-                return BadRequest(Result.Fail("looks like you have items on your order that ask for quantity that the store don't have on stock now",new {request,products}));
-            }                        
+            var checkResult = await CheckIfItemIsOnStock(request);
+            if (!checkResult.Success) return BadRequest(checkResult);                                 
             var user = await _identityService.GetUserByClaimPrincipal(User);
-            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);            
-            var response = await _paymentProcessor.ProcessBoletoPayment(request,userDto);
-            response.Order.StormyCustomerId = user.Id;            
-            var createOrderResult = await _orderService.CreateOrderAsync(response.Order);
-            if (!createOrderResult.Success)
+            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);
+            request.PaymentMethod = Core.Entities.Payments.PaymentMethod.Boleto;
+            var result = await CreateOrderForCheckout(request, userDto, user.Id);
+            if (!result.Success)
             {
-                _logger.LogError(createOrderResult.Error, createOrderResult);
-                return BadRequest(createOrderResult);
+                _logger.LogError(result.Error, result);
+                return BadRequest(result);
             }
-            var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest { 
-                Order = createOrderResult.Value,
-                DestinationPostalCode = request.PostalCode,
-                ShippingMethod = request.ShippingMethod,                
-                TotalPrice = createOrderResult.Value.TotalPrice
-            });
-            shipment.DestinationAddressId = user.DefaultShippingAddress.Id;
-            var shipmentResult = await _shippingService.CreateShipmentAsync(shipment);
-            if (!shipmentResult.Success) {                
-                _logger.LogError(shipmentResult.Error, shipmentResult);                
+            var shipmentCreateResult = await CreateShipmentForOrder(result,request,userDto);
+            if (!shipmentCreateResult.Success) {                
+                _logger.LogError(shipmentCreateResult.Error, shipmentCreateResult);                
                 return BadRequest(Result.Fail("Failed to add shipment to order. Exception was throwed when storing on database"));
             }
-            var order = await _orderService.GetOrderByIdAsync(createOrderResult.Value.Id);
-            return Ok(new BoletoCheckoutResponse {
-               Order = order.Value,
-               Payment = order.Value.Payment,
-               Shipment = order.Value.Shipment                              
-            });
+            var order = await _orderService.GetOrderByIdAsync(result.Value.Id);
+            return Ok(new CheckoutResponse(order.Value));
+        }
+        [HttpPost("credit_card")]
+        [ValidateModel]
+        public async Task<ActionResult<CreditCardCheckoutResponse>> CreditCardCheckout([FromBody] CheckoutRequest request)
+        {
+            var user = await _identityService.GetUserByClaimPrincipal(User);
+            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);
+            request.PaymentMethod = Core.Entities.Payments.PaymentMethod.CreditCard;
+            var order = BuildOrderForCreditCardCheckout(request);
+            var createOrderResult = await _orderService.CreateOrderAsync(order);
+            var result = await CreateShipmentForOrder(createOrderResult, request, userDto);
+            var orderDto = await _orderService.GetOrderByIdAsync(createOrderResult.Value.Id);
+            //_paymentProcessor.ProcessPaymentAsync(request, userDto);
+            //OBS:You should have all information about the order(payment,Shipment and Customer) 
+            //before creating a Credit Card Transaction, so try to do the inverse of the boleto checkout
+            //TODO:Capture Transaction
+            //return Ok(new CheckoutResponse(order.Value));
+            return NoContent();
         }
         [HttpPost("postback")]
         [ValidateModel]
         public async Task<IActionResult> CheckoutPostback(Postback postback)
         {
             return NoContent();
-        }                        
+        }   
+        private StormyOrder BuildOrderForCreditCardCheckout(CheckoutRequest request)
+        {            
+            return new StormyOrder
+            {
+                Payment = new Core.Entities.Payments.StormyPayment
+                {
+                    Amount = request.Amount,
+                    PaymentMethod = request.PaymentMethod,
+                    CreatedOn = DateTimeOffset.UtcNow,
+                    PaymentStatus = Core.Entities.Payments.PaymentStatus.Processing,
+                }
+            };
+        }
+        private async Task<Result<OrderDto>> CreateOrderForCheckout(CheckoutRequest request,CustomerDto userDto,string userId)
+        {
+            var response = await _paymentProcessor.ProcessPaymentAsync(request, userDto);
+            response.Order.StormyCustomerId = userId;
+            var createOrderResult = await _orderService.CreateOrderAsync(response.Order);            
+            return createOrderResult;
+        }
+        private async Task<Result> CreateShipmentForOrder(Result<OrderDto> result, CheckoutRequest request,CustomerDto userDto)
+        {
+            var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest(result.Value, request));
+            shipment.DestinationAddressId = userDto.DefaultShippingAddress.Id;
+            var shipmentResult = await _shippingService.CreateShipmentAsync(shipment);
+            return shipmentResult;
+        }
+        private async Task<Result> CheckIfItemIsOnStock(CheckoutRequest request)
+        {
+            if (!(request.Items.Count > 0 && request.Items.All(i => i.Quantity > 0)))
+            {
+                return Result.Fail("You can't order a item with 0 products or create a order with 0 items", request);                
+            }
+            var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.StormyProductId).ToArray());
+            if (!(request.Items.HasStockForOrderItems(products)))
+            {
+                return Result.Fail("looks like you have items on your order that ask for quantity that the store don't have on stock now", new { request, products });
+            }
+            return Result.Ok("request ask for enough item on stock");
+        }
+                              
     }        
 }
