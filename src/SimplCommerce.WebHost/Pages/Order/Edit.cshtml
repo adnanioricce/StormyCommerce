@@ -1,0 +1,105 @@
+﻿@page
+@model SimplCommerce.WebHost.Pages.Order.EditModel
+
+
+<h4>StormyOrder</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.OrderUniqueKey" class="control-label"></label>
+                <input asp-for="StormyOrder.OrderUniqueKey" class="form-control" />
+                <span asp-validation-for="StormyOrder.OrderUniqueKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.StormyCustomerId" class="control-label"></label>
+                <select asp-for="StormyOrder.StormyCustomerId" class="form-control" asp-items="ViewBag.StormyCustomerId"></select>
+                <span asp-validation-for="StormyOrder.StormyCustomerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.PaymentId" class="control-label"></label>
+                <input asp-for="StormyOrder.PaymentId" class="form-control" />
+                <span asp-validation-for="StormyOrder.PaymentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.ShipmentId" class="control-label"></label>
+                <input asp-for="StormyOrder.ShipmentId" class="form-control" />
+                <span asp-validation-for="StormyOrder.ShipmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StormyOrder.PickUpInStore" /> @Html.DisplayNameFor(model => model.StormyOrder.PickUpInStore)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StormyOrder.IsCancelled" /> @Html.DisplayNameFor(model => model.StormyOrder.IsCancelled)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.Note" class="control-label"></label>
+                <input asp-for="StormyOrder.Note" class="form-control" />
+                <span asp-validation-for="StormyOrder.Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.Comment" class="control-label"></label>
+                <input asp-for="StormyOrder.Comment" class="form-control" />
+                <span asp-validation-for="StormyOrder.Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.Discount" class="control-label"></label>
+                <input asp-for="StormyOrder.Discount" class="form-control" />
+                <span asp-validation-for="StormyOrder.Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.TotalPrice" class="control-label"></label>
+                <input asp-for="StormyOrder.TotalPrice" class="form-control" />
+                <span asp-validation-for="StormyOrder.TotalPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.OrderDate" class="control-label"></label>
+                <input asp-for="StormyOrder.OrderDate" class="form-control" />
+                <span asp-validation-for="StormyOrder.OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.RequiredDate" class="control-label"></label>
+                <input asp-for="StormyOrder.RequiredDate" class="form-control" />
+                <span asp-validation-for="StormyOrder.RequiredDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.PaymentDate" class="control-label"></label>
+                <input asp-for="StormyOrder.PaymentDate" class="form-control" />
+                <span asp-validation-for="StormyOrder.PaymentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.Status" class="control-label"></label>
+                <select asp-for="StormyOrder.Status" class="form-control"></select>
+                <span asp-validation-for="StormyOrder.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyOrder.LastModified" class="control-label"></label>
+                <input asp-for="StormyOrder.LastModified" class="form-control" />
+                <span asp-validation-for="StormyOrder.LastModified" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StormyOrder.IsDeleted" /> @Html.DisplayNameFor(model => model.StormyOrder.IsDeleted)
+                </label>
+            </div>
+            <input type="hidden" asp-for="StormyOrder.Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

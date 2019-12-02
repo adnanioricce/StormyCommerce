@@ -1,0 +1,135 @@
+﻿@page
+@model SimplCommerce.WebHost.Pages.Shipment.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>StormyShipment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.StormyOrderId" class="control-label"></label>
+                <select asp-for="StormyShipment.StormyOrderId" class="form-control" asp-items="ViewBag.StormyOrderId"></select>
+                <span asp-validation-for="StormyShipment.StormyOrderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.TrackNumber" class="control-label"></label>
+                <input asp-for="StormyShipment.TrackNumber" class="form-control" />
+                <span asp-validation-for="StormyShipment.TrackNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.ShipmentMethod" class="control-label"></label>
+                <select asp-for="StormyShipment.ShipmentMethod" class="form-control"></select>
+                <span asp-validation-for="StormyShipment.ShipmentMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.ShipmentProvider" class="control-label"></label>
+                <input asp-for="StormyShipment.ShipmentProvider" class="form-control" />
+                <span asp-validation-for="StormyShipment.ShipmentProvider" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.TotalWeight" class="control-label"></label>
+                <input asp-for="StormyShipment.TotalWeight" class="form-control" />
+                <span asp-validation-for="StormyShipment.TotalWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.TotalHeight" class="control-label"></label>
+                <input asp-for="StormyShipment.TotalHeight" class="form-control" />
+                <span asp-validation-for="StormyShipment.TotalHeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.TotalWidth" class="control-label"></label>
+                <input asp-for="StormyShipment.TotalWidth" class="form-control" />
+                <span asp-validation-for="StormyShipment.TotalWidth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.TotalLength" class="control-label"></label>
+                <input asp-for="StormyShipment.TotalLength" class="form-control" />
+                <span asp-validation-for="StormyShipment.TotalLength" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.TotalArea" class="control-label"></label>
+                <input asp-for="StormyShipment.TotalArea" class="form-control" />
+                <span asp-validation-for="StormyShipment.TotalArea" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.CubeRoot" class="control-label"></label>
+                <input asp-for="StormyShipment.CubeRoot" class="form-control" />
+                <span asp-validation-for="StormyShipment.CubeRoot" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.SafeAmount" class="control-label"></label>
+                <input asp-for="StormyShipment.SafeAmount" class="form-control" />
+                <span asp-validation-for="StormyShipment.SafeAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.CreatedOn" class="control-label"></label>
+                <input asp-for="StormyShipment.CreatedOn" class="form-control" />
+                <span asp-validation-for="StormyShipment.CreatedOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.ShippedDate" class="control-label"></label>
+                <input asp-for="StormyShipment.ShippedDate" class="form-control" />
+                <span asp-validation-for="StormyShipment.ShippedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.DeliveryDate" class="control-label"></label>
+                <input asp-for="StormyShipment.DeliveryDate" class="form-control" />
+                <span asp-validation-for="StormyShipment.DeliveryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.ExpectedDeliveryDate" class="control-label"></label>
+                <input asp-for="StormyShipment.ExpectedDeliveryDate" class="form-control" />
+                <span asp-validation-for="StormyShipment.ExpectedDeliveryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.ExpectedHourOfDay" class="control-label"></label>
+                <input asp-for="StormyShipment.ExpectedHourOfDay" class="form-control" />
+                <span asp-validation-for="StormyShipment.ExpectedHourOfDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.DeliveryCost" class="control-label"></label>
+                <input asp-for="StormyShipment.DeliveryCost" class="form-control" />
+                <span asp-validation-for="StormyShipment.DeliveryCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.DestinationAddressId" class="control-label"></label>
+                <select asp-for="StormyShipment.DestinationAddressId" class="form-control" asp-items="ViewBag.DestinationAddressId"></select>
+                <span asp-validation-for="StormyShipment.DestinationAddressId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.Status" class="control-label"></label>
+                <select asp-for="StormyShipment.Status" class="form-control"></select>
+                <span asp-validation-for="StormyShipment.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyShipment.LastModified" class="control-label"></label>
+                <input asp-for="StormyShipment.LastModified" class="form-control" />
+                <span asp-validation-for="StormyShipment.LastModified" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StormyShipment.IsDeleted" /> @Html.DisplayNameFor(model => model.StormyShipment.IsDeleted)
+                </label>
+            </div>
+            <input type="hidden" asp-for="StormyShipment.Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

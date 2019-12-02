@@ -59,8 +59,8 @@ namespace StormyCommerce.Modules.Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.NotNull(result.WishlistItems);
-            Assert.True(result.WishlistItems.Count > 0);
+            Assert.NotNull(result.Items);
+            Assert.True(result.Items.Count > 0);
         }        
     }
 }

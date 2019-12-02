@@ -29,6 +29,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="database.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pages\Shared\_Layout.cshtml" />
+    <Content Include="Pages\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>  
 
   <ItemGroup>    
@@ -46,7 +50,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.1-dev-00767" />

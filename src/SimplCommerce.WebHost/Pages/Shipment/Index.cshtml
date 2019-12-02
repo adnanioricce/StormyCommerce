@@ -1,0 +1,156 @@
+﻿@page
+@model SimplCommerce.WebHost.Pages.Shipment.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].Order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].TrackNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].ShipmentMethod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].ShipmentProvider)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].TotalWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].TotalHeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].TotalWidth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].TotalLength)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].TotalArea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].CubeRoot)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].SafeAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].ShippedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].DeliveryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].ExpectedDeliveryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].ExpectedHourOfDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].DeliveryCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].DestinationAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].LastModified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyShipment[0].IsDeleted)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.StormyShipment) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrackNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipmentMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipmentProvider)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalHeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalWidth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalLength)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalArea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CubeRoot)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SafeAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShippedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpectedDeliveryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpectedHourOfDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DestinationAddress.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

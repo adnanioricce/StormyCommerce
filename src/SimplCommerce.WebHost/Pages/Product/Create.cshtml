@@ -1,0 +1,162 @@
+﻿@page
+@model SimplCommerce.WebHost.Pages.Product.CreateModel
+
+<h4>StormyProduct</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.SKU" class="control-label"></label>
+                <input asp-for="StormyProduct.SKU" class="form-control" />
+                <span asp-validation-for="StormyProduct.SKU" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.ProductName" class="control-label"></label>
+                <input asp-for="StormyProduct.ProductName" class="form-control" />
+                <span asp-validation-for="StormyProduct.ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.Slug" class="control-label"></label>
+                <input asp-for="StormyProduct.Slug" class="form-control" />
+                <span asp-validation-for="StormyProduct.Slug" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.BrandId" class="control-label"></label>
+                <select asp-for="StormyProduct.BrandId" class ="form-control" asp-items="ViewBag.BrandId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.VendorId" class="control-label"></label>
+                <select asp-for="StormyProduct.VendorId" class ="form-control" asp-items="ViewBag.VendorId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.CategoryId" class="control-label"></label>
+                <input asp-for="StormyProduct.CategoryId" class="form-control" />
+                <span asp-validation-for="StormyProduct.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.MediaId" class="control-label"></label>
+                <input asp-for="StormyProduct.MediaId" class="form-control" />
+                <span asp-validation-for="StormyProduct.MediaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.ProductLinksId" class="control-label"></label>
+                <input asp-for="StormyProduct.ProductLinksId" class="form-control" />
+                <span asp-validation-for="StormyProduct.ProductLinksId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.ShortDescription" class="control-label"></label>
+                <input asp-for="StormyProduct.ShortDescription" class="form-control" />
+                <span asp-validation-for="StormyProduct.ShortDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.Description" class="control-label"></label>
+                <input asp-for="StormyProduct.Description" class="form-control" />
+                <span asp-validation-for="StormyProduct.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.QuantityPerUnity" class="control-label"></label>
+                <input asp-for="StormyProduct.QuantityPerUnity" class="form-control" />
+                <span asp-validation-for="StormyProduct.QuantityPerUnity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.AvailableSizes" class="control-label"></label>
+                <input asp-for="StormyProduct.AvailableSizes" class="form-control" />
+                <span asp-validation-for="StormyProduct.AvailableSizes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.UnitPrice" class="control-label"></label>
+                <input asp-for="StormyProduct.UnitPrice" class="form-control" />
+                <span asp-validation-for="StormyProduct.UnitPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.Discount" class="control-label"></label>
+                <input asp-for="StormyProduct.Discount" class="form-control" />
+                <span asp-validation-for="StormyProduct.Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.UnitWeight" class="control-label"></label>
+                <input asp-for="StormyProduct.UnitWeight" class="form-control" />
+                <span asp-validation-for="StormyProduct.UnitWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.Height" class="control-label"></label>
+                <input asp-for="StormyProduct.Height" class="form-control" />
+                <span asp-validation-for="StormyProduct.Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.Width" class="control-label"></label>
+                <input asp-for="StormyProduct.Width" class="form-control" />
+                <span asp-validation-for="StormyProduct.Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.Length" class="control-label"></label>
+                <input asp-for="StormyProduct.Length" class="form-control" />
+                <span asp-validation-for="StormyProduct.Length" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.Diameter" class="control-label"></label>
+                <input asp-for="StormyProduct.Diameter" class="form-control" />
+                <span asp-validation-for="StormyProduct.Diameter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.UnitsInStock" class="control-label"></label>
+                <input asp-for="StormyProduct.UnitsInStock" class="form-control" />
+                <span asp-validation-for="StormyProduct.UnitsInStock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.UnitsOnOrder" class="control-label"></label>
+                <input asp-for="StormyProduct.UnitsOnOrder" class="form-control" />
+                <span asp-validation-for="StormyProduct.UnitsOnOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.ThumbnailImage" class="control-label"></label>
+                <input asp-for="StormyProduct.ThumbnailImage" class="form-control" />
+                <span asp-validation-for="StormyProduct.ThumbnailImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.Note" class="control-label"></label>
+                <input asp-for="StormyProduct.Note" class="form-control" />
+                <span asp-validation-for="StormyProduct.Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.ProductCost" class="control-label"></label>
+                <input asp-for="StormyProduct.ProductCost" class="form-control" />
+                <span asp-validation-for="StormyProduct.ProductCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.PublishedOn" class="control-label"></label>
+                <input asp-for="StormyProduct.PublishedOn" class="form-control" />
+                <span asp-validation-for="StormyProduct.PublishedOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.CreatedOn" class="control-label"></label>
+                <input asp-for="StormyProduct.CreatedOn" class="form-control" />
+                <span asp-validation-for="StormyProduct.CreatedOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.RatingAverage" class="control-label"></label>
+                <input asp-for="StormyProduct.RatingAverage" class="form-control" />
+                <span asp-validation-for="StormyProduct.RatingAverage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StormyProduct.LastModified" class="control-label"></label>
+                <input asp-for="StormyProduct.LastModified" class="form-control" />
+                <span asp-validation-for="StormyProduct.LastModified" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StormyProduct.IsDeleted" /> @Html.DisplayNameFor(model => model.StormyProduct.IsDeleted))
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>

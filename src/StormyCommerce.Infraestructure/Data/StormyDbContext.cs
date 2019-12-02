@@ -2,8 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Entities.Settings;
+using StormyCommerce.Core.Entities.Shipping;
+using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using System;
 using System.Collections.Generic;
@@ -18,10 +23,18 @@ namespace StormyCommerce.Infraestructure.Data
     public class StormyDbContext : IdentityDbContext,IStormyDbContext
     {        
         public DbSet<AppSettings> AppSettings { get; set; }
+        public DbSet<StormyProduct> Product { get; set; }
+        public DbSet<StormyVendor> Vendor  { get; set; }
+        public DbSet<StormyPayment> Payment { get; set; }
+        public DbSet<StormyOrder> Order { get; set; }
+        public DbSet<StormyCustomer> Customer { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Brand> Brand { get; set; }
+        public DbSet<StormyShipment> Shipment { get; set; }
         public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)
         {            
         }
-
+       
         public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return base.Set<TEntity>();

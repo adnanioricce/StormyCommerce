@@ -1,0 +1,103 @@
+﻿@page
+@model SimplCommerce.WebHost.Pages.Vendor.IndexModel
+
+<body>
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].ContactTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].WebSite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].TypeGoods)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].SizeUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].Logo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].Note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].LastModified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StormyVendor[0].IsDeleted)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.StormyVendor) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WebSite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeGoods)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SizeUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Logo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,110 @@
+﻿@page
+@model SimplCommerce.WebHost.Pages.Order.DetailsModel
+
+
+<div>
+    <h4>StormyOrder</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.OrderUniqueKey)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.OrderUniqueKey)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.PaymentId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.PaymentId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.ShipmentId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.ShipmentId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.PickUpInStore)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.PickUpInStore)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.IsCancelled)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.IsCancelled)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.Note)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.Note)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.Comment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.Comment)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.Discount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.Discount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.TotalPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.TotalPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.Customer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.Customer.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.OrderDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.OrderDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.RequiredDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.RequiredDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.PaymentDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.PaymentDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.LastModified)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.LastModified)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyOrder.IsDeleted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyOrder.IsDeleted)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.StormyOrder.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

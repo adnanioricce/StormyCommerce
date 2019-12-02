@@ -1,0 +1,190 @@
+﻿@page
+@model SimplCommerce.WebHost.Pages.Product.DeleteModel
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>StormyProduct</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.SKU)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.SKU)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.ProductName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.ProductName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Slug)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Slug)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.CategoryId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.CategoryId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.MediaId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.MediaId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.ProductLinksId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.ProductLinksId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Vendor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Vendor.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Brand)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Brand.Slug)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.ShortDescription)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.ShortDescription)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.QuantityPerUnity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.QuantityPerUnity)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.AvailableSizes)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.AvailableSizes)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.UnitPrice)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.UnitPrice)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Discount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Discount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.UnitWeight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.UnitWeight)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Height)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Height)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Width)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Width)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Length)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Length)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Diameter)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Diameter)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.UnitsInStock)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.UnitsInStock)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.UnitsOnOrder)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.UnitsOnOrder)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.ThumbnailImage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.ThumbnailImage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.Note)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.Note)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.ProductCost)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.ProductCost)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.PublishedOn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.PublishedOn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.CreatedOn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.CreatedOn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.RatingAverage)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.RatingAverage)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.LastModified)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.LastModified)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StormyProduct.IsDeleted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StormyProduct.IsDeleted)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="StormyProduct.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>
