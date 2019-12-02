@@ -28,8 +28,7 @@ namespace StormyCommerce.Infraestructure.Data
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            ValidateEntities();
+        {            
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 

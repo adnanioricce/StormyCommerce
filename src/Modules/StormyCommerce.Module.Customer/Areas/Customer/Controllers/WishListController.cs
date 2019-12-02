@@ -34,9 +34,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> AddItemToWishList(long productId)
         {
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
-            if(!(await _userIdentityService.IsEmailConfirmedAsync(user))) 
-                return BadRequest(Result.Fail("the user needs to confirm your email to perform this operation"));            
-            
+            if(!(await _userIdentityService.IsEmailConfirmedAsync(user))) return BadRequest(Result.Fail("the user needs to confirm your email to perform this operation"));                        
             if(!user.CustomerWishlist.AddItem(productId)) return BadRequest(Result.Fail("Product alreadly is on wishlist"));
             var response = await _userIdentityService.EditUserAsync(user);            
             if(!response.Success) return BadRequest(response);
