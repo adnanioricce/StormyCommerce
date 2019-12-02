@@ -13,7 +13,16 @@ namespace StormyCommerce.Core.Entities.Customer
         }
         public CustomerAddress(Address address)
         {
-            this.SetAddress(address);
+            this.PostalCode = address.PostalCode;
+            this.District = address.District;
+            this.Number = address.Number;
+            this.FirstAddress = address.FirstAddress;
+            this.SecondAddress = address.SecondAddress;
+            this.State = address.State;
+            this.Street = address.Street;
+            this.Country = address.Country;
+            this.Complement = address.Complement;
+            this.City = address.City;
         }
 
         public string Street { get; set; }
@@ -35,16 +44,16 @@ namespace StormyCommerce.Core.Entities.Customer
 
         public void SetAddress(Address address)
         {
-            PostalCode = address.PostalCode;
-            District = address.District;
-            Number = address.Number;
-            FirstAddress = address.FirstAddress;
-            SecondAddress = address.SecondAddress;
-            State = address.State;
-            Street = address.Street;
-            Country = address.Country;
-            Complement = address.Complement;
-            City = address.City;
+            this.PostalCode = address.PostalCode;
+            this.District = address.District;
+            this.Number = address.Number;
+            this.FirstAddress = address.FirstAddress;
+            this.SecondAddress = address.SecondAddress;
+            this.State = address.State;
+            this.Street = address.Street;
+            this.Country = address.Country;
+            this.Complement = address.Complement;
+            this.City = address.City;
         }
     }
 }

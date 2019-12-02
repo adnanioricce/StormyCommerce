@@ -36,9 +36,8 @@ namespace StormyCommerce.Module.Customer.Services
                 .Include(u => u.CustomerWishlist)
                     .ThenInclude(u => u.WishlistItems)
                         .ThenInclude(u => u.Product)
-                .Include(u => u.CustomerReviews)
-                //.Include(u => u.DefaultBillingAddress)
-                //.Include(u => u.DefaultShippingAddress)                
+                .Include(u => u.CustomerReviews)                    
+                .Include(u => u.Addresses)       
                 .Load();
             _roleManager.Roles.Load();            
         }
@@ -86,7 +85,13 @@ namespace StormyCommerce.Module.Customer.Services
         }
         public async Task<StormyCustomer> GetUserByEmailAsync(string email)
         {
-            return await _userManager.Users.FirstOrDefaultAsync(u => string.Equals(u.Email, email,StringComparison.OrdinalIgnoreCase)).ConfigureAwait(true);
+            return await _userManager.Users.Include(u => u.CustomerWishlist)
+                    .ThenInclude(u => u.WishlistItems)
+                        .ThenInclude(w => w.Product)
+                .Include(u => u.CustomerReviews)
+                    .ThenInclude(u => u.Product)
+                .Include(u => u.Addresses)
+                .FirstOrDefaultAsync(u => string.Equals(u.Email, email,StringComparison.OrdinalIgnoreCase)).ConfigureAwait(true);
         }
         public StormyCustomer GetUserByUsername(string username)
         {
@@ -97,18 +102,7 @@ namespace StormyCommerce.Module.Customer.Services
             return _userManager.Users.First(u => string.Equals(u.Id, userId,StringComparison.OrdinalIgnoreCase));
         }
         public Task<StormyCustomer> GetUserByClaimPrincipal(ClaimsPrincipal principal)
-        {
-            _userManager.Users
-                .Include(u => u.CustomerWishlist)
-                    .ThenInclude(u => u.WishlistItems)                      
-                .Include(u => u.CustomerReviews)
-                    .ThenInclude(u => u.Product)
-                .Include(u => u.Addresses)
-                //.Include(u => u.DefaultBillingAddress)   
-                //    .ThenInclude(a => a.Owner)
-                //.Include(u => u.DefaultShippingAddress)
-                //    .ThenInclude(a => a.Owner)
-                .Load();
+        {            
             var email = principal.Claims.FirstOrDefault(c => c.Type.Contains("emailaddress"))?.Value ?? principal.FindFirstValue(JwtRegisteredClaimNames.Email);
             return GetUserByEmailAsync(email);
         }

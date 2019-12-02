@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Models;
 
@@ -49,10 +50,10 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             return Ok(Result.Ok("item removed from wishlist"));
         }
         [HttpGet("get")]
-        public async Task<Wishlist> GetWishList()
+        public async Task<WishlistDto> GetWishList()
         {
             var user = await _userIdentityService.GetUserByClaimPrincipal(User);
-            return user.CustomerWishlist;
+            return new WishlistDto(user.CustomerWishlist);
         }
     }
 }

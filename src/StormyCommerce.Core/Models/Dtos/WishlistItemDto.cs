@@ -7,8 +7,8 @@ namespace StormyCommerce.Core.Models.Dtos
     {
         public WishListItemDto(WishlistItem item)
         {
-            this.Product = item.Product.ToProductDto();
+            this.Product = item.Product == null ? this.Product : item.Product.ToProductDto();
         }
-        public ProductDto Product { get; set; }
+        public ProductDto Product { get; private set; } = new ProductDto();
     }
 }
