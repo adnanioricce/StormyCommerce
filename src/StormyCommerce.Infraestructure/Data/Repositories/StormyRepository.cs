@@ -25,8 +25,7 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         }
         public IQueryable<TEntity> Query() 
         {
-            //return DbSet.Include(context.GetIncludePaths(typeof(TEntity)));
-            return DbSet;
+            return DbSet.Include(context.GetIncludePaths(typeof(TEntity)));            
         }
 
         public async Task AddAsync(TEntity _entity)
