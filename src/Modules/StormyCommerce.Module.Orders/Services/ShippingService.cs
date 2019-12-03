@@ -60,7 +60,7 @@ namespace StormyCommerce.Module.Orders.Services
                 MaoPropria = "N",
                 WarningOfReceiving = "N",
                 ValorDeclarado = request.TotalPrice,
-                ShippingMethod = ((int)request.ShippingMethod).ToString(),
+                ShippingMethod = request.ShippingMethod,
             });
             var shippingOption = new DeliveryCalculationOptionResponse();            
             shippingOption = shippingCalculation.Options.OrderBy(o => o.Price).FirstOrDefault();                                        

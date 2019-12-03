@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Shipment;
 
 namespace StormyCommerce.Core.Models.Shipment.Request
@@ -18,7 +19,7 @@ namespace StormyCommerce.Core.Models.Shipment.Request
         ///</summary>
         [Required]
         [StringLength(5)]        
-        public string ShippingMethod { get; set; }
+        public ShippingMethod ShippingMethod { get; set; }
         ///<summary>
         /// The format of the shipping box 
         /// Options:

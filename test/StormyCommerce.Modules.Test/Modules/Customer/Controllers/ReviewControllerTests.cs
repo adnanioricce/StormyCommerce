@@ -38,10 +38,30 @@ namespace StormyCommerce.Modules.Tests
                 StormyCustomerId = requestUser.Id,
                 StormyProductId = 1
             });
+            _reviewRepository.AddAsync(new Review
+            {
+                Title = "title",
+                Comment = "comment",
+                RatingLevel = (int)RatingLevel.Five,
+                ReviewerName = "aguinobaldo",
+                Status = ReviewStatus.Approved,
+                StormyCustomerId = requestUser.Id,
+                StormyProductId = 1
+            });
+            _reviewRepository.AddAsync(new Review
+            {
+                Title = "title",
+                Comment = "comment",
+                RatingLevel = (int)RatingLevel.Five,
+                ReviewerName = "aguinobaldo",
+                Status = ReviewStatus.Approved,
+                StormyCustomerId = requestUser.Id,
+                StormyProductId = 1
+            });
             Task.WaitAll();
             _controller.ControllerContext = _userManager.CreateTestContext();
         }
-        [Fact,TestPriority(0)]
+        [Fact,TestPriority(3)]
         public async Task GetCustomerReviews_StateUnderTest_ExpectedBehavior()
         {
             // Act                     
@@ -52,7 +72,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.True(result.Count > 0);
         }
 
-        [Fact,TestPriority(1)]
+        [Fact,TestPriority(3)]
         public async Task GetReviewById_StateUnderTest_ExpectedBehavior()
         {
             // Arrange          
@@ -65,7 +85,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.Equal(reviewId,result.Id);
         }
 
-        [Fact,TestPriority(2)]
+        [Fact,TestPriority(1)]
         public async Task WriteReview_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
@@ -85,7 +105,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.True(result.Success);
         }
 
-        [Fact,TestPriority(3)]
+        [Fact,TestPriority(4)]
         public async Task EditReview_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
@@ -98,7 +118,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.True(result.Success);
         }
 
-        [Fact,TestPriority(4)]
+        [Fact,TestPriority(-10)]
         public async Task DeleteReview_StateUnderTest_ExpectedBehavior()
         {
             // Arrange                        

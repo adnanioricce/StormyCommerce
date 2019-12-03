@@ -54,7 +54,9 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
             services.AddTransient<IPaymentProcessor, PaymentProcessor>();
             services.AddTransient<CorreiosService>();
             PagarMeService.DefaultApiKey = Container.Configuration["PagarMe:ApiKey"];
-            PagarMeService.DefaultEncryptionKey = Container.Configuration["PagarMe:EncryptionKey"];            
+            PagarMeService.DefaultEncryptionKey = Container.Configuration["PagarMe:EncryptionKey"];
+            var pagarMe = PagarMeService.GetDefaultService();
+            services.AddSingleton(pagarMe);
             services.AddSingleton<PagarMeWrapper>();
             return services;
         }

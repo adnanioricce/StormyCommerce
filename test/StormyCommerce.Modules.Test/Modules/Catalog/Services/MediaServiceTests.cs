@@ -1,4 +1,5 @@
-﻿using StormyCommerce.Core.Entities.Media;
+﻿using SimplCommerce.Infrastructure;
+using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Core.Services.Catalog;
@@ -17,6 +18,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         {
             service = mediaService;
             _mediaRepository = mediaRepository;
+            GlobalConfiguration.WebRootPath = Directory.GetCurrentDirectory();
         }
         [Fact,TestPriority(-1)]
         public void GetMediaByFilename_StateUnderTest_ExpectedBehavior()
@@ -75,15 +77,17 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task SaveMediaAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Stream mediaBinaryStream = null;
-            string fileName = null;
-            string mimeType = null;
-
-            // Act
-            await service.SaveMediaAsync(mediaBinaryStream,fileName,mimeType);
-
-            // Assert
-            Assert.True(false);
+            using (Stream mediaBinaryStream = new FileStream("Logo_StormyCommerce.jpeg",FileMode.Create)) 
+            {
+                string fileName = "Logo_StormyCommerce.jpeg";
+                string mimeType = "image/png";
+                if (!Directory.Exists(GlobalConfiguration.WebRootPath + "/user-content/")) Directory.CreateDirectory(GlobalConfiguration.WebRootPath + "/user-content/");
+                // Act
+                await service.SaveMediaAsync(mediaBinaryStream, fileName, mimeType);
+                var media = service.GetMediaByFilename(fileName);
+                // Assert
+                Assert.NotNull(media);
+            }
         }
 
         [Fact]
@@ -96,7 +100,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             await service.DeleteMediaAsync(media);
 
             // Assert
-            Assert.True(false);
+            Assert.True(media.IsDeleted);
         }
 
         [Fact]

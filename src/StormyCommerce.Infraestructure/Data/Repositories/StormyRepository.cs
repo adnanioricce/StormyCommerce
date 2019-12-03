@@ -12,9 +12,8 @@ using System.Threading.Tasks;
 namespace StormyCommerce.Infraestructure.Data.Repositories
 {
     public class StormyRepository<TEntity> : IStormyRepository<TEntity> where TEntity : EntityWithBaseTypeId<long>
-    {
-        //? I ask myself:what is the difference between this and a readonly field? and Why Protected?
-        private readonly StormyDbContext context;
+    {        
+        protected readonly StormyDbContext context;
 
         protected DbSet<TEntity> DbSet => _dbSet ?? (_dbSet = context.Set<TEntity>());
         private DbSet<TEntity> _dbSet;
@@ -26,7 +25,8 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         }
         public IQueryable<TEntity> Query() 
         {
-            return DbSet.Include(context.GetIncludePaths(typeof(TEntity)));
+            //return DbSet.Include(context.GetIncludePaths(typeof(TEntity)));
+            return DbSet;
         }
 
         public async Task AddAsync(TEntity _entity)

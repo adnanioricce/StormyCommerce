@@ -4,8 +4,8 @@ using System.Threading;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Requests;
+using static StormyCommerce.Api.Client.Catalog.CatalogClient;
 
 namespace StormyCommerce.Api.Client.Catalog
 {

@@ -88,7 +88,7 @@ namespace StormyCommerce.Modules.Tests
                 WarningOfReceiving = "N",
                 FormatCode = Core.Shipment.FormatCode.CaixaOuPacote,
                 MaoPropria = "N",
-                ShippingMethod = ServiceCode.Sedex,
+                ShippingMethod = ShippingMethod.Sedex,
                 ValorDeclarado = 1.61m,
                 DestinationPostalCode = "08621030",                
                 

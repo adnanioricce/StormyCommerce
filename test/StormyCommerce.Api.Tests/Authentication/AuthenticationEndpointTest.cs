@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
@@ -27,7 +29,7 @@ namespace StormyCommerce.Api.Tests.Authentication
         [Fact]
         public async Task RegisterEndpointTest()
         {
-            var response = await client.PostAsJsonAsync("/api/Authentication/register", new SignUpVm { Email = "example@gmail.com",UserName = "example", Password = "!D4velopment" });            
+            var response = await client.PostAsJsonAsync("/api/Authentication/register", new { email = Guid.NewGuid().ToString() + "@gmail.com", password = "!D4velopment" });            
             Assert.True(response.IsSuccessStatusCode);
         }
         [Fact]
@@ -98,10 +100,11 @@ namespace StormyCommerce.Api.Tests.Authentication
 
         }
         public async Task SetUserForRequest()
-        {
+        {           
             var response = await client.PostAsJsonAsync("/api/Authentication/login", new { email = "adnangonzaga@gmail.com", password = "!D4velopment" });
-            var objectResponse = await response.Content.ReadAsAsync<AuthResponse>();
-            client.SetBearerToken(objectResponse.AccessToken);
+            var objectResponse = await response.Content.ReadAsAsync<AuthenticationResponse>();            
+            client.SetBearerToken(objectResponse.Value.AccessToken);
         }
+        
     }
 }

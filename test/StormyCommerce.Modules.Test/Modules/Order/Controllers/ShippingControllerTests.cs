@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models.Shipment.Request;
+using StormyCommerce.Core.Shipment;
 using StormyCommerce.Module.Orders.Area.Controllers;
 using StormyCommerce.Module.Orders.Area.Models;
 using StormyCommerce.Module.Orders.Area.Models.Shipping;
@@ -22,7 +24,19 @@ namespace StormyCommerce.Modules.Tests
         {
             // Arrange            
             //TODO
-            DeliveryCalculationRequest model = null;
+            DeliveryCalculationRequest model = new DeliveryCalculationRequest {
+                DestinationPostalCode = "08621030",
+                Diameter = 0,
+                FormatCode = FormatCode.CaixaOuPacote,
+                Height = 2,
+                Width = 16,
+                Length = 11,
+                ShippingMethod = ShippingMethod.Sedex,
+                Weight = 0.3m,
+                WarningOfReceiving = "S",
+                ValorDeclarado = 100,
+                MaoPropria = "N"
+            };
 
             // Act
             var result = await _controller.CalculateDeliveryCost(model);
@@ -31,17 +45,6 @@ namespace StormyCommerce.Modules.Tests
             Assert.NotNull(result.Value);
         }
 
-        [Fact]
-        public async Task CalculateDeliveryCost_StateUnderTest_ExpectedBehavior1()
-        {
-            // Arrange            
-            DeliveryCalculationForOrderRequest model = null;
-
-            // Act
-            var result = await _controller.CalculateDeliveryCost(model);
-
-            // Assert
-            Assert.NotNull(result.Value);
-        }
+        
     }
 }

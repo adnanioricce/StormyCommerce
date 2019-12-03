@@ -132,11 +132,10 @@ namespace StormyCommerce.Modules.Tests.Catalog
                 QuantityPerUnity = product.QuantityPerUnity,
                 UnitPrice = product.UnitPrice,
                 UnitWeight = product.UnitWeight,
-                UnitsInStock = product.UnitsInStock,
-                ProductAvailable = true,
+                UnitsInStock = product.UnitsInStock,                
                 ThumbnailImage = product.ThumbnailImage,
                 Medias = product.Medias,
-                Links = product.Links.Select(p => p.ToProductLinkDto()).ToList(),
+                Links = product.Links,
                 Note = product.Note,                          
                 Discount = product.Discount,
             };

@@ -62,7 +62,7 @@ namespace StormyCommerce.Module.Orders.Services
         {
             var response = await _correiosSoapWs.CalcPrecoPrazoAsync(Container.Configuration["Correios:CodigoEmpresa"],
                 Container.Configuration["Correios:Senha"],
-                request.ShippingMethod,
+                request.ShippingMethod.ToString(),
                 Container.Configuration["Correios:OriginPostalCode"],
                 request.DestinationPostalCode,
                 request.Weight.ToString(),

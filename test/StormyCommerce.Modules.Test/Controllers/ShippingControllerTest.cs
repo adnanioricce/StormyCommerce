@@ -8,6 +8,7 @@ using SimplCommerce.WebHost;
 using StormyCommerce.Core.Shipment;
 using StormyCommerce.Core.Models.Shipment.Response;
 using StormyCommerce.Core.Models.Shipment.Request;
+using StormyCommerce.Core.Entities.Shipping;
 
 namespace StormyCommerce.Modules.Test.Controllers
 {
@@ -24,7 +25,7 @@ namespace StormyCommerce.Modules.Test.Controllers
         {
             //Given
             var model = new DeliveryCalculationRequest{
-                ShippingMethod = "40010",
+                ShippingMethod = ShippingMethod.Sedex,
                 FormatCode = FormatCode.CaixaOuPacote,
                 Height = 3,
                 Width = 16,

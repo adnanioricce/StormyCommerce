@@ -105,7 +105,8 @@ namespace SimplCommerce.WebHost
                 {
                     {"Bearer", new string[] { }},
                 };
-                c.AddSecurityDefinition(Roles.Customer, new ApiKeyScheme
+                c.AddSecurityDefinition(Roles.Customer
+                    , new ApiKeyScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
@@ -127,8 +128,8 @@ namespace SimplCommerce.WebHost
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });        
-            services.AddMemoryCache();        
-                    
+            services.AddMemoryCache();
+            services.AddHealthChecks();
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env,IAppLogger<Startup> logger)
@@ -151,6 +152,7 @@ namespace SimplCommerce.WebHost
                 context => !context.Request.Path.StartsWithSegments("/api"),
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
             );
+            app.UseHealthChecks("/check");
             app.UseCustomizedHttpsConfiguration();            
             app.UseStaticFiles();            
             app.UseSwagger();
@@ -195,15 +197,15 @@ namespace SimplCommerce.WebHost
                         }
                     }                              
                     
-                    if (dbContext.Database.IsSqlite())
-                    {
-                        dbContext.Database.EnsureDeleted();
-                        var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                    //if (dbContext.Database.IsSqlite())
+                    //{
+                        //dbContext.Database.EnsureDeleted();
+                        //var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
                         dbContext.SeedDbContext();
                         var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
                         var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
                         new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
-                    }
+                    //}
                 }
             }
         }

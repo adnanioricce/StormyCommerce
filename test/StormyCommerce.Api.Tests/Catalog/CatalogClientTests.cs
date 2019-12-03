@@ -1,8 +1,13 @@
-﻿using StormyCommerce.Api.Client;
-using StormyCommerce.Api.Client.Catalog;
+﻿using StormyCommerce.Api.Client.Catalog;
+using StormyCommerce.Api.Framework.Extensions;
+using StormyCommerce.Core.Entities.Catalog;
+using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Models;
+using StormyCommerce.Core.Models.Requests;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -16,16 +21,14 @@ namespace StormyCommerce.Api.Tests.Catalog
         {
             // Arrange
             var catalogClient = new CatalogClient(Config.BaseUrl);
-            Category category = null;
+            Category category = Seeders.CategorySeed().First();
             CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);
 
             // Act
-            var result = await catalogClient.CreateCategoryAsync(
-                category,
-                cancellationToken);
+            var result = await catalogClient.CreateCategoryAsync(category,cancellationToken);
 
             // Assert
-            Assert.True(false);
+            Assert.True(result.Success);
         }
 
         [Fact]
@@ -33,7 +36,33 @@ namespace StormyCommerce.Api.Tests.Catalog
         {
             // Arrange
             var catalogClient = new CatalogClient(Config.BaseUrl);
-            CreateProductRequest _model = null;
+            var product = Seeders.StormyProductSeed().First();
+            CreateProductRequest _model = new CreateProductRequest {
+                Brand = product.Brand,
+                Categories = product.Categories,
+                ShortDescription = product.ShortDescription,
+                Description = product.Description,
+                Discount = product.Discount,
+                Diameter = product.Diameter,
+                Height = product.Height,
+                Width = product.Width,
+                Length = product.Length,
+                AvailableSizes = product.AvailableSizes,
+                Note = product.Note,
+                Price = Price.GetPriceFromString(product.Price),
+                Medias = product.Medias,
+                Links = product.Links,
+                ProductCost = product.ProductCost,
+                SKU = product.SKU,
+                UnitPrice = product.UnitPrice,
+                UnitsInStock = product.UnitsInStock,
+                UnitWeight = product.UnitWeight,
+                ProductName = product.ProductName,
+                ThumbnailImage = product.ThumbnailImage,
+                QuantityPerUnity = product.QuantityPerUnity,
+                Vendor = product.Vendor
+            };
+            
             CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);
 
             // Act

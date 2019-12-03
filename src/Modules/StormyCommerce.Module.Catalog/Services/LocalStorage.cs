@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using SimplCommerce.Infrastructure;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
@@ -16,7 +16,7 @@ namespace StormyCommerce.Module.Catalog.Services
 
         public async Task SaveMediaAsync(Stream mediaBinaryStream, string fileName, string mimeType = null)
         {
-            var filePath = Path.Combine(GlobalConfiguration.WebRootPath, MediaRootFoler, fileName);
+            var filePath = Path.Combine(GlobalConfiguration.WebRootPath, MediaRootFoler, fileName);            
             using (var output = new FileStream(filePath, FileMode.Create))
             {
                 await mediaBinaryStream.CopyToAsync(output);
