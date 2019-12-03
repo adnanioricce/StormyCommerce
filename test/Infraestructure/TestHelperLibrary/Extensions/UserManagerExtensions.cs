@@ -17,6 +17,21 @@ namespace TestHelperLibrary.Extensions
         {
             return manager.Users.FirstOrDefault(u => string.Equals(u.Email, "adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
         }
+        public static StormyCustomer GetCustomerForEditOperations(this UserManager<StormyCustomer> manager)
+        {
+            return manager.Users.FirstOrDefault(u => string.Equals(u.Email, "aguinobaldis@gmail.com", StringComparison.OrdinalIgnoreCase));
+        }
+        public static ControllerContext CreateTestContext(this UserManager<StormyCustomer> manager,StormyCustomer user)
+        {
+            var claimPrincipal = IdentityTestUtils.GetClaimsPrincipal(user);
+            return new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = claimPrincipal,
+                }
+            };
+        }
         public static ControllerContext CreateTestContext(this UserManager<StormyCustomer> manager)
         {
             var claimPrincipal = IdentityTestUtils.GetClaimsPrincipal(manager.GetTestCustomer());

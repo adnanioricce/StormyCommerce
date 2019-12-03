@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Shipping;
@@ -23,7 +24,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task PrepareOrderForShipment_ReceivesPrepareShipmentRequestObject_ReturnPrepareShipmentResponse()
         {
             //Arrange
-            var order = await _orderService.GetOrderByIdAsync(1);
+            var order = await _orderService.CreateOrderAsync(Seeders.StormyOrderSeed().First());            
             var request = new PrepareShipmentRequest
             {
                 TotalPrice = 100,

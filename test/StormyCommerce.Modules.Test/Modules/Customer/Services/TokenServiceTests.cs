@@ -24,7 +24,7 @@ namespace StormyCommerce.Modules.Tests
             Container.Configuration["Authentication:Jwt:Key"] = "veryVerySecretKey";
             Container.Configuration["Authentication:Jwt:AccessTokenDurationInMinutes"] = "1";
         }
-        [Fact]
+        [Fact,TestPriority(0)]
         public void GenerateAccessToken_StateUnderTest_ExpectedBehavior()
         {
             // Arrange                      
@@ -38,7 +38,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.IsType<string>(result);
         }
 
-        [Fact]
+        [Fact,TestPriority(1)]
         public void GenerateRefreshToken_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
@@ -49,7 +49,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.NotNull(result);
         }
 
-        [Fact]
+        [Fact,TestPriority(2)]
         public void GetPrincipalFromExpiredToken_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            

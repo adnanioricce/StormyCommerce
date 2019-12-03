@@ -11,6 +11,6 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
         Task CreateCustomerReviewAsync(Review review, string normalizedEmail);
         Task AddCustomerAddressAsync(CustomerAddress address, string customerId);
         Task AddWishListItem(StormyCustomer customer,long productId);
-        Result DeleteAddress(StormyCustomer customer,long addressId);
+        Task<Result> DeleteAddress(StormyCustomer customer,long addressId);
     }
 }

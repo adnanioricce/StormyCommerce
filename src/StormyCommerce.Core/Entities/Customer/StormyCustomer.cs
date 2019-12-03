@@ -42,21 +42,15 @@ namespace StormyCommerce.Core.Entities.Customer
         public string RefreshTokenHash { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }                        
         public virtual ApplicationRole Role { get; set; } 
-        public DateTimeOffset CreatedOn { get; set; }      
-        
+        public DateTimeOffset CreatedOn { get; set; }
+
         //public bool AddDefaultBillingAddress(CustomerAddress address)
         //{
         //    //if(this.Addresses.Any(a => a.))
         //}
-        //public void RemoveDefaultBillingAddress()
-        //{
-        //    if(!(this.DefaultBillingAddress.Owner == null && this.DefaultBillingAddress.StormyCustomerId == null))
-        //    {
-        //        this.DefaultBillingAddress.Owner = null;
-        //        this.DefaultBillingAddress.StormyCustomerId = null;
-        //    } 
-        //    this.DefaultBillingAddress = null;
-        //    this.DefaultBillingAddressId = null;
-        //}
+        public void RemoveAddress(long addressId)
+        {
+            this.Addresses.Remove(this.Addresses.FirstOrDefault(a => a.Id == addressId));
+        }
     }
 }

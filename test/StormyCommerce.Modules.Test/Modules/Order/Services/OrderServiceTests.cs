@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace StormyCommerce.Modules.Tests.Services.Orders
+namespace StormyCommerce.Modules.Tests
 {
     public class OrderServiceTests
     {

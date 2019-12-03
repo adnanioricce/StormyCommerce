@@ -33,12 +33,14 @@ namespace StormyCommerce.Module.Customer.Services
             throw new System.NotImplementedException();
         }
 
-        public Result DeleteAddress(StormyCustomer customer, long addressId)
+        public async Task<Result> DeleteAddress(StormyCustomer customer, long addressId)
         {
             if (customer.Addresses.Any(a => a.Id == addressId))
             {
-                _addressRepository.Delete(customer.Addresses.FirstOrDefault(a => a.Id == addressId));
-                return Result.Ok("address was deleted with success");
+                customer.RemoveAddress(addressId);
+                var result = await _identityService.EditUserAsync(customer);
+                if (!result.Success) return Result.Fail(result.Message);
+                return result;
             }            
 
             return Result.Fail("no address was deleted, no Id finded to remove");

@@ -66,7 +66,7 @@ namespace StormyCommerce.Api.Client.Catalog
         public async Task<Result> EditCategoryAsync(Category category = null, CancellationToken cancellationToken = default)
         {
             var response = await _client.PutAsJsonAsync("/api/Product/edit",category);
-            var result = await response.Content.ReadAsAsync<Result<string>>();
+            var result = await response.Content.ReadAsAsync<Result>();
             return result;
         }
 

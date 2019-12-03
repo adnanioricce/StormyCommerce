@@ -22,21 +22,19 @@ using StormyCommerce.Module.Customer.Data;
 using SimplCommerce.Module.SampleData;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
-using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Reflection;
 using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.Catalog.Product;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using System.Linq;
+using System.Collections.Generic;
+using Swashbuckle.AspNetCore.Filters;
+using StormyCommerce.Module.Customer.Models;
 
 namespace SimplCommerce.WebHost
 {
@@ -103,6 +101,19 @@ namespace SimplCommerce.WebHost
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+                var security = new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer", new string[] { }},
+                };
+                c.AddSecurityDefinition(Roles.Customer, new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
+                c.AddSecurityRequirement(security);
             });
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {

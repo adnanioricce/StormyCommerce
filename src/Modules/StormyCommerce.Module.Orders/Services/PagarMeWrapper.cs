@@ -18,12 +18,10 @@ namespace StormyCommerce.Module.Orders.Services
 {
     public class PagarMeWrapper
     {
-        private readonly PagarMeService _pagarMeService;
-        private readonly IMapper _mapper;
-        public PagarMeWrapper(IMapper mapper)
+        private readonly PagarMeService _pagarMeService;        
+        public PagarMeWrapper(PagarMeService pagarMeService)
         {
-            _pagarMeService = PagarMeService.GetDefaultService();
-            _mapper = mapper;
+            _pagarMeService = pagarMeService;            
         }
         public async Task<List<Transaction>> GetAllTransactionAsync()
         {

@@ -12,63 +12,63 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
     public class MediaServiceTests
     {
         private readonly IMediaService service;
-        public MediaServiceTests(IMediaService mediaService)
+        private readonly IStormyRepository<Media> _mediaRepository;
+        public MediaServiceTests(IMediaService mediaService, IStormyRepository<Media> mediaRepository)
         {
             service = mediaService;
+            _mediaRepository = mediaRepository;
         }
-        [Fact]
+        [Fact,TestPriority(-1)]
         public void GetMediaByFilename_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            string fileName = null;
+            string fileName = "filename.png";
 
             // Act
             var result = service.GetMediaByFilename(fileName);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(fileName,result.FileName);
         }
 
         [Fact]
-        public void GetMediaUrl_StateUnderTest_ExpectedBehavior()
+        public async Task GetMediaUrl_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Media media = null;
+            Media media = await _mediaRepository.GetByIdAsync(1);
 
             // Act
-            var result = service.GetMediaUrl(
-                media);
+            var result = service.GetMediaUrl(media);
 
             // Assert
-            Assert.True(false);
+            Assert.True(!string.IsNullOrEmpty(result));
         }
 
         [Fact]
-        public void GetMediaUrl_StateUnderTest_ExpectedBehavior1()
+        public async Task GetMediaUrl_StateUnderTest_ExpectedBehavior1()
         {
-            // Arrange            
-            string fileName = null;
+            // Arrange        
+            var media = await _mediaRepository.GetByIdAsync(1);
+            string fileName = media.FileName;
 
             // Act
-            var result = service.GetMediaUrl(
-                fileName);
+            var result = service.GetMediaUrl(fileName);
 
             // Assert
-            Assert.True(false);
+            Assert.Contains(result,media.FileName);            
         }
 
         [Fact]
-        public void GetThumbnailUrl_StateUnderTest_ExpectedBehavior()
+        public async Task GetThumbnailUrl_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Media media = null;
+            Media media = await _mediaRepository.GetByIdAsync(1);
 
             // Act
-            var result = service.GetThumbnailUrl(
-                media);
+            var result = service.GetThumbnailUrl(media);
 
             // Assert
-            Assert.True(false);
+            Assert.Contains(result,media.FileName);
         }
 
         [Fact]
@@ -90,11 +90,10 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task DeleteMediaAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Media media = null;
+            Media media = await _mediaRepository.GetByIdAsync(1);
 
             // Act
-            await service.DeleteMediaAsync(
-                media);
+            await service.DeleteMediaAsync(media);
 
             // Assert
             Assert.True(false);
@@ -103,15 +102,15 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         [Fact]
         public async Task DeleteMediaAsync_StateUnderTest_ExpectedBehavior1()
         {
-            // Arrange            
-            string fileName = null;
+            // Arrange        
+            var media = await _mediaRepository.GetByIdAsync(1);
+            string fileName = media.FileName;
 
             // Act
-            await service.DeleteMediaAsync(
-                fileName);
+            await service.DeleteMediaAsync(fileName);
 
             // Assert
-            Assert.True(false);
+            Assert.True(media.IsDeleted);
         }
     }
 }

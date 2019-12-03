@@ -17,7 +17,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         {
             service = brandService;
         }
-        [Fact]
+        [Fact,TestPriority(0)]
         public async Task GetBrandByIdAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
@@ -30,7 +30,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             Assert.Equal(id,result.Id);
         }
 
-        [Fact]
+        [Fact,TestPriority(0)]
         public async Task GetAllBrandsAsync_StateUnderTest_ExpectedBehavior()
         {                        
             // Act
@@ -40,7 +40,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             Assert.True(result.Count > 0);
         }
 
-        [Fact]
+        [Fact,TestPriority(1)]
         public async Task AddAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
@@ -53,7 +53,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             Assert.True(entity.Id > 0);
         }
 
-        [Fact]
+        [Fact,TestPriority(2)]
         public async Task DeleteAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
@@ -66,7 +66,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             Assert.True(brand.IsDeleted);
         }
 
-        [Fact]
+        [Fact,TestPriority(2)]
         public async Task DeleteAsync_StateUnderTest_ExpectedBehavior1()
         {
             // Arrange            
@@ -78,7 +78,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             Assert.True(entity.IsDeleted);
         }
 
-        [Fact]
+        [Fact,TestPriority(1)]
         public async Task UpdateAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            

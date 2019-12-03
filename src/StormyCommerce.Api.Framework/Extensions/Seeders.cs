@@ -60,6 +60,27 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<StormyShipment> ShipmentSeed(int count = 1,bool omitId = false)
         {
             var fakeShipment = new Faker<StormyShipment>("pt_BR")
+                .Rules((f,v) => {
+                    v.DestinationAddress = new CustomerAddress
+                    {
+                        City = f.Address.City(),
+                        District = f.Address.CitySuffix(),
+                        Number = f.Address.BuildingNumber(),
+                        FirstAddress = f.Address.StreetName(),
+                        SecondAddress = f.Address.StreetSuffix(),
+                        Country = f.Address.Country(),
+                        Complement = f.Address.OrdinalDirection(),
+                        PostalCode = f.Address.ZipCode(),
+                        Street = f.Address.StreetName(),
+                        Owner = StormyCustomerSeed(1).First(),
+                        State = f.Address.State(),
+                        WhoReceives = "I",
+                        Type = AddressType.Shipping,
+                        IsDefault = true,
+
+                    };
+                    v.Order = StormyOrderSeed().First();
+                })
                 .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
                 .RuleFor(v => v.LastModified, DateTimeOffset.UtcNow)
@@ -241,7 +262,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     product.Id = product.Id + 50;
                     int i = 0;
                     items.ForEach(item => {
-                        item.Id += ++i + item.Id + f.IndexVariable;
+                        item.Id = 0;
                         item.Product = product;
                         item.Order = v;
                         item.Shipment = shipment;

@@ -26,7 +26,7 @@ namespace StormyCommerce.Modules.Tests
             _controller = new WishListController(wishlistRepo,identityService);
             _controller.ControllerContext = _userManager.CreateTestContext();
         }
-        [Fact]
+        [Fact,TestPriority(-1)]
         public async Task AddItemToWishList_StateUnderTest_ExpectedBehavior()
         {
             // Arrange                                    
@@ -38,7 +38,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.Equal(200,(int)response.StatusCode);
         }
 
-        [Fact]
+        [Fact,TestPriority(1)]
         public async Task RemoveWishListItem_StateUnderTest_ExpectedBehavior()
         {
             // Arrange                        
@@ -51,7 +51,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.Equal(200,(int)response.StatusCode);
         }
 
-        [Fact]
+        [Fact,TestPriority(0)]
         public async Task GetWishList_StateUnderTest_ExpectedBehavior()
         {
             // Act                      

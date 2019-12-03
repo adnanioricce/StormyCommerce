@@ -17,6 +17,7 @@ namespace StormyCommerce.Core.Models.Order.Request
         public ShippingMethod ShippingMethod { get; set; }
         public bool PickUpOnStore { get; set; }
         [Required]
+        [MinLength(1)]
         public List<CartItem> Items { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public string PostalCode { get; set; }

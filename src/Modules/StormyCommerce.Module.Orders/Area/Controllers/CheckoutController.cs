@@ -98,8 +98,14 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var order = BuildOrderForCreditCardCheckout(request);
             var createOrderResult = await _orderService.CreateOrderAsync(order);
             var result = await CreateShipmentForOrder(createOrderResult, request, userDto);
-            var orderDto = await _orderService.GetOrderByIdAsync(createOrderResult.Value.Id);            
-            return NoContent();
+            var orderDto = await _orderService.GetOrderByIdAsync(createOrderResult.Value.Id);
+            var response = await _paymentProcessor.ProcessPaymentAsync(request,userDto);
+            if (!response.Result.Success) return BadRequest(response.Result);            
+            return Ok(new CreditCardCheckoutResponse { 
+                Payment = orderDto.Value.Payment,
+                Order = orderDto.Value,
+                Shipment = orderDto.Value.Shipment
+            });
         }
         [HttpPost("postback")]
         [ValidateModel]

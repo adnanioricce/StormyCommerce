@@ -65,9 +65,7 @@ namespace StormyCommerce.Module.Customer.Data
                 {
                     UserName = "stormydev",
                     Email = "adnangonzaga@gmail.com",
-                    EmailConfirmed = true ,
-                    //DefaultBillingAddress = new CustomerAddress(new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")),
-                    //DefaultShippingAddress = new CustomerAddress(new Core.Entities.Common.Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")),
+                    EmailConfirmed = true ,                    
                     Addresses = new List<CustomerAddress>
                     {
                         new CustomerAddress(new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")) 
@@ -87,7 +85,32 @@ namespace StormyCommerce.Module.Customer.Data
                     DateOfBirth = new DateTime(2001,11,1),                    
                     
                     
-                }, "!D4velopment",Roles.Customer);                
+                }, "!D4velopment",Roles.Customer);
+            CreateUser(new StormyCustomer()
+            {
+                UserName = "stormytest",
+                Email = "aguinobaldis@gmail.com",
+                EmailConfirmed = true,
+                Addresses = new List<CustomerAddress>
+                    {
+                        new CustomerAddress(new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"))
+                        {
+                            Type = AddressType.Billing,
+                            IsDefault = true
+                        },
+                        new CustomerAddress(new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"))
+                        {
+                            Type = AddressType.Shipping,
+                            IsDefault = true
+                        }
+                    },
+                CPF = "10172930820",
+                PhoneNumber = "+5511992887102",
+                FullName = "Severino Francisco Daniel da Rocha",
+                DateOfBirth = new DateTime(2001, 11, 1),
+
+
+            }, "!D4velopment", Roles.Customer);
             
         }
 

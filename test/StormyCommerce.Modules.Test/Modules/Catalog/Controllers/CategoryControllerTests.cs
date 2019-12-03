@@ -46,7 +46,7 @@ namespace StormyCommerce.Modules.Tests
             return new EntityService(TestHelperLibrary.Utils.RepositoryHelper.GetRepository<Entity>());
         }
 
-        [Fact]
+        [Fact,TestPriority(-2)]
         public async Task GetAll_NoArgumentsAndWith50EntitiesOnDatabase_ReturnListWithAll15EntitiesInTheDtoVersion()
         {
             // Act
@@ -56,7 +56,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.Equal(61, result.Value.Count);
         }
 
-        [Fact]
+        [Fact,TestPriority(-1)]
         public async Task GetCategoryById_IdEqualOneExistingEntity_ReturnEntityWithIdEqualOne()
         {
             // Arrange
@@ -69,7 +69,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.Equal(id, result.Value.Id);
         }
 
-        [Fact]
+        [Fact,TestPriority(1)]
         public async Task CreateCategory_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
@@ -82,7 +82,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.Equal(200, returnResult.StatusCode);
         }
 
-        [Fact]
+        [Fact,TestPriority(0)]
         public async Task EditCategory_UpdatingExistingEntityWithNewChildrensAndName_ReturnAOkObjectResultIfSuccessful()
         {            
             // Arrange

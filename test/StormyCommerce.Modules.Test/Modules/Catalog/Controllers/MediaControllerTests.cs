@@ -11,10 +11,10 @@ using Xunit;
 
 namespace StormyCommerce.Modules.Tests.Catalog
 {
-    public class _controllerTests : IDisposable
+    public class MediaControllerTests : IDisposable
     {                
         private readonly MediaController _controller;
-        public _controllerTests(IMediaService mediaService,IProductService productService)
+        public MediaControllerTests(IMediaService mediaService,IProductService productService)
         {
             _controller = new MediaController(mediaService, productService);
         }

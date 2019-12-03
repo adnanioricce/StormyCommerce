@@ -6,8 +6,7 @@ namespace StormyCommerce.Core.Models.Order
     [Serializable]
     public class CartItem
     {
-        [Required]
-        [Range(1,long.MaxValue)]
+        [Required]        
         public long StormyProductId { get; set; }        
         [Required]        
         public int Quantity { get; set; }        

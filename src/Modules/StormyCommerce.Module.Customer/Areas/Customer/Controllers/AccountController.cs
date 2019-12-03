@@ -105,7 +105,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> EditAddress([FromBody]EditCustomerAddressRequest request) 
         {
             var currentUser = await this.GetCurrentUser();
-            //_mapper.Map<EditCustomerAddressRequest, CustomerAddress>(request, currentUser.Addresses.FirstOrDefault(a => a.Id == request.Address));
+            
             var result = await _identityService.EditUserAsync(currentUser);
             if (!result.Success) return BadRequest(result);
             return Ok(new
@@ -119,6 +119,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         [ProducesDefaultResponseType(typeof(Result))]
         public async Task<IActionResult> ResendConfirmationEmail()
         {
+            
             var user = await GetCurrentUser();
             var code = await _identityService.CreateEmailConfirmationCode(user);
             var callbackUrl = Url.Action("ConfirmEmailAsync", "Account", 
@@ -153,7 +154,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> DeleteAddress(long addressId)
         {
             var currentUser = await GetCurrentUser();
-            var result = _customerService.DeleteAddress(currentUser, addressId);
+            var result = await _customerService.DeleteAddress(currentUser, addressId);
             if (!result.Success)
             {
                 return BadRequest(new { result = result, customer = currentUser });
@@ -164,6 +165,18 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         private Task<StormyCustomer> GetCurrentUser()
         {
             return _identityService.GetUserByClaimPrincipal(User);
+        }
+        private string GenerateActionLink(string actionName, string token, string username)
+        {
+            string validationLink = null;
+            if (this.Url != null)
+            {
+                validationLink = Url.Action(actionName, "Register",
+                    new { Token = token, Username = username },
+                    HttpContext.Request.Scheme);
+            }
+
+            return validationLink;
         }
 
     }

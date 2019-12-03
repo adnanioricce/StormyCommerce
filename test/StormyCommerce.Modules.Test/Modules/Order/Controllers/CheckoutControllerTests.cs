@@ -45,7 +45,7 @@ namespace StormyCommerce.Modules.Tests
             _controller.ControllerContext = userManager.CreateTestContext();
             _productService = productService;
         }
-        [Fact]
+        [Fact,TestPriority(-1)]
         public async Task CheckoutBoleto_ReceivesBoletoCheckoutRequestWithTwoItemsAndValidAmount_ReturnOrderWithPaymentAndShipment()
         {
             // Arrange    
@@ -91,7 +91,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.NotNull(value.Shipment.DestinationAddress);
             Assert.NotNull(value.Payment.GatewayTransactionId);            
         }        
-        [Fact]
+        [Fact,TestPriority(0)]
         public async Task CheckoutCreditCard_ReceivesCheckoutRequest_ShouldReturnOrderWithPaymentAndShipment()
         {
             var firstProduct = await _productService.GetProductByIdAsync(3);
@@ -125,6 +125,9 @@ namespace StormyCommerce.Modules.Tests
             var result = response.Result as OkObjectResult;
             var value = result.Value as CheckoutResponse;
             Assert.Equal(200, (int)result.StatusCode);
+            Assert.NotNull(value.Order);
+            Assert.NotNull(value.Payment);
+            Assert.NotNull(value.Shipment);
         }
 
     }

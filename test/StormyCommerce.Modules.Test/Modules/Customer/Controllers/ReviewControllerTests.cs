@@ -41,7 +41,7 @@ namespace StormyCommerce.Modules.Tests
             Task.WaitAll();
             _controller.ControllerContext = _userManager.CreateTestContext();
         }
-        [Fact]
+        [Fact,TestPriority(0)]
         public async Task GetCustomerReviews_StateUnderTest_ExpectedBehavior()
         {
             // Act                     
@@ -52,7 +52,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.True(result.Count > 0);
         }
 
-        [Fact]
+        [Fact,TestPriority(1)]
         public async Task GetReviewById_StateUnderTest_ExpectedBehavior()
         {
             // Arrange          
@@ -65,7 +65,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.Equal(reviewId,result.Id);
         }
 
-        [Fact]
+        [Fact,TestPriority(2)]
         public async Task WriteReview_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
@@ -85,7 +85,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.True(result.Success);
         }
 
-        [Fact]
+        [Fact,TestPriority(3)]
         public async Task EditReview_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
@@ -98,7 +98,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.True(result.Success);
         }
 
-        [Fact]
+        [Fact,TestPriority(4)]
         public async Task DeleteReview_StateUnderTest_ExpectedBehavior()
         {
             // Arrange                        
