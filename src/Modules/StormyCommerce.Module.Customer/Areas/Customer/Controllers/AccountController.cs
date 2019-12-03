@@ -134,7 +134,8 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<CustomerDto> GetCurrentCustomer()
         {
             var user = await GetCurrentUser();
-            return _mapper.Map<StormyCustomer,CustomerDto>(user);
+            var customer = new CustomerDto(user);
+            return customer;
         }
         #region Delete Operations 
         [HttpDelete("delete")]

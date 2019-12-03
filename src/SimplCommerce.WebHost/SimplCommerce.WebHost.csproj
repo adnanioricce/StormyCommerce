@@ -28,6 +28,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Migrations\20191203190001_UpdateFromLast.cs" />
+    <Compile Remove="Migrations\20191203190001_UpdateFromLast.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="database.db" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +79,11 @@
   <ItemGroup>
     <Folder Include="logs\" />
     <Folder Include="Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Migrations\20191203190001_UpdateFromLast.cs" />
+    <None Include="Migrations\20191203190001_UpdateFromLast.Designer.cs" />
   </ItemGroup>  
 
   <Target Name="CopyModule" AfterTargets="Build">

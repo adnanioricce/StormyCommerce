@@ -35,6 +35,7 @@ namespace StormyCommerce.Module.Orders.Services
         public async Task<ProcessPaymentResponse> ProcessPaymentAsync(CheckoutRequest request, CustomerDto customerDto)
         {
             var processRequest = await MapToProcessRequest(request, customerDto);
+            
             var transaction = _pagarMeWrapper.CreateSimpleTransaction(processRequest);
             var result = _pagarMeWrapper.Charge(transaction);
             var order = MapToOrder(transaction, processRequest);
@@ -49,15 +50,26 @@ namespace StormyCommerce.Module.Orders.Services
                     p.UnitPrice,
                     request.Items.FirstOrDefault(i => i.StormyProductId == p.Id).Quantity,
                     _mapper.Map<StormyProduct, ProductDto>(p))
-                ).ToList();            
+                ).ToList();
+            request.CardHash = GenerateCardHash();
             return new ProcessPaymentRequest(request,items,customerDto);
+        }
+        private string GenerateCardHash()
+        {
+            CardHash card = new CardHash();
+            card.CardNumber = "4111111111111111";
+            card.CardHolderName = "Test User";
+            card.CardExpirationDate = "1017";
+            card.CardCvv = "123";
+            string cardhash = card.Generate();
+            return cardhash;
         }
         private StormyOrder MapToOrder(Transaction transaction,ProcessPaymentRequest request)
         {
             var order = new StormyOrder
             {
                 OrderDate = DateTime.UtcNow,
-                Status = Core.Entities.Order.OrderStatus.PendingPayment,
+                Status = OrderStatus.PendingPayment,
                 RequiredDate = transaction.BoletoExpirationDate.Value,
                 OrderUniqueKey = Guid.NewGuid(),
                 TotalPrice = transaction.Amount,
@@ -79,7 +91,7 @@ namespace StormyCommerce.Module.Orders.Services
                 StormyProductId = i.Product.Id,
                 Quantity = i.Quantity,
                 Price = i.Price
-            }).ToList();                  
+            }).ToList();                      
             return order;
         }
 

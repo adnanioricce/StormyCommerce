@@ -22,14 +22,14 @@ namespace StormyCommerce.Core.Models.Shipment
         public decimal DeliveryCost { get; set; }
         public CalculateShippingMeasuresModel AdaptMeasuresForMultiplesItems()
         {
-            CubeRoot = Math.Ceiling(Math.Pow(this.TotalArea, (double)1 / 3));
+            CubeRoot = Math.Round(Math.Pow(this.TotalArea, (double)1 / 3));
             return new CalculateShippingMeasuresModel
             {
-                TotalWeight = this.TotalWeight,
+                TotalWeight = this.TotalWeight < 1 ? 1 : this.TotalWeight,
                 TotalArea = CubeRoot,
-                TotalHeight = this.TotalHeight < 2 ? 2 : this.CubeRoot,
-                TotalWidth = this.TotalWidth < 11 ? 11 : this.CubeRoot,
-                TotalLength = this.TotalLength < 16 ? 16 : this.CubeRoot,
+                TotalHeight = this.CubeRoot < 2 ? 2 : this.CubeRoot,
+                TotalWidth = this.CubeRoot < 11 ? 11 : this.CubeRoot,
+                TotalLength = this.CubeRoot < 16 ? 16 : this.CubeRoot,
                 TotalDiameter = Math.Sqrt(Math.Pow(TotalLength, 2) + Math.Pow(TotalWidth, 2)),
                 Items = this.Items,
                 CubeRoot = this.CubeRoot                

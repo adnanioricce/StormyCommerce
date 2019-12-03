@@ -17,7 +17,8 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.HasOne(prop => prop.Role)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
-
+                entity.Property(prop => prop.DateOfBirth);
+                //entity.Property(prop => prop.);
             });            
             modelBuilder.Entity<ApplicationRole>(entity => {
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd();                

@@ -14,8 +14,8 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.HasKey(prop => prop.Id);
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
                 entity.HasOne(p => p.Customer)
-                .WithOne()
-                .HasForeignKey<StormyCustomer>(c => c.CustomerWishlistId)
+                .WithOne(p => p.CustomerWishlist)
+                .HasForeignKey<Wishlist>(p => p.StormyCustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
                 entity.HasMany(prop => prop.WishlistItems)
                 .WithOne(prop => prop.Wishlist)

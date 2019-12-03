@@ -31,7 +31,10 @@ namespace StormyCommerce.Module.Orders.Services
         {
             Transaction transaction = new Transaction();
             transaction.Amount = request.Amount;
-            transaction.PaymentMethod = (PaymentMethod)request.PaymentMethod;
+            transaction.PaymentMethod = (PaymentMethod)request.PaymentMethod;            
+            transaction.Card = new Card {
+                Id = request.CardHash
+            };
             MapCustomerToTransactionCustomer(transaction, request.Customer);
             MapItemsToTransactionItems(transaction, request.Items);
             return transaction;
@@ -89,7 +92,7 @@ namespace StormyCommerce.Module.Orders.Services
             string exceptionStr = "";
             foreach (var error in ex.Error.Errors)
             {
-                exceptionStr = $@"The PagarMe Service throwed the following:Type:{error.Type},
+                exceptionStr = $@"The PagarMe Service throwed the following:Type erro:{error.Type},
                     Parameter:{error.Parameter},
                     Message:{error.Message}";                
             }
@@ -97,22 +100,44 @@ namespace StormyCommerce.Module.Orders.Services
         }
         private void MapCustomerToTransactionCustomer(Transaction transaction, CustomerDto user)
         {
-            transaction.Customer = new Customer()
+            if (string.IsNullOrEmpty(transaction.Card.Id))
             {
-                Country = "br",
-                Type = CustomerType.Individual,
-                Name = user.FullName,
-                Email = user.Email,
-                Documents = new Document[]{
+                transaction.Customer = new Customer()
+                {
+                    Country = "br",
+                    Type = CustomerType.Individual,
+                    Name = user.FullName,
+                    Email = user.Email,
+                    Documents = new Document[]{
                     new Document{
                         Type = DocumentType.Cpf,
                         Number = user.CPF
                     }
                 },
-                PhoneNumbers = new string[]{
-                    "+551123456789"
+                    PhoneNumbers = new string[]{
+                    user.PhoneNumber
                 }
-            };
+                };
+            } else
+            {
+                transaction.Customer = new Customer()
+                {
+                    Country = "br",
+                    ExternalId = Guid.NewGuid().ToString(),
+                    Type = CustomerType.Individual,
+                    Name = user.FullName,
+                    Email = user.Email,
+                    Documents = new Document[]{
+                    new Document{
+                        Type = DocumentType.Cpf,
+                        Number = user.CPF
+                    }
+                },
+                    PhoneNumbers = new string[]{
+                    user.PhoneNumber
+                    }
+                };
+            }
         }        
     }
 }

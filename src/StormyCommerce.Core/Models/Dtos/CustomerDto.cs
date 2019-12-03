@@ -18,6 +18,7 @@ namespace StormyCommerce.Core.Models.Dtos
             FullName = customer.FullName;            
             CustomerWishlist = new WishlistDto(customer.CustomerWishlist);
             Addresses = customer.Addresses == null ? this.Addresses : customer.Addresses.Select(c => new CustomerAddressDto(c)).ToList();
+            CustomerReviews = customer.CustomerReviews.Select(r => new CustomerReviewDto(r)).ToList();
         }
         public string UserName { get; private set; }
         public string Email { get; private set; }

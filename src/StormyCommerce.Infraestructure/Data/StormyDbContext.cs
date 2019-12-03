@@ -22,15 +22,7 @@ namespace StormyCommerce.Infraestructure.Data
     //TODO: Methods to execute sql
     public class StormyDbContext : IdentityDbContext,IStormyDbContext
     {        
-        public DbSet<AppSettings> AppSettings { get; set; }
-        public DbSet<StormyProduct> Product { get; set; }
-        public DbSet<StormyVendor> Vendor  { get; set; }
-        public DbSet<StormyPayment> Payment { get; set; }
-        public DbSet<StormyOrder> Order { get; set; }
-        public DbSet<StormyCustomer> Customer { get; set; }
-        public DbSet<Category> Category { get; set; }
-        public DbSet<Brand> Brand { get; set; }
-        public DbSet<StormyShipment> Shipment { get; set; }
+        public DbSet<AppSettings> AppSettings { get; set; }        
         public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)
         {            
         }

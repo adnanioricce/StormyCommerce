@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
@@ -81,6 +82,7 @@ namespace StormyCommerce.Api.Tests.Authentication
         {
             await SetUserForRequest();
             var response = await client.GetAsync("api/Account/get_current_user");
+            var obj = await response.Content.ReadAsStringAsync();
             Assert.True(response.IsSuccessStatusCode);
         }
         [Fact]
@@ -105,6 +107,10 @@ namespace StormyCommerce.Api.Tests.Authentication
             var objectResponse = await response.Content.ReadAsAsync<AuthenticationResponse>();            
             client.SetBearerToken(objectResponse.Value.AccessToken);
         }
-        
+        class CurrentUser
+        {
+            public Result result{ get; set; }
+            public StormyCustomer customer { get; set; }
+        }
     }
 }

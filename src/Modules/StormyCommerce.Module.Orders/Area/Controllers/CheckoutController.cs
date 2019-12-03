@@ -122,7 +122,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                     Amount = request.Amount,
                     PaymentMethod = request.PaymentMethod,
                     CreatedOn = DateTimeOffset.UtcNow,
-                    PaymentStatus = Core.Entities.Payments.PaymentStatus.Processing,
+                    PaymentStatus = Core.Entities.Payments.PaymentStatus.Processing,                    
                 }
             };
         }

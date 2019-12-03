@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -90,7 +91,7 @@ namespace StormyCommerce.Module.Customer.Services
                         .ThenInclude(w => w.Product)
                 .Include(u => u.CustomerReviews)
                     .ThenInclude(u => u.Product)
-                .Include(u => u.Addresses)
+                .Include(u => u.Addresses)                    
                 .FirstOrDefaultAsync(u => string.Equals(u.Email, email,StringComparison.OrdinalIgnoreCase)).ConfigureAwait(true);
         }
         public StormyCustomer GetUserByUsername(string username)

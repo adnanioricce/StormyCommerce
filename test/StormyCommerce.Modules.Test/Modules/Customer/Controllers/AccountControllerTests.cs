@@ -173,8 +173,9 @@ namespace StormyCommerce.Modules.Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.NotNull(result.Email);
+            Assert.NotNull(result.Email);            
             Assert.Equal("adnangonzaga@gmail.com", result.Email);
+            
         }
         [Fact,TestPriority(5)]
         public async Task DeleteAccount_ReceivesPassword_ShouldReturnA200Status()

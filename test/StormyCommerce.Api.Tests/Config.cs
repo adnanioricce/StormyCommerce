@@ -2,6 +2,6 @@
 {
     public static class Config
     {
-        public const string BaseUrl = "http://localhost:5000";
+        public const string BaseUrl = "https://stormycommerce.com";
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StormyCommerce.Infraestructure.Data;
@@ -9,9 +10,10 @@ using StormyCommerce.Infraestructure.Data;
 namespace SimplCommerce.WebHost.Migrations
 {
     [DbContext(typeof(StormyDbContext))]
-    partial class StormyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191203190001_UpdateFromLast")]
+    partial class UpdateFromLast
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -633,6 +635,10 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long?>("CustomerReviewsId");
 
+                    b.Property<long?>("CustomerWishlistId");
+
+                    b.Property<long?>("CustomerWishlistId1");
+
                     b.Property<DateTimeOffset?>("DateOfBirth");
 
                     b.Property<string>("Email")
@@ -669,6 +675,11 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CustomerWishlistId")
+                        .IsUnique();
+
+                    b.HasIndex("CustomerWishlistId1");
+
                     b.HasIndex("RoleId");
 
                     b.ToTable("Customer");
@@ -686,9 +697,6 @@ namespace SimplCommerce.WebHost.Migrations
                     b.Property<string>("StormyCustomerId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StormyCustomerId")
-                        .IsUnique();
 
                     b.ToTable("Wishlist");
                 });
@@ -1305,17 +1313,18 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.StormyCustomer", b =>
                 {
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.Wishlist")
+                        .WithOne("Customer")
+                        .HasForeignKey("StormyCommerce.Core.Entities.Customer.StormyCustomer", "CustomerWishlistId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("StormyCommerce.Core.Entities.Customer.Wishlist", "CustomerWishlist")
+                        .WithMany()
+                        .HasForeignKey("CustomerWishlistId1");
+
                     b.HasOne("StormyCommerce.Core.Entities.Customer.ApplicationRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("StormyCommerce.Core.Entities.Customer.Wishlist", b =>
-                {
-                    b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Customer")
-                        .WithOne("CustomerWishlist")
-                        .HasForeignKey("StormyCommerce.Core.Entities.Customer.Wishlist", "StormyCustomerId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -1416,8 +1425,7 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.HasOne("StormyCommerce.Core.Entities.Customer.StormyCustomer", "Customer")
                         .WithMany()
-                        .HasForeignKey("StormyCustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("StormyCustomerId");
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Vendor.StormyVendor", b =>

@@ -34,7 +34,7 @@ namespace SimplCommerce.WebHost
             services.AddModules(contentRootPath);                            
                services.AddDbContextPool<StormyDbContext>(options => {
                    //options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));		   
-                   options.UseNpgsql(_configuration.GetConnectionString("DevConnection"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                   options.UseNpgsql(_configuration.GetConnectionString("LocalDb"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                    options.EnableDetailedErrors();
                    options.EnableSensitiveDataLogging();
                });

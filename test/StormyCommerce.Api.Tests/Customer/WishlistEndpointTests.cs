@@ -40,6 +40,7 @@ namespace StormyCommerce.Api.Tests.Customer
         {
             await client.Authenticate();
             var response = await client.GetAsync("/api/Wishlist/get");
+            var content = await response.Content.ReadAsStringAsync();
             Assert.True(response.IsSuccessStatusCode);
         }
 

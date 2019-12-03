@@ -16,11 +16,13 @@ namespace StormyCommerce.Core.Models.Payment.Request
             Customer = customer;
             PaymentMethod = request.PaymentMethod;
             PickUpOnStore = request.PickUpOnStore;
+            CardHash = request.CardHash;
         }
         public int Amount { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public List<OrderItemDto> Items { get; set; }
         public CustomerDto Customer { get; set; }
         public bool PickUpOnStore { get; set; }
+        public string CardHash { get; set; }
     }
 }

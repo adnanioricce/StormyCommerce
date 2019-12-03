@@ -26,11 +26,15 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
                 order.HasOne(prop => prop.Shipment)
                     .WithOne(prop => prop.Order)
                     .HasForeignKey<StormyShipment>(prop => prop.StormyOrderId)
-                    .OnDelete(DeleteBehavior.Restrict);                
+                    .OnDelete(DeleteBehavior.Restrict);
+                order.HasOne(prop => prop.Customer)
+                .WithMany()
+                .HasForeignKey(prop => prop.StormyCustomerId)
+                .OnDelete(DeleteBehavior.Restrict);                
                 order.Property(prop => prop.OrderUniqueKey).IsRequired();                
                 order.Property(prop => prop.Note).HasMaxLength(1000);                 
                 order.HasQueryFilter(prop => prop.IsDeleted == false);
-                order.Property(prop => prop.Id).ValueGeneratedOnAdd();
+                order.Property(prop => prop.Id).ValueGeneratedOnAdd().UseNpgsqlIdentityByDefaultColumn();
             });
             modelBuilder.Entity<OrderItem>(orderItem =>
             {
