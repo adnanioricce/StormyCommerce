@@ -5,6 +5,7 @@ using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Models.Order;
 using StormyCommerce.Core.Models.Order.Request;
+using Xunit;
 
 namespace StormyCommerce.Api.Tests.Checkout
 {
@@ -16,6 +17,7 @@ namespace StormyCommerce.Api.Tests.Checkout
             client = new HttpClient();
             client.BaseAddress = new System.Uri(Config.BaseUrl);
         }
+        [Fact]
         public async Task CheckoutBoletoEndpointTest()
         {
             await client.Authenticate();
@@ -39,6 +41,37 @@ namespace StormyCommerce.Api.Tests.Checkout
                 PostalCode = "08621030",
                 ShippingMethod = ShippingMethod.Sedex
             });
+        }
+        [Fact]
+        public async Task CheckoutCreditEndpointTest()
+        {
+            await client.Authenticate();
+            var response = await client.PostAsJsonAsync<CheckoutCreditCardRequest>("/api/Checkout/credit_card", new CheckoutCreditCardRequest
+            {
+                Amount = 12.00m,
+                Items = new List<CartItem>
+                {
+                    new CartItem
+                    {
+                        Quantity = 1,
+                        StormyProductId = 4
+                    },
+                    new CartItem
+                    {
+                        Quantity = 1,
+                        StormyProductId = 1
+                    }
+                },
+                PickUpOnStore = false,
+                ShippingMethod = ShippingMethod.Sedex,
+                PostalCode = "08621030",
+                CardNumber = "4716854604523016",
+                CardExpirationDate = "0720",
+                CardCvv = "996",
+                CardHolderName = "Test User"
+            });
+            var content = await response.Content.ReadAsStringAsync();
+            Assert.True(response.IsSuccessStatusCode);
         }
         //public async Task CheckoutCreditCardEndpointTest()
         //{

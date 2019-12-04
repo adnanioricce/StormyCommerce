@@ -40,9 +40,9 @@ namespace StormyCommerce.Modules.Tests
             IProductService productService,
             IShippingService shippingService,
             IAppLogger<CheckoutController> logger,
-            PagarMeWrapper pagarMeWrapper)
+            IEmailSender emailSender)
         {
-            _controller = new CheckoutController(identityService, paymentProcessor,orderService,productService,shippingService,logger, mapper);
+            _controller = new CheckoutController(identityService, paymentProcessor,orderService,productService,shippingService,logger,emailSender, mapper);
             _controller.ControllerContext = userManager.CreateTestContext();
             _productService = productService;
         }

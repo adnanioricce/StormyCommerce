@@ -47,6 +47,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         private readonly IProductService _productService;
         private readonly IShippingService _shippingService;
         private readonly IAppLogger<CheckoutController> _logger;
+        private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
         public CheckoutController(
         IUserIdentityService userIdentityService,
@@ -55,6 +56,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         IProductService productService,
         IShippingService shippingService,
         IAppLogger<CheckoutController> logger,
+        IEmailSender emailSender,
         IMapper mapper)
         {                                
             _identityService = userIdentityService;                        
@@ -84,7 +86,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 _logger.LogError(shipmentCreateResult.Message, shipmentCreateResult);                
                 return BadRequest(Result.Fail("Failed to add shipment to order. Exception was throwed when storing on database"));
             }
-            var order = await _orderService.GetOrderByIdAsync(result.Value.Id);
+            var order = await _orderService.GetOrderByIdAsync(result.Value.Id);            
             return Ok(new CheckoutResponse(order.Value));
         }
         [HttpPost("credit_card")]

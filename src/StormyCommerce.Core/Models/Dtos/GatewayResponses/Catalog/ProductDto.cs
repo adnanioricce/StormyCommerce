@@ -35,6 +35,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             Slug = product.Slug;
             QuantityPerUnity = product.QuantityPerUnity;
             AvailableSizes = product.AvailableSizes;
+            ShortDescription = product.ShortDescription;
+            Description = product.Description;
             Height = product.Height;
             Width = product.Width;
             Length = product.Length;
@@ -42,6 +44,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
             UnitWeight = product.UnitWeight;
             UnitsInStock = product.UnitsInStock;
             UnitsOnOrder = product.UnitsOnOrder;
+            UnitPrice = product.UnitPrice;            
             Price = product.Price;            
             ThumbnailImage = product.ThumbnailImage;
             Medias = product.Medias.Select(m => new ProductMediaDto(m)).ToList();
@@ -53,6 +56,7 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public long Id { get; set; }
         public string ProductName { get; set; }
         public string ShortDescription { get; set; }
+        public string Description { get; set; }
         public bool ProductAvailable { get; set; }
         public string Slug { get; set; }
         public int QuantityPerUnity { get; set; }

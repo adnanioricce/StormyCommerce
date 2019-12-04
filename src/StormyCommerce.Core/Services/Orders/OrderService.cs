@@ -139,5 +139,13 @@ namespace StormyCommerce.Core.Services.Orders
         {
             return await _orderRepository.Query().Where(o => Guid.Equals(o.OrderUniqueKey, uniqueId)).FirstOrDefaultAsync();
         }
+
+        public async Task<List<OrderDto>> GetAllOrdersFromCustomer(string customerId)
+        {
+            return await _orderRepository.Query()
+                .Where(c => string.Equals(c.StormyCustomerId, customerId, StringComparison.OrdinalIgnoreCase))
+                .Select(o => new OrderDto(o))
+                .ToListAsync();
+        }
     }
 }
