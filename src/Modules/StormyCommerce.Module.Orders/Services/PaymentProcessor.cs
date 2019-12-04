@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -32,45 +33,73 @@ namespace StormyCommerce.Module.Orders.Services
             _mapper = mapper;
         }
         
-        public async Task<ProcessPaymentResponse> ProcessPaymentAsync(CheckoutRequest request, CustomerDto customerDto)
+        public async Task<ProcessPaymentResponse> ProcessBoletoPaymentRequestAsync(CheckoutBoletoRequest request, CustomerDto customerDto)
         {
-            var processRequest = await MapToProcessRequest(request, customerDto);
-            
+            var items = await GetOrderItemsAsync(request.Items);
+            var processRequest = new ProcessPaymentRequest(request, items, customerDto);            
             var transaction = _pagarMeWrapper.CreateSimpleTransaction(processRequest);
             var result = _pagarMeWrapper.Charge(transaction);
-            var order = MapToOrder(transaction, processRequest);
+            var order = MapBoletoTransactionToOrder(transaction, processRequest);
             return new ProcessPaymentResponse(order,result);
         }
-        private async Task<ProcessPaymentRequest> MapToProcessRequest(CheckoutRequest request,CustomerDto customerDto)
+        public async Task<ProcessPaymentResponse> ProcessCreditCardPaymentAsync(CheckoutCreditCardRequest request,CustomerDto customerDto)
         {
-            var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.StormyProductId).ToArray());
-            var items = products
+            var items = await GetOrderItemsAsync(request.Items);
+            var processRequest = new ProcessPaymentRequest(request,items, customerDto);
+            var transaction = _pagarMeWrapper.CreateSimpleTransaction(processRequest);
+            var result = _pagarMeWrapper.Charge(transaction);
+            var order = MapCreditCardTransactionToOrder(transaction, processRequest);
+            return new ProcessPaymentResponse(order, result);
+        }               
+        private async Task<List<OrderItemDto>> GetOrderItemsAsync(List<CartItem> items)
+        {
+            var products = await _productService.GetProductsByIdsAsync(items.Select(i => i.StormyProductId).ToArray());
+            var orderItems = products
                 .Select(p =>
                 new OrderItemDto(
                     p.UnitPrice,
-                    request.Items.FirstOrDefault(i => i.StormyProductId == p.Id).Quantity,
+                    items.FirstOrDefault(i => i.StormyProductId == p.Id).Quantity,
                     _mapper.Map<StormyProduct, ProductDto>(p))
                 ).ToList();
-            request.CardHash = GenerateCardHash();
-            return new ProcessPaymentRequest(request,items,customerDto);
+            return orderItems;
         }
-        private string GenerateCardHash()
+        private StormyOrder MapCreditCardTransactionToOrder(Transaction transaction,ProcessPaymentRequest request)
         {
-            CardHash card = new CardHash();
-            card.CardNumber = "4111111111111111";
-            card.CardHolderName = "Test User";
-            card.CardExpirationDate = "1017";
-            card.CardCvv = "123";
-            string cardhash = card.Generate();
-            return cardhash;
+            var order = new StormyOrder
+            {
+                OrderDate = DateTime.UtcNow,
+                Status = OrderStatus.PaymentReceived,
+                RequiredDate = DateTime.UtcNow,
+                OrderUniqueKey = Guid.NewGuid(),
+                TotalPrice = ((decimal)(transaction.Amount + transaction.Cost) / 100),
+                PaymentDate = transaction.DateCreated,
+                PickUpInStore = request.PickUpOnStore,
+            };
+            order.Payment = new StormyPayment
+            {
+                Amount = (decimal)(request.Amount) / 100,
+                CreatedOn = DateTimeOffset.UtcNow,
+                GatewayTransactionId = transaction.Id,
+                PaymentMethod = Core.Entities.Payments.PaymentMethod.CreditCard,
+                PaymentStatus = PaymentStatus.Successful,
+                PaidOutAt = transaction.DateCreated,
+                PaymentFee = transaction.Cost                
+            };
+            order.Items = request.Items.Select(i => new OrderItem
+            {
+                StormyProductId = i.Product.Id,
+                Quantity = i.Quantity,
+                Price = i.Price
+            }).ToList();
+            return order;
         }
-        private StormyOrder MapToOrder(Transaction transaction,ProcessPaymentRequest request)
+        private StormyOrder MapBoletoTransactionToOrder(Transaction transaction,ProcessPaymentRequest request)
         {
             var order = new StormyOrder
             {
                 OrderDate = DateTime.UtcNow,
                 Status = OrderStatus.PendingPayment,
-                RequiredDate = transaction.BoletoExpirationDate.Value,
+                RequiredDate = !(transaction.BoletoExpirationDate == null) ? transaction.BoletoExpirationDate.Value : DateTime.UtcNow,
                 OrderUniqueKey = Guid.NewGuid(),
                 TotalPrice = transaction.Amount,
                 PaymentDate = transaction.DateCreated,
@@ -78,7 +107,7 @@ namespace StormyCommerce.Module.Orders.Services
             };
             order.Payment = new StormyPayment
             {
-                Amount = request.Amount,
+                Amount = (decimal)(request.Amount) / 100,
                 CreatedOn = DateTimeOffset.UtcNow,
                 GatewayTransactionId = transaction.Id,
                 PaymentMethod = Core.Entities.Payments.PaymentMethod.Boleto,

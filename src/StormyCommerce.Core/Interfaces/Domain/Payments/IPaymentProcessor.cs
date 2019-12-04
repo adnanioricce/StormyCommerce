@@ -11,7 +11,8 @@ namespace StormyCommerce.Core.Interfaces.Domain.Payments
 {
     public interface IPaymentProcessor
     {        
-        Task<ProcessPaymentResponse> ProcessPaymentAsync(CheckoutRequest request,CustomerDto customerDto);
+        Task<ProcessPaymentResponse> ProcessBoletoPaymentRequestAsync(CheckoutBoletoRequest request,CustomerDto customerDto);
+        Task<ProcessPaymentResponse> ProcessCreditCardPaymentAsync(CheckoutCreditCardRequest request, CustomerDto customerDto);
         //TODO:PostPaymentProcess Method
     }
 }

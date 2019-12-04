@@ -54,8 +54,8 @@ namespace StormyCommerce.Modules.Tests
         {
             // Arrange            
             long id = 1;
-            StormyOrder entity = Seeders.StormyOrderSeed().First();            
-
+            StormyOrder entity = Seeders.StormyOrderSeed().First();
+            entity.Id = id;
             // Act
             var result = await service.EditOrderAsync(id,entity);
 
@@ -69,6 +69,7 @@ namespace StormyCommerce.Modules.Tests
             // Arrange      
             var order = Seeders.StormyOrderSeed().First();
             Guid uniqueId = order.OrderUniqueKey;
+            order.OrderUniqueKey = uniqueId;
             await service.CreateOrderAsync(order);
             // Act
             var result = await service.GetOrderByUniqueIdAsync(uniqueId);

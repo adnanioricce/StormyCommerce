@@ -26,10 +26,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public WishListController(IStormyRepository<Wishlist> wishListRepository,IUserIdentityService userIdentityService)
         {
             _wishListRepository = wishListRepository;
-            _userIdentityService = userIdentityService;            
-            _wishListRepository.Query()
-                .Include(w => w.WishlistItems)
-                .Load();
+            _userIdentityService = userIdentityService;                                 
         }
         [HttpPost("add_item")]        
         public async Task<IActionResult> AddItemToWishList(long productId)

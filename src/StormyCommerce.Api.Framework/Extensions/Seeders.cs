@@ -60,7 +60,8 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<StormyShipment> ShipmentSeed(int count = 1,bool omitId = false)
         {
             var fakeShipment = new Faker<StormyShipment>("pt_BR")
-                .Rules((f,v) => {
+                .Rules((f, v) =>
+                {
                     v.DestinationAddress = new CustomerAddress
                     {
                         City = f.Address.City(),
@@ -71,19 +72,14 @@ namespace StormyCommerce.Api.Framework.Extensions
                         Country = f.Address.Country(),
                         Complement = f.Address.OrdinalDirection(),
                         PostalCode = f.Address.ZipCode(),
-                        Street = f.Address.StreetName(),
-                        Owner = StormyCustomerSeed(1).First(),
+                        Street = f.Address.StreetName(),                        
                         State = f.Address.State(),
                         WhoReceives = "I",
                         Type = AddressType.Shipping,
                         IsDefault = true,
 
                     };
-                    v.Order = StormyOrderSeed().First();
                 })
-                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
-                .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, DateTimeOffset.UtcNow)
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(8.90m, 42.90m))
                 .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<ShippingMethod>())
                 .RuleFor(v => v.ShipmentProvider, "Correios")
@@ -91,8 +87,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.TotalWeight, f => f.Random.Double(5.0, 20.0))
                 .RuleFor(v => v.DeliveryDate, f => f.Date.Recent(4))
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(3.0m, 62.0m))
-                .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4))                                
-                .RuleFor(v => v.DestinationAddressId, f => f.IndexVariable + 1);                               
+                .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4));                                                                          
             return fakeShipment.Generate(count);
         }
         public static List<Entity> EntitySeed(int count = 1, string entityType = "Product", bool omitId = false)

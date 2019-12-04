@@ -10,11 +10,11 @@ namespace StormyCommerce.Core.Models.Shipment.Request
         {
 
         }
-        public PrepareShipmentRequest(OrderDto order,CheckoutRequest request)
+        public PrepareShipmentRequest(OrderDto order,string destinationPostalCode,ShippingMethod shippingMethod)
         {
             Order = order;
-            DestinationPostalCode = request.PostalCode;
-            ShippingMethod = request.ShippingMethod;
+            DestinationPostalCode = destinationPostalCode;
+            ShippingMethod = ShippingMethod;
             TotalPrice = order.TotalPrice;
         }
         public decimal TotalPrice { get; set; }        

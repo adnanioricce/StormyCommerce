@@ -67,13 +67,12 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         }        
         [HttpPost("boleto")]
         [ValidateModel]    
-        public async Task<ActionResult<CheckoutResponse>> BoletoCheckout([FromBody] CheckoutRequest request)
+        public async Task<ActionResult<CheckoutResponse>> BoletoCheckout([FromBody] CheckoutBoletoRequest request)
         {            
             var checkResult = await CheckIfItemIsOnStock(request);
             if (!checkResult.Success) return BadRequest(checkResult);                                 
             var user = await _identityService.GetUserByClaimPrincipal(User);
-            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);
-            request.PaymentMethod = Core.Entities.Payments.PaymentMethod.Boleto;
+            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);            
             var result = await CreateOrderForCheckout(request, userDto, user.Id);
             if (!result.Success)
             {
@@ -90,16 +89,17 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         }
         [HttpPost("credit_card")]
         [ValidateModel]
-        public async Task<ActionResult<CreditCardCheckoutResponse>> CreditCardCheckout([FromBody] CheckoutRequest request)
+        public async Task<ActionResult<CreditCardCheckoutResponse>> CreditCardCheckout([FromBody] CheckoutCreditCardRequest request)
         {
             var user = await _identityService.GetUserByClaimPrincipal(User);
-            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);
-            request.PaymentMethod = Core.Entities.Payments.PaymentMethod.CreditCard;
+            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);            
             var order = BuildOrderForCreditCardCheckout(request);
             var createOrderResult = await _orderService.CreateOrderAsync(order);
-            var result = await CreateShipmentForOrder(createOrderResult, request, userDto);
+            var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest(createOrderResult.Value, request.PostalCode, request.ShippingMethod));
+            shipment.DestinationAddressId = userDto.Addresses.FirstOrDefault(u => u.IsDefault && u.Type == AddressType.Shipping).Id;
+            var shipmentResult = await _shippingService.CreateShipmentAsync(shipment);            
             var orderDto = await _orderService.GetOrderByIdAsync(createOrderResult.Value.Id);
-            var response = await _paymentProcessor.ProcessPaymentAsync(request,userDto);
+            var response = await _paymentProcessor.ProcessCreditCardPaymentAsync(request,userDto);
             if (!response.Result.Success) return BadRequest(response.Result);            
             return Ok(new CreditCardCheckoutResponse { 
                 Payment = orderDto.Value.Payment,
@@ -113,34 +113,34 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         {
             return NoContent();
         }   
-        private StormyOrder BuildOrderForCreditCardCheckout(CheckoutRequest request)
+        private StormyOrder BuildOrderForCreditCardCheckout(CheckoutCreditCardRequest request)
         {            
             return new StormyOrder
             {
                 Payment = new Core.Entities.Payments.StormyPayment
                 {
                     Amount = request.Amount,
-                    PaymentMethod = request.PaymentMethod,
+                    PaymentMethod = Core.Entities.Payments.PaymentMethod.CreditCard,
                     CreatedOn = DateTimeOffset.UtcNow,
                     PaymentStatus = Core.Entities.Payments.PaymentStatus.Processing,                    
                 }
             };
         }
-        private async Task<Result<OrderDto>> CreateOrderForCheckout(CheckoutRequest request,CustomerDto userDto,string userId)
+        private async Task<Result<OrderDto>> CreateOrderForCheckout(CheckoutBoletoRequest request,CustomerDto userDto,string userId)
         {
-            var response = await _paymentProcessor.ProcessPaymentAsync(request, userDto);
+            var response = await _paymentProcessor.ProcessBoletoPaymentRequestAsync(request, userDto);
             response.Order.StormyCustomerId = userId;
             var createOrderResult = await _orderService.CreateOrderAsync(response.Order);            
             return createOrderResult;
         }
-        private async Task<Result> CreateShipmentForOrder(Result<OrderDto> result, CheckoutRequest request,CustomerDto userDto)
+        private async Task<Result> CreateShipmentForOrder(Result<OrderDto> result, CheckoutBoletoRequest request,CustomerDto userDto)
         {
-            var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest(result.Value, request));
+            var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest(result.Value, request.PostalCode,request.ShippingMethod));
             shipment.DestinationAddressId = userDto.Addresses.FirstOrDefault(u => u.IsDefault && u.Type == AddressType.Shipping).Id;
             var shipmentResult = await _shippingService.CreateShipmentAsync(shipment);
             return shipmentResult;
         }
-        private async Task<Result> CheckIfItemIsOnStock(CheckoutRequest request)
+        private async Task<Result> CheckIfItemIsOnStock(CheckoutBoletoRequest request)
         {
             if (!(request.Items.Count > 0 && request.Items.All(i => i.Quantity > 0)))
             {

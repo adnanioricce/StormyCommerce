@@ -19,7 +19,7 @@ namespace StormyCommerce.Api.Tests.Checkout
         public async Task CheckoutBoletoEndpointTest()
         {
             await client.Authenticate();
-            var response = await client.PostAsJsonAsync<CheckoutRequest>("/api/Checkout/boleto",new CheckoutRequest { 
+            var response = await client.PostAsJsonAsync<CheckoutBoletoRequest>("/api/Checkout/boleto",new CheckoutBoletoRequest { 
                 Amount = 10.0m,
                 Items =  new List<CartItem>
                 {

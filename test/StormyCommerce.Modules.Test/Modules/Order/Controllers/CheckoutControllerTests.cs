@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using PagarMe;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Payments;
@@ -54,7 +55,7 @@ namespace StormyCommerce.Modules.Tests
             var firstProductStock = firstProduct.UnitsInStock;
             var secondProductStock = secondProduct.UnitsInStock;            
             int quantity = 1;
-            var request = new CheckoutRequest{
+            var request = new CheckoutBoletoRequest{
                 Amount = 12.00m,
                 Items = new List<CartItem>
                 {
@@ -98,7 +99,7 @@ namespace StormyCommerce.Modules.Tests
             var secondProduct = await _productService.GetProductByIdAsync(4);
             int quantity = 2;
             //Arrange
-            var request = new CheckoutRequest
+            var request = new CheckoutCreditCardRequest
             {
                 Amount = 12.00m,
                 Items = new List<CartItem>
@@ -117,13 +118,16 @@ namespace StormyCommerce.Modules.Tests
                 PickUpOnStore = false,
                 ShippingMethod = ShippingMethod.Sedex,
                 PostalCode = "08621030",
-                CardHash = "card_ci6l9fx8f0042rt16rtb477gj"
-            };
+                CardNumber = "4716854604523016",
+                CardExpirationDate = "0720",
+                CardCvv = "996",
+                CardHolderName = "Test User"
+            };                        
             //Act
             var response = await _controller.CreditCardCheckout(request);
             //Assert
             var result = response.Result as OkObjectResult;
-            var value = result.Value as CheckoutResponse;
+            var value = result.Value as CreditCardCheckoutResponse;
             Assert.Equal(200, (int)result.StatusCode);
             Assert.NotNull(value.Order);
             Assert.NotNull(value.Payment);

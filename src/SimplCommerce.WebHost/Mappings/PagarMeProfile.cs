@@ -41,7 +41,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod.ToString()))
                 .ForMember(dest => dest.FailureMessage,opt => opt.MapFrom(src => src.Status));
             //TODO:Need better way to map this                
-            CreateMap<CheckoutRequest, Transaction>()
+            CreateMap<CheckoutBoletoRequest, Transaction>()
                 .ForMember(dest => dest.Amount,opt => opt.MapFrom(src => (int)(src.Amount * 100)));            
             CreateMap<Transaction, StormyOrder>()
                 .ForMember(p => p.TotalPrice,opt => opt.MapFrom(src => (src.Amount / 100)))                

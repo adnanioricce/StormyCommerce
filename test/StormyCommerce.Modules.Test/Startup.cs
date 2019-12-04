@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity;
@@ -50,10 +50,10 @@ namespace StormyCommerce.Modules.Tests
             //TODO: add extension method for asp.net identity configuration
         }
         protected override void Configure(IServiceProvider provider){
-           using (var scope = provider.CreateScope())
+            using (var scope = provider.CreateScope())
             {
                 using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
-                {                    
+                {
                     if (dbContext.Database.EnsureDeleted())
                     {
                         dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
@@ -61,7 +61,7 @@ namespace StormyCommerce.Modules.Tests
                     var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
                     var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
                     new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
-                    dbContext.SeedDbContext();                    
+                    dbContext.SeedDbContext();
                 }
             }
         }

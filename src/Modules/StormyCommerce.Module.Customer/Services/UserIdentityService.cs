@@ -176,10 +176,7 @@ namespace StormyCommerce.Module.Customer.Services
             {                
                 return Result.Fail("password don't match, please, check the password");
             }
-            //if(result == PasswordVerificationResult.SuccessRehashNeeded)
-            //{
-            //TODO: need to rehash password and set the new hash on database
-            //}            
+            user.RemoveRelations();      
             var identityResult = await _userManager.DeleteAsync(user);
             if (!identityResult.Succeeded) return Result.Fail("We failed to delete the user, please try again later",user);
             return Result.Ok("account was deleted with success!");

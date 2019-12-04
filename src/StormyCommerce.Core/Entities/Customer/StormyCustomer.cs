@@ -38,6 +38,13 @@ namespace StormyCommerce.Core.Entities.Customer
         public void RemoveAddress(long addressId)
         {
             this.Addresses.Remove(this.Addresses.FirstOrDefault(a => a.Id == addressId));
+        }        
+        public void RemoveRelations()
+        {
+            this.CustomerWishlist = null;
+            this.Addresses = null;
+            this.CustomerReviews = null;
+            this.Role = null;
         }
     }
 }

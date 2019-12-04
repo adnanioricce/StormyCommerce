@@ -31,10 +31,12 @@ namespace StormyCommerce.Module.Orders.Services
         {
             Transaction transaction = new Transaction();
             transaction.Amount = request.Amount;
-            transaction.PaymentMethod = (PaymentMethod)request.PaymentMethod;            
-            transaction.Card = new Card {
-                Id = request.CardHash
-            };
+            transaction.PaymentMethod = (PaymentMethod)request.PaymentMethod;
+            if (transaction.PaymentMethod == PaymentMethod.CreditCard)
+            {
+                var card = CreateCard();
+                transaction.Card = card.Value;
+            }
             MapCustomerToTransactionCustomer(transaction, request.Customer);
             MapItemsToTransactionItems(transaction, request.Items);
             return transaction;
@@ -86,7 +88,7 @@ namespace StormyCommerce.Module.Orders.Services
         {
             var transaction = _pagarMeService.Transactions.Find(transactionId);
             transaction.Refund();
-        }        
+        }                
         private string HandleErrorMessage(PagarMeException ex)
         {            
             string exceptionStr = "";
@@ -97,6 +99,36 @@ namespace StormyCommerce.Module.Orders.Services
                     Message:{error.Message}";                
             }
             return exceptionStr;
+        }
+        private Result<Card> CreateCard()
+        {
+            var card = new Card
+            {
+                Number = "4716854604523016",
+                HolderName = "Test User",
+                ExpirationDate = "0720",
+                Cvv = "996"
+            };
+            try
+            {
+                card.Save();
+            }catch(PagarMeException ex)
+            {
+                var errorStr = HandleErrorMessage(ex);
+                return Result.Fail<Card>(errorStr,card);
+            }            
+            return Result.Ok(card);
+        }
+        private string GenerateCardHash(Card card)
+        {
+            var hash = new CardHash
+            {
+                CardCvv = card.Cvv,
+                CardExpirationDate = card.ExpirationDate,
+                CardHolderName = card.HolderName,
+                CardNumber = card.Number
+            };
+            return hash.Generate();
         }
         private void MapCustomerToTransactionCustomer(Transaction transaction, CustomerDto user)
         {

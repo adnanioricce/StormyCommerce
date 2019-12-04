@@ -109,16 +109,7 @@ namespace StormyCommerce.Core.Services.Orders
             return new Result<OrderDto>(result.ToOrderDto(),true,"No error");
         }
         public async Task<Result<OrderDto>> GetOrderByIdAsync(long id)
-        {
-            _orderRepository.Query()
-               .Include(order => order.Items)
-               .Include(order => order.Shipment)
-                   .ThenInclude(shipment => shipment.DestinationAddress)
-                       .ThenInclude(customerAddress => customerAddress.Owner)
-               .Include(order => order.Customer)
-                    //.ThenInclude(order => order.DefaultShippingAddress)
-               .Include(order => order.Payment)                    
-               .Load();
+        {            
             var entity = await _orderRepository.GetByIdAsync(id);
 
             if (entity == null)

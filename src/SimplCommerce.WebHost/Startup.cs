@@ -185,27 +185,30 @@ namespace SimplCommerce.WebHost
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
-                {                    
-                    //if((dbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists() && !dbContext.Database.IsSqlite()) {                        
-                    //    try
-                    //    {
-                    //        dbContext.Database.Migrate();
-                    //    }catch(Exception ex){
-                    //        logger.LogError("Error on database migration",ex.Message);
-                    //        logger.LogInformation("exception throwed",ex);
-                    //        logger.LogStackTrace("Stacktrace:",ex.StackTrace);
-                    //    }
-                    //}
+                {
+                    if ((dbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists() && !dbContext.Database.IsSqlite())
+                    {
+                        try
+                        {
+                            dbContext.Database.Migrate();
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.LogError("Error on database migration", ex.Message);
+                            logger.LogInformation("exception throwed", ex);
+                            logger.LogStackTrace("Stacktrace:", ex.StackTrace);
+                        }
+                    }
 
-                    //if (dbContext.Database.IsSqlite())
-                    //{
-                        //dbContext.Database.EnsureDeleted();
-                        //var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
-                        //dbContext.SeedDbContext();
+                    if (dbContext.Database.IsSqlite())
+                    {
+                        dbContext.Database.EnsureDeleted();
+                        var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                        dbContext.SeedDbContext();
                         var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
                         var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
                         new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
-                    //}
+                    }
                 }
             }
         }
