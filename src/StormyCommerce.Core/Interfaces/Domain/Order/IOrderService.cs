@@ -7,7 +7,7 @@ using System;
 namespace StormyCommerce.Core.Interfaces.Domain.Order
 {
     public interface IOrderService
-    {
+    {        
         Task<Result<OrderDto>> CreateOrderAsync(StormyOrder entry);
         Task<Result> EditOrderAsync(long id, StormyOrder entity);
         Task<Result> EditOrderAsync(Guid uniqueId, StormyOrder entity);
@@ -15,5 +15,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Order
         Task<Result<OrderDto>> GetOrderByIdAsync(long id);
         Task<Result<IList<StormyOrder>>> GetOrdersAsync();
         Task<Result<OrderDto>> GetOrderByUniqueIdAsync(Guid uniqueId);
+        Task<StormyOrder> GetStormyOrderByUniqueIdAsync(Guid uniqueId);
+        Task<List<OrderDto>> GetAllOrdersFromCustomer(string customerId);
     }
 }

@@ -17,6 +17,7 @@
     <ProjectReference Include="..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />   
     <ProjectReference Include="..\StormyCommerce.Core\StormyCommerce.Core.csproj" />   
     <ProjectReference Include="..\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.0" />
     <!-- <ProjectReference Include="..\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj"/> -->
   </ItemGroup>  
   <ItemGroup>

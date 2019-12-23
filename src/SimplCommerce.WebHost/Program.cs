@@ -7,6 +7,7 @@ using Serilog;
 using StormyCommerce.Infraestructure.Extensions;
 using System;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 namespace SimplCommerce.WebHost
 {
@@ -17,7 +18,8 @@ namespace SimplCommerce.WebHost
             //var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
             try
             {
-                BuildWebHost2(args).Run();
+                var host = CreateWebHostBuilder(args).Build();
+                host.Run();
             }
             catch (Exception ex)
             {
@@ -26,31 +28,17 @@ namespace SimplCommerce.WebHost
         }
 
         // Changed to BuildWebHost2 to make EF don't pickup during design time
-        private static IWebHost BuildWebHost2(string[] args) =>
-            Microsoft.AspNetCore.WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            Microsoft.AspNetCore.WebHost.CreateDefaultBuilder(args)             
                 .UseStartup<Startup>()
+                .UseKestrel()                
                 .ConfigureAppConfiguration(SetupConfiguration)
-                .ConfigureLogging(SetupLogging)
-                .Build();
-
+                .ConfigureLogging(SetupLogging);
+                
         private static void SetupConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder configBuilder)
         {
             var env = hostingContext.HostingEnvironment;
-            var configuration = configBuilder.Build();
-            configBuilder.AddEntityFrameworkConfig(options => {
-                options.EnableDetailedErrors();
-                options.EnableSensitiveDataLogging();
-                if (!env.IsDevelopment())
-                {
-                    options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                    
-                }
-                else
-                {                    
-                    options.UseSqlite("DataSource=config.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));                                       
-                }
-
-                }
-            );
+            var configuration = configBuilder.Build();            
             Log.Logger = new LoggerConfiguration()
                        .ReadFrom.Configuration(configuration)
                        .CreateLogger();
@@ -59,6 +47,9 @@ namespace SimplCommerce.WebHost
         private static void SetupLogging(WebHostBuilderContext hostingContext, ILoggingBuilder loggingBuilder)
         {
             loggingBuilder.AddSerilog();
+            loggingBuilder.AddConsole();
+            loggingBuilder.AddDebug();
+            loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
         }        
     }
 }

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace StormyCommerce.Api.Client
 {
     //[System.CodeDom.Compiler.GeneratedCode("NSwag", "13.0.6.0 (NJsonSchema v10.0.23.0 (Newtonsoft.Json v11.0.0.0))")]
-    public partial interface IClient
+    public partial interface IOlderClient
     {
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>

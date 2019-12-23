@@ -2,17 +2,18 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Infraestructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace StormyCommerce.Infraestructure.Data.Repositories
 {
     public class StormyRepository<TEntity> : IStormyRepository<TEntity> where TEntity : EntityWithBaseTypeId<long>
-    {
-        //? I ask myself:what is the difference between this and a readonly field? and Why Protected?
-        private readonly StormyDbContext context;
+    {        
+        protected readonly StormyDbContext context;
 
         protected DbSet<TEntity> DbSet => _dbSet ?? (_dbSet = context.Set<TEntity>());
         private DbSet<TEntity> _dbSet;
@@ -20,10 +21,12 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         public StormyRepository(StormyDbContext _context)
         {
             context = _context;
-            _dbSet = context.Set<TEntity>();
+            _dbSet = context.Set<TEntity>();            
         }
-
-        public IQueryable<TEntity> Table => DbSet;
+        public IQueryable<TEntity> Query() 
+        {
+            return DbSet.Include(context.GetIncludePaths(typeof(TEntity)));            
+        }
 
         public async Task AddAsync(TEntity _entity)
         {
@@ -82,7 +85,11 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<IList<TEntity>> GetAllAsync() => await DbSet.ToListAsync();
+        public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity,bool>> predicate = null)
+        {         
+            var query = predicate != null ? Query().Where(predicate) : Query();            
+            return await query.ToListAsync();
+        }
 
         public async Task<TEntity> GetByIdAsync(params object[] keyValues)
         {

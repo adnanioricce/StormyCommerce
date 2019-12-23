@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Customer;
@@ -23,12 +24,20 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     public class AccountController : Controller
     {
         private readonly IUserIdentityService _identityService;          
-        private readonly IAppLogger<AuthenticationController> _logger;
+        private readonly IEmailSender _emailSender;
+        private readonly IAppLogger<AccountController> _logger;
+        private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
-        public AccountController(IUserIdentityService identityService,IAppLogger<AuthenticationController> logger,IMapper mapper)
+        public AccountController(IUserIdentityService identityService,
+        IEmailSender emailSender,
+        IAppLogger<AccountController> logger,
+        ICustomerService customerService,
+        IMapper mapper)
         {
             _identityService = identityService;                    
+            _emailSender = emailSender;
             _logger = logger;
+            _customerService = customerService;
             _mapper = mapper;
         }
         [HttpGet("ConfirmEmail")]
@@ -40,9 +49,8 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             if (appUser == null) return BadRequest("user with given email not found");            
             var result = await _identityService.ConfirmEmailAsync(appUser,code);
             if(!result.Succeeded) return BadRequest();                              
-            await _identityService.AssignUserToRole(appUser, Roles.Customer);
-            await _identityService.EditUserAsync(appUser);            
-            return Ok(new { Message = $"Email confirmation performed With Success at {DateTimeOffset.UtcNow}" });            
+            await _identityService.AssignUserToRole(appUser, Roles.Customer);                      
+            return Ok(Result.Ok($"Email confirmation performed With Success at {DateTimeOffset.UtcNow}"));            
         }
 
         [HttpPost("reset_password")]
@@ -56,56 +64,29 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 
             if (!result.Succeeded) return BadRequest();
 
-            return Ok();
+            return Ok(Result.Ok(result));
         }     
         [HttpPost("add_shipping_address")]
         [Authorize(Roles.Customer)]
         [ValidateModel]
         //TODO:Duplicated Logic, too much ifs, refactor this
         public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddressRequest model)
-        {
-            var user = await GetCurrentUser();
-            if (!model.IsBillingAddress)
+        {            
+            var user = await GetCurrentUser();            
+            user.Addresses.Add(new CustomerAddress(model.Address)
             {
-                if (user.DefaultShippingAddress == null)
-                {
-                    user.DefaultShippingAddress = new CustomerAddress
-                    {
-                        Address = model.Address,
-                        Owner = user,
-                        WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
-                    };
-                    var result = await _identityService.EditUserAsync(user);
-                    if (!result.Success) return BadRequest(result);
-                    return Ok(new
-                    {
-                        message = "address added with success",
-                        result = result
-                    });
-                }
-                user.DefaultShippingAddress.Address = model.Address;
-                await _identityService.EditUserAsync(user);
-                return Ok(Result.Ok("address updated with success"));
-            }
-            if(user.DefaultBillingAddress == null)
+                Type = model.Type,
+                IsDefault = model.IsDefault,
+                WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? "" : model.WhoReceives
+            });
+            var result = await _identityService.EditUserAsync(user);
+            if (!result.Success) return BadRequest(result);
+            return Ok(new
             {
-                user.DefaultBillingAddress = new CustomerAddress
-                {
-                    Address = model.Address,
-                    Owner = user,
-                    WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? user.FullName : model.WhoReceives
-                };
-                var result = await _identityService.EditUserAsync(user);
-                if (!result.Success) return BadRequest(result);
-                return Ok(new
-                {
-                    message = "address added with success",
-                    result = result
-                });                
-            }
-            user.DefaultBillingAddress.Address = model.Address;
-            await _identityService.EditUserAsync(user);
-            return Ok(Result.Ok("address updated with success"));
+                message = "address added with success",
+                result = result
+            });
+                            
         }                
         [HttpPut("edit_account")]
         [Authorize(Roles.Customer)]
@@ -124,7 +105,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> EditAddress([FromBody]EditCustomerAddressRequest request) 
         {
             var currentUser = await this.GetCurrentUser();
-            _mapper.Map<EditCustomerAddressRequest, CustomerAddress>(request, currentUser.DefaultShippingAddress);
+            
             var result = await _identityService.EditUserAsync(currentUser);
             if (!result.Success) return BadRequest(result);
             return Ok(new
@@ -133,16 +114,70 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                 result = result
             });
         }
-        
+        [HttpPost("resend_confirm_email")]
+        [Authorize(Roles.Guest)]
+        [ProducesDefaultResponseType(typeof(Result))]
+        public async Task<IActionResult> ResendConfirmationEmail()
+        {
+            
+            var user = await GetCurrentUser();
+            var code = await _identityService.CreateEmailConfirmationCode(user);
+            var callbackUrl = Url.Action("ConfirmEmailAsync", "Account", 
+            new { userId = user.Id, code = code },
+             protocol: HttpContext.Request.Scheme);            
+            await _emailSender.SendEmailAsync(user.Email, "Reset Password",
+                $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");    
+            return Ok(Result.Ok($"confirmation email was sended to {user.Email} at {DateTime.UtcNow}"));
+        }
         [HttpGet("get_current_user")]
         [Authorize(Roles.Customer)]
         public async Task<CustomerDto> GetCurrentCustomer()
-        {            
-            return _mapper.Map<StormyCustomer,CustomerDto>(await GetCurrentUser());
-        }          
+        {
+            var user = await GetCurrentUser();
+            var customer = new CustomerDto(user);
+            return customer;
+        }
+        #region Delete Operations 
+        [HttpDelete("delete")]
+        [Authorize(Roles.Customer)]
+        public async Task<IActionResult> DeleteAccount(string password)
+        {
+            var currentUser = await GetCurrentUser();
+            var result = await _identityService.DeleteUserAsync(currentUser, password);
+            var isInternalError = currentUser is Result<StormyCustomer>;
+            //This is a little tricky...
+            if (isInternalError) return StatusCode(500, result);
+            if (!result.Success) return BadRequest(result);
+            return Ok(result);            
+        }
+        [HttpDelete("delete_address")]
+        [Authorize(Roles.Customer)]
+        public async Task<IActionResult> DeleteAddress(long addressId)
+        {
+            var currentUser = await GetCurrentUser();
+            var result = await _customerService.DeleteAddress(currentUser, addressId);
+            if (!result.Success)
+            {
+                return BadRequest(new { result = result, customer = currentUser });
+            }
+            return Ok(new { result = result, customer = currentUser });
+        }
+        #endregion
         private Task<StormyCustomer> GetCurrentUser()
         {
             return _identityService.GetUserByClaimPrincipal(User);
+        }
+        private string GenerateActionLink(string actionName, string token, string username)
+        {
+            string validationLink = null;
+            if (this.Url != null)
+            {
+                validationLink = Url.Action(actionName, "Register",
+                    new { Token = token, Username = username },
+                    HttpContext.Request.Scheme);
+            }
+
+            return validationLink;
         }
 
     }

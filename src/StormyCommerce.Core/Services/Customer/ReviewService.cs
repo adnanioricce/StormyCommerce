@@ -33,7 +33,7 @@ namespace StormyCommerce.Core.Services.Customer
         }
         public async Task<Review> GetCustomerReviewByIdAsync(long id)
         {
-            return await _reviewRepository.Table                
+            return await _reviewRepository.Query()                
                 .Include(r => r.Author)
                 .Where(r => r.Id == id)
                 .FirstOrDefaultAsync();
@@ -41,7 +41,7 @@ namespace StormyCommerce.Core.Services.Customer
 
         public async Task<List<Review>> GetCustomerReviews(string customerId)
         {
-            return await _reviewRepository.Table
+            return await _reviewRepository.Query()
                 .Include(r => r.Author)
                 .Where(r => r.StormyCustomerId == customerId)
                 .ToListAsync();

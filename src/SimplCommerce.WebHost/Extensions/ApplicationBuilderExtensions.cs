@@ -3,15 +3,23 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Localization;
+using SimplCommerce.Module.SampleData;
+using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Infraestructure.Data;
+using StormyCommerce.Module.Customer.Data;
 using System;
 using System.Linq;
 using System.Security.Claims;
-
+using Microsoft.EntityFrameworkCore.Infrastructure;
 namespace SimplCommerce.WebHost.Extensions
 {
     public static class ApplicationBuilderExtensions
@@ -116,6 +124,36 @@ namespace SimplCommerce.WebHost.Extensions
             );
 
             return app;
+        }
+        public static IApplicationBuilder UseCustomizedHttpsConfiguration(this IApplicationBuilder app)
+        {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions{
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+            return app;
+        }
+        public static IApplicationBuilder ConfigureDatabase(this IApplicationBuilder app,IHostingEnvironment environment)
+        {
+            if(!environment.IsDevelopment()) return app;            
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
+                {                    
+                    if((dbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists()) {
+                        dbContext.Database.Migrate();
+                        return app;
+                    }                    
+                    var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());                                        
+                    if (dbContext.Database.IsSqlite())
+                    {                        
+                        dbContext.SeedDbContext();
+                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
+                        var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
+                        new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
+                    }
+                    return app;
+                }
+            }
         }
     }
 }

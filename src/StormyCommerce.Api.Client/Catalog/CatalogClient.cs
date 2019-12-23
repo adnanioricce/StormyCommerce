@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using StormyCommerce.Api.Client.Extensions;
 using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
-using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Models.Requests;
 
@@ -18,6 +18,7 @@ namespace StormyCommerce.Api.Client.Catalog
         private string _baseUrl = "https://localhost:443";
         public string BaseUrl { get { return _baseUrl; } set { _baseUrl = value; } }
         private readonly HttpClient _client = new HttpClient();
+        private bool IsAuthenticated = false;
         public CatalogClient(string baseUrl)
         {
             _baseUrl = BaseUrl;
@@ -53,26 +54,30 @@ namespace StormyCommerce.Api.Client.Catalog
             return await result.Content.ReadAsAsync<T>();
         }
 
-        public Task<Result> CreateCategoryAsync(Category category = null, CancellationToken cancellationToken = default)
+        public async Task<Result> CreateCategoryAsync(Category category = null, CancellationToken cancellationToken = default)
         {
-            return Post("/api/Category/create", category);
+            if (!IsAuthenticated) await AuthenticateAsAdmin();
+            return await Post("/api/Category/create", category);
         }
 
-        public Task<Result> CreateProductAsync(CreateProductRequest _model = null, CancellationToken cancellationToken = default)
+        public async Task<Result> CreateProductAsync(CreateProductRequest _model = null, CancellationToken cancellationToken = default)
         {
-            return Post("/api/Product/create", _model);
+            if (!IsAuthenticated) await AuthenticateAsAdmin();
+            return await Post("/api/Product/create", _model);
         }
 
         public async Task<Result> EditCategoryAsync(Category category = null, CancellationToken cancellationToken = default)
         {
+            if (!IsAuthenticated) await AuthenticateAsAdmin();
             var response = await _client.PutAsJsonAsync("/api/Product/edit",category);
-            var result = await response.Content.ReadAsAsync<Result<string>>();
+            var result = await response.Content.ReadAsAsync<Result>();
             return result;
         }
 
-        public Task<Result> EditProductAsync(StormyProduct _model = null, CancellationToken cancellationToken = default)
+        public async Task<Result> EditProductAsync(StormyProduct _model = null, CancellationToken cancellationToken = default)
         {
-            return Post("/api/Product/edit",_model);
+            if (!IsAuthenticated) await AuthenticateAsAdmin();
+            return await Post("/api/Product/edit",_model);
         }
 
         public Task<List<CategoryDto>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -111,6 +116,19 @@ namespace StormyCommerce.Api.Client.Catalog
         public Task<ProductOverviewDto> GetProductOverviewAsync(long? id = null, CancellationToken cancellationToken = default)
         {
             return Get<ProductOverviewDto>("/api/Product/get_overview",id);
+        }
+        private async Task AuthenticateAsAdmin()
+        {
+            await _client.Authenticate();
+        }
+        class Result<TValue> : Result
+        {
+            public TValue Value { get; set; }            
+        }
+        public class Result
+        {
+            public string Message { get; set; }
+            public bool Success { get; set; }
         }
     }
 }

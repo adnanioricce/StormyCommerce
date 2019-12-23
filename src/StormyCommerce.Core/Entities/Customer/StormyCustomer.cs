@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Models.Dtos;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StormyCommerce.Core.Entities.Customer
 {    
@@ -20,24 +22,29 @@ namespace StormyCommerce.Core.Entities.Customer
             Email = customerDto.Email;
             PhoneNumber = customerDto.PhoneNumber;
             UserName = customerDto.UserName;
-            FullName = customerDto.FullName;
-            DefaultBillingAddress = customerDto.DefaultBillingAddress;
-            DefaultShippingAddress = customerDto.DefaultShippingAddress;            
+            FullName = customerDto.FullName;                                             
         }                
-        public string CPF { get; set; }             
-        public virtual List<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();
-        public virtual CustomerAddress DefaultShippingAddress { get; set; }
-        public long? DefaultShippingAddressId { get; set; }
-        public virtual CustomerAddress DefaultBillingAddress { get; set; }
-        public long? DefaultBillingAddressId { get; set; }
+        public string CPF { get; set; }
+        public virtual List<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();        
         public long? CustomerReviewsId { get; set; }
-        public virtual List<Review> CustomerReviews { get; set; } = new List<Review>();        
-        public long? CustomerWishlistId { get; set; }    
-        public virtual Wishlist CustomerWishlist { get; set; }        
+        public virtual List<Review> CustomerReviews { get; set; } = new List<Review>();                
+        public virtual Wishlist CustomerWishlist { get; set; } = new Wishlist();
         public string FullName { get; set; }        
         public string RefreshTokenHash { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }                        
-        public virtual List<ApplicationRole> Roles { get; set; }
-        public DateTimeOffset CreatedOn { get; set; }              
+        public virtual ApplicationRole Role { get; set; } 
+        public DateTimeOffset CreatedOn { get; set; }
+        
+        public void RemoveAddress(long addressId)
+        {
+            this.Addresses.Remove(this.Addresses.FirstOrDefault(a => a.Id == addressId));
+        }        
+        public void RemoveRelations()
+        {
+            this.CustomerWishlist = null;
+            this.Addresses = null;
+            this.CustomerReviews = null;
+            this.Role = null;
+        }
     }
 }

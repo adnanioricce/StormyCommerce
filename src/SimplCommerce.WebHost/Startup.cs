@@ -22,18 +22,19 @@ using StormyCommerce.Module.Customer.Data;
 using SimplCommerce.Module.SampleData;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;
-using System.Net.Http;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Reflection;
 using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.Catalog.Product;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Collections.Generic;
+using Swashbuckle.AspNetCore.Filters;
+using StormyCommerce.Module.Customer.Models;
 
 namespace SimplCommerce.WebHost
 {
@@ -54,11 +55,11 @@ namespace SimplCommerce.WebHost
         public virtual void ConfigureServices(IServiceCollection services)
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
-            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;                   
+            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;                               
             services.AddApiVersioning(options => {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 5);
             });            
             services.AddModules(_hostingEnvironment.ContentRootPath);
             services.Configure<CookiePolicyOptions>(options =>
@@ -66,22 +67,13 @@ namespace SimplCommerce.WebHost
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-            if(!_hostingEnvironment.IsDevelopment()){
-                services.AddStormyDataStore(_configuration);
-            } else {
-                services.AddDbContextPool<StormyDbContext>(options => {                    
-                    options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
-                    options.UseLazyLoadingProxies();
-                    options.EnableDetailedErrors();
-                    options.EnableSensitiveDataLogging();
-                });
-            }            
+            });            
+            services.AddStormyDataStore(_configuration);
+                     
             services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
-            services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-            services.AddTransient<HttpClient>();
+            services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));            
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander()); });
             services.Configure<WebEncoderOptions>(options =>
@@ -109,6 +101,20 @@ namespace SimplCommerce.WebHost
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+                var security = new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer", new string[] { }},
+                };
+                c.AddSecurityDefinition(Roles.Customer
+                    , new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
+                c.AddSecurityRequirement(security);
             });
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
@@ -116,33 +122,23 @@ namespace SimplCommerce.WebHost
                 builder.AllowAnyMethod();
                 builder.AllowAnyHeader();   
                 builder.AllowCredentials();             
-            }));
-            if (_hostingEnvironment.IsDevelopment()) 
-            { 
-                services.AddMvc(x => {
-                    x.Filters.Add(new AllowAnonymousFilter());
-                }).AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
-            }else
+            }));                   
+            services.AddMvc().AddJsonOptions(options =>
             {
-                services.AddMvc().AddJsonOptions(options =>
-                {
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
-            }
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });        
+            services.AddMemoryCache();
+            services.AddHealthChecks();
         }
 
-        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env,IAppLogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 IdentityModelEventSource.ShowPII = true;
-                
+                app.AddEfDiagrams<StormyDbContext>();
             }
             else
             {
@@ -156,6 +152,8 @@ namespace SimplCommerce.WebHost
                 context => !context.Request.Path.StartsWithSegments("/api"),
                 a => a.UseStatusCodePagesWithReExecute("/Home/ErrorWithCode/{0}")
             );
+            app.UseHealthChecks("/check");
+            app.UseCustomizedHttpsConfiguration();            
             app.UseStaticFiles();            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -178,28 +176,38 @@ namespace SimplCommerce.WebHost
             {
                 moduleInitializer.Configure(app, env);
             }
-            SeedContext(app);
+            BuildDb(app,logger);
             
         }
-        private void SeedContext(IApplicationBuilder app)
+        private void BuildDb(IApplicationBuilder app,IAppLogger<Startup> logger)
         {
+            if(!this._hostingEnvironment.IsDevelopment()) return;            
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
                 {
-                    if (dbContext.Database.IsSqlite())
+                    if ((dbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists() && !dbContext.Database.IsSqlite())
                     {
-                        if (dbContext.Database.EnsureDeleted())
+                        try
                         {
-                            dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                            dbContext.Database.Migrate();
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.LogError("Error on database migration", ex.Message);
+                            logger.LogInformation("exception throwed", ex);
+                            logger.LogStackTrace("Stacktrace:", ex.StackTrace);
                         }
                     }
-                    if (!dbContext.Database.IsSqlServer())
+
+                    if (dbContext.Database.IsSqlite())
                     {
+                        dbContext.Database.EnsureDeleted();
+                        var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                        dbContext.SeedDbContext();
                         var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
                         var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
                         new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
-                        dbContext.SeedDbContext();
                     }
                 }
             }

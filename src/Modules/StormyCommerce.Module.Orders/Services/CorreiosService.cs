@@ -15,11 +15,16 @@ using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 using System.Linq;
 using System.Collections.Generic;
+using StormyCommerce.Core.Shipment;
+using StormyCommerce.Core.Models.Shipment.Response;
+using StormyCommerce.Module.Orders.Extensions;
+using StormyCommerce.Core.Models.Shipment.Request;
+using StormyCommerce.Core.Entities.Shipping;
 
 namespace StormyCommerce.Module.Orders.Services
 {
     //TODO:What to return in GetShippmentOptionsAsync?
-    public class CorreiosService 
+    public class CorreiosService : IShippingProvider
     {        
         private readonly ICalcPrecoPrazoWSSoap _correiosSoapWs;        
         public CorreiosService(ICalcPrecoPrazoWSSoap correiosSoapWs)
@@ -44,11 +49,11 @@ namespace StormyCommerce.Module.Orders.Services
                 model.sCdAvisoRecebimento);            
             return new DeliveryCalculationResponse
             {
-                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => new DeliveryCalculationOptionResponse(s)))
+                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => s.MapToDeliveryCalculationResponse()))
             }; 
         }        
         
-        public async Task<DeliveryCalculationResponse> DefaultDeliveryCalculation(Shipment shipment)
+        public async Task<DeliveryCalculationResponse> DefaultDeliveryCalculation(StormyShipment shipment)
         {            
             var response = await CalculateDeliveryPriceAndTime(GetDefaultShippingCalcModel(shipment));
             return response;            
@@ -57,7 +62,7 @@ namespace StormyCommerce.Module.Orders.Services
         {
             var response = await _correiosSoapWs.CalcPrecoPrazoAsync(Container.Configuration["Correios:CodigoEmpresa"],
                 Container.Configuration["Correios:Senha"],
-                request.ServiceCode,
+                request.ShippingMethod.ToString(),
                 Container.Configuration["Correios:OriginPostalCode"],
                 request.DestinationPostalCode,
                 request.Weight.ToString(),
@@ -71,24 +76,27 @@ namespace StormyCommerce.Module.Orders.Services
                 request.WarningOfReceiving);
             return new DeliveryCalculationResponse
             {
-                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => new DeliveryCalculationOptionResponse(s)))
+                Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => s.MapToDeliveryCalculationResponse()))
             };
         }
-        private CalcPrecoPrazoModel GetDefaultShippingCalcModel(Shipment shipment)
+        private CalcPrecoPrazoModel GetDefaultShippingCalcModel(StormyShipment shipment)
         {                            
             return new CalcPrecoPrazoModel {             
-                    nCdEmpresa = Container.Configuration["Correios:CodigoEmpresa"],
-                    sDsSenha = Container.Configuration["Correios:Senha"],          
-                    sCepOrigem = Container.Configuration["Correios:OriginPostalCode"],
-                    nVlAltura = (decimal)shipment.TotalHeight,
-                    nVlLargura = (decimal)shipment.TotalWidth,                        
-                    nVlDiametro = 0, 
-                    nVlPeso = shipment.TotalWeight.ToString(),
-                    nCdFormato = (int)FormatCode.CaixaOuPacote, 
-                    sCepDestino = shipment.DestinationAddress.Address.PostalCode,
-                    sCdMaoPropria = "N",
-                    //TODO: this is the corrected value or the total?
-                    nVlValorDeclarado = shipment.Order.TotalPrice                       
+                nCdEmpresa = Container.Configuration["Correios:CodigoEmpresa"],
+                sDsSenha = Container.Configuration["Correios:Senha"],          
+                sCepOrigem = Container.Configuration["Correios:OriginPostalCode"],
+                nVlAltura = (decimal)shipment.TotalHeight,
+                nVlLargura = (decimal)shipment.TotalWidth,         
+                nVlComprimento = (decimal)shipment.TotalLength,
+                nVlPeso = shipment.TotalWeight.ToString(),
+                nVlDiametro = 0,
+                nCdServico = ServiceCode.Sedex,                                                            
+                nCdFormato = (int)FormatCode.CaixaOuPacote, 
+                sCepDestino = shipment.DestinationAddress.PostalCode,
+                sCdAvisoRecebimento = "N",
+                sCdMaoPropria = "N",
+                //TODO: this is the corrected value or the total?
+                nVlValorDeclarado = shipment.Order.TotalPrice                       
             };
         }
     }

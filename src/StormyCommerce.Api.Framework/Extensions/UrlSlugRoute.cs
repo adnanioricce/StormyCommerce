@@ -34,7 +34,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             var urlSlugRepository = context.HttpContext.RequestServices.GetService<IStormyRepository<Entity>>();
 
             // Get the slug that matches.
-            var urlSlug = await urlSlugRepository.Table
+            var urlSlug = await urlSlugRepository.Query()
                 .Include(x => x.EntityType)
                 .FirstOrDefaultAsync(x => x.Slug == requestPath);
 

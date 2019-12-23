@@ -22,7 +22,7 @@ namespace StormyCommerce.Core.Services.Catalog
         }
         public Media GetMediaByFilename(string fileName)
         {
-            return _mediaRepository.Table
+            return _mediaRepository.Query()
                 .Where(f => string.Equals(fileName, f.FileName))
                 .SingleOrDefault();
         }

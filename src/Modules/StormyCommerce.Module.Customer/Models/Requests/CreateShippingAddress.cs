@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Entities.Customer;
 
 namespace StormyCommerce.Module.Customer.Models.Requests
 {
@@ -13,7 +14,8 @@ namespace StormyCommerce.Module.Customer.Models.Requests
         public Address Address { get; set; }
         public string WhoReceives { get; set; }
         [Required]
-        public bool IsBillingAddress { get; set; }
+        public AddressType Type { get; set; }
+        public bool IsDefault { get; set; } = true;
 
     }
 }

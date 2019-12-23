@@ -2,7 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
+using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.Payments;
+using StormyCommerce.Core.Entities.Settings;
+using StormyCommerce.Core.Entities.Shipping;
+using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using System;
 using System.Collections.Generic;
@@ -16,24 +22,24 @@ namespace StormyCommerce.Infraestructure.Data
     //TODO: Methods to execute sql
     public class StormyDbContext : IdentityDbContext,IStormyDbContext
     {        
+        public DbSet<AppSettings> AppSettings { get; set; }        
         public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)
         {            
         }
-
+       
         public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : class
         {
             return base.Set<TEntity>();
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            ValidateEntities();
+        {            
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken)
         {
-            ValidateEntities();
+            //ValidateEntities();
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 

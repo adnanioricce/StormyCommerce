@@ -10,15 +10,15 @@ namespace StormyCommerce.Core.Entities.Order
         {
             Id = id;
         }
-        public OrderItem(){}
+        public OrderItem(){}        
         public int Quantity { get; set; }
         public virtual StormyProduct Product { get; set; }
-        public string Price { get; set; }
+        public decimal Price { get; set; }
         public long StormyProductId { get; set; }
         public long StormyOrderId { get; set; }
         public virtual StormyOrder Order { get; set; }        
-        public long ShipmentId { get; set; }
-        public virtual Shipment Shipment { get; set; }
+        public long? ShipmentId { get; set; }
+        public virtual Core.Entities.Shipping.StormyShipment Shipment { get; set; }
 
         public OrderItemDto ToOrderItemDto()
         {

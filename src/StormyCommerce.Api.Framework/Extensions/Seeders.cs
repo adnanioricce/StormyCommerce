@@ -57,23 +57,37 @@ namespace StormyCommerce.Api.Framework.Extensions
                 });
             return fakeProduct.Generate(count);
         }
-        public static List<Shipment> ShipmentSeed(int count = 1,bool omitId = false)
+        public static List<StormyShipment> ShipmentSeed(int count = 1,bool omitId = false)
         {
-            var fakeShipment = new Faker<Shipment>("pt_BR")
-                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
-                .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, DateTimeOffset.UtcNow)
+            var fakeShipment = new Faker<StormyShipment>("pt_BR")
+                .Rules((f, v) =>
+                {
+                    v.DestinationAddress = new CustomerAddress
+                    {
+                        City = f.Address.City(),
+                        District = f.Address.CitySuffix(),
+                        Number = f.Address.BuildingNumber(),
+                        FirstAddress = f.Address.StreetName(),
+                        SecondAddress = f.Address.StreetSuffix(),
+                        Country = f.Address.Country(),
+                        Complement = f.Address.OrdinalDirection(),
+                        PostalCode = f.Address.ZipCode(),
+                        Street = f.Address.StreetName(),                        
+                        State = f.Address.State(),
+                        WhoReceives = "I",
+                        Type = AddressType.Shipping,
+                        IsDefault = true,
+
+                    };
+                })
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(8.90m, 42.90m))
-                .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<string>("PAC", "Sedex"))
+                .RuleFor(v => v.ShipmentMethod, f => f.PickRandom<ShippingMethod>())
                 .RuleFor(v => v.ShipmentProvider, "Correios")
                 .RuleFor(v => v.ShippedDate, f => f.Date.Recent())
                 .RuleFor(v => v.TotalWeight, f => f.Random.Double(5.0, 20.0))
                 .RuleFor(v => v.DeliveryDate, f => f.Date.Recent(4))
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(3.0m, 62.0m))
-                .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4))
-                .RuleFor(v => v.Comment, f => f.Lorem.Sentence())
-                .RuleFor(v => v.BillingAddressId, f => f.IndexVariable)
-                .RuleFor(v => v.DestinationAddressId, f => f.IndexVariable + 1);                               
+                .RuleFor(v => v.CreatedOn, f => f.Date.Recent(4));                                                                          
             return fakeShipment.Generate(count);
         }
         public static List<Entity> EntitySeed(int count = 1, string entityType = "Product", bool omitId = false)
@@ -199,20 +213,14 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<CustomerAddress> AddressSeed(int count = 1, bool omitId = false)
         {
             var fakeAddress = new Faker<CustomerAddress>("pt_BR")
-                .RuleFor(v => v.Id,f => omitId ? 0 : f.IndexVariable)
+                .RuleFor(v => v.Id, f => omitId ? 0 : f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.Address, f => new Core.Entities.Common.Address
-                    (
-                        "BR",f.Address.State(),f.Address.StreetName(),
-                        f.Address.StreetName(),
-                        f.Address.StreetAddress(),
-                        f.Address.Direction(),
-                        f.Address.SecondaryAddress(),
-                        f.Address.ZipCode(),
-                        f.Address.BuildingNumber(),
-                        "no complement"
-                    )
-                );
+                .RuleFor(v => v.State, f => f.Address.State())
+                .RuleFor(v => v.Street, f => f.Address.StreetName())
+                .RuleFor(v => v.District, f => f.Address.StreetSuffix())
+                .RuleFor(v => v.PostalCode, f => f.Address.ZipCode())
+                .RuleFor(v => v.Number, f => f.Address.BuildingNumber())
+                .RuleFor(v => v.Complement, "no complement");                                
             return fakeAddress.Generate(count);
         }
 
@@ -236,8 +244,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                         ,OrderStatus.PaymentReceived
                         ,OrderStatus.Shipped
                         ,OrderStatus.Shipping
-                        });
-                    v.Tax = f.Finance.Amount(0, 50);
+                        });                    
                     v.TotalPrice = f.Finance.Amount(0, 100);                             
                     v.OrderUniqueKey = f.Commerce.Random.Guid();
                     var shipment = Seeders.ShipmentSeed(omitId:true).First();
@@ -250,25 +257,25 @@ namespace StormyCommerce.Api.Framework.Extensions
                     product.Id = product.Id + 50;
                     int i = 0;
                     items.ForEach(item => {
-                        item.Id += ++i + item.Id + f.IndexVariable;
+                        item.Id = 0;
                         item.Product = product;
                         item.Order = v;
                         item.Shipment = shipment;
                         v.AddItem(item);
                     });                       
                     var payment = Seeders.PaymentSeed();
-                    payment.Order = v; 
+                    //payment.Order = v; 
                     payment.Amount = v.TotalPrice;
                     payment.Id = 0;
                     v.Payment = payment;                                                                                              
                 });                
             return fakeOrder.Generate(count);
         }
-        public static Payment PaymentSeed()
+        public static StormyPayment PaymentSeed()
         {
-            var fakePayment = new Faker<Payment>("pt_BR")
+            var fakePayment = new Faker<StormyPayment>("pt_BR")
                 .RuleFor(v => v.PaymentFee,f => f.Finance.Amount())
-                .RuleFor(v => v.PaymentMethod,f => f.PickRandom(new [] {"boleto","credit_card"}))
+                .RuleFor(v => v.PaymentMethod,f => f.PickRandom<PaymentMethod>())
                 .RuleFor(v => v.PaymentStatus,f => f.PickRandom(new [] {PaymentStatus.Authorized,PaymentStatus.Successful}))
                 .RuleFor(v => v.GatewayTransactionId,f => f.Finance.RoutingNumber())
                 .RuleFor(v => v.CreatedOn, DateTime.UtcNow);
@@ -277,7 +284,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<OrderItem> OrderItemSeed(int count = 1)
         {
             var fakeOrderItem = new Faker<OrderItem>("pt_BR")                
-                .RuleFor(v => v.Price,f => f.Commerce.Price(symbol:"R$"))
+                .RuleFor(v => v.Price,f => f.Random.Decimal(1.0m,100.0m))
                 .RuleFor(v => v.Quantity,f => f.Random.Int(1,5));           
             return fakeOrderItem.Generate(count);     
         }
@@ -312,10 +319,9 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.UserName = f.Internet.UserName();
                     v.CPF =  "000000000";
                     v.CreatedOn =  DateTime.UtcNow;
-                    var addresses = Seeders.AddressSeed(2);                                    
-                    v.DefaultBillingAddress = addresses.First(); 
-                    v.DefaultShippingAddress = addresses.Last();                    
-                    v.Addresses.AddRange(addresses);                    
+                    var addresses = Seeders.AddressSeed(2);
+
+                    v.Addresses.AddRange(addresses);
                     var review = Seeders.ReviewSeed(count,omitId).First();
                     review.Id += omitId ? 0 : f.IndexVariable;
                     review.Author = v;

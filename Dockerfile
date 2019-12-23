@@ -1,19 +1,14 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim AS base
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS base
 WORKDIR /app
-EXPOSE 80
 EXPOSE 443
 COPY . ./
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
-WORKDIR /app
-RUN dotnet restore "app/src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj"
+RUN rm src/SimplCommerce.WebHost/Migrations/* && cp -f src/SimplCommerce.WebHost/appsettings.docker.json src/SimplCommerce.WebHost/appsettings.json
 RUN dotnet build SimplCommerce.sln
-WORKDIR "/src/SimplCommerce.WebHost"
-RUN dotnet build "SimplCommerce.WebHost.csproj" -c Release -o /app
-
-FROM build AS publish
-RUN dotnet publish "SimplCommerce.WebHost.csproj" -c Release -o /app
-
-FROM base AS final
+RUN dotnet build *.sln -c Release \
+    && cd src/SimplCommerce.WebHost \    
+    && dotnet build -c Release \
+    && dotnet publish -c Release -o /app/publish
+FROM base AS publish
 WORKDIR /app
-COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "SimplCommerce.WebHost.dll"]
+COPY --from=base /app/publish ./
+CMD ["dotnet", "SimplCommerce.WebHost.dll"]

@@ -26,6 +26,17 @@
     <Content Include="wwwroot\**\*;modules.json;appsettings.json;Modules\**\*;Themes\**\*;Views\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20191203190001_UpdateFromLast.cs" />
+    <Compile Remove="Migrations\20191203190001_UpdateFromLast.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="database.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pages\Shared\_Layout.cshtml" />
+    <Content Include="Pages\Shared\_ValidationScriptsPartial.cshtml" />
   </ItemGroup>  
 
   <ItemGroup>    
@@ -38,11 +49,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFrameworkCore.Diagrams" Version="0.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.1-dev-00767" />
@@ -51,7 +63,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />    
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />    
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="4.5.5" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.6.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.4.*" />
+    <PackageReference Include="Xunit.DependencyInjection" Version="5.4.0" />    
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +79,11 @@
   <ItemGroup>
     <Folder Include="logs\" />
     <Folder Include="Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Migrations\20191203190001_UpdateFromLast.cs" />
+    <None Include="Migrations\20191203190001_UpdateFromLast.Designer.cs" />
   </ItemGroup>  
 
   <Target Name="CopyModule" AfterTargets="Build">

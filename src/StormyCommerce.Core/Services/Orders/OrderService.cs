@@ -19,16 +19,19 @@ namespace StormyCommerce.Core.Services.Orders
     public class OrderService : IOrderService
     {
         private readonly IStormyRepository<StormyOrder> _orderRepository;
-        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;     
+        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;
+        private readonly IProductService _productService;
         private readonly IShippingService _shippingService;
         public OrderService(IStormyRepository<StormyOrder> orderRepository
             ,IStormyRepository<OrderHistory> orderHistoryRepository
-            ,IShippingService shippingService)
+            ,IProductService productService
+            , IShippingService shippingService)
         {
             _orderRepository = orderRepository;
             _orderHistoryRepository = orderHistoryRepository;
+            _productService = productService;
             _shippingService = shippingService;
-            // _orderRepository.
+           
         }        
         public async Task<Result<OrderDto>> CancelOrderAsync(long id)
         {
@@ -42,8 +45,8 @@ namespace StormyCommerce.Core.Services.Orders
                 item.Product.UnitsInStock += item.Quantity;
                 item.Product.UnitsOnOrder -= item.Quantity;
             });
-            //#warning Pay attention! Be double careful when editing orders.
-            await _orderRepository.UpdateAsync(order);
+            await _productService.UpdateProductsAsync(order.Items.Select(i => i.Product).ToList());
+            //#warning Pay attention! Be double careful when editing orders.            
             return new Result<OrderDto>(order.ToOrderDto(), true, "no error");
         }
 
@@ -54,14 +57,15 @@ namespace StormyCommerce.Core.Services.Orders
                 return new Result<OrderDto>(entry.ToOrderDto(), false, "We need valid info to create a order,order data don't have any data");
             if (entry.Items == null)
                 return new Result<OrderDto>(entry.ToOrderDto(), false, "You have no items to create a order");                                                            
-            var shipment = _shippingService.CalculateShipmentDimensions(entry);            
-            entry.Shipment = shipment;
+            //var shipment = _shippingService.CalculateShipmentDimensions(entry);            
+            //entry.Shipment = shipment;            
+            await _orderRepository.AddAsync(entry);
             entry.Items.ForEach(o => {
-                o.Product.UnitsInStock -= o.Quantity; 
-                o.Product.UnitsOnOrder += o.Quantity;                                
+                o.Product.UnitsInStock -= o.Quantity;
+                o.Product.UnitsOnOrder += o.Quantity;
             });
-            await _orderRepository.AddAsync(entry);   
-                                
+            await _productService.UpdateProductsAsync(entry.Items.Select(i => i.Product).ToList());
+            //await _orderRepository.UpdateAsync(entry);
             return Result.Ok<OrderDto>(entry.ToOrderDto());
         }
 
@@ -85,23 +89,27 @@ namespace StormyCommerce.Core.Services.Orders
         }
         public async Task<Result<OrderDto>> GetOrderByUniqueIdAsync(Guid uniqueId)
         {
-            _orderRepository.Table
+            _orderRepository.Query()
+               .Include(order => order.Items)
+               .Include(order => order.Shipment)
+                   .ThenInclude(shipment => shipment.DestinationAddress)
+                       .ThenInclude(customerAddress => customerAddress.Owner)
+               .Include(order => order.Customer)
+                    //.ThenInclude(order => order.DefaultShippingAddress)
+               .Include(order => order.Payment)                    
+               .Load();
+            _orderRepository.Query()
             .Include(order => order.Items)            
             .Include(order => order.Payment)
             .Include(order => order.Shipment); 
 
-            var result = await _orderRepository.Table
+            var result = await _orderRepository.Query()
             .Where(o => o.OrderUniqueKey.ToString().Equals(uniqueId.ToString()))
             .FirstOrDefaultAsync();
             return new Result<OrderDto>(result.ToOrderDto(),true,"No error");
         }
         public async Task<Result<OrderDto>> GetOrderByIdAsync(long id)
-        {
-            _orderRepository.Table
-                .Include(order => order.Items)
-                .Include(order => order.Shipment)                
-                .Include(order => order.Customer);
-
+        {            
             var entity = await _orderRepository.GetByIdAsync(id);
 
             if (entity == null)
@@ -125,6 +133,19 @@ namespace StormyCommerce.Core.Services.Orders
         public Task<Result> EditOrderAsync(Guid uniqueId, StormyOrder entity)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<StormyOrder> GetStormyOrderByUniqueIdAsync(Guid uniqueId)
+        {
+            return await _orderRepository.Query().Where(o => Guid.Equals(o.OrderUniqueKey, uniqueId)).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<OrderDto>> GetAllOrdersFromCustomer(string customerId)
+        {
+            return await _orderRepository.Query()
+                .Where(c => string.Equals(c.StormyCustomerId, customerId, StringComparison.OrdinalIgnoreCase))
+                .Select(o => new OrderDto(o))
+                .ToListAsync();
         }
     }
 }

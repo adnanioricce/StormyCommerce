@@ -40,6 +40,7 @@ namespace StormyCommerce.Module.Customer
             serviceCollection.AddTransient<StormyUserStore>();
             serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();            
             serviceCollection.AddTransient<IReviewService, ReviewService>();
+            serviceCollection.AddTransient<ICustomerService,CustomerService>();
         }
         
 

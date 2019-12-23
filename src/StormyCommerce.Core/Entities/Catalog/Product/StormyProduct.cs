@@ -94,14 +94,18 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         {
             return this.ProductName.Replace(' ','-');
         }
-        public ProductDto ToProductDto()
-        {
-            return new ProductDto(this);
-        }
         
+        public bool CanOrderQuantity(int quantity)
+        {
+            return (this.UnitsInStock - this.UnitsOnOrder) >= quantity;
+        }
         public double CalculateDimensions()
         {                      
             return Height * Width * Length;
         }        
+        public ProductDto ToProductDto()
+        {
+            return new ProductDto(this);
+        }
     }
 }

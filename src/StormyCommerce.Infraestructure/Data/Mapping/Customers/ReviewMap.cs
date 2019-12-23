@@ -10,6 +10,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
             modelBuilder.Entity<Review>(entity =>
             {
                 entity.HasKey(prop => prop.Id);
+                entity.Property(prop => prop.Id).UseNpgsqlIdentityByDefaultColumn();
                 entity.HasOne(prop => prop.Author)
                     .WithMany(customer => customer.CustomerReviews)
                     .HasForeignKey(prop => prop.StormyCustomerId)                    

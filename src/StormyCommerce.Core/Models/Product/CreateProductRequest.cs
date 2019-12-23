@@ -45,13 +45,12 @@ namespace StormyCommerce.Core.Models.Requests
         public double? Diameter { get; set; }
         [Required]
         public int UnitsInStock { get; set; }        
-        public bool ProductAvailable { get; set; }
+        
         [Required]
         public string ThumbnailImage { get; set; }                
         public List<ProductMedia> Medias { get; set; } = new List<ProductMedia>();
-        public List<ProductLinkDto> Links { get; set; } = new List<ProductLinkDto>();
-        public string Note { get; set; }        
-        public int Ranking { get; set; }
+        public List<ProductLink> Links { get; set; } = new List<ProductLink>();
+        public string Note { get; set; }                
         public decimal ProductCost { get; set; }
     }
 }

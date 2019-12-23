@@ -9,12 +9,12 @@ namespace StormyCommerce.Core.Models
         public ProductCategoryDto(){}
         public ProductCategoryDto(ProductCategory productCategory)
         {
-            Category = new CategoryDto(productCategory.Category);            
+            Category = productCategory == null ? this.Category : new CategoryDto(productCategory.Category);            
         }
         public ProductCategoryDto(Category category)
         {
-            Category = new CategoryDto(category);
+            Category = category == null ? this.Category : new CategoryDto(category);
         }
-        public CategoryDto Category { get; private set; }
+        public CategoryDto Category { get; private set; } = new CategoryDto();
     }
 }

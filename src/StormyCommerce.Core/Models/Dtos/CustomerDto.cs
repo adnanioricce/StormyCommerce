@@ -1,6 +1,8 @@
 ﻿using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StormyCommerce.Core.Models.Dtos
 {
@@ -13,20 +15,20 @@ namespace StormyCommerce.Core.Models.Dtos
             Email = customer.Email;
             CPF = customer.CPF;
             PhoneNumber = customer.PhoneNumber;
-            FullName = customer.FullName;
-            DefaultBillingAddress = customer.DefaultBillingAddress ?? new CustomerAddress();
-            DefaultShippingAddress = customer.DefaultShippingAddress ?? new CustomerAddress();
-            Addresses = customer.Addresses ?? new List<CustomerAddress>();
+            FullName = customer.FullName;            
+            CustomerWishlist = new WishlistDto(customer.CustomerWishlist);
+            Addresses = customer.Addresses == null ? this.Addresses : customer.Addresses.Select(c => new CustomerAddressDto(c)).ToList();
+            CustomerReviews = customer.CustomerReviews.Select(r => new CustomerReviewDto(r)).ToList();
         }
         public string UserName { get; private set; }
         public string Email { get; private set; }
-        public IList<CustomerAddress> Addresses { get; private set; }
-        public CustomerAddress DefaultBillingAddress { get; private set; }
-        public CustomerAddress DefaultShippingAddress { get; private set; }
-        public List<CustomerReviewDto> customerReviews { get; set; }
+        public IList<CustomerAddressDto> Addresses { get; private set; } = new List<CustomerAddressDto>();        
+        public List<CustomerReviewDto> CustomerReviews { get; private set; } = new List<CustomerReviewDto>();
         public string CPF { get; private set; }
         public string PhoneNumber { get; private set; }
         public string FullName { get; private set; }
         public bool EmailConfirmed { get; set; }
+        public DateTimeOffset? DateOfBirth { get; set; }
+        public WishlistDto CustomerWishlist { get; set; }
     }
 }

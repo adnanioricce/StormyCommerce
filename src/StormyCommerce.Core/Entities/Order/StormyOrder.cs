@@ -23,8 +23,7 @@ namespace StormyCommerce.Core.Entities
             Discount = orderDto.Discount;
             IsCancelled = orderDto.IsCancelled;
             Items = orderDto.Items.Select(item => item.ToOrderItem()).ToList();
-            OrderUniqueKey = orderDto.OrderUniqueKey;                                    
-            Tax = orderDto.Tax;
+            OrderUniqueKey = orderDto.OrderUniqueKey;                                                
             Status = orderDto.Status;
             OrderDate = orderDto.OrderDate;
         }
@@ -37,16 +36,15 @@ namespace StormyCommerce.Core.Entities
         public bool IsCancelled { get; set; } = false;                 
         public string Note { get; set; }
         public string Comment { get; set; }
-        public decimal Discount { get; set; }
-        public decimal Tax { get; set; }        
+        public decimal Discount { get; set; }          
         public decimal TotalPrice { get; set; }        
-        public virtual Payment Payment { get; set; }
+        public virtual StormyPayment Payment { get; set; }
         public virtual StormyCustomer Customer { get; set; }        
         public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }        
         public DateTime? PaymentDate { get; set; }
         public virtual List<OrderItem> Items { get; set; } = new List<OrderItem>();
-        public virtual Shipment Shipment { get; set; }
+        public virtual Shipping.StormyShipment Shipment { get; set; }
         public OrderStatus Status { get; set; }        
 
         public OrderDto ToOrderDto()

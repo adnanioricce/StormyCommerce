@@ -31,16 +31,16 @@ namespace SimplCommerce.WebHost
             //setup DI
             IServiceCollection services = new ServiceCollection();
             GlobalConfiguration.ContentRootPath = contentRootPath;
-            services.AddModules(contentRootPath);
-            if(environmentName.Equals("Development")){                
+            services.AddModules(contentRootPath);                            
                services.AddDbContextPool<StormyDbContext>(options => {
-                   options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                   //options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));		   
+                   options.UseNpgsql(_configuration.GetConnectionString("LocalDb"),b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                    options.EnableDetailedErrors();
                    options.EnableSensitiveDataLogging();
                });
-            } else{
-                services.AddStormyDataStore(_configuration);
-            }                        
+            //} else{
+            //    services.AddStormyDataStore(_configuration);
+            //}                        
             var _serviceProvider = services.BuildServiceProvider();
             return _serviceProvider.GetRequiredService<StormyDbContext>();
         }

@@ -146,11 +146,25 @@ namespace SimplCommerce.WebHost.Extensions
             }
         }                
         public static IServiceCollection AddStormyDataStore(this IServiceCollection services, IConfiguration configuration)
-        {            
+        {
+            var isOnDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER");
+            if (!string.IsNullOrEmpty(isOnDocker))
+            {
+                services.AddDbContextPool<StormyDbContext>(options => {
+                    options.UseLazyLoadingProxies();
+                    options.UseLoggerFactory(Container.loggerFactory);                    
+                    options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                    options.EnableDetailedErrors();
+                    options.EnableSensitiveDataLogging();
+                });
+                return services;
+            }
             services.AddDbContextPool<StormyDbContext>(options => {
                 options.UseLazyLoadingProxies();
                 options.UseLoggerFactory(Container.loggerFactory);
-                options.UseSqlServer(configuration.GetConnectionString("TestConnection"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));                
+                options.UseSqlite("DataSource=database.db", b => b.MigrationsAssembly("SimplCommerce.WebHost"));
+                //options.UseNpgsql(configuration.GetConnectionString("LocalDb"), b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                 options.EnableDetailedErrors();
                 options.EnableSensitiveDataLogging();
             });
@@ -162,7 +176,7 @@ namespace SimplCommerce.WebHost.Extensions
                 mc.AddProfile(new CatalogProfile());
                 mc.AddProfile(new CustomerProfile());
                 mc.AddProfile(new ShippingProfile());
-                mc.AddProfile(new PagarMeMapping());
+                mc.AddProfile(new PagarMeProfile());
             });
             IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);
@@ -210,6 +224,10 @@ namespace SimplCommerce.WebHost.Extensions
                 }
             }
         }
+        // public static IServiceCollection ConfigureHttps(this IServiceCollection services)
+        // {
+            
+        // }
         public static void AddSampleData(this StormyDbContext dbContext)
         {
             
