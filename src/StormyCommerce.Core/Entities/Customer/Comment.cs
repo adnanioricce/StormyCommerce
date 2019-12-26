@@ -3,7 +3,7 @@ using StormyCommerce.Core.Entities.Catalog.Product;
 
 namespace StormyCommerce.Core.Entities.Customer
 {
-    public class Comment : BaseEntity
+    public class Comment : EntityBase
     {
         public Comment(){}
         public string Title { get; set; }

@@ -4,7 +4,7 @@ using StormyCommerce.Core.Models.Dtos;
 
 namespace StormyCommerce.Core.Entities
 {
-    public class Review : BaseEntity
+    public class Review : EntityBase
     {
         public Review()
         {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Entities
 {
-    public class Stock : BaseEntity
+    public class Stock : EntityBase
     {
         public virtual IEnumerable<StormyProduct> Products { get; set; }
 

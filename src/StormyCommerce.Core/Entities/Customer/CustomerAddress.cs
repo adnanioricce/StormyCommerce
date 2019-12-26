@@ -4,56 +4,28 @@ using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Entities.Customer
 {    
-    public class CustomerAddress : EntityWithBaseTypeId<long>
+    public class CustomerAddress : EntityBaseWithTypedId<long>
     {
         public CustomerAddress(){}
         public CustomerAddress(long id)
         {
             Id = id;
         }
-        public CustomerAddress(Address address)
+        public CustomerAddress(Common.AddressDetail address)
         {
-            this.PostalCode = address.PostalCode;
-            this.District = address.District;
-            this.Number = address.Number;
-            this.FirstAddress = address.FirstAddress;
-            this.SecondAddress = address.SecondAddress;
-            this.State = address.State;
-            this.Street = address.Street;
-            this.Country = address.Country;
-            this.Complement = address.Complement;
-            this.City = address.City;
+            this.Details = new Common.AddressDetail(address.CountryCode, address.State, address.City, address.DistrictName, address.Street, address.AddressLine1, address.AddressLine2, address.ZipCode, address.Number, address.Complement,"","");            
         }
-
-        public string Street { get; set; }
-        public string FirstAddress { get; set; }
-        public string SecondAddress { get; set; }
-        public string City { get; set; }
-        public string District { get; set; }
-        public string State { get; set; }
-        public string PostalCode { get; set; }
-        public string Number { get; set; }
-        public string Complement { get; set; }
-        public string Country { get; set; }
-        public string WhoReceives { get; set; }
-        public AddressType Type { get; set; }
+        public virtual AddressDetail Details { get; set; }        
+        public AddressType Type { get; set; }        
         public bool IsDefault { get; set; }
         public bool IsDeleted { get; set; }
         public string StormyCustomerId { get; set; }
         public virtual StormyCustomer Owner { get; set; }
+        public DateTimeOffset? LastUsedOn { get; set; }
 
-        public void SetAddress(Address address)
+        public void SetAddress(Common.AddressDetail address)
         {
-            this.PostalCode = address.PostalCode;
-            this.District = address.District;
-            this.Number = address.Number;
-            this.FirstAddress = address.FirstAddress;
-            this.SecondAddress = address.SecondAddress;
-            this.State = address.State;
-            this.Street = address.Street;
-            this.Country = address.Country;
-            this.Complement = address.Complement;
-            this.City = address.City;
+            this.Details = new Common.AddressDetail(address.CountryCode, address.State, address.City, address.DistrictName, address.Street, address.AddressLine1, address.AddressLine2, address.ZipCode, address.Number, address.Complement, "", "");            
         }
     }
 }

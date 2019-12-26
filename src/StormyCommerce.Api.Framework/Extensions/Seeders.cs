@@ -23,11 +23,11 @@ namespace StormyCommerce.Api.Framework.Extensions
         public static List<StormyProduct> StormyProductSeed(int count = 1)
         {
             var fakeProduct = new Faker<StormyProduct>("pt_BR")
-                .Rules((f,v) => {
+                .Rules((Action<Faker, StormyProduct>)((f,v) => {
                     v.Id = 0;
                     v.ProductName = f.Commerce.ProductName();
                     v.IsDeleted = false; 
-                    v.ThumbnailImage = f.Image.LoremPixelUrl(category:LoremPixelCategory.Fashion);
+                    v.ThumbnailImage = f.Image.LoremPixelUrl(category: LoremPixelCategory.Fashion);
                     v.SKU = f.Commerce.Random.AlphaNumeric(16);
                     v.Slug = f.Lorem.Slug();                    
                     v.QuantityPerUnity = f.Commerce.Random.Even(0, 100);
@@ -42,11 +42,12 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.CreatedOn = f.Date.Past();                                       
                     v.Brand = Seeders.BrandSeed(omitId:true).First(); 
                     var vendor = Seeders.StormyVendorSeed().First();
-                    vendor.Address = new VendorAddress{
-                        Address = new Core.Entities.Common.Address("br","sp","Varginha","distrito 9","rua do conhecimento","","","40028922","666","busque conhecimento")                        
+                    vendor.Address = new VendorAddress
+                    {
+                        Address = new Core.Entities.Common.AddressDetail("br","sp","Varginha","distrito 9","rua do conhecimento","","","40028922","666","busque conhecimento","","")                        
                     };                    
-                    v.Vendor = vendor;                    
-                    Seeders.MediaSeed(1).ForEach(m =>v.AddMedia(m));
+                    v.Vendor = vendor;
+                    Seeders.MediaSeed(1).ForEach(m => v.AddMedia(m));
                     v.ThumbnailImage = f.Image.LoremPixelUrl(LoremPixelCategory.Fashion);
                     var category = ProductCategorySeed(omitId:true).First();                    
                     // category.Product = v;
@@ -54,7 +55,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.Width = f.Random.Double(1.0,20.0);
                     v.Height = f.Random.Double(1.0,20.0);
                     v.Length = f.Random.Double(1.0,20.0);
-                });
+                }));
             return fakeProduct.Generate(count);
         }
         public static List<StormyShipment> ShipmentSeed(int count = 1,bool omitId = false)

@@ -2,7 +2,7 @@
 
 namespace StormyCommerce.Core.Entities.Media
 {
-    public class ProductMedia : BaseEntity
+    public class ProductMedia : EntityBase
     {
         public long MediaId { get; set; }
         public virtual Media Media { get; set; }

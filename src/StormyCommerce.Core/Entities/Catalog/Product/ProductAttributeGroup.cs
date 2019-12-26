@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductAttributeGroup : BaseEntity
+    public class ProductAttributeGroup : EntityBase
     {        
         public string Name { get; set; }
 

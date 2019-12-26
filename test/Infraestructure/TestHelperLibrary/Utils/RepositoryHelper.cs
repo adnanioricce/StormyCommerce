@@ -7,17 +7,17 @@ namespace TestHelperLibrary.Utils
 {
     public static class RepositoryHelper
     {
-        public static StormyRepository<T> GetRepository<T>() where T : BaseEntity
+        public static StormyRepository<T> GetRepository<T>() where T : EntityBase
         {
             return new StormyRepository<T>(DbContextHelper.GetDbContext());
         }
 
-        public static StormyRepository<T> GetRepository<T>(StormyDbContext context) where T : BaseEntity
+        public static StormyRepository<T> GetRepository<T>(StormyDbContext context) where T : EntityBase
         {
             return new StormyRepository<T>(context);
         }
 
-        public static StormyRepository<T> GetRepository<T>(StormyDbContext context, List<T> seed = null) where T : BaseEntity
+        public static StormyRepository<T> GetRepository<T>(StormyDbContext context, List<T> seed = null) where T : EntityBase
         {
             if (seed == null)
                 return GetRepository<T>(context);

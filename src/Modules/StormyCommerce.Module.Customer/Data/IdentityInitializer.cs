@@ -68,12 +68,12 @@ namespace StormyCommerce.Module.Customer.Data
                     EmailConfirmed = true ,                    
                     Addresses = new List<CustomerAddress>
                     {
-                        new CustomerAddress(new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento")) 
+                        new CustomerAddress(new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","","")) 
                         { 
                             Type = AddressType.Billing,
                             IsDefault = true                        
                         },                        
-                        new CustomerAddress(new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"))
+                        new CustomerAddress(new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","",""))
                         {
                             Type = AddressType.Shipping,
                             IsDefault = true
@@ -93,12 +93,12 @@ namespace StormyCommerce.Module.Customer.Data
                 EmailConfirmed = true,
                 Addresses = new List<CustomerAddress>
                     {
-                        new CustomerAddress(new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"))
+                        new CustomerAddress(new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","",""))
                         {
                             Type = AddressType.Billing,
                             IsDefault = true
                         },
-                        new CustomerAddress(new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"))
+                        new CustomerAddress(new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","",""))
                         {
                             Type = AddressType.Shipping,
                             IsDefault = true

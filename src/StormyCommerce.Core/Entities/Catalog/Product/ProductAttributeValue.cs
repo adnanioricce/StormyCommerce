@@ -1,6 +1,6 @@
 ﻿namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductAttributeValue : BaseEntity
+    public class ProductAttributeValue : EntityBase
     {
         public long AttributeId { get; set; }
 

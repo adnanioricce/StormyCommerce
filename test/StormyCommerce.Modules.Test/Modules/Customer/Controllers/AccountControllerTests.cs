@@ -79,7 +79,7 @@ namespace StormyCommerce.Modules.Tests
         {
             // Arrange            
             var model = new CreateShippingAddressRequest {
-                Address = new Core.Entities.Common.Address("br", 
+                Address = new Core.Entities.Common.AddressDetail("br", 
                 "são paulo",
                 "cidade",
                 "bairro",
@@ -88,7 +88,9 @@ namespace StormyCommerce.Modules.Tests
                 "segundo endereço",
                 "123456789",
                 "numero",
-                "complemento"),
+                "complemento",
+                "",
+                ""),
                 Type = AddressType.Shipping,
                 WhoReceives = "adnan"
             };
@@ -128,7 +130,7 @@ namespace StormyCommerce.Modules.Tests
             // Arrange            
             var request = new EditCustomerAddressRequest
             {
-                Address = new Core.Entities.Common.Address("br",
+                Address = new Core.Entities.Common.AddressDetail("br",
                 "são paulo",
                 "cidade",
                 "bairro",
@@ -137,7 +139,9 @@ namespace StormyCommerce.Modules.Tests
                 "segundo endereço",
                 "123456789",
                 "numero",
-                "complemento"),
+                "complemento",
+                "",
+                ""),
                 WhoReceives = "aguinobaldo"
             };
 

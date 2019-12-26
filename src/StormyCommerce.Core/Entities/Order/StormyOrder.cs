@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace StormyCommerce.Core.Entities
 {
-    public class StormyOrder : BaseEntity
+    public class StormyOrder : EntityBase
     {
         public StormyOrder(long id)
         {

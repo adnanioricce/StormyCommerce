@@ -4,7 +4,7 @@ using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
 
 namespace StormyCommerce.Core.Entities.Order
 {
-    public class OrderItem : BaseEntity
+    public class OrderItem : EntityBase
     {
         public OrderItem(long id)
         {

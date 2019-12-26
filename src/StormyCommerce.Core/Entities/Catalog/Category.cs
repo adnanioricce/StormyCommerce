@@ -5,7 +5,7 @@ using System.Linq;
 namespace StormyCommerce.Core.Entities.Catalog
 {
     //TODO:Change DataAnotation mapping to FluentAPI mapping
-    public class Category : BaseEntity
+    public class Category : EntityBase
     {
         public Category(){}
 

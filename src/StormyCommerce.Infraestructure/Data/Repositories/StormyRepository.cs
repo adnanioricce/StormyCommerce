@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace StormyCommerce.Infraestructure.Data.Repositories
 {
-    public class StormyRepository<TEntity> : IStormyRepository<TEntity> where TEntity : EntityWithBaseTypeId<long>
+    public class StormyRepository<TEntity> : IStormyRepository<TEntity> where TEntity : EntityBaseWithTypedId<long>
     {        
         protected readonly StormyDbContext context;
 

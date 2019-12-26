@@ -2,7 +2,7 @@
 
 namespace StormyCommerce.Core.Entities.Payments
 {
-    public class StormyPayment : BaseEntity
+    public class StormyPayment : EntityBase
     {
         public StormyPayment(long id)
         {

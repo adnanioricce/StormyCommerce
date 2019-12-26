@@ -3,7 +3,7 @@
 //TODO: Use FluentAPI instead of DataAnnotations
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductTemplate : BaseEntity
+    public class ProductTemplate : EntityBase
     {
         public string Name { get; set; }
         public long StormyProductId { get; set; }

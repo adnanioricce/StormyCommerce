@@ -3,7 +3,7 @@ using System;
 
 namespace StormyCommerce.Core.Entities.Order
 {
-    public class OrderHistory : BaseEntity
+    public class OrderHistory : EntityBase
     {
         public long StormyOrderId { get; set; }
         public virtual StormyOrder Order { get; set; }

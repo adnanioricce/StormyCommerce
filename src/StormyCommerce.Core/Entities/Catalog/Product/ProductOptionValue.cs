@@ -2,7 +2,7 @@
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductOptionValue : BaseEntity
+    public class ProductOptionValue : EntityBase
     {
         public long OptionId { get; set; }
         public virtual ProductOption Option { get; set; }

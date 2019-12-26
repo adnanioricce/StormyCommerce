@@ -4,7 +4,7 @@ using StormyCommerce.Core.Entities.Common;
 
 namespace StormyCommerce.Core.Entities.Vendor
 {
-    public class VendorAddress : EntityWithBaseTypeId<long>
+    public class VendorAddress : EntityBaseWithTypedId<long>
     {   
 
         public virtual Address Address { get; set; }

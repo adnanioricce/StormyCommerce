@@ -1,6 +1,6 @@
 ﻿namespace StormyCommerce.Core.Entities
 {
-    public class EntityType : EntityWithBaseTypeId<string>
+    public class EntityType : EntityBaseWithTypedId<string>
     {
         public EntityType()
         {

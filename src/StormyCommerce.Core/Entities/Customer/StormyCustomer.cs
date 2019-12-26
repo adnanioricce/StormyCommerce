@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Entities.User;
 using StormyCommerce.Core.Models.Dtos;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 
 namespace StormyCommerce.Core.Entities.Customer
 {    
-    public class StormyCustomer : IdentityUser<string>,IEntityWithBaseTypeId<string>
+    public class StormyCustomer : IdentityUser<string>,IEntityBaseWithTypedId<string>
     {
         public StormyCustomer(){}
 
@@ -24,17 +25,22 @@ namespace StormyCommerce.Core.Entities.Customer
             UserName = customerDto.UserName;
             FullName = customerDto.FullName;                                             
         }                
-        public string CPF { get; set; }
-        public virtual List<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();        
+        public string CPF { get; set; }                
         public long? CustomerReviewsId { get; set; }
-        public virtual List<Review> CustomerReviews { get; set; } = new List<Review>();                
+        public virtual ICollection<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();        
+        public virtual ICollection<Review> CustomerReviews { get; set; } = new List<Review>();                
+        public virtual ICollection<UserRole> Roles { get; set; } = new List<UserRole>();
+        public virtual ICollection<CustomerGroupUser> CustomerGroups { get; set; } = new List<CustomerGroupUser>();
         public virtual Wishlist CustomerWishlist { get; set; } = new Wishlist();
-        public string FullName { get; set; }        
+        public long? VendorId { get; set; }
+        public string FullName { get; set; }                
         public string RefreshTokenHash { get; set; }
         public DateTimeOffset? DateOfBirth { get; set; }                        
-        public virtual ApplicationRole Role { get; set; } 
+        // public virtual ApplicationRole Role { get; set; }         
         public DateTimeOffset CreatedOn { get; set; }
-        
+        public DateTimeOffset LastModified { get; set; } = DateTime.UtcNow;        
+        public string Culture { get; set; }
+        public string ExtensionData { get; set; }
         public void RemoveAddress(long addressId)
         {
             this.Addresses.Remove(this.Addresses.FirstOrDefault(a => a.Id == addressId));
@@ -44,7 +50,9 @@ namespace StormyCommerce.Core.Entities.Customer
             this.CustomerWishlist = null;
             this.Addresses = null;
             this.CustomerReviews = null;
-            this.Role = null;
+            this.Roles = null;
+            this.CustomerGroups = null;
+
         }
     }
 }

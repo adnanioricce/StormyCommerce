@@ -60,11 +60,11 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.FullName));
-            CreateMap<Core.Entities.Common.Address, Address>()
+            CreateMap<Core.Entities.Common.AddressDetail, Address>()
                 .ForMember(dest => dest.Complementary,opt => opt.MapFrom(src => src.Complement))
-                .ForMember(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.District))
+                .ForMember(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.DistrictName))
                 .ForMember(dest => dest.StreetNumber,opt => opt.MapFrom(src => src.Number))
-                .ForMember(dest => dest.Zipcode,opt => opt.MapFrom(src => src.PostalCode));
+                .ForMember(dest => dest.Zipcode,opt => opt.MapFrom(src => src.ZipCode));
             CreateMap<StormyCustomer, Billing>()            
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))                                
                 //.ForPath(dest => dest.Address, opt => opt.MapFrom(src => src.DefaultBillingAddress))
@@ -108,18 +108,18 @@ namespace StormyCommerce.WebHost.Mappings
                 //.ForMember(p => p.DefaultShippingAddress, opt => opt.MapFrom(src => src.Address))
                 .ForMember(p => p.Id, opt => opt.MapFrom(src => src.ExternalId))
                 .ForMember(p => p.FullName, opt => opt.MapFrom(src => src.Name));                
-            CreateMap<Core.Entities.Common.Address,Address>()
+            CreateMap<Core.Entities.Common.AddressDetail,Address>()
                 .ForMember(dest => dest.Complementary,opt => opt.MapFrom(src => src.Complement))
-                .ForMember(dest => dest.Zipcode,opt => opt.MapFrom(src => src.PostalCode))
-                .ForMember(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.District))
+                .ForMember(dest => dest.Zipcode,opt => opt.MapFrom(src => src.ZipCode))
+                .ForMember(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.DistrictName))
                 .ForMember(dest => dest.StreetNumber,opt => opt.MapFrom(src => src.Number));
-            CreateMap<Core.Entities.Common.Address,Shipping>()                
+            CreateMap<Core.Entities.Common.AddressDetail,Shipping>()                
                 .ForPath(dest => dest.Address.Complementary,opt => opt.MapFrom(src => src.Complement))
-                .ForPath(dest => dest.Address.Zipcode,opt => opt.MapFrom(src => src.PostalCode))
-                .ForPath(dest => dest.Address.Neighborhood,opt => opt.MapFrom(src => src.District))
+                .ForPath(dest => dest.Address.Zipcode,opt => opt.MapFrom(src => src.ZipCode))
+                .ForPath(dest => dest.Address.Neighborhood,opt => opt.MapFrom(src => src.DistrictName))
                 .ForPath(dest => dest.Address.StreetNumber,opt => opt.MapFrom(src => src.Number))
                 .ForPath(dest => dest.Address.Street,opt => opt.MapFrom(src => src.Street))
-                .ForPath(dest => dest.Address.Country,opt => opt.MapFrom(src => src.Country))
+                .ForPath(dest => dest.Address.Country,opt => opt.MapFrom(src => src.CountryCode))
                 .ForPath(dest => dest.Address.City,opt => opt.MapFrom(src => src.City))
                 .ForPath(dest => dest.Address.State,opt => opt.MapFrom(src => src.State));                
             CreateMap<CustomerAddress,Address>()                                       

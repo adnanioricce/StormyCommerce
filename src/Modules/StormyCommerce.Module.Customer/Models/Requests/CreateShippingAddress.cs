@@ -11,7 +11,7 @@ namespace StormyCommerce.Module.Customer.Models.Requests
     public class CreateShippingAddressRequest
     {
         [Required]
-        public Address Address { get; set; }
+        public AddressDetail Address { get; set; }
         public string WhoReceives { get; set; }
         [Required]
         public AddressType Type { get; set; }

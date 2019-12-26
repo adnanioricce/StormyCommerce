@@ -2,7 +2,7 @@
 
 namespace StormyCommerce.Core.Entities.Media
 {
-    public class Media : BaseEntity
+    public class Media : EntityBase
     {
         public string Caption { get; set; }
         public long FileSize { get; set; }

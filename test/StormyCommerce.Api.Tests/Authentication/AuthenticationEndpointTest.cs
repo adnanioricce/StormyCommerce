@@ -40,7 +40,7 @@ namespace StormyCommerce.Api.Tests.Authentication
             var response = await client.PostAsJsonAsync("/api/Account/add_shipping_address",new CreateShippingAddressRequest { 
                 IsDefault = true,
                 Type = Core.Entities.Customer.AddressType.Shipping,
-                Address = new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"),
+                Address = new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","",""),
                 WhoReceives = "I"
             });
             Assert.True(response.IsSuccessStatusCode);
@@ -66,7 +66,7 @@ namespace StormyCommerce.Api.Tests.Authentication
             await SetUserForRequest();
             var response = await client.PostAsJsonAsync("/api/Account/edit_shipping_address", new EditCustomerAddressRequest
             {                
-                Address = new Address("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento"),
+                Address = new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","",""),
                 WhoReceives = "I"
             });
         }

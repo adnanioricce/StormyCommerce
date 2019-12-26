@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Entities.Shipping
 {    
-    public class StormyShipment : BaseEntity
+    public class StormyShipment : EntityBase
     {
         public StormyShipment(long id)
         {

@@ -1,6 +1,6 @@
 ﻿namespace StormyCommerce.Core.Entities
 {
-    public class Entity : BaseEntity
+    public class Entity : EntityBase
     {        
         public Entity(){}
 

@@ -2,7 +2,7 @@
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductOption : BaseEntity
+    public class ProductOption : EntityBase
     {
         public ProductOption(){}
 

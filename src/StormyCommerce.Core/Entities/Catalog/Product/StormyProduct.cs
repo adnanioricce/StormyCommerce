@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class StormyProduct : BaseEntity
+    public class StormyProduct : EntityBase
     {
         public StormyProduct(long id){
             Id = id;

@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StormyCommerce.Core.Entities.Customer
 {
-    public class Wishlist : BaseEntity
+    public class Wishlist : EntityBase
     {
         public string StormyCustomerId { get; set; }
+        public string SharingCode { get; set; }
         public virtual StormyCustomer Customer { get; set; }
-        public virtual ICollection<WishlistItem> WishlistItems { get; set; } = new List<WishlistItem>();
+        public virtual ICollection<WishlistItem> Items { get; set; } = new List<WishlistItem>();
+        public DateTimeOffset CreatedOn { get; set; }
 
         /// <summary>
         /// Adds a product available on the catalog of the store on the Wishlist
@@ -15,8 +18,8 @@ namespace StormyCommerce.Core.Entities.Customer
         /// <param name="productId">the Id of the product been added</param>
         public bool AddItem(long productId)
         {            
-            if(!WishlistItems.Any(it => it.ProductId == productId)){
-                WishlistItems.Add(new WishlistItem{
+            if(!Items.Any(it => it.ProductId == productId)){
+                Items.Add(new WishlistItem{
                     Wishlist = this,
                     ProductId = productId
                 });
@@ -27,8 +30,8 @@ namespace StormyCommerce.Core.Entities.Customer
 
         public bool Remove(long productId)
         {
-            if(WishlistItems.Any(it => it.ProductId == productId)){
-                WishlistItems.Remove(this.WishlistItems.Where(i => i.ProductId == productId).FirstOrDefault());
+            if(Items.Any(it => it.ProductId == productId)){
+                Items.Remove(this.Items.Where(i => i.ProductId == productId).FirstOrDefault());
                 return true;
             }
             return false;

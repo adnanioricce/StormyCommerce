@@ -2,7 +2,7 @@
 using StormyCommerce.Core.Entities.Media;
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductLink : BaseEntity
+    public class ProductLink : EntityBase
     {
         public long ProductId { get; set; }
 

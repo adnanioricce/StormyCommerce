@@ -2,7 +2,7 @@
 using StormyCommerce.Core.Entities.Catalog;
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductCategory : BaseEntity
+    public class ProductCategory : EntityBase
     {
         public int DisplayOrder { get; set; }
         public long CategoryId { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class Brand : BaseEntity
+    public class Brand : EntityBase
     {
         public Brand(long id)
         {

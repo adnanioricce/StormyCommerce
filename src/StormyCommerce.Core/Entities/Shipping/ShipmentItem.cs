@@ -1,6 +1,6 @@
 ﻿namespace StormyCommerce.Core.Entities.Shipping
 {
-    public class ShipmentItem : BaseEntity
+    public class ShipmentItem : EntityBase
     {
         public int ShipmentId { get; set; }
         public int OrderItemId { get; set; }

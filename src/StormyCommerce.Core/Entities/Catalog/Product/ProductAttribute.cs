@@ -2,7 +2,7 @@
 
 namespace StormyCommerce.Core.Entities.Catalog.Product
 {
-    public class ProductAttribute : BaseEntity
+    public class ProductAttribute : EntityBase
     {
         public long GroupId { get; set; }
         public virtual ProductAttributeGroup Group { get; set; }
