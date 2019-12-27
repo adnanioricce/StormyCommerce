@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using StormyCommerce.Core.Entities.Customer;
 
@@ -8,13 +9,13 @@ namespace TestHelperLibrary.Utils
 {
     public static class IdentityTestUtils
     {
-        public static IEnumerable<Claim> GetClaims(StormyCustomer user)
+        public static IEnumerable<Claim> GetClaims(StormyUser user)
         {
             return new[]{
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserGuid),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Iat, value: DateTimeOffset.UtcNow.ToString("yyyy-MM-dd")),
-                new Claim(ClaimTypes.Role,user.Role.Name)
+                new Claim(ClaimTypes.Role,user.Roles.FirstOrDefault().Role.Name)
                 };
         }
         public static ClaimsIdentity GetClaimsIdentity(IEnumerable<Claim> claims,string authType)
@@ -25,7 +26,7 @@ namespace TestHelperLibrary.Utils
         {
             return new ClaimsPrincipal(identity);
         }
-        public static ClaimsPrincipal GetClaimsPrincipal(StormyCustomer user)
+        public static ClaimsPrincipal GetClaimsPrincipal(StormyUser user)
         {
             var claims = GetClaims(user);
             var identity = new ClaimsIdentity(claims, "Bearer");

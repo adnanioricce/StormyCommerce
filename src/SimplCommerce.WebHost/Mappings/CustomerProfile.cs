@@ -13,21 +13,21 @@ namespace StormyCommerce.WebHost.Mappings
         {            
             CreateMap<CustomerReviewDto, Review>();
             CreateMap<Review, CustomerReviewDto>();
-            CreateMap<CustomerDto, StormyCustomer>();
-            CreateMap<StormyCustomer, CustomerDto>();
+            CreateMap<CustomerDto, StormyUser>();
+            CreateMap<StormyUser, CustomerDto>();
             CreateMap<CustomerAddress, CustomerAddressDto>()
-                .ForPath(dest => dest.Address.City,opt => opt.MapFrom(src => src.City))
-                .ForPath(dest => dest.Address.State, opt => opt.MapFrom(src => src.State))
-                .ForPath(dest => dest.Address.CountryCode, opt => opt.MapFrom(src => src.Country))
-                .ForPath(dest => dest.Address.Complement, opt => opt.MapFrom(src => src.Complement))
-                .ForPath(dest => dest.Address.ZipCode, opt => opt.MapFrom(src => src.PostalCode))
-                .ForPath(dest => dest.Address.Number, opt => opt.MapFrom(src => src.Number))
-                .ForPath(dest => dest.Address.Street, opt => opt.MapFrom(src => src.Street))
-                .ForPath(dest => dest.Address.AddressLine1, opt => opt.MapFrom(src => src.FirstAddress))
-                .ForPath(dest => dest.Address.AddressLine2, opt => opt.MapFrom(src => src.SecondAddress));
+                .ForPath(dest => dest.Address.City,opt => opt.MapFrom(src => src.Details.City))
+                .ForPath(dest => dest.Address.State, opt => opt.MapFrom(src => src.Details.State))
+                .ForPath(dest => dest.Address.CountryCode, opt => opt.MapFrom(src => src.Details.CountryCode))
+                .ForPath(dest => dest.Address.Complement, opt => opt.MapFrom(src => src.Details.Complement))
+                .ForPath(dest => dest.Address.ZipCode, opt => opt.MapFrom(src => src.Details.ZipCode))
+                .ForPath(dest => dest.Address.Number, opt => opt.MapFrom(src => src.Details.Number))
+                .ForPath(dest => dest.Address.Street, opt => opt.MapFrom(src => src.Details.Street))
+                .ForPath(dest => dest.Address.AddressLine1, opt => opt.MapFrom(src => src.Details.AddressLine1))
+                .ForPath(dest => dest.Address.AddressLine2, opt => opt.MapFrom(src => src.Details.AddressLine2));
             CreateMap<WriteReviewRequest, Review>();
-            CreateMap<CreateCustomerRequest, StormyCustomer>();
-            CreateMap<EditCustomerRequest, StormyCustomer>()
+            CreateMap<CreateCustomerRequest, StormyUser>();
+            CreateMap<EditCustomerRequest, StormyUser>()
                 .ForAllMembers(opt => opt.Condition((src,dest,srcMember) => srcMember != null));
             CreateMap<EditCustomerAddressRequest,CustomerAddress>();
             CreateMap<CreateShippingAddressRequest,CustomerAddress>();

@@ -39,11 +39,11 @@ namespace StormyCommerce.Core.Services.Customer
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<Review>> GetCustomerReviews(string customerId)
+        public async Task<List<Review>> GetCustomerReviews(long customerId)
         {
             return await _reviewRepository.Query()
                 .Include(r => r.Author)
-                .Where(r => r.StormyCustomerId == customerId)
+                .Where(r => r.UserId == customerId)
                 .ToListAsync();
         }
     }

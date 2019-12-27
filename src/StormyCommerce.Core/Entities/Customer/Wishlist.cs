@@ -6,11 +6,10 @@ namespace StormyCommerce.Core.Entities.Customer
 {
     public class Wishlist : EntityBase
     {
-        public string StormyCustomerId { get; set; }
+        public long UserId { get; set; }
         public string SharingCode { get; set; }
-        public virtual StormyCustomer Customer { get; set; }
-        public virtual ICollection<WishlistItem> Items { get; set; } = new List<WishlistItem>();
-        public DateTimeOffset CreatedOn { get; set; }
+        public virtual StormyUser User { get; set; }
+        public virtual ICollection<WishlistItem> Items { get; set; } = new List<WishlistItem>();        
 
         /// <summary>
         /// Adds a product available on the catalog of the store on the Wishlist

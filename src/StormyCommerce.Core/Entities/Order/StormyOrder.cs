@@ -29,7 +29,7 @@ namespace StormyCommerce.Core.Entities
         }
         public StormyOrder(){}
         public Guid OrderUniqueKey { get; set; }
-        public string StormyCustomerId { get; set; }        
+        public long UserId { get; set; }        
         public long PaymentId { get; set; }
         public long? ShipmentId { get; set; }
         public bool PickUpInStore { get; set; }
@@ -39,7 +39,7 @@ namespace StormyCommerce.Core.Entities
         public decimal Discount { get; set; }          
         public decimal TotalPrice { get; set; }        
         public virtual StormyPayment Payment { get; set; }
-        public virtual StormyCustomer Customer { get; set; }        
+        public virtual StormyUser Customer { get; set; }        
         public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }        
         public DateTime? PaymentDate { get; set; }

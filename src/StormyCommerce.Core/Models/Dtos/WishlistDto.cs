@@ -12,7 +12,7 @@ namespace StormyCommerce.Core.Models.Dtos
         }
         public WishlistDto(Wishlist wishlist)
         {
-            Items = wishlist.WishlistItems.Select(i => new WishListItemDto(i)).ToList();
+            Items = wishlist.Items.Select(i => new WishListItemDto(i)).ToList();
         }
         public ICollection<WishListItemDto> Items { get; set; } = new List<WishListItemDto>();
     }

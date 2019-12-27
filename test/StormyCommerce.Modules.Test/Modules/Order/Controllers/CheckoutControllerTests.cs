@@ -35,7 +35,7 @@ namespace StormyCommerce.Modules.Tests
         public CheckoutControllerTests(IUserIdentityService identityService,
             IOrderService orderService,
             IMapper mapper,
-            UserManager<StormyCustomer> userManager,
+            UserManager<StormyUser> userManager,
             IPaymentProcessor paymentProcessor,
             IProductService productService,
             IShippingService shippingService,

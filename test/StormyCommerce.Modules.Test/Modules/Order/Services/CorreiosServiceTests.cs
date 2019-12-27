@@ -64,7 +64,7 @@ namespace StormyCommerce.Modules.Tests
                     TotalPrice = 100
                 },
                 DestinationAddress = new Core.Entities.Customer.CustomerAddress { 
-                    PostalCode = "08621030"
+                    Details = new Core.Entities.Common.AddressDetail("","","","","","","","08621030","","","","")
                 }                
                 
             };

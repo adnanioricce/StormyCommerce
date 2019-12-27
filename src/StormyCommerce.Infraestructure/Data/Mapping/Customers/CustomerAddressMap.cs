@@ -11,7 +11,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
             modelBuilder.Entity<CustomerAddress>(entity => {
                 entity.ToTable("Core_CustomerAddress");                
 
-                entity.HasIndex(e => e.StormyCustomerId);
+                entity.HasIndex(e => e.UserId);
 
                 entity.Property(e => e.LastUsedOn).HasColumnType("timestamp with time zone");
 
@@ -23,7 +23,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
 
                 entity.HasOne(prop => prop.Owner)
                     .WithMany()
-                    .HasForeignKey(prop => prop.StormyCustomerId)
+                    .HasForeignKey(prop => prop.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.OwnsOne(prop => prop.Details);

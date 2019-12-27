@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace StormyCommerce.Core.Entities.Cms
 {
@@ -17,11 +17,11 @@ namespace StormyCommerce.Core.Entities.Cms
         
         public string WidgetId { get; set; }
 
-        public Widget Widget { get; set; }
+        public virtual Widget Widget { get; set; }
 
         public long WidgetZoneId { get; set; }
 
-        public WidgetZone WidgetZone { get; set; }
+        public virtual WidgetZone WidgetZone { get; set; }
 
         public int DisplayOrder { get; set; }
 

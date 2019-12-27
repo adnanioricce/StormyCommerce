@@ -8,7 +8,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Address
         {
             modelBuilder.Entity<Core.Entities.Address.Address>((System.Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Core.Entities.Address.Address>>)(entity =>
             {
-                entity.OwnsOne((System.Linq.Expressions.Expression<System.Func<Core.Entities.Address.Address, Core.Entities.Common.AddressDetail>>)(prop => (Core.Entities.Common.AddressDetail)prop.Detail),a => {
+                entity.OwnsOne((System.Linq.Expressions.Expression<System.Func<Core.Entities.Address.Address, Core.Entities.Common.AddressDetail>>)(prop => prop.Detail),a => {
                     a.Property(prop => prop.AddressLine1).HasMaxLength(450);
                     a.Property(prop => prop.AddressLine2).HasMaxLength(450);
                     a.Property(prop => prop.City).HasMaxLength(450);

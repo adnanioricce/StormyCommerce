@@ -19,8 +19,9 @@ namespace StormyCommerce.Core.Entities.Customer
         public AddressType Type { get; set; }        
         public bool IsDefault { get; set; }
         public bool IsDeleted { get; set; }
-        public string StormyCustomerId { get; set; }
-        public virtual StormyCustomer Owner { get; set; }
+        public string WhoReceives { get; set; }
+        public long UserId { get; set; }        
+        public virtual StormyUser Owner { get; set; }
         public DateTimeOffset? LastUsedOn { get; set; }
 
         public void SetAddress(Common.AddressDetail address)

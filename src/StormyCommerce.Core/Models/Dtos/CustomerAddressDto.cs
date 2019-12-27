@@ -9,7 +9,7 @@ namespace StormyCommerce.Core.Models.Dtos
         public CustomerAddressDto(CustomerAddress address)
         {
             Id = address.Id;
-            Address = address == null ? this.Address : new AddressDetail(address.Country,address.State,address.City,address.District,address.Street,address.FirstAddress,address.SecondAddress,address.PostalCode,address.PostalCode,address.Complement,"","");
+            Address = address == null ? this.Address : new AddressDetail(address.Details.CountryCode,address.Details.State,address.Details.City,address.Details.DistrictName,address.Details.Street,address.Details.AddressLine1,address.Details.AddressLine2,address.Details.ZipCode,address.Details.Number,address.Details.Complement,"","");
             WhoReceives = address == null ? this.WhoReceives : address.WhoReceives; 
             Owner = address.Owner == null ? this.Owner : new CustomerDto(address.Owner);
             IsDefault = address.IsDefault;

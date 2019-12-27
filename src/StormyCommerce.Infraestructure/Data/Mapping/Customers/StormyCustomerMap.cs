@@ -7,7 +7,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StormyCustomer>(entity =>
+            modelBuilder.Entity<StormyUser>(entity =>
             {         
                 entity.ToTable("Core_User");                
 
@@ -52,11 +52,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                     .HasForeignKey(p => p.UserId);                    
                 
                 entity.Property(prop => prop.DateOfBirth);                
-            });            
-            modelBuilder.Entity<ApplicationRole>(entity => {
-                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();                
-            });                        
-            
+            });                                                        
         }
     }
 }

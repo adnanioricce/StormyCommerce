@@ -27,6 +27,6 @@ namespace StormyCommerce.Core.Entities.Vendor
         public string SizeUrl { get; set; }
         public string Logo { get; set; }                
         public string Note { get; set; }
-        public ICollection<StormyCustomer> Users { get; set; } = new List<StormyCustomer>();
+        public virtual ICollection<StormyUser> Users { get; set; } = new List<StormyUser>();
     }
 }

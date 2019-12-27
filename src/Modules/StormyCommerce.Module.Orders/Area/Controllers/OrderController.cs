@@ -40,7 +40,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         {
             var currentUser = await _identityService.GetUserByClaimPrincipal(this.User);
             var order = await _orderService.GetStormyOrderByUniqueIdAsync(key);
-            if(!(order.StormyCustomerId == currentUser.Id)){
+            if(!(order.UserId == currentUser.Id)){
                 return BadRequest(Result.Fail("you don't have permission to see this order"));
             }
             return new OrderDto(order);

@@ -1,20 +1,15 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.User;
 
 namespace StormyCommerce.Infraestructure.Data.Stores
 {
-    public class StormyUserStore : UserStore<StormyCustomer, ApplicationRole, StormyDbContext>
+    public class StormyUserStore : UserStore<StormyUser, Role, StormyDbContext, long, IdentityUserClaim<long>, UserRole,
+        IdentityUserLogin<long>, IdentityUserToken<long>, IdentityRoleClaim<long>>
     {
-        public StormyUserStore(StormyDbContext context, IdentityErrorDescriber describer = null) : base(context, describer)
+        public StormyUserStore(StormyDbContext context, IdentityErrorDescriber describer) : base(context, describer)
         {
-        }        
+        }
     }
 }

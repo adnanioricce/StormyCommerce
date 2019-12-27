@@ -3,17 +3,13 @@ using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Vendor;
 
-namespace StormyCommerce.Infraestructure.Data.Mapping.Common
+namespace StormyCommerce.Infraestructure.Data.Mapping.Vendors
 {
-    public class CommonMap : IStormyModelBuilder
+    public class VendorAddressMap : IStormyModelBuilder
     {
         public void Build(ModelBuilder modelBuilder)
         {            
-            modelBuilder.Entity<VendorAddress>((System.Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<VendorAddress>>)(entity => {
-                entity
-                .HasOne(prop => prop.Owner)
-                .WithOne(prop => prop.Address)
-                .HasForeignKey<StormyVendor>(prop => prop.VendorAddressId);
+            modelBuilder.Entity<VendorAddress>((System.Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<VendorAddress>>)(entity => {                
                 entity.OwnsOne((System.Linq.Expressions.Expression<System.Func<VendorAddress, Core.Entities.Common.AddressDetail>>)(prop => (Core.Entities.Common.AddressDetail)prop.Address));
             }));
         }

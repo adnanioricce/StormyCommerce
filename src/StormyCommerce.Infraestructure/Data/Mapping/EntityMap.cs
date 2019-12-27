@@ -28,9 +28,11 @@ namespace StormyCommerce.Infraestructure.Data.Mapping
                 entity.Property(prop => prop.EntityTypeId)
                     .HasMaxLength(450)
                     .IsRequired();
-                entity.HasOne(prop => prop.EntityTypeId)
+
+                entity.HasOne(prop => prop.EntityType)
                     .WithMany()
                     .HasForeignKey(d => d.EntityTypeId);
+
                 entity.HasQueryFilter(prop => !prop.IsDeleted);
             });
         }

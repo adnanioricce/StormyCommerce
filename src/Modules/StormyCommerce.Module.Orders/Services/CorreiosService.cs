@@ -92,7 +92,7 @@ namespace StormyCommerce.Module.Orders.Services
                 nVlDiametro = 0,
                 nCdServico = ServiceCode.Sedex,                                                            
                 nCdFormato = (int)FormatCode.CaixaOuPacote, 
-                sCepDestino = shipment.DestinationAddress.PostalCode,
+                sCepDestino = shipment.DestinationAddress.Details.ZipCode,
                 sCdAvisoRecebimento = "N",
                 sCdMaoPropria = "N",
                 //TODO: this is the corrected value or the total?

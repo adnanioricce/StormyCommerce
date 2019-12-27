@@ -15,10 +15,10 @@ namespace StormyCommerce.Core.Interfaces.Infraestructure.Settings
         Task<Dictionary<string, string>> GetAllSettingsAsync(long userId);
 
         //The original ISettingService expects a User, what is different from use my customer entity instead?
-        Task UpdateSettingForUserAsync(StormyCustomer customer, string name, string value);
+        Task UpdateSettingForUserAsync(StormyUser customer, string name, string value);
 
         Task UpdateSettingAsync(string name, string value);
 
-        void SetCustomSettingValueForUser(StormyCustomer customer, string name, string value);
+        void SetCustomSettingValueForUser(StormyUser customer, string name, string value);
     }
 }

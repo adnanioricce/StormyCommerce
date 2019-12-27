@@ -10,6 +10,7 @@ using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.User;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Infraestructure.Data;
@@ -34,10 +35,9 @@ namespace StormyCommerce.Module.Customer
             AddCustomizedIdentity(serviceCollection);
             serviceCollection.AddTransient<ITokenService, TokenService>();
             serviceCollection.AddTransient<IEmailSender, EmailSender>();
-            serviceCollection.AddScoped<UserManager<StormyCustomer>>();
-            serviceCollection.AddScoped<SignInManager<StormyCustomer>>();
-            serviceCollection.AddScoped<RoleManager<ApplicationRole>>();
-            serviceCollection.AddTransient<StormyUserStore>();
+            serviceCollection.AddScoped<UserManager<StormyUser>>();
+            serviceCollection.AddScoped<SignInManager<StormyUser>>();
+            serviceCollection.AddScoped<RoleManager<Role>>();            
             serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();            
             serviceCollection.AddTransient<IReviewService, ReviewService>();
             serviceCollection.AddTransient<ICustomerService,CustomerService>();
@@ -47,10 +47,10 @@ namespace StormyCommerce.Module.Customer
         //TODO: Move this to a extension method, like used on WebHost
         private void AddCustomizedIdentity(IServiceCollection services)
         {
-            services.AddIdentity<StormyCustomer, ApplicationRole>()
-                .AddEntityFrameworkStores<StormyDbContext>()
-                .AddUserStore<StormyUserStore>()
-                .AddRoles<ApplicationRole>()                
+            services.AddIdentity<StormyUser, Role>()
+                .AddEntityFrameworkStores<StormyDbContext>()                
+                .AddRoleStore<StormyUserStore>()
+                .AddRoles<Role>()                
                 .AddDefaultTokenProviders();
 
             services.AddTransient<StormyUserStore>();

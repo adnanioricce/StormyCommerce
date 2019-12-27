@@ -50,7 +50,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {
             var review = _mapper.Map<Review>(model);
             var customer = await _identityService.GetUserByClaimPrincipal(User);
-            review.StormyCustomerId = customer.Id;            
+            review.UserId = customer.Id;            
             await _reviewService.CreateReviewAsync(review);            
             return Result.Ok("Review was added with sucess");
         }

@@ -34,11 +34,11 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
         [HttpGet("list")]
         [Authorize(Roles.Admin)]
         [ValidateModel]
-        public IList<StormyCustomer> GetCustomersAsync()
+        public IList<StormyUser> GetCustomersAsync()
         {
             return _identityService.GetUserManager().Users.ToList();
         }                                    
-        private async Task<StormyCustomer> GetCurrentCustomer()
+        private async Task<StormyUser> GetCurrentCustomer()
         {
             return await _identityService.GetUserByClaimPrincipal(User);                       
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using StormyCommerce.Core.Entities;
@@ -8,6 +9,7 @@ using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Payments;
 using StormyCommerce.Core.Entities.Settings;
 using StormyCommerce.Core.Entities.Shipping;
+using StormyCommerce.Core.Entities.User;
 using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using System;
@@ -20,7 +22,7 @@ using System.Threading.Tasks;
 namespace StormyCommerce.Infraestructure.Data
 {
     //TODO: Methods to execute sql
-    public class StormyDbContext : IdentityDbContext,IStormyDbContext
+    public class StormyDbContext : IdentityDbContext<StormyUser,Role, long, IdentityUserClaim<long>, UserRole, IdentityUserLogin<long>, IdentityRoleClaim<long>, IdentityUserToken<long>>, IStormyDbContext
     {        
         public DbSet<AppSettings> AppSettings { get; set; }        
         public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)

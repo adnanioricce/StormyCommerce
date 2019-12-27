@@ -35,6 +35,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Generic;
 using Swashbuckle.AspNetCore.Filters;
 using StormyCommerce.Module.Customer.Models;
+using StormyCommerce.Core.Entities.User;
 
 namespace SimplCommerce.WebHost
 {
@@ -205,8 +206,8 @@ namespace SimplCommerce.WebHost
                         dbContext.Database.EnsureDeleted();
                         var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
                         dbContext.SeedDbContext();
-                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
-                        var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
+                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyUser>>();
+                        var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
                         new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
                     }
                 }

@@ -8,23 +8,24 @@ using System.Linq;
 
 namespace StormyCommerce.Core.Entities.Customer
 {    
-    public class StormyCustomer : IdentityUser<string>,IEntityBaseWithTypedId<string>
+    public class StormyUser : IdentityUser<long>, IEntityBaseWithTypedId<long>, IExtendableObject
     {
-        public StormyCustomer(){}
+        public StormyUser(){}
 
-        public StormyCustomer(string id)
+        public StormyUser(long id)
         {
             Id = id;
         }
 
-        public StormyCustomer(CustomerDto customerDto)
+        public StormyUser(CustomerDto customerDto)
         {
             CPF = customerDto.CPF;
             Email = customerDto.Email;
             PhoneNumber = customerDto.PhoneNumber;
             UserName = customerDto.UserName;
             FullName = customerDto.FullName;                                             
-        }                
+        }
+        public string UserGuid { get; set; }
         public string CPF { get; set; }                
         public long? CustomerReviewsId { get; set; }
         public virtual ICollection<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();        
@@ -40,7 +41,7 @@ namespace StormyCommerce.Core.Entities.Customer
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset LastModified { get; set; } = DateTime.UtcNow;        
         public string Culture { get; set; }
-        public string ExtensionData { get; set; }
+        public string ExtensionData { get; set; }        
         public void RemoveAddress(long addressId)
         {
             this.Addresses.Remove(this.Addresses.FirstOrDefault(a => a.Id == addressId));

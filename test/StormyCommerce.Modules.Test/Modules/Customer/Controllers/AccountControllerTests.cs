@@ -23,14 +23,14 @@ namespace StormyCommerce.Modules.Tests
     public class AccountControllerTest
     {
         private readonly AccountController _controller;
-        private readonly UserManager<StormyCustomer> _userManager;
+        private readonly UserManager<StormyUser> _userManager;
         private readonly IUserIdentityService _identityService;        
         public AccountControllerTest(IUserIdentityService identityService,
             IEmailSender emailSender,
             IAppLogger<AccountController> logger,            
             IMapper mapper,
             ICustomerService customerService,
-            UserManager<StormyCustomer> userManager)
+            UserManager<StormyUser> userManager)
         {
             _controller = new AccountController(identityService, emailSender, logger,customerService,mapper);
             _userManager = userManager;
@@ -44,7 +44,7 @@ namespace StormyCommerce.Modules.Tests
             // Arrange      
             var user = _userManager.Users.FirstOrDefault();
             user.EmailConfirmed = false;
-            string userId = user.Id;
+            long userId = user.Id;
             string code = await _identityService.CreateEmailConfirmationCode(user);
 
             // Act

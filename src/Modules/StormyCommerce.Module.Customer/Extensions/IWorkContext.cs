@@ -5,7 +5,7 @@ namespace StormyCommerce.Module.Customer.Extensions
 {
     public interface IWorkContext
     {
-        Task<StormyCustomer> GetCurrentCustomer();
-        Task<StormyCustomer> GetCurrentApplicationUser();
+        Task<StormyUser> GetCurrentCustomer();
+        Task<StormyUser> GetCurrentApplicationUser();
     }
 }

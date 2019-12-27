@@ -4,6 +4,7 @@ using PagarMe;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.User;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Interfaces.Domain.Catalog;
@@ -17,14 +18,11 @@ using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Core.Services.Orders;
 using StormyCommerce.Core.Services.Shipping;
 using StormyCommerce.Infraestructure.Data;
-using StormyCommerce.Infraestructure.Data.Stores;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Catalog.Services;
 using StormyCommerce.Module.Customer.Services;
 using StormyCommerce.Module.Orders.Interfaces;
 using StormyCommerce.Module.Orders.Services;
-using Xunit.Abstractions;
-using Xunit.DependencyInjection;
 
 namespace StormyCommerce.Modules.Tests.Modules.Extensions
 {
@@ -64,17 +62,14 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
         {
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddScoped<UserManager<StormyCustomer>>();
-            services.AddScoped<SignInManager<StormyCustomer>>();
-            services.AddScoped<RoleManager<ApplicationRole>>();
-            services.AddTransient<StormyUserStore>();
+            services.AddScoped<UserManager<StormyUser>>();
+            services.AddScoped<SignInManager<StormyUser>>();
+            services.AddScoped<RoleManager<Role>>();            
             services.AddScoped<IUserIdentityService, UserIdentityService>();
             services.AddTransient<IReviewService, ReviewService>();
             services.AddTransient<ICustomerService, CustomerService>();
-            services.AddIdentity<StormyCustomer, ApplicationRole>()
-                .AddEntityFrameworkStores<StormyDbContext>()
-                .AddUserStore<StormyUserStore>()
-                .AddRoles<ApplicationRole>()
+            services.AddIdentity<StormyUser, Role>()
+                .AddEntityFrameworkStores<StormyDbContext>()                                
                 .AddDefaultTokenProviders();
             return services;
         }

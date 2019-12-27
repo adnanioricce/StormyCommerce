@@ -7,61 +7,61 @@ using StormyCommerce.Infraestructure.Data;
 
 namespace StormyCommerce.Module.Customer.Data
 {
-    public class CustomStormyUserStore : IUserStore<StormyCustomer>
+    public class CustomStormyUserStore : IUserStore<StormyUser>
     {
         private readonly StormyDbContext dbContext;
         public CustomStormyUserStore(StormyDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
-        public async Task<IdentityResult> CreateAsync(StormyCustomer user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> CreateAsync(StormyUser user, CancellationToken cancellationToken)
         {
             dbContext.Add(user);
             var result = await dbContext.SaveChangesAsync();
             return result > 0 ? IdentityResult.Success : IdentityResult.Failed();
         }
 
-        public Task<IdentityResult> DeleteAsync(StormyCustomer user, CancellationToken cancellationToken)
+        public Task<IdentityResult> DeleteAsync(StormyUser user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<StormyCustomer> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        public Task<StormyUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<StormyCustomer> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public Task<StormyUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetNormalizedUserNameAsync(StormyCustomer user, CancellationToken cancellationToken)
+        public Task<string> GetNormalizedUserNameAsync(StormyUser user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetUserIdAsync(StormyCustomer user, CancellationToken cancellationToken)
+        public Task<string> GetUserIdAsync(StormyUser user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetUserNameAsync(StormyCustomer user, CancellationToken cancellationToken)
+        public Task<string> GetUserNameAsync(StormyUser user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetNormalizedUserNameAsync(StormyCustomer user, string normalizedName, CancellationToken cancellationToken)
+        public Task SetNormalizedUserNameAsync(StormyUser user, string normalizedName, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetUserNameAsync(StormyCustomer user, string userName, CancellationToken cancellationToken)
+        public Task SetUserNameAsync(StormyUser user, string userName, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IdentityResult> UpdateAsync(StormyCustomer user, CancellationToken cancellationToken)
+        public Task<IdentityResult> UpdateAsync(StormyUser user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Customer;
 
@@ -12,7 +12,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Wishlist
             {
                 entity.ToTable("WishList_WishList");
 
-                entity.HasIndex(e => e.Customer);
+                entity.HasIndex(e => e.UserId);
 
                 entity.Property(e => e.CreatedOn).HasColumnType("timestamp with time zone");
 
@@ -23,10 +23,10 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Wishlist
                     .WithOne()
                     .HasForeignKey(d => d.WishlistId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
-                // entity.HasOne(d => d.Customer)
-                //     .WithMany(p => p.CustomerWishlist)
-                //     .HasForeignKey(d => d.)
-                //     .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(p => p.User)
+                    .WithOne(d => d.CustomerWishlist)
+                    .HasForeignKey<Core.Entities.Customer.Wishlist>(p => p.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
         }
     }

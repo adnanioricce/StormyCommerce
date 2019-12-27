@@ -20,6 +20,8 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using StormyCommerce.Core.Entities.User;
+
 namespace SimplCommerce.WebHost.Extensions
 {
     public static class ApplicationBuilderExtensions
@@ -147,8 +149,8 @@ namespace SimplCommerce.WebHost.Extensions
                     if (dbContext.Database.IsSqlite())
                     {                        
                         dbContext.SeedDbContext();
-                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyCustomer>>();
-                        var roleManager = scope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
+                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyUser>>();
+                        var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
                         new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
                     }
                     return app;

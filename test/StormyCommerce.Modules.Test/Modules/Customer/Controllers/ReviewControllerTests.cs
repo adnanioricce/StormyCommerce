@@ -22,8 +22,8 @@ namespace StormyCommerce.Modules.Tests
     {
         private readonly ReviewController _controller;
         private readonly IStormyRepository<Review> _reviewRepository;
-        private readonly StormyCustomer requestUser;
-        public ReviewControllerTests(IReviewService reviewService,IUserIdentityService identityService, IStormyRepository<Review> reviewRepository, IMapper mapper,UserManager<StormyCustomer> _userManager)
+        private readonly StormyUser requestUser;
+        public ReviewControllerTests(IReviewService reviewService,IUserIdentityService identityService, IStormyRepository<Review> reviewRepository, IMapper mapper,UserManager<StormyUser> _userManager)
         {
             _controller = new ReviewController(reviewService, identityService, mapper);
             _reviewRepository = reviewRepository;
@@ -35,7 +35,7 @@ namespace StormyCommerce.Modules.Tests
                 RatingLevel = (int)RatingLevel.Five,
                 ReviewerName = "aguinobaldo",
                 Status = ReviewStatus.Approved,
-                StormyCustomerId = requestUser.Id,
+                UserId = requestUser.Id,
                 StormyProductId = 1
             });
             _reviewRepository.AddAsync(new Review
@@ -45,7 +45,7 @@ namespace StormyCommerce.Modules.Tests
                 RatingLevel = (int)RatingLevel.Five,
                 ReviewerName = "aguinobaldo",
                 Status = ReviewStatus.Approved,
-                StormyCustomerId = requestUser.Id,
+                UserId = requestUser.Id,
                 StormyProductId = 1
             });
             _reviewRepository.AddAsync(new Review
@@ -55,7 +55,7 @@ namespace StormyCommerce.Modules.Tests
                 RatingLevel = (int)RatingLevel.Five,
                 ReviewerName = "aguinobaldo",
                 Status = ReviewStatus.Approved,
-                StormyCustomerId = requestUser.Id,
+                UserId = requestUser.Id,
                 StormyProductId = 1
             });
             Task.WaitAll();

@@ -7,7 +7,7 @@ namespace StormyCommerce.Core.Interfaces.Domain.Customer
     public interface IReviewService
     {
         Task<Review> GetCustomerReviewByIdAsync(long id);
-        Task<List<Review>> GetCustomerReviews(string customerId);
+        Task<List<Review>> GetCustomerReviews(long customerId);
         Task CreateReviewAsync(Review review);        
         Task EditReviewAsync(Review review);
         Task DeleteReviewAsync(long reviewId);

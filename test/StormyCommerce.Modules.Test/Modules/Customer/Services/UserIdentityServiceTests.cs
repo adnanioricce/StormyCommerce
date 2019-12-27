@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Infraestructure.Data.Stores;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Models;
-using StormyCommerce.Module.Customer.Services;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -19,9 +16,9 @@ namespace StormyCommerce.Modules.Tests
     public class UserIdentityServiceTests
     {
         private readonly IUserIdentityService service;
-        private readonly UserManager<StormyCustomer> _userManager;
+        private readonly UserManager<StormyUser> _userManager;
         public UserIdentityServiceTests(IUserIdentityService identityService,
-            UserManager<StormyCustomer> userManager)
+            UserManager<StormyUser> userManager)
         {
             service = identityService;
             _userManager = userManager;            
@@ -30,7 +27,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task CreateUserAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = new StormyCustomer { 
+            StormyUser user = new StormyUser { 
                 Email = "example@email.com"
             };
             string password = "!D4vpassword";
@@ -62,7 +59,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task ResetPasswordAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = _userManager.Users.FirstOrDefault(u => !string.Equals(u.UserName,"stormydev"));
+            StormyUser user = _userManager.Users.FirstOrDefault(u => !string.Equals(u.UserName,"stormydev"));
             string token = await _userManager.GeneratePasswordResetTokenAsync(user);
             string newPassword = "!N3wpassword";
 
@@ -117,7 +114,7 @@ namespace StormyCommerce.Modules.Tests
         public void GetUserById_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            string userId = _userManager.Users.First().Id;
+            long userId = _userManager.Users.First().Id;
 
             // Act
             var result = service.GetUserById(userId);
@@ -136,9 +133,9 @@ namespace StormyCommerce.Modules.Tests
             var result = await service.GetUserByClaimPrincipal(principal);
 
             // Assert   
-            var userId = principal.Claims.FirstOrDefault(c => string.Equals(c.Value, result.Id, StringComparison.OrdinalIgnoreCase));
+            var userId = principal.Claims.FirstOrDefault(c => string.Equals(c.Value, result.UserGuid, StringComparison.OrdinalIgnoreCase));
             var email = principal.Claims.FirstOrDefault(c => string.Equals(c.Value, result.Email, StringComparison.OrdinalIgnoreCase));
-            var role = principal.Claims.First(c => string.Equals(c.Value, result.Role.Name, StringComparison.OrdinalIgnoreCase));
+            var role = principal.Claims.First(c => string.Equals(c.Value, result.Roles.FirstOrDefault().Role.Name, StringComparison.OrdinalIgnoreCase));
             Assert.NotNull(userId);
             Assert.NotNull(email);
             Assert.NotNull(role);            
@@ -152,14 +149,14 @@ namespace StormyCommerce.Modules.Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<UserManager<StormyCustomer>>(result);
+            Assert.IsType<UserManager<StormyUser>>(result);
         }
 
         [Fact]
         public async Task PasswordSignInAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
+            StormyUser user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
             string password = "!D4velopment";
             bool isPersistent = false;
             bool lockoutInFailure = false;
@@ -175,7 +172,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task CreateEmailConfirmationCode_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = Seeders.StormyCustomerSeed().First();
+            StormyUser user = Seeders.StormyCustomerSeed().First();
 
             // Act
             var result = await service.CreateEmailConfirmationCode(user);
@@ -188,7 +185,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task EditUserAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer customer = _userManager.Users.First();
+            StormyUser customer = _userManager.Users.First();
             customer.CPF = "123456789";
             customer.SecurityStamp = Guid.NewGuid().ToString();
             // Act
@@ -202,7 +199,7 @@ namespace StormyCommerce.Modules.Tests
         public void VerifyHashPassword_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
+            StormyUser user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
             string hashedPassword = user.PasswordHash;
             string providedPassword = "!D4velopment";
             // Act
@@ -213,19 +210,19 @@ namespace StormyCommerce.Modules.Tests
         public void BuildClaims_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
+            StormyUser user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
             // Act
             var result = service.BuildClaims(user);
             // Assert
             Assert.Equal(4,result.Count());
-            Assert.Equal("Customer", result.FirstOrDefault(c => string.Equals(c.Value,user.Role.Name)).Value);
+            Assert.Equal("Customer", result.FirstOrDefault(c => string.Equals(c.Value,user.Roles.FirstOrDefault().Role.Name)).Value);
         }
 
         [Fact]
         public async Task GeneratePasswordResetTokenAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
+            StormyUser user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Email,"adnangonzaga@gmail.com", StringComparison.OrdinalIgnoreCase));
             // Act
             var result = await service.GeneratePasswordResetTokenAsync(user);
             // Assert
@@ -237,7 +234,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task IsEmailConfirmedAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = _userManager.Users.First();
+            StormyUser user = _userManager.Users.First();
             // Act
             var result = await service.IsEmailConfirmedAsync(user);
             // Assert
@@ -248,15 +245,15 @@ namespace StormyCommerce.Modules.Tests
         public async Task AssignUserToRole_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyCustomer user = _userManager.Users.FirstOrDefault();
+            StormyUser user = _userManager.Users.FirstOrDefault();
             string roleName = Roles.Customer;
 
             // Act
             var result = await service.AssignUserToRole(user,roleName);
-            user = _userManager.Users.FirstOrDefault(u => string.Equals(u.Id,user.Id,StringComparison.OrdinalIgnoreCase));
+            user = _userManager.Users.FirstOrDefault(u => u.Id == user.Id);
             // Assert
             Assert.True(result.Success);
-            Assert.Equal(user.Role.Name, roleName);
+            Assert.Equal(user.Roles.FirstOrDefault().Role.Name, roleName);
         }
     }
 }

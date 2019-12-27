@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace TestHelperLibrary.Mocks
 {
-    public class FakeSignInManager : SignInManager<StormyCustomer>
+    public class FakeSignInManager : SignInManager<StormyUser>
     {
         private readonly HttpContextAccessor _httpAccessor;
         public FakeSignInManager()
         : base(
             new Mock<FakeUserManager>().Object,
             new HttpContextAccessor(),
-            new Mock<IUserClaimsPrincipalFactory<StormyCustomer>>().Object,
+            new Mock<IUserClaimsPrincipalFactory<StormyUser>>().Object,
             new Mock<IOptions<IdentityOptions>>().Object,
-            new Mock<ILogger<SignInManager<StormyCustomer>>>().Object,
+            new Mock<ILogger<SignInManager<StormyUser>>>().Object,
             new Mock<IAuthenticationSchemeProvider>().Object
         )
         {
@@ -32,7 +32,7 @@ namespace TestHelperLibrary.Mocks
             });
         }
 
-        public override Task<SignInResult> PasswordSignInAsync(StormyCustomer user, string password, bool isPersistent, bool lockoutOnFailure)
+        public override Task<SignInResult> PasswordSignInAsync(StormyUser user, string password, bool isPersistent, bool lockoutOnFailure)
         {
             return Task.FromResult(SignInResult.Success);
         }

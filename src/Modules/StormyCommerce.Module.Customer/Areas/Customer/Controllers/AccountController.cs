@@ -43,7 +43,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         [HttpGet("ConfirmEmail")]
         [ValidateModel]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmailAsync(string userId,string code)
+        public async Task<IActionResult> ConfirmEmailAsync(long userId,string code)
         {            
             var appUser = _identityService.GetUserById(userId);
             if (appUser == null) return BadRequest("user with given email not found");            
@@ -76,7 +76,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             user.Addresses.Add(new CustomerAddress(model.Address)
             {
                 Type = model.Type,
-                IsDefault = model.IsDefault,
+                IsDefault = model.IsDefault,                
                 WhoReceives = string.IsNullOrEmpty(model.WhoReceives) ? "" : model.WhoReceives
             });
             var result = await _identityService.EditUserAsync(user);
@@ -94,7 +94,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> EditAccount([FromBody]EditCustomerRequest request)
         {
             var currentUser = await this.GetCurrentUser();
-            _mapper.Map<EditCustomerRequest, StormyCustomer>(request,currentUser);
+            _mapper.Map<EditCustomerRequest, StormyUser>(request,currentUser);
             var result = await _identityService.EditUserAsync(currentUser);
             if (!result.Success) return BadRequest(result);
             return Ok(result);
@@ -144,7 +144,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {
             var currentUser = await GetCurrentUser();
             var result = await _identityService.DeleteUserAsync(currentUser, password);
-            var isInternalError = currentUser is Result<StormyCustomer>;
+            var isInternalError = currentUser is Result<StormyUser>;
             //This is a little tricky...
             if (isInternalError) return StatusCode(500, result);
             if (!result.Success) return BadRequest(result);
@@ -163,7 +163,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             return Ok(new { result = result, customer = currentUser });
         }
         #endregion
-        private Task<StormyCustomer> GetCurrentUser()
+        private Task<StormyUser> GetCurrentUser()
         {
             return _identityService.GetUserByClaimPrincipal(User);
         }

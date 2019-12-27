@@ -22,7 +22,7 @@ namespace StormyCommerce.Core.Services.Catalog
             while (true)
             {
                 var entity = entityRepository.Query().FirstOrDefault(x => x.Slug == slug);
-                if (entity != null && !(entity.EntityId == entityId && entity.EntityTypeId == entityTypeId))
+                if (entity != null && !(entity.Id == entityId && entity.EntityTypeId == entityTypeId))
                 {
                     slug = string.Format("{0}-{1}", slug, i);
                     i++;
@@ -37,7 +37,7 @@ namespace StormyCommerce.Core.Services.Catalog
 
         public Entity Get(long entityId, string entityTypeId)
         {
-            return entityRepository.Query().FirstOrDefault(x => x.EntityId == entityId && x.EntityTypeId == entityTypeId);
+            return entityRepository.Query().FirstOrDefault(x => x.Id == entityId && x.EntityTypeId == entityTypeId);
         }
 
         public void Add(string name, string slug, long entityId, string entityTypeId)
@@ -46,7 +46,7 @@ namespace StormyCommerce.Core.Services.Catalog
             {
                 Name = name,
                 Slug = slug,
-                EntityId = entityId,
+                Id = entityId,
                 EntityTypeId = entityTypeId
             };
 
@@ -55,14 +55,14 @@ namespace StormyCommerce.Core.Services.Catalog
 
         public void Update(string newName, string newSlug, long entityId, string entityTypeId)
         {
-            var entity = entityRepository.Query().First(x => x.EntityId == entityId && x.EntityTypeId == entityTypeId);
+            var entity = entityRepository.Query().First(x => x.Id == entityId && x.EntityTypeId == entityTypeId);
             entity.Name = newName;
             entity.Slug = newSlug;
         }
 
         public async Task DeleteAsync(long entityId, string entityTypeId)
         {
-            var entity = entityRepository.Query().Where(x => x.EntityId == entityId && x.EntityTypeId == entityTypeId).FirstOrDefault();
+            var entity = entityRepository.Query().Where(x => x.Id == entityId && x.EntityTypeId == entityTypeId).FirstOrDefault();
             if (entity != null)
             {
                 //mediator.Publish(new EntityDeleting { EntityId = entity.Id });

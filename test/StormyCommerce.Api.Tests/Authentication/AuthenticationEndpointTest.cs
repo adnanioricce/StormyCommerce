@@ -110,7 +110,7 @@ namespace StormyCommerce.Api.Tests.Authentication
         class CurrentUser
         {
             public Result result{ get; set; }
-            public StormyCustomer customer { get; set; }
+            public StormyUser customer { get; set; }
         }
     }
 }

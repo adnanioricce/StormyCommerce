@@ -85,7 +85,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 
             if(user != null) return BadRequest("username already exists");
 
-            var result = await _identityService.CreateUserAsync(new StormyCustomer
+            var result = await _identityService.CreateUserAsync(new StormyUser
             {                
                 UserName = signUpVm.UserName,
                 Email = signUpVm.Email,                            

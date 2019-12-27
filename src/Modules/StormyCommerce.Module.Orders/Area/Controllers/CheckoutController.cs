@@ -31,6 +31,7 @@ using StormyCommerce.Core.Models.Shipment.Request;
 using StormyCommerce.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Models.Order.Request;
+using StormyCommerce.Core.Models.Payment.Response;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -74,7 +75,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var checkResult = await CheckIfItemIsOnStock(request);
             if (!checkResult.Success) return BadRequest(checkResult);                                 
             var user = await _identityService.GetUserByClaimPrincipal(User);
-            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);            
+            var userDto = _mapper.Map<StormyUser, CustomerDto>(user);            
             var result = await CreateOrderForCheckout(request, userDto, user.Id);
             if (!result.Success)
             {
@@ -94,7 +95,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         public async Task<ActionResult<CreditCardCheckoutResponse>> CreditCardCheckout([FromBody] CheckoutCreditCardRequest request)
         {
             var user = await _identityService.GetUserByClaimPrincipal(User);
-            var userDto = _mapper.Map<StormyCustomer, CustomerDto>(user);            
+            var userDto = _mapper.Map<StormyUser, CustomerDto>(user);            
             var order = BuildOrderForCreditCardCheckout(request);
             var createOrderResult = await _orderService.CreateOrderAsync(order);
             var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest(createOrderResult.Value, request.PostalCode, request.ShippingMethod));
@@ -128,10 +129,10 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 }
             };
         }
-        private async Task<Result<OrderDto>> CreateOrderForCheckout(CheckoutBoletoRequest request,CustomerDto userDto,string userId)
+        private async Task<Result<OrderDto>> CreateOrderForCheckout(CheckoutBoletoRequest request,CustomerDto userDto,long userId)
         {
-            var response = await _paymentProcessor.ProcessBoletoPaymentRequestAsync(request, userDto);
-            response.Order.StormyCustomerId = userId;
+            ProcessPaymentResponse response = await _paymentProcessor.ProcessBoletoPaymentRequestAsync(request, userDto);
+            response.Order.UserId = userId;
             var createOrderResult = await _orderService.CreateOrderAsync(response.Order);            
             return createOrderResult;
         }

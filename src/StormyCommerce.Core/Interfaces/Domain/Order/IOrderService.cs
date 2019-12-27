@@ -16,6 +16,6 @@ namespace StormyCommerce.Core.Interfaces.Domain.Order
         Task<Result<IList<StormyOrder>>> GetOrdersAsync();
         Task<Result<OrderDto>> GetOrderByUniqueIdAsync(Guid uniqueId);
         Task<StormyOrder> GetStormyOrderByUniqueIdAsync(Guid uniqueId);
-        Task<List<OrderDto>> GetAllOrdersFromCustomer(string customerId);
+        Task<List<OrderDto>> GetAllOrdersFromCustomer(long customerId);
     }
 }

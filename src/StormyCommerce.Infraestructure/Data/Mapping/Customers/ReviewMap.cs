@@ -13,7 +13,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.Property(prop => prop.Id).UseNpgsqlIdentityByDefaultColumn();
                 entity.HasOne(prop => prop.Author)
                     .WithMany(customer => customer.CustomerReviews)
-                    .HasForeignKey(prop => prop.StormyCustomerId)                    
+                    .HasForeignKey(prop => prop.UserId)                    
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
                 entity.HasOne(prop => prop.Product)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities.User;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Module.Customer.Models;
 using System;
@@ -12,13 +13,13 @@ namespace StormyCommerce.Module.Customer.Data
     public class IdentityInitializer
     {
         private readonly StormyDbContext _context;
-        private readonly UserManager<StormyCustomer> _userManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly UserManager<StormyUser> _userManager;
+        private readonly RoleManager<Role> _roleManager;
 
         public IdentityInitializer(
             StormyDbContext context,
-            UserManager<StormyCustomer> userManager,
-            RoleManager<ApplicationRole> roleManager)
+            UserManager<StormyUser> userManager,
+            RoleManager<Role> roleManager)
         {
             _context = context;
             _userManager = userManager;
@@ -30,7 +31,7 @@ namespace StormyCommerce.Module.Customer.Data
            if (!_roleManager.RoleExistsAsync(Roles.Admin).Result)
             {
                 var resultado = _roleManager.CreateAsync(
-                    new ApplicationRole(Roles.Admin)).Result;
+                    new Role(Roles.Admin)).Result;
                 if (!resultado.Succeeded)
                 {
                     throw new Exception(
@@ -39,15 +40,15 @@ namespace StormyCommerce.Module.Customer.Data
             }
             if (!_roleManager.RoleExistsAsync(Roles.Guest).Result)
             {
-                var resultado = _roleManager.CreateAsync(new ApplicationRole(Roles.Guest)).Result;
+                var resultado = _roleManager.CreateAsync(new Role(Roles.Guest)).Result;
                 if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Guest}");
             }
             if (!_roleManager.RoleExistsAsync(Roles.Customer).Result)
             {
-                var resultado = _roleManager.CreateAsync(new ApplicationRole(Roles.Customer)).Result;
+                var resultado = _roleManager.CreateAsync(new Role(Roles.Customer)).Result;
                 if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Customer}");
             }
-            var adminUser = new StormyCustomer()
+            var adminUser = new StormyUser()
                 {
                     UserName = "stormyadmin",
                     Email = "stormycommerce@gmail.com",
@@ -61,7 +62,7 @@ namespace StormyCommerce.Module.Customer.Data
                 , "!D4vpassword",Roles.Admin);                
             CreateUser(
                 //TODO: actually, I think is not secure to initialize this here...
-                new StormyCustomer()
+                new StormyUser()
                 {
                     UserName = "stormydev",
                     Email = "adnangonzaga@gmail.com",
@@ -86,7 +87,7 @@ namespace StormyCommerce.Module.Customer.Data
                     
                     
                 }, "!D4velopment",Roles.Customer);
-            CreateUser(new StormyCustomer()
+            CreateUser(new StormyUser()
             {
                 UserName = "stormytest",
                 Email = "aguinobaldis@gmail.com",
@@ -115,22 +116,13 @@ namespace StormyCommerce.Module.Customer.Data
         }
 
         private void CreateUser(
-            StormyCustomer user,
+            StormyUser user,
             string password,
             string initialRole = null)
         {
             if (_userManager.FindByNameAsync(user.UserName).Result == null)
-            {                
-                var resultado = _userManager.CreateAsync(user, password).Result;          
-                //if(user.DefaultShippingAddress != null && user.DefaultBillingAddress != null)
-                //{
-                //    user.DefaultShippingAddress.StormyCustomerId = user.Id;
-                //    user.DefaultBillingAddress.StormyCustomerId = user.Id;
-                //}
-                if(resultado.Succeeded){                                                                                 
-                    user.Role = _roleManager.Roles.FirstOrDefault(r => string.Equals(r.Name,initialRole,StringComparison.OrdinalIgnoreCase));
-                    var result = _userManager.UpdateAsync(user).Result;                    
-                }
+            {                                
+                var resultado = _userManager.CreateAsync(user, password).Result;                          
             }
         }
     }

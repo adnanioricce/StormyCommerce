@@ -14,9 +14,9 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.Property(prop => prop.Title).HasMaxLength(450).IsRequired();
                 entity.Property(prop => prop.Body).HasMaxLength(450);
                 entity.HasQueryFilter(prop => !prop.IsDeleted); 
-                entity.HasOne(prop => prop.Customer)
+                entity.HasOne(prop => prop.User)
                 .WithMany()
-                .HasForeignKey(prop => prop.StormyCustomerId)
+                .HasForeignKey(prop => prop.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
                 entity.HasOne(prop => prop.Product)
                 .WithMany()

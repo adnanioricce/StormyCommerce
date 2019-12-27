@@ -17,7 +17,7 @@ namespace StormyCommerce.Core.Entities
             Comment = customerReview.Comment;
             ReviewerName = customerReview.ReviewerName;
             RatingLevel = customerReview.RatingLevel;
-            Author = new StormyCustomer
+            Author = new StormyUser
             {
                 UserName = customerReview.UserName,
                 Email = customerReview.Email
@@ -25,8 +25,8 @@ namespace StormyCommerce.Core.Entities
             Status = ReviewStatus.Approved;
         }
 
-        public string StormyCustomerId { get; set; }
-        public virtual StormyCustomer Author { get; set; }
+        public long UserId { get; set; }
+        public virtual StormyUser Author { get; set; }
         public long StormyProductId { get; set; }
         public virtual StormyProduct Product { get; set; }
         public string Title { get; set; }

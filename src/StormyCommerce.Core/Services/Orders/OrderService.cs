@@ -81,7 +81,7 @@ namespace StormyCommerce.Core.Services.Orders
                 Order = _entity,
                 CurrentStatus = entity.Status,
                 OldStatus = _entity.Status,
-                CreatedById = _entity.StormyCustomerId,
+                CreatedById = _entity.UserId,
                 CreatedBy = _entity.Customer
             };
             await _orderHistoryRepository.AddAsync(orderHistory);
@@ -140,10 +140,10 @@ namespace StormyCommerce.Core.Services.Orders
             return await _orderRepository.Query().Where(o => Guid.Equals(o.OrderUniqueKey, uniqueId)).FirstOrDefaultAsync();
         }
 
-        public async Task<List<OrderDto>> GetAllOrdersFromCustomer(string customerId)
+        public async Task<List<OrderDto>> GetAllOrdersFromCustomer(long customerId)
         {
             return await _orderRepository.Query()
-                .Where(c => string.Equals(c.StormyCustomerId, customerId, StringComparison.OrdinalIgnoreCase))
+                .Where(c => c.UserId == customerId)
                 .Select(o => new OrderDto(o))
                 .ToListAsync();
         }

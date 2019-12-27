@@ -29,7 +29,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
                     .OnDelete(DeleteBehavior.Restrict);
                 order.HasOne(prop => prop.Customer)
                 .WithMany()
-                .HasForeignKey(prop => prop.StormyCustomerId)
+                .HasForeignKey(prop => prop.UserId)
                 .OnDelete(DeleteBehavior.Restrict);                
                 order.Property(prop => prop.OrderUniqueKey).IsRequired();                
                 order.Property(prop => prop.Note).HasMaxLength(1000);                 

@@ -42,10 +42,10 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.CreatedOn = f.Date.Past();                                       
                     v.Brand = Seeders.BrandSeed(omitId:true).First(); 
                     var vendor = Seeders.StormyVendorSeed().First();
-                    vendor.Address = new VendorAddress
+                    vendor.Addresses.Add(new VendorAddress
                     {
                         Address = new Core.Entities.Common.AddressDetail("br","sp","Varginha","distrito 9","rua do conhecimento","","","40028922","666","busque conhecimento","","")                        
-                    };                    
+                    });                    
                     v.Vendor = vendor;
                     Seeders.MediaSeed(1).ForEach(m => v.AddMedia(m));
                     v.ThumbnailImage = f.Image.LoremPixelUrl(LoremPixelCategory.Fashion);
@@ -65,20 +65,10 @@ namespace StormyCommerce.Api.Framework.Extensions
                 {
                     v.DestinationAddress = new CustomerAddress
                     {
-                        City = f.Address.City(),
-                        District = f.Address.CitySuffix(),
-                        Number = f.Address.BuildingNumber(),
-                        FirstAddress = f.Address.StreetName(),
-                        SecondAddress = f.Address.StreetSuffix(),
-                        Country = f.Address.Country(),
-                        Complement = f.Address.OrdinalDirection(),
-                        PostalCode = f.Address.ZipCode(),
-                        Street = f.Address.StreetName(),                        
-                        State = f.Address.State(),
+                        Details = new AddressDetail(f.Address.CountryCode(),f.Address.State(),f.Address.City(),f.Address.CitySuffix(),f.Address.StreetName(),f.Address.StreetAddress(),f.Address.SecondaryAddress(),f.Address.ZipCode(),f.Address.BuildingNumber(),f.Address.CityPrefix(),f.Person.FirstName,f.Phone.PhoneNumber()),                        
                         WhoReceives = "I",
                         Type = AddressType.Shipping,
                         IsDefault = true,
-
                     };
                 })
                 .RuleFor(v => v.DeliveryCost, f => f.Random.Decimal(8.90m, 42.90m))
@@ -97,8 +87,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
             .RuleFor(v => v.IsDeleted, false)
             .RuleFor(v => v.LastModified, f => f.Date.Recent(2))
-            .RuleFor(v => v.EntityTypeId, entityType)
-            .RuleFor(v => v.EntityId, 1)
+            .RuleFor(v => v.EntityTypeId, entityType)            
             .RuleFor(v => v.Name, f => f.Commerce.ProductName())
             .RuleFor(v => v.Slug, f => f.Lorem.Slug());
             return fakeEntity.Generate(count);
@@ -216,12 +205,12 @@ namespace StormyCommerce.Api.Framework.Extensions
             var fakeAddress = new Faker<CustomerAddress>("pt_BR")
                 .RuleFor(v => v.Id, f => omitId ? 0 : f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.State, f => f.Address.State())
-                .RuleFor(v => v.Street, f => f.Address.StreetName())
-                .RuleFor(v => v.District, f => f.Address.StreetSuffix())
-                .RuleFor(v => v.PostalCode, f => f.Address.ZipCode())
-                .RuleFor(v => v.Number, f => f.Address.BuildingNumber())
-                .RuleFor(v => v.Complement, "no complement");                                
+                .RuleFor(v => v.Details.State, f => f.Address.State())
+                .RuleFor(v => v.Details.Street, f => f.Address.StreetName())
+                .RuleFor(v => v.Details.DistrictName, f => f.Address.StreetSuffix())
+                .RuleFor(v => v.Details.ZipCode, f => f.Address.ZipCode())
+                .RuleFor(v => v.Details.Number, f => f.Address.BuildingNumber())
+                .RuleFor(v => v.Details.Complement, "no complement");                                
             return fakeAddress.Generate(count);
         }
 
@@ -307,12 +296,10 @@ namespace StormyCommerce.Api.Framework.Extensions
             return fakeProductTemplate.Generate(count);
         }        
 
-        public static List<StormyCustomer> StormyCustomerSeed(int count = 1,bool omitId = false)
+        public static List<StormyUser> StormyCustomerSeed(int count = 1,bool omitId = false)
         {
-            var fakeCustomer = new Faker<StormyCustomer>()
+            var fakeCustomer = new Faker<StormyUser>()
                 .Rules((f,v) => {
-
-                    v.Id = Guid.NewGuid().ToString();                
                     v.Email = f.Internet.Email();
                     v.EmailConfirmed = true;
                     v.PhoneNumber = f.Person.Phone;
@@ -321,8 +308,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.CPF =  "000000000";
                     v.CreatedOn =  DateTime.UtcNow;
                     var addresses = Seeders.AddressSeed(2);
-
-                    v.Addresses.AddRange(addresses);
+                    addresses.ForEach(a => v.Addresses.Add(a));                    
                     var review = Seeders.ReviewSeed(count,omitId).First();
                     review.Id += omitId ? 0 : f.IndexVariable;
                     review.Author = v;

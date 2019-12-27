@@ -7,10 +7,10 @@ namespace StormyCommerce.Infraestructure.Extensions
 {
     public static class IdentityDataSeed
     {
-        public static List<StormyCustomer> ApplicationUserSeed(int count = 1, bool withDefinedPassword = true)
+        public static List<StormyUser> ApplicationUserSeed(int count = 1, bool withDefinedPassword = true)
         {
-            var fakeAppUser = new Faker<StormyCustomer>("pt_BR")
-                .RuleFor(v => v.Id, f => f.Hashids.Encode(f.Random.Int(1, 32)))
+            var fakeAppUser = new Faker<StormyUser>("pt_BR")
+                .RuleFor(v => v.UserGuid, f => f.Hashids.Encode(f.Random.Int(1, 32)))
                 .RuleFor(v => v.FullName,f => f.Person.FullName)
                 .RuleFor(v => v.CPF, f => f.Random.Utf16String(11, 11))
                 .RuleFor(v => v.Email, f => f.Internet.Email())
