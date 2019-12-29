@@ -65,8 +65,7 @@ namespace StormyCommerce.Modules.Tests
                 },
                 DestinationAddress = new Core.Entities.Customer.CustomerAddress { 
                     Details = new Core.Entities.Common.AddressDetail("","","","","","","","08621030","","","","")
-                }                
-                
+                }                                
             };
 
             // Act

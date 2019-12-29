@@ -27,7 +27,7 @@ namespace StormyCommerce.Core.Entities.Customer
         }
         public string UserGuid { get; set; }
         public string CPF { get; set; }                
-        public long? CustomerReviewsId { get; set; }
+        public long? CustomerReviewsId { get; set; }        
         public virtual ICollection<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();        
         public virtual ICollection<Review> CustomerReviews { get; set; } = new List<Review>();                
         public virtual ICollection<UserRole> Roles { get; set; } = new List<UserRole>();

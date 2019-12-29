@@ -42,15 +42,16 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.CreatedOn = f.Date.Past();                                       
                     v.Brand = Seeders.BrandSeed(omitId:true).First(); 
                     var vendor = Seeders.StormyVendorSeed().First();
+                    
                     vendor.Addresses.Add(new VendorAddress
                     {
                         Address = new Core.Entities.Common.AddressDetail("br","sp","Varginha","distrito 9","rua do conhecimento","","","40028922","666","busque conhecimento","","")                        
                     });                    
                     v.Vendor = vendor;
-                    Seeders.MediaSeed(1).ForEach(m => v.AddMedia(m));
+                    Seeders.MediaSeed(1)
+                        .ForEach(m => v.AddMedia(m));
                     v.ThumbnailImage = f.Image.LoremPixelUrl(LoremPixelCategory.Fashion);
-                    var category = ProductCategorySeed(omitId:true).First();                    
-                    // category.Product = v;
+                    var category = ProductCategorySeed(omitId:true).First();                                        
                     v.Categories.Add(category);
                     v.Width = f.Random.Double(1.0,20.0);
                     v.Height = f.Random.Double(1.0,20.0);
@@ -170,7 +171,8 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.Phone, f => f.Phone.PhoneNumber())
                 .RuleFor(v => v.SizeUrl, f => $"{f.Internet.Random.Even()}")
                 .RuleFor(v => v.TypeGoods, f => f.Commerce.Department())
-                .RuleFor(v => v.WebSite, f => f.Person.Website);
+                .RuleFor(v => v.WebSite, f => f.Person.Website)
+                .RuleFor(v => v.Slug,f => f.Company.CompanyName().Replace(" ","-"));
             return fakeVendors.Generate(count);
         }
 
@@ -205,12 +207,17 @@ namespace StormyCommerce.Api.Framework.Extensions
             var fakeAddress = new Faker<CustomerAddress>("pt_BR")
                 .RuleFor(v => v.Id, f => omitId ? 0 : f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.Details.State, f => f.Address.State())
-                .RuleFor(v => v.Details.Street, f => f.Address.StreetName())
-                .RuleFor(v => v.Details.DistrictName, f => f.Address.StreetSuffix())
-                .RuleFor(v => v.Details.ZipCode, f => f.Address.ZipCode())
-                .RuleFor(v => v.Details.Number, f => f.Address.BuildingNumber())
-                .RuleFor(v => v.Details.Complement, "no complement");                                
+                .RuleFor(v => v.Details, f => new AddressDetail(
+                    f.Address.CountryCode(),
+                    f.Address.State(),
+                    f.Address.City(),
+                    f.Address.County(),
+                    f.Address.StreetName(),
+                    f.Address.StreetAddress(),
+                    f.Address.SecondaryAddress(),
+                    f.Address.ZipCode(),
+                    f.Address.BuildingNumber(),
+                    f.Lorem.Sentence(),"",""));                                      
             return fakeAddress.Generate(count);
         }
 
@@ -239,12 +246,10 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.OrderUniqueKey = f.Commerce.Random.Guid();
                     var shipment = Seeders.ShipmentSeed(omitId:true).First();
                     var customer = Seeders.StormyCustomerSeed(omitId:true).First();
-                    customer.Id += 10;
                     shipment.Order = v;                              
                     v.Shipment = shipment;                    
                     var items = Seeders.OrderItemSeed(2);                    
-                    var product = Seeders.StormyProductSeed().First();
-                    product.Id = product.Id + 50;
+                    var product = Seeders.StormyProductSeed().First();                    
                     int i = 0;
                     items.ForEach(item => {
                         item.Id = 0;
@@ -253,8 +258,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                         item.Shipment = shipment;
                         v.AddItem(item);
                     });                       
-                    var payment = Seeders.PaymentSeed();
-                    //payment.Order = v; 
+                    var payment = Seeders.PaymentSeed();                    
                     payment.Amount = v.TotalPrice;
                     payment.Id = 0;
                     v.Payment = payment;                                                                                              

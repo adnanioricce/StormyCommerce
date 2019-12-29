@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Media;
 
@@ -16,6 +16,10 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
 
                 entity.Property(e => e.FileName)
                     .HasMaxLength(450);
+                entity.HasKey(prop => prop.Id);
+
+                entity.Property(prop => prop.Id)
+                    .ValueGeneratedOnAdd();
             });
         }
     }

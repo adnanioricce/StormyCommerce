@@ -43,11 +43,17 @@ namespace StormyCommerce.Core.Entities.Catalog
         public string Name { get; set; }
         public string Slug { get; set; }        
         public string Description { get; set; }
+        public string MetaKeywords { get; set; }
+        public string MetaTitle { get; set; }
+        public Category Parent { get; set; }
+
         public int DisplayOrder { get; set; }
         public bool IsPublished { get; set; }
         public bool IncludeInMenu { get; set; }
+        
         public long? ParentId { get; set; }
-        public long? ChildrenId { get; set; }               
-        public string ThumbnailImageUrl { get; set; }        
+        public long? ChildrenId { get; set; }
+        public long? ThumbnailImageId { get; set; }
+        public Media.Media ThumbnailImage { get; set; }
     }
 }

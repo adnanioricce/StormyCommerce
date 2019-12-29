@@ -49,7 +49,8 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.Property(prop => prop.Email).IsRequired();                                              
                 entity.HasMany(prop => prop.Roles)
                     .WithOne(p => p.User)
-                    .HasForeignKey(p => p.UserId);                    
+                    .HasForeignKey(p => p.UserId);  
+
                 
                 entity.Property(prop => prop.DateOfBirth);                
             });                                                        

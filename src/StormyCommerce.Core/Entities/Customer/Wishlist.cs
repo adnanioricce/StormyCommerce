@@ -6,7 +6,7 @@ namespace StormyCommerce.Core.Entities.Customer
 {
     public class Wishlist : EntityBase
     {
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
         public string SharingCode { get; set; }
         public virtual StormyUser User { get; set; }
         public virtual ICollection<WishlistItem> Items { get; set; } = new List<WishlistItem>();        

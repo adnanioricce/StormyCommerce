@@ -16,8 +16,7 @@ namespace StormyCommerce.Modules.Tests
 {
     public class OrderServiceTests
     {
-        private readonly IOrderService service;
-        private readonly OrderDto sampleEditOrder;
+        private readonly IOrderService service;        
         public OrderServiceTests(IOrderService _orderService)
         {
             service = _orderService;            

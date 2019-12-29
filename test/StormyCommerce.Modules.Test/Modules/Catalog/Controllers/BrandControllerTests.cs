@@ -23,6 +23,7 @@ namespace StormyCommerce.Modules.Tests
         {
             // Arrange            
             Brand brand = Seeders.BrandSeed().First();
+            brand.Slug = brand.Name.Replace(" ", "-");
             brand.Id = 0;
             // Act
             var result = (await _controller.CreateBrand(brand)) as OkObjectResult;

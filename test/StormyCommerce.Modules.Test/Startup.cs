@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,7 +32,7 @@ namespace StormyCommerce.Modules.Tests
         protected override void ConfigureServices(IServiceCollection services)
         {
             var configBuilder = new ConfigurationBuilder()
-                .AddUserSecrets<Startup>()
+                .AddJsonFile("appsettings.json")
                 .Build();
             Container.Configuration = configBuilder;
             services.AddSingleton(configBuilder);
@@ -39,7 +41,7 @@ namespace StormyCommerce.Modules.Tests
                 opt.UseLazyLoadingProxies();
                 opt.EnableSensitiveDataLogging();
                 opt.EnableDetailedErrors();
-                opt.UseSqlite("DataSource=testDb.db",m => m.MigrationsAssembly("Modules.Tests"));
+                opt.UseSqlite(Container.Configuration.GetConnectionString("Sqlite"),m => m.MigrationsAssembly("Modules.Tests"));
             });
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
             services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
@@ -54,15 +56,15 @@ namespace StormyCommerce.Modules.Tests
             using (var scope = provider.CreateScope())
             {
                 using (var dbContext = (StormyDbContext)scope.ServiceProvider.GetService<StormyDbContext>())
-                {
-                    if (dbContext.Database.EnsureDeleted())
-                    {
+                {                    
+                    if ((dbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists()){
+                        dbContext.Database.EnsureDeleted();
                         dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
+                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyUser>>();
+                        var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
+                        new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
+                        dbContext.SeedDbContext();
                     }
-                    var userManager = scope.ServiceProvider.GetService<UserManager<StormyUser>>();
-                    var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
-                    new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
-                    dbContext.SeedDbContext();
                 }
             }
         }

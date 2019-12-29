@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.User;
 
@@ -22,7 +22,8 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.User
 
                 entity.HasOne(ur => ur.User)
                     .WithMany(x => x.Roles)
-                    .HasForeignKey(u => u.UserId);                    
+                    .HasForeignKey(u => u.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);                    
             });
         }
     }

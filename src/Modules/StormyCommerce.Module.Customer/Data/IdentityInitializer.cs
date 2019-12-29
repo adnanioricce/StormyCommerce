@@ -50,6 +50,7 @@ namespace StormyCommerce.Module.Customer.Data
             }
             var adminUser = new StormyUser()
                 {
+                    FullName = "admin user",
                     UserName = "stormyadmin",
                     Email = "stormycommerce@gmail.com",
                     EmailConfirmed = true                    
@@ -121,8 +122,10 @@ namespace StormyCommerce.Module.Customer.Data
             string initialRole = null)
         {
             if (_userManager.FindByNameAsync(user.UserName).Result == null)
-            {                                
-                var resultado = _userManager.CreateAsync(user, password).Result;                          
+            {
+                user.Roles.Add(new UserRole(_roleManager.Roles.FirstOrDefault(c => string.Equals(c.Name, initialRole, StringComparison.OrdinalIgnoreCase))));
+                //user.CustomerWishlist.User = user;
+                var resultado = _userManager.CreateAsync(user, password).Result;
             }
         }
     }

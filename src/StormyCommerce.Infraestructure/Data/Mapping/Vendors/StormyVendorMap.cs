@@ -32,10 +32,12 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Vendors
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd();                                       
 
                 entity.HasMany(prop => prop.Addresses)
-                    .WithOne()
+                    .WithOne()                    
                     .OnDelete(DeleteBehavior.Cascade);
+
                 entity.HasMany(prop => prop.Products)
                     .WithOne()
+                    .HasForeignKey(p => p.VendorId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }

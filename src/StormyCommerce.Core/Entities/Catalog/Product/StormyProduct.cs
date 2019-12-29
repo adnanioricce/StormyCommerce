@@ -35,9 +35,9 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public string SKU { get; set; }                
         public string ProductName { get; set; }
         public string Slug { get; set; }        
-        public long BrandId { get; set; }        
-        public long VendorId { get; set; }
-        public long CategoryId { get; set; }
+        public long? BrandId { get; set; }        
+        public long? VendorId { get; set; }
+        public long? CategoryId { get; set; }
         public long? MediaId { get; set; }
         public long? ProductLinksId { get; set; }                
         public virtual StormyVendor Vendor { get; set; }
@@ -64,8 +64,7 @@ namespace StormyCommerce.Core.Entities.Catalog.Product
         public string Note { get; set; }        
         public string Price { get; set; }                                                                                                      
         public decimal ProductCost { get; set; }        
-        public DateTime? PublishedOn { get; set;}
-        public DateTime? CreatedOn { get; set; }            
+        public DateTime? PublishedOn { get; set;}                
         public int RatingAverage { get; set; }        
         public void AddMedia(ProductMedia media)
         {

@@ -7,6 +7,8 @@ using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Infraestructure.Data;
 using Bogus;
+using StormyCommerce.Api.Framework.Extensions;
+
 namespace SimplCommerce.WebHost.Data
 {
     public static class SampleSeeder
@@ -20,7 +22,9 @@ namespace SimplCommerce.WebHost.Data
                 Id = 0,
                 Name = "Boné",
                 Description = "uma descrição emocionante",
-                ThumbnailImageUrl = "",
+                ThumbnailImage = new StormyCommerce.Core.Entities.Media.Media { 
+                   
+                },
             });
             categories.Add(new Category
             {
@@ -28,14 +32,20 @@ namespace SimplCommerce.WebHost.Data
                 Name = "Bermuda",
                 Description = "uma descrição animadora",
                 DisplayOrder = 2,
-                ThumbnailImageUrl = ""
+                ThumbnailImage = new StormyCommerce.Core.Entities.Media.Media
+                {
+
+                },
             });
             categories.Add(new Category
             {
                 Id = 0,
                 Name = "Sapato",
                 Description = "uma descricão foda",
-                ThumbnailImageUrl = ""
+                ThumbnailImage = new StormyCommerce.Core.Entities.Media.Media
+                {
+
+                },
             });
             var products = JsonConvert.DeserializeObject<List<StormyProduct>>(File.ReadAllText("Products.json"));
             products.ForEach(p =>
