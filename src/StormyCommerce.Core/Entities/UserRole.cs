@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using StormyCommerce.Core.Entities.Customer;
 
-namespace StormyCommerce.Core.Entities.User
+namespace StormyCommerce.Core.Entities
 {
     public class UserRole : IdentityUserRole<long>
     {
@@ -16,7 +16,7 @@ namespace StormyCommerce.Core.Entities.User
         }
         public override long UserId { get; set; }
 
-        public virtual StormyUser User { get; set; }
+        public virtual User User { get; set; }
 
         public override long RoleId { get; set; }
 

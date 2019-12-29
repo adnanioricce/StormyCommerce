@@ -39,7 +39,7 @@ namespace StormyCommerce.Core.Entities
         public decimal Discount { get; set; }          
         public decimal TotalPrice { get; set; }        
         public virtual StormyPayment Payment { get; set; }
-        public virtual StormyUser Customer { get; set; }        
+        public virtual User Customer { get; set; }        
         public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }        
         public DateTime? PaymentDate { get; set; }

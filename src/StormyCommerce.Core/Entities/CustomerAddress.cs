@@ -21,7 +21,7 @@ namespace StormyCommerce.Core.Entities.Customer
         public bool IsDeleted { get; set; }
         public string WhoReceives { get; set; }
         public long UserId { get; set; }        
-        public virtual StormyUser Owner { get; set; }
+        public virtual User Owner { get; set; }
         public DateTimeOffset? LastUsedOn { get; set; }
 
         public void SetAddress(Common.AddressDetail address)

@@ -28,7 +28,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.ProductName = f.Commerce.ProductName();
                     v.IsDeleted = false; 
                     v.ThumbnailImage = f.Image.LoremPixelUrl(category: LoremPixelCategory.Fashion);
-                    v.SKU = f.Commerce.Random.AlphaNumeric(16);
+                    v.Sku = f.Commerce.Random.AlphaNumeric(16);
                     v.Slug = f.Lorem.Slug();                    
                     v.QuantityPerUnity = f.Commerce.Random.Even(0, 100);
                     v.AvailableSizes = "GG,G,M,P,PP";
@@ -87,7 +87,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             var fakeEntity = new Faker<Entity>("pt_BR")
             .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
             .RuleFor(v => v.IsDeleted, false)
-            .RuleFor(v => v.LastModified, f => f.Date.Recent(2))
+            .RuleFor(v => v.LatestUpdatedOn, f => f.Date.Recent(2))
             .RuleFor(v => v.EntityTypeId, entityType)            
             .RuleFor(v => v.Name, f => f.Commerce.ProductName())
             .RuleFor(v => v.Slug, f => f.Lorem.Slug());
@@ -98,7 +98,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         {
             var fakeProductAttributeGroup = new Faker<ProductAttributeGroup>("pt_BR")
                .RuleFor(v => v.IsDeleted, false)
-               .RuleFor(v => v.LastModified, f => f.Date.Recent(14))
+               .RuleFor(v => v.LatestUpdatedOn, f => f.Date.Recent(14))
                .RuleFor(v => v.Name, f => f.Commerce.ProductAdjective());
             return fakeProductAttributeGroup.Generate(count);
         }
@@ -109,7 +109,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             var fakeProductAttribute = new Faker<ProductAttribute>("pt_BR")
                 .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, f => f.Date.Recent(14))
+                .RuleFor(v => v.LatestUpdatedOn, f => f.Date.Recent(14))
                 .RuleFor(v => v.Name, f => f.Commerce.ProductAdjective())
                 .RuleFor(v => v.GroupId, f => f.PickRandom(productAttributeGroup).Id);
             return fakeProductAttribute.Generate(count);
@@ -122,7 +122,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                .RuleFor(v => v.LinkType, ProductLinkType.Related)
                .RuleFor(v => v.IsDeleted, false)
-               .RuleFor(v => v.LastModified, f => f.Date.Recent(25))
+               .RuleFor(v => v.LatestUpdatedOn, f => f.Date.Recent(25))
                .RuleFor(v => v.LinkedProductId, f => f.Random.Int(1, count))
                .RuleFor(v => v.ProductId, f => f.Random.Int(1, count));
             return fakeProductLink.Generate(count);
@@ -148,7 +148,7 @@ namespace StormyCommerce.Api.Framework.Extensions
             var fakeBrands = new Faker<Brand>("pt_BR")
                 .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, f => f.Date.Recent(24))
+                .RuleFor(v => v.LatestUpdatedOn, f => f.Date.Recent(24))
                 .RuleFor(v => v.LogoImage, f => f.Image.PicsumUrl())
                 .RuleFor(v => v.Name, f => f.Company.CompanyName())
                 .RuleFor(v => v.Slug, f => f.Lorem.Slug(3))
@@ -162,7 +162,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         {
             var fakeVendors = new Faker<StormyVendor>("pt_BR")                
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, f => f.Date.Recent(27))
+                .RuleFor(v => v.LatestUpdatedOn, f => f.Date.Recent(27))
                 .RuleFor(v => v.CompanyName, f => f.Company.CompanyName())
                 .RuleFor(v => v.ContactTitle, f => f.Person.UserName)
                 .RuleFor(v => v.Email, f => f.Person.Email)
@@ -180,7 +180,7 @@ namespace StormyCommerce.Api.Framework.Extensions
         {
             var fakeCategory = new Faker<Category>("pt_BR")                
                 .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
-                .RuleFor(v => v.LastModified, f => f.Date.Recent(24))
+                .RuleFor(v => v.LatestUpdatedOn, f => f.Date.Recent(24))
                 .RuleFor(v => v.Description, f => f.Lorem.Text())
                 .RuleFor(v => v.DisplayOrder, f => f.IndexFaker)
                 .RuleFor(v => v.IncludeInMenu, true)
@@ -188,7 +188,9 @@ namespace StormyCommerce.Api.Framework.Extensions
                 .RuleFor(v => v.IsPublished, true)                
                 .RuleFor(v => v.Slug, f => f.Lorem.Slug())
                 .RuleFor(v => v.Name, f => f.Commerce.Categories(1)[0])
-                .RuleFor(v => v.ThumbnailImageUrl, f => f.Image.LoremPixelUrl("fashion"));                
+                .RuleFor(v => v.ThumbnailImage, f => new Media {
+                    FileName = f.Image.LoremPixelUrl("fashion")
+                    });                
             return fakeCategory.Generate(count);
         }
         public static List<ProductCategory> ProductCategorySeed(int count = 1, bool omitId = false)
@@ -228,7 +230,7 @@ namespace StormyCommerce.Api.Framework.Extensions
                     v.Comment = f.Lorem.Sentence();
                     v.Discount = f.Finance.Amount(1, 100);
                     v.IsCancelled = false;                    
-                    v.LastModified = f.Date.Recent(14);
+                    v.LatestUpdatedOn = f.Date.Recent(14);
                     v.Note = f.Lorem.Text();
                     v.OrderDate = f.Date.Recent(4);
                     v.PaymentDate = f.Date.Recent(2);                    
@@ -294,15 +296,15 @@ namespace StormyCommerce.Api.Framework.Extensions
         {
             var fakeProductTemplate = new Faker<ProductTemplate>("pt_BR")
                 .RuleFor(v => v.IsDeleted, false)
-                .RuleFor(v => v.LastModified, f => f.Date.Recent(14))
+                .RuleFor(v => v.LatestUpdatedOn, f => f.Date.Recent(14))
                 .RuleFor(v => v.Name, f => f.Commerce.Product())
                 .RuleFor(v => v.ProductAttributes, ProductTemplateProductAttribute(count));
             return fakeProductTemplate.Generate(count);
         }        
 
-        public static List<StormyUser> StormyCustomerSeed(int count = 1,bool omitId = false)
+        public static List<User> StormyCustomerSeed(int count = 1,bool omitId = false)
         {
-            var fakeCustomer = new Faker<StormyUser>()
+            var fakeCustomer = new Faker<User>()
                 .Rules((f,v) => {
                     v.Email = f.Internet.Email();
                     v.EmailConfirmed = true;

@@ -18,7 +18,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Wishlist
 
                 entity.Property(e => e.AddedAt).HasColumnType("timestamp with time zone");
 
-                entity.Property(e => e.LastModified).HasColumnType("timestamp with time zone");
+                entity.Property(e => e.LatestUpdatedOn).HasColumnType("timestamp with time zone");
 
                 entity.HasOne(d => d.Product)
                     .WithMany()

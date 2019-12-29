@@ -9,25 +9,25 @@ namespace StormyCommerce.Infraestructure.Interfaces
 {
     public interface IUserIdentityService
     {
-        Task<IdentityResult> ConfirmEmailAsync(StormyUser user,string code);
-        Task<IdentityResult> CreateUserAsync(StormyUser user, string password);
-        Task<IdentityResult> ResetPasswordAsync(StormyUser user,string token,string newPassword);
-        Task<Result> AssignUserToRole(StormyUser user,string roleName);
-        Task<string> GeneratePasswordResetTokenAsync(StormyUser user);
-        Task<bool> IsEmailConfirmedAsync(StormyUser user);
-        StormyUser GetUserByEmail(string email);
-        Task<StormyUser> GetUserByEmailAsync(string email);
-        StormyUser GetUserByUsername(string username);
-        StormyUser GetUserById(long userId);
-        PasswordVerificationResult VerifyHashPassword(StormyUser user,string hashedPassword,string providedPassword);
-        Task<StormyUser> GetUserByClaimPrincipal(ClaimsPrincipal principal);
-        Task<SignInResult> PasswordSignInAsync(StormyUser user, string password, bool isPersistent = true, bool lockoutInFailure = false);
-        UserManager<StormyUser> GetUserManager();
+        Task<IdentityResult> ConfirmEmailAsync(User user,string code);
+        Task<IdentityResult> CreateUserAsync(User user, string password);
+        Task<IdentityResult> ResetPasswordAsync(User user,string token,string newPassword);
+        Task<Result> AssignUserToRole(User user,string roleName);
+        Task<string> GeneratePasswordResetTokenAsync(User user);
+        Task<bool> IsEmailConfirmedAsync(User user);
+        User GetUserByEmail(string email);
+        Task<User> GetUserByEmailAsync(string email);
+        User GetUserByUsername(string username);
+        User GetUserById(long userId);
+        PasswordVerificationResult VerifyHashPassword(User user,string hashedPassword,string providedPassword);
+        Task<User> GetUserByClaimPrincipal(ClaimsPrincipal principal);
+        Task<SignInResult> PasswordSignInAsync(User user, string password, bool isPersistent = true, bool lockoutInFailure = false);
+        UserManager<User> GetUserManager();
         //Actually, you will not signout, it's a JWT based authentication
         Task SignOutAsync();
-        IEnumerable<Claim> BuildClaims(StormyUser user);
-        Task<string> CreateEmailConfirmationCode(StormyUser user);
-        Task<Result> EditUserAsync(StormyUser customer);
-        Task<Result> DeleteUserAsync(StormyUser user, string password);
+        IEnumerable<Claim> BuildClaims(User user);
+        Task<string> CreateEmailConfirmationCode(User user);
+        Task<Result> EditUserAsync(User customer);
+        Task<Result> DeleteUserAsync(User user, string password);
     }
 }

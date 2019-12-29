@@ -119,7 +119,7 @@ namespace StormyCommerce.Modules.Tests.Catalog
             return new CreateProductRequest{
                 Description = product.Description,
                 ShortDescription = product.Description,
-                SKU = product.SKU,
+                SKU = product.Sku,
                 Diameter = product.Diameter,
                 Height = product.Height,
                 Length = product.Length,

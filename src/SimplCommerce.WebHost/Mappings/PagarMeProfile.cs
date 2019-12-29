@@ -65,13 +65,13 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.Neighborhood,opt => opt.MapFrom(src => src.DistrictName))
                 .ForMember(dest => dest.StreetNumber,opt => opt.MapFrom(src => src.Number))
                 .ForMember(dest => dest.Zipcode,opt => opt.MapFrom(src => src.ZipCode));
-            CreateMap<StormyUser, Billing>()            
+            CreateMap<User, Billing>()            
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))                                
                 //.ForPath(dest => dest.Address, opt => opt.MapFrom(src => src.DefaultBillingAddress))
                 .AfterMap((src,dest) => {
                     dest.Id = null;
                 });
-            CreateMap<StormyUser, Customer>()
+            CreateMap<User, Customer>()
                 .ForMember(dest => dest.ExternalId,opt => opt.MapFrom(src => src.Id))    
                 .ForMember(dest => dest.Id,opt => opt.Ignore())    
                 // .ForMember(dest => dest.Address,opt => opt.Ignore())
@@ -103,7 +103,7 @@ namespace StormyCommerce.WebHost.Mappings
                     
                 });
 
-            CreateMap<Customer, StormyUser>()
+            CreateMap<Customer, User>()
                 //.ForMember(p => p.DefaultBillingAddress, opt => opt.MapFrom(src => src.Address))
                 //.ForMember(p => p.DefaultShippingAddress, opt => opt.MapFrom(src => src.Address))
                 .ForMember(p => p.Id, opt => opt.MapFrom(src => src.ExternalId))

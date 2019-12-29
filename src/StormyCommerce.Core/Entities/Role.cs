@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
-
-namespace StormyCommerce.Core.Entities.User
+namespace StormyCommerce.Core.Entities
 {
     public class Role : IdentityRole<long>, IEntityBaseWithTypedId<long>
     {

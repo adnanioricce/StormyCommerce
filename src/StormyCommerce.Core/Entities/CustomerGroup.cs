@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace StormyCommerce.Core.Entities.Customer
+namespace StormyCommerce.Core.Entities
 {
     public class CustomerGroup : EntityBase
     {
@@ -15,11 +15,7 @@ namespace StormyCommerce.Core.Entities.Customer
 
         public string Description { get; set; }
 
-        public bool IsActive { get; set; }        
-
-        public DateTimeOffset CreatedOn { get; set; }
-
-        public DateTimeOffset LatestUpdatedOn { get; set; }
+        public bool IsActive { get; set; }                
 
         public virtual ICollection<CustomerGroupUser> Users { get; set; } = new List<CustomerGroupUser>();
     }

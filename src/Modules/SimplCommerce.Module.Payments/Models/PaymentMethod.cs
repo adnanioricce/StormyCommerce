@@ -1,4 +1,4 @@
-﻿namespace StormyCommerce.Core.Entities.Payments
+﻿namespace SimplCommerce.Module.Payments.Models
 {
     public enum PaymentMethod
     {

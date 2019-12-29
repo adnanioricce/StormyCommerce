@@ -39,7 +39,7 @@ namespace StormyCommerce.Core.Services.Orders
             if (order == null) return new Result<OrderDto>(null, false, "order don't exist");
 
             order.Status = OrderStatus.Canceled;            
-            order.LastModified = DateTimeOffset.UtcNow;
+            order.LatestUpdatedOn = DateTimeOffset.UtcNow;
             order.Items.ForEach(item =>
             {
                 item.Product.UnitsInStock += item.Quantity;

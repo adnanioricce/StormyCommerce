@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 namespace StormyCommerce.Infraestructure.Data
 {
     //TODO: Methods to execute sql
-    public class StormyDbContext : IdentityDbContext<StormyUser,Role, long, IdentityUserClaim<long>, UserRole, IdentityUserLogin<long>, IdentityRoleClaim<long>, IdentityUserToken<long>>, IStormyDbContext
+    public class StormyDbContext : IdentityDbContext<User,Role, long, IdentityUserClaim<long>, UserRole, IdentityUserLogin<long>, IdentityRoleClaim<long>, IdentityUserToken<long>>, IStormyDbContext
     {        
         public DbSet<AppSettings> AppSettings { get; set; }        
         public StormyDbContext(DbContextOptions<StormyDbContext> options) : base(options)

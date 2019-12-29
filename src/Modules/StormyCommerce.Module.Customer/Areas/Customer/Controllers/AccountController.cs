@@ -94,7 +94,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         public async Task<IActionResult> EditAccount([FromBody]EditCustomerRequest request)
         {
             var currentUser = await this.GetCurrentUser();
-            _mapper.Map<EditCustomerRequest, StormyUser>(request,currentUser);
+            _mapper.Map<EditCustomerRequest, User>(request,currentUser);
             var result = await _identityService.EditUserAsync(currentUser);
             if (!result.Success) return BadRequest(result);
             return Ok(result);
@@ -144,7 +144,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         {
             var currentUser = await GetCurrentUser();
             var result = await _identityService.DeleteUserAsync(currentUser, password);
-            var isInternalError = currentUser is Result<StormyUser>;
+            var isInternalError = currentUser is Result<User>;
             //This is a little tricky...
             if (isInternalError) return StatusCode(500, result);
             if (!result.Success) return BadRequest(result);
@@ -163,7 +163,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             return Ok(new { result = result, customer = currentUser });
         }
         #endregion
-        private Task<StormyUser> GetCurrentUser()
+        private Task<User> GetCurrentUser()
         {
             return _identityService.GetUserByClaimPrincipal(User);
         }

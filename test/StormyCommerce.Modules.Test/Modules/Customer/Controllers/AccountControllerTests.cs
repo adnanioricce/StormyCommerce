@@ -23,14 +23,14 @@ namespace StormyCommerce.Modules.Tests
     public class AccountControllerTest
     {
         private readonly AccountController _controller;
-        private readonly UserManager<StormyUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IUserIdentityService _identityService;        
         public AccountControllerTest(IUserIdentityService identityService,
             IEmailSender emailSender,
             IAppLogger<AccountController> logger,            
             IMapper mapper,
             ICustomerService customerService,
-            UserManager<StormyUser> userManager)
+            UserManager<User> userManager)
         {
             _controller = new AccountController(identityService, emailSender, logger,customerService,mapper);
             _userManager = userManager;

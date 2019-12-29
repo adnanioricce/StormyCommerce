@@ -5,7 +5,7 @@ using StormyCommerce.Core.Entities.User;
 
 namespace StormyCommerce.Infraestructure.Data.Stores
 {
-    public class StormyUserStore : UserStore<StormyUser, Role, StormyDbContext, long, IdentityUserClaim<long>, UserRole,
+    public class StormyUserStore : UserStore<User, Role, StormyDbContext, long, IdentityUserClaim<long>, UserRole,
         IdentityUserLogin<long>, IdentityUserToken<long>, IdentityRoleClaim<long>>
     {
         public StormyUserStore(StormyDbContext context, IdentityErrorDescriber describer) : base(context, describer)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.User;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Module.Customer.Models;
 using System;
@@ -13,12 +13,12 @@ namespace StormyCommerce.Module.Customer.Data
     public class IdentityInitializer
     {
         private readonly StormyDbContext _context;
-        private readonly UserManager<StormyUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
         public IdentityInitializer(
             StormyDbContext context,
-            UserManager<StormyUser> userManager,
+            UserManager<User> userManager,
             RoleManager<Role> roleManager)
         {
             _context = context;
@@ -48,7 +48,7 @@ namespace StormyCommerce.Module.Customer.Data
                 var resultado = _roleManager.CreateAsync(new Role(Roles.Customer)).Result;
                 if (!resultado.Succeeded) throw new Exception($"Erro durante a criação da Role {Roles.Customer}");
             }
-            var adminUser = new StormyUser()
+            var adminUser = new User()
                 {
                     FullName = "admin user",
                     UserName = "stormyadmin",
@@ -63,7 +63,7 @@ namespace StormyCommerce.Module.Customer.Data
                 , "!D4vpassword",Roles.Admin);                
             CreateUser(
                 //TODO: actually, I think is not secure to initialize this here...
-                new StormyUser()
+                new User()
                 {
                     UserName = "stormydev",
                     Email = "adnangonzaga@gmail.com",
@@ -88,7 +88,7 @@ namespace StormyCommerce.Module.Customer.Data
                     
                     
                 }, "!D4velopment",Roles.Customer);
-            CreateUser(new StormyUser()
+            CreateUser(new User()
             {
                 UserName = "stormytest",
                 Email = "aguinobaldis@gmail.com",
@@ -117,7 +117,7 @@ namespace StormyCommerce.Module.Customer.Data
         }
 
         private void CreateUser(
-            StormyUser user,
+            User user,
             string password,
             string initialRole = null)
         {

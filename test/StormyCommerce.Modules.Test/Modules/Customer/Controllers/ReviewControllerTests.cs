@@ -22,8 +22,8 @@ namespace StormyCommerce.Modules.Tests
     {
         private readonly ReviewController _controller;
         private readonly IStormyRepository<Review> _reviewRepository;
-        private readonly StormyUser requestUser;
-        public ReviewControllerTests(IReviewService reviewService,IUserIdentityService identityService, IStormyRepository<Review> reviewRepository, IMapper mapper,UserManager<StormyUser> _userManager)
+        private readonly User requestUser;
+        public ReviewControllerTests(IReviewService reviewService,IUserIdentityService identityService, IStormyRepository<Review> reviewRepository, IMapper mapper,UserManager<User> _userManager)
         {
             _controller = new ReviewController(reviewService, identityService, mapper);
             _reviewRepository = reviewRepository;

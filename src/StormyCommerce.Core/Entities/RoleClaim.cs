@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace StormyCommerce.Core.Entities.User
+namespace StormyCommerce.Core.Entities
 {
     public class RoleClaim : IdentityRoleClaim<long>
     {              

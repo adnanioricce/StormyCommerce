@@ -55,7 +55,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 IsCallForPricing = product.IsCallForPricing,
                 IsAllowToOrder = product.IsAllowToOrder,
                 StockTrackingIsEnabled = product.StockTrackingIsEnabled,
-                StockQuantity = product.StockQuantity,
+                StockQuantity = product.UnitsInStock,
                 ShortDescription = product.ShortDescription,
                 ReviewsCount = product.ReviewsCount,
                 RatingAverage = product.RatingAverage,
@@ -91,7 +91,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 IsCallForPricing = product.IsCallForPricing,
                 IsAllowToOrder = product.IsAllowToOrder,
                 StockTrackingIsEnabled = product.StockTrackingIsEnabled,
-                StockQuantity = product.StockQuantity,
+                StockQuantity = product.UnitsInStock,
                 ShortDescription = product.ShortDescription,
                 MetaTitle = product.MetaTitle,
                 MetaKeywords = product.MetaKeywords,
@@ -158,7 +158,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                     IsAllowToOrder = variation.IsAllowToOrder,
                     IsCallForPricing = variation.IsCallForPricing,
                     StockTrackingIsEnabled = variation.StockTrackingIsEnabled,
-                    StockQuantity = variation.StockQuantity,
+                    StockQuantity = variation.UnitsInStock,
                     CalculatedProductPrice = _productPricingService.CalculateProductPrice(variation)
                 };
 

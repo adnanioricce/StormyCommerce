@@ -1,23 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using StormyCommerce.Core.Entities.Common;
-using StormyCommerce.Core.Entities.User;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StormyCommerce.Core.Entities.Customer
+namespace StormyCommerce.Core.Entities
 {    
-    public class StormyUser : IdentityUser<long>, IEntityBaseWithTypedId<long>, IExtendableObject
+    public class User : IdentityUser<long>, IEntityBaseWithTypedId<long>, IExtendableObject
     {
-        public StormyUser(){}
+        public User(){}
 
-        public StormyUser(long id)
+        public User(long id)
         {
             Id = id;
         }
 
-        public StormyUser(CustomerDto customerDto)
+        public User(CustomerDto customerDto)
         {
             CPF = customerDto.CPF;
             Email = customerDto.Email;
@@ -28,11 +27,9 @@ namespace StormyCommerce.Core.Entities.Customer
         public string UserGuid { get; set; }
         public string CPF { get; set; }                
         public long? CustomerReviewsId { get; set; }        
-        public virtual ICollection<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();        
-        public virtual ICollection<Review> CustomerReviews { get; set; } = new List<Review>();                
+        public virtual ICollection<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();                
         public virtual ICollection<UserRole> Roles { get; set; } = new List<UserRole>();
-        public virtual ICollection<CustomerGroupUser> CustomerGroups { get; set; } = new List<CustomerGroupUser>();
-        public virtual Wishlist CustomerWishlist { get; set; } = new Wishlist();
+        public virtual ICollection<CustomerGroupUser> CustomerGroups { get; set; } = new List<CustomerGroupUser>();        
         public long? VendorId { get; set; }
         public string FullName { get; set; }                
         public string RefreshTokenHash { get; set; }
@@ -47,10 +44,8 @@ namespace StormyCommerce.Core.Entities.Customer
             this.Addresses.Remove(this.Addresses.FirstOrDefault(a => a.Id == addressId));
         }        
         public void RemoveRelations()
-        {
-            this.CustomerWishlist = null;
-            this.Addresses = null;
-            this.CustomerReviews = null;
+        {            
+            this.Addresses = null;            
             this.Roles = null;
             this.CustomerGroups = null;
 

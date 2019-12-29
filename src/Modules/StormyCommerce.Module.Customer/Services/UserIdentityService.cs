@@ -17,11 +17,11 @@ namespace StormyCommerce.Module.Customer.Services
 {
     public class UserIdentityService : IUserIdentityService
     {
-        private readonly SignInManager<StormyUser> _signInManager;
-        private readonly UserManager<StormyUser> _userManager;       
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;       
         private readonly RoleManager<Role> _roleManager;        
-        public UserIdentityService(SignInManager<StormyUser> signInManager,
-            UserManager<StormyUser> identityRepository,
+        public UserIdentityService(SignInManager<User> signInManager,
+            UserManager<User> identityRepository,
             RoleManager<Role> roleManager)
         {
             _signInManager = signInManager;
@@ -37,7 +37,7 @@ namespace StormyCommerce.Module.Customer.Services
             _roleManager.Roles.Load();            
         }
 
-        public async Task<IdentityResult> CreateUserAsync(StormyUser user, string password)
+        public async Task<IdentityResult> CreateUserAsync(User user, string password)
         {
             if (user == null || password == null)
             {
@@ -65,20 +65,20 @@ namespace StormyCommerce.Module.Customer.Services
             return result;
         }
         
-        public Task<IdentityResult> ConfirmEmailAsync(StormyUser user,string code)
+        public Task<IdentityResult> ConfirmEmailAsync(User user,string code)
         {
             return _userManager.ConfirmEmailAsync(user,code);
         }
-        public Task<IdentityResult> ResetPasswordAsync(StormyUser user,string token,string newPassword)
+        public Task<IdentityResult> ResetPasswordAsync(User user,string token,string newPassword)
         {
             return _userManager.ResetPasswordAsync(user,token,newPassword);
         }
-        public StormyUser GetUserByEmail(string email)
+        public User GetUserByEmail(string email)
         {           
             return _userManager.Users
                 .FirstOrDefault(u => u.Email == email);
         }
-        public async Task<StormyUser> GetUserByEmailAsync(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
             return await _userManager.Users.Include(u => u.CustomerWishlist)
                     .ThenInclude(u => u.Items)
@@ -88,31 +88,31 @@ namespace StormyCommerce.Module.Customer.Services
                 .Include(u => u.Addresses)                    
                 .FirstOrDefaultAsync(u => string.Equals(u.Email, email,StringComparison.OrdinalIgnoreCase)).ConfigureAwait(true);
         }
-        public StormyUser GetUserByUsername(string username)
+        public User GetUserByUsername(string username)
         {
             return _userManager.Users.FirstOrDefault(u => string.Equals(u.UserName,username,StringComparison.OrdinalIgnoreCase));
         }
-        public StormyUser GetUserById(long userId)
+        public User GetUserById(long userId)
         {            
             return _userManager.Users.First(u => u.Id == userId);
         }
-        public Task<StormyUser> GetUserByClaimPrincipal(ClaimsPrincipal principal)
+        public Task<User> GetUserByClaimPrincipal(ClaimsPrincipal principal)
         {            
             var email = principal.Claims.FirstOrDefault(c => c.Type.Contains("emailaddress"))?.Value ?? principal.FindFirstValue(JwtRegisteredClaimNames.Email);
             return GetUserByEmailAsync(email);
         }
-        public UserManager<StormyUser> GetUserManager() => _userManager;
+        public UserManager<User> GetUserManager() => _userManager;
 
-        public Task<SignInResult> PasswordSignInAsync(StormyUser user, string password, bool isPersistent = true, bool lockoutInFailure = false)
+        public Task<SignInResult> PasswordSignInAsync(User user, string password, bool isPersistent = true, bool lockoutInFailure = false)
         {
             return _signInManager.PasswordSignInAsync(user, password, isPersistent, lockoutInFailure);
         }
 
-        public Task<string> CreateEmailConfirmationCode(StormyUser user)
+        public Task<string> CreateEmailConfirmationCode(User user)
         {
             return _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
-        public async Task<Result> EditUserAsync(StormyUser customer)
+        public async Task<Result> EditUserAsync(User customer)
         {
             var identityResult = await _userManager.UpdateAsync(customer).ConfigureAwait(true);
             if (identityResult.Errors.Any())
@@ -121,11 +121,11 @@ namespace StormyCommerce.Module.Customer.Services
             }
             return Result.Ok();
         }
-        public PasswordVerificationResult VerifyHashPassword(StormyUser user,string hashedPassword,string providedPassword)
+        public PasswordVerificationResult VerifyHashPassword(User user,string hashedPassword,string providedPassword)
         {            
             return _userManager.PasswordHasher.VerifyHashedPassword(user, hashedPassword,providedPassword);
         }
-        public string HashPassword(StormyUser user,string password)
+        public string HashPassword(User user,string password)
         {
             return _userManager.PasswordHasher.HashPassword(user,password);
         }
@@ -134,7 +134,7 @@ namespace StormyCommerce.Module.Customer.Services
             return Task.FromResult(_signInManager.SignOutAsync());
         }
 
-        public IEnumerable<Claim> BuildClaims(StormyUser user)
+        public IEnumerable<Claim> BuildClaims(User user)
         {
             if (user == null) throw new ArgumentNullException($"Given user object was null, check the stack trace");
             var claims = new List<Claim>
@@ -147,20 +147,20 @@ namespace StormyCommerce.Module.Customer.Services
             claims.AddRange(user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Role.Name)));            
             return claims;
         }
-        public Task<string> GeneratePasswordResetTokenAsync(StormyUser user)
+        public Task<string> GeneratePasswordResetTokenAsync(User user)
         {
             return _userManager.GeneratePasswordResetTokenAsync(user);
         }
-        public Task<bool> IsEmailConfirmedAsync(StormyUser user)
+        public Task<bool> IsEmailConfirmedAsync(User user)
         {
             return _userManager.IsEmailConfirmedAsync(user);
         }
 
-        public async Task<Result> AssignUserToRole(StormyUser user, string roleName)
+        public async Task<Result> AssignUserToRole(User user, string roleName)
         {            
             throw new NotImplementedException();
         }
-        public async Task<Result> DeleteUserAsync(StormyUser user,string password)
+        public async Task<Result> DeleteUserAsync(User user,string password)
         {
             var result = await _signInManager.CheckPasswordSignInAsync(user, password,false);        
             if (!result.Succeeded)

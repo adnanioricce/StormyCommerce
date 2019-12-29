@@ -16,10 +16,10 @@ namespace StormyCommerce.Modules.Tests
     {
         private readonly WishListController _controller;
         private readonly IStormyRepository<Wishlist> _wishlistRepository;
-        private readonly UserManager<StormyUser> _userManager;
+        private readonly UserManager<User> _userManager;
         public WishListControllerTests(IStormyRepository<Wishlist> wishlistRepo,
             IUserIdentityService identityService,
-            UserManager<StormyUser> userManager)
+            UserManager<User> userManager)
         {
             _wishlistRepository = wishlistRepo;
             _userManager = userManager;

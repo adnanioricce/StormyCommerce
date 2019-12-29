@@ -78,7 +78,7 @@ namespace StormyCommerce.Api.Client
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        Task<Result<ICollection<StormyUser>>> GetCustomersAsync(int? minLimit = null, long? maxLimit = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Result<ICollection<User>>> GetCustomersAsync(int? minLimit = null, long? maxLimit = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>

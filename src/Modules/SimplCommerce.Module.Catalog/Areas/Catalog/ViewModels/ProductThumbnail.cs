@@ -50,7 +50,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels
                 SpecialPrice = product.SpecialPrice,
                 SpecialPriceStart = product.SpecialPriceStart,
                 SpecialPriceEnd = product.SpecialPriceEnd,
-                StockQuantity = product.StockQuantity,
+                StockQuantity = product.UnitsInStock,
                 IsAllowToOrder = product.IsAllowToOrder,
                 IsCallForPricing = product.IsCallForPricing,
                 ThumbnailImage = product.ThumbnailImage,

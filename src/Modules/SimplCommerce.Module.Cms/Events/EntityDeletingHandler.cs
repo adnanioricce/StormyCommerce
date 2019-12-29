@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Cms.Models;
-using SimplCommerce.Module.Core.Events;
+using StormyCommerce.Core.Events;
 
 namespace SimplCommerce.Module.Cms.Events
 {

@@ -18,7 +18,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
                 entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
                 entity.HasQueryFilter(product => !product.IsDeleted);                                
                                                                        
-                entity.Property(product => product.SKU)
+                entity.Property(product => product.Sku)
                     .IsRequired();
                 entity.Property(product => product.ProductName)
                     .HasMaxLength(400)

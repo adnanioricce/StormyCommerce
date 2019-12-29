@@ -11,8 +11,7 @@ using Microsoft.Extensions.Hosting;
 using SimplCommerce.Module.SampleData;
 using SimplCommerce.WebHost.Extensions;
 using StormyCommerce.Api.Framework.Ioc;
-using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.User;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
@@ -47,8 +46,7 @@ namespace StormyCommerce.Modules.Tests
             services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             services.AddCatalogDependencies();
             services.AddOrderDependencies();
-            services.AddCustomerDependencies();
-            //services.AddCustomizedIdentity();
+            services.AddCustomerDependencies();            
             
             //TODO: add extension method for asp.net identity configuration
         }
@@ -60,7 +58,7 @@ namespace StormyCommerce.Modules.Tests
                     if ((dbContext.Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator).Exists()){
                         dbContext.Database.EnsureDeleted();
                         dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
-                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyUser>>();
+                        var userManager = scope.ServiceProvider.GetService<UserManager<User>>();
                         var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
                         new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
                         dbContext.SeedDbContext();

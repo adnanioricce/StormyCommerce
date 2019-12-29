@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Cms.Models;
-using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Domain;
 
 namespace SimplCommerce.Module.Cms.Services
 {
@@ -9,28 +10,20 @@ namespace SimplCommerce.Module.Cms.Services
     {
         public const string PageEntityTypeId = "Page";
 
-        private readonly IRepository<Page> _pageRepository;
+        private readonly IStormyRepository<Page> _pageRepository;
         private readonly IEntityService _entityService;
 
-        public PageService(IRepository<Page> pageRepository, IEntityService entityService)
+        public PageService(IStormyRepository<Page> pageRepository, IEntityService entityService)
         {
             _pageRepository = pageRepository;
             _entityService = entityService;
         }
 
         public async Task Create(Page page)
-        {
-            using (var transaction = _pageRepository.BeginTransaction())
-            {
-                page.Slug = _entityService.ToSafeSlug(page.Slug, page.Id, PageEntityTypeId);
-                _pageRepository.Add(page);
-                await _pageRepository.SaveChangesAsync();
-
-                _entityService.Add(page.Name, page.Slug, page.Id, PageEntityTypeId);
-                await _pageRepository.SaveChangesAsync();
-
-                transaction.Commit();
-            }
+        {            
+            page.Slug = _entityService.ToSafeSlug(page.Slug, page.Id, PageEntityTypeId);
+            await _pageRepository.AddAsync(page);                
+            _entityService.Add(page.Name, page.Slug, page.Id, PageEntityTypeId);                
         }
 
         public async Task Update(Page page)
@@ -42,8 +35,8 @@ namespace SimplCommerce.Module.Cms.Services
 
         public async Task Delete(Page page)
         {
-            _pageRepository.Remove(page);
-            await _entityService.Remove(page.Id, PageEntityTypeId);
+            _pageRepository.Delete(page);
+            await _entityService.DeleteAsync(page.Id, PageEntityTypeId);
             _pageRepository.SaveChanges();
         }
     }

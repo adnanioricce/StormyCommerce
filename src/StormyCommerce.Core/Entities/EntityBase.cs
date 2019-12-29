@@ -9,7 +9,7 @@ namespace StormyCommerce.Core.Entities
             IsDeleted = isDeleted;
         }
 
-        public virtual DateTimeOffset LastModified { get; set; } = DateTimeOffset.UtcNow;
+        public virtual DateTimeOffset LatestUpdatedOn { get; set; } = DateTimeOffset.UtcNow;
         public virtual DateTimeOffset CreatedOn { get; set; } 
         public virtual bool IsDeleted { get; set; }
 

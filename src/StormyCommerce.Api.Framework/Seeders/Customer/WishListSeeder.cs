@@ -7,7 +7,7 @@ namespace StormyCommerce.Api.Framework.Seeders.Customer
 {
     public static class WishListSeeder
     {
-        public static Wishlist SingleWishListSeed(StormyUser customer,List<WishlistItem> items)
+        public static Wishlist SingleWishListSeed(User customer,List<WishlistItem> items)
         {
             var fakeWishList = new Faker<Wishlist>("pt_BR")                
                 .Rules((f, v) =>

@@ -62,13 +62,13 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
         {
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddScoped<UserManager<StormyUser>>();
-            services.AddScoped<SignInManager<StormyUser>>();
+            services.AddScoped<UserManager<User>>();
+            services.AddScoped<SignInManager<User>>();
             services.AddScoped<RoleManager<Role>>();            
             services.AddScoped<IUserIdentityService, UserIdentityService>();
             services.AddTransient<IReviewService, ReviewService>();
             services.AddTransient<ICustomerService, CustomerService>();
-            services.AddIdentity<StormyUser, Role>()
+            services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<StormyDbContext>()                                
                 .AddDefaultTokenProviders();
             return services;

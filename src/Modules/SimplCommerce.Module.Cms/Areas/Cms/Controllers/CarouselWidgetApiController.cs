@@ -9,10 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Cms.Areas.Cms.ViewModels;
-using SimplCommerce.Module.Core.Models;
-using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Entities.Cms;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
 {
@@ -21,10 +20,10 @@ namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
     [Route("api/carousel-widgets")]
     public class CarouselWidgetApiController : Controller
     {
-        private readonly IRepository<WidgetInstance> _widgetInstanceRepository;
+        private readonly IStormyRepository<WidgetInstance> _widgetInstanceRepository;
         private readonly IMediaService _mediaService;
 
-        public CarouselWidgetApiController(IRepository<WidgetInstance> widgetInstanceRepository, IMediaService mediaService)
+        public CarouselWidgetApiController(IStormyRepository<WidgetInstance> widgetInstanceRepository, IMediaService mediaService)
         {
             _widgetInstanceRepository = widgetInstanceRepository;
             _mediaService = mediaService;

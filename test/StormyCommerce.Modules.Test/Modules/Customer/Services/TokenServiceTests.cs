@@ -15,8 +15,8 @@ namespace StormyCommerce.Modules.Tests
     public class TokenServiceTests
     {
         private readonly ITokenService service;
-        private readonly UserManager<StormyUser> userManager;
-        public TokenServiceTests(ITokenService _service, UserManager<StormyUser> userManager)
+        private readonly UserManager<User> userManager;
+        public TokenServiceTests(ITokenService _service, UserManager<User> userManager)
         {
             service = _service;
             this.userManager = userManager;

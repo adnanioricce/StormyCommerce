@@ -271,7 +271,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                     IsFeatured = x.IsFeatured,
                     IsAllowToOrder = x.IsAllowToOrder,
                     IsCallForPricing = x.IsCallForPricing,
-                    StockQuantity = x.StockQuantity,
+                    StockQuantity = x.UnitsInStock,
                     CreatedOn = x.CreatedOn,
                     IsPublished = x.IsPublished
                 });

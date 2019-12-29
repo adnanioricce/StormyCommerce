@@ -206,7 +206,7 @@ namespace SimplCommerce.WebHost
                         dbContext.Database.EnsureDeleted();
                         var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
                         dbContext.SeedDbContext();
-                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyUser>>();
+                        var userManager = scope.ServiceProvider.GetService<UserManager<User>>();
                         var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
                         new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
                     }

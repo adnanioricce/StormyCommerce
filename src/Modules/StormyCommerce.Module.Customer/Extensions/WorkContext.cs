@@ -16,13 +16,13 @@ namespace StormyCommerce.Module.Customer.Extensions
         private const string UserGuidCookiesName = "SimplUserGuid";
         private const long GuestRoleId = 3;
 
-        private StormyUser _currentUser;
+        private User _currentUser;
         private readonly IUserIdentityService _userIdentityService;
-        private readonly UserManager<StormyUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly HttpContext _httpContext;
         private readonly ICustomerService _customerService;
 
-        public WorkContext(UserManager<StormyUser> userManager,
+        public WorkContext(UserManager<User> userManager,
          IHttpContextAccessor contextAccessor, 
          ICustomerService customerService,
          IUserIdentityService userIdentityService)
@@ -33,7 +33,7 @@ namespace StormyCommerce.Module.Customer.Extensions
             _userIdentityService = userIdentityService;
         }
 
-        public async Task<StormyUser> GetCurrentApplicationUser()
+        public async Task<User> GetCurrentApplicationUser()
         {
             if (_currentUser != null)
             {
@@ -48,11 +48,11 @@ namespace StormyCommerce.Module.Customer.Extensions
             return await CreateGuestUser();              
            
         }
-        public async Task<StormyUser> CreateGuestUser()
+        public async Task<User> CreateGuestUser()
         {
             var userGuid = Guid.NewGuid().ToString();
             var dummyEmail = string.Format("{0}@guest.simplcommerce.com", userGuid);
-            var guestUser = new StormyUser
+            var guestUser = new User
             {                 
                 Id = 0,
                 Email = dummyEmail,
@@ -63,7 +63,7 @@ namespace StormyCommerce.Module.Customer.Extensions
             SetUserGuidCookies(new Guid(userGuid));
             return guestUser;
         }
-        public async Task<StormyUser> GetCurrentCustomer()
+        public async Task<User> GetCurrentCustomer()
         {
             return await _userIdentityService.GetUserByClaimPrincipal(_httpContext.User);
         }

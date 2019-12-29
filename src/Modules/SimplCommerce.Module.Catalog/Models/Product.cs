@@ -12,7 +12,7 @@ namespace SimplCommerce.Module.Catalog.Models
         public string ShortDescription { get; set; }
 
         public string Description { get; set; }
-
+        public decimal Discount { get; set; }
         public string Specification { get; set; }
 
         public decimal Price { get; set; }
@@ -37,14 +37,15 @@ namespace SimplCommerce.Module.Catalog.Models
 
         public bool StockTrackingIsEnabled { get; set; }
 
-        public int StockQuantity { get; set; }
+        public int UnitsInStock { get; set; }
+        public int UnitsOnOrder { get; set; }
 
         [StringLength(450)]
         public string Sku { get; set; }
 
         [StringLength(450)]
         public string Gtin { get; set; }
-
+        public string Name { get; set; }
         [StringLength(450)]
         public string NormalizedName { get; set; }
 
@@ -79,6 +80,11 @@ namespace SimplCommerce.Module.Catalog.Models
         public long? TaxClassId { get; set; }
 
         public TaxClass TaxClass { get; set; }
+        public double UnitWeight { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public double Length { get; set; }
+        public double? Diameter { get; set; }
 
         public void AddCategory(ProductCategory category)
         {
@@ -139,7 +145,7 @@ namespace SimplCommerce.Module.Catalog.Models
             product.IsFeatured = IsFeatured;
             product.IsAllowToOrder = IsAllowToOrder;
             product.IsCallForPricing = IsCallForPricing;
-            product.StockQuantity = StockQuantity;
+            product.UnitsInStock = UnitsInStock;
             product.BrandId = BrandId;
             product.VendorId = VendorId;
             product.TaxClassId = TaxClassId;

@@ -75,7 +75,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var checkResult = await CheckIfItemIsOnStock(request);
             if (!checkResult.Success) return BadRequest(checkResult);                                 
             var user = await _identityService.GetUserByClaimPrincipal(User);
-            var userDto = _mapper.Map<StormyUser, CustomerDto>(user);            
+            var userDto = _mapper.Map<User, CustomerDto>(user);            
             var result = await CreateOrderForCheckout(request, userDto, user.Id);
             if (!result.Success)
             {
@@ -95,7 +95,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         public async Task<ActionResult<CreditCardCheckoutResponse>> CreditCardCheckout([FromBody] CheckoutCreditCardRequest request)
         {
             var user = await _identityService.GetUserByClaimPrincipal(User);
-            var userDto = _mapper.Map<StormyUser, CustomerDto>(user);            
+            var userDto = _mapper.Map<User, CustomerDto>(user);            
             var order = BuildOrderForCreditCardCheckout(request);
             var createOrderResult = await _orderService.CreateOrderAsync(order);
             var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest(createOrderResult.Value, request.PostalCode, request.ShippingMethod));

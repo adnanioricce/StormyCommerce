@@ -23,7 +23,7 @@ namespace StormyCommerce.Module.Customer.Services
             throw new System.NotImplementedException();
         }
 
-        public Task AddWishListItem(StormyUser customer, long productId)
+        public Task AddWishListItem(User customer, long productId)
         {
             throw new System.NotImplementedException();
         }
@@ -33,7 +33,7 @@ namespace StormyCommerce.Module.Customer.Services
             throw new System.NotImplementedException();
         }
 
-        public async Task<Result> DeleteAddress(StormyUser customer, long addressId)
+        public async Task<Result> DeleteAddress(User customer, long addressId)
         {
             if (customer.Addresses.Any(a => a.Id == addressId))
             {

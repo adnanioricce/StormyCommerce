@@ -51,7 +51,7 @@ namespace SimplCommerce.WebHost.Data
             products.ForEach(p =>
             {
                 var faker = new Faker<StormyProduct>();
-                p.SKU = Guid.NewGuid().ToString();
+                p.Sku = Guid.NewGuid().ToString();
                 p.Slug = p.GenerateSlug();
                 p.ShortDescription = "uma descrição curta";
                 p.Categories.Add(new ProductCategory

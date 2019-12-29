@@ -149,7 +149,7 @@ namespace SimplCommerce.WebHost.Extensions
                     if (dbContext.Database.IsSqlite())
                     {                        
                         dbContext.SeedDbContext();
-                        var userManager = scope.ServiceProvider.GetService<UserManager<StormyUser>>();
+                        var userManager = scope.ServiceProvider.GetService<UserManager<User>>();
                         var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
                         new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
                     }

@@ -11,6 +11,6 @@ namespace StormyCommerce.Core.Entities.Order
         public OrderStatus? OldStatus { get; set; }
         public DateTimeOffset CreatedOn { get; set; } = DateTime.UtcNow;
         public long CreatedById { get; set; }
-        public virtual StormyUser CreatedBy { get; set; }        
+        public virtual User CreatedBy { get; set; }        
     }
 }

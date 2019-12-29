@@ -13,8 +13,8 @@ namespace StormyCommerce.WebHost.Mappings
         {            
             CreateMap<CustomerReviewDto, Review>();
             CreateMap<Review, CustomerReviewDto>();
-            CreateMap<CustomerDto, StormyUser>();
-            CreateMap<StormyUser, CustomerDto>();
+            CreateMap<CustomerDto, User>();
+            CreateMap<User, CustomerDto>();
             CreateMap<CustomerAddress, CustomerAddressDto>()
                 .ForPath(dest => dest.Address.City,opt => opt.MapFrom(src => src.Details.City))
                 .ForPath(dest => dest.Address.State, opt => opt.MapFrom(src => src.Details.State))
@@ -26,8 +26,8 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForPath(dest => dest.Address.AddressLine1, opt => opt.MapFrom(src => src.Details.AddressLine1))
                 .ForPath(dest => dest.Address.AddressLine2, opt => opt.MapFrom(src => src.Details.AddressLine2));
             CreateMap<WriteReviewRequest, Review>();
-            CreateMap<CreateCustomerRequest, StormyUser>();
-            CreateMap<EditCustomerRequest, StormyUser>()
+            CreateMap<CreateCustomerRequest, User>();
+            CreateMap<EditCustomerRequest, User>()
                 .ForAllMembers(opt => opt.Condition((src,dest,srcMember) => srcMember != null));
             CreateMap<EditCustomerAddressRequest,CustomerAddress>();
             CreateMap<CreateShippingAddressRequest,CustomerAddress>();

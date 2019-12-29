@@ -18,7 +18,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Cms
 
                 entity.Property(e => e.CreatedOn).HasColumnType("timestamp with time zone");
 
-                entity.Property(e => e.LastModified).HasColumnType("timestamp with time zone");
+                entity.Property(e => e.LatestUpdatedOn).HasColumnType("timestamp with time zone");
 
                 entity.Property(e => e.Name).HasMaxLength(450);
 

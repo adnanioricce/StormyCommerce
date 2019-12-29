@@ -115,7 +115,7 @@ namespace StormyCommerce.Core.Services.Catalog
         public async Task<StormyProduct> GetProductBySkuAsync(string sku)
         {
             return await _productRepository.Query()
-            .Where(p => p.SKU.Equals(sku, StringComparison.OrdinalIgnoreCase))
+            .Where(p => p.Sku.Equals(sku, StringComparison.OrdinalIgnoreCase))
             .FirstAsync();
         }
 
@@ -129,7 +129,7 @@ namespace StormyCommerce.Core.Services.Catalog
         }
         public async Task<IList<StormyProduct>> GetProductsBySkuAsync(string[] skuArray, int vendorId = 0)
         {
-            return await _productRepository.Query().Where(p => skuArray.Contains(p.SKU)).ToListAsync();            
+            return await _productRepository.Query().Where(p => skuArray.Contains(p.Sku)).ToListAsync();            
         }
 
         public int GetTotalStockQuantity()

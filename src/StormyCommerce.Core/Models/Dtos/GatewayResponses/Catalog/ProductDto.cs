@@ -69,8 +69,8 @@ namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
         public double UnitWeight { get; set; }
         public int UnitsInStock { get; set; }
         public int UnitsOnOrder { get; set; }
-        public string Price { get; set; }
-        public string OldPrice { get; set; }
+        public decimal Price { get; set; }
+        public decimal OldPrice { get; set; }
         public string ThumbnailImage { get; set; }
         public List<ProductCategoryDto> Categories { get; set; } = new List<ProductCategoryDto>();
         public BrandDto Brand { get; set; }

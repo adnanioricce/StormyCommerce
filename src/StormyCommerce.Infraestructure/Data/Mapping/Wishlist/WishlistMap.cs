@@ -8,27 +8,27 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Wishlist
     {
         public void Build(ModelBuilder modelBuilder)
         {            
-            modelBuilder.Entity<Core.Entities.Customer.Wishlist>(entity =>
-            {
-                entity.ToTable("WishList_WishList");
+            //modelBuilder.Entity<Core.Entities.Customer.Wishlist>(entity =>
+            //{
+            //    entity.ToTable("WishList_WishList");
 
-                entity.HasIndex(e => e.UserId);
+            //    entity.HasIndex(e => e.UserId);
 
-                entity.Property(e => e.CreatedOn).HasColumnType("timestamp with time zone");
+            //    entity.Property(e => e.CreatedOn).HasColumnType("timestamp with time zone");
 
-                entity.Property(e => e.LastModified).HasColumnType("timestamp with time zone");
+            //    entity.Property(e => e.LatestUpdatedOn).HasColumnType("timestamp with time zone");
 
-                entity.Property(e => e.SharingCode).HasMaxLength(450);
-                entity.HasMany(d => d.Items)
-                    .WithOne()
-                    .HasForeignKey(d => d.WishlistId)
+            //    entity.Property(e => e.SharingCode).HasMaxLength(450);
+            //    entity.HasMany(d => d.Items)
+            //        .WithOne()
+            //        .HasForeignKey(d => d.WishlistId)
 
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-                entity.HasOne(p => p.User)
-                    .WithOne()
-                    .HasForeignKey<Core.Entities.Customer.Wishlist>(p => p.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-            });
+            //        .OnDelete(DeleteBehavior.ClientSetNull);
+            //    entity.HasOne(p => p.User)
+            //        .WithOne()
+            //        .HasForeignKey<Core.Entities.Customer.Wishlist>(p => p.UserId)
+            //        .OnDelete(DeleteBehavior.ClientSetNull);
+            //});
         }
     }
 }

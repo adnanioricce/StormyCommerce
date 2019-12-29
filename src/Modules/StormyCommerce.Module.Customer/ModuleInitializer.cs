@@ -35,8 +35,8 @@ namespace StormyCommerce.Module.Customer
             AddCustomizedIdentity(serviceCollection);
             serviceCollection.AddTransient<ITokenService, TokenService>();
             serviceCollection.AddTransient<IEmailSender, EmailSender>();
-            serviceCollection.AddScoped<UserManager<StormyUser>>();
-            serviceCollection.AddScoped<SignInManager<StormyUser>>();
+            serviceCollection.AddScoped<UserManager<User>>();
+            serviceCollection.AddScoped<SignInManager<User>>();
             serviceCollection.AddScoped<RoleManager<Role>>();            
             serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();            
             serviceCollection.AddTransient<IReviewService, ReviewService>();
@@ -47,7 +47,7 @@ namespace StormyCommerce.Module.Customer
         //TODO: Move this to a extension method, like used on WebHost
         private void AddCustomizedIdentity(IServiceCollection services)
         {
-            services.AddIdentity<StormyUser, Role>()
+            services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<StormyDbContext>()                
                 .AddRoleStore<StormyUserStore>()
                 .AddRoles<Role>()                

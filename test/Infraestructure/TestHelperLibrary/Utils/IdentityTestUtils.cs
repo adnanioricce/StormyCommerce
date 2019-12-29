@@ -9,7 +9,7 @@ namespace TestHelperLibrary.Utils
 {
     public static class IdentityTestUtils
     {
-        public static IEnumerable<Claim> GetClaims(StormyUser user)
+        public static IEnumerable<Claim> GetClaims(User user)
         {
             return new[]{
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserGuid),
@@ -26,7 +26,7 @@ namespace TestHelperLibrary.Utils
         {
             return new ClaimsPrincipal(identity);
         }
-        public static ClaimsPrincipal GetClaimsPrincipal(StormyUser user)
+        public static ClaimsPrincipal GetClaimsPrincipal(User user)
         {
             var claims = GetClaims(user);
             var identity = new ClaimsIdentity(claims, "Bearer");

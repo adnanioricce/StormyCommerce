@@ -9,7 +9,7 @@ namespace StormyCommerce.Core.Models.Dtos
     public class CustomerDto
     {
         public CustomerDto(){}
-        public CustomerDto(StormyUser customer)
+        public CustomerDto(User customer)
         {
             UserName = customer.UserName;
             Email = customer.Email;
