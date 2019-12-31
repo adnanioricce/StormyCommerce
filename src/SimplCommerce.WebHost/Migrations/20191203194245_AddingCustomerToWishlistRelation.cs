@@ -27,7 +27,7 @@ namespace SimplCommerce.WebHost.Migrations
                 table: "OrderItem");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_OrderItem_StormyOrder_StormyOrderId",
+                name: "FK_OrderItem_Order_OrderId",
                 table: "OrderItem");
 
             migrationBuilder.DropForeignKey(
@@ -87,15 +87,15 @@ namespace SimplCommerce.WebHost.Migrations
                 table: "StormyCustomer");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_StormyOrder_Stock_StockId",
-                table: "StormyOrder");
+                name: "FK_Order_Stock_StockId",
+                table: "Order");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_StormyOrder_StormyCustomer_StormyCustomerId",
-                table: "StormyOrder");
+                name: "FK_Order_StormyCustomer_StormyCustomerId",
+                table: "Order");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_StormyPayment_StormyOrder_StormyOrderId",
+                name: "FK_StormyPayment_Order_OrderId",
                 table: "StormyPayment");
 
             migrationBuilder.DropForeignKey(
@@ -115,7 +115,7 @@ namespace SimplCommerce.WebHost.Migrations
                 table: "StormyShipment");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_StormyShipment_StormyOrder_StormyOrderId",
+                name: "FK_StormyShipment_Order_OrderId",
                 table: "StormyShipment");
 
             migrationBuilder.DropForeignKey(
@@ -143,8 +143,8 @@ namespace SimplCommerce.WebHost.Migrations
                 table: "StormyPayment");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_StormyOrder",
-                table: "StormyOrder");
+                name: "PK_Order",
+                table: "Order");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_StormyCustomer",
@@ -183,7 +183,7 @@ namespace SimplCommerce.WebHost.Migrations
                 newName: "Payment");
 
             migrationBuilder.RenameTable(
-                name: "StormyOrder",
+                name: "Order",
                 newName: "Order");
 
             migrationBuilder.RenameTable(
@@ -196,9 +196,9 @@ namespace SimplCommerce.WebHost.Migrations
                 newName: "IX_Vendor_VendorAddressId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_StormyShipment_StormyOrderId",
+                name: "IX_StormyShipment_OrderId",
                 table: "Shipment",
-                newName: "IX_Shipment_StormyOrderId");
+                newName: "IX_Shipment_OrderId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_StormyShipment_DestinationAddressId",
@@ -221,17 +221,17 @@ namespace SimplCommerce.WebHost.Migrations
                 newName: "IX_Product_BrandId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_StormyPayment_StormyOrderId",
+                name: "IX_StormyPayment_OrderId",
                 table: "Payment",
-                newName: "IX_Payment_StormyOrderId");
+                newName: "IX_Payment_OrderId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_StormyOrder_StormyCustomerId",
+                name: "IX_Order_StormyCustomerId",
                 table: "Order",
                 newName: "IX_Order_StormyCustomerId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_StormyOrder_StockId",
+                name: "IX_Order_StockId",
                 table: "Order",
                 newName: "IX_Order_StockId");
 
@@ -350,9 +350,9 @@ namespace SimplCommerce.WebHost.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_OrderItem_Order_StormyOrderId",
+                name: "FK_OrderItem_Order_OrderId",
                 table: "OrderItem",
-                column: "StormyOrderId",
+                column: "OrderId",
                 principalTable: "Order",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -366,9 +366,9 @@ namespace SimplCommerce.WebHost.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Payment_Order_StormyOrderId",
+                name: "FK_Payment_Order_OrderId",
                 table: "Payment",
-                column: "StormyOrderId",
+                column: "OrderId",
                 principalTable: "Order",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -486,9 +486,9 @@ namespace SimplCommerce.WebHost.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Shipment_Order_StormyOrderId",
+                name: "FK_Shipment_Order_OrderId",
                 table: "Shipment",
-                column: "StormyOrderId",
+                column: "OrderId",
                 principalTable: "Order",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -553,7 +553,7 @@ namespace SimplCommerce.WebHost.Migrations
                 table: "OrderItem");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_OrderItem_Order_StormyOrderId",
+                name: "FK_OrderItem_Order_OrderId",
                 table: "OrderItem");
 
             migrationBuilder.DropForeignKey(
@@ -561,7 +561,7 @@ namespace SimplCommerce.WebHost.Migrations
                 table: "OrderItem");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Payment_Order_StormyOrderId",
+                name: "FK_Payment_Order_OrderId",
                 table: "Payment");
 
             migrationBuilder.DropForeignKey(
@@ -621,7 +621,7 @@ namespace SimplCommerce.WebHost.Migrations
                 table: "Shipment");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Shipment_Order_StormyOrderId",
+                name: "FK_Shipment_Order_OrderId",
                 table: "Shipment");
 
             migrationBuilder.DropForeignKey(
@@ -682,7 +682,7 @@ namespace SimplCommerce.WebHost.Migrations
 
             migrationBuilder.RenameTable(
                 name: "Order",
-                newName: "StormyOrder");
+                newName: "Order");
 
             migrationBuilder.RenameTable(
                 name: "Customer",
@@ -694,9 +694,9 @@ namespace SimplCommerce.WebHost.Migrations
                 newName: "IX_StormyVendor_VendorAddressId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Shipment_StormyOrderId",
+                name: "IX_Shipment_OrderId",
                 table: "StormyShipment",
-                newName: "IX_StormyShipment_StormyOrderId");
+                newName: "IX_StormyShipment_OrderId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Shipment_DestinationAddressId",
@@ -719,19 +719,19 @@ namespace SimplCommerce.WebHost.Migrations
                 newName: "IX_StormyProduct_BrandId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Payment_StormyOrderId",
+                name: "IX_Payment_OrderId",
                 table: "StormyPayment",
-                newName: "IX_StormyPayment_StormyOrderId");
+                newName: "IX_StormyPayment_OrderId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Order_StormyCustomerId",
-                table: "StormyOrder",
-                newName: "IX_StormyOrder_StormyCustomerId");
+                table: "Order",
+                newName: "IX_Order_StormyCustomerId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Order_StockId",
-                table: "StormyOrder",
-                newName: "IX_StormyOrder_StockId");
+                table: "Order",
+                newName: "IX_Order_StockId");
 
             migrationBuilder.RenameIndex(
                 name: "IX_Customer_RoleId",
@@ -778,8 +778,8 @@ namespace SimplCommerce.WebHost.Migrations
                 column: "Id");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_StormyOrder",
-                table: "StormyOrder",
+                name: "PK_Order",
+                table: "Order",
                 column: "Id");
 
             migrationBuilder.AddPrimaryKey(
@@ -839,10 +839,10 @@ namespace SimplCommerce.WebHost.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_OrderItem_StormyOrder_StormyOrderId",
+                name: "FK_OrderItem_Order_OrderId",
                 table: "OrderItem",
-                column: "StormyOrderId",
-                principalTable: "StormyOrder",
+                column: "OrderId",
+                principalTable: "Order",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
@@ -959,26 +959,26 @@ namespace SimplCommerce.WebHost.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_StormyOrder_Stock_StockId",
-                table: "StormyOrder",
+                name: "FK_Order_Stock_StockId",
+                table: "Order",
                 column: "StockId",
                 principalTable: "Stock",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_StormyOrder_StormyCustomer_StormyCustomerId",
-                table: "StormyOrder",
+                name: "FK_Order_StormyCustomer_StormyCustomerId",
+                table: "Order",
                 column: "StormyCustomerId",
                 principalTable: "StormyCustomer",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_StormyPayment_StormyOrder_StormyOrderId",
+                name: "FK_StormyPayment_Order_OrderId",
                 table: "StormyPayment",
-                column: "StormyOrderId",
-                principalTable: "StormyOrder",
+                column: "OrderId",
+                principalTable: "Order",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
@@ -1015,10 +1015,10 @@ namespace SimplCommerce.WebHost.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_StormyShipment_StormyOrder_StormyOrderId",
+                name: "FK_StormyShipment_Order_OrderId",
                 table: "StormyShipment",
-                column: "StormyOrderId",
-                principalTable: "StormyOrder",
+                column: "OrderId",
+                principalTable: "Order",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 

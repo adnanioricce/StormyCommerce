@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\SimplCommerce.Module.Payments\SimplCommerce.Module.Payments.csproj" />
     <ProjectReference Include="..\..\src\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
     <ProjectReference Include="..\..\src\StormyCommerce.Api.Client\StormyCommerce.Api.Client.csproj" />
     <ProjectReference Include="..\..\src\StormyCommerce.Core\StormyCommerce.Core.csproj" />

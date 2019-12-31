@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Order;
-using StormyCommerce.Core.Entities.Payments;
+
+
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Models;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
 {
-    public class StormyOrderMap : IStormyModelBuilder
+    public class OrderMap : IStormyModelBuilder
     {
         public void Build(ModelBuilder modelBuilder)
         {
@@ -16,16 +16,16 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
                 entity.HasKey(prop => prop.Id);                
                 entity.HasQueryFilter(prop => prop.IsDeleted == false);                
             });
-            modelBuilder.Entity<StormyOrder>(order =>
+            modelBuilder.Entity<Order>(order =>
             {
                 order.HasOne(prop => prop.Payment)
                     //.WithOne(prop => prop.Order)
                     .WithOne()
-                    .HasForeignKey<StormyPayment>(prop => prop.StormyOrderId)
+                    .HasForeignKey<StormyPayment>(prop => prop.OrderId)
                     .OnDelete(DeleteBehavior.Restrict);
                 order.HasOne(prop => prop.Shipment)
                     .WithOne(prop => prop.Order)
-                    .HasForeignKey<StormyShipment>(prop => prop.StormyOrderId)
+                    .HasForeignKey<StormyShipment>(prop => prop.OrderId)
                     .OnDelete(DeleteBehavior.Restrict);
                 order.HasOne(prop => prop.Customer)
                 .WithMany()
@@ -38,8 +38,8 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
             });
             modelBuilder.Entity<OrderItem>(orderItem =>
             {
-                // orderItem.HasKey(prop => new {prop.Id,prop.StormyOrderId});
-                orderItem.HasOne(prop => prop.Order).WithMany(order => order.Items).HasForeignKey(o => o.StormyOrderId);
+                // orderItem.HasKey(prop => new {prop.Id,prop.OrderId});
+                orderItem.HasOne(prop => prop.Order).WithMany(order => order.Items).HasForeignKey(o => o.OrderId);
                 orderItem.Property(prop => prop.Price);                    
                 orderItem.HasQueryFilter(prop => prop.IsDeleted == false);
             });

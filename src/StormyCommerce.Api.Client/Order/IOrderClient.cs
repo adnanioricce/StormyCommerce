@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SimplCommerce.Infrastructure;
 using Stormycommerce.Module.Orders.Area.ViewModels;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+ 
 
 namespace StormyCommerce.Api.Client.Order
 {

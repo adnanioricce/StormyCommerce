@@ -1,7 +1,7 @@
 ﻿using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities.Catalog.Product;
-using StormyCommerce.Core.Entities.Order;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+
+
+ 
 using StormyCommerce.Core.Models.Shipment;
 using StormyCommerce.Core.Services.Shipping;
 using System;
@@ -19,7 +19,7 @@ namespace StormyCommerce.Modules.Tests.Services.Shipping
         {
             // Arrange
             var shippingBuilder = new ShippingBuilder();
-            OrderDto order = new OrderDto(new Core.Entities.StormyOrder
+            OrderDto order = new OrderDto(new Core.Entities.Order
             {
                 Items = new List<OrderItem>
                 {

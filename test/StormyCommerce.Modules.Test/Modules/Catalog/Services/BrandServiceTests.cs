@@ -1,8 +1,10 @@
-﻿using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities.Catalog.Product;
+﻿using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Api.Framework.Extensions;
+
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
 using StormyCommerce.Core.Services.Catalog;
+using StormyCommerce.Module.Catalog.Interfaces;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,14 +39,14 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             var result = await service.GetAllBrandsAsync();
 
             // Assert
-            Assert.True(result.Count > 0);
+            Assert.True(result.Count() > 0);
         }
 
         [Fact,TestPriority(1)]
         public async Task AddAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Brand entity = Seeders.BrandSeed().First();
+            Brand entity = null;
             entity.Id = 0;
             // Act
             await service.AddAsync(entity);

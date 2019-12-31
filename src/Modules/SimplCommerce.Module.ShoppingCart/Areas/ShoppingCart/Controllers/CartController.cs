@@ -108,9 +108,9 @@ namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.Controllers
 
             if(model.Quantity > cartItem.Quantity) // always allow user to descrease the quality
             {
-                if (cartItem.Product.StockTrackingIsEnabled && cartItem.Product.StockQuantity < model.Quantity)
+                if (cartItem.Product.StockTrackingIsEnabled && cartItem.Product.UnitsInStock < model.Quantity)
                 {
-                    return Ok(new { Error = true, Message = $"There are only {cartItem.Product.StockQuantity} items available for {cartItem.Product.Name}" });
+                    return Ok(new { Error = true, Message = $"There are only {cartItem.Product.UnitsInStock} items available for {cartItem.Product.Name}" });
                 }
             }
 

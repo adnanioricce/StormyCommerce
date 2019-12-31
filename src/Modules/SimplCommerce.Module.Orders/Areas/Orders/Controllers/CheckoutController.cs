@@ -13,6 +13,10 @@ using SimplCommerce.Module.Orders.Services;
 using SimplCommerce.Module.ShippingPrices.Services;
 using SimplCommerce.Module.ShoppingCart.Models;
 using SimplCommerce.Module.ShoppingCart.Services;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Address;
+using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 {
@@ -23,23 +27,23 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
     public class CheckoutController : Controller
     {
         private readonly IOrderService _orderService;
-        private readonly IRepositoryWithTypedId<Country, string> _countryRepository;
-        private readonly IRepository<StateOrProvince> _stateOrProvinceRepository;
-        private readonly IRepository<UserAddress> _userAddressRepository;
+        private readonly IStormyRepository<Country> _countryRepository;
+        private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
+        private readonly IStormyRepository<CustomerAddress> _userAddressRepository;
         private readonly IShippingPriceService _shippingPriceService;
         private readonly ICartService _cartService;
         private readonly IWorkContext _workContext;
-        private readonly IRepository<Cart> _cartRepository;
+        private readonly IStormyRepository<Cart> _cartRepository;
 
         public CheckoutController(
-            IRepository<StateOrProvince> stateOrProvinceRepository,
-            IRepositoryWithTypedId<Country, string> countryRepository,
-            IRepository<UserAddress> userAddressRepository,
+            IStormyRepository<StateOrProvince> stateOrProvinceRepository,
+            IStormyRepository<Country> countryRepository,
+            IStormyRepository<CustomerAddress> userAddressRepository,
             IShippingPriceService shippingPriceService,
             IOrderService orderService,
             ICartService cartService,
             IWorkContext workContext,
-            IRepository<Cart> cartRepository)
+            IStormyRepository<Cart> cartRepository)
         {
             _stateOrProvinceRepository = stateOrProvinceRepository;
             _countryRepository = countryRepository;

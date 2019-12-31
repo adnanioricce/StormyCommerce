@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Infrastructure.Models;
 using SimplCommerce.Module.Orders.Models;
-
+using StormyCommerce.Core.Entities;
 namespace SimplCommerce.Module.Payments.Models
 {
     public class Payment : EntityBase

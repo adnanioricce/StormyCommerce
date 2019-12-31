@@ -1,4 +1,4 @@
-﻿using StormyCommerce.Core.Entities.Catalog.Product;
+﻿
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using System.Collections.Generic;
 using System.Linq;

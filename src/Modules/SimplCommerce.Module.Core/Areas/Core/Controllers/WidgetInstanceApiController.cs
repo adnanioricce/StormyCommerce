@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Cms;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -13,10 +15,10 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/widget-instances")]
     public class WidgetInstanceApiController : Controller
     {
-        private readonly IRepository<WidgetInstance> _widgetInstanceRepository;
-        private readonly IRepositoryWithTypedId<Widget, string> _widgetRespository;
+        private readonly IStormyRepository<WidgetInstance> _widgetInstanceRepository;
+        private readonly IStormyRepository<Widget> _widgetRespository;
 
-        public WidgetInstanceApiController(IRepository<WidgetInstance> widgetInstanceRepository, IRepositoryWithTypedId<Widget, string> widgetRespository)
+        public WidgetInstanceApiController(IStormyRepository<WidgetInstance> widgetInstanceRepository, IStormyRepository<Widget> widgetRespository)
         {
             _widgetInstanceRepository = widgetInstanceRepository;
             _widgetRespository = widgetRespository;
@@ -51,7 +53,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                 return NotFound();
             }
 
-            _widgetInstanceRepository.Remove(widgetInstance);
+            _widgetInstanceRepository.Delete(widgetInstance);
             _widgetInstanceRepository.SaveChanges();
 
             return NoContent();

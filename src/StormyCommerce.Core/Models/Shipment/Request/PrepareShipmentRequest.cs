@@ -1,6 +1,6 @@
 ﻿using StormyCommerce.Core.Entities.Shipping;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Core.Models.Order.Request;
+ 
+
 
 namespace StormyCommerce.Core.Models.Shipment.Request
 {

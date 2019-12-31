@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Cms.Areas.Cms.ViewModels;
 using SimplCommerce.Module.Cms.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
 {
@@ -15,10 +16,10 @@ namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
     [Route("api/menus")]
     public class MenuApiController : Controller
     {
-        private readonly IRepository<Menu> _menuRepository;
-        private readonly IRepository<MenuItem> _menuItemRepository;
+        private readonly IStormyRepository<Menu> _menuRepository;
+        private readonly IStormyRepository<MenuItem> _menuItemRepository;
 
-        public MenuApiController(IRepository<Menu> menuRepository, IRepository<MenuItem> menuItemRepository)
+        public MenuApiController(IStormyRepository<Menu> menuRepository, IStormyRepository<MenuItem> menuItemRepository)
         {
             _menuRepository = menuRepository;
             _menuItemRepository = menuItemRepository;
@@ -119,8 +120,7 @@ namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
                 return NotFound();
             }
 
-            _menuItemRepository.Remove(menuItem);
-            await _menuItemRepository.SaveChangesAsync();
+            _menuItemRepository.Delete(menuItem);            
 
             return NoContent();
         }
@@ -136,8 +136,7 @@ namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
                     IsPublished = model.IsPublished
                 };
 
-                _menuRepository.Add(menu);
-                await _menuRepository.SaveChangesAsync();
+                await _menuRepository.AddAsync(menu);                
 
                 return Json(menu);
             }
@@ -175,7 +174,7 @@ namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
                 var deletedMenuItems = menu.MenuItems.Where(x => !model.Items.Any(m => m.Id == x.Id));
                 foreach (var item in deletedMenuItems)
                 {
-                    _menuItemRepository.Remove(item);
+                    _menuItemRepository.Delete(item);
                 }
 
                 await _menuRepository.SaveChangesAsync();
@@ -199,7 +198,7 @@ namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
                 return BadRequest(new { Error = "A system menu cannot be deleted." });
             }
 
-            _menuRepository.Remove(menu);
+            _menuRepository.Delete(menu);
             await _menuRepository.SaveChangesAsync();
             return NoContent();
         }

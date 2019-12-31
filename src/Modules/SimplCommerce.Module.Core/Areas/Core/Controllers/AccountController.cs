@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels.Account;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {

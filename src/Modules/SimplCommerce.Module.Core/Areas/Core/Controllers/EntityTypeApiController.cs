@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SimplCommerce.Infrastructure.Data;
-using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -11,9 +11,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/entity-types")]
     public class EntityTypeApiController : Controller
     {
-        private readonly IRepositoryWithTypedId<EntityType, string> _entityTypeRepository;
+        private readonly IStormyRepository<EntityType> _entityTypeRepository;
 
-        public EntityTypeApiController(IRepositoryWithTypedId<EntityType, string> entityTypeRepository)
+        public EntityTypeApiController(IStormyRepository<EntityType> entityTypeRepository)
         {
             _entityTypeRepository = entityTypeRepository;
         }
@@ -26,7 +26,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                 .Select(x => new
                 {
                     x.Id,
-                    x.Name
+                    x.AreaName
                 });
 
             return Ok(entityTypes);

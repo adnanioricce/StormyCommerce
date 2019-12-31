@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Models;
 

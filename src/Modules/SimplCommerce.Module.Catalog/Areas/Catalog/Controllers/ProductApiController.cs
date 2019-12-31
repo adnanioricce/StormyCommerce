@@ -18,6 +18,9 @@ using SimplCommerce.Module.Catalog.Services;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -27,24 +30,24 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     public class ProductApiController : Controller
     {
         private readonly IMediaService _mediaService;
-        private readonly IRepository<ProductAttributeValue> _productAttributeValueRepository;
-        private readonly IRepository<ProductCategory> _productCategoryRepository;
-        private readonly IRepository<ProductLink> _productLinkRepository;
-        private readonly IRepository<ProductOptionValue> _productOptionValueRepository;
-        private readonly IRepository<Product> _productRepository;
+        private readonly IStormyRepository<ProductAttributeValue> _productAttributeValueRepository;
+        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;
+        private readonly IStormyRepository<ProductLink> _productLinkRepository;
+        private readonly IStormyRepository<ProductOptionValue> _productOptionValueRepository;
+        private readonly IStormyRepository<Product> _productRepository;
         private readonly IProductService _productService;
-        private readonly IRepository<ProductMedia> _productMediaRepository;
+        private readonly IStormyRepository<ProductMedia> _productMediaRepository;
         private readonly IWorkContext _workContext;
 
         public ProductApiController(
-            IRepository<Product> productRepository,
+            IStormyRepository<Product> productRepository,
             IMediaService mediaService,
             IProductService productService,
-            IRepository<ProductLink> productLinkRepository,
-            IRepository<ProductCategory> productCategoryRepository,
-            IRepository<ProductOptionValue> productOptionValueRepository,
-            IRepository<ProductAttributeValue> productAttributeValueRepository,
-            IRepository<ProductMedia> productMediaRepository,
+            IStormyRepository<ProductLink> productLinkRepository,
+            IStormyRepository<ProductCategory> productCategoryRepository,
+            IStormyRepository<ProductOptionValue> productOptionValueRepository,
+            IStormyRepository<ProductAttributeValue> productAttributeValueRepository,
+            IStormyRepository<ProductMedia> productMediaRepository,
             IWorkContext workContext)
         {
             _productRepository = productRepository;
@@ -444,7 +447,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             foreach (var productMediaId in model.Product.DeletedMediaIds)
             {
                 var productMedia = product.Medias.First(x => x.Id == productMediaId);
-                _productMediaRepository.Remove(productMedia);
+                _productMediaRepository.Delete(productMedia);
                 await _mediaService.DeleteMediaAsync(productMedia.Media);
             }
 
@@ -607,7 +610,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             {
                 deletedProductCategory.Product = null;
                 product.Categories.Remove(deletedProductCategory);
-                _productCategoryRepository.Remove(deletedProductCategory);
+                _productCategoryRepository.Delete(deletedProductCategory);
             }
         }
 
@@ -642,7 +645,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             foreach (var productOptionValue in deletedProductOptionValues)
             {
                 product.OptionValues.Remove(productOptionValue);
-                _productOptionValueRepository.Remove(productOptionValue);
+                _productOptionValueRepository.Delete(productOptionValue);
             }
         }
 
@@ -718,7 +721,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             {
                 if (model.Product.Variations.All(x => x.Name != productLink.LinkedProduct.Name))
                 {
-                    _productLinkRepository.Remove(productLink);
+                    _productLinkRepository.Delete(productLink);
                     productLink.LinkedProduct.IsDeleted = true;
                 }
             }
@@ -747,7 +750,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             {
                 if (model.Product.RelatedProducts.All(x => x.Id != productLink.LinkedProductId))
                 {
-                    _productLinkRepository.Remove(productLink);
+                    _productLinkRepository.Delete(productLink);
                 }
             }
 
@@ -771,7 +774,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             {
                 if (model.Product.CrossSellProducts.All(x => x.Id != productLink.LinkedProductId))
                 {
-                    _productLinkRepository.Remove(productLink);
+                    _productLinkRepository.Delete(productLink);
                 }
             }
         }
@@ -805,7 +808,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             {
                 deletedAttrValue.Product = null;
                 product.AttributeValues.Remove(deletedAttrValue);
-                _productAttributeValueRepository.Remove(deletedAttrValue);
+                _productAttributeValueRepository.Delete(deletedAttrValue);
             }
         }
 

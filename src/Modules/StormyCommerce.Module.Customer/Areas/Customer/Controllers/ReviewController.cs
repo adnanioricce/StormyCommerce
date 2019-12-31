@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SimplCommerce.Module.Reviews.Models;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;

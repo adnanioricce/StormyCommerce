@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
 using Moq;
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
+
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Services.Customer;
 using StormyCommerce.Infraestructure.Data.Repositories;
+using StormyCommerce.Module.Catalog.Services;
 using TestHelperLibrary.Utils;
 
 namespace TestHelperLibrary.Mocks
@@ -17,7 +19,7 @@ namespace TestHelperLibrary.Mocks
     {
         public static ProductService GetProductService()
         {
-            return new ProductService(RepositoryHelper.GetRepository<StormyProduct>(),            
+            return new ProductService(RepositoryHelper.GetRepository<Product>(),            
             RepositoryHelper.GetRepository<ProductCategory>());
         }
 

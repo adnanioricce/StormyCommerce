@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+ 
 
 namespace StormyCommerce.Module.Orders.Area.Models.Shipping
 {

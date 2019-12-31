@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using System;
 using System.Collections.Generic;

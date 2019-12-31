@@ -3,22 +3,21 @@ using Microsoft.Extensions.DependencyInjection;
 using PagarMe;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
-using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.User;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
+
 using StormyCommerce.Core.Interfaces.Domain.Customer;
-using StormyCommerce.Core.Interfaces.Domain.Order;
-using StormyCommerce.Core.Interfaces.Domain.Payments;
+
+
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Core.Services.Customer;
-using StormyCommerce.Core.Services.Orders;
+
 using StormyCommerce.Core.Services.Shipping;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Interfaces;
+using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.Module.Catalog.Services;
 using StormyCommerce.Module.Customer.Services;
 using StormyCommerce.Module.Orders.Interfaces;

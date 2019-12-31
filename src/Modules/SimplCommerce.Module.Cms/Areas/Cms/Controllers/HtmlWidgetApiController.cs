@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Cms.Areas.Cms.ViewModels;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Cms;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
 {
@@ -13,9 +15,9 @@ namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
     [Route("api/html-widgets")]
     public class HtmlWidgetApiController : Controller
     {
-        private readonly IRepository<WidgetInstance> _widgetInstanceRepository;
+        private readonly IStormyRepository<WidgetInstance> _widgetInstanceRepository;
 
-        public HtmlWidgetApiController(IRepository<WidgetInstance> widgetInstanceRepository)
+        public HtmlWidgetApiController(IStormyRepository<WidgetInstance> widgetInstanceRepository)
         {
             _widgetInstanceRepository = widgetInstanceRepository;
         }

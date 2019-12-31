@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models;
 
 namespace StormyCommerce.Core.Entities.Common
@@ -32,7 +33,8 @@ namespace StormyCommerce.Core.Entities.Common
         public string ZipCode { get; private set; }
         public string Number { get; private set; }
         public string Complement { get; private set; }        
-        public string CountryCode { get; private set; }        
+        public string CountryCode { get; private set; }
+        public Phone Phone { get; private set; }
 
         public override bool Equals(object obj)
         {

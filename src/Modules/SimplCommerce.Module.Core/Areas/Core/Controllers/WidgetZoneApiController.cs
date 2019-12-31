@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Cms;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -13,9 +15,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/widget-zones")]
     public class WidgetZoneApiController : Controller
     {
-        private readonly IRepository<WidgetZone> _widgetZoneRespository;
+        private readonly IStormyRepository<WidgetZone> _widgetZoneRespository;
 
-        public WidgetZoneApiController(IRepository<WidgetZone> widgetZoneRespository)
+        public WidgetZoneApiController(IStormyRepository<WidgetZone> widgetZoneRespository)
         {
             _widgetZoneRespository = widgetZoneRespository;
         }

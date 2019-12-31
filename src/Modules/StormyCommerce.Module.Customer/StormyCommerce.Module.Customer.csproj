@@ -17,7 +17,8 @@
     <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />    
-    <ProjectReference Include="..\SimplCommerce.Module.EmailSenderSendgrid\SimplCommerce.Module.EmailSenderSendgrid.csproj" />
+    <ProjectReference Include="..\SimplCommerce.Module.EmailSenderSendgrid\SimplCommerce.Module.EmailSenderSendgrid.csproj" />    
+    <ProjectReference Include="..\SimplCommerce.Module.Reviews\SimplCommerce.Module.Reviews.csproj" />
 
   </ItemGroup>
 </Project>

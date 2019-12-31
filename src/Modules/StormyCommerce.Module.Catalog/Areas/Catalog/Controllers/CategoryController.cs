@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Api.Framework.Filters;
-using StormyCommerce.Core.Entities.Catalog;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+using StormyCommerce.Module.Catalog.Interfaces;
+using StormyCommerce.Module.Catalog.Models.Dtos;
 using StormyCommerce.Module.Customer.Models;
 using System.Collections.Generic;
 using System.Linq;

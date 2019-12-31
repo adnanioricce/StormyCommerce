@@ -59,7 +59,7 @@ namespace StormyCommerce.Modules.Tests
                 TotalLength = 16,
                 TotalArea = 2 * 11 * 16,
                 TotalWeight = 1,
-                Order = new Core.Entities.StormyOrder
+                Order = new Core.Entities.Order
                 {
                     TotalPrice = 100
                 },

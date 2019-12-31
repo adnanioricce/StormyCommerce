@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Entities;
 
 namespace TestHelperLibrary.Utils
 {

@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
 using Xunit;
 
 namespace StormyCommerce.Api.Tests.Catalog

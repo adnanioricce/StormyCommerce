@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Tax.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Media;
 
 namespace SimplCommerce.Module.Catalog.Models
 {
     public class Product : Content
     {
+        public string ProductName { get; set; }
         [StringLength(450)]
         public string ShortDescription { get; set; }
-
         public string Description { get; set; }
         public decimal Discount { get; set; }
         public string Specification { get; set; }
@@ -115,7 +117,14 @@ namespace SimplCommerce.Module.Catalog.Models
             productLink.Product = this;
             ProductLinks.Add(productLink);
         }
-
+        public bool CanOrderQuantity(int quantity)
+        {
+            return (this.UnitsInStock - this.UnitsOnOrder) >= quantity;
+        }
+        public string GenerateSlug()
+        {
+            return this.ProductName.Replace(" ", "-");
+        }
         public IList<ProductOptionCombination> OptionCombinations { get; protected set; } = new List<ProductOptionCombination>();
 
         public void AddOptionCombination(ProductOptionCombination combination)

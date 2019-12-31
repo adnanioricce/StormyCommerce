@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using StormyCommerce.Core.Models.Payment.Request;
-using StormyCommerce.Core.Models.Payment.Response;
+
+
 namespace StormyCommerce.Core.Interfaces.Infraestructure.ExternalServices
 {
     public interface IPaymentMethod

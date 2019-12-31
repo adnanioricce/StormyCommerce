@@ -8,6 +8,8 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -16,9 +18,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/customergroups")]
     public class CustomerGroupApiController : Controller
     {
-        private readonly IRepository<CustomerGroup> _customerGroupRepository;
+        private readonly IStormyRepository<CustomerGroup> _customerGroupRepository;
 
-        public CustomerGroupApiController(IRepository<CustomerGroup> customergroupRepository)
+        public CustomerGroupApiController(IStormyRepository<CustomerGroup> customergroupRepository)
         {
             _customerGroupRepository = customergroupRepository;
         }
@@ -113,8 +115,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                     IsActive = model.IsActive
                 };
 
-                _customerGroupRepository.Add(customerGroup);
-                await _customerGroupRepository.SaveChangesAsync();
+                await _customerGroupRepository.AddAsync(customerGroup);                
                 return CreatedAtAction(nameof(Get), new { id = customerGroup.Id }, null);
             }
 

@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SimplCommerce.Infrastructure.Modules;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
+
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Module.Catalog.Services;

@@ -9,6 +9,7 @@ using SimplCommerce.Module.Cms.Areas.Cms.ViewModels;
 using SimplCommerce.Module.Cms.Models;
 using SimplCommerce.Module.Cms.Services;
 using SimplCommerce.Module.Core.Extensions;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
 {
@@ -17,11 +18,11 @@ namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
     [Route("api/pages")]
     public class PageApiController : Controller
     {
-        private readonly IRepository<Page> _pageRepository;
+        private readonly IStormyRepository<Page> _pageRepository;
         private readonly IPageService _pageService;
         private readonly IWorkContext _workContext;
 
-        public PageApiController(IRepository<Page> pageRepository, IPageService pageService, IWorkContext workContext)
+        public PageApiController(IStormyRepository<Page> pageRepository, IPageService pageService, IWorkContext workContext)
         {
             _pageRepository = pageRepository;
             _pageService = pageService;

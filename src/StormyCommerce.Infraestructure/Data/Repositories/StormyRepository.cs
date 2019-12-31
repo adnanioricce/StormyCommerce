@@ -157,5 +157,15 @@ namespace StormyCommerce.Infraestructure.Data.Repositories
         {
             context.SaveChanges();
         }
+
+        public void Update(TEntity entity)
+        {
+            DbSet.Update(entity);
+        }
+
+        public void Add(TEntity entity)
+        {
+            DbSet.Add(entity);
+        }
     }
 }

@@ -8,11 +8,7 @@ using StormyCommerce.Core.Shipment;
 using StormyCommerce.Core.Models.Shipment.Request;
 using StormyCommerce.Core.Models.Shipment.Response;
 using StormyCommerce.Core.Models.Shipment;
-using StormyCommerce.Api.Framework.Ioc;
-using Microsoft.Extensions.Configuration;
 using System.Linq;
-using StormyCommerce.Core.Entities.Order;
-using StormyCommerce.Core.Interfaces.Domain.Order;
 using StormyCommerce.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -80,7 +76,7 @@ namespace StormyCommerce.Module.Orders.Services
                 ShipmentMethod = (ShippingMethod)(Convert.ToInt32(shippingOption.Service)),
                 SafeAmount = request.TotalPrice / 100,
                 ShipmentProvider = "Correios",    
-                StormyOrderId = request.Order.Id
+                OrderId = request.Order.Id
                 //TODO:Add Destination address Fetch
                 
             };            
@@ -89,7 +85,7 @@ namespace StormyCommerce.Module.Orders.Services
                 Id = i.Id,
                 Price = i.Price,
                 StormyProductId = i.Product.Id,
-                StormyOrderId = request.Order.Id,
+                OrderId = request.Order.Id,
                 Shipment = shipment,                
                 Quantity = i.Quantity,                                
             }).ToList();                                  

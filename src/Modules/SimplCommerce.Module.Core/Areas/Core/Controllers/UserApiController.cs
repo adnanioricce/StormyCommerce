@@ -9,6 +9,8 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -17,10 +19,10 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/users")]
     public class UserApiController : Controller
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IStormyRepository<User> _userRepository;
         private readonly UserManager<User> _userManager;
 
-        public UserApiController(IRepository<User> userRepository, UserManager<User> userManager)
+        public UserApiController(IStormyRepository<User> userRepository, UserManager<User> userManager)
         {
             _userRepository = userRepository;
             _userManager = userManager;
@@ -29,7 +31,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
         [HttpGet("quick-search")]
         public async Task<IActionResult> QuickSearch(UserSearchOption searchOption)
         {
-            var query = _userRepository.Query().Where(x => !x.IsDeleted);
+            var query = _userRepository.Query().T;
             if (!string.IsNullOrWhiteSpace(searchOption.Name))
             {
                 query = query.Where(x => x.FullName.Contains(searchOption.Name));
@@ -59,7 +61,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                     .ThenInclude(x => x.Role)
                 .Include(x => x.CustomerGroups)
                     .ThenInclude(x => x.CustomerGroup)
-                .Where(x => !x.IsDeleted);
+                .Where(x => !x.EmailConfirmed);
 
             if (param.Search.PredicateObject != null)
             {

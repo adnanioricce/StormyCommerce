@@ -1,6 +1,4 @@
-﻿using StormyCommerce.Core.Entities.Catalog.Product;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
-using StormyCommerce.Core.Interfaces.Infraestructure.Data;
+﻿using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using System;
 using System.Threading.Tasks;
 

@@ -17,6 +17,7 @@ namespace StormyCommerce.Core.Interfaces
         Task<T> GetByIdAsync(params object[] keyValues);
         Task<T> GetByIdAsync(long id);
         Task UpdateAsync(T entity);
+        void Update(T entity);
 
         Task UpdateCollectionAsync(IEnumerable<T> entities);
 
@@ -25,6 +26,7 @@ namespace StormyCommerce.Core.Interfaces
         void DeleteCollection(IEnumerable<T> entities);
 
         Task AddAsync(T entity);
+        void Add(T entity);
 
         Task AddCollectionAsync(IEnumerable<T> entities);
 

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
+
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.Payments;
+
 using StormyCommerce.Core.Entities.Settings;
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Entities.User;

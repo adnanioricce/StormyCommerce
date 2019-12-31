@@ -1,7 +1,8 @@
-﻿using StormyCommerce.Api.Client.Catalog;
+﻿using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Api.Client.Catalog;
 using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
+
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Requests;
 using System;
@@ -21,7 +22,7 @@ namespace StormyCommerce.Api.Tests.Catalog
         {
             // Arrange
             var catalogClient = new CatalogClient(Config.BaseUrl);
-            Category category = Seeders.CategorySeed().First();
+            Category category = null;
             CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);
 
             // Act
@@ -36,31 +37,27 @@ namespace StormyCommerce.Api.Tests.Catalog
         {
             // Arrange
             var catalogClient = new CatalogClient(Config.BaseUrl);
-            var product = Seeders.StormyProductSeed().First();
+            var product = new Product();
             CreateProductRequest _model = new CreateProductRequest {
                 Brand = product.Brand,
-                Categories = product.Categories,
+                Categories = product.Categories.ToList(),
                 ShortDescription = product.ShortDescription,
                 Description = product.Description,
                 Discount = product.Discount,
                 Diameter = product.Diameter,
                 Height = product.Height,
                 Width = product.Width,
-                Length = product.Length,
-                AvailableSizes = product.AvailableSizes,
-                Note = product.Note,
-                Price = Price.GetPriceFromString(product.Price),
-                Medias = product.Medias,
-                Links = product.Links,
-                ProductCost = product.ProductCost,
+                Length = product.Length,                
+                Price = Price.GetPriceFromCents("R$",product.Price),
+                Medias = product.Medias.ToList(),
+                Links = product.ProductLinks.ToList(),
                 SKU = product.Sku,
-                UnitPrice = product.UnitPrice,
+                UnitPrice = product.Price,
                 UnitsInStock = product.UnitsInStock,
                 UnitWeight = product.UnitWeight,
                 ProductName = product.ProductName,
-                ThumbnailImage = product.ThumbnailImage,
-                QuantityPerUnity = product.QuantityPerUnity,
-                Vendor = product.Vendor
+                ThumbnailImage = product.ThumbnailImage.FileName,                
+                VendorId = 1
             };
             
             CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);

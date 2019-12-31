@@ -3,24 +3,32 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using PagarMe;
+using SimplCommerce.Module.Payments.Models;
+using SimplCommerce.Module.ShoppingCart.Models;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.Payments;
+
 using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
-using StormyCommerce.Core.Interfaces.Domain.Order;
-using StormyCommerce.Core.Interfaces.Domain.Payments;
+
+
+
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Core.Models.Order;
-using StormyCommerce.Core.Models.Order.Request;
-using StormyCommerce.Core.Models.Order.Response;
+ 
+
+ 
+
 using StormyCommerce.Infraestructure.Interfaces;
+using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.Module.Orders.Area.Controllers;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
+using StormyCommerce.Module.Orders.Interfaces;
+using StormyCommerce.Module.Orders.Models.Requests;
+using StormyCommerce.Module.Orders.Models.Responses;
 using StormyCommerce.Module.Orders.Services;
+using StormyCommerce.Module.Payments.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TestHelperLibrary.Extensions;
@@ -62,12 +70,12 @@ namespace StormyCommerce.Modules.Tests
                     new CartItem
                     {
                         Quantity = quantity,
-                        StormyProductId = firstProduct.Id
+                        ProductId = firstProduct.Id
                     },
                     new CartItem
                     {
                         Quantity = quantity,
-                        StormyProductId = secondProduct.Id
+                        ProductId = secondProduct.Id
                     }
                 },
                 PickUpOnStore = false,
@@ -83,14 +91,11 @@ namespace StormyCommerce.Modules.Tests
             var value = result.Value as CheckoutResponse;
             Assert.Equal(200,(int)result.StatusCode);            
             Assert.Equal(firstProductStock - quantity, firstProduct.UnitsInStock);
-            Assert.Equal(secondProductStock - quantity, secondProduct.UnitsInStock);
-            Assert.Equal(PaymentStatus.Pending, value.Payment.PaymentStatus);            
+            Assert.Equal(secondProductStock - quantity, secondProduct.UnitsInStock);            
             Assert.True(firstProduct.UnitsInStock >= 0 && secondProduct.UnitsInStock >= 0);
-            Assert.True(value.Order.Items.Count > 0);            
-            Assert.NotNull(value.Payment);
+            Assert.True(value.Order.Items.Count > 0);                        
             Assert.NotNull(value.Shipment);
-            Assert.NotNull(value.Shipment.DestinationAddress);
-            Assert.NotNull(value.Payment.GatewayTransactionId);            
+            Assert.NotNull(value.Shipment.DestinationAddress);                   
         }        
         [Fact,TestPriority(0)]
         public async Task CheckoutCreditCard_ReceivesCheckoutRequest_ShouldReturnOrderWithPaymentAndShipment()
@@ -107,12 +112,12 @@ namespace StormyCommerce.Modules.Tests
                     new CartItem
                     {
                         Quantity = quantity,
-                        StormyProductId = firstProduct.Id
+                        ProductId = firstProduct.Id
                     },
                     new CartItem
                     {
                         Quantity = quantity,
-                        StormyProductId = secondProduct.Id
+                        ProductId = secondProduct.Id
                     }
                 },
                 PickUpOnStore = false,

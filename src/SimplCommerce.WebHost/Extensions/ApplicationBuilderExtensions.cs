@@ -20,7 +20,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using StormyCommerce.Core.Entities.User;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.WebHost.Extensions
 {

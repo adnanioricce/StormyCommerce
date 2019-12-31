@@ -1,7 +1,7 @@
 ﻿using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
+
 using StormyCommerce.Core.Services.Catalog;
 using System;
 using System.Collections;

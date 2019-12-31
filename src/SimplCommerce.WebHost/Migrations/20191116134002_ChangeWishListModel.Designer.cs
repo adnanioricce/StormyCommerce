@@ -807,7 +807,7 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<long>("ShipmentId");
 
-                    b.Property<long>("StormyOrderId");
+                    b.Property<long>("OrderId");
 
                     b.Property<long>("StormyProductId");
 
@@ -815,7 +815,7 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.HasIndex("ShipmentId");
 
-                    b.HasIndex("StormyOrderId");
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("StormyProductId");
 
@@ -846,11 +846,11 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<int>("PaymentStatus");
 
-                    b.Property<long>("StormyOrderId");
+                    b.Property<long>("OrderId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StormyOrderId")
+                    b.HasIndex("OrderId")
                         .IsUnique();
 
                     b.ToTable("Payment");
@@ -930,7 +930,7 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<long>("StormyOrderId");
+                    b.Property<long>("OrderId");
 
                     b.Property<double>("TotalArea");
 
@@ -955,7 +955,7 @@ namespace SimplCommerce.WebHost.Migrations
                     b.HasIndex("DestinationAddressId")
                         .IsUnique();
 
-                    b.HasIndex("StormyOrderId")
+                    b.HasIndex("OrderId")
                         .IsUnique();
 
                     b.ToTable("Shipment");
@@ -976,7 +976,7 @@ namespace SimplCommerce.WebHost.Migrations
                     b.ToTable("Stock");
                 });
 
-            modelBuilder.Entity("StormyCommerce.Core.Entities.StormyOrder", b =>
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Order", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1025,7 +1025,7 @@ namespace SimplCommerce.WebHost.Migrations
 
                     b.HasIndex("StormyCustomerId");
 
-                    b.ToTable("StormyOrder");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Vendor.StormyVendor", b =>
@@ -1343,9 +1343,9 @@ namespace SimplCommerce.WebHost.Migrations
                         .HasForeignKey("ShipmentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("StormyCommerce.Core.Entities.StormyOrder", "Order")
+                    b.HasOne("StormyCommerce.Core.Entities.Order", "Order")
                         .WithMany("Items")
-                        .HasForeignKey("StormyOrderId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("StormyCommerce.Core.Entities.Catalog.Product.StormyProduct", "Product")
@@ -1356,9 +1356,9 @@ namespace SimplCommerce.WebHost.Migrations
 
             modelBuilder.Entity("StormyCommerce.Core.Entities.Payments.Payment", b =>
                 {
-                    b.HasOne("StormyCommerce.Core.Entities.StormyOrder", "Order")
+                    b.HasOne("StormyCommerce.Core.Entities.Order", "Order")
                         .WithOne("Payment")
-                        .HasForeignKey("StormyCommerce.Core.Entities.Payments.Payment", "StormyOrderId")
+                        .HasForeignKey("StormyCommerce.Core.Entities.Payments.Payment", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1387,13 +1387,13 @@ namespace SimplCommerce.WebHost.Migrations
                         .HasForeignKey("StormyCommerce.Core.Entities.Shipment", "DestinationAddressId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("StormyCommerce.Core.Entities.StormyOrder", "Order")
+                    b.HasOne("StormyCommerce.Core.Entities.Order", "Order")
                         .WithOne("Shipment")
-                        .HasForeignKey("StormyCommerce.Core.Entities.Shipment", "StormyOrderId")
+                        .HasForeignKey("StormyCommerce.Core.Entities.Shipment", "OrderId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("StormyCommerce.Core.Entities.StormyOrder", b =>
+            modelBuilder.Entity("StormyCommerce.Core.Entities.Order", b =>
                 {
                     b.HasOne("StormyCommerce.Core.Entities.Stock")
                         .WithMany("Orders")

@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Address;
+using StormyCommerce.Core.Entities.Cms;
 
 namespace SimplCommerce.Module.Core.Data
 {
@@ -40,8 +43,8 @@ namespace SimplCommerce.Module.Core.Data
             );
 
             builder.Entity<Country>().HasData(
-                new Country("VN") { Code3 = "VNM", Name = "Việt Nam", IsBillingEnabled = true, IsShippingEnabled = true, IsCityEnabled = false, IsZipCodeEnabled = false, IsDistrictEnabled = true },
-                new Country("US") { Code3 = "USA", Name = "United States", IsBillingEnabled = true, IsShippingEnabled = true, IsCityEnabled = true, IsZipCodeEnabled = true, IsDistrictEnabled = false }
+                new Country("VN") { Code = "VNM", Name = "Việt Nam", IsBillingEnabled = true, IsShippingEnabled = true, IsCityEnabled = false, IsZipCodeEnabled = false, IsDistrictEnabled = true },
+                new Country("US") { Code = "USA", Name = "United States", IsBillingEnabled = true, IsShippingEnabled = true, IsCityEnabled = true, IsZipCodeEnabled = true, IsDistrictEnabled = false }
             );
 
             builder.Entity<StateOrProvince>().HasData(
@@ -54,9 +57,9 @@ namespace SimplCommerce.Module.Core.Data
                 new District(2) { Name = "Quận 2", StateOrProvinceId = 1, Type = "Quận" }
             );
 
-            builder.Entity<Address>().HasData(
-                new Address(1) { AddressLine1 = "364 Cong Hoa", ContactName = "Thien Nguyen", CountryId = "VN", StateOrProvinceId = 1 }
-            );
+            //builder.Entity<Address>().HasData(
+            //    new Address(1) { AddressLine1 = "364 Cong Hoa", ContactName = "Thien Nguyen", CountryId = "VN", StateOrProvinceId = 1 }
+            //);
         }
     }
 }

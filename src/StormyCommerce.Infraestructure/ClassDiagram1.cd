@@ -32,11 +32,11 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="StormyCommerce.Infraestructure.Data.Mapping.Orders.StormyOrderMap" BaseTypeListCollapsed="true">
+  <Class Name="StormyCommerce.Infraestructure.Data.Mapping.Orders.OrderMap" BaseTypeListCollapsed="true">
     <Position X="12" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Data\Mapping\Orders\StormyOrderMap.cs</FileName>
+      <FileName>Data\Mapping\Orders\OrderMap.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>

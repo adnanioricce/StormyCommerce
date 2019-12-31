@@ -2,7 +2,7 @@
 using System.Linq;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+ 
 using StormyCommerce.Core.Models.Shipment;
 using StormyCommerce.Core.Models.Shipment.Response;
 

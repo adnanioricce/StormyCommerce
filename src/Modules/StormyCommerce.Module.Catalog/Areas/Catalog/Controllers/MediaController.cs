@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Module.Catalog.Models;
 using StormyCommerce.Module.Customer.Models;

@@ -5,6 +5,8 @@ using SimplCommerce.Infrastructure.Extensions;
 using SimplCommerce.Infrastructure.Models;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Infraestructure.Extensions;
 
 namespace SimplCommerce.Module.Core.Services
 {

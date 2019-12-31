@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Shipping;
-using StormyCommerce.Core.Interfaces.Domain.Order;
+
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+ 
 using StormyCommerce.Core.Models.Shipment.Request;
 using Xunit;
 
@@ -24,7 +24,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task PrepareOrderForShipment_ReceivesPrepareShipmentRequestObject_ReturnPrepareShipmentResponse()
         {
             //Arrange
-            var order = await _orderService.CreateOrderAsync(Seeders.StormyOrderSeed().First());            
+            var order = await _orderService.CreateOrderAsync(Seeders.OrderSeed().First());            
             var request = new PrepareShipmentRequest
             {
                 TotalPrice = 100,

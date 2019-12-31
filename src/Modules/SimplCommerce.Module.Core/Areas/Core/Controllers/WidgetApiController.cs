@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SimplCommerce.Infrastructure.Data;
-using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Cms;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -13,9 +13,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/widgets")]
     public class WidgetApiController : Controller
     {
-        private readonly IRepositoryWithTypedId<Widget, string> _widgetRespository;
+        private readonly IStormyRepository<Widget> _widgetRespository;
 
-        public WidgetApiController(IRepositoryWithTypedId<Widget, string> widgetRespository)
+        public WidgetApiController(IStormyRepository<Widget> widgetRespository)
         {
             _widgetRespository = widgetRespository;
         }

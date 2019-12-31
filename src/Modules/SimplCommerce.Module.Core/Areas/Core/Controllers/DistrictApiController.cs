@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Address;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -11,9 +13,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/districts")]
     public class DistrictApiController : Controller
     {
-        private readonly IRepository<District> _districtRepository;
+        private readonly IStormyRepository<District> _districtRepository;
 
-        public DistrictApiController(IRepository<District> districtRepository)
+        public DistrictApiController(IStormyRepository<District> districtRepository)
         {
             _districtRepository = districtRepository;
         }

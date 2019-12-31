@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
-using StormyCommerce.Core.Interfaces.Domain.Order;
+
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+ 
 using StormyCommerce.Infraestructure.Interfaces;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
@@ -39,7 +39,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         public async Task<ActionResult<OrderDto>> GetOrderByKey(Guid key)
         {
             var currentUser = await _identityService.GetUserByClaimPrincipal(this.User);
-            var order = await _orderService.GetStormyOrderByUniqueIdAsync(key);
+            var order = await _orderService.GetOrderByUniqueIdAsync(key);
             if(!(order.UserId == currentUser.Id)){
                 return BadRequest(Result.Fail("you don't have permission to see this order"));
             }

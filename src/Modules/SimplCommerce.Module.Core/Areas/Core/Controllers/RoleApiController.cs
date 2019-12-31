@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -13,9 +15,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/roles")]
     public class RoleApiController : Controller
     {
-        private readonly IRepository<Role> _roleRepository;
+        private readonly IStormyRepository<Role> _roleRepository;
 
-        public RoleApiController(IRepository<Role> roleRepository)
+        public RoleApiController(IStormyRepository<Role> roleRepository)
         {
             _roleRepository = roleRepository;
         }

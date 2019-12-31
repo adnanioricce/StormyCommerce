@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
+    <ProjectReference Include="..\SimplCommerce.Module.Core\SimplCommerce.Module.Core.csproj" />
     <!--<ProjectReference Include="..\SimplCommerce.Module.Core\SimplCommerce.Module.Core.csproj" />-->
   </ItemGroup>
 

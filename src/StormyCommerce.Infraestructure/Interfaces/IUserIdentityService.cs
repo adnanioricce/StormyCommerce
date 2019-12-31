@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
+using StormyCommerce.Core.Entities;
 namespace StormyCommerce.Infraestructure.Interfaces
 {
     public interface IUserIdentityService

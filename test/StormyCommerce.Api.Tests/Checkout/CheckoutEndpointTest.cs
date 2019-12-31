@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using StormyCommerce.Core.Entities.Payments;
+using SimplCommerce.Module.Payments.Models;
+using SimplCommerce.Module.ShoppingCart.Models;
 using StormyCommerce.Core.Entities.Shipping;
-using StormyCommerce.Core.Models.Order;
-using StormyCommerce.Core.Models.Order.Request;
+using StormyCommerce.Module.Orders.Models.Requests;
 using Xunit;
 
 namespace StormyCommerce.Api.Tests.Checkout
@@ -28,12 +28,12 @@ namespace StormyCommerce.Api.Tests.Checkout
                     new CartItem
                     {
                         Quantity = 1,
-                        StormyProductId = 2
+                        ProductId = 2
                     },
                     new CartItem
                     {
                         Quantity = 1,
-                        StormyProductId = 1
+                        ProductId = 1
                     }
                 },
                 PaymentMethod = PaymentMethod.Boleto,
@@ -54,12 +54,12 @@ namespace StormyCommerce.Api.Tests.Checkout
                     new CartItem
                     {
                         Quantity = 1,
-                        StormyProductId = 4
+                        ProductId = 4
                     },
                     new CartItem
                     {
                         Quantity = 1,
-                        StormyProductId = 1
+                        ProductId = 1
                     }
                 },
                 PickUpOnStore = false,

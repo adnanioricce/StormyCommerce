@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Core.Entities.Customer;
-
+using User = StormyCommerce.Core.Entities.User;
 namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
 {
     public class StormyCustomerMap : IStormyModelBuilder
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Core.Entities.Customer.User>((System.Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Core.Entities.Customer.User>>)(entity =>
+            modelBuilder.Entity<Core.Entities.User>((System.Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Core.Entities.User>>)(entity =>
             {         
                 entity.ToTable("Core_User");                
 
@@ -48,7 +47,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                 entity.Property(prop => prop.CPF).HasMaxLength(11);
                 entity.Property(prop => prop.Email).IsRequired();                                              
                 entity.HasMany(prop => prop.Roles)
-                    .WithOne((System.Linq.Expressions.Expression<System.Func<Core.Entities.User.UserRole, Core.Entities.Customer.User>>)(p => (Core.Entities.Customer.User)p.User))
+                    .WithOne(prop => prop.User)
                     .HasForeignKey(p => p.UserId);  
 
                 

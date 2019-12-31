@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
-using SimplCommerce.Infrastructure.Models;
-using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Orders.Models
 {
@@ -17,19 +16,16 @@ namespace SimplCommerce.Module.Orders.Models
             IsMasterOrder = false;
         }
 
+        public Guid OrderUniqueKey { get; set; }
         public long CustomerId { get; set; }
 
         [JsonIgnore] // To simplify the json stored in order history
-        public User Customer { get; set; }
-
-        public DateTimeOffset LatestUpdatedOn { get; set; }
+        public User Customer { get; set; }       
 
         public long LatestUpdatedById { get; set; }
 
         [JsonIgnore]
-        public User LatestUpdatedBy { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
+        public User LatestUpdatedBy { get; set; }        
 
         public long CreatedById { get; set; }
 
@@ -71,6 +67,7 @@ namespace SimplCommerce.Module.Orders.Models
         public Order Parent { get; set; }
 
         public bool IsMasterOrder { get; set; }
+        public bool PickUpInStore { get; set; }
 
         [StringLength(450)]
         public string ShippingMethod { get; set; }
@@ -87,11 +84,13 @@ namespace SimplCommerce.Module.Orders.Models
         public decimal PaymentFeeAmount { get; set; }
 
         public IList<Order> Children { get; protected set; } = new List<Order>();
+        public DateTimeOffset PaymentDate { get; set; }
+        public DateTimeOffset RequiredDate { get; set; }
 
         public void AddOrderItem(OrderItem item)
         {
             item.Order = this;
             OrderItems.Add(item);
-        }
+        }        
     }
 }

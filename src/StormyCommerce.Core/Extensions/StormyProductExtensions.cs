@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Core.Models.Order;
+
 
 namespace StormyCommerce.Core.Extensions
 {
@@ -36,7 +32,7 @@ namespace StormyCommerce.Core.Extensions
         public static IDictionary<CartItem,StormyProduct> MergeToItemProductDictonary(this IEnumerable<CartItem> items,IEnumerable<StormyProduct> products)
         {
             return items           
-            .Select((item,index) => new {item,product = products.FirstOrDefault(p => p.Id == item.StormyProductId)})             
+            .Select((item,index) => new {item,product = products.FirstOrDefault(p => p.Id == item.ProductId)})             
             .ToDictionary(i => i.item,i => i.product);
         }                
     }

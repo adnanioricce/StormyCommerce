@@ -1,6 +1,6 @@
 ﻿using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Entities.Shipping;
-using StormyCommerce.Core.Entities.Order;
+
 using System;
 using System.Collections.Generic;
 
@@ -13,8 +13,8 @@ namespace StormyCommerce.Core.Entities.Shipping
             Id = id;
         }
         public StormyShipment(){}                        
-        public long StormyOrderId { get; set; }
-        public virtual StormyOrder Order { get; set; }                
+        public long OrderId { get; set; }
+        public virtual Order Order { get; set; }                
         public string TrackNumber { get; set; }
         public ShippingMethod ShipmentMethod { get; set; }        
         public string ShipmentProvider { get; set; }

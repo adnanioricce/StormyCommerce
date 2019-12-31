@@ -4,20 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using PagarMe;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Catalog.Product;
-using StormyCommerce.Core.Entities.Order;
-using StormyCommerce.Core.Entities.Payments;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
-using StormyCommerce.Core.Interfaces.Domain.Payments;
-using StormyCommerce.Core.Models;
+using SimplCommerce.Module.Catalog.Models;
+using SimplCommerce.Module.Orders.Models;
+using SimplCommerce.Module.ShoppingCart.Models;
 using StormyCommerce.Core.Models.Dtos;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Core.Models.Order;
-using StormyCommerce.Core.Models.Order.Request;
-using StormyCommerce.Core.Models.Payment.Request;
-using StormyCommerce.Core.Models.Payment.Response;
+using StormyCommerce.Module.Catalog.Interfaces;
+using StormyCommerce.Module.Catalog.Models.Dtos;
+
+using StormyCommerce.Module.Orders.Models.Requests;
+using StormyCommerce.Module.Payments.Interfaces;
+using StormyCommerce.Module.Payments.Models.Requests;
 
 namespace StormyCommerce.Module.Orders.Services
 {
@@ -53,73 +49,73 @@ namespace StormyCommerce.Module.Orders.Services
         }               
         private async Task<List<OrderItemDto>> GetOrderItemsAsync(List<CartItem> items)
         {
-            var products = await _productService.GetProductsByIdsAsync(items.Select(i => i.StormyProductId).ToArray());
+            var products = await _productService.GetProductsByIdsAsync(items.Select(i => i.ProductId).ToArray());
             var orderItems = products
                 .Select(p =>
                 new OrderItemDto(
-                    p.UnitPrice,
-                    items.FirstOrDefault(i => i.StormyProductId == p.Id).Quantity,
-                    _mapper.Map<StormyProduct, ProductDto>(p))
+                    p.Price,
+                    items.FirstOrDefault(i => i.ProductId == p.Id).Quantity,
+                    _mapper.Map<Product, ProductDto>(p))
                 ).ToList();
             return orderItems;
         }
-        private StormyOrder MapCreditCardTransactionToOrder(Transaction transaction,ProcessPaymentRequest request)
+        private Order MapCreditCardTransactionToOrder(Transaction transaction,ProcessPaymentRequest request)
         {
-            var order = new StormyOrder
+            var order = new Order
             {
-                OrderDate = DateTime.UtcNow,
-                Status = OrderStatus.PaymentReceived,
+                CreatedOn = DateTime.UtcNow,
+                OrderStatus = OrderStatus.PaymentReceived,
                 RequiredDate = DateTime.UtcNow,
                 OrderUniqueKey = Guid.NewGuid(),
-                TotalPrice = ((decimal)(transaction.Amount + transaction.Cost) / 100),
-                PaymentDate = transaction.DateCreated,
+                OrderTotal = ((decimal)(transaction.Amount + transaction.Cost) / 100),
+                PaymentDate = transaction.DateCreated.Value,
                 PickUpInStore = request.PickUpOnStore,
             };
-            order.Payment = new StormyPayment
+            //order.Payment = new Payment
+            //{
+            //    Amount = (decimal)(request.Amount) / 100,
+            //    CreatedOn = DateTimeOffset.UtcNow,
+            //    GatewayTransactionId = transaction.Id,
+            //    PaymentMethod = SimplCommerce.Module.Payments.Models.PaymentMethod.CreditCard,
+            //    Status = PaymentStatus.Successful,
+            //    PaidOutAt = transaction.DateCreated,
+            //    PaymentFee = transaction.Cost                
+            //};
+            order.OrderItems = request.Items.Select(i => new OrderItem
             {
-                Amount = (decimal)(request.Amount) / 100,
-                CreatedOn = DateTimeOffset.UtcNow,
-                GatewayTransactionId = transaction.Id,
-                PaymentMethod = Core.Entities.Payments.PaymentMethod.CreditCard,
-                PaymentStatus = PaymentStatus.Successful,
-                PaidOutAt = transaction.DateCreated,
-                PaymentFee = transaction.Cost                
-            };
-            order.Items = request.Items.Select(i => new OrderItem
-            {
-                StormyProductId = i.Product.Id,
+                ProductId = i.Product.Id,
                 Quantity = i.Quantity,
-                Price = i.Price
+                ProductPrice = i.Price
             }).ToList();
             return order;
         }
-        private StormyOrder MapBoletoTransactionToOrder(Transaction transaction,ProcessPaymentRequest request)
+        private Order MapBoletoTransactionToOrder(Transaction transaction,ProcessPaymentRequest request)
         {
-            var order = new StormyOrder
+            var order = new Order
             {
-                OrderDate = DateTime.UtcNow,
-                Status = OrderStatus.PendingPayment,
+                CreatedOn = DateTime.UtcNow,
+                OrderStatus = OrderStatus.PendingPayment,
                 RequiredDate = !(transaction.BoletoExpirationDate == null) ? transaction.BoletoExpirationDate.Value : DateTime.UtcNow,
                 OrderUniqueKey = Guid.NewGuid(),
-                TotalPrice = transaction.Amount,
-                PaymentDate = transaction.DateCreated,
+                OrderTotal = transaction.Amount,
+                PaymentDate = transaction.DateCreated.Value,
                 PickUpInStore = request.PickUpOnStore,
             };
-            order.Payment = new StormyPayment
+            //order.Payment = new StormyPayment
+            //{
+            //    Amount = (decimal)(request.Amount) / 100,
+            //    CreatedOn = DateTimeOffset.UtcNow,
+            //    GatewayTransactionId = transaction.Id,
+            //    PaymentMethod = Core.Entities.Payments.PaymentMethod.Boleto,
+            //    PaymentStatus = PaymentStatus.Pending,
+            //    BoletoUrl = transaction.BoletoUrl,
+            //    BoletoBarcode = transaction.BoletoBarcode,                
+            //};
+            order.OrderItems = request.Items.Select(i => new OrderItem
             {
-                Amount = (decimal)(request.Amount) / 100,
-                CreatedOn = DateTimeOffset.UtcNow,
-                GatewayTransactionId = transaction.Id,
-                PaymentMethod = Core.Entities.Payments.PaymentMethod.Boleto,
-                PaymentStatus = PaymentStatus.Pending,
-                BoletoUrl = transaction.BoletoUrl,
-                BoletoBarcode = transaction.BoletoBarcode,                
-            };
-            order.Items = request.Items.Select(i => new OrderItem
-            {
-                StormyProductId = i.Product.Id,
+                ProductId = i.Product.Id,
                 Quantity = i.Quantity,
-                Price = i.Price
+                ProductPrice = i.Price
             }).ToList();                      
             return order;
         }

@@ -9,9 +9,9 @@ using PagarMe.Model;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Core.Models.Order;
-using StormyCommerce.Core.Models.Payment.Request;
+ 
+
+
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 
 namespace StormyCommerce.Module.Orders.Services
@@ -134,7 +134,7 @@ namespace StormyCommerce.Module.Orders.Services
         {
             if (string.IsNullOrEmpty(transaction.Card.Id))
             {
-                transaction.Customer = new Customer()
+                transaction.Customer = new PagarMe.Customer()
                 {
                     Country = "br",
                     Type = CustomerType.Individual,
@@ -152,7 +152,7 @@ namespace StormyCommerce.Module.Orders.Services
                 };
             } else
             {
-                transaction.Customer = new Customer()
+                transaction.Customer = new PagarMe.Customer()
                 {
                     Country = "br",
                     ExternalId = Guid.NewGuid().ToString(),

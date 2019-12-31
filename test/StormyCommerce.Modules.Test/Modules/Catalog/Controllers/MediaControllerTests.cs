@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
+
 using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
 using StormyCommerce.Module.Catalog.Models;
 using System;

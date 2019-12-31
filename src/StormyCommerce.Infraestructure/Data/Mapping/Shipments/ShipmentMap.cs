@@ -14,7 +14,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Shipments
                 shipment.Property(prop => prop.TrackNumber).HasMaxLength(250);
                 shipment.HasOne(prop => prop.Order)
                 .WithOne()
-                .HasForeignKey<StormyOrder>(prop => prop.ShipmentId)
+                .HasForeignKey<Order>(prop => prop.ShipmentId)
                 .OnDelete(DeleteBehavior.Restrict);                
                 shipment.HasOne(prop => prop.DestinationAddress)
                 .WithOne()

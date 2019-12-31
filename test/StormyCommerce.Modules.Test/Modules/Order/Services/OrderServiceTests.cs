@@ -1,12 +1,12 @@
 ﻿using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Order;
+
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
-using StormyCommerce.Core.Interfaces.Domain.Order;
+
+
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Core.Services.Orders;
+ 
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +25,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task CancelOrderAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange                        
-            var order = Seeders.StormyOrderSeed().First();
+            var order = Seeders.OrderSeed().First();
             await service.CreateOrderAsync(order);
             // Act
             var result = await service.CancelOrderAsync(order.Id);
@@ -39,7 +39,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task CreateOrderAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyOrder entry = Seeders.StormyOrderSeed().First();
+            Order entry = Seeders.OrderSeed().First();
 
             // Act
             var result = await service.CreateOrderAsync(entry);
@@ -53,7 +53,7 @@ namespace StormyCommerce.Modules.Tests
         {
             // Arrange            
             long id = 1;
-            StormyOrder entity = Seeders.StormyOrderSeed().First();
+            Order entity = Seeders.OrderSeed().First();
             entity.Id = id;
             // Act
             var result = await service.EditOrderAsync(id,entity);
@@ -66,7 +66,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task GetOrderByUniqueIdAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange      
-            var order = Seeders.StormyOrderSeed().First();
+            var order = Seeders.OrderSeed().First();
             Guid uniqueId = order.OrderUniqueKey;
             order.OrderUniqueKey = uniqueId;
             await service.CreateOrderAsync(order);
@@ -109,7 +109,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task EditOrderAsync_StateUnderTest_ExpectedBehavior1()
         {
             // Arrange                        
-            StormyOrder entity = Seeders.StormyOrderSeed().First();
+            Order entity = Seeders.OrderSeed().First();
 
             // Act
             var result = await service.EditOrderAsync(entity.OrderUniqueKey,entity);

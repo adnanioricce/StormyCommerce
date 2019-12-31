@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Core.Entities.Catalog.Product;
 using StormyCommerce.Infraestructure.Data;
 using Bogus;
-using StormyCommerce.Api.Framework.Extensions;
+using SimplCommerce.Module.Catalog.Models;
 
 namespace SimplCommerce.WebHost.Data
 {
@@ -47,10 +45,10 @@ namespace SimplCommerce.WebHost.Data
 
                 },
             });
-            var products = JsonConvert.DeserializeObject<List<StormyProduct>>(File.ReadAllText("Products.json"));
+            var products = JsonConvert.DeserializeObject<List<Product>>(File.ReadAllText("Products.json"));
             products.ForEach(p =>
             {
-                var faker = new Faker<StormyProduct>();
+                var faker = new Faker<Product>();
                 p.Sku = Guid.NewGuid().ToString();
                 p.Slug = p.GenerateSlug();
                 p.ShortDescription = "uma descrição curta";

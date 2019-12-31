@@ -162,11 +162,11 @@
       <FileName>Entities\Customer\Review.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StormyCommerce.Core.Entities.StormyOrder">
+  <Class Name="StormyCommerce.Core.Entities.Order">
     <Position X="46.75" Y="8" Width="2.5" />
     <TypeIdentifier>
       <HashCode>CAEAAAIEAAEgCFAAAIAAIAgAgQAAQBEAAgBAIAUAAAA=</HashCode>
-      <FileName>Entities\Order\StormyOrder.cs</FileName>
+      <FileName>Entities\Order\Order.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="StormyCommerce.Core.Entities.Shipment">

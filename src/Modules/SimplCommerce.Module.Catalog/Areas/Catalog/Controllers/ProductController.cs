@@ -12,6 +12,8 @@ using SimplCommerce.Module.Catalog.Services;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Events;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -20,11 +22,11 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     public class ProductController : Controller
     {
         private readonly IMediaService _mediaService;
-        private readonly IRepository<Product> _productRepository;
+        private readonly IStormyRepository<Product> _productRepository;
         private readonly IMediator _mediator;
         private readonly IProductPricingService _productPricingService;
 
-        public ProductController(IRepository<Product> productRepository, IMediaService mediaService, IMediator mediator, IProductPricingService productPricingService)
+        public ProductController(IStormyRepository<Product> productRepository, IMediaService mediaService, IMediator mediator, IProductPricingService productPricingService)
         {
             _productRepository = productRepository;
             _mediaService = mediaService;
@@ -117,7 +119,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 
         private void MapProductImagesToProductVm(Product product, ProductDetail model)
         {
-            model.Images = product.Medias.Where(x => x.Media.MediaType == Core.Models.MediaType.Image).Select(productMedia => new MediaViewModel
+            model.Images = product.Medias.Where(x => x.Media.MediaType == MediaType.Image).Select(productMedia => new MediaViewModel
             {
                 Url = _mediaService.GetMediaUrl(productMedia.Media),
                 ThumbnailUrl = _mediaService.GetThumbnailUrl(productMedia.Media)

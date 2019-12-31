@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Settings;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -15,10 +17,10 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/appsettings")]
     public class AppSettingApiController : Controller
     {
-        private readonly IRepositoryWithTypedId<AppSetting, string> _appSettingRepository;
+        private readonly IStormyRepository<AppSettings> _appSettingRepository;
         private readonly IConfigurationRoot _configurationRoot;
 
-        public AppSettingApiController(IRepositoryWithTypedId<AppSetting, string> appSettingRepository, IConfiguration configuration)
+        public AppSettingApiController(IStormyRepository<AppSettings> appSettingRepository, IConfiguration configuration)
         {
             _appSettingRepository = appSettingRepository;
             _configurationRoot = (IConfigurationRoot)configuration;
@@ -32,7 +34,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] IList<AppSetting> model)
+        public async Task<IActionResult> Put([FromBody] IList<AppSettings> model)
         {
             if (ModelState.IsValid)
             {

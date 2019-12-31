@@ -1,8 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.User;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Infraestructure.Interfaces;
 using System;
@@ -12,7 +10,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-
+using User = StormyCommerce.Core.Entities.User;
+using Role = StormyCommerce.Core.Entities.Role;
 namespace StormyCommerce.Module.Customer.Services
 {
     public class UserIdentityService : IUserIdentityService
@@ -27,11 +26,7 @@ namespace StormyCommerce.Module.Customer.Services
             _signInManager = signInManager;
             _userManager = identityRepository;     
             _roleManager = roleManager;            
-            _userManager.Users                
-                .Include(u => u.CustomerWishlist)
-                    .ThenInclude(u => u.Items)
-                        .ThenInclude(u => u.Product)
-                .Include(u => u.CustomerReviews)                    
+            _userManager.Users                                                
                 .Include(u => u.Addresses)       
                 .Load();
             _roleManager.Roles.Load();            

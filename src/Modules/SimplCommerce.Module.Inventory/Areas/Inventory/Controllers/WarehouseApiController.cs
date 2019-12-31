@@ -9,6 +9,7 @@ using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Inventory.Areas.Inventory.ViewModels;
 using SimplCommerce.Module.Inventory.Models;
+using StormyCommerce.Core.Entities.Address;
 
 namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
 {

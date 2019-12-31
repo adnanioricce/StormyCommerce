@@ -10,19 +10,19 @@ using AutoMapper;
 using StormyCommerce.Module.Orders.Area.Models.Orders;
 using StormyCommerce.Core.Models;
 using System.Collections.Generic;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
 using StormyCommerce.Core.Entities.Customer;
 using PagarMe.Model;
 using StormyCommerce.Infraestructure.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Order;
+
 using StormyCommerce.Module.Orders.Services;
 using Microsoft.AspNetCore.Cors;
-using StormyCommerce.Core.Models.Order;
-using StormyCommerce.Core.Models.Order.Response;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
-using StormyCommerce.Core.Entities.Order;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
-using StormyCommerce.Core.Interfaces.Domain.Payments;
+
+
+
+
+ 
+
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Extensions;
 using StormyCommerce.Core.Entities.Shipping;
@@ -30,8 +30,14 @@ using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models.Shipment.Request;
 using StormyCommerce.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Core.Models.Order.Request;
-using StormyCommerce.Core.Models.Payment.Response;
+using StormyCommerce.Module.Payments.Interfaces;
+using StormyCommerce.Module.Orders.Interfaces;
+using StormyCommerce.Module.Catalog.Interfaces;
+using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Module.Payments.Models.Requests;
+using StormyCommerce.Module.Orders.Models.Responses;
+using StormyCommerce.Module.Orders.Models.Requests;
+using StormyCommerce.Module.Orders.Models.Dtos;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -116,9 +122,9 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         {
             return NoContent();
         }   
-        private StormyOrder BuildOrderForCreditCardCheckout(CheckoutCreditCardRequest request)
+        private Order BuildOrderForCreditCardCheckout(CheckoutCreditCardRequest request)
         {            
-            return new StormyOrder
+            return new Order
             {
                 Payment = new Core.Entities.Payments.StormyPayment
                 {
@@ -149,7 +155,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             {
                 return Result.Fail("You can't order a item with 0 products or create a order with 0 items", request);                
             }
-            var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.StormyProductId).ToArray());
+            var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.ProductId).ToArray());
             if (!(request.Items.HasStockForOrderItems(products)))
             {
                 return Result.Fail("looks like you have items on your order that ask for quantity that the store don't have on stock now", new { request, products });

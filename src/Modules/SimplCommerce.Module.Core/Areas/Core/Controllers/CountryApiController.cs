@@ -7,6 +7,8 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Address;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -14,9 +16,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/countries")]
     public class CountryApiController : Controller
     {
-        private readonly IRepositoryWithTypedId<Country, string> _countryRepository;
+        private readonly IStormyRepository<Country> _countryRepository;
 
-        public CountryApiController(IRepositoryWithTypedId<Country, string> countryRepository)
+        public CountryApiController(IStormyRepository<Country> countryRepository)
         {
             _countryRepository = countryRepository;
         }
@@ -61,7 +63,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                 {
                     c.Id,
                     c.Name,
-                    c.Code3,
+                    c.Code,
                     c.IsShippingEnabled,
                     c.IsBillingEnabled,
                     c.IsCityEnabled,
@@ -85,7 +87,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
             {
                 Id = country.Id,
                 Name = country.Name,
-                Code3 = country.Code3,
+                Code3 = country.Code,
                 IsBillingEnabled = country.IsBillingEnabled,
                 IsShippingEnabled = country.IsShippingEnabled,
                 IsCityEnabled = country.IsCityEnabled,
@@ -112,7 +114,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
             }
 
             country.Name = model.Name;
-            country.Code3 = model.Code3;
+            country.Code = model.Code3;
             country.IsShippingEnabled = model.IsShippingEnabled;
             country.IsBillingEnabled = model.IsBillingEnabled;
             country.IsCityEnabled = model.IsCityEnabled;
@@ -133,7 +135,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                 var country = new Country(model.Id)
                 {
                     Name = model.Name,
-                    Code3 = model.Code3,
+                    Code = model.Code3,
                     IsBillingEnabled = model.IsBillingEnabled,
                     IsShippingEnabled = model.IsShippingEnabled,
                     IsCityEnabled = model.IsCityEnabled,
@@ -141,8 +143,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                     IsDistrictEnabled = model.IsDistrictEnabled
             };
 
-                _countryRepository.Add(country);
-                await _countryRepository.SaveChangesAsync();
+                await _countryRepository.AddAsync(country);                
 
                 return CreatedAtAction(nameof(Get), new { id = country.Id }, null);
             }
@@ -161,8 +162,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 
             try
             {
-                _countryRepository.Remove(country);
-                await _countryRepository.SaveChangesAsync();
+                _countryRepository.Delete(country);                
             }
             catch (DbUpdateException)
             {

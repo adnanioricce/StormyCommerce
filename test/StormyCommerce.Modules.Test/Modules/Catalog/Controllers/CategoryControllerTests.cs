@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Catalog;
+
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Controllers;
+using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.WebHost.Mappings;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace StormyCommerce.Modules.Tests
     {
         private readonly CategoryController _categoryController;
         private readonly ICategoryService _categoryService;
-        private readonly List<Category> _data = Seeders.CategorySeed(5);
+        private readonly List<Category> _data = null;
 
         public CategoryControllerTests(ICategoryService categoryService,IMapper mapper,IAppLogger<CategoryController> logger)
         {

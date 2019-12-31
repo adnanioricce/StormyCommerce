@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SimplCommerce.Module.Reviews.Models;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
@@ -23,7 +24,10 @@ namespace StormyCommerce.Modules.Tests
         private readonly ReviewController _controller;
         private readonly IStormyRepository<Review> _reviewRepository;
         private readonly User requestUser;
-        public ReviewControllerTests(IReviewService reviewService,IUserIdentityService identityService, IStormyRepository<Review> reviewRepository, IMapper mapper,UserManager<User> _userManager)
+        public ReviewControllerTests(IReviewService reviewService
+            ,IUserIdentityService identityService
+            ,IStormyRepository<Review> reviewRepository
+            ,IMapper mapper,UserManager<User> _userManager)
         {
             _controller = new ReviewController(reviewService, identityService, mapper);
             _reviewRepository = reviewRepository;
@@ -32,31 +36,28 @@ namespace StormyCommerce.Modules.Tests
             {
                 Title = "title",
                 Comment = "comment",
-                RatingLevel = (int)RatingLevel.Five,
+                Rating = (int)RatingLevel.Five,
                 ReviewerName = "aguinobaldo",
                 Status = ReviewStatus.Approved,
-                UserId = requestUser.Id,
-                StormyProductId = 1
+                UserId = requestUser.Id
             });
             _reviewRepository.AddAsync(new Review
             {
                 Title = "title",
                 Comment = "comment",
-                RatingLevel = (int)RatingLevel.Five,
+                Rating = (int)RatingLevel.Five,
                 ReviewerName = "aguinobaldo",
                 Status = ReviewStatus.Approved,
-                UserId = requestUser.Id,
-                StormyProductId = 1
+                UserId = requestUser.Id
             });
             _reviewRepository.AddAsync(new Review
             {
                 Title = "title",
                 Comment = "comment",
-                RatingLevel = (int)RatingLevel.Five,
+                Rating= (int)RatingLevel.Five,
                 ReviewerName = "aguinobaldo",
                 Status = ReviewStatus.Approved,
-                UserId = requestUser.Id,
-                StormyProductId = 1
+                UserId = requestUser.Id                
             });
             Task.WaitAll();
             _controller.ControllerContext = _userManager.CreateTestContext();
@@ -69,7 +70,7 @@ namespace StormyCommerce.Modules.Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Count > 0);
+            Assert.True(result.Count() > 0);
         }
 
         [Fact,TestPriority(3)]
@@ -122,7 +123,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task DeleteReview_StateUnderTest_ExpectedBehavior()
         {
             // Arrange                        
-            long reviewId = requestUser.CustomerReviews.First().Id;
+            long reviewId = 1
 
             // Act
             var response = await _controller.DeleteReview(reviewId);

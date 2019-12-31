@@ -24,6 +24,7 @@ namespace StormyCommerce.Core.Entities
             UserName = customerDto.UserName;
             FullName = customerDto.FullName;                                             
         }
+        public const string SettingsDataKey = "Settings";
         public string UserGuid { get; set; }
         public string CPF { get; set; }                
         public long? CustomerReviewsId { get; set; }        
@@ -38,7 +39,8 @@ namespace StormyCommerce.Core.Entities
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset LastModified { get; set; } = DateTime.UtcNow;        
         public string Culture { get; set; }
-        public string ExtensionData { get; set; }        
+        public string ExtensionData { get; set; }
+        public bool IsDeleted { get; set; }
         public void RemoveAddress(long addressId)
         {
             this.Addresses.Remove(this.Addresses.FirstOrDefault(a => a.Id == addressId));

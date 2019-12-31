@@ -11,6 +11,9 @@ using SimplCommerce.Module.Orders.Areas.Orders.ViewModels;
 using SimplCommerce.Module.Orders.Services;
 using SimplCommerce.Module.ShoppingCart.Models;
 using SimplCommerce.Module.ShoppingCart.Services;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 {
@@ -84,10 +87,11 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 
         // TODO might need to move to another place
         [HttpGet("api/users/{userId}/addresses")]
-        public async Task<IActionResult> UserAddress(long userId, [FromServices] IRepository<UserAddress> userAddressRepository, [FromServices] IRepository<User> userRepository)
+        public async Task<IActionResult> UserAddress(long userId, [FromServices] IStormyRepository<CustomerAddress> userAddressRepository, [FromServices] IRepository<User> userRepository)
         {
             var user = await userRepository.Query().FirstOrDefaultAsync(x => x.Id == userId);
-            var defaultAddressId = user.DefaultShippingAddressId.HasValue ? user.DefaultShippingAddressId : 0;
+            var defaultAddress = user.Addresses.FirstOrDefault(a => a.IsDefault);
+            var defaultAddressId = defaultAddress == null ? 0 : defaultAddress.Id;
             if(user == null)
             {
                 return NotFound();
@@ -95,7 +99,7 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 
             var userAddress = await userAddressRepository
                 .Query()
-                .Where(x => (x.AddressType == AddressType.Shipping) && (x.UserId == userId))
+                .Where(x => (x.Type == AddressType.Shipping) && (x.UserId == userId))
                 .Select(x => new ShippingAddressVm
                 {
                     UserAddressId = x.Id,
@@ -108,7 +112,7 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
                     StateOrProvinceName = x.Address.StateOrProvince.Name,
                     CountryName = x.Address.Country.Name,
                     IsCityEnabled = x.Address.Country.IsCityEnabled,
-                    IsZipCodeEnabled = x.Address.Country.IsZipCodeEnabled,
+                    IsZipCodeEnabled = x.Country.IsZipCodeEnabled,
                     IsDistrictEnabled = x.Address.Country.IsDistrictEnabled
                 }).ToListAsync();
 

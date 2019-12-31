@@ -5,10 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using PagarMe;
 using SimplCommerce.Infrastructure.Modules;
 using StormyCommerce.Api.Framework.Ioc;
-using StormyCommerce.Core.Interfaces.Domain.Order;
-using StormyCommerce.Core.Interfaces.Domain.Payments;
+
+
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Services.Orders;
+
 using StormyCommerce.Core.Services.Shipping;
 using StormyCommerce.Module.Orders.Interfaces;
 using StormyCommerce.Module.Orders.Services;

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Cms.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
 {
@@ -9,9 +10,9 @@ namespace SimplCommerce.Module.Cms.Areas.Cms.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class PageController : Controller
     {
-        private readonly IRepository<Page> _pageRepository;
+        private readonly IStormyRepository<Page> _pageRepository;
 
-        public PageController(IRepository<Page> pageRepository)
+        public PageController(IStormyRepository<Page> pageRepository)
         {
             _pageRepository = pageRepository;
         }

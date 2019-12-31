@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using SimplCommerce.Infrastructure.Models;
+using StormyCommerce.Core.Entities;
 using SimplCommerce.Module.Catalog.Models;
 
 namespace SimplCommerce.Module.Orders.Models
@@ -22,6 +22,6 @@ namespace SimplCommerce.Module.Orders.Models
 
         public decimal TaxAmount { get; set; }
 
-        public decimal TaxPercent { get; set; }
+        public decimal TaxPercent { get; set; }       
     }
 }

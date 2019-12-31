@@ -29,13 +29,12 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
-using StormyCommerce.Core.Entities.Customer;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Generic;
 using Swashbuckle.AspNetCore.Filters;
 using StormyCommerce.Module.Customer.Models;
-using StormyCommerce.Core.Entities.User;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.WebHost
 {

@@ -2,7 +2,7 @@
 {
     public class UserAddressListItem
     {
-        public long AddressId { get; set; }
+        //public long AddressId { get; set; }
 
         public long UserAddressId { get; set; }
 

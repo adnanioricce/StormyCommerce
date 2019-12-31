@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Api.Framework.Filters;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Services.Catalog;
+using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.Module.Customer.Models;
 
 namespace StormyCommerce.Module.Catalog.Controllers

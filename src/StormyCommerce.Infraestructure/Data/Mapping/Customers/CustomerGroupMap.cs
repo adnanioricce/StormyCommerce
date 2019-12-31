@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Customers

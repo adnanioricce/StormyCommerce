@@ -1,5 +1,6 @@
 ﻿using SimplCommerce.Infrastructure.Models;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Address;
 using System.ComponentModel.DataAnnotations;
 
 namespace SimplCommerce.Module.Tax.Models

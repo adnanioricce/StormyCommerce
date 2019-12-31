@@ -1,11 +1,12 @@
-﻿using Stormycommerce.Module.Orders.Area.ViewModels;
-using StormyCommerce.Core.Entities.Catalog;
+﻿using SimplCommerce.Module.Catalog.Models;
+using Stormycommerce.Module.Orders.Area.ViewModels;
+
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Orders;
+using StormyCommerce.Module.Catalog.Models.Dtos;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using System.Collections.Generic;
 using System.Threading;

@@ -7,6 +7,8 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Address;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -14,10 +16,10 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/states-provinces")]
     public class StateOrProvinceApiController : Controller
     {
-        private readonly IRepository<StateOrProvince> _stateOrProvinceRepository;
-        private readonly IRepositoryWithTypedId<Country, string> _countryRepository;
+        private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
+        private readonly IStormyRepository<Country> _countryRepository;
 
-        public StateOrProvinceApiController(IRepository<StateOrProvince> stateOrProvinceRepository, IRepositoryWithTypedId<Country, string> countryRepository)
+        public StateOrProvinceApiController(IStormyRepository<StateOrProvince> stateOrProvinceRepository, IStormyRepository<Country> countryRepository)
         {
             _stateOrProvinceRepository = stateOrProvinceRepository;
             _countryRepository = countryRepository;
@@ -147,7 +149,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                     Country = country,
                     Type = model.Type
                 };
-                _stateOrProvinceRepository.Add(stateProvince);
+                _stateOrProvinceRepository.AddAsync(stateProvince);
                 await _stateOrProvinceRepository.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(Get), new { id = stateProvince.Id }, null);

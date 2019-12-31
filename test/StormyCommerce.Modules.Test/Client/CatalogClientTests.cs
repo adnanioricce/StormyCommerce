@@ -4,8 +4,8 @@
 // using SimplCommerce.WebHost;
 // using StormyCommerce.Api.Client.Catalog;
 // using StormyCommerce.Api.Framework.Extensions;
-// using StormyCommerce.Core.Entities.Catalog;
-// using StormyCommerce.Core.Entities.Catalog.Product;
+// 
+// 
 // using StormyCommerce.Core.Entities.Vendor;
 // using StormyCommerce.Core.Models.Requests;
 // using System;

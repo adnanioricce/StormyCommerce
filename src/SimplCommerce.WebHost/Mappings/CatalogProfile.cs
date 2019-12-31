@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Core.Entities.Catalog.Product;
+using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Media;
-using StormyCommerce.Core.Entities.Vendor;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Models.Requests;
 using StormyCommerce.Module.Catalog.Dtos;
+using StormyCommerce.Module.Catalog.Models.Dtos;
 
 namespace StormyCommerce.WebHost.Mappings
 {
@@ -17,9 +17,9 @@ namespace StormyCommerce.WebHost.Mappings
         public CatalogProfile()
         {                          
             CreateMap<Brand, BrandDto>();                                                   
-            CreateMap<VendorDto, StormyVendor>();            
+            CreateMap<VendorDto, Vendor>();            
             CreateMap<BrandDto, Brand>();
-            CreateMap<StormyVendor, VendorDto>();                                        
+            CreateMap<Vendor, VendorDto>();                                        
             CreateMap<Media, MediaDto>();
             CreateMap<Media, ProductMediaDto>();                
             
@@ -35,13 +35,13 @@ namespace StormyCommerce.WebHost.Mappings
         }
         public void ProductMap()
         {
-            CreateMap<StormyProduct, ProductDto>();                                                              
-            CreateMap<StormyProduct, ProductSearchResponse>();                                    
-            CreateMap<StormyProduct, ProductOverviewDto>();                                
-            CreateMap<CreateProductRequest,StormyProduct>();
-            CreateMap<EditProductRequest, StormyProduct>()
+            CreateMap<Product, ProductDto>();                                                              
+            CreateMap<Product, ProductSearchResponse>();                                    
+            CreateMap<Product, ProductOverviewDto>();                                
+            CreateMap<CreateProductRequest,Product>();
+            CreateMap<EditProductRequest, Product>()
                     .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
-            CreateMap<ProductDto, StormyProduct>();                                                                
+            CreateMap<ProductDto, Product>();                                                                
             CreateMap<ProductMediaDto, MediaDto>();
             CreateMap<ProductMedia, ProductMediaDto>();            
         }

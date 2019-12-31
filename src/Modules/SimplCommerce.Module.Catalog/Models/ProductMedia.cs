@@ -1,5 +1,6 @@
 ﻿using SimplCommerce.Infrastructure.Models;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Media;
 
 namespace SimplCommerce.Module.Catalog.Models
 {

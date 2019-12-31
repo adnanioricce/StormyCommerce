@@ -3,6 +3,7 @@ using SimplCommerce.Infrastructure;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Orders.Areas.Orders.ViewModels;
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Core.Entities.Customer;
 
 namespace SimplCommerce.Module.Orders.Services
 {
@@ -10,7 +11,7 @@ namespace SimplCommerce.Module.Orders.Services
     {
         Task<Result<Order>> CreateOrder(long cartId, string paymentMethod, decimal paymentFeeAmount, OrderStatus orderStatus = OrderStatus.New);
 
-        Task<Result<Order>> CreateOrder(long cartId, string paymentMethod, decimal paymentFeeAmount, string shippingMethod, Address billingAddress, Address shippingAddress, OrderStatus orderStatus = OrderStatus.New);
+        Task<Result<Order>> CreateOrder(long cartId, string paymentMethod, decimal paymentFeeAmount, string shippingMethod, CustomerAddress billingAddress, CustomerAddress shippingAddress, OrderStatus orderStatus = OrderStatus.New);
 
         void CancelOrder(Order order);
 

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
+
 using StormyCommerce.Core.Models.Requests;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Controllers;

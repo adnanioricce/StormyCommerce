@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Module.Catalog.Controllers;
+using StormyCommerce.Module.Catalog.Interfaces;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +24,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task CreateBrand_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Brand brand = Seeders.BrandSeed().First();
+            Brand brand = null;
             brand.Slug = brand.Name.Replace(" ", "-");
             brand.Id = 0;
             // Act

@@ -5,11 +5,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Api.Client.Extensions;
-using StormyCommerce.Core.Entities.Catalog;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
+
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Models.Requests;
+using StormyCommerce.Module.Catalog.Models.Dtos;
 
 namespace StormyCommerce.Api.Client.Catalog
 {
@@ -74,7 +76,7 @@ namespace StormyCommerce.Api.Client.Catalog
             return result;
         }
 
-        public async Task<Result> EditProductAsync(StormyProduct _model = null, CancellationToken cancellationToken = default)
+        public async Task<Result> EditProductAsync(Product _model = null, CancellationToken cancellationToken = default)
         {
             if (!IsAuthenticated) await AuthenticateAsAdmin();
             return await Post("/api/Product/edit",_model);

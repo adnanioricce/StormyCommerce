@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bogus;
-using StormyCommerce.Core.Entities.Catalog.Product;
+
 using StormyCommerce.Core.Entities.Customer;
 
 namespace StormyCommerce.Api.Framework.Seeders.Customer

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
-using StormyCommerce.Core.Entities.Catalog.Product;
-using StormyCommerce.Core.Interfaces.Domain.Catalog;
+
+
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Module.Customer.Models;
 using System;
@@ -15,6 +15,7 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Requests;
 using Microsoft.EntityFrameworkCore;
+using SimplCommerce.Module.Catalog.Models;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Controllers
@@ -47,13 +48,13 @@ namespace StormyCommerce.Module.Catalog.Controllers
         public async Task<Result<List<ProductSearchResponse>>> SearchProducts(string searchPattern)
         {
             var products = await _productService.SearchProductsBySearchPattern(searchPattern);
-            var mappedProduct = _mapper.Map<List<StormyProduct>,List<ProductSearchResponse>>(products);
+            var mappedProduct = _mapper.Map<List<Product>,List<ProductSearchResponse>>(products);
             return Result.Ok(mappedProduct);
         }
         [HttpGet("get_by_name")]
         [ValidateModel]
         [AllowAnonymous]        
-        public async Task<StormyProduct> GetProductByName(string productName)
+        public async Task<Product> GetProductByName(string productName)
         {
             return await _productService.GetProductByNameAsync(productName);
         }
@@ -67,7 +68,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         {
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null) return NotFound("Requested product didn't exist");
-            return _mapper.Map<StormyProduct, ProductOverviewDto>(product);
+            return _mapper.Map<Product, ProductOverviewDto>(product);
         }
 
         [HttpGet("list")]
@@ -78,7 +79,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         {
             var products = await _productService.GetAllProductsAsync(startIndex, endIndex);
             if (products == null) return NotFound("Products not found");
-            var result = _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products);
+            var result = _mapper.Map<IList<Product>, IList<ProductDto>>(products);
             return result.ToList();
         }
 
@@ -90,7 +91,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
             var products = await _productService.GetAllProductsDisplayedOnHomepageAsync(limit);
 
             if (products == null) return NotFound("Don't was possible to retrieve products");
-            var mappedProducts = _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(products);
+            var mappedProducts = _mapper.Map<IList<Product>, IList<ProductDto>>(products);
             return mappedProducts.ToList();
         }
 
@@ -99,7 +100,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ProductDto>> GetProductById(long id)
         {
-            var product = _mapper.Map<StormyProduct, ProductDto>(await _productService.GetProductByIdAsync(id));
+            var product = _mapper.Map<Product, ProductDto>(await _productService.GetProductByIdAsync(id));
 
             if (product == null) return NotFound("Don't was possible to get product");
 
@@ -118,7 +119,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         [Authorize(Roles.Admin)]
         public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
         {                                       
-            var model = _mapper.Map<StormyProduct>(_model);                                                                 
+            var model = _mapper.Map<Product>(_model);                                                                 
             try
             {                
                 await _productService.InsertProductAsync(model);                                
@@ -139,7 +140,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
             try
             {
                 var entry = await _productService.GetProductByIdAsync(_model.Id);
-                var product = _mapper.Map<EditProductRequest,StormyProduct>(_model,entry);
+                var product = _mapper.Map<EditProductRequest,Product>(_model,entry);
                 await _productService.UpdateProductAsync(product);
             }catch(Exception ex){
                 _logger.LogStackTrace(ex.Message,ex);
@@ -163,7 +164,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         public async Task<IList<ProductDto>> GetAllProductsOnCategory(int categoryId, int limit)
         {
             var model = await _productService.GetAllProductsByCategory(categoryId, limit);
-            return _mapper.Map<IList<StormyProduct>, IList<ProductDto>>(model.Value);
+            return _mapper.Map<IList<Product>, IList<ProductDto>>(model.Value);
         }
         
         
