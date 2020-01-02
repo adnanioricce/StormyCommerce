@@ -1,7 +1,4 @@
 ﻿using SimplCommerce.Module.Orders.Models;
-using StormyCommerce.Core.Models.Dtos;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Shipping;
-using StormyCommerce.Module.Payments.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -25,7 +25,7 @@ namespace StormyCommerce.Core.Entities
             FullName = customerDto.FullName;                                             
         }
         public const string SettingsDataKey = "Settings";
-        public string UserGuid { get; set; }
+        public Guid UserGuid { get; set; }
         public string CPF { get; set; }                
         public long? CustomerReviewsId { get; set; }        
         public virtual ICollection<CustomerAddress> Addresses { get; set; } = new List<CustomerAddress>();                

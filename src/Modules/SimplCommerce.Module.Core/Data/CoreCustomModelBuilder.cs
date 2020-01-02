@@ -11,7 +11,7 @@ namespace SimplCommerce.Module.Core.Data
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppSetting>().ToTable("Core_AppSetting");
+            //modelBuilder.Entity<AppSetting>().ToTable("Core_AppSetting");
 
             modelBuilder.Entity<User>()
                 .ToTable("Core_User");
@@ -51,29 +51,8 @@ namespace SimplCommerce.Module.Core.Data
 
             modelBuilder.Entity<Entity>(e =>
             {
-                e.HasKey(x => x.Id);
-                e.Property(x => x.EntityId);
-            });
-
-            modelBuilder.Entity<User>(u =>
-            {
-                u.HasOne(x => x.DefaultShippingAddress)
-                   .WithMany()
-                   .HasForeignKey(x => x.DefaultShippingAddressId)
-                   .OnDelete(DeleteBehavior.Restrict);
-
-                u.HasOne(x => x.DefaultBillingAddress)
-                    .WithMany()
-                    .HasForeignKey(x => x.DefaultBillingAddressId)
-                    .OnDelete(DeleteBehavior.Restrict);
-            });
-
-            //modelBuilder.Entity<UserAddress>()
-            //    .HasOne(x => x.User)
-            //    .WithMany(a => a.UserAddresses)
-            //    .HasForeignKey(x => x.UserId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
+                e.HasKey(x => x.Id);                
+            });                     
             modelBuilder.Entity<Address>(x =>
             {
                 x.HasOne(d => d.District)

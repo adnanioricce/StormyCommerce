@@ -87,7 +87,7 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 
         // TODO might need to move to another place
         [HttpGet("api/users/{userId}/addresses")]
-        public async Task<IActionResult> UserAddress(long userId, [FromServices] IStormyRepository<CustomerAddress> userAddressRepository, [FromServices] IRepository<User> userRepository)
+        public async Task<IActionResult> UserAddress(long userId, [FromServices] IStormyRepository<CustomerAddress> userAddressRepository, [FromServices] IStormyRepository<User> userRepository)
         {
             var user = await userRepository.Query().FirstOrDefaultAsync(x => x.Id == userId);
             var defaultAddress = user.Addresses.FirstOrDefault(a => a.IsDefault);
@@ -103,17 +103,17 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
                 .Select(x => new ShippingAddressVm
                 {
                     UserAddressId = x.Id,
-                    ContactName = x.Address.ContactName,
-                    Phone = x.Address.Phone,
-                    AddressLine1 = x.Address.AddressLine1,
-                    CityName = x.Address.City,
-                    ZipCode = x.Address.ZipCode,
-                    DistrictName = x.Address.District.Name,
-                    StateOrProvinceName = x.Address.StateOrProvince.Name,
-                    CountryName = x.Address.Country.Name,
-                    IsCityEnabled = x.Address.Country.IsCityEnabled,
+                    ContactName = x.WhoReceives,
+                    Phone = x.Details.Phone.FullNumber,
+                    AddressLine1 = x.Details.AddressLine1,
+                    CityName = x.Details.City,
+                    ZipCode = x.Details.ZipCode,
+                    DistrictName = x.Details.DistrictName,
+                    StateOrProvinceName = x.Details.State,
+                    CountryName = x.Country.Name,
+                    IsCityEnabled = x.Country.IsCityEnabled,
                     IsZipCodeEnabled = x.Country.IsZipCodeEnabled,
-                    IsDistrictEnabled = x.Address.Country.IsDistrictEnabled
+                    IsDistrictEnabled = x.Country.IsDistrictEnabled
                 }).ToListAsync();
 
             return Ok(new { Addresses = userAddress, DefaultShippingAddressId = defaultAddressId });

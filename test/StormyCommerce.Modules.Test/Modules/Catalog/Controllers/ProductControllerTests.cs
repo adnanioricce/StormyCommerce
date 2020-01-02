@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Api.Framework.Extensions;
 
 using StormyCommerce.Core.Interfaces;
@@ -7,6 +8,7 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models.Requests;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Controllers;
+using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.WebHost.Mappings;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace StormyCommerce.Modules.Tests.Catalog
     public class ProductControllerTests
     {
         //! I think this will fail, define some logic to the mock
-        private readonly IStormyRepository<StormyProduct> _repository;
+        private readonly IStormyRepository<Product> _repository;
 
         private readonly ProductController _productController;
 
@@ -107,14 +109,15 @@ namespace StormyCommerce.Modules.Tests.Catalog
         public async Task CreateProduct_GivenModelIsValidDto_CreateNewEntryOnDatabase()
         {
             // Arrange
-            var model = GetCreateProductRequestModel(Seeders.StormyProductSeed().FirstOrDefault());            
+            //var model = GetCreateProductRequestModel(Api.Framework.Seeders.ProductSeed().FirstOrDefault());            
+            var model = new CreateProductRequest();
             // Act
             var result = await _productController.CreateProduct(model);
             // Assert
             var objResult = Assert.IsAssignableFrom<OkResult>(result);
             Assert.Equal(200, objResult.StatusCode);
         }
-        private CreateProductRequest GetCreateProductRequestModel(StormyProduct product)
+        private CreateProductRequest GetCreateProductRequestModel(Product product)
         {
             return new CreateProductRequest{
                 Description = product.Description,
@@ -123,20 +126,16 @@ namespace StormyCommerce.Modules.Tests.Catalog
                 Diameter = product.Diameter,
                 Height = product.Height,
                 Length = product.Length,
-                Width = product.Width,
-                AvailableSizes = "P,M,G,GG",
-                ProductCost = product.ProductCost,
+                Width = product.Width,                
                 ProductName = product.ProductName,
-                Brand = product.Brand,                
-                Vendor = product.Vendor,
-                QuantityPerUnity = product.QuantityPerUnity,
-                UnitPrice = product.UnitPrice,
+                Brand = product.Brand,                                
+                UnitPrice = product.Price,
                 UnitWeight = product.UnitWeight,
                 UnitsInStock = product.UnitsInStock,                
-                ThumbnailImage = product.ThumbnailImage,
-                Medias = product.Medias,
-                Links = product.Links,
-                Note = product.Note,                          
+                ThumbnailImage = product.ThumbnailImage.FileName,
+                //Medias = product.Medias,
+                //Links = product.Links,
+                //Note = product.Note,                          
                 Discount = product.Discount,
             };
         }

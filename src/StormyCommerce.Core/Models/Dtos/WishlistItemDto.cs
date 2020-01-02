@@ -5,10 +5,10 @@ namespace StormyCommerce.Core.Models.Dtos
 {
     public class WishListItemDto
     {
-        public WishListItemDto(WishlistItem item)
-        {
-            this.Product = item.Product == null ? this.Product : item.Product.ToProductDto();
-        }
-        public ProductDto Product { get; private set; } = new ProductDto();
+        //public WishListItemDto(WishlistItem item)
+        //{
+        //    this.Product = item.Product == null ? this.Product : item.Product.ToProductDto();
+        //}
+        //public ProductDto Product { get; private set; } = new ProductDto();
     }
 }

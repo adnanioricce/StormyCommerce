@@ -7,6 +7,7 @@ using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Catalog.Services;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -15,16 +16,16 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     public class CategoryController : Controller
     {
         private int _pageSize;
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IStormyRepository<Category> _categoryRepository;
         private readonly IMediaService _mediaService;
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<Brand> _brandRepository;
+        private readonly IStormyRepository<Product> _productRepository;
+        private readonly IStormyRepository<Brand> _brandRepository;
         private readonly IProductPricingService _productPricingService;
 
-        public CategoryController(IRepository<Product> productRepository,
+        public CategoryController(IStormyRepository<Product> productRepository,
             IMediaService mediaService,
-            IRepository<Category> categoryRepository,
-            IRepository<Brand> brandRepository,
+            IStormyRepository<Category> categoryRepository,
+            IStormyRepository<Brand> brandRepository,
             IProductPricingService productPricingService,
             IConfiguration config)
         {

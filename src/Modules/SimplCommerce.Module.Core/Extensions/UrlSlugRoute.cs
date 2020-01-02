@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Extensions
 {
@@ -26,7 +28,7 @@ namespace SimplCommerce.Module.Core.Extensions
                 requestPath = requestPath.Substring(1);
             }
 
-            var urlSlugRepository = context.HttpContext.RequestServices.GetService<IRepository<Entity>>();
+            var urlSlugRepository = context.HttpContext.RequestServices.GetService<IStormyRepository<Entity>>();
 
             // Get the slug that matches.
             var urlSlug = await urlSlugRepository.Query().Include(x => x.EntityType).FirstOrDefaultAsync(x => x.Slug == requestPath);

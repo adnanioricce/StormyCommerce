@@ -6,6 +6,8 @@ using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core
 {
@@ -14,7 +16,7 @@ namespace SimplCommerce.Module.Core
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IEntityService, EntityService>();
-            serviceCollection.AddTransient<IMediaService, MediaService>();
+            //serviceCollection.AddTransient<IMediaService, MediaService>();
             serviceCollection.AddTransient<IThemeService, ThemeService>();
             serviceCollection.AddTransient<ITokenService, TokenService>();
             serviceCollection.AddTransient<IWidgetInstanceService, WidgetInstanceService>();

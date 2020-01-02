@@ -1,6 +1,7 @@
 ﻿using System;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Media;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels
 {

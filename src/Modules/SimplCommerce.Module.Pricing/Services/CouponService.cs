@@ -7,16 +7,17 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Pricing.Models;
 using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Pricing.Services
 {
     public class CouponService : ICouponService
     {
-        private readonly IRepository<Coupon> _couponRepository;
-        private readonly IRepository<CartRuleUsage> _cartRuleUsageRepository;
-        private readonly IRepository<Product> _productRepository;
+        private readonly IStormyRepository<Coupon> _couponRepository;
+        private readonly IStormyRepository<CartRuleUsage> _cartRuleUsageRepository;
+        private readonly IStormyRepository<Product> _productRepository;
 
-        public CouponService(IRepository<Coupon> couponRepository, IRepository<CartRuleUsage> cartRuleUsageRepository, IRepository<Product> productRespository, IWorkContext workContext)
+        public CouponService(IStormyRepository<Coupon> couponRepository, IStormyRepository<CartRuleUsage> cartRuleUsageRepository, IStormyRepository<Product> productRespository, IWorkContext workContext)
         {
             _couponRepository = couponRepository;
             _cartRuleUsageRepository = cartRuleUsageRepository;

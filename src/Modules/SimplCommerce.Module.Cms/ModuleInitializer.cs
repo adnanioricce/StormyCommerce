@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.Cms.Events;
 using SimplCommerce.Module.Cms.Services;
-using SimplCommerce.Module.Core.Events;
+using StormyCommerce.Core.Events;
+//TODO:Return the models to the SimplModules instead StormyModules?
+//using SimplCommerce.Module.Core.Events;
 
 namespace SimplCommerce.Module.Cms
 {

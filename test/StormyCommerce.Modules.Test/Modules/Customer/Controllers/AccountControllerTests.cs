@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Moq;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain.Customer;

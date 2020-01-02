@@ -3,16 +3,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Newtonsoft.Json;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Orders.Events
 {
     public class OrderChangedCreateOrderHistoryHandler : INotificationHandler<OrderChanged>
     {
-        private readonly IRepository<OrderHistory> _orderHistoryRepository;
+        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;
 
-        public OrderChangedCreateOrderHistoryHandler(IRepository<OrderHistory> orderHistoryRepository)
+        public OrderChangedCreateOrderHistoryHandler(IStormyRepository<OrderHistory> orderHistoryRepository)
         {
             _orderHistoryRepository = orderHistoryRepository;
         }

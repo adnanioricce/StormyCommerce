@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Shipping.Models;
+using StormyCommerce.Core.Entities.Address;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.ShippingPrices.Services
 {
@@ -14,11 +16,19 @@ namespace SimplCommerce.Module.ShippingPrices.Services
     {
         private HttpContext _httpContext;
         private readonly IRepositoryWithTypedId<ShippingProvider, string> _shippingProviderRepository;
+        private readonly IStormyRepository<Country> _countryRepository;
+        private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
 
-        public ShippingPriceService(IHttpContextAccessor contextAccessor, IRepositoryWithTypedId<ShippingProvider, string> shippingProviderRepository)
+        public ShippingPriceService(IHttpContextAccessor contextAccessor, 
+            IRepositoryWithTypedId<ShippingProvider, string> shippingProviderRepository,
+            IStormyRepository<Country> countryRepository,
+            IStormyRepository<StateOrProvince> stateOrProvinceRepository
+            )
         {
             _httpContext = contextAccessor.HttpContext;
             _shippingProviderRepository = shippingProviderRepository;
+            _countryRepository = countryRepository;
+            _stateOrProvinceRepository = stateOrProvinceRepository;
         }
 
         public async Task<IList<ShippingPrice>> GetApplicableShippingPrices(GetShippingPriceRequest request)
@@ -33,9 +43,10 @@ namespace SimplCommerce.Module.ShippingPrices.Services
                 {
                     continue;
                 }
-
+                var country = await _countryRepository.GetByIdAsync(request.ShippingAddress.CountryId);
                 if (!provider.ToAllShippingEnabledCountries)
                 {
+
                     if (!provider.OnlyCountryIds.Contains(request.ShippingAddress.CountryId))
                     {
                         continue;

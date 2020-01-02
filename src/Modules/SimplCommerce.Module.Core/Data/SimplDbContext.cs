@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
-using SimplCommerce.Infrastructure.Models;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Core.Data
 {

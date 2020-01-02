@@ -10,6 +10,8 @@ using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Inventory.Areas.Inventory.ViewModels;
 using SimplCommerce.Module.Inventory.Models;
 using StormyCommerce.Core.Entities.Address;
+using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
 {
@@ -18,15 +20,22 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
     [Route("api/warehouses")]
     public class WarehouseApiController : Controller
     {
-        private readonly IRepository<Warehouse> _warehouseRepository;
-        private readonly IRepository<Address> _addressRepository;
+        private readonly IStormyRepository<Warehouse> _warehouseRepository;
+        private readonly IStormyRepository<Address> _addressRepository;
+        private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
+        private readonly IStormyRepository<Country> _countryRepository;
+        private readonly IStormyRepository<District> _districtRepository;
         private readonly IWorkContext _workContext;
 
-        public WarehouseApiController(IRepository<Warehouse> warehouseRepository, IWorkContext workContext, IRepository<Address> addressRepository)
+        public WarehouseApiController(IStormyRepository<Warehouse> warehouseRepository, IWorkContext workContext, IStormyRepository<Address> addressRepository,
+            IStormyRepository<StateOrProvince> stateOrProvinceRepository, IStormyRepository<Country> countryRepository, IStormyRepository<District> districtRepository)
         {
             _warehouseRepository = warehouseRepository;
             _addressRepository = addressRepository;
             _workContext = workContext;
+            _stateOrProvinceRepository = stateOrProvinceRepository;
+            _countryRepository = countryRepository;
+            _districtRepository = districtRepository;
         }
 
         [HttpGet]
@@ -103,14 +112,14 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
                 Name = warehouse.Name,
                 AddressId = address.Id,
                 ContactName = address.ContactName,
-                AddressLine1 = address.AddressLine1,
-                AddressLine2 = address.AddressLine2,
+                AddressLine1 = address.Detail.AddressLine1,
+                AddressLine2 = address.Detail.AddressLine2,
                 Phone = address.Phone,
                 StateOrProvinceId = address.StateOrProvinceId,
                 CountryId = address.CountryId,
-                City = address.City,
+                City = address.Detail.City,
                 DistrictId = address.DistrictId,
-                ZipCode = address.ZipCode
+                ZipCode = address.Detail.ZipCode
             };
 
             return Json(model);
@@ -121,17 +130,12 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
         {
             if (ModelState.IsValid)
             {
+                var country = await _countryRepository.GetByIdAsync(model.CountryId);
+                var state = await _countryRepository.GetByIdAsync(model.StateOrProvinceId);
+                var district = await _countryRepository.GetByIdAsync(model.DistrictId);
                 var address = new Address
-                {
-                    ContactName = model.ContactName,
-                    AddressLine1 = model.AddressLine1,
-                    AddressLine2 = model.AddressLine2,
-                    Phone = model.Phone,
-                    StateOrProvinceId = model.StateOrProvinceId,
-                    CountryId = model.CountryId,
-                    City = model.City,
-                    DistrictId = model.DistrictId,
-                    ZipCode = model.ZipCode
+                {                    
+                    Detail = new AddressDetail(country.Name, state.Name, model.City, district.Name, "?", model.AddressLine1, model.AddressLine2, model.ZipCode, "?", "?", model.ContactName, model.Phone),                    
                 };
 
                 var warehouse = new Warehouse
@@ -162,7 +166,9 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
                 return BadRequest(ModelState);
             }
 
-            var warehouse = await _warehouseRepository.Query().Include(x => x.Address).FirstOrDefaultAsync(x => x.Id == id);
+            var warehouse = await _warehouseRepository.Query()
+                .Include(x => x.Address)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (warehouse == null)
             {
                 return NotFound();
@@ -183,7 +189,7 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
 
             warehouse.Address.ContactName = model.ContactName;
             warehouse.Address.Phone = model.Phone;
-            warehouse.Address.ZipCode = model.ZipCode;
+            warehouse.Address.Detail = new AddressDetail("","","","","","","",model.ZipCode,"","","","");
             warehouse.Address.StateOrProvinceId = model.StateOrProvinceId;
             warehouse.Address.CountryId = model.CountryId;
             warehouse.Address.DistrictId = model.DistrictId;
@@ -209,8 +215,8 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
 
             try
             {
-                _warehouseRepository.Remove(warehouse);
-                _addressRepository.Remove(warehouse.Address);
+                _warehouseRepository.Delete(warehouse);
+                _addressRepository.Delete(warehouse.Address);
 
                 await _warehouseRepository.SaveChangesAsync();
             }

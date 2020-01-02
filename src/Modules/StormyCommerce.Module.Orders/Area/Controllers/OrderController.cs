@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
-
 using StormyCommerce.Core.Models;
- 
 using StormyCommerce.Infraestructure.Interfaces;
+using StormyCommerce.Module.Orders.Interfaces;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {

@@ -2,8 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Infrastructure.Models;
-using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.WishList.Models
 {

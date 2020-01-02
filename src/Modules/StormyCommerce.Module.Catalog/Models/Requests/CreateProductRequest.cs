@@ -1,11 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
-
-using StormyCommerce.Core.Entities.Media;
-using StormyCommerce.Core.Entities.Vendor;
 using SimplCommerce.Module.Catalog.Models;
-using StormyCommerce.Core.Entities;
 
 namespace StormyCommerce.Core.Models.Requests
 {

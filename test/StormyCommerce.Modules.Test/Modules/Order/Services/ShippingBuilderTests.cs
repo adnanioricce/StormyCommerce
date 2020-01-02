@@ -1,9 +1,12 @@
-﻿using StormyCommerce.Api.Framework.Extensions;
+﻿using SimplCommerce.Module.Catalog.Models;
+using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Api.Framework.Extensions;
 
 
  
 using StormyCommerce.Core.Models.Shipment;
 using StormyCommerce.Core.Services.Shipping;
+using StormyCommerce.Module.Orders.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +29,7 @@ namespace StormyCommerce.Modules.Tests.Services.Shipping
                     new OrderItem
                     {
                         Quantity = quantity,
-                        Product = new StormyProduct
+                        Product = new Product
                         {
                             Width = width,
                             Length = length,

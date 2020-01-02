@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.User;
+using StormyCommerce.Core.Entities;
 
 namespace StormyCommerce.Infraestructure.Data.Stores
 {

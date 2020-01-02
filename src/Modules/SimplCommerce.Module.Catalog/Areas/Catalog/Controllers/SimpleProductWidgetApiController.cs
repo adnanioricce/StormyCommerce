@@ -7,6 +7,8 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Entities.Cms;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -15,9 +17,9 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/simple-product-widgets")]
     public class SimpleProductWidgetApiController : Controller
     {
-        private readonly IRepository<WidgetInstance> _widgetInstanceRepository;
+        private readonly IStormyRepository<WidgetInstance> _widgetInstanceRepository;
 
-        public SimpleProductWidgetApiController(IRepository<WidgetInstance> widgetInstanceRepository, IMediaService mediaService)
+        public SimpleProductWidgetApiController(IStormyRepository<WidgetInstance> widgetInstanceRepository, IMediaService mediaService)
         {
             _widgetInstanceRepository = widgetInstanceRepository;
         }

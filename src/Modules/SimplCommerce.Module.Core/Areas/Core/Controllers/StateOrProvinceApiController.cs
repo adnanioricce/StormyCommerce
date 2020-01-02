@@ -169,7 +169,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 
             try
             {
-                _stateOrProvinceRepository.Remove(stateProvince);
+                _stateOrProvinceRepository.Delete(stateProvince);
                 await _stateOrProvinceRepository.SaveChangesAsync();
             }
             catch (DbUpdateException)

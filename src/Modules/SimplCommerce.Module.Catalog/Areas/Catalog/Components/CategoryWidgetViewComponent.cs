@@ -8,15 +8,16 @@ using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Components
 {
     public class CategoryWidgetViewComponent : ViewComponent
     {
-        private readonly IRepository<Category> _categoriesRepository;
+        private readonly IStormyRepository<Category> _categoriesRepository;
         private readonly IMediaService _mediaService;
 
-        public CategoryWidgetViewComponent(IRepository<Category> categoriesRepository, IMediaService mediaService)
+        public CategoryWidgetViewComponent(IStormyRepository<Category> categoriesRepository, IMediaService mediaService)
         {
             _categoriesRepository = categoriesRepository;
             _mediaService = mediaService;

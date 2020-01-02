@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Infrastructure.Models;
-using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Inventory.Models;
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Shipments.Models
 {

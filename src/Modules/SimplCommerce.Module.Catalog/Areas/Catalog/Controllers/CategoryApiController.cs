@@ -14,6 +14,8 @@ using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Catalog.Services;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Entities.Media;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -22,12 +24,12 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/categories")]
     public class CategoryApiController : Controller
     {
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<ProductCategory> _productCategoryRepository;
+        private readonly IStormyRepository<Category> _categoryRepository;
+        private readonly IStormyRepository<ProductCategory> _productCategoryRepository;
         private readonly ICategoryService _categoryService;
         private readonly IMediaService _mediaService;
 
-        public CategoryApiController(IRepository<Category> categoryRepository, IRepository<ProductCategory> productCategoryRepository, ICategoryService categoryService, IMediaService mediaService)
+        public CategoryApiController(IStormyRepository<Category> categoryRepository, IStormyRepository<ProductCategory> productCategoryRepository, ICategoryService categoryService, IMediaService mediaService)
         {
             _categoryRepository = categoryRepository;
             _productCategoryRepository = productCategoryRepository;

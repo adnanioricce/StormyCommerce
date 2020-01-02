@@ -2,6 +2,7 @@
 using SimplCommerce.Module.ActivityLog.Models;
 using SimplCommerce.Module.Core.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.ActivityLog.Data
 {
@@ -16,7 +17,7 @@ namespace SimplCommerce.Module.ActivityLog.Data
         public IQueryable<MostViewEntityDto> List()
         {
             return from a in DbSet
-                join e in Context.Set<Entity>() on new { a.EntityId, a.EntityTypeId } equals new { e.EntityId, e.EntityTypeId }
+                join e in Context.Set<Entity>() on new { a.Id, a.EntityTypeId } equals new { e.Id, e.EntityTypeId }
                 where a.ActivityTypeId == MostViewActivityTypeId
                 group a by new {a.EntityId, a.EntityTypeId, e.Name, e.Slug}
                 into g

@@ -29,7 +29,7 @@ namespace StormyCommerce.Module.Orders
             serviceCollection.AddTransient<IShippingBuilder, ShippingBuilder>();
             serviceCollection.AddTransient<IOrderService, OrderService>();            
             serviceCollection.AddTransient<IShippingProvider,CorreiosService>();
-            serviceCollection.AddTransient<IPaymentProcessor, PaymentProcessor>();                    
+            //serviceCollection.AddTransient<IPaymentProcessor, PaymentProcessor>();                    
             PagarMeService.DefaultApiKey = Container.Configuration["PagarMe:ApiKey"];
             PagarMeService.DefaultEncryptionKey = Container.Configuration["PagarMe:EncryptionKey"];            
             var pagarme = new PagarMeService(PagarMeService.DefaultApiKey,PagarMeService.DefaultEncryptionKey);                        

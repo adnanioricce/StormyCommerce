@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using PagarMe;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Orders.Models;
 using SimplCommerce.Module.ShoppingCart.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Module.Catalog.Interfaces;
-using StormyCommerce.Module.Catalog.Models.Dtos;
-
-using StormyCommerce.Module.Orders.Models.Requests;
 using StormyCommerce.Module.Payments.Interfaces;
 using StormyCommerce.Module.Payments.Models.Requests;
 

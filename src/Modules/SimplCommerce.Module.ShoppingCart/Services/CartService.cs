@@ -9,18 +9,19 @@ using SimplCommerce.Module.ShoppingCart.Models;
 using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.Pricing.Services;
 using SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.ShoppingCart.Services
 {
     public class CartService : ICartService
     {
-        private readonly IRepository<Cart> _cartRepository;
-        private readonly IRepository<CartItem> _cartItemRepository;
+        private readonly IStormyRepository<Cart> _cartRepository;
+        private readonly IStormyRepository<CartItem> _cartItemRepository;
         private readonly IMediaService _mediaService;
         private readonly ICouponService _couponService;
         private readonly bool _isProductPriceIncludeTax;
 
-        public CartService(IRepository<Cart> cartRepository, IRepository<CartItem> cartItemRepository, ICouponService couponService, IMediaService mediaService, IConfiguration config)
+        public CartService(IStormyRepository<Cart> cartRepository, IStormyRepository<CartItem> cartItemRepository, ICouponService couponService, IMediaService mediaService, IConfiguration config)
         {
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;

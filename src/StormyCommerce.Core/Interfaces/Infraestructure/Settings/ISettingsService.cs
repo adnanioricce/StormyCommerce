@@ -1,4 +1,5 @@
-﻿using StormyCommerce.Core.Entities.Customer;
+﻿using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Customer;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

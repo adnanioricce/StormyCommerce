@@ -136,24 +136,24 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
         {
             model.ExistingShippingAddresses = _userAddressRepository
                 .Query()
-                .Where(x => (x.AddressType == AddressType.Shipping) && (x.UserId == currentUser.Id))
+                .Where(x => (x.Type == AddressType.Shipping) && (x.UserId == currentUser.Id))
                 .Select(x => new ShippingAddressVm
                 {
                     UserAddressId = x.Id,
-                    ContactName = x.Address.ContactName,
-                    Phone = x.Address.Phone,
-                    AddressLine1 = x.Address.AddressLine1,
-                    CityName = x.Address.City,
-                    ZipCode = x.Address.ZipCode,
-                    DistrictName = x.Address.District.Name,
-                    StateOrProvinceName = x.Address.StateOrProvince.Name,
-                    CountryName = x.Address.Country.Name,
-                    IsCityEnabled = x.Address.Country.IsCityEnabled,
-                    IsZipCodeEnabled = x.Address.Country.IsZipCodeEnabled,
-                    IsDistrictEnabled = x.Address.Country.IsDistrictEnabled
+                    ContactName = x.WhoReceives,
+                    Phone = x.Details.Phone.FullNumber,
+                    AddressLine1 = x.Details.AddressLine1,
+                    CityName = x.Details.City,
+                    ZipCode = x.Details.ZipCode,
+                    DistrictName = x.District.Name,
+                    StateOrProvinceName = x.Details.State,
+                    CountryName = x.Country.Name,
+                    IsCityEnabled = x.Country.IsCityEnabled,
+                    IsZipCodeEnabled = x.Country.IsZipCodeEnabled,
+                    IsDistrictEnabled = x.Country.IsDistrictEnabled
                 }).ToList();
-
-            model.ShippingAddressId = currentUser.DefaultShippingAddressId ?? 0;
+            var shippingAddress = currentUser.Addresses.FirstOrDefault(a => a.IsDefault);
+            model.ShippingAddressId =  shippingAddress == null ? 0 : shippingAddress.Id;
 
             model.UseShippingAddressAsBillingAddress = true;
 

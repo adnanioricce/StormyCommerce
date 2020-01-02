@@ -8,15 +8,17 @@ using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels.Manage;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Components
 {
     public class DefaultShippingAddressViewComponent : ViewComponent
     {
-        private readonly IRepository<UserAddress> _userAddressRepository;
+        private readonly IStormyRepository<CustomerAddress> _userAddressRepository;
         private readonly IWorkContext _workContext;
 
-        public DefaultShippingAddressViewComponent(IRepository<UserAddress> userAddressRepository, IWorkContext workContext)
+        public DefaultShippingAddressViewComponent(IStormyRepository<CustomerAddress> userAddressRepository, IWorkContext workContext)
         {
             _userAddressRepository = userAddressRepository;
             _workContext = workContext;

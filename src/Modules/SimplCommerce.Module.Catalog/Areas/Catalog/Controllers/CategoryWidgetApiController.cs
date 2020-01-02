@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Cms;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -13,9 +15,9 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/category-widgets")]
     public class CategoryWidgetApiController : Controller
     {
-        private readonly IRepository<WidgetInstance> _widgetInstanceRepository;
+        private readonly IStormyRepository<WidgetInstance> _widgetInstanceRepository;
 
-        public CategoryWidgetApiController(IRepository<WidgetInstance> widgetInstanceRepository)
+        public CategoryWidgetApiController(IStormyRepository<WidgetInstance> widgetInstanceRepository)
         {
             _widgetInstanceRepository = widgetInstanceRepository;
         }

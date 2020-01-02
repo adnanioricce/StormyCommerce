@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models;
+using StormyCommerce.Module.Catalog.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Services
 {
@@ -10,10 +11,10 @@ namespace SimplCommerce.Module.Catalog.Services
     {
         private const string BrandEntityTypeId = "Brand";
 
-        private readonly IRepository<Brand> _brandRepository;
+        private readonly IStormyRepository<Brand> _brandRepository;
         private readonly IEntityService _entityService;
 
-        public BrandService(IRepository<Brand> brandRepository, IEntityService entityService)
+        public BrandService(IStormyRepository<Brand> brandRepository, IEntityService entityService)
         {
             _brandRepository = brandRepository;
             _entityService = entityService;

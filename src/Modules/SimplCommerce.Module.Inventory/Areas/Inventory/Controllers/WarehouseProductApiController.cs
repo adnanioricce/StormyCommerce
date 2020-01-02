@@ -11,6 +11,7 @@ using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Inventory.Areas.Inventory.ViewModels;
 using SimplCommerce.Module.Inventory.Models;
 using SimplCommerce.Module.Inventory.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
 {
@@ -19,13 +20,13 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
     [Route("api/warehouses")]
     public class WarehouseProductApiController : Controller
     {
-        private readonly IRepository<Warehouse> _warehouseRepository;
+        private readonly IStormyRepository<Warehouse> _warehouseRepository;
         private readonly IWorkContext _workContext;
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<Stock> _stockRepository;
+        private readonly IStormyRepository<Product> _productRepository;
+        private readonly IStormyRepository<Stock> _stockRepository;
         private readonly IStockService _stockService;
 
-        public WarehouseProductApiController(IRepository<Warehouse> warehouseRepository, IWorkContext workContext, IRepository<Product> productRepository, IRepository<Stock> stockRepository, IStockService stockService)
+        public WarehouseProductApiController(IStormyRepository<Warehouse> warehouseRepository, IWorkContext workContext, IStormyRepository<Product> productRepository, IStormyRepository<Stock> stockRepository, IStockService stockService)
         {
             _warehouseRepository = warehouseRepository;
             _workContext = workContext;
@@ -129,8 +130,7 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
                 Quantity = 0
             });
 
-            _stockRepository.AddRange(stocks);
-            await _stockRepository.SaveChangesAsync();
+            await _stockRepository.AddCollectionAsync(stocks);            
             return Accepted();
         }
 

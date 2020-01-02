@@ -1,9 +1,7 @@
 ﻿using System;
-using StormyCommerce.Core.Models.Dtos;
- 
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Shipping;
 
-namespace StormyCommerce.Module.Orders.Models.Responses
+namespace SimplCommerce.Module.Orders.Models.Responses
 {
     [Serializable]
     public class CreditCardCheckoutResponse

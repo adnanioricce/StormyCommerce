@@ -6,6 +6,7 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Services
 {
@@ -13,10 +14,10 @@ namespace SimplCommerce.Module.Catalog.Services
     {
         private const string CategoryEntityTypeId = "Category";
 
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IStormyRepository<Category> _categoryRepository;
         private readonly IEntityService _entityService;
 
-        public CategoryService(IRepository<Category> categoryRepository, IEntityService entityService)
+        public CategoryService(IStormyRepository<Category> categoryRepository, IEntityService entityService)
         {
             _categoryRepository = categoryRepository;
             _entityService = entityService;

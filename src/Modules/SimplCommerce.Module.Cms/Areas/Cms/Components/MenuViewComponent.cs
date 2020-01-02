@@ -8,14 +8,15 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.Module.Cms.Areas.Cms.ViewModels;
 using SimplCommerce.Module.Cms.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Cms.Areas.Cms.Components
 {
     public class MenuViewComponent : ViewComponent
     {
-        private readonly IRepository<Menu> _menuRepository;
+        private readonly IStormyRepository<Menu> _menuRepository;
 
-        public MenuViewComponent(IRepository<Menu> menuRepository)
+        public MenuViewComponent(IStormyRepository<Menu> menuRepository)
         {
             _menuRepository = menuRepository;
         }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using TestHelperLibrary.Utils;
 

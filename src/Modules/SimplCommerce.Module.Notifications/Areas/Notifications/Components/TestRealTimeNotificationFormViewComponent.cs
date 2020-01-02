@@ -6,14 +6,16 @@ using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Notifications.Areas.Notifications.ViewModels;
 using SimplCommerce.Module.SignalR.RealTime;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Notifications.Areas.Notifications.Components
 {
     public class TestRealTimeNotificationFormViewComponent : ViewComponent
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IStormyRepository<User> _userRepository;
         private readonly IOnlineClientManager _onlineClientManager;
-        public TestRealTimeNotificationFormViewComponent(IRepository<User> userRepository, IOnlineClientManager onlineClientManager)
+        public TestRealTimeNotificationFormViewComponent(IStormyRepository<User> userRepository, IOnlineClientManager onlineClientManager)
         {
             _userRepository = userRepository;
             _onlineClientManager = onlineClientManager;

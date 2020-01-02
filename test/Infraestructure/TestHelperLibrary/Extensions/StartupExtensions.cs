@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PagarMe;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
 
@@ -22,6 +23,7 @@ using StormyCommerce.Module.Catalog.Services;
 using StormyCommerce.Module.Customer.Services;
 using StormyCommerce.Module.Orders.Interfaces;
 using StormyCommerce.Module.Orders.Services;
+using StormyCommerce.Module.Payments.Interfaces;
 
 namespace StormyCommerce.Modules.Tests.Modules.Extensions
 {

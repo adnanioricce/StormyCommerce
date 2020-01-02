@@ -16,6 +16,7 @@ using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Requests;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Module.Catalog.Interfaces;
 
 //! Remember to make a security check here.
 namespace StormyCommerce.Module.Catalog.Controllers

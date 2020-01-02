@@ -5,7 +5,7 @@ using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.Module.Orders.Interfaces;
-
+using StormyCommerce.Module.Orders.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +34,7 @@ namespace StormyCommerce.Module.Orders.Services
         public async Task<Result<OrderDto>> CancelOrderAsync(long id)
         {
             var order = await _orderRepository.GetByIdAsync(id);
-            if (order is null) return Result<OrderDto>.Fail(null, false, "order don't exist");
+            if (order is null) return Result<OrderDto>.Fail("order don't exist",new OrderDto());
 
             order.OrderStatus = OrderStatus.Canceled;            
             order.LatestUpdatedOn = DateTimeOffset.UtcNow;
@@ -45,7 +45,7 @@ namespace StormyCommerce.Module.Orders.Services
             };
             await _productService.UpdateProductsAsync(order.OrderItems.Select(i => i.Product).ToList());
             //#warning Pay attention! Be double careful when editing orders.            
-            return Result<OrderDto>.Ok(order.ToOrderDto(), true, "no error");
+            return Result<OrderDto>.Ok(new OrderDto(order));
         }
 
         //TODO:#warning Remember to edit the StormyProducts(items) on the Controller to sync the UnitsInStock
@@ -78,9 +78,9 @@ namespace StormyCommerce.Module.Orders.Services
             var orderHistory = new OrderHistory { 
                 OrderId = _entity.Id,
                 Order = _entity,
-                NewStatus = entity.Status,
-                OldStatus = _entity.Status,
-                CreatedById = _entity.UserId,
+                NewStatus = entity.OrderStatus,
+                OldStatus = _entity.OrderStatus,
+                CreatedById = _entity.CreatedById,
                 CreatedBy = _entity.Customer
             };
             await _orderHistoryRepository.AddAsync(orderHistory);
@@ -89,13 +89,8 @@ namespace StormyCommerce.Module.Orders.Services
         public async Task<Result<OrderDto>> GetOrderByUniqueIdAsync(Guid uniqueId)
         {
             _orderRepository.Query()
-               .Include(order => order.OrderItems)
-               .Include(order => order.Shipment)
-                   .ThenInclude(shipment => shipment.DestinationAddress)
-                       .ThenInclude(customerAddress => customerAddress.Owner)
+               .Include(order => order.OrderItems)               
                .Include(order => order.Customer)
-                    //.ThenInclude(order => order.DefaultShippingAddress)
-               .Include(order => order.Payment)                    
                .Load();
             _orderRepository.Query()
             .Include(order => order.OrderItems);                                    
@@ -129,12 +124,7 @@ namespace StormyCommerce.Module.Orders.Services
         public Task<Result> EditOrderAsync(Guid uniqueId, Order entity)
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<Order> GetOrderByUniqueIdAsync(Guid uniqueId)
-        {
-            return await _orderRepository.Query().Where(o => Guid.Equals(o.OrderUniqueKey, uniqueId)).FirstOrDefaultAsync();
-        }
+        }        
 
         public async Task<List<OrderDto>> GetAllOrdersFromCustomer(long customerId)
         {

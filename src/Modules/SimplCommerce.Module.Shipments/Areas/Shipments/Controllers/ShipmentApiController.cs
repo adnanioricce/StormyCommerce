@@ -11,6 +11,7 @@ using SimplCommerce.Module.Orders.Models;
 using SimplCommerce.Module.Shipments.Areas.Shipments.ViewModels;
 using SimplCommerce.Module.Shipments.Models;
 using SimplCommerce.Module.Shipments.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Shipments.Areas.Shipments.Controllers
 {
@@ -19,12 +20,12 @@ namespace SimplCommerce.Module.Shipments.Areas.Shipments.Controllers
     [Route("api/shipments")]
     public class ShipmentApiController : Controller
     {
-        private readonly IRepository<Shipment> _shipmentRepository;
+        private readonly IStormyRepository<Shipment> _shipmentRepository;
         private readonly IShipmentService _shipmentService;
-        private readonly IRepository<Order> _orderRepository;
+        private readonly IStormyRepository<Order> _orderRepository;
         private readonly IWorkContext _workContext;
 
-        public ShipmentApiController(IRepository<Shipment> shipmentRepository, IShipmentService shipmentService, IRepository<Order> orderRepository, IWorkContext workContext)
+        public ShipmentApiController(IStormyRepository<Shipment> shipmentRepository, IShipmentService shipmentService, IStormyRepository<Order> orderRepository, IWorkContext workContext)
         {
             _shipmentRepository = shipmentRepository;
             _shipmentService = shipmentService;

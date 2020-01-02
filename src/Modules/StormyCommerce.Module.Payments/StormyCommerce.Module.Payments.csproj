@@ -14,5 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SimplCommerce.Module.Payments\SimplCommerce.Module.Payments.csproj" />
+    <ProjectReference Include="..\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
   </ItemGroup>
 </Project>

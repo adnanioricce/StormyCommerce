@@ -11,6 +11,7 @@ using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.WishList.Areas.WishList.ViewModels;
 using SimplCommerce.Module.WishList.Models;
 using SimplCommerce.Module.WishList.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.WishList.Areas.WishList.Controllers
 {
@@ -20,18 +21,18 @@ namespace SimplCommerce.Module.WishList.Areas.WishList.Controllers
     {
         private const int DefaultPageSize = 25;
 
-        private readonly IRepository<Models.WishList> _wishListRepository;
-        private readonly IRepository<WishListItem> _wishListItemRepository;
-        private readonly IRepository<Product> _productRepository;
+        private readonly IStormyRepository<Models.WishList> _wishListRepository;
+        private readonly IStormyRepository<WishListItem> _wishListItemRepository;
+        private readonly IStormyRepository<Product> _productRepository;
         private readonly IWishListService _wishListService;
         private readonly IMediaService _mediaService;
         private readonly IEmailSender _emailSender;
         private readonly IWorkContext _workContext;
 
         public WishListController(
-            IRepository<Models.WishList> wishListRepository,
-            IRepository<WishListItem> wishListItemRepository,
-            IRepository<Product> productRepository,
+            IStormyRepository<Models.WishList> wishListRepository,
+            IStormyRepository<WishListItem> wishListItemRepository,
+            IStormyRepository<Product> productRepository,
             IWishListService wishListService,
             IMediaService mediaService,
             IEmailSender emailSender,
@@ -280,7 +281,7 @@ namespace SimplCommerce.Module.WishList.Areas.WishList.Controllers
                 return NotFound();
             }
 
-            _wishListItemRepository.Remove(wishListItem);
+            _wishListItemRepository.Delete(wishListItem);
 
             wishList.LatestUpdatedOn = DateTimeOffset.Now;
             await _wishListRepository.SaveChangesAsync();

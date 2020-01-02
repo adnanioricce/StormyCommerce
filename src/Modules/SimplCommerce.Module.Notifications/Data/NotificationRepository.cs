@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Data;
 using SimplCommerce.Module.Notifications.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Notifications.Data
 {
@@ -16,19 +17,19 @@ namespace SimplCommerce.Module.Notifications.Data
     {
         protected DbContext Context { get; }
 
-        private readonly IRepository<NotificationScheme> _notificationSchemeRepository;
-        private readonly IRepository<NotificationDetail> _notificationDetailRepository;
-        private readonly IRepositoryWithTypedId<UserNotification, Guid> _userNotificationRepository;
-        private readonly IRepository<NotificationSubscription> _notificationSubscriptionRepository;
+        private readonly IStormyRepository<NotificationScheme> _notificationSchemeRepository;
+        private readonly IStormyRepository<NotificationDetail> _notificationDetailRepository;
+        private readonly IStormyRepository<UserNotification> _userNotificationRepository;
+        private readonly IStormyRepository<NotificationSubscription> _notificationSubscriptionRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationRepository"/> class.
         /// </summary>
         public NotificationRepository(SimplDbContext context,
-            IRepository<NotificationScheme> notificationRepository,
-            IRepository<NotificationDetail> tenantNotificationRepository,
-            IRepositoryWithTypedId<UserNotification, Guid> userNotificationRepository,
-            IRepository<NotificationSubscription> notificationSubscriptionRepository)
+            IStormyRepository<NotificationScheme> notificationRepository,
+            IStormyRepository<NotificationDetail> tenantNotificationRepository,
+            IStormyRepository<UserNotification> userNotificationRepository,
+            IStormyRepository<NotificationSubscription> notificationSubscriptionRepository)
         {
             Context = context;
 

@@ -7,9 +7,9 @@ namespace StormyCommerce.Api.Framework.Extensions
 {
     public static class SeedExtensions
     {
-        public static IEnumerable<ProductDto> ToListProductDto(this List<StormyProduct> products)
-        {
-            return products.Select(product => new ProductDto(product));
-        }
+        //public static IEnumerable<ProductDto> ToListProductDto(this List<Product> products)
+        //{
+        //    return products.Select(product => new ProductDto(product));
+        //}
     }
 }

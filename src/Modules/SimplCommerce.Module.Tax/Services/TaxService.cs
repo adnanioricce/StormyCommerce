@@ -8,9 +8,9 @@ namespace SimplCommerce.Module.Tax.Services
 {
     public class TaxService : ITaxService
     {
-        private readonly IRepository<TaxRate> _taxRateRepository;
+        private readonly IStormyRepository<TaxRate> _taxRateRepository;
 
-        public TaxService(IRepository<TaxRate> taxRateRepository)
+        public TaxService(IStormyRepository<TaxRate> taxRateRepository)
         {
             _taxRateRepository = taxRateRepository;
         }

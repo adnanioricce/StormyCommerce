@@ -5,36 +5,37 @@ using MediatR;
 using Newtonsoft.Json;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Orders.Events
 {
     public class OrderCreatedCreateOrderHistoryHandler : INotificationHandler<OrderCreated>
     {
-        private readonly IRepository<OrderHistory> _orderHistoryRepository;
+        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;
 
-    public OrderCreatedCreateOrderHistoryHandler(IRepository<OrderHistory> orderHistoryRepository)
-    {
-        _orderHistoryRepository = orderHistoryRepository;
-    }
-
-    public async Task Handle(OrderCreated notification, CancellationToken cancellationToken)
-    {
-        var orderHistory = new OrderHistory
+        public OrderCreatedCreateOrderHistoryHandler(IStormyRepository<OrderHistory> orderHistoryRepository)
         {
-            OrderId = notification.OrderId,
-            CreatedOn = DateTimeOffset.Now,
-            CreatedById = notification.UserId,
-            NewStatus = OrderStatus.New,
-            Note = notification.Note,
-        };
-
-        if (notification.Order != null)
-        {
-            orderHistory.OrderSnapshot = JsonConvert.SerializeObject(notification.Order);
+            _orderHistoryRepository = orderHistoryRepository;
         }
 
-        _orderHistoryRepository.Add(orderHistory);
-        await _orderHistoryRepository.SaveChangesAsync();
+        public async Task Handle(OrderCreated notification, CancellationToken cancellationToken)
+        {
+            var orderHistory = new OrderHistory
+            {
+                OrderId = notification.OrderId,
+                CreatedOn = DateTimeOffset.Now,
+                CreatedById = notification.UserId,
+                NewStatus = OrderStatus.New,
+                Note = notification.Note,
+            };
+
+            if (notification.Order != null)
+            {
+                orderHistory.OrderSnapshot = JsonConvert.SerializeObject(notification.Order);
+            }
+
+            _orderHistoryRepository.Add(orderHistory);
+            await _orderHistoryRepository.SaveChangesAsync();
+        }
     }
-}
 }

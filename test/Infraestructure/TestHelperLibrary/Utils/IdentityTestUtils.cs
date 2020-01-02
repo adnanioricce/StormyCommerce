@@ -12,7 +12,7 @@ namespace TestHelperLibrary.Utils
         public static IEnumerable<Claim> GetClaims(User user)
         {
             return new[]{
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserGuid),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserGuid.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Iat, value: DateTimeOffset.UtcNow.ToString("yyyy-MM-dd")),
                 new Claim(ClaimTypes.Role,user.Roles.FirstOrDefault().Role.Name)

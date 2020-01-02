@@ -134,7 +134,7 @@ namespace StormyCommerce.Module.Customer.Services
             if (user == null) throw new ArgumentNullException($"Given user object was null, check the stack trace");
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserGuid),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserGuid.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Iat,value: DateTimeOffset.UtcNow.ToString("yyyy-MM-dd")),
             };            

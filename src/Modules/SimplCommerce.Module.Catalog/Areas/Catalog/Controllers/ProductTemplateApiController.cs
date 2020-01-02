@@ -6,6 +6,7 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Data;
 using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -14,11 +15,11 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/product-templates")]
     public class ProductTemplateApiController : Controller
     {
-        private readonly IRepository<ProductTemplate> _productTemplateRepository;
-        private readonly IRepository<ProductAttribute> _productAttributeRepository;
+        private readonly IStormyRepository<ProductTemplate> _productTemplateRepository;
+        private readonly IStormyRepository<ProductAttribute> _productAttributeRepository;
         private readonly IProductTemplateProductAttributeRepository _productTemplateProductAttributeRepository;
 
-        public ProductTemplateApiController(IRepository<ProductTemplate> productTemplateRepository, IRepository<ProductAttribute> productAttributeRepository, IProductTemplateProductAttributeRepository productTemplateProductAttributeRepository)
+        public ProductTemplateApiController(IStormyRepository<ProductTemplate> productTemplateRepository, IStormyRepository<ProductAttribute> productAttributeRepository, IProductTemplateProductAttributeRepository productTemplateProductAttributeRepository)
         {
             _productTemplateRepository = productTemplateRepository;
             _productAttributeRepository = productAttributeRepository;

@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Vendors.Services
 {
@@ -10,10 +12,10 @@ namespace SimplCommerce.Module.Vendors.Services
     {
         private const string VendorEntityTypeId = "Vendor";
 
-        private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IStormyRepository<Vendor> _vendorRepository;
         private readonly IEntityService _entityService;
 
-        public VendorService(IRepository<Vendor> vendorRepository, IEntityService entityService)
+        public VendorService(IStormyRepository<Vendor> vendorRepository, IEntityService entityService)
         {
             _vendorRepository = vendorRepository;
             _entityService = entityService;

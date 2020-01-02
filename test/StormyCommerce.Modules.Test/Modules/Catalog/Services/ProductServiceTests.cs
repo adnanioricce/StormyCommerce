@@ -1,8 +1,10 @@
-﻿using StormyCommerce.Api.Framework.Extensions;
+﻿using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Api.Framework.Extensions;
 
 using StormyCommerce.Core.Interfaces;
 
 using StormyCommerce.Core.Services.Catalog;
+using StormyCommerce.Module.Catalog.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,7 +45,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             var result = await service.GetAllProductsDisplayedOnHomepageAsync(limit);
 
             // Assert
-            Assert.True(result.Count <= limit);
+            Assert.True(result.Count() <= limit);
         }
 
         [Fact]
@@ -57,7 +59,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             var result = await service.GetAllProductsAsync(startIndex,endIndex);
 
             // Assert
-            Assert.True(result.Count > startIndex && result.Count <= endIndex);
+            Assert.True(result.Count() > startIndex && result.Count() <= endIndex);
         }        
 
         [Fact]
@@ -206,7 +208,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public void GetTotalStockQuantityOfProduct_StateUnderTest_ExpectedBehavior1()
         {
             // Arrange            
-            StormyProduct product = null;
+            Product product = null;
 
             // Act
             var result = service.GetTotalStockQuantityOfProduct(product);
@@ -219,7 +221,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task DeleteProductAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyProduct product = null;
+            Product product = null;
 
             // Act
             await service.DeleteProductAsync(product);
@@ -231,7 +233,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task InsertProductAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyProduct product = Seeders.StormyProductSeed().First();
+            Product product = Seeders.ProductSeed().First();
 
             // Act
             await service.InsertProductAsync(product);
@@ -247,7 +249,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task InsertProductsAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            IList<StormyProduct> products = Seeders.StormyProductSeed(2);
+            IList<Product> products = Seeders.ProductSeed(2);
 
             // Act
             await service.InsertProductsAsync(products);
@@ -263,7 +265,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task UpdateProductAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            StormyProduct product = Seeders.StormyProductSeed().First();
+            Product product = Seeders.ProductSeed().First();
 
             // Act
             await service.UpdateProductAsync(product);
@@ -276,7 +278,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task UpdateProductsAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            IList<StormyProduct> products = Seeders.StormyProductSeed(2);
+            IList<Product> products = Seeders.ProductSeed(2);
 
             // Act
             await service.UpdateProductsAsync(products);

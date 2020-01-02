@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -12,9 +13,9 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/product-attribute-groups")]
     public class ProductAttributeGroupApiController : Controller
     {
-        private IRepository<ProductAttributeGroup> _productAttrGroupRepository;
+        private IStormyRepository<ProductAttributeGroup> _productAttrGroupRepository;
 
-        public ProductAttributeGroupApiController(IRepository<ProductAttributeGroup> productAttrGroupRepository)
+        public ProductAttributeGroupApiController(IStormyRepository<ProductAttributeGroup> productAttrGroupRepository)
         {
             _productAttrGroupRepository = productAttrGroupRepository;
         }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 {
@@ -12,9 +13,9 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
     [Authorize(Roles = "admin, vendor")]
     public class OrderHistoryApiController : Controller
     {
-        private readonly IRepository<OrderHistory> _orderHistoryRepository;
+        private readonly IStormyRepository<OrderHistory> _orderHistoryRepository;
 
-        public OrderHistoryApiController(IRepository<OrderHistory> orderHistoryRepository)
+        public OrderHistoryApiController(IStormyRepository<OrderHistory> orderHistoryRepository)
         {
             _orderHistoryRepository = orderHistoryRepository;
         }

@@ -8,6 +8,7 @@ using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Extensions;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -16,10 +17,10 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/product-prices")]
     public class ProductPriceApiController : Controller
     {
-        private readonly IRepository<Product> _productRepository;
+        private readonly IStormyRepository<Product> _productRepository;
         private readonly IWorkContext _workContext;
 
-        public ProductPriceApiController(IRepository<Product> productRepository, IWorkContext workContext)
+        public ProductPriceApiController(IStormyRepository<Product> productRepository, IWorkContext workContext)
         {
             _productRepository = productRepository;
             _workContext = workContext;

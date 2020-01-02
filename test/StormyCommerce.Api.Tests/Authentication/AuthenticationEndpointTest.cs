@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models;

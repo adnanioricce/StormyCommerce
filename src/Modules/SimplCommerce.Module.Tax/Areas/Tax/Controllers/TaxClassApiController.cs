@@ -15,10 +15,10 @@ namespace SimplCommerce.Module.Tax.Areas.Tax.Controllers
     [Route("api/tax-classes")]
     public class TaxClassApiController : Controller
     {
-        private readonly IRepository<TaxClass> _taxClassRepository;
+        private readonly IStormyRepository<TaxClass> _taxClassRepository;
         private readonly int _defaultTaxClassId;
 
-        public TaxClassApiController(IRepository<TaxClass> taxClassRepository, IConfiguration config)
+        public TaxClassApiController(IStormyRepository<TaxClass> taxClassRepository, IConfiguration config)
         {
             _taxClassRepository = taxClassRepository;
             _defaultTaxClassId =config.GetValue<int>("Tax.DefaultTaxClassId");

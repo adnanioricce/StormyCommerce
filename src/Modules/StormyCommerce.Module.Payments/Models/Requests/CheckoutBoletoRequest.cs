@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SimplCommerce.Module.Payments.Models;
 using SimplCommerce.Module.ShoppingCart.Models;
 using StormyCommerce.Core.Entities.Shipping;
 
-namespace StormyCommerce.Module.Orders.Models.Requests
+namespace StormyCommerce.Module.Payments.Models.Requests
 {
     [Serializable]
     public class CheckoutBoletoRequest

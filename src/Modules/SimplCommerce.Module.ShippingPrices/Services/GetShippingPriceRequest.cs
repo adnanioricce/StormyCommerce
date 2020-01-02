@@ -2,12 +2,13 @@
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Shipping.Models;
 using StormyCommerce.Core.Entities.Common;
+using StormyCommerce.Core.Entities.Customer;
 
 namespace SimplCommerce.Module.ShippingPrices.Services
 {
     public class GetShippingPriceRequest
     {
-        public AddressDetail ShippingAddress { get; set; }
+        public CustomerAddress ShippingAddress { get; set; }
 
         public AddressDetail WarehouseAddress { get; set; }
 

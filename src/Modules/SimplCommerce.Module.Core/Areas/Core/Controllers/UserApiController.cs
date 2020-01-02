@@ -31,7 +31,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
         [HttpGet("quick-search")]
         public async Task<IActionResult> QuickSearch(UserSearchOption searchOption)
         {
-            var query = _userRepository.Query().T;
+            var query = _userRepository.Query();
             if (!string.IsNullOrWhiteSpace(searchOption.Name))
             {
                 query = query.Where(x => x.FullName.Contains(searchOption.Name));

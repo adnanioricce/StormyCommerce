@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -12,9 +13,9 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/product-attributes")]
     public class ProductAttributeApiController : Controller
     {
-        private readonly IRepository<ProductAttribute> _productAttrRepository;
+        private readonly IStormyRepository<ProductAttribute> _productAttrRepository;
 
-        public ProductAttributeApiController(IRepository<ProductAttribute> productAttrRepository)
+        public ProductAttributeApiController(IStormyRepository<ProductAttribute> productAttrRepository)
         {
             _productAttrRepository = productAttrRepository;
         }
@@ -95,7 +96,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 return NotFound();
             }
 
-            _productAttrRepository.Remove(productAttribute);
+            _productAttrRepository.Delete(productAttribute);
             return Json(true);
         }
     }

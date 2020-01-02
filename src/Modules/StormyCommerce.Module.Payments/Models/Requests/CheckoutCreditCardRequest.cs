@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using SimplCommerce.Module.ShoppingCart.Models;
 using StormyCommerce.Core.Entities.Shipping;
 
-namespace StormyCommerce.Module.Orders.Models.Requests
+namespace StormyCommerce.Module.Payments.Models.Requests
 {
     public class CheckoutCreditCardRequest
     {

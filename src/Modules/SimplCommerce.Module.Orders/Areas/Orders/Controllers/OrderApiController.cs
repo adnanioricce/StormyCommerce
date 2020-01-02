@@ -13,6 +13,7 @@ using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Orders.Areas.Orders.ViewModels;
 using SimplCommerce.Module.Orders.Events;
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 {
@@ -21,11 +22,11 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
     [Route("api/orders")]
     public class OrderApiController : Controller
     {
-        private readonly IRepository<Order> _orderRepository;
+        private readonly IStormyRepository<Order> _orderRepository;
         private readonly IWorkContext _workContext;
         private readonly IMediator _mediator;
 
-        public OrderApiController(IRepository<Order> orderRepository, IWorkContext workContext, IMediator mediator)
+        public OrderApiController(IStormyRepository<Order> orderRepository, IWorkContext workContext, IMediator mediator)
         {
             _orderRepository = orderRepository;
             _workContext = workContext;
@@ -354,7 +355,7 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
         }
 
         [HttpPost("lines-export")]
-        public async Task<IActionResult> OrderLinesExport([FromBody] SmartTableParam param, [FromServices] IRepository<OrderItem> orderItemRepository)
+        public async Task<IActionResult> OrderLinesExport([FromBody] SmartTableParam param, [FromServices] IStormyRepository<OrderItem> orderItemRepository)
         {
             var query = orderItemRepository.Query();
 

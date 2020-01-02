@@ -8,16 +8,17 @@ using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Orders.Models;
 using SimplCommerce.Module.Reviews.Areas.Reviews.ViewModels;
 using SimplCommerce.Module.Reviews.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Reviews.Areas.Reviews.Components
 {
     public class ReviewViewComponent : ViewComponent
     {
-        private readonly IRepository<Review> _reviewRepository;
+        private readonly IStormyRepository<Review> _reviewRepository;
         private readonly IWorkContext _workContext;
-        private readonly IRepository<OrderItem> _orderItemRepository;
+        private readonly IStormyRepository<OrderItem> _orderItemRepository;
 
-        public ReviewViewComponent(IRepository<Review> reviewRepository, IWorkContext workContext, IRepository<OrderItem> orderItemRepository )
+        public ReviewViewComponent(IStormyRepository<Review> reviewRepository, IWorkContext workContext, IStormyRepository<OrderItem> orderItemRepository )
         {
             _reviewRepository = reviewRepository;
             _workContext = workContext;

@@ -7,17 +7,18 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Inventory.Models;
 using SimplCommerce.Module.Orders.Models;
 using SimplCommerce.Module.Shipments.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Shipments.Services
 {
     public class ShipmentService : IShipmentService
     {
-        private readonly IRepository<Shipment> _shipmentRepository;
-        private readonly IRepository<OrderItem> _orderItemRepository;
-        private readonly IRepository<ShipmentItem> _shipmentItemRepository;
-        private readonly IRepository<Stock> _stockRepository;
+        private readonly IStormyRepository<Shipment> _shipmentRepository;
+        private readonly IStormyRepository<OrderItem> _orderItemRepository;
+        private readonly IStormyRepository<ShipmentItem> _shipmentItemRepository;
+        private readonly IStormyRepository<Stock> _stockRepository;
 
-        public ShipmentService(IRepository<Shipment> shipmentRepository, IRepository<OrderItem> orderItemRepository, IRepository<ShipmentItem> shipmentItemRepository, IRepository<Stock> stockRepository)
+        public ShipmentService(IStormyRepository<Shipment> shipmentRepository, IStormyRepository<OrderItem> orderItemRepository, IStormyRepository<ShipmentItem> shipmentItemRepository, IStormyRepository<Stock> stockRepository)
         {
             _shipmentRepository = shipmentRepository;
             _orderItemRepository = orderItemRepository;

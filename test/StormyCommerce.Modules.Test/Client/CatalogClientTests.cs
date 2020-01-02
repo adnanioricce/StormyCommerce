@@ -59,7 +59,7 @@
 //         {
 //             // Arrange
 //             var catalogClient = this.CreateCatalogClient();            
-//             StormyProduct _model = Seeders.StormyProductSeed().First();
+//             Product _model = Seeders.ProductSeed().First();
 //             CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);            
 //             // Act
 //             var result = await catalogClient.CreateProductAsync(GetCreateProductRequestModel(_model),cancellationToken);
@@ -87,7 +87,7 @@
 //         {
 //             // Arrange
 //             var catalogClient = this.CreateCatalogClient();            
-//             StormyProduct _model = Seeders.StormyProductSeed().First();
+//             Product _model = Seeders.ProductSeed().First();
 //             _model.Id = 1;
 //             CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);
 
@@ -234,7 +234,7 @@
 //             // Assert
 //             Assert.Equal(id,result.Id);
 //         }
-//         private CreateProductRequest GetCreateProductRequestModel(StormyProduct product)
+//         private CreateProductRequest GetCreateProductRequestModel(Product product)
 //         {
 //             return new CreateProductRequest{
 //                 Description = product.Description,

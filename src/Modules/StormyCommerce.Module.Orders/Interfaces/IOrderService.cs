@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Module.Orders.Models.Dtos;
 
 namespace StormyCommerce.Module.Orders.Interfaces
 {
@@ -16,8 +17,7 @@ namespace StormyCommerce.Module.Orders.Interfaces
         Task<Result<OrderDto>> CancelOrderAsync(long id);
         Task<Result<OrderDto>> GetOrderByIdAsync(long id);
         Task<Result<IList<Order>>> GetOrdersAsync();
-        Task<Result<OrderDto>> GetOrderByUniqueIdAsync(Guid uniqueId);
-        Task<Order> GetOrderByUniqueIdAsync(Guid uniqueId);
+        Task<Result<OrderDto>> GetOrderByUniqueIdAsync(Guid uniqueId);        
         Task<List<OrderDto>> GetAllOrdersFromCustomer(long customerId);
     }
 }

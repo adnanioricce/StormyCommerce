@@ -11,6 +11,8 @@ using SimplCommerce.Module.Catalog.Services;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -19,12 +21,12 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/product-clone")]
     public class ProductCloneApiController : Controller
     {
-        private readonly IRepository<Product> _productRepository;
+        private readonly IStormyRepository<Product> _productRepository;
         private readonly IProductService _productService;
         private readonly IMediaService _mediaService;
         private readonly IWorkContext _workContext;
 
-        public ProductCloneApiController(IRepository<Product> productRepository, IProductService productService, IMediaService mediaService, IWorkContext workContext)
+        public ProductCloneApiController(IStormyRepository<Product> productRepository, IProductService productService, IMediaService mediaService, IWorkContext workContext)
         {
             _productRepository = productRepository;
             _productService = productService;

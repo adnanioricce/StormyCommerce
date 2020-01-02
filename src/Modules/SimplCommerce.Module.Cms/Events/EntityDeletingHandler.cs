@@ -5,14 +5,15 @@ using MediatR;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Cms.Models;
 using StormyCommerce.Core.Events;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Cms.Events
 {
     public class EntityDeletingHandler : INotificationHandler<EntityDeleting>
     {
-        private readonly IRepository<MenuItem> _menuItemRepository;
+        private readonly IStormyRepository<MenuItem> _menuItemRepository;
 
-        public EntityDeletingHandler(IRepository<MenuItem> menuItemRepository)
+        public EntityDeletingHandler(IStormyRepository<MenuItem> menuItemRepository)
         {
             _menuItemRepository = menuItemRepository;
         }
@@ -22,7 +23,7 @@ namespace SimplCommerce.Module.Cms.Events
             var items = _menuItemRepository.Query().Where(x => x.EntityId == notification.EntityId).ToList();
             foreach(var item in items)
             {
-                _menuItemRepository.Remove(item);
+                _menuItemRepository.Delete(item);
             }
 
             return Task.CompletedTask;

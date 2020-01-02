@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Infrastructure.Models;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Orders.Models
 {
@@ -19,8 +19,7 @@ namespace SimplCommerce.Module.Orders.Models
 
         [StringLength(1000)]
         public string Note { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
+        
 
         public long CreatedById { get; set; }
 

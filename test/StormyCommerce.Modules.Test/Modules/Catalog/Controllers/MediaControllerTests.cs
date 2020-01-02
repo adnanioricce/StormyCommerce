@@ -5,6 +5,7 @@ using Moq;
 using StormyCommerce.Core.Interfaces;
 
 using StormyCommerce.Module.Catalog.Areas.Catalog.Controllers;
+using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.Module.Catalog.Models;
 using System;
 using System.IO;

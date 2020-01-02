@@ -1,12 +1,5 @@
-﻿using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities;
-
-using StormyCommerce.Core.Interfaces;
-
-
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
- 
-
+﻿using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Module.Orders.Interfaces;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +18,8 @@ namespace StormyCommerce.Modules.Tests
         public async Task CancelOrderAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange                        
-            var order = Seeders.OrderSeed().First();
+            //var order = null;
+            Order order = null;
             await service.CreateOrderAsync(order);
             // Act
             var result = await service.CancelOrderAsync(order.Id);
@@ -39,7 +33,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task CreateOrderAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Order entry = Seeders.OrderSeed().First();
+            Order entry = null;
 
             // Act
             var result = await service.CreateOrderAsync(entry);
@@ -53,7 +47,7 @@ namespace StormyCommerce.Modules.Tests
         {
             // Arrange            
             long id = 1;
-            Order entity = Seeders.OrderSeed().First();
+            Order entity = null;
             entity.Id = id;
             // Act
             var result = await service.EditOrderAsync(id,entity);
@@ -66,7 +60,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task GetOrderByUniqueIdAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange      
-            var order = Seeders.OrderSeed().First();
+            var order = null;
             Guid uniqueId = order.OrderUniqueKey;
             order.OrderUniqueKey = uniqueId;
             await service.CreateOrderAsync(order);
@@ -109,7 +103,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task EditOrderAsync_StateUnderTest_ExpectedBehavior1()
         {
             // Arrange                        
-            Order entity = Seeders.OrderSeed().First();
+            Order entity = null;
 
             // Act
             var result = await service.EditOrderAsync(entity.OrderUniqueKey,entity);

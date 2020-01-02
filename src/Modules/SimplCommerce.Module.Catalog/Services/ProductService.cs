@@ -2,6 +2,7 @@
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Services
 {
@@ -9,10 +10,10 @@ namespace SimplCommerce.Module.Catalog.Services
     {
         private const string ProductEntityTypeId = "Product";
 
-        private readonly IRepository<Product> _productRepository;
+        private readonly IStormyRepository<Product> _productRepository;
         private readonly IEntityService _entityService;
 
-        public ProductService(IRepository<Product> productRepository, IEntityService entityService)
+        public ProductService(IStormyRepository<Product> productRepository, IEntityService entityService)
         {
             _productRepository = productRepository;
             _entityService = entityService;

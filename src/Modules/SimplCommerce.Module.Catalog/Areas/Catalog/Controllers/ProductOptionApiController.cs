@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -12,9 +13,9 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/product-options")]
     public class ProductOptionApiController : Controller
     {
-        private readonly IRepository<ProductOption> _productOptionRepository;
+        private readonly IStormyRepository<ProductOption> _productOptionRepository;
 
-        public ProductOptionApiController(IRepository<ProductOption> productOptionRepository)
+        public ProductOptionApiController(IStormyRepository<ProductOption> productOptionRepository)
         {
             _productOptionRepository = productOptionRepository;
         }

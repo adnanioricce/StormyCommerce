@@ -8,6 +8,7 @@ using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.Orders.Areas.Orders.ViewModels;
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 {
@@ -16,10 +17,10 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
     public class OrderController : Controller
     {
         private readonly IMediaService _mediaService;
-        private readonly IRepository<Order> _orderRepository;
+        private readonly IStormyRepository<Order> _orderRepository;
         private readonly IWorkContext _workContext;
 
-        public OrderController(IRepository<Order> orderRepository, IWorkContext workContext, IMediaService mediaService)
+        public OrderController(IStormyRepository<Order> orderRepository, IWorkContext workContext, IMediaService mediaService)
         {
             _orderRepository = orderRepository;
             _workContext = workContext;

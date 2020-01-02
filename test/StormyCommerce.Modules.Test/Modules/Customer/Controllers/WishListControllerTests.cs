@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SimplCommerce.Module.WishList.Areas.WishList.Controllers;
+using SimplCommerce.Module.WishList.Models;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Interfaces;
@@ -15,15 +18,15 @@ namespace StormyCommerce.Modules.Tests
     public class WishListControllerTests
     {
         private readonly WishListController _controller;
-        private readonly IStormyRepository<Wishlist> _wishlistRepository;
+        private readonly IStormyRepository<WishList> _wishlistRepository;
         private readonly UserManager<User> _userManager;
-        public WishListControllerTests(IStormyRepository<Wishlist> wishlistRepo,
+        public WishListControllerTests(IStormyRepository<WishList> wishlistRepo,
             IUserIdentityService identityService,
             UserManager<User> userManager)
         {
             _wishlistRepository = wishlistRepo;
             _userManager = userManager;
-            _controller = new WishListController(wishlistRepo,identityService);
+            _controller = null;
             _controller.ControllerContext = _userManager.CreateTestContext();
         }
         [Fact,TestPriority(-1)]

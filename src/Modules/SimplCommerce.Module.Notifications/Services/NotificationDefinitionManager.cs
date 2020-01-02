@@ -9,6 +9,8 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Extensions;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Notifications.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Notifications.Services
 {
@@ -69,7 +71,7 @@ namespace SimplCommerce.Module.Notifications.Services
         {
             using (var scope = ServiceScopeFactory.CreateScope())
             {
-                var _userRepository = scope.ServiceProvider.GetRequiredService<IRepository<User>>();
+                var _userRepository = scope.ServiceProvider.GetRequiredService<IStormyRepository<User>>();
                 var notificationDefinition = GetOrNull(name);
 
                 if (notificationDefinition?.ForRoles != null)

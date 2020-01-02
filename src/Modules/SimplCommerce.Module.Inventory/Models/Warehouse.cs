@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Infrastructure.Models;
 using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Address;

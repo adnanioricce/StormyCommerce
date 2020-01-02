@@ -11,7 +11,7 @@ namespace StormyCommerce.Infraestructure.Extensions
         public static List<User> ApplicationUserSeed(int count = 1, bool withDefinedPassword = true)
         {
             var fakeAppUser = new Faker<User>("pt_BR")
-                .RuleFor(v => v.UserGuid, f => f.Hashids.Encode(f.Random.Int(1, 32)))
+                .RuleFor(v => v.UserGuid, f => new Guid(f.Hashids.Encode(f.Random.Int(1, 32))))
                 .RuleFor(v => v.FullName,f => f.Person.FullName)
                 .RuleFor(v => v.CPF, f => f.Random.Utf16String(11, 11))
                 .RuleFor(v => v.Email, f => f.Internet.Email())

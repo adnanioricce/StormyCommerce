@@ -3,6 +3,7 @@ using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Orders.Services
 {

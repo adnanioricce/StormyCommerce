@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Module.Customer.Services;
 using System;

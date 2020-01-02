@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using System.Security.Claims;
 using System.Threading.Tasks;

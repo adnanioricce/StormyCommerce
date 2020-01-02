@@ -5,14 +5,15 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Components
 {
     public class CategoryMenuViewComponent : ViewComponent
     {
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IStormyRepository<Category> _categoryRepository;
 
-        public CategoryMenuViewComponent(IRepository<Category> categoryRepository)
+        public CategoryMenuViewComponent(IStormyRepository<Category> categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

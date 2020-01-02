@@ -1,11 +1,11 @@
-﻿using StormyCommerce.Core.Entities.Vendor;
+﻿using StormyCommerce.Core.Entities;
 
 namespace StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog
 {
     public class VendorDto
     {
         public VendorDto(){}
-        public VendorDto(StormyVendor vendor)
+        public VendorDto(Vendor vendor)
         {
             CompanyName = vendor.CompanyName; 
             ContactTitle = vendor.ContactTitle; 

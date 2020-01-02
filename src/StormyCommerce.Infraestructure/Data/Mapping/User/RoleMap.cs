@@ -1,6 +1,5 @@
-using System;
-using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Core.Entities.User;
+﻿using Microsoft.EntityFrameworkCore;
+using StormyCommerce.Core.Entities;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.User
 {

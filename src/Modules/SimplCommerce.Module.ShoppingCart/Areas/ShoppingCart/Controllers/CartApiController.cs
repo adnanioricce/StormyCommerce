@@ -15,12 +15,12 @@ namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.Controllers
     [Authorize(Roles = "admin")]
     public class CartApiController : Controller
     {
-        private readonly IRepository<CartItem> _cartItemRepository;
+        private readonly IStormyRepository<CartItem> _cartItemRepository;
         private readonly ICartService _cartService;
         private readonly IWorkContext _workContext;
 
         public CartApiController(
-            IRepository<CartItem> cartItemRepository,
+            IStormyRepository<CartItem> cartItemRepository,
             ICartService cartService,
             IWorkContext workContext)
         {

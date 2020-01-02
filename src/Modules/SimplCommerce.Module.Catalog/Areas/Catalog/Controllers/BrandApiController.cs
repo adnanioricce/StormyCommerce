@@ -7,6 +7,7 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Catalog.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
@@ -15,10 +16,10 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [Route("api/brands")]
     public class BrandApiController : Controller
     {
-        private readonly IRepository<Brand> _brandRepository;
+        private readonly IStormyRepository<Brand> _brandRepository;
         private readonly IBrandService _brandService;
 
-        public BrandApiController(IRepository<Brand> brandRepository, IBrandService brandService)
+        public BrandApiController(IStormyRepository<Brand> brandRepository, IBrandService brandService)
         {
             _brandRepository = brandRepository;
             _brandService = brandService;

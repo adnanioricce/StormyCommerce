@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Cms;
+using StormyCommerce.Core.Entities.Settings;
 
 namespace SimplCommerce.Module.Catalog.Data
 {
@@ -35,9 +38,9 @@ namespace SimplCommerce.Module.Catalog.Data
                 .HasForeignKey(pt => pt.ProductAttributeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<AppSetting>().HasData(
-                new AppSetting("Catalog.ProductPageSize") { Module = "Catalog", IsVisibleInCommonSettingPage = true, Value = "10" },
-                new AppSetting("Catalog.IsProductPriceIncludeTax") { Module = "Catalog", IsVisibleInCommonSettingPage = true, Value = "true" }
+            modelBuilder.Entity<AppSettings>().HasData(
+                new AppSettings("Catalog.ProductPageSize") { Module = "Catalog", IsVisibleInCommonSettingPage = true, Value = "10" },
+                new AppSettings("Catalog.IsProductPriceIncludeTax") { Module = "Catalog", IsVisibleInCommonSettingPage = true, Value = "true" }
             );
 
             modelBuilder.Entity<EntityType>().HasData(

@@ -9,6 +9,8 @@ using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Vendors.Areas.Vendors.ViewModels;
 using SimplCommerce.Module.Vendors.Services;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Vendors.Areas.Vendors.Controllers
 {
@@ -17,10 +19,10 @@ namespace SimplCommerce.Module.Vendors.Areas.Vendors.Controllers
     [Route("api/vendors")]
     public class VendorApiController : Controller
     {
-        private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IStormyRepository<Vendor> _vendorRepository;
         private readonly IVendorService _vendorService;
 
-        public VendorApiController(IRepository<Vendor> vendorRepository, IVendorService vendorService)
+        public VendorApiController(IStormyRepository<Vendor> vendorRepository, IVendorService vendorService)
         {
             _vendorRepository = vendorRepository;
             _vendorService = vendorService;

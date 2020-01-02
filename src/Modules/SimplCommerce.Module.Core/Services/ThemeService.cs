@@ -11,16 +11,18 @@ using SimplCommerce.Infrastructure;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
+using StormyCommerce.Core.Entities.Settings;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Services
 {
     public class ThemeService : IThemeService
     {
         private readonly IConfigurationRoot _configurationRoot;
-        private readonly IRepositoryWithTypedId<AppSetting, string> _appSettingRepository;
+        private readonly IStormyRepository<AppSettings> _appSettingRepository;
         private string _currentThemeName;
 
-        public ThemeService(IConfiguration configuration, IRepositoryWithTypedId<AppSetting, string> appSettingRepository)
+        public ThemeService(IConfiguration configuration, IStormyRepository<AppSettings> appSettingRepository)
         {
             _configurationRoot = (IConfigurationRoot)configuration;
             _appSettingRepository = appSettingRepository;

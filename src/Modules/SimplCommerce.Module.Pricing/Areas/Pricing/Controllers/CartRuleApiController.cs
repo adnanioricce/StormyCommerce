@@ -7,6 +7,7 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Pricing.Areas.Pricing.ViewModels;
 using SimplCommerce.Module.Pricing.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Pricing.Areas.Pricing.Controllers
 {
@@ -15,9 +16,9 @@ namespace SimplCommerce.Module.Pricing.Areas.Pricing.Controllers
     [Route("api/cart-rules")]
     public class CartRuleApiController : Controller
     {
-        private readonly IRepository<CartRule> _cartRuleRepository;
+        private readonly IStormyRepository<CartRule> _cartRuleRepository;
 
-        public CartRuleApiController(IRepository<CartRule> cartRuleRepository)
+        public CartRuleApiController(IStormyRepository<CartRule> cartRuleRepository)
         {
             _cartRuleRepository = cartRuleRepository;
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Infraestructure.Interfaces;

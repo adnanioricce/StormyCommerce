@@ -1,8 +1,10 @@
-﻿using StormyCommerce.Core.Interfaces.Infraestructure.Data;
+﻿using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
+using StormyCommerce.Module.Catalog.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace StormyCommerce.Core.Repositories
+namespace StormyCommerce.Module.Catalog.Data.Repositories
 {
     public class ProductTemplateProductAttributeRepository : IProductTemplateProductAttributeRepository
     {

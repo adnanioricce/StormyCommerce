@@ -9,6 +9,7 @@ using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.Orders.Areas.Orders.ViewModels;
 using SimplCommerce.Module.Orders.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 {
@@ -17,12 +18,12 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
     [Route("api/invoices")]
     public class InvoiceApiController : Controller
     {
-        private readonly IRepository<Order> _orderRepository;
+        private readonly IStormyRepository<Order> _orderRepository;
         private readonly IWorkContext _workContext;
         private readonly IRazorViewRenderer _viewRender;
         private readonly IPdfConverter _pdfConverter;
 
-        public InvoiceApiController(IRepository<Order> orderRepository, IWorkContext workContext, IRazorViewRenderer viewRender, IPdfConverter pdfConverter)
+        public InvoiceApiController(IStormyRepository<Order> orderRepository, IWorkContext workContext, IRazorViewRenderer viewRender, IPdfConverter pdfConverter)
         {
             _orderRepository = orderRepository;
             _workContext = workContext;

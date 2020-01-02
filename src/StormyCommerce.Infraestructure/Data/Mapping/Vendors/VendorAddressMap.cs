@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Core.Entities.Common;
-using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Entities.Vendor;
+using StormyCommerce.Core.Entities;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Vendors
 {

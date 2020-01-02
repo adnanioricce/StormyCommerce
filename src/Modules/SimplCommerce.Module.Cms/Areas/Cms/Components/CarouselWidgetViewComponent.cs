@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.Module.Cms.Areas.Cms.ViewModels;
+using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Cms.Areas.Cms.Components

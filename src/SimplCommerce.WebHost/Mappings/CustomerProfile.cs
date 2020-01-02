@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using SimplCommerce.Module.Reviews.Models;
+using SimplCommerce.Module.WishList.Models;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Models.Dtos;
@@ -31,8 +33,8 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForAllMembers(opt => opt.Condition((src,dest,srcMember) => srcMember != null));
             CreateMap<EditCustomerAddressRequest,CustomerAddress>();
             CreateMap<CreateShippingAddressRequest,CustomerAddress>();
-            CreateMap<Wishlist, WishlistDto>();
-            CreateMap<WishlistItem, WishListItemDto>();
+            CreateMap<WishList, WishlistDto>();
+            CreateMap<WishListItem, WishListItemDto>();
         }
     }
 }

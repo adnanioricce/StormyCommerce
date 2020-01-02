@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Notifications.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Notifications.Notifiers
 {

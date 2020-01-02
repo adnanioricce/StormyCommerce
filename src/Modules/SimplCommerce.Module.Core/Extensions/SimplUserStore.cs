@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SimplCommerce.Module.Core.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Core.Extensions
 {

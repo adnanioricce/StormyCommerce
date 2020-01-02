@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using StormyCommerce.Core.Models.Dtos;
- 
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Shipping;
-using StormyCommerce.Module.Orders.Models.Dtos;
 using StormyCommerce.Module.Payments.Models.Dtos;
 
 namespace StormyCommerce.Module.Orders.Models.Responses
@@ -15,9 +10,12 @@ namespace StormyCommerce.Module.Orders.Models.Responses
         public CheckoutResponse(){}
         public CheckoutResponse(OrderDto order)
         {
-            Order = order;
-            Payment = order.Payment;
-            Shipment = order.Shipment;
+            Order = order;           
+        }
+        public CheckoutResponse(OrderDto order,PaymentDto payment,ShipmentDto shipment) : this(order)
+        {
+            Payment = payment;
+            Shipment = shipment;
         }
         public PaymentDto Payment { get; set; }
         public ShipmentDto Shipment { get; set; }

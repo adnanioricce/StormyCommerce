@@ -10,6 +10,7 @@ using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Inventory.Areas.Inventory.ViewModels;
 using SimplCommerce.Module.Inventory.Models;
 using SimplCommerce.Module.Inventory.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
 {
@@ -18,13 +19,13 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
     [Route("api/stocks")]
     public class StockApiController : Controller
     {
-        private readonly IRepository<Stock> _stockRepository;
+        private readonly IStormyRepository<Stock> _stockRepository;
         private readonly IStockService _stockService;
         private readonly IWorkContext _workContext;
-        private readonly IRepository<Warehouse> _warehouseRepository;
-        private readonly IRepository<StockHistory> _stockHistoryRepository;
+        private readonly IStormyRepository<Warehouse> _warehouseRepository;
+        private readonly IStormyRepository<StockHistory> _stockHistoryRepository;
 
-        public StockApiController(IRepository<Stock> stockRepository, IStockService stockService, IWorkContext workContext, IRepository<Warehouse> warehouseRepository, IRepository<StockHistory> stockHistoryRepository)
+        public StockApiController(IStormyRepository<Stock> stockRepository, IStockService stockService, IWorkContext workContext, IStormyRepository<Warehouse> warehouseRepository, IStormyRepository<StockHistory> stockHistoryRepository)
         {
             _stockRepository = stockRepository;
             _stockService = stockService;

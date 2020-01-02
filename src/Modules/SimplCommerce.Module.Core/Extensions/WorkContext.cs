@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Core.Extensions
 {
@@ -18,9 +20,9 @@ namespace SimplCommerce.Module.Core.Extensions
         private User _currentUser;
         private UserManager<User> _userManager;
         private HttpContext _httpContext;
-        private IRepository<User> _userRepository;
+        private IStormyRepository<User> _userRepository;
 
-        public WorkContext(UserManager<User> userManager, IHttpContextAccessor contextAccessor, IRepository<User> userRepository)
+        public WorkContext(UserManager<User> userManager, IHttpContextAccessor contextAccessor, IStormyRepository<User> userRepository)
         {
             _userManager = userManager;
             _httpContext = contextAccessor.HttpContext;
@@ -45,7 +47,7 @@ namespace SimplCommerce.Module.Core.Extensions
             var userGuid = GetUserGuidFromCookies();
             if (userGuid.HasValue)
             {
-                _currentUser = _userRepository.Query().Include(x => x.Roles).FirstOrDefault(x => x.UserGuid == userGuid);
+                _currentUser = _userRepository.Query().Include(x => x.Roles).FirstOrDefault(x =>  x.UserGuid == userGuid);
             }
 
             if (_currentUser != null && _currentUser.Roles.Count == 1 && _currentUser.Roles.First().RoleId == GuestRoleId)

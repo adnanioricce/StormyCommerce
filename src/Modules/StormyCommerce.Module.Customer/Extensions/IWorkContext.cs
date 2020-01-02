@@ -1,4 +1,5 @@
-﻿using StormyCommerce.Core.Entities.Customer;
+﻿using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Entities.Customer;
 using System.Threading.Tasks;
 
 namespace StormyCommerce.Module.Customer.Extensions

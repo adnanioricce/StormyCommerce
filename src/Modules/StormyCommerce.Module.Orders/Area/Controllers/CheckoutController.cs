@@ -1,43 +1,28 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PagarMe;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities;
-using System;
 using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper;
-using StormyCommerce.Module.Orders.Area.Models.Orders;
 using StormyCommerce.Core.Models;
-using System.Collections.Generic;
-
 using StormyCommerce.Core.Entities.Customer;
 using PagarMe.Model;
 using StormyCommerce.Infraestructure.Interfaces;
-
-using StormyCommerce.Module.Orders.Services;
 using Microsoft.AspNetCore.Cors;
-
-
-
-
- 
-
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Extensions;
-using StormyCommerce.Core.Entities.Shipping;
 using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models.Shipment.Request;
 using StormyCommerce.Core.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Module.Payments.Interfaces;
 using StormyCommerce.Module.Orders.Interfaces;
 using StormyCommerce.Module.Catalog.Interfaces;
 using SimplCommerce.Module.Orders.Models;
 using StormyCommerce.Module.Payments.Models.Requests;
 using StormyCommerce.Module.Orders.Models.Responses;
-using StormyCommerce.Module.Orders.Models.Requests;
 using StormyCommerce.Module.Orders.Models.Dtos;
+using SimplCommerce.Module.Orders.Models.Responses;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -101,8 +86,9 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         public async Task<ActionResult<CreditCardCheckoutResponse>> CreditCardCheckout([FromBody] CheckoutCreditCardRequest request)
         {
             var user = await _identityService.GetUserByClaimPrincipal(User);
-            var userDto = _mapper.Map<User, CustomerDto>(user);            
-            var order = BuildOrderForCreditCardCheckout(request);
+            var userDto = _mapper.Map<User, CustomerDto>(user);
+            //var order = BuildOrderForCreditCardCheckout(request);
+            var order = new Order();
             var createOrderResult = await _orderService.CreateOrderAsync(order);
             var shipment = await _shippingService.PrepareShipment(new PrepareShipmentRequest(createOrderResult.Value, request.PostalCode, request.ShippingMethod));
             shipment.DestinationAddressId = userDto.Addresses.FirstOrDefault(u => u.IsDefault && u.Type == AddressType.Shipping).Id;
@@ -111,9 +97,9 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             var response = await _paymentProcessor.ProcessCreditCardPaymentAsync(request,userDto);
             if (!response.Result.Success) return BadRequest(response.Result);            
             return Ok(new CreditCardCheckoutResponse { 
-                Payment = orderDto.Value.Payment,
-                Order = orderDto.Value,
-                Shipment = orderDto.Value.Shipment
+                //Payment = response.
+                //Order = orderDto.Value,
+                Shipment = shipment
             });
         }
         [HttpPost("postback")]
@@ -122,23 +108,23 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         {
             return NoContent();
         }   
-        private Order BuildOrderForCreditCardCheckout(CheckoutCreditCardRequest request)
-        {            
-            return new Order
-            {
-                Payment = new Core.Entities.Payments.StormyPayment
-                {
-                    Amount = request.Amount,
-                    PaymentMethod = Core.Entities.Payments.PaymentMethod.CreditCard,
-                    CreatedOn = DateTimeOffset.UtcNow,
-                    PaymentStatus = Core.Entities.Payments.PaymentStatus.Processing,                    
-                }
-            };
-        }
+        //private Order BuildOrderForCreditCardCheckout(CheckoutCreditCardRequest request)
+        //{            
+        //    return new Order
+        //    {
+        //        Payment = new Core.Entities.Payments.StormyPayment
+        //        {
+        //            Amount = request.Amount,
+        //            PaymentMethod = Core.Entities.Payments.PaymentMethod.CreditCard,
+        //            CreatedOn = DateTimeOffset.UtcNow,
+        //            PaymentStatus = Core.Entities.Payments.PaymentStatus.Processing,                    
+        //        }
+        //    };
+        //}
         private async Task<Result<OrderDto>> CreateOrderForCheckout(CheckoutBoletoRequest request,CustomerDto userDto,long userId)
         {
             ProcessPaymentResponse response = await _paymentProcessor.ProcessBoletoPaymentRequestAsync(request, userDto);
-            response.Order.UserId = userId;
+            response.Order.CreatedById = userId;
             var createOrderResult = await _orderService.CreateOrderAsync(response.Order);            
             return createOrderResult;
         }

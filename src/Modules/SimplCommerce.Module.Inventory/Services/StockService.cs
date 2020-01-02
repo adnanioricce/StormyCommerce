@@ -5,16 +5,17 @@ using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Inventory.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Inventory.Services
 {
     public class StockService : IStockService
     {
-        private readonly IRepository<Stock> _stockRepository;
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<StockHistory> _stockHistoryRepository;
+        private readonly IStormyRepository<Stock> _stockRepository;
+        private readonly IStormyRepository<Product> _productRepository;
+        private readonly IStormyRepository<StockHistory> _stockHistoryRepository;
 
-        public StockService(IRepository<Stock> stockRepository, IRepository<Product> productRepository, IRepository<StockHistory> stockHistoryRepository)
+        public StockService(IStormyRepository<Stock> stockRepository, IStormyRepository<Product> productRepository, IStormyRepository<StockHistory> stockHistoryRepository)
         {
             _stockRepository = stockRepository;
             _productRepository = productRepository;
@@ -34,8 +35,7 @@ namespace SimplCommerce.Module.Inventory.Services
                     WarehouseId = warehouse.Id,
                     Quantity = 0
                 }).ToArrayAsync();
-            _stockRepository.AddRange(stocks);
-            await _stockRepository.SaveChangesAsync();
+            await _stockRepository.AddCollectionAsync(stocks);            
         }
 
         public async Task UpdateStock(StockUpdateRequest stockUpdateRequest)

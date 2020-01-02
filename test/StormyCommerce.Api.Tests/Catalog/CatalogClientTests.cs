@@ -108,7 +108,7 @@ namespace StormyCommerce.Api.Tests.Catalog
         {
             // Arrange
             var catalogClient = new CatalogClient(Config.BaseUrl);
-            StormyProduct _model = null;
+            Product _model = null;
             CancellationToken cancellationToken = default(global::System.Threading.CancellationToken);
 
             // Act

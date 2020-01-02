@@ -8,9 +8,9 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Stock
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<StormyStock>(e => {
-                e.Property(prop => prop.Id).ValueGeneratedOnAdd();
-            });
+            //modelBuilder.Entity<StormyStock>(e => {
+            //    e.Property(prop => prop.Id).ValueGeneratedOnAdd();
+            //});
         }
     }
 }

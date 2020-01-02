@@ -14,10 +14,10 @@
 //{
 //    public static class Seeders
 //    {
-//        public static List<StormyProduct> StormyProductSeed(int count = 1)
+//        public static List<Product> ProductSeed(int count = 1)
 //        {
-//            var fakeProduct = new Faker<StormyProduct>("pt_BR")
-//                .Rules((Action<Faker, StormyProduct>)((f, v) =>
+//            var fakeProduct = new Faker<Product>("pt_BR")
+//                .Rules((Action<Faker, Product>)((f, v) =>
 //                {
 //                    v.Id = 0;
 //                    v.ProductName = f.Commerce.ProductName();
@@ -112,7 +112,7 @@
 
 //        //public static List<ProductLink> ProductLinkSeed(int count = 1, bool omitId = false)
 //        //{
-//        //    var products = StormyProductSeed(count);
+//        //    var products = ProductSeed(count);
 //        //    var fakeProductLink = new Faker<ProductLink>("pt_BR")
 //        //       .RuleFor(v => v.Id, f => omitId ? 0 : ++f.IndexVariable)
 //        //       .RuleFor(v => v.LinkType, ProductLinkType.Related)
@@ -246,7 +246,7 @@
 //                    shipment.Order = v;                              
 //                    v.Shipment = shipment;                    
 //                    var items = Seeders.OrderItemSeed(2);                    
-//                    var product = Seeders.StormyProductSeed().First();                    
+//                    var product = Seeders.ProductSeed().First();                    
 //                    int i = 0;
 //                    items.ForEach(item => {
 //                        item.Id = 0;

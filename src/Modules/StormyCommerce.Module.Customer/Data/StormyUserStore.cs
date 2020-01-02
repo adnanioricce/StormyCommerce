@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Infraestructure.Data;
 

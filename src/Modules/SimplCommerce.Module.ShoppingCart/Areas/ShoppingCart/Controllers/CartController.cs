@@ -9,6 +9,7 @@ using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels;
 using SimplCommerce.Module.ShoppingCart.Models;
 using SimplCommerce.Module.ShoppingCart.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.Controllers
 {
@@ -16,13 +17,13 @@ namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class CartController : Controller
     {
-        private readonly IRepository<CartItem> _cartItemRepository;
+        private readonly IStormyRepository<CartItem> _cartItemRepository;
         private readonly ICartService _cartService;
         private readonly IMediaService _mediaService;
         private readonly IWorkContext _workContext;
 
         public CartController(
-            IRepository<CartItem> cartItemRepository,
+            IStormyRepository<CartItem> cartItemRepository,
             ICartService cartService,
             IMediaService mediaService,
             IWorkContext workContext)

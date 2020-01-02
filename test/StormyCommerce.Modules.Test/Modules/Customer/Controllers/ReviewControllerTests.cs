@@ -123,7 +123,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task DeleteReview_StateUnderTest_ExpectedBehavior()
         {
             // Arrange                        
-            long reviewId = 1
+            long reviewId = 1;
 
             // Act
             var response = await _controller.DeleteReview(reviewId);

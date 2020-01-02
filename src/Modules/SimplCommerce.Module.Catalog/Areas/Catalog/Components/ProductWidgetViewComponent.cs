@@ -9,16 +9,17 @@ using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Catalog.Services;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Components
 {
     public class ProductWidgetViewComponent : ViewComponent
     {
-        private readonly IRepository<Product> _productRepository;
+        private readonly IStormyRepository<Product> _productRepository;
         private readonly IMediaService _mediaService;
         private readonly IProductPricingService _productPricingService;
 
-        public ProductWidgetViewComponent(IRepository<Product> productRepository, IMediaService mediaService, IProductPricingService productPricingService)
+        public ProductWidgetViewComponent(IStormyRepository<Product> productRepository, IMediaService mediaService, IProductPricingService productPricingService)
         {
             _productRepository = productRepository;
             _mediaService = mediaService;

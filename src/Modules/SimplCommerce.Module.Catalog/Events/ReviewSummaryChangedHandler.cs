@@ -5,14 +5,15 @@ using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Events;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Events
 {
     public class ReviewSummaryChangedHandler : INotificationHandler<ReviewSummaryChanged>
     {
-        private readonly IRepository<Product> _productRepository;
+        private readonly IStormyRepository<Product> _productRepository;
 
-        public ReviewSummaryChangedHandler(IRepository<Product> productRepository)
+        public ReviewSummaryChangedHandler(IStormyRepository<Product> productRepository)
         {
             _productRepository = productRepository;
         }

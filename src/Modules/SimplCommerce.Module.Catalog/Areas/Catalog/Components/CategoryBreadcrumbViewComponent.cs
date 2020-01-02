@@ -6,14 +6,15 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Catalog.Areas.Catalog.Components
 {
     public class CategoryBreadcrumbViewComponent : ViewComponent
     {
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IStormyRepository<Category> _categoryRepository;
 
-        public CategoryBreadcrumbViewComponent(IRepository<Category> categoryRepository)
+        public CategoryBreadcrumbViewComponent(IStormyRepository<Category> categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

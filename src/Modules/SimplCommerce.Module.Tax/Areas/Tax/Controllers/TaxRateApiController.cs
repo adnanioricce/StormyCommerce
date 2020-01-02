@@ -9,6 +9,8 @@ using SimplCommerce.Infrastructure.Helpers;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Tax.Areas.Tax.ViewModels;
 using SimplCommerce.Module.Tax.Models;
+using StormyCommerce.Core.Entities.Address;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Tax.Areas.Tax.Controllers
 {
@@ -17,10 +19,10 @@ namespace SimplCommerce.Module.Tax.Areas.Tax.Controllers
     [Route("api/tax-rates")]
     public class TaxRateApiController : Controller
     {
-        private readonly IRepository<TaxRate> _taxRateRepository;
-        private readonly IRepository<StateOrProvince> _stateOrProvinceRepository;
+        private readonly IStormyRepository<TaxRate> _taxRateRepository;
+        private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
 
-        public TaxRateApiController(IRepository<TaxRate> taxRateRepository, IRepository<StateOrProvince> stateOrProvinceRepository)
+        public TaxRateApiController(IStormyRepository<TaxRate> taxRateRepository, IStormyRepository<StateOrProvince> stateOrProvinceRepository)
         {
             _taxRateRepository = taxRateRepository;
             _stateOrProvinceRepository = stateOrProvinceRepository;
@@ -145,7 +147,7 @@ namespace SimplCommerce.Module.Tax.Areas.Tax.Controllers
 
             try
             {
-                _taxRateRepository.Remove(taxRate);
+                _taxRateRepository.Delete(taxRate);
                 await _taxRateRepository.SaveChangesAsync();
             }
             catch (DbUpdateException)

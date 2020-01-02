@@ -2,6 +2,7 @@
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Notifications.Models;
 using SimplCommerce.Module.Notifications.Services;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Notifications.Notifiers
 {
