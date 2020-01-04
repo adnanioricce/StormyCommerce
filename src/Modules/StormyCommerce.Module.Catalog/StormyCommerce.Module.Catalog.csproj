@@ -1,22 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-	<PreserveCompilationContext>false</PreserveCompilationContext>
-  </PropertyGroup>	
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">  
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />    
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
     <ProjectReference Include="..\SimplCommerce.Module.Catalog\SimplCommerce.Module.Catalog.csproj" />
-    <ProjectReference Include="..\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
-    
+    <ProjectReference Include="..\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />    
   </ItemGroup>
 </Project>

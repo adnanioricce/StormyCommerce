@@ -10,6 +10,7 @@ using SimplCommerce.Module.Catalog.Services;
 using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.Search.Areas.Search.ViewModels;
 using SimplCommerce.Module.Search.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Search.Areas.Search.Controllers
 {
@@ -18,18 +19,18 @@ namespace SimplCommerce.Module.Search.Areas.Search.Controllers
     public class SearchController : Controller
     {
         private int _pageSize;
-        private readonly IRepository<Product> _productRepository;
-        private readonly IRepository<Brand> _brandRepository;
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IStormyRepository<Product> _productRepository;
+        private readonly IStormyRepository<Brand> _brandRepository;
+        private readonly IStormyRepository<Category> _categoryRepository;
         private readonly IMediaService _mediaService;
-        private readonly IRepository<Query> _queryRepository;
+        private readonly IStormyRepository<Query> _queryRepository;
         private readonly IProductPricingService _productPricingService;
 
-        public SearchController(IRepository<Product> productRepository,
-            IRepository<Brand> brandRepository,
-            IRepository<Category> categoryRepository,
+        public SearchController(IStormyRepository<Product> productRepository,
+            IStormyRepository<Brand> brandRepository,
+            IStormyRepository<Category> categoryRepository,
             IMediaService mediaService,
-            IRepository<Query> queryRepository,
+            IStormyRepository<Query> queryRepository,
             IProductPricingService productPricingService,
             IConfiguration config)
         {

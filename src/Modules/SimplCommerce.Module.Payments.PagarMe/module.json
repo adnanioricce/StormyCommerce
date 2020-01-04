@@ -1,0 +1,6 @@
+{
+  "id": "SimplCommerce.Module.Payments.PagarMe",
+  "name": "PagarMe",
+  "isBundledWithHost": true,
+  "version": "1.0.0"
+}

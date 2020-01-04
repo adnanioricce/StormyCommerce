@@ -56,7 +56,6 @@
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Inventory\SimplCommerce.Module.Inventory.csproj" />    
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Notifications\SimplCommerce.Module.Notifications.csproj" />    
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Orders\SimplCommerce.Module.Orders.csproj" />    
-    <ProjectReference Include="..\Modules\SimplCommerce.Module.PagarMe\SimplCommerce.Module.PagarMe.csproj" />    
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Payments\SimplCommerce.Module.Payments.csproj" />    
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Pricing\SimplCommerce.Module.Pricing.csproj" />    
     <ProjectReference Include="..\Modules\SimplCommerce.Module.Reviews\SimplCommerce.Module.Reviews.csproj" />    
@@ -77,7 +76,12 @@
     <ProjectReference Include="..\StormyCommerce.Core\StormyCommerce.Core.csproj" />    
     <ProjectReference Include="..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
     <ProjectReference Include="..\Modules\StormyCommerce.Module.Customer\StormyCommerce.Module.Customer.csproj" />
-    <ProjectReference Include="..\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj" />    
+    <ProjectReference Include="..\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj" />
+    <ProjectReference Include="..\Modules\SimplCommerce.Module.Contacts\SimplCommerce.Module.Contacts.csproj" />
+    <ProjectReference Include="..\Modules\SimplCommerce.Module.Localization\SimplCommerce.Module.Localization.csproj" />
+    <ProjectReference Include="..\Modules\SimplCommerce.Module.PaymentStripe\SimplCommerce.Module.PaymentStripe.csproj" />
+    <ProjectReference Include="..\Modules\SimplCommerce.Module.Search\SimplCommerce.Module.Search.csproj" />
+    <ProjectReference Include="..\Modules\SimplCommerce.Module.Payments.PagarMe\SimplCommerce.Module.Payments.PagarMe.csproj" />    
   </ItemGroup>
 
   <ItemGroup>

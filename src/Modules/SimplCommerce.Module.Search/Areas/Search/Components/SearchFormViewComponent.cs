@@ -5,14 +5,15 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Search.Areas.Search.ViewModels;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Search.Areas.Search.Components
 {
     public class SearchFormViewComponent : ViewComponent
     {
-        private IRepository<Category> _categoryRepository;
+        private IStormyRepository<Category> _categoryRepository;
 
-        public SearchFormViewComponent(IRepository<Category> categoryRepository)
+        public SearchFormViewComponent(IStormyRepository<Category> categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

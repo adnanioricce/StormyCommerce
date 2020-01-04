@@ -7,6 +7,7 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Payments.Models;
 using SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.ViewModels;
 using SimplCommerce.Module.PaymentStripe.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.Controllers
 {
@@ -15,9 +16,9 @@ namespace SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.Controllers
     [Route("api/stripe")]
     public class StripeApiController : Controller
     {
-        private readonly IRepositoryWithTypedId<PaymentProvider, string> _paymentProviderRepository;
+        private readonly IStormyRepository<PaymentProvider> _paymentProviderRepository;
 
-        public StripeApiController(IRepositoryWithTypedId<PaymentProvider, string> paymentProviderRepository)
+        public StripeApiController(IStormyRepository<PaymentProvider> paymentProviderRepository)
         {
             _paymentProviderRepository = paymentProviderRepository;
         }

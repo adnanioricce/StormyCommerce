@@ -21,6 +21,7 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StormyCommerce.Core.Entities;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.WebHost.Extensions
 {
@@ -109,24 +110,24 @@ namespace SimplCommerce.WebHost.Extensions
             return app;
         }
 
-        public static IApplicationBuilder UseCustomizedRequestLocalization(this IApplicationBuilder app)
-        {
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var cultureRepository = scope.ServiceProvider.GetRequiredService<IRepositoryWithTypedId<Culture, string>>();
-                GlobalConfiguration.Cultures = cultureRepository.Query().ToList();
-            }
+        // public static IApplicationBuilder UseCustomizedRequestLocalization(this IApplicationBuilder app)
+        // {
+        //     using (var scope = app.ApplicationServices.CreateScope())
+        //     {
+        //         var cultureRepository = scope.ServiceProvider.GetRequiredService<IStormyRepository<Culture>>();
+        //         GlobalConfiguration.Cultures = cultureRepository.Query().ToList();
+        //     }
 
-            var supportedCultures = GlobalConfiguration.Cultures.Select(c => c.Id).ToArray();
-            app.UseRequestLocalization(options =>
-            options
-                .AddSupportedCultures(supportedCultures)
-                .AddSupportedUICultures(supportedCultures)
-                .SetDefaultCulture(GlobalConfiguration.DefaultCulture)
-            );
+        //     var supportedCultures = GlobalConfiguration.Cultures.Select(c => c.Id).ToArray();
+        //     app.UseRequestLocalization(options =>
+        //     options
+        //         .AddSupportedCultures(supportedCultures)
+        //         .AddSupportedUICultures(supportedCultures)
+        //         .SetDefaultCulture(GlobalConfiguration.DefaultCulture)
+        //     );
 
-            return app;
-        }
+        //     return app;
+        // }
         public static IApplicationBuilder UseCustomizedHttpsConfiguration(this IApplicationBuilder app)
         {
             app.UseForwardedHeaders(new ForwardedHeadersOptions{

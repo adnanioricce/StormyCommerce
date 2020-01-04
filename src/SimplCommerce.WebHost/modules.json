@@ -38,27 +38,11 @@
   {
     "id": "SimplCommerce.Module.Localization",
     "version": "1.0.0"
-  },
-  {
-    "id": "SimplCommerce.Module.News",
-    "version": "1.0.0"
-  },
+  },  
   {
     "id": "SimplCommerce.Module.Orders",
     "version": "1.0.0"
-  },
-  {
-    "id": "SimplCommerce.Module.PaymentBraintree",
-    "version": "1.0.0"
-  },
-  {
-    "id": "SimplCommerce.Module.PaymentCoD",
-    "version": "1.0.0"
-  },
-  {
-    "id": "SimplCommerce.Module.PaymentPaypalExpress",
-    "version": "1.0.0"
-  },
+  },  
   {
     "id": "SimplCommerce.Module.Payments",
     "version": "1.0.0"
@@ -68,23 +52,7 @@
     "version": "1.0.0"
   },
   {
-    "id": "SimplCommerce.Module.PaymentMomo",
-    "version": "1.0.0"
-  },
-  {
-    "id": "SimplCommerce.Module.PaymentNganLuong",
-    "version": "1.0.0"
-  },
-  {
     "id": "SimplCommerce.Module.Pricing",
-    "version": "1.0.0"
-  },
-  {
-    "id": "SimplCommerce.Module.ProductComparison",
-    "version": "1.0.0"
-  },
-  {
-    "id": "SimplCommerce.Module.ProductRecentlyViewed",
     "version": "1.0.0"
   },
   {
@@ -106,17 +74,9 @@
   {
     "id": "SimplCommerce.Module.Shipping",
     "version": "1.0.0"
-  },
-  {
-    "id": "SimplCommerce.Module.ShippingFree",
-    "version": "1.0.0"
-  },
+  },  
   {
     "id": "SimplCommerce.Module.ShippingPrices",
-    "version": "1.0.0"
-  },
-  {
-    "id": "SimplCommerce.Module.ShippingTableRate",
     "version": "1.0.0"
   },
   {
@@ -152,7 +112,7 @@
     "version": "1.0.0"
   },
   {
-    "id": "SimplCommerce.Module.PagarMe",
+    "id": "SimplCommerce.Module.Payments.PagarMe",
     "version": "1.0.0"
   }
 ]

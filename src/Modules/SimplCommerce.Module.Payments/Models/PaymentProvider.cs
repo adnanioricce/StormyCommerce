@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Infrastructure.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Payments.Models
 {

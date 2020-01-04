@@ -1,9 +1,8 @@
 ﻿@using SimplCommerce.Infrastructure.Data
 @using SimplCommerce.Module.Core.Models
-
 @model SimplCommerce.Module.Orders.Models.Order
-@inject IRepository<StateOrProvince> StateOrProvinceRepository
-@inject IRepository<District> DistrictRepository
+@inject IStormyRepository<StateOrProvince> StateOrProvinceRepository
+@inject IStormyRepository<District> DistrictRepository
 
 @{
     var shippingStateOrProvince = StateOrProvinceRepository.Query().First(x => x.Id == Model.ShippingAddress.StateOrProvinceId);

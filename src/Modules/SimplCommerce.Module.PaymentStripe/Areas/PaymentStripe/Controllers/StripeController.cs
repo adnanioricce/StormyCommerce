@@ -13,6 +13,7 @@ using SimplCommerce.Module.Payments.Models;
 using SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.ViewModels;
 using SimplCommerce.Module.PaymentStripe.Models;
 using SimplCommerce.Module.ShoppingCart.Services;
+using StormyCommerce.Core.Interfaces;
 using Stripe;
 
 namespace SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.Controllers
@@ -24,15 +25,15 @@ namespace SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.Controllers
         private readonly ICartService _cartService;
         private readonly IOrderService _orderService;
         private readonly IWorkContext _workContext;
-        private readonly IRepositoryWithTypedId<PaymentProvider, string> _paymentProviderRepository;
-        private readonly IRepository<Payment> _paymentRepository;
+        private readonly IStormyRepository<PaymentProvider> _paymentProviderRepository;
+        private readonly IStormyRepository<Payment> _paymentRepository;
 
         public StripeController(
             ICartService cartService,
             IOrderService orderService,
             IWorkContext workContext,
-            IRepositoryWithTypedId<PaymentProvider, string> paymentProviderRepository,
-            IRepository<Payment> paymentRepository)
+            IStormyRepository<PaymentProvider> paymentProviderRepository,
+            IStormyRepository<Payment> paymentRepository)
         {
             _cartService = cartService;
             _orderService = orderService;
@@ -72,7 +73,7 @@ namespace SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.Controllers
             {
                 OrderId = order.Id,
                 Amount = order.OrderTotal,
-                PaymentMethod = "Stripe",
+                // PaymentMethod = "Stripe",
                 CreatedOn = DateTimeOffset.UtcNow
             };
             try
@@ -86,7 +87,7 @@ namespace SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.Controllers
                 });
 
                 payment.GatewayTransactionId = charge.Id;
-                payment.Status = PaymentStatus.Succeeded;
+                payment.Status = PaymentStatus.Successful;
                 order.OrderStatus = OrderStatus.PaymentReceived;
                 _paymentRepository.Add(payment);
                 await _paymentRepository.SaveChangesAsync();

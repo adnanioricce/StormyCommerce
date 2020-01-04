@@ -1,16 +1,25 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web.ModelBinders;
+using SimplCommerce.Module.Core.Extensions;
 using StormyCommerce.Api.Framework.Ioc;
+using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Logging;
@@ -20,8 +29,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SimplCommerce.WebHost.Extensions
@@ -224,14 +235,116 @@ namespace SimplCommerce.WebHost.Extensions
                 }
             }
         }
-        // public static IServiceCollection ConfigureHttps(this IServiceCollection services)
-        // {
-            
-        // }
-        public static void AddSampleData(this StormyDbContext dbContext)
+        public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services, IConfiguration configuration)
         {
-            
+            services
+                .AddIdentity<User, Role>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 4;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredUniqueChars = 0;
+                })
+                .AddRoleStore<SimplRoleStore>()
+                .AddUserStore<SimplUserStore>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie()
+                .AddFacebook(x =>
+                {
+                    x.AppId = configuration["Authentication:Facebook:AppId"];
+                    x.AppSecret = configuration["Authentication:Facebook:AppSecret"];
+
+                    x.Events = new OAuthEvents
+                    {
+                        OnRemoteFailure = ctx => HandleRemoteLoginFailure(ctx)
+                    };
+                })
+                .AddGoogle(x =>
+                {
+                    x.ClientId = configuration["Authentication:Google:ClientId"];
+                    x.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+                    x.Events = new OAuthEvents
+                    {
+                        OnRemoteFailure = ctx => HandleRemoteLoginFailure(ctx)
+                    };
+                })
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = configuration["Authentication:Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Authentication:Jwt:Key"]))
+                    };
+                });
+                services.ConfigureApplicationCookie(x =>
+                {
+                    x.LoginPath = new PathString("/login");
+                    x.Events.OnRedirectToLogin = context =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == (int)HttpStatusCode.OK)
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            return Task.CompletedTask;
+                        }
+
+                        context.Response.Redirect(context.RedirectUri);
+                        return Task.CompletedTask;
+                    };
+                    x.Events.OnRedirectToAccessDenied = context =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/api") && context.Response.StatusCode == (int)HttpStatusCode.OK)
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                            return Task.CompletedTask;
+                        }
+
+                        context.Response.Redirect(context.RedirectUri);
+                        return Task.CompletedTask;
+                    };
+                });
+                return services;
         }
+
+        public static IServiceCollection AddCustomizedMvc(this IServiceCollection services, IList<ModuleInfo> modules)
+        {
+            var mvcBuilder = services
+                .AddMvc(o =>
+                {
+                    o.EnableEndpointRouting = false;
+                    o.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
+                    o.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                })
+                .AddRazorOptions(o =>
+                {
+                    foreach (var module in modules.Where(x => !x.IsBundledWithHost))
+                    {
+                        o.AdditionalCompilationReferences.Add(MetadataReference.CreateFromFile(module.Assembly.Location));
+                    }
+                })
+                .AddViewLocalization()
+                .AddModelBindingMessagesLocalizer(services)
+                .AddDataAnnotationsLocalization(o => {
+                    var factory = services.BuildServiceProvider().GetService<IStringLocalizerFactory>();
+                    var L = factory.Create(null);
+                    o.DataAnnotationLocalizerProvider = (t,f) => L;
+                })                
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            foreach (var module in modules.Where(x => !x.IsBundledWithHost))
+            {
+                AddApplicationPart(mvcBuilder, module.Assembly);
+            }
+
+            return services;
+        }        
         private static void RegisterModuleInitializerServices(ModuleInfo module, ref IServiceCollection services)
         {
             var moduleInitializerType = module.Assembly.GetTypes()

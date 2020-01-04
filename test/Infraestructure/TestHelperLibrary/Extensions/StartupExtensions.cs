@@ -18,6 +18,7 @@ using StormyCommerce.Module.Customer.Services;
 using StormyCommerce.Module.Orders.Interfaces;
 using StormyCommerce.Module.Orders.Services;
 using StormyCommerce.Module.Payments.Interfaces;
+using StormyCommerce.Module.PaymentsPagarMe.Services;
 
 namespace StormyCommerce.Modules.Tests.Modules.Extensions
 {

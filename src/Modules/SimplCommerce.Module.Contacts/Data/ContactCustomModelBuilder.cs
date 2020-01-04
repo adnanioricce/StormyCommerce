@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Settings;
 
 namespace SimplCommerce.Module.Contacts.Data
 {
@@ -8,8 +9,8 @@ namespace SimplCommerce.Module.Contacts.Data
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppSetting>().HasData(
-                new AppSetting("GoogleAppKey") { Module = "Contact", IsVisibleInCommonSettingPage = false, Value = "" }
+            modelBuilder.Entity<AppSettings>().HasData(
+                new AppSettings("GoogleAppKey") { Module = "Contact", IsVisibleInCommonSettingPage = false, Value = "" }
             );
         }
     }

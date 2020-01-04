@@ -11,6 +11,7 @@ using SimplCommerce.Module.Payments.Models;
 using SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.ViewModels;
 using SimplCommerce.Module.PaymentStripe.Models;
 using SimplCommerce.Module.ShoppingCart.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.Components
 {
@@ -18,9 +19,9 @@ namespace SimplCommerce.Module.PaymentStripe.Areas.PaymentStripe.Components
     {
         private readonly ICartService _cartService;
         private readonly IWorkContext _workContext;
-        private readonly IRepositoryWithTypedId<PaymentProvider, string> _paymentProviderRepository;
+        private readonly IStormyRepository<PaymentProvider> _paymentProviderRepository;
 
-        public StripeLandingViewComponent(ICartService cartService, IWorkContext workContext, IRepositoryWithTypedId<PaymentProvider, string> paymentProviderRepository)
+        public StripeLandingViewComponent(ICartService cartService, IWorkContext workContext, IStormyRepository<PaymentProvider> paymentProviderRepository)
         {
             _cartService = cartService;
             _workContext = workContext;

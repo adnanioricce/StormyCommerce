@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Payments.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Payments.Areas.Payments.Controllers
 {
@@ -13,9 +14,9 @@ namespace SimplCommerce.Module.Payments.Areas.Payments.Controllers
     [Route("api/payments-providers")]
     public class PaymentProviderApiController : Controller
     {
-        private readonly IRepositoryWithTypedId<PaymentProvider, string> _paymentProviderRepository;
+        private readonly IStormyRepository<PaymentProvider> _paymentProviderRepository;
 
-        public PaymentProviderApiController(IRepositoryWithTypedId<PaymentProvider, string> paymentProviderRepositor)
+        public PaymentProviderApiController(IStormyRepository<PaymentProvider> paymentProviderRepositor)
         {
             _paymentProviderRepository = paymentProviderRepositor;
         }

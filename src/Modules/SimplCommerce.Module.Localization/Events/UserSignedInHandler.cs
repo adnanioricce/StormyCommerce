@@ -6,15 +6,16 @@ using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Events;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
-
+using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Entities;
 namespace SimplCommerce.Module.Localization.Events
 {
     public class UserSignedInHandler : INotificationHandler<UserSignedIn>
     {
         private readonly IWorkContext _workContext;
-        private readonly IRepositoryWithTypedId<User, long> _userRepository;
+        private readonly IStormyRepository<User> _userRepository;
 
-        public UserSignedInHandler(IWorkContext workContext, IRepositoryWithTypedId<User, long> userRepository)
+        public UserSignedInHandler(IWorkContext workContext, IStormyRepository<User> userRepository)
         {
             _workContext = workContext;
             _userRepository = userRepository;

@@ -8,7 +8,7 @@ using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Contacts.Areas.Contacts.ViewModels;
 using SimplCommerce.Module.Contacts.Models;
 using SimplCommerce.Module.Core.Extensions;
-using SimplCommerce.Module.Core.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Contacts.Areas.Contacts.Controllers
 {

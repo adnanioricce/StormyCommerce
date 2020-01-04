@@ -10,6 +10,7 @@ using SimplCommerce.Module.Payments.Areas.Payments.ViewModels;
 using SimplCommerce.Module.Payments.Models;
 using SimplCommerce.Module.ShoppingCart.Models;
 using SimplCommerce.Module.ShoppingCart.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Payments.Areas.Payments.Controllers
 {
@@ -19,12 +20,12 @@ namespace SimplCommerce.Module.Payments.Areas.Payments.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class CheckoutController : Controller
     {
-        private readonly IRepositoryWithTypedId<PaymentProvider, string> _paymentProviderRepository;
+        private readonly IStormyRepository<PaymentProvider> _paymentProviderRepository;
         private readonly ICartService _cartService;
         private readonly IOrderService _orderService;
         private readonly IWorkContext _workContext;
 
-        public CheckoutController(IRepositoryWithTypedId<PaymentProvider, string> paymentProviderRepository,
+        public CheckoutController(IStormyRepository<PaymentProvider> paymentProviderRepository,
             ICartService cartService,
             IOrderService orderService,
             IWorkContext workContext)

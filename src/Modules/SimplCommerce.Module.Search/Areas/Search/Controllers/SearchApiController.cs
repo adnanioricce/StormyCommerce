@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Search.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Search.Areas.Search.Controllers
 {
@@ -11,9 +12,9 @@ namespace SimplCommerce.Module.Search.Areas.Search.Controllers
     [Route("api/search")]
     public class SearchApiController : Controller
     {
-        private readonly IRepository<Query> _queryRepository;
+        private readonly IStormyRepository<Query> _queryRepository;
 
-        public SearchApiController(IRepository<Query> queryRepository)
+        public SearchApiController(IStormyRepository<Query> queryRepository)
         {
             _queryRepository = queryRepository;
         }

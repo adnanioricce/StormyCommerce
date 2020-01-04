@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <ItemGroup>
+    <PackageReference Include="PagarMeCore" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
+    <ProjectReference Include="..\SimplCommerce.Module.Payments\SimplCommerce.Module.Payments.csproj" />
+    <ProjectReference Include="..\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
+    <ProjectReference Include="..\StormyCommerce.Module.Payments\StormyCommerce.Module.Payments.csproj" />
+  </ItemGroup>
+</Project>

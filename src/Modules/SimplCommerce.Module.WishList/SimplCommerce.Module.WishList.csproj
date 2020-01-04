@@ -1,12 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-	<PreserveCompilationContext>false</PreserveCompilationContext>
-  </PropertyGroup>	
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">  
   <ItemGroup>
     <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
     <ProjectReference Include="..\SimplCommerce.Module.Catalog\SimplCommerce.Module.Catalog.csproj" />
     <ProjectReference Include="..\SimplCommerce.Module.Core\SimplCommerce.Module.Core.csproj" />
   </ItemGroup>
-
 </Project>

@@ -1,12 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor" ToolsVersion="Current">
-  <PropertyGroup>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor" ToolsVersion="Current">  
   <ItemGroup>
     <PackageReference Include="Sendgrid" Version="9.11.0" />
   </ItemGroup>

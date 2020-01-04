@@ -1,10 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-	<PreserveCompilationContext>false</PreserveCompilationContext>
-  </PropertyGroup>
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor"> 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
@@ -12,13 +6,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />    
     <ProjectReference Include="..\SimplCommerce.Module.EmailSenderSendgrid\SimplCommerce.Module.EmailSenderSendgrid.csproj" />    
     <ProjectReference Include="..\SimplCommerce.Module.Reviews\SimplCommerce.Module.Reviews.csproj" />
-
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Modules\SimplCommerce.Module.PagarMe\SimplCommerce.Module.PagarMe.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\SimplCommerce.Module.Payments.PagarMe\SimplCommerce.Module.Payments.PagarMe.csproj" />
     <ProjectReference Include="..\..\..\src\Modules\SimplCommerce.Module.SampleData\SimplCommerce.Module.SampleData.csproj" />
     <ProjectReference Include="..\..\..\src\Modules\StormyCommerce.Module.Payments\StormyCommerce.Module.Payments.csproj" />
     <ProjectReference Include="..\..\..\src\SimplCommerce.WebHost\SimplCommerce.WebHost.csproj" />

@@ -30,6 +30,6 @@ namespace StormyCommerce.Core.Entities
         public string Note { get; set; }
         public bool IsActive { get; set; }        
         public virtual ICollection<VendorAddress> Addresses { get; set; } = new List<VendorAddress>();
-        public IList<User> Users { get; set; } = new List<User>();
+        public virtual IList<User> Users { get; set; } = new List<User>();
     }
 }

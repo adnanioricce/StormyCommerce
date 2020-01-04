@@ -35,6 +35,10 @@ using System.Collections.Generic;
 using Swashbuckle.AspNetCore.Filters;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Core.Entities;
+using SimplCommerce.Module.Localization.Extensions;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using SimplCommerce.Module.Localization.TagHelpers;
+using MediatR;
 
 namespace SimplCommerce.WebHost
 {
@@ -56,6 +60,8 @@ namespace SimplCommerce.WebHost
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
             GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;                               
+            services.AddCustomizedIdentity(_configuration);            
+            services.AddStormyDataStore(_configuration);
             services.AddApiVersioning(options => {
                 options.ReportApiVersions = true;
                 options.AssumeDefaultVersionWhenUnspecified = true;
@@ -68,8 +74,7 @@ namespace SimplCommerce.WebHost
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });            
-            services.AddStormyDataStore(_configuration);
-                     
+                                 
             services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
@@ -80,11 +85,16 @@ namespace SimplCommerce.WebHost
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
             });
+            services.AddScoped<ITagHelperComponent, LanguageDirectionTagHelperComponent>();
+            services.AddTransient<IRazorViewRenderer, RazorViewRenderer>();            
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-Token");
             services.AddSingleton<AutoValidateAntiforgeryTokenAuthorizationFilter, CookieOnlyAutoValidateAntiforgeryTokenAuthorizationFilter>();
             services.AddCloudscribePagination();
-
-            var sp = services.BuildServiceProvider();
+            services.AddCustomizedLocalization();
+            services.AddCustomizedMvc(GlobalConfiguration.Modules);
+            services.AddScoped<ServiceFactory>(p => p.GetService);
+            services.AddScoped<IMediator, Mediator>();
+            var sp = services.BuildServiceProvider();            
             var moduleInitializers = sp.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
             {
@@ -137,6 +147,7 @@ namespace SimplCommerce.WebHost
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
                 IdentityModelEventSource.ShowPII = true;
                 app.AddEfDiagrams<StormyDbContext>();
             }
@@ -154,22 +165,24 @@ namespace SimplCommerce.WebHost
             );
             app.UseHealthChecks("/check");
             app.UseCustomizedHttpsConfiguration();            
-            app.UseStaticFiles();            
+            // app.UseStaticFiles();            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "StormyCommerce API V1");                
                 c.RoutePrefix = "api";
             });
-
+            app.UseCustomizedStaticFiles(env);
             app.UseCookiePolicy();
             app.UseCors(builder => {                
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
                 builder.AllowAnyOrigin();
                 builder.AllowCredentials();                                
-            });
-            
+            });            
+            app.UseCustomizedIdentity();
+            // app.UseCustomizedRequestLocalization();
+            app.UseCustomizedMvc();
             app.UseMvc();            
             var moduleInitializers = app.ApplicationServices.GetServices<IModuleInitializer>();
             foreach (var moduleInitializer in moduleInitializers)
