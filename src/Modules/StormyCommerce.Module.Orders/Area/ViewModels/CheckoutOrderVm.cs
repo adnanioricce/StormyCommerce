@@ -1,4 +1,5 @@
-﻿using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+﻿using SimplCommerce.Module.Catalog.Models.Dtos;
+using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using System.Collections.Generic;
 
 namespace Stormycommerce.Module.Orders.Area.ViewModels

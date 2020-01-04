@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Moq;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.Controllers;
@@ -29,11 +26,10 @@ namespace StormyCommerce.Modules.Tests
         public AccountControllerTest(IUserIdentityService identityService,
             IEmailSender emailSender,
             IAppLogger<AccountController> logger,            
-            IMapper mapper,
-            ICustomerService customerService,
+            IMapper mapper,            
             UserManager<User> userManager)
         {
-            _controller = new AccountController(identityService, emailSender, logger,customerService,mapper);
+            _controller = new AccountController(identityService, emailSender, logger,mapper);
             _userManager = userManager;
             _identityService = identityService;            
             _controller.ControllerContext = _userManager.CreateTestContext();            
@@ -193,15 +189,15 @@ namespace StormyCommerce.Modules.Tests
             var result = response as OkObjectResult;
             Assert.Equal(200, (int)result.StatusCode);
         }
-        [Fact,TestPriority(4)]
-        public async Task DeleteAddress_ReceivesAddressId_Return200StatusCode()
-        {
-            var currentUser = await _controller.GetCurrentCustomer();
-            //Act 
-            var response = await _controller.DeleteAddress(currentUser.Addresses.First().Id);
-            //Assert
-            var result = response as OkObjectResult;
-            Assert.Equal(200, (int)result.StatusCode);
-        }
+        //[Fact,TestPriority(4)]
+        //public async Task DeleteAddress_ReceivesAddressId_Return200StatusCode()
+        //{
+        //    var currentUser = await _controller.GetCurrentCustomer();
+        //    //Act 
+        //    var response = await _controller.DeleteAddress(currentUser.Addresses.First().Id);
+        //    //Assert
+        //    var result = response as OkObjectResult;
+        //    Assert.Equal(200, (int)result.StatusCode);
+        //}
     }
 }

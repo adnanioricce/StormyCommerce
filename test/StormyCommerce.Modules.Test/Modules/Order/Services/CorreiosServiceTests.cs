@@ -1,11 +1,10 @@
-﻿using StormyCommerce.Core.Entities.Shipping;
-using StormyCommerce.Core.Models.Shipment.Request;
+﻿using SimplCommerce.Module.Orders.Models;
+using SimplCommerce.Module.Shipments.Models;
+using SimplCommerce.Module.Shipments.Models.Request;
 using StormyCommerce.Core.Shipment;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
-using StormyCommerce.Module.Orders.Interfaces;
 using StormyCommerce.Module.Orders.Services;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -53,15 +52,15 @@ namespace StormyCommerce.Modules.Tests
         public async Task DefaultDeliveryCalculation_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            var shipment = new StormyShipment { 
+            var shipment = new Shipment { 
                 TotalHeight = 2,
                 TotalWidth = 11,
                 TotalLength = 16,
                 TotalArea = 2 * 11 * 16,
                 TotalWeight = 1,
-                Order = new Core.Entities.Order
+                Order = new Order
                 {
-                    TotalPrice = 100
+                    OrderTotal = 100
                 },
                 DestinationAddress = new Core.Entities.Customer.CustomerAddress { 
                     Details = new Core.Entities.Common.AddressDetail("","","","","","","","08621030","","","","")
@@ -87,7 +86,7 @@ namespace StormyCommerce.Modules.Tests
                 WarningOfReceiving = "N",
                 FormatCode = Core.Shipment.FormatCode.CaixaOuPacote,
                 MaoPropria = "N",
-                ShippingMethod = ShippingMethod.Sedex,
+                ShipmentMethod = ShippingMethod.Sedex,
                 ValorDeclarado = 1.61m,
                 DestinationPostalCode = "08621030",                
                 

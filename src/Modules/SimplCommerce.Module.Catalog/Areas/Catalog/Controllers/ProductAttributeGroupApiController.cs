@@ -93,7 +93,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 return NotFound();
             }
 
-            _productAttrGroupRepository.Remove(productAttributeGroup);
+            _productAttrGroupRepository.Delete(productAttributeGroup);
             return Json(true);
         }
     }

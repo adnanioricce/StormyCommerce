@@ -5,6 +5,7 @@ using SimplCommerce.Module.ShoppingCart.Models;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Module.Catalog.Models.Dtos;
+using StormyCommerce.Module.Orders.Models.Dtos;
 
 namespace StormyCommerce.Module.Catalog.Extensions
 {

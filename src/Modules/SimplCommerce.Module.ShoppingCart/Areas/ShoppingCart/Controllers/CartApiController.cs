@@ -8,6 +8,7 @@ using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels;
 using SimplCommerce.Module.ShoppingCart.Models;
 using SimplCommerce.Module.ShoppingCart.Services;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.Controllers
 {
@@ -108,7 +109,7 @@ namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.Controllers
                 return NotFound();
             }
 
-            _cartItemRepository.Remove(cartItem);
+            _cartItemRepository.Delete(cartItem);
             _cartItemRepository.SaveChanges();
 
             return NoContent();

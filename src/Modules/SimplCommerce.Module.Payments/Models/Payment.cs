@@ -29,7 +29,7 @@ namespace SimplCommerce.Module.Payments.Models
 
         public string FailureMessage { get; set; }
                         
-        public PaymentMethod PaymentMethod { get; set; }                        
+        public PaymentMethod Method { get; set; }                        
         public string BoletoUrl { get; set; }
         public string BoletoBarcode { get; set; }
     }

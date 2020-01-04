@@ -63,7 +63,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 
             foreach (var item in model)
             {
-                item.IsDefaultShippingAddress = item.UserAddressId == currentUser.DefaultShippingAddressId;
+                item.IsDefaultShippingAddress = item.UserAddressId == currentUser.Addresses.FirstOrDefault(a => a.IsDefault).Id;
             }
 
             return View(model);
@@ -136,7 +136,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                 return NotFound();
             }
 
-            currentUser.DefaultShippingAddressId = userAddress.Id;
+            //currentUser.Addresses.= userAddress.Id;
+            var address = currentUser.Addresses.FirstOrDefault(a => a.Id == userAddress.Id);
+            address.IsDefault = true;                        
             _userRepository.SaveChanges();
 
             return RedirectToAction("List");
@@ -155,9 +157,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                 return NotFound();
             }
 
-            if (currentUser.DefaultShippingAddressId == userAddress.Id)
+            if (currentUser.Addresses.Any(a => a.Id == id))
             {
-                currentUser.DefaultShippingAddressId = null;
+                currentUser.RemoveAddress(id);
             }
 
             _userAddressRepository.Delete(userAddress);

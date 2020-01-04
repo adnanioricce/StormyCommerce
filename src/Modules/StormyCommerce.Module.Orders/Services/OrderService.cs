@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Module.Orders.Models;
+using SimplCommerce.Module.Shipments.Interfaces;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.Module.Orders.Interfaces;

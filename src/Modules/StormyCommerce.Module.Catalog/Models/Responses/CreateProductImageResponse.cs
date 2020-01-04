@@ -1,4 +1,4 @@
-﻿using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
+﻿using SimplCommerce.Module.Catalog.Models.Dtos;
 
 namespace StormyCommerce.Module.Catalog.Models
 {

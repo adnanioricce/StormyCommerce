@@ -11,5 +11,8 @@
     <ProjectReference Include="..\SimplCommerce.Module.Orders\SimplCommerce.Module.Orders.csproj" />
     <ProjectReference Include="..\SimplCommerce.Module.Shipping\SimplCommerce.Module.Shipping.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NovaPasta\" />
+  </ItemGroup>
 
 </Project>

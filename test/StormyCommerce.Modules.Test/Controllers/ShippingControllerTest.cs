@@ -6,9 +6,9 @@ using AutoMapper;
 using StormyCommerce.Module.Orders.Area.Controllers;
 using SimplCommerce.WebHost;
 using StormyCommerce.Core.Shipment;
-using StormyCommerce.Core.Models.Shipment.Response;
-using StormyCommerce.Core.Models.Shipment.Request;
-using StormyCommerce.Core.Entities.Shipping;
+using StormyCommerce.Core.Models.Shipment.Responses;
+using SimplCommerce.Module.Shipments.Models;
+using SimplCommerce.Module.Shipments.Models.Request;
 
 namespace StormyCommerce.Modules.Test.Controllers
 {
@@ -25,7 +25,7 @@ namespace StormyCommerce.Modules.Test.Controllers
         {
             //Given
             var model = new DeliveryCalculationRequest{
-                ShippingMethod = ShippingMethod.Sedex,
+                ShipmentMethod = ShippingMethod.Sedex,
                 FormatCode = FormatCode.CaixaOuPacote,
                 Height = 3,
                 Width = 16,

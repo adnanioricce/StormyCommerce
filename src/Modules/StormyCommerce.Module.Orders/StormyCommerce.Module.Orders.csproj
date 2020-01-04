@@ -19,12 +19,9 @@
     <ProjectReference Include="..\..\StormyCommerce.Api.Framework\StormyCommerce.Api.Framework.csproj" />
     <ProjectReference Include="..\..\StormyCommerce.Core\StormyCommerce.Core.csproj" />
     <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />    
+    <ProjectReference Include="..\..\StormyCommerce.Infraestructure\StormyCommerce.Infraestructure.csproj" />
+    <ProjectReference Include="..\SimplCommerce.Module.Shipments\SimplCommerce.Module.Shipments.csproj" />    
     <ProjectReference Include="..\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />    
     <ProjectReference Include="..\StormyCommerce.Module.Payments\StormyCommerce.Module.Payments.csproj" />    
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

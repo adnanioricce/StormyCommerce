@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SimplCommerce.Module.Payments.Models;
+using SimplCommerce.Module.Shipments.Models;
 using SimplCommerce.Module.ShoppingCart.Models;
-using StormyCommerce.Core.Entities.Shipping;
 
 namespace StormyCommerce.Module.Payments.Models.Requests
 {

@@ -1,9 +1,9 @@
 ﻿using System;
 using AutoMapper;
-using StormyCommerce.Core.Models.Shipment.Response;
-using StormyCommerce.Module.Orders.Area.Models;
+using StormyCommerce.Core.Models.Shipment.Responses;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
-using StormyCommerce.Core.Models.Shipment.Request;
+using SimplCommerce.Module.Shipments.Models.Request;
+
 namespace StormyCommerce.WebHost.Mappings
 {
     public class ShippingProfile : Profile
@@ -21,7 +21,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.nVlValorDeclarado,opt => opt.MapFrom(src => src.ValorDeclarado))
                 .ForMember(dest => dest.sCdAvisoRecebimento,opt => opt.MapFrom(src => src.WarningOfReceiving))
                 .ForMember(dest => dest.sCdMaoPropria,opt => opt.MapFrom(src => src.MaoPropria))
-                .ForMember(dest => dest.nCdServico,opt => opt.MapFrom(src => src.ShippingMethod))
+                .ForMember(dest => dest.nCdServico,opt => opt.MapFrom(src => src.ShipmentMethod))
                 .ForMember(dest => dest.nCdFormato,opt => opt.MapFrom(src => src.FormatCode));
             CreateMap<cResultado,DeliveryCalculationResponse>()
                 .ForMember(dest => dest.Options,opt => opt.MapFrom(src => src.Servicos));

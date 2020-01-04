@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Interfaces\Domain\Customer\" />
+    <Folder Include="Interfaces\Domain\Shipping\" />
+    <Folder Include="Models\Dtos\GatewayResponses\Shipping\" />
     <Folder Include="Models\Product\" />
     <Folder Include="Repositories\" />
   </ItemGroup>

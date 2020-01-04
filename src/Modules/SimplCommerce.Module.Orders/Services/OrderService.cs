@@ -188,7 +188,7 @@ namespace SimplCommerce.Module.Orders.Services
             return couponValidationResult;
         }
 
-        private async Task<Result<ShippingPrice>> ValidateShippingMethod(string shippingMethodName, Address shippingAddress, Cart cart)
+        private async Task<Result<ShippingPrice>> ValidateShippingMethod(string shippingMethodName, CustomerAddress shippingAddress, Cart cart)
         {
             var applicableShippingPrices = await _shippingPriceService.GetApplicableShippingPrices(new GetShippingPriceRequest
             {

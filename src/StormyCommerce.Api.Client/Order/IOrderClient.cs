@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using SimplCommerce.Infrastructure;
 using Stormycommerce.Module.Orders.Area.ViewModels;
- 
+using StormyCommerce.Module.Orders.Models.Dtos;
 
 namespace StormyCommerce.Api.Client.Order
 {

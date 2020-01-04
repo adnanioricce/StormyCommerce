@@ -182,7 +182,7 @@ namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.Controllers
                 return NotFound();
             }
 
-            _cartItemRepository.Remove(cartItem);
+            _cartItemRepository.Delete(cartItem);
             _cartItemRepository.SaveChanges();
 
             return await List();

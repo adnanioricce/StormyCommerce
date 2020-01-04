@@ -1,5 +1,6 @@
 ﻿using System;
-using StormyCommerce.Core.Models.Dtos.GatewayResponses.Shipping;
+using SimplCommerce.Module.Shipments.Models.Dtos;
+using StormyCommerce.Module.Orders.Models.Dtos;
 using StormyCommerce.Module.Payments.Models.Dtos;
 
 namespace StormyCommerce.Module.Orders.Models.Responses

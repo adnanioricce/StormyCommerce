@@ -9,6 +9,7 @@ using StormyCommerce.Core.Services.Catalog;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Module.Catalog.Controllers;
 using StormyCommerce.Module.Catalog.Interfaces;
+using StormyCommerce.Module.Catalog.Services;
 using StormyCommerce.WebHost.Mappings;
 using System.Collections.Generic;
 using System.Linq;

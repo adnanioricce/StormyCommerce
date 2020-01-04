@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities.Media;
 using StormyCommerce.Core.Interfaces;
@@ -53,7 +54,7 @@ namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
             product.AddMedia(new ProductMedia
             {
                 MediaId = media.Id,
-                StormyProductId = product.Id,                
+                ProductId = product.Id,                
             });
             await _productService.UpdateProductAsync(product);
             return Ok(Result.Ok("Image created with success"));

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Customer;
-using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Infraestructure.Interfaces;
 using System;
 using System.Linq;
@@ -20,17 +18,14 @@ namespace StormyCommerce.Module.Customer.Extensions
         private User _currentUser;
         private readonly IUserIdentityService _userIdentityService;
         private readonly UserManager<User> _userManager;
-        private readonly HttpContext _httpContext;
-        private readonly ICustomerService _customerService;
+        private readonly HttpContext _httpContext;        
 
         public WorkContext(UserManager<User> userManager,
-         IHttpContextAccessor contextAccessor, 
-         ICustomerService customerService,
+         IHttpContextAccessor contextAccessor,          
          IUserIdentityService userIdentityService)
         {
             _userManager = userManager;
-            _httpContext = contextAccessor.HttpContext;
-            _customerService = customerService;
+            _httpContext = contextAccessor.HttpContext;            
             _userIdentityService = userIdentityService;
         }
 

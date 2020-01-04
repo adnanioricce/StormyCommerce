@@ -8,6 +8,7 @@ using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Orders.Interfaces;
+using StormyCommerce.Module.Orders.Models.Dtos;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -39,10 +40,10 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
         {
             var currentUser = await _identityService.GetUserByClaimPrincipal(this.User);
             var order = await _orderService.GetOrderByUniqueIdAsync(key);
-            if(!(order.UserId == currentUser.Id)){
+            if(!(order.Value.CreatedById == currentUser.Id)){
                 return BadRequest(Result.Fail("you don't have permission to see this order"));
             }
-            return new OrderDto(order);
+            return Ok(order);
         }
         [HttpPut("cancel")]
         [ValidateModel]

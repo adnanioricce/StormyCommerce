@@ -1,6 +1,5 @@
 ﻿using System;
-using SimplCommerce.Infrastructure.Models;
-using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Pricing.Models
 {

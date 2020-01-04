@@ -7,18 +7,18 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProductLink>(entity =>
-            {
-                entity.HasOne(x => x.Product)
-                    .WithMany()
-                    .HasForeignKey(x => x.ProductId)
-                    .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<ProductLink>(entity =>
+            //{
+            //    entity.HasOne(x => x.Product)
+            //        .WithMany()
+            //        .HasForeignKey(x => x.ProductId)
+            //        .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne(x => x.Product)
-                    .WithMany(p => p.Links)
-                    .HasForeignKey(x => x.ProductId)
-                    .OnDelete(DeleteBehavior.Restrict);
-            });
+            //    entity.HasOne(x => x.Product)
+            //        .WithMany(p => p.Links)
+            //        .HasForeignKey(x => x.ProductId)
+            //        .OnDelete(DeleteBehavior.Restrict);
+            //});
         }
     }
 }

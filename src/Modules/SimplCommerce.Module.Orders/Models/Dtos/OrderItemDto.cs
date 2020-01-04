@@ -1,5 +1,5 @@
-﻿using SimplCommerce.Module.Orders.Models;
-using StormyCommerce.Module.Catalog.Models.Dtos;
+﻿using SimplCommerce.Module.Catalog.Models.Dtos;
+using SimplCommerce.Module.Orders.Models;
 
 namespace StormyCommerce.Module.Orders.Models.Dtos
 {

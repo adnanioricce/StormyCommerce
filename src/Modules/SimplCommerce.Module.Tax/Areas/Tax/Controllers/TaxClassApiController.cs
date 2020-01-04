@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Tax.Areas.Tax.ViewModels;
 using SimplCommerce.Module.Tax.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Tax.Areas.Tax.Controllers
 {
@@ -114,7 +115,7 @@ namespace SimplCommerce.Module.Tax.Areas.Tax.Controllers
 
             try
             {
-                _taxClassRepository.Remove(taxClass);
+                _taxClassRepository.Delete(taxClass);
                 await _taxClassRepository.SaveChangesAsync();
             }
             catch (DbUpdateException)

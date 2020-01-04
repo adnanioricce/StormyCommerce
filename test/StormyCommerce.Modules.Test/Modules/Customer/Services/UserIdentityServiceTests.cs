@@ -134,7 +134,7 @@ namespace StormyCommerce.Modules.Tests
             var result = await service.GetUserByClaimPrincipal(principal);
 
             // Assert   
-            var userId = principal.Claims.FirstOrDefault(c => string.Equals(c.Value, result.UserGuid, StringComparison.OrdinalIgnoreCase));
+            var userId = principal.Claims.FirstOrDefault(c => string.Equals(c.Value,result.UserGuid.ToString(), StringComparison.OrdinalIgnoreCase));
             var email = principal.Claims.FirstOrDefault(c => string.Equals(c.Value, result.Email, StringComparison.OrdinalIgnoreCase));
             var role = principal.Claims.First(c => string.Equals(c.Value, result.Roles.FirstOrDefault().Role.Name, StringComparison.OrdinalIgnoreCase));
             Assert.NotNull(userId);
@@ -173,7 +173,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task CreateEmailConfirmationCode_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            User user = Seeders.StormyCustomerSeed().First();
+            User user = null;
 
             // Act
             var result = await service.CreateEmailConfirmationCode(user);

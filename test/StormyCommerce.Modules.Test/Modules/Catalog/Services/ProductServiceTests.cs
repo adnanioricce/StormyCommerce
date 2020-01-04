@@ -233,15 +233,14 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task InsertProductAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Product product = Seeders.ProductSeed().First();
+            Product product = null;
 
             // Act
             await service.InsertProductAsync(product);
 
             // Assert
             Assert.True(product.Id != 0);
-            Assert.NotNull(product.Brand);
-            Assert.NotNull(product.Vendor);
+            Assert.NotNull(product.Brand);            
             Assert.NotNull(product.Categories);
         }
 
@@ -249,7 +248,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task InsertProductsAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            IList<Product> products = Seeders.ProductSeed(2);
+            IList<Product> products = null;
 
             // Act
             await service.InsertProductsAsync(products);
@@ -257,15 +256,14 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
             // Assert
             Assert.True(products.All(p => p.Id != 0));
             Assert.True(products.All(p => p.Brand != null));
-            Assert.True(products.All(p => p.Categories != null && p.Categories.Count > 0));
-            Assert.True(products.All(p => p.Vendor != null));
+            Assert.True(products.All(p => p.Categories != null && p.Categories.Count > 0));            
         }
 
         [Fact]
         public async Task UpdateProductAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Product product = Seeders.ProductSeed().First();
+            Product product = null;
 
             // Act
             await service.UpdateProductAsync(product);
@@ -278,7 +276,7 @@ namespace StormyCommerce.Modules.Tests.Services.Catalog
         public async Task UpdateProductsAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            IList<Product> products = Seeders.ProductSeed(2);
+            IList<Product> products = null;
 
             // Act
             await service.UpdateProductsAsync(products);

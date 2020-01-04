@@ -7,23 +7,23 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Review>(entity =>
-            {
-                entity.HasKey(prop => prop.Id);
-                entity.Property(prop => prop.Id).UseNpgsqlIdentityByDefaultColumn();
-                entity.HasOne(prop => prop.Author)
-                    .WithMany(customer => customer.CustomerReviews)
-                    .HasForeignKey(prop => prop.UserId)                    
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired();
-                entity.HasOne(prop => prop.Product)
-                .WithMany()
-                .HasForeignKey(prop => prop.StormyProductId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
-                entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
-                entity.HasQueryFilter(prop => prop.IsDeleted == false);
-            });
+            //modelBuilder.Entity<Review>(entity =>
+            //{
+            //    entity.HasKey(prop => prop.Id);
+            //    entity.Property(prop => prop.Id).UseNpgsqlIdentityByDefaultColumn();
+            //    entity.HasOne(prop => prop.Author)
+            //        .WithMany(customer => customer.CustomerReviews)
+            //        .HasForeignKey(prop => prop.UserId)                    
+            //        .OnDelete(DeleteBehavior.Cascade)
+            //        .IsRequired();
+            //    entity.HasOne(prop => prop.Product)
+            //    .WithMany()
+            //    .HasForeignKey(prop => prop.StormyProductId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .IsRequired();
+            //    entity.Property(prop => prop.Id).ValueGeneratedOnAdd();
+            //    entity.HasQueryFilter(prop => prop.IsDeleted == false);
+            //});
         }
     }
 }

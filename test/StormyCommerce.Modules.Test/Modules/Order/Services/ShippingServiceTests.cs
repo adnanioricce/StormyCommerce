@@ -1,12 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using StormyCommerce.Api.Framework.Extensions;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Shipping;
-
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
- 
-using StormyCommerce.Core.Models.Shipment.Request;
+﻿using System.Threading.Tasks;
+using SimplCommerce.Module.Shipments.Interfaces;
+using SimplCommerce.Module.Shipments.Models;
+using SimplCommerce.Module.Shipments.Requests;
 using StormyCommerce.Module.Orders.Interfaces;
 using Xunit;
 
@@ -28,7 +23,7 @@ namespace StormyCommerce.Modules.Tests
             var order = await _orderService.CreateOrderAsync(null);            
             var request = new PrepareShipmentRequest
             {
-                TotalPrice = 100,
+                OrderTotal = 100,
                 DestinationPostalCode = "08621030",
                 ShippingMethod = ShippingMethod.Sedex,
                 Order = order.Value                
@@ -41,7 +36,7 @@ namespace StormyCommerce.Modules.Tests
             Assert.Equal(2, response.TotalHeight);
             Assert.Equal(116, response.TotalArea);
             Assert.Equal(26.32m, response.DeliveryCost);
-            Assert.Equal(ShippingStatus.NotShippedYet, response.Status);            
+            Assert.Equal(ShipmentStatus.NotShippedYet, response.Status);            
         }
     }
 }

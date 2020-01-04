@@ -75,11 +75,7 @@ namespace StormyCommerce.Module.Customer.Services
         }
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _userManager.Users.Include(u => u.CustomerWishlist)
-                    .ThenInclude(u => u.Items)
-                        .ThenInclude(w => w.Product)
-                .Include(u => u.CustomerReviews)
-                    .ThenInclude(u => u.Product)
+            return await _userManager.Users                                    
                 .Include(u => u.Addresses)                    
                 .FirstOrDefaultAsync(u => string.Equals(u.Email, email,StringComparison.OrdinalIgnoreCase)).ConfigureAwait(true);
         }

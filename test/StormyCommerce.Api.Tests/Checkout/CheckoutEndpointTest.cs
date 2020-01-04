@@ -3,8 +3,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using SimplCommerce.Module.Payments.Models;
 using SimplCommerce.Module.ShoppingCart.Models;
-using StormyCommerce.Core.Entities.Shipping;
-using StormyCommerce.Module.Orders.Models.Requests;
+using SimplCommerce.Module.Shipments.Models;
+using StormyCommerce.Module.Payments.Models.Requests;
 using Xunit;
 
 namespace StormyCommerce.Api.Tests.Checkout

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Tax.Models;
+using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.Module.Tax.Services
 {

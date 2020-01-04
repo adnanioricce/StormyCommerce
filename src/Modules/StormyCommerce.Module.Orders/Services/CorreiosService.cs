@@ -1,25 +1,15 @@
-﻿using System;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using System.Net;
-using StormyCommerce.Core.Interfaces.Infraestructure.Data;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Common;
-using StormyCommerce.Core.Interfaces;
-using System.Net.Http;
-using System.Threading.Tasks;
-using StormyCommerce.Core.Models.Dtos.GatewayRequests;
+﻿using System.Threading.Tasks;
 using StormyCommerce.Module.Orders.Interfaces;
-using StormyCommerce.Module.Orders.Area.Models;
-using static StormyCommerce.Module.Orders.Services.CalcPrecoPrazoWSSoapClient;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 using System.Linq;
 using System.Collections.Generic;
 using StormyCommerce.Core.Shipment;
-using StormyCommerce.Core.Models.Shipment.Response;
+using StormyCommerce.Core.Models.Shipment.Responses;
 using StormyCommerce.Module.Orders.Extensions;
-using StormyCommerce.Core.Models.Shipment.Request;
-using StormyCommerce.Core.Entities.Shipping;
+using SimplCommerce.Module.Shipments.Models;
+using SimplCommerce.Module.Shipments.Interfaces;
+using SimplCommerce.Module.Shipments.Models.Request;
 
 namespace StormyCommerce.Module.Orders.Services
 {
@@ -53,7 +43,7 @@ namespace StormyCommerce.Module.Orders.Services
             }; 
         }        
         
-        public async Task<DeliveryCalculationResponse> DefaultDeliveryCalculation(StormyShipment shipment)
+        public async Task<DeliveryCalculationResponse> DefaultDeliveryCalculation(Shipment shipment)
         {            
             var response = await CalculateDeliveryPriceAndTime(GetDefaultShippingCalcModel(shipment));
             return response;            
@@ -62,7 +52,7 @@ namespace StormyCommerce.Module.Orders.Services
         {
             var response = await _correiosSoapWs.CalcPrecoPrazoAsync(Container.Configuration["Correios:CodigoEmpresa"],
                 Container.Configuration["Correios:Senha"],
-                request.ShippingMethod.ToString(),
+                request.ShipmentMethod.ToString(),
                 Container.Configuration["Correios:OriginPostalCode"],
                 request.DestinationPostalCode,
                 request.Weight.ToString(),
@@ -79,7 +69,7 @@ namespace StormyCommerce.Module.Orders.Services
                 Options = new List<DeliveryCalculationOptionResponse>(response.Servicos.Select(s => s.MapToDeliveryCalculationResponse()))
             };
         }
-        private CalcPrecoPrazoModel GetDefaultShippingCalcModel(StormyShipment shipment)
+        private CalcPrecoPrazoModel GetDefaultShippingCalcModel(Shipment shipment)
         {                            
             return new CalcPrecoPrazoModel {             
                 nCdEmpresa = Container.Configuration["Correios:CodigoEmpresa"],
@@ -96,7 +86,7 @@ namespace StormyCommerce.Module.Orders.Services
                 sCdAvisoRecebimento = "N",
                 sCdMaoPropria = "N",
                 //TODO: this is the corrected value or the total?
-                nVlValorDeclarado = shipment.Order.TotalPrice                       
+                nVlValorDeclarado = shipment.Order.OrderTotal                       
             };
         }
     }

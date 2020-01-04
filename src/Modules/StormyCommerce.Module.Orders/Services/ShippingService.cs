@@ -1,27 +1,29 @@
-﻿using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Shipping;
-using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
+﻿using StormyCommerce.Core.Interfaces;
 using System;
 using System.Threading.Tasks;
 using StormyCommerce.Core.Shipment;
-using StormyCommerce.Core.Models.Shipment.Request;
-using StormyCommerce.Core.Models.Shipment.Response;
+using StormyCommerce.Core.Models.Shipment.Responses;
 using StormyCommerce.Core.Models.Shipment;
 using System.Linq;
 using StormyCommerce.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using SimplCommerce.Module.Shipments.Models;
+using SimplCommerce.Module.Shipments.Interfaces;
+using SimplCommerce.Module.Shipments.Requests;
+using SimplCommerce.Module.Orders.Models;
+using SimplCommerce.Module.Shipments.Models.Request;
 
 namespace StormyCommerce.Module.Orders.Services
 {
+    //TODO: Move to SimplCommerce.Module.Shipment.Services
     public class ShippingService : IShippingService
     {        
         private readonly IShippingProvider _correiosService;
         private readonly IShippingBuilder _shippingBuilder;
-        private readonly IStormyRepository<StormyShipment> _shipmentRepository;
+        private readonly IStormyRepository<Shipment> _shipmentRepository;
         public ShippingService(IShippingBuilder shippingBuilder,
         IShippingProvider correiosService,
-        IStormyRepository<StormyShipment> shipmentRepository
+        IStormyRepository<Shipment> shipmentRepository
         )
         {
             _shippingBuilder = shippingBuilder;
@@ -29,7 +31,7 @@ namespace StormyCommerce.Module.Orders.Services
             _shipmentRepository = shipmentRepository;
         }
 
-        public async Task<Result> CreateShipmentAsync(StormyShipment shipment)
+        public async Task<Result> CreateShipmentAsync(Shipment shipment)
         {
             try
             {
@@ -41,7 +43,7 @@ namespace StormyCommerce.Module.Orders.Services
             }
         }
 
-        public async Task<StormyShipment> PrepareShipment(PrepareShipmentRequest request)
+        public async Task<Shipment> PrepareShipment(PrepareShipmentRequest request)
         {
             var measures = _shippingBuilder.CalculateShippingMeasures(new CalculateShippingMeasuresModel(request.Order.Items));
             var shippingCalculation = await _correiosService.CalculateDeliveryPriceAndTime(new DeliveryCalculationRequest
@@ -55,12 +57,12 @@ namespace StormyCommerce.Module.Orders.Services
                 DestinationPostalCode = request.DestinationPostalCode,
                 MaoPropria = "N",
                 WarningOfReceiving = "N",
-                ValorDeclarado = request.TotalPrice,
-                ShippingMethod = request.ShippingMethod,
+                ValorDeclarado = request.OrderTotal,
+                ShipmentMethod = request.ShippingMethod,
             });
             var shippingOption = new DeliveryCalculationOptionResponse();            
             shippingOption = shippingCalculation.Options.OrderBy(o => o.Price).FirstOrDefault();                                        
-            var shipment = new StormyShipment
+            var shipment = new Shipment
             {
                 TotalArea = measures.CubeRoot,
                 TotalHeight = measures.TotalHeight,
@@ -68,26 +70,24 @@ namespace StormyCommerce.Module.Orders.Services
                 TotalLength = measures.TotalLength,
                 TotalWeight = measures.TotalWeight,
                 CubeRoot = measures.CubeRoot,
-                Status = ShippingStatus.NotShippedYet,
+                Status = ShipmentStatus.NotShippedYet,
                 DeliveryCost = measures.DeliveryCost,
                 DeliveryDate = shippingOption.DeliveryDate,
                 ExpectedDeliveryDate = shippingOption.DeliveryMaxDate,
                 ExpectedHourOfDay = shippingOption.HourOfDay,
                 ShipmentMethod = (ShippingMethod)(Convert.ToInt32(shippingOption.Service)),
-                SafeAmount = request.TotalPrice / 100,
+                SafeAmount = request.OrderTotal / 100,
                 ShipmentProvider = "Correios",    
                 OrderId = request.Order.Id
                 //TODO:Add Destination address Fetch
                 
             };            
-            shipment.Items = measures.Items.Select(i => new OrderItem
-            {
-                Id = i.Id,
-                Price = i.Price,
-                StormyProductId = i.Product.Id,
-                OrderId = request.Order.Id,
-                Shipment = shipment,                
-                Quantity = i.Quantity,                                
+            shipment.Items = measures.Items.Select(i => new ShipmentItem
+            {                
+                OrderItemId = i.Id,
+                ShipmentId = shipment.Id,
+                ProductId = i.Product.Id,                
+                Quantity = i.Quantity,                   
             }).ToList();                                  
             return shipment;
             

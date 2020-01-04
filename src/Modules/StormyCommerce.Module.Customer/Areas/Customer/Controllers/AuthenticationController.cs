@@ -6,16 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
 using System;
-using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 

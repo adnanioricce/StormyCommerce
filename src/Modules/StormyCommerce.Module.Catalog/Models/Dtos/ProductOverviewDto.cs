@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Models;
 
 namespace StormyCommerce.Module.Catalog.Models.Dtos
 {
@@ -13,8 +14,8 @@ namespace StormyCommerce.Module.Catalog.Models.Dtos
             Id = product.Id;
             ProductName = product.ProductName;
             Slug = product.Slug;
-            Price = Price.GetPriceFromString(product.Price);            
-            ThumbnailImage = product.ThumbnailImage;
+            Price = Price.GetPriceFromCents("R$",product.Price);            
+            ThumbnailImage = product.ThumbnailImage.FileName;
             Categories = product.Categories.Select(c => new ProductCategoryDto(c)).ToList();
             Medias = product.Medias;
         }
@@ -24,7 +25,7 @@ namespace StormyCommerce.Module.Catalog.Models.Dtos
         public string Slug { get; private set; }
         public Price Price { get; private set; }                
         public string ThumbnailImage { get; private set; }
-        public List<ProductCategoryDto> Categories { get; private set; } = new List<ProductCategoryDto>();
-        public List<ProductMedia> Medias { get; private set; } = new List<ProductMedia>();
+        public IList<ProductCategoryDto> Categories { get; private set; } = new List<ProductCategoryDto>();
+        public IList<ProductMedia> Medias { get; private set; } = new List<ProductMedia>();
     }
 }

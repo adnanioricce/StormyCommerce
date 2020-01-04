@@ -15,9 +15,9 @@ namespace TestHelperLibrary.Utils
         public void SeedTestDb(StormyDbContext context)
         {
             context.Database.EnsureCreated();
-            context.AddRange(Seeders.EntitySeed(5, "Product"));
-            context.AddRange(Seeders.EntitySeed(5, "Category"));
-            context.AddRange(Seeders.EntitySeed(5, "Brand"));
+            //context.AddRange(Seeders.EntitySeed(5, "Product"));
+            //context.AddRange(Seeders.EntitySeed(5, "Category"));
+            //context.AddRange(Seeders.EntitySeed(5, "Brand"));
         }
     }
 }

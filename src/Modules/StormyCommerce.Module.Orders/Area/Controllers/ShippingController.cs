@@ -5,16 +5,10 @@ using StormyCommerce.Module.Orders.Area.Models.Correios;
 using StormyCommerce.Module.Orders.Services;
 using AutoMapper;
 using System.Collections.Generic;
-using StormyCommerce.Module.Orders.Area.Models;
-using StormyCommerce.Module.Orders.Area.Models.Shipping;
 using StormyCommerce.Core.Models;
-using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using System;
-using StormyCommerce.Core.Shipment;
-using StormyCommerce.Core.Models.Shipment.Response;
-using StormyCommerce.Core.Models.Shipment.Request;
-// using StormyCommerce.Module.Shipping.Models;
+using StormyCommerce.Core.Models.Shipment.Responses;
+using SimplCommerce.Module.Shipments.Interfaces;
+using SimplCommerce.Module.Shipments.Models.Request;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {

@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
-using StormyCommerce.Core.Interfaces.Domain.Customer;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Infraestructure.Interfaces;
@@ -15,7 +13,6 @@ using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
 using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Models.Requests;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 {
@@ -26,19 +23,16 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
     {
         private readonly IUserIdentityService _identityService;          
         private readonly IEmailSender _emailSender;
-        private readonly IAppLogger<AccountController> _logger;
-        private readonly ICustomerService _customerService;
+        private readonly IAppLogger<AccountController> _logger;        
         private readonly IMapper _mapper;
         public AccountController(IUserIdentityService identityService,
         IEmailSender emailSender,
-        IAppLogger<AccountController> logger,
-        ICustomerService customerService,
+        IAppLogger<AccountController> logger,        
         IMapper mapper)
         {
             _identityService = identityService;                    
             _emailSender = emailSender;
-            _logger = logger;
-            _customerService = customerService;
+            _logger = logger;            
             _mapper = mapper;
         }
         [HttpGet("ConfirmEmail")]
@@ -151,18 +145,18 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             if (!result.Success) return BadRequest(result);
             return Ok(result);            
         }
-        [HttpDelete("delete_address")]
-        [Authorize(Roles.Customer)]
-        public async Task<IActionResult> DeleteAddress(long addressId)
-        {
-            var currentUser = await GetCurrentUser();
-            var result = await _customerService.DeleteAddress(currentUser, addressId);
-            if (!result.Success)
-            {
-                return BadRequest(new { result = result, customer = currentUser });
-            }
-            return Ok(new { result = result, customer = currentUser });
-        }
+        //[HttpDelete("delete_address")]
+        //[Authorize(Roles.Customer)]
+        //public async Task<IActionResult> DeleteAddress(long addressId)
+        //{
+        //    var currentUser = await GetCurrentUser();
+        //    var result = await _customerService.DeleteAddress(currentUser, addressId);
+        //    if (!result.Success)
+        //    {
+        //        return BadRequest(new { result = result, customer = currentUser });
+        //    }
+        //    return Ok(new { result = result, customer = currentUser });
+        //}
         #endregion
         private Task<User> GetCurrentUser()
         {

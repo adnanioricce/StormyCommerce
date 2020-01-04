@@ -10,8 +10,8 @@ using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Interfaces.Domain.Customer;
-using StormyCommerce.Core.Services.Customer;
+
+
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Stores;
 using StormyCommerce.Infraestructure.Interfaces;
@@ -37,9 +37,7 @@ namespace StormyCommerce.Module.Customer
             serviceCollection.AddScoped<UserManager<User>>();
             serviceCollection.AddScoped<SignInManager<User>>();
             serviceCollection.AddScoped<RoleManager<Role>>();            
-            serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();            
-            serviceCollection.AddTransient<IReviewService, ReviewService>();
-            serviceCollection.AddTransient<ICustomerService,CustomerService>();
+            serviceCollection.AddScoped<IUserIdentityService, UserIdentityService>();                        
         }
         
 

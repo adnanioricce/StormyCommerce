@@ -60,7 +60,7 @@ namespace StormyCommerce.Modules.Tests
         public async Task GetOrderByUniqueIdAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange      
-            var order = null;
+            Order order = null;
             Guid uniqueId = order.OrderUniqueKey;
             order.OrderUniqueKey = uniqueId;
             await service.CreateOrderAsync(order);

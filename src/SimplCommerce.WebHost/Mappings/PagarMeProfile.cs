@@ -6,18 +6,9 @@ using SimplCommerce.Module.Orders.Models;
 using SimplCommerce.Module.Payments.Models;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
-
-
-using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos;
- 
-
- 
-
-using StormyCommerce.Core.Models.Shipment.Request;
-using StormyCommerce.Module.Orders.Area.Models.Orders;
-
-using StormyCommerce.Module.Orders.Models.Requests;
+using StormyCommerce.Module.Orders.Models.Dtos;
+using StormyCommerce.Module.Payments.Models.Requests;
 
 namespace StormyCommerce.WebHost.Mappings
 {
@@ -42,7 +33,7 @@ namespace StormyCommerce.WebHost.Mappings
                 .ForMember(dest => dest.CreatedOn,opt => opt.MapFrom(src => src.DateCreated))
                 .ForMember(dest => dest.GatewayTransactionId,opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.PaymentFee,opt => opt.MapFrom(src => src.Cost))
-                .ForMember(dest => dest.PaymentMethod,opt => opt.MapFrom(src => src.PaymentMethod.ToString()))
+                .ForMember(dest => dest.Method,opt => opt.MapFrom(src => src.PaymentMethod.ToString()))
                 .ForMember(dest => dest.FailureMessage,opt => opt.MapFrom(src => src.Status));
             //TODO:Need better way to map this                
             CreateMap<CheckoutBoletoRequest, Transaction>()

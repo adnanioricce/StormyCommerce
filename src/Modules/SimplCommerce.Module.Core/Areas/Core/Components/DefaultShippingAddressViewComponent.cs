@@ -30,19 +30,19 @@ namespace SimplCommerce.Module.Core.Areas.Core.Components
 
             var model = new DefaultAddressViewComponentVm();
 
-            if (curentUser.DefaultShippingAddressId.HasValue)
+            if (curentUser.Addresses.Any(a => a.IsDefault))
             {
                 model.Address = await _userAddressRepository.Query()
-                    .Where(x => x.Id == curentUser.DefaultShippingAddressId.Value)
+                    .Where(x => x.Id == curentUser.Addresses.FirstOrDefault(a => a.IsDefault).Id)
                     .Select(x => new UserAddressListItem {
                         UserAddressId = x.Id,
-                        ContactName = x.Address.ContactName,
-                        Phone = x.Address.Phone,
-                        AddressLine1 = x.Address.AddressLine1,
-                        AddressLine2 = x.Address.AddressLine2,
-                        DistrictName = x.Address.District.Name,
-                        StateOrProvinceName = x.Address.StateOrProvince.Name,
-                        CountryName = x.Address.Country.Name
+                        //ContactName = x.Address.ContactName,
+                        //Phone = x.Address.Phone,
+                        //AddressLine1 = x.Address.AddressLine1,
+                        //AddressLine2 = x.Address.AddressLine2,
+                        //DistrictName = x.Address.District.Name,
+                        //StateOrProvinceName = x.Address.StateOrProvince.Name,
+                        //CountryName = x.Address.Country.Name
                     })
                     .FirstOrDefaultAsync();
             }

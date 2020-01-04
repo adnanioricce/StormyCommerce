@@ -9,11 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SimplCommerce.Module.Payments\SimplCommerce.Module.Payments.csproj" />
+    <ProjectReference Include="..\SimplCommerce.Module.Shipments\SimplCommerce.Module.Shipments.csproj" />
     <ProjectReference Include="..\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
   </ItemGroup>
 </Project>

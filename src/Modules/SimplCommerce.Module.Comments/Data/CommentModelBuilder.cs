@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
+using StormyCommerce.Core.Entities.Settings;
 
 namespace SimplCommerce.Module.Comments.Data
 {
@@ -8,8 +9,8 @@ namespace SimplCommerce.Module.Comments.Data
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AppSetting>().HasData(
-                new AppSetting("Catalog.IsCommentsRequireApproval") { Module = "Catalog", IsVisibleInCommonSettingPage = true, Value = "true" }
+            modelBuilder.Entity<AppSettings>().HasData(
+                new AppSettings("Catalog.IsCommentsRequireApproval") { Module = "Catalog", IsVisibleInCommonSettingPage = true, Value = "true" }
             );
         }
     }

@@ -1,5 +1,6 @@
 ﻿
 using StormyCommerce.Core.Models.Dtos;
+using StormyCommerce.Module.Orders.Models.Dtos;
 
 namespace StormyCommerce.Module.Payments.Models.Requests
 {

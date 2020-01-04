@@ -6,6 +6,7 @@ namespace SimplCommerce.Module.Orders.Models
 {
     public class OrderItem : EntityBase
     {
+        public long OrderId { get; set; }
         [JsonIgnore]
         public Order Order { get; set; }
 

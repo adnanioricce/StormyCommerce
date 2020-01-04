@@ -1,4 +1,5 @@
-﻿using StormyCommerce.Core.Entities.Media;
+﻿using SimplCommerce.Module.Catalog.Models;
+using StormyCommerce.Core.Entities.Media;
 
 namespace StormyCommerce.Module.Catalog.Models.Dtos
 {

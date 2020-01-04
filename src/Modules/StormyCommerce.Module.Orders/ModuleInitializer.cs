@@ -1,15 +1,11 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using PagarMe;
 using SimplCommerce.Infrastructure.Modules;
+using SimplCommerce.Module.Shipments.Interfaces;
+using SimplCommerce.Module.Shipments.Services;
 using StormyCommerce.Api.Framework.Ioc;
-
-
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
-
-using StormyCommerce.Core.Services.Shipping;
 using StormyCommerce.Module.Orders.Interfaces;
 using StormyCommerce.Module.Orders.Services;
 
@@ -28,14 +24,7 @@ namespace StormyCommerce.Module.Orders
             serviceCollection.AddTransient<IShippingService, ShippingService>();
             serviceCollection.AddTransient<IShippingBuilder, ShippingBuilder>();
             serviceCollection.AddTransient<IOrderService, OrderService>();            
-            serviceCollection.AddTransient<IShippingProvider,CorreiosService>();
-            //serviceCollection.AddTransient<IPaymentProcessor, PaymentProcessor>();                    
-            PagarMeService.DefaultApiKey = Container.Configuration["PagarMe:ApiKey"];
-            PagarMeService.DefaultEncryptionKey = Container.Configuration["PagarMe:EncryptionKey"];            
-            var pagarme = new PagarMeService(PagarMeService.DefaultApiKey,PagarMeService.DefaultEncryptionKey);                        
-            serviceCollection.AddSingleton(pagarme);
-            serviceCollection.AddSingleton<PagarMeWrapper>();
-            
+            serviceCollection.AddTransient<IShippingProvider,CorreiosService>();                        
         }
     }
 }

@@ -21,7 +21,7 @@ namespace StormyCommerce.Api.Tests.Catalog
         public async Task CreateBrandEndpointTest()
         {
             await client.Authenticate(true);
-            var response = await client.PostAsJsonAsync("/api/Brand/create", Seeders.BrandSeed().FirstOrDefault());
+            var response = await client.PostAsJsonAsync("/api/Brand/create", new Brand());
 
             Assert.True(response.IsSuccessStatusCode);
         }        

@@ -14,22 +14,22 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
     [Area("Core")]
     [Authorize(Roles = "admin")]
-    [Route("api/appsettings")]
-    public class AppSettingApiController : Controller
+    [Route("api/AppSettingss")]
+    public class AppSettingsApiController : Controller
     {
-        private readonly IStormyRepository<AppSettings> _appSettingRepository;
+        private readonly IStormyRepository<AppSettings> _AppSettingsRepository;
         private readonly IConfigurationRoot _configurationRoot;
 
-        public AppSettingApiController(IStormyRepository<AppSettings> appSettingRepository, IConfiguration configuration)
+        public AppSettingsApiController(IStormyRepository<AppSettings> AppSettingsRepository, IConfiguration configuration)
         {
-            _appSettingRepository = appSettingRepository;
+            _AppSettingsRepository = AppSettingsRepository;
             _configurationRoot = (IConfigurationRoot)configuration;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var settings = await _appSettingRepository.Query().Where(x => x.IsVisibleInCommonSettingPage).ToListAsync();
+            var settings = await _AppSettingsRepository.Query().Where(x => x.IsVisibleInCommonSettingPage).ToListAsync();
             return Json(settings);
         }
 
@@ -38,7 +38,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
         {
             if (ModelState.IsValid)
             {
-                var settings = await _appSettingRepository.Query().Where(x => x.IsVisibleInCommonSettingPage).ToListAsync();
+                var settings = await _AppSettingsRepository.Query().Where(x => x.IsVisibleInCommonSettingPage).ToListAsync();
                 foreach(var item in settings)
                 {
                     var vm = model.FirstOrDefault(x => x.Id == item.Id);
@@ -48,7 +48,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                     }
                 }
 
-                await _appSettingRepository.SaveChangesAsync();
+                await _AppSettingsRepository.SaveChangesAsync();
                 _configurationRoot.Reload();
 
                 return Accepted();

@@ -87,8 +87,7 @@ namespace StormyCommerce.Api.Tests.Catalog
                 },
                 Slug = "",
                 Name = "",
-                ParentId = 0,
-                ChildrenId = 0,
+                ParentId = 0,                
                 IncludeInMenu = false,
                 IsPublished = false,
             };

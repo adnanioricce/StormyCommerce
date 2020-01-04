@@ -8,11 +8,11 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Catalog
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProductAttribute>();
-            modelBuilder.Entity<ProductAttributeGroup>(mapper =>
-            {
-                mapper.Property(prop => prop.Name).HasMaxLength(450).IsRequired();
-            });
+            //modelBuilder.Entity<ProductAttribute>();
+            //modelBuilder.Entity<ProductAttributeGroup>(mapper =>
+            //{
+            //    mapper.Property(prop => prop.Name).HasMaxLength(450).IsRequired();
+            //});
         }
     }
 }

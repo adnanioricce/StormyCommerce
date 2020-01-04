@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SimplCommerce.Module.Reviews.Models;
+using SimplCommerce.Module.Reviews.Models.Dtos;
 using SimplCommerce.Module.WishList.Models;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;

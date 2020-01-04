@@ -11,7 +11,7 @@ namespace SimplCommerce.Module.Core.Data
     {
         public void Build(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<AppSetting>().ToTable("Core_AppSetting");
+            //modelBuilder.Entity<AppSettings>().ToTable("Core_AppSettings");
 
             modelBuilder.Entity<User>()
                 .ToTable("Core_User");

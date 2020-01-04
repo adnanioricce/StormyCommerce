@@ -13,11 +13,11 @@
         return service;
 
         function getSettings() {
-            return $http.get('api/appsettings');
+            return $http.get('api/AppSettingss');
         }
 
         function updateSetting(settings) {
-            return $http.put('api/appsettings/', settings);
+            return $http.put('api/AppSettingss/', settings);
         }
     }
 })();

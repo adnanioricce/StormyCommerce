@@ -25,7 +25,8 @@ namespace StormyCommerce.Module.Orders.Models.Dtos
             this.Items = order.OrderItems.Select(p => new OrderItemDto(p)).ToList();            
         }
         public long Id { get; private set; }
-        public Guid OrderUniqueKey { get; private set; }                       
+        public Guid OrderUniqueKey { get; private set; }
+        public long CreatedById { get; private set; }
         public string OrderNote { get; private set; }        
         public decimal DiscountAmount { get; private set; }                
         public decimal OrderTotal { get; private set; }

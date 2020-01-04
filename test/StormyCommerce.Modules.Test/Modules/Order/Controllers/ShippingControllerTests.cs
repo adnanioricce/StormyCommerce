@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using StormyCommerce.Core.Entities.Shipping;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Models.Shipment.Request;
+using SimplCommerce.Module.Shipments.Interfaces;
+using SimplCommerce.Module.Shipments.Models;
+using SimplCommerce.Module.Shipments.Models.Request;
 using StormyCommerce.Core.Shipment;
 using StormyCommerce.Module.Orders.Area.Controllers;
-using StormyCommerce.Module.Orders.Area.Models;
-using StormyCommerce.Module.Orders.Area.Models.Shipping;
 using StormyCommerce.Module.Orders.Services;
 using System.Threading.Tasks;
 using Xunit;
@@ -31,7 +29,7 @@ namespace StormyCommerce.Modules.Tests
                 Height = 2,
                 Width = 16,
                 Length = 11,
-                ShippingMethod = ShippingMethod.Sedex,
+                ShipmentMethod = ShippingMethod.Sedex,
                 Weight = 0.3m,
                 WarningOfReceiving = "S",
                 ValorDeclarado = 100,

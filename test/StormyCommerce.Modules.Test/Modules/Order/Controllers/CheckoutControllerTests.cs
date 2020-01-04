@@ -1,40 +1,23 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using PagarMe;
 using SimplCommerce.Module.Orders.Models.Responses;
-using SimplCommerce.Module.Payments.Models;
 using SimplCommerce.Module.ShoppingCart.Models;
-using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Entities.Customer;
-
-using StormyCommerce.Core.Entities.Shipping;
+using SimplCommerce.Module.Shipments.Models;
 using StormyCommerce.Core.Interfaces;
-
-
-
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Models;
- 
-
- 
-
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.Module.Orders.Area.Controllers;
-using StormyCommerce.Module.Orders.Area.Models.Orders;
 using StormyCommerce.Module.Orders.Interfaces;
-using StormyCommerce.Module.Orders.Models.Requests;
 using StormyCommerce.Module.Orders.Models.Responses;
-using StormyCommerce.Module.Orders.Services;
 using StormyCommerce.Module.Payments.Interfaces;
 using StormyCommerce.Module.Payments.Models.Requests;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TestHelperLibrary.Extensions;
 using Xunit;
+using SimplCommerce.Module.Shipments.Interfaces;
 
 namespace StormyCommerce.Modules.Tests
 {
@@ -81,7 +64,7 @@ namespace StormyCommerce.Modules.Tests
                     }
                 },
                 PickUpOnStore = false,
-                ShippingMethod = Core.Entities.Shipping.ShippingMethod.Sedex,
+                ShippingMethod = ShippingMethod.Sedex,
                 PostalCode = "08621030"                
             };
             

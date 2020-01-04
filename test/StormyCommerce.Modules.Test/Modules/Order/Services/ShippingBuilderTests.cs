@@ -1,15 +1,10 @@
 ﻿using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Orders.Models;
-using StormyCommerce.Api.Framework.Extensions;
-
-
- 
+using SimplCommerce.Module.Shipments.Services;
 using StormyCommerce.Core.Models.Shipment;
-using StormyCommerce.Core.Services.Shipping;
 using StormyCommerce.Module.Orders.Models.Dtos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace StormyCommerce.Modules.Tests.Services.Shipping
@@ -22,23 +17,24 @@ namespace StormyCommerce.Modules.Tests.Services.Shipping
         {
             // Arrange
             var shippingBuilder = new ShippingBuilder();
-            OrderDto order = new OrderDto(new Core.Entities.Order
+            OrderDto order = new OrderDto(new Order
             {
-                Items = new List<OrderItem>
-                {
-                    new OrderItem
-                    {
-                        Quantity = quantity,
-                        Product = new Product
-                        {
-                            Width = width,
-                            Length = length,
-                            Height = height,
-                            Diameter = diameter,
-                            UnitWeight = unitWeigth
-                        }
-                    }
-                }
+                //TODO:this dto is not readonly yet
+                //Items = new List<OrderItem>
+                //{
+                //    new OrderItem
+                //    {
+                //        Quantity = quantity,
+                //        Product = new Product
+                //        {
+                //            Width = width,
+                //            Length = length,
+                //            Height = height,
+                //            Diameter = diameter,
+                //            UnitWeight = unitWeigth
+                //        }
+                //    }
+                //}
             });            
             // Act
             var result = shippingBuilder.CalculateShippingMeasures(new CalculateShippingMeasuresModel(order.Items));

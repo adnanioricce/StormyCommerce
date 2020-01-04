@@ -4,6 +4,7 @@ using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Address;
 using StormyCommerce.Core.Entities.Cms;
+using StormyCommerce.Core.Entities.Settings;
 
 namespace SimplCommerce.Module.Core.Data
 {
@@ -11,9 +12,9 @@ namespace SimplCommerce.Module.Core.Data
     {
         public static void SeedData(ModelBuilder builder)
         {
-            builder.Entity<AppSetting>().HasData(
-                new AppSetting("Global.AssetVersion") { Module = "Core", IsVisibleInCommonSettingPage = true, Value = "1.0" },
-                new AppSetting("Theme") { Module = "Core", IsVisibleInCommonSettingPage = false, Value = "Generic" }
+            builder.Entity<AppSettings>().HasData(
+                new AppSettings("Global.AssetVersion") { Module = "Core", IsVisibleInCommonSettingPage = true, Value = "1.0" },
+                new AppSettings("Theme") { Module = "Core", IsVisibleInCommonSettingPage = false, Value = "Generic" }
             );
 
             builder.Entity<EntityType>().HasData(

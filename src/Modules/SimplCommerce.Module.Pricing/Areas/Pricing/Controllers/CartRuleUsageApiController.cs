@@ -67,8 +67,7 @@ namespace SimplCommerce.Module.Pricing.Areas.Pricing.Controllers
             var cartRuleUsages = query.ToSmartTableResult(
                 param,
                 x => new
-                {
-                    x.Id,
+                {                    
                     x.CartRuleId,
                     CartRuleName = x.CartRule.Name,
                     x.UserId,

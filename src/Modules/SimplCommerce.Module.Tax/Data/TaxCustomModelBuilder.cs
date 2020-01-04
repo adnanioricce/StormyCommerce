@@ -2,6 +2,7 @@
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Tax.Models;
+using StormyCommerce.Core.Entities.Settings;
 
 namespace SimplCommerce.Module.Tax.Data
 {
@@ -11,8 +12,8 @@ namespace SimplCommerce.Module.Tax.Data
         {
             modelBuilder.Entity<TaxClass>().HasData(new TaxClass(1) { Name = "Standard VAT" });
 
-            modelBuilder.Entity<AppSetting>().HasData(
-                new AppSetting("Tax.DefaultTaxClassId") { Module = "Tax", IsVisibleInCommonSettingPage = true, Value = "1" }
+            modelBuilder.Entity<AppSettings>().HasData(
+                new AppSettings("Tax.DefaultTaxClassId") { Module = "Tax", IsVisibleInCommonSettingPage = true, Value = "1" }
             );
         }
     }

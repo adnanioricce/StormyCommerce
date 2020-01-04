@@ -215,7 +215,7 @@ namespace SimplCommerce.Module.Pricing.Areas.Pricing.Controllers
 
             try
             {
-                _cartRuleRepository.Remove(cartRule);
+                _cartRuleRepository.Delete(cartRule);
                 await _cartRuleRepository.SaveChangesAsync();
             }
             catch (DbUpdateException)

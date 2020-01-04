@@ -11,9 +11,6 @@ using PagarMe.Model;
 using StormyCommerce.Infraestructure.Interfaces;
 using Microsoft.AspNetCore.Cors;
 using StormyCommerce.Core.Models.Dtos;
-using StormyCommerce.Core.Extensions;
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
-using StormyCommerce.Core.Models.Shipment.Request;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Module.Payments.Interfaces;
 using StormyCommerce.Module.Orders.Interfaces;
@@ -23,6 +20,9 @@ using StormyCommerce.Module.Payments.Models.Requests;
 using StormyCommerce.Module.Orders.Models.Responses;
 using StormyCommerce.Module.Orders.Models.Dtos;
 using SimplCommerce.Module.Orders.Models.Responses;
+using SimplCommerce.Module.Shipments.Interfaces;
+using SimplCommerce.Module.Shipments.Requests;
+using SimplCommerce.Module.Shipments.Models.Dtos;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
@@ -99,7 +99,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
             return Ok(new CreditCardCheckoutResponse { 
                 //Payment = response.
                 //Order = orderDto.Value,
-                Shipment = shipment
+                Shipment = new ShipmentDto(shipment)
             });
         }
         [HttpPost("postback")]
@@ -142,7 +142,8 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
                 return Result.Fail("You can't order a item with 0 products or create a order with 0 items", request);                
             }
             var products = await _productService.GetProductsByIdsAsync(request.Items.Select(i => i.ProductId).ToArray());
-            if (!(request.Items.HasStockForOrderItems(products)))
+            //if (!(request.Items.HasStockForOrderItems(products)))
+            if(request.Items.Any(i => products.Any(p => p.Id == i.Product.Id && i.Quantity <= p.UnitsInStock)))
             {
                 return Result.Fail("looks like you have items on your order that ask for quantity that the store don't have on stock now", new { request, products });
             }

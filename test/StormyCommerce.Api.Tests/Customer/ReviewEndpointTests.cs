@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using SimplCommerce.Module.Reviews.Models;
 using StormyCommerce.Api.Framework.Extensions;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Module.Customer.Models;
@@ -41,9 +42,8 @@ namespace StormyCommerce.Api.Tests.Customer
         public async Task EditReviewEndpointTest()
         {
             await client.Authenticate();
-            var review = Seeders.ReviewSeed().First();
-            review.Id = 1;            
-            review.StormyProductId = 1;
+            var review = new Review();
+            review.Id = 1;                        
             var response = await client.PutAsJsonAsync<Review>("/api/Review/edit",review);            
             Assert.True(response.IsSuccessStatusCode);
         }

@@ -2,20 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using PagarMe;
 using SimplCommerce.Module.EmailSenderSendgrid;
+using SimplCommerce.Module.Shipments.Interfaces;
+using SimplCommerce.Module.Shipments.Services;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Core.Interfaces.Domain;
-
-using StormyCommerce.Core.Interfaces.Domain.Customer;
-
-
-using StormyCommerce.Core.Interfaces.Domain.Shipping;
 using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 using StormyCommerce.Core.Services.Catalog;
-using StormyCommerce.Core.Services.Customer;
-
-using StormyCommerce.Core.Services.Shipping;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Module.Catalog.Interfaces;
@@ -66,9 +60,7 @@ namespace StormyCommerce.Modules.Tests.Modules.Extensions
             services.AddScoped<UserManager<User>>();
             services.AddScoped<SignInManager<User>>();
             services.AddScoped<RoleManager<Role>>();            
-            services.AddScoped<IUserIdentityService, UserIdentityService>();
-            services.AddTransient<IReviewService, ReviewService>();
-            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddScoped<IUserIdentityService, UserIdentityService>();            
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<StormyDbContext>()                                
                 .AddDefaultTokenProviders();

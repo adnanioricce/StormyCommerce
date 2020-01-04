@@ -1,10 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Core.Entities;
-
-
-using StormyCommerce.Core.Entities.Shipping;
-using StormyCommerce.Core.Models;
-
 namespace StormyCommerce.Infraestructure.Data.Mapping.Orders
 {
     public class OrderMap : IStormyModelBuilder

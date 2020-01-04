@@ -1,4 +1,5 @@
 ﻿using SimplCommerce.Module.Catalog.Models;
+using SimplCommerce.Module.Reviews.Models.Dtos;
 using Stormycommerce.Module.Orders.Area.ViewModels;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Common;
@@ -8,6 +9,7 @@ using StormyCommerce.Core.Models.Dtos;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Module.Catalog.Models.Dtos;
 using StormyCommerce.Module.Customer.Areas.Customer.ViewModels;
+using StormyCommerce.Module.Orders.Models.Dtos;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

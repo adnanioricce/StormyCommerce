@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using StormyCommerce.Core.Models.Shipment.Response;
+using StormyCommerce.Core.Models.Shipment.Responses;
 using StormyCommerce.Module.Orders.Area.Models.Correios;
 
 namespace StormyCommerce.Module.Orders.Extensions

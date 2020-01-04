@@ -1,8 +1,5 @@
-using Microsoft.EntityFrameworkCore;
-using StormyCommerce.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Settings;
-using StormyCommerce.Core.Entities.Shipping;
-using System;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Shipments
 {

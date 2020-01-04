@@ -24,13 +24,13 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
         private readonly IOrderService _orderService;
         private readonly ICartService _cartService;
         private readonly IWorkContext _workContext;
-        private readonly IRepository<Cart> _cartRepository;
+        private readonly IStormyRepository<Cart> _cartRepository;
 
         public CheckoutApiController(
             IOrderService orderService,
             ICartService cartService,
             IWorkContext workContext,
-            IRepository<Cart> cartRepository)
+            IStormyRepository<Cart> cartRepository)
         {
             _orderService = orderService;
             _cartService = cartService;

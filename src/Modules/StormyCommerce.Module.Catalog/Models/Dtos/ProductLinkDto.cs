@@ -1,11 +1,13 @@
-﻿namespace StormyCommerce.Module.Catalog.Models.Dtos
+﻿using SimplCommerce.Module.Catalog.Models;
+
+namespace StormyCommerce.Module.Catalog.Models.Dtos
 {
     public class ProductLinkDto
     {
         public ProductLinkDto(ProductLink productLink)
         {
-            Product = productLink.Product.ToProductDto();
-            LinkedProduct = productLink.LinkedProduct.ToProductDto();
+            Product = new ProductDto(productLink.Product);
+            LinkedProduct = new ProductDto(productLink.LinkedProduct);
             LinkType = productLink.LinkType;
         }
         public ProductDto Product { get; private set; }

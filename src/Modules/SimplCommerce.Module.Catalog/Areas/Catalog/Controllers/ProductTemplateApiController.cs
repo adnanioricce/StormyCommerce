@@ -137,7 +137,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 return NotFound();
             }
 
-            _productTemplateRepository.Remove(productTemplate);
+            _productTemplateRepository.Delete(productTemplate);
             _productAttributeRepository.SaveChanges();
             return Json(true);
         }

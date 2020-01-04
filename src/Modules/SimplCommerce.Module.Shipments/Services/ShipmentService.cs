@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Inventory.Models;
 using SimplCommerce.Module.Orders.Models;
 using SimplCommerce.Module.Shipments.Models;
