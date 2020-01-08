@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using StormyCommerce.Core.Entities.Customer;
+using StormyCommerce.Infraestructure.Extensions;
 
 namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
 {
@@ -26,7 +27,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                     .HasForeignKey(prop => prop.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-                entity.OwnsOne(prop => prop.Details);
+                entity.OwnsOne(prop => prop.Details,MappingExtensions.MapAddressDetail);
             });
         }
     }

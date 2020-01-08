@@ -28,7 +28,5 @@ namespace SimplCommerce.Module.Reviews.Models
         public string ReplierName { get; set; }
 
         public ReplyStatus Status { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
     }
 }

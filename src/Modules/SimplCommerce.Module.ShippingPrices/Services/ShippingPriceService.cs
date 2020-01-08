@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Shipping.Models;
 using StormyCommerce.Core.Entities.Address;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.ShippingPrices.Services
 {
@@ -16,12 +16,12 @@ namespace SimplCommerce.Module.ShippingPrices.Services
     {
         private HttpContext _httpContext;
         private readonly IRepositoryWithTypedId<ShippingProvider, string> _shippingProviderRepository;
-        private readonly IStormyRepository<Country> _countryRepository;
+        private readonly IRepositoryWithTypedId<Country,string> _countryRepository;
         private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
 
         public ShippingPriceService(IHttpContextAccessor contextAccessor, 
             IRepositoryWithTypedId<ShippingProvider, string> shippingProviderRepository,
-            IStormyRepository<Country> countryRepository,
+            IRepositoryWithTypedId<Country,string> countryRepository,
             IStormyRepository<StateOrProvince> stateOrProvinceRepository
             )
         {
@@ -43,7 +43,9 @@ namespace SimplCommerce.Module.ShippingPrices.Services
                 {
                     continue;
                 }
-                var country = await _countryRepository.GetByIdAsync(request.ShippingAddress.CountryId);
+                var country = await _countryRepository.Query()
+                    .Where(c => string.Equals(c.Id,request.ShippingAddress.CountryId,StringComparison.CurrentCultureIgnoreCase))
+                    .FirstOrDefaultAsync();
                 if (!provider.ToAllShippingEnabledCountries)
                 {
 

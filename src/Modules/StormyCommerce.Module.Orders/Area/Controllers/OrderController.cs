@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using StormyCommerce.Api.Framework.Filters;
 using StormyCommerce.Core.Models;
 using StormyCommerce.Infraestructure.Interfaces;
+using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Orders.Interfaces;
 using StormyCommerce.Module.Orders.Models.Dtos;
 
@@ -15,7 +16,7 @@ namespace StormyCommerce.Module.Orders.Area.Controllers
     [Area("Orders")]
     [ApiController]
     [Route("api/[Controller]")]
-    [Authorize("Customer")]
+    [Authorize(Roles = Roles.Customer + ", " + Roles.Guest)]
     [EnableCors("Default")]
     public class OrderController : ControllerBase
     {

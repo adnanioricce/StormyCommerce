@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Infrastructure.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Pricing.Models
 {
@@ -17,8 +17,6 @@ namespace SimplCommerce.Module.Pricing.Models
 
         [Required(ErrorMessage = "The {0} field is required.")]
         [StringLength(450)]
-        public string Code { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
+        public string Code { get; set; }        
     }
 }

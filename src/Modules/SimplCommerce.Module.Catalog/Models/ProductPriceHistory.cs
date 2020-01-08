@@ -16,9 +16,7 @@ namespace SimplCommerce.Module.Catalog.Models
 
         public long CreatedById { get; set; }
 
-        public User CreatedBy { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
+        public User CreatedBy { get; set; }        
 
         public decimal? Price { get; set; }
 

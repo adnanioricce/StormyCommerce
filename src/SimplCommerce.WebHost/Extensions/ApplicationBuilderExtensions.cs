@@ -9,19 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using SimplCommerce.Infrastructure;
-using SimplCommerce.Infrastructure.Data;
-using SimplCommerce.Infrastructure.Localization;
 using SimplCommerce.Module.SampleData;
-using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Module.Customer.Data;
 using System;
-using System.Linq;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Interfaces;
 
 namespace SimplCommerce.WebHost.Extensions
 {

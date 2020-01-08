@@ -56,7 +56,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         }
 
         [HttpPost("create")]
-        [Authorize(Roles.Admin)]
+        [Authorize(Roles = Roles.Admin)]
         [ValidateModel]
         public async Task<IActionResult> CreateCategory(Category category)
         {                        
@@ -65,7 +65,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         }
 
         [HttpPut("edit")]
-        [Authorize(Roles.Admin)]
+        [Authorize(Roles = Roles.Admin)]
         [ValidateModel]
         public async Task<IActionResult> EditCategory(Category category)
         {

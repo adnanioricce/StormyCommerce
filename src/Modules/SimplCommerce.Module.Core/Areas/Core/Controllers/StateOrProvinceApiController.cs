@@ -3,12 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
-using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities.Address;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -17,9 +16,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     public class StateOrProvinceApiController : Controller
     {
         private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
-        private readonly IStormyRepository<Country> _countryRepository;
+        private readonly IRepositoryWithTypedId<Country,string> _countryRepository;
 
-        public StateOrProvinceApiController(IStormyRepository<StateOrProvince> stateOrProvinceRepository, IStormyRepository<Country> countryRepository)
+        public StateOrProvinceApiController(IStormyRepository<StateOrProvince> stateOrProvinceRepository, IRepositoryWithTypedId<Country,string> countryRepository)
         {
             _stateOrProvinceRepository = stateOrProvinceRepository;
             _countryRepository = countryRepository;
@@ -149,8 +148,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                     Country = country,
                     Type = model.Type
                 };
-                _stateOrProvinceRepository.AddAsync(stateProvince);
-                await _stateOrProvinceRepository.SaveChangesAsync();
+                await _stateOrProvinceRepository.AddAsync(stateProvince);                
 
                 return CreatedAtAction(nameof(Get), new { id = stateProvince.Id }, null);
             }

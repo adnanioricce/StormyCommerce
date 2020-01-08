@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.ShoppingCart.Models
@@ -21,11 +20,7 @@ namespace SimplCommerce.Module.ShoppingCart.Models
 
         public long CreatedById { get; set; }
 
-        public User CreatedBy { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
-
-        public DateTimeOffset LatestUpdatedOn { get; set; }
+        public User CreatedBy { get; set; }        
 
         public bool IsActive { get; set; }
 

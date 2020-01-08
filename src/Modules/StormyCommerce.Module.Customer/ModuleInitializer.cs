@@ -10,10 +10,7 @@ using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.EmailSenderSendgrid;
 using StormyCommerce.Api.Framework.Ioc;
 using StormyCommerce.Core.Entities;
-
-
 using StormyCommerce.Infraestructure.Data;
-using StormyCommerce.Infraestructure.Data.Stores;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Infraestructure.Models;
 using StormyCommerce.Module.Customer.Services;
@@ -45,12 +42,9 @@ namespace StormyCommerce.Module.Customer
         private void AddCustomizedIdentity(IServiceCollection services)
         {
             services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<StormyDbContext>()                
-                .AddRoleStore<StormyUserStore>()
+                .AddEntityFrameworkStores<StormyDbContext>()                                
                 .AddRoles<Role>()                
-                .AddDefaultTokenProviders();
-
-            services.AddTransient<StormyUserStore>();
+                .AddDefaultTokenProviders();            
             var tokenConfigurations = new TokenConfigurations();
             new ConfigureFromConfigurationOptions<TokenConfigurations>(
                 Container.Configuration.GetSection("Jwt"))
@@ -93,24 +87,7 @@ namespace StormyCommerce.Module.Customer
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero,
                     };
-                });
-            services.AddAuthorization(auth =>
-            {
-                //auth.AddPolicy("Admin", policy => {
-                //    policy.RequireClaim(Roles.Admin);
-                //    policy.RequireRole(Roles.Admin);
-
-                //    });
-                auth.AddPolicy("Customer",new AuthorizationPolicyBuilder()
-                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                .RequireAuthenticatedUser()
-                .Build());
-                auth.AddPolicy("Admin", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser()
-                    .Build());
-                auth.AddPolicy("Guest",policy => policy.RequireClaim("Role"));
-            });            
+                });                     
         }
     }
 }

@@ -17,7 +17,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
     [Area("Catalog")]
     [ApiController]
     [Route("api/[Controller]")]
-    [Authorize(Roles.Admin)]
+    [Authorize(Roles = Roles.Admin)]
     [EnableCors("Default")]
     public class BrandController : Controller
     {

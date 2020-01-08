@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SimplCommerce.Module.Core.Data;
 using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities;
+using StormyCommerce.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Core.Extensions
 {
-    public class SimplRoleStore: RoleStore<Role, SimplDbContext, long, UserRole, IdentityRoleClaim<long>>
+    public class SimplRoleStore: RoleStore<Role, StormyDbContext, long, UserRole, IdentityRoleClaim<long>>
     {
-        public SimplRoleStore(SimplDbContext context) : base(context)
+        public SimplRoleStore(StormyDbContext context) : base(context)
         {
         }
     }

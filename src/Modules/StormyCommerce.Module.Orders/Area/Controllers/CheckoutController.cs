@@ -23,13 +23,14 @@ using SimplCommerce.Module.Orders.Models.Responses;
 using SimplCommerce.Module.Shipments.Interfaces;
 using SimplCommerce.Module.Shipments.Requests;
 using SimplCommerce.Module.Shipments.Models.Dtos;
+using StormyCommerce.Module.Customer.Models;
 
 namespace StormyCommerce.Module.Orders.Area.Controllers
 {
     [Area("Orders")]
     [ApiController]
     [Route("api/[Controller]")]
-    [Authorize("Customer")]
+    [Authorize(Roles = Roles.Customer + ", " + Roles.Guest)]
     [EnableCors("Default")]
     public class CheckoutController : Controller
     {        

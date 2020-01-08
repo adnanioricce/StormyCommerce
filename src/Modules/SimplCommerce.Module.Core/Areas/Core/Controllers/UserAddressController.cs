@@ -5,14 +5,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Extensions;
-using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Address;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -22,14 +21,14 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     public class UserAddressController : Controller
     {
         private readonly IStormyRepository<CustomerAddress> _userAddressRepository;
-        private readonly IStormyRepository<Country> _countryRepository;
+        private readonly IRepositoryWithTypedId<Country,string> _countryRepository;
         private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
         private readonly IStormyRepository<District> _districtRepository;
-        private readonly IStormyRepository<User> _userRepository;
+        private readonly IRepositoryWithTypedId<User,long> _userRepository;
         private readonly IWorkContext _workContext;
 
-        public UserAddressController(IStormyRepository<CustomerAddress> userAddressRepository, IStormyRepository<Country> countryRepository, IStormyRepository<StateOrProvince> stateOrProvinceRepository,
-            IStormyRepository<District> districtRepository, IStormyRepository<User> userRepository, IWorkContext workContext)
+        public UserAddressController(IStormyRepository<CustomerAddress> userAddressRepository, IRepositoryWithTypedId<Country,string> countryRepository, IStormyRepository<StateOrProvince> stateOrProvinceRepository,
+            IStormyRepository<District> districtRepository, IRepositoryWithTypedId<User,long> userRepository, IWorkContext workContext)
         {
             _userAddressRepository = userAddressRepository;
             _countryRepository = countryRepository;
@@ -50,7 +49,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                 {                    
                     UserAddressId = x.Id,
                     ContactName = x.WhoReceives,
-                    Phone = x.Details.Phone.FullNumber,
+                    Phone = x.Details.Phone.FullNumber(),
                     AddressLine1 = x.Details.AddressLine1,
                     AddressLine2 = x.Details.AddressLine2,
                     DistrictName = x.Details.DistrictName,

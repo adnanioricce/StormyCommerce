@@ -11,9 +11,7 @@ namespace StormyCommerce.Core.Interfaces
     public interface IStormyRepository<T> where T : class
     {
         Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null);
-
         Task<IList<T>> GetAllByIdsAsync(long[] ids);
-
         Task<T> GetByIdAsync(params object[] keyValues);
         Task<T> GetByIdAsync(long id);
         Task UpdateAsync(T entity);

@@ -39,6 +39,7 @@ using SimplCommerce.Module.Localization.Extensions;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using SimplCommerce.Module.Localization.TagHelpers;
 using MediatR;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.WebHost
 {
@@ -78,6 +79,7 @@ namespace SimplCommerce.WebHost
             services.AddMappings();            
             services.AddHttpClient();                        
             services.AddTransient(typeof(IStormyRepository<>), typeof(StormyRepository<>));
+            services.AddTransient(typeof(IRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
             services.AddTransient(typeof(IAppLogger<>), typeof(LoggerAdapter<>));            
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander()); });
@@ -217,10 +219,7 @@ namespace SimplCommerce.WebHost
                     {
                         dbContext.Database.EnsureDeleted();
                         var result = dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
-                        dbContext.SeedDbContext();
-                        var userManager = scope.ServiceProvider.GetService<UserManager<User>>();
-                        var roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
-                        new IdentityInitializer(dbContext, userManager, roleManager).Initialize();
+                        dbContext.SeedDbContext();                        
                     }
                 }
             }

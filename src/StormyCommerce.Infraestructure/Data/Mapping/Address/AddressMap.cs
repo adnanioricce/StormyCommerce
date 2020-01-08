@@ -21,8 +21,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Address
                     a.OwnsOne(prop => prop.Phone,b => {
                         b.Property(prop => prop.DD).HasMaxLength(2);
                         b.Property(prop => prop.DDI).HasMaxLength(2);
-                        b.Property(prop => prop.Number).HasMaxLength(11);
-                        b.Property(prop => prop.FullNumber).HasMaxLength(15);
+                        b.Property(prop => prop.Number).HasMaxLength(11);                        
                     });                                        
                 });                
                 entity.Property(prop => prop.ContactName).HasMaxLength(450);                

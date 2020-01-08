@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using SimplCommerce.Infrastructure.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Shipping.Models
 {

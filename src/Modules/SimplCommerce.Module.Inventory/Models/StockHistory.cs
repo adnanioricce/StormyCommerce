@@ -15,8 +15,6 @@ namespace SimplCommerce.Module.Inventory.Models
 
         public Warehouse Warehouse { get; set; }
 
-        public DateTimeOffset CreatedOn { get; set; }
-
         public long CreatedById { get; set; }
 
         public User CreatedBy { get; set; }

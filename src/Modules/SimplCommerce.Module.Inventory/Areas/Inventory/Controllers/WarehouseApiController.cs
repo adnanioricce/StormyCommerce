@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
@@ -12,6 +11,7 @@ using SimplCommerce.Module.Inventory.Models;
 using StormyCommerce.Core.Entities.Address;
 using StormyCommerce.Core.Entities.Common;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
 {
@@ -23,12 +23,12 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
         private readonly IStormyRepository<Warehouse> _warehouseRepository;
         private readonly IStormyRepository<Address> _addressRepository;
         private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
-        private readonly IStormyRepository<Country> _countryRepository;
+        private readonly IRepositoryWithTypedId<Country,string> _countryRepository;
         private readonly IStormyRepository<District> _districtRepository;
         private readonly IWorkContext _workContext;
 
         public WarehouseApiController(IStormyRepository<Warehouse> warehouseRepository, IWorkContext workContext, IStormyRepository<Address> addressRepository,
-            IStormyRepository<StateOrProvince> stateOrProvinceRepository, IStormyRepository<Country> countryRepository, IStormyRepository<District> districtRepository)
+            IStormyRepository<StateOrProvince> stateOrProvinceRepository, IRepositoryWithTypedId<Country,string> countryRepository, IStormyRepository<District> districtRepository)
         {
             _warehouseRepository = warehouseRepository;
             _addressRepository = addressRepository;
@@ -131,8 +131,8 @@ namespace SimplCommerce.Module.Inventory.Areas.Inventory.Controllers
             if (ModelState.IsValid)
             {
                 var country = await _countryRepository.GetByIdAsync(model.CountryId);
-                var state = await _countryRepository.GetByIdAsync(model.StateOrProvinceId);
-                var district = await _countryRepository.GetByIdAsync(model.DistrictId);
+                var state = await _stateOrProvinceRepository.GetByIdAsync(model.StateOrProvinceId);
+                var district = await _districtRepository.GetByIdAsync(model.DistrictId);
                 var address = new Address
                 {                    
                     Detail = new AddressDetail(country.Name, state.Name, model.City, district.Name, "?", model.AddressLine1, model.AddressLine2, model.ZipCode, "?", "?", model.ContactName, model.Phone),                    

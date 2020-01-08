@@ -10,8 +10,6 @@ namespace SimplCommerce.Module.Search.Models
         [StringLength(500)]
         public string QueryText { get; set; }
 
-        public int ResultsCount { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
+        public int ResultsCount { get; set; }    
     }
 }

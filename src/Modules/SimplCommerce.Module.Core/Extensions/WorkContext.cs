@@ -4,11 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure;
-using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities;
-using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Core.Extensions
 {
@@ -20,9 +18,9 @@ namespace SimplCommerce.Module.Core.Extensions
         private User _currentUser;
         private UserManager<User> _userManager;
         private HttpContext _httpContext;
-        private IStormyRepository<User> _userRepository;
+        private IRepositoryWithTypedId<User,long> _userRepository;
 
-        public WorkContext(UserManager<User> userManager, IHttpContextAccessor contextAccessor, IStormyRepository<User> userRepository)
+        public WorkContext(UserManager<User> userManager, IHttpContextAccessor contextAccessor, IRepositoryWithTypedId<User,long> userRepository)
         {
             _userManager = userManager;
             _httpContext = contextAccessor.HttpContext;

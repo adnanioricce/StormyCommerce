@@ -15,7 +15,7 @@ namespace StormyCommerce.Module.Customer.Areas.Controllers
     [Area("Customer")]
     [ApiController]
     [Route("api/[Controller]")]
-    [Authorize(Roles.Customer)]
+    [Authorize(Roles = Roles.Customer)]
     //[ValidateAntiForgeryToken]
     [EnableCors("Default")]
     public class CustomerController : Controller

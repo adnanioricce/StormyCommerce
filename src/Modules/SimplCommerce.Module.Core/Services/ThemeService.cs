@@ -9,20 +9,20 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Module.Core.Models;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using StormyCommerce.Core.Entities.Settings;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Core.Services
 {
     public class ThemeService : IThemeService
     {
         private readonly IConfigurationRoot _configurationRoot;
-        private readonly IStormyRepository<AppSettings> _AppSettingsRepository;
+        private readonly IRepositoryWithTypedId<AppSettings,string> _AppSettingsRepository;
         private string _currentThemeName;
 
-        public ThemeService(IConfiguration configuration, IStormyRepository<AppSettings> AppSettingsRepository)
+        public ThemeService(IConfiguration configuration, IRepositoryWithTypedId<AppSettings,string> AppSettingsRepository)
         {
             _configurationRoot = (IConfigurationRoot)configuration;
             _AppSettingsRepository = AppSettingsRepository;

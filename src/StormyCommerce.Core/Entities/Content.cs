@@ -36,7 +36,7 @@ namespace StormyCommerce.Core.Entities
 
         public DateTimeOffset? PublishedOn { get; set; }
 
-        public bool IsDeleted
+        public override bool IsDeleted
         {
             get
             {
@@ -56,9 +56,6 @@ namespace StormyCommerce.Core.Entities
         public long CreatedById { get; set; }
 
         public User CreatedBy { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
-        
 
         public long LatestUpdatedById { get; set; }
 

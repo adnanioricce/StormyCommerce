@@ -12,7 +12,7 @@ namespace StormyCommerce.Infraestructure.Extensions
     {
         public static IQueryable<T> Include<T>(this IQueryable<T> source, IEnumerable<string> navigationPropertyPaths)
            where T : class
-        {
+        {            
             return navigationPropertyPaths.Aggregate(source, (query, path) => query.Include(path));
         }
 

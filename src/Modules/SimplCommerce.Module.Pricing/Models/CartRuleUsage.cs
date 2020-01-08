@@ -22,8 +22,6 @@ namespace SimplCommerce.Module.Pricing.Models
 
         public User User { get; set; }
 
-        public long OrderId { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
+        public long OrderId { get; set; }    
     }
 }

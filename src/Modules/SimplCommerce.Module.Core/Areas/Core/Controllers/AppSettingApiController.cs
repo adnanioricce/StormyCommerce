@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities.Settings;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -17,10 +17,10 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/AppSettingss")]
     public class AppSettingsApiController : Controller
     {
-        private readonly IStormyRepository<AppSettings> _AppSettingsRepository;
+        private readonly IRepositoryWithTypedId<AppSettings,string> _AppSettingsRepository;
         private readonly IConfigurationRoot _configurationRoot;
 
-        public AppSettingsApiController(IStormyRepository<AppSettings> AppSettingsRepository, IConfiguration configuration)
+        public AppSettingsApiController(IRepositoryWithTypedId<AppSettings,string> AppSettingsRepository, IConfiguration configuration)
         {
             _AppSettingsRepository = AppSettingsRepository;
             _configurationRoot = (IConfigurationRoot)configuration;

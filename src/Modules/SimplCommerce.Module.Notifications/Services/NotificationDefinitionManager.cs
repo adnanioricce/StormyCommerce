@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Extensions;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Notifications.Models;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Notifications.Services
 {
@@ -71,7 +71,7 @@ namespace SimplCommerce.Module.Notifications.Services
         {
             using (var scope = ServiceScopeFactory.CreateScope())
             {
-                var _userRepository = scope.ServiceProvider.GetRequiredService<IStormyRepository<User>>();
+                var _userRepository = scope.ServiceProvider.GetRequiredService<IRepositoryWithTypedId<User,long>>();
                 var notificationDefinition = GetOrNull(name);
 
                 if (notificationDefinition?.ForRoles != null)

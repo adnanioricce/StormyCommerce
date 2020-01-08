@@ -15,7 +15,7 @@ using StormyCommerce.Module.Customer.Models;
 namespace StormyCommerce.Module.Catalog.Areas.Catalog.Controllers
 {
     [ApiController]
-    [Authorize(Roles.Admin)]
+    [Authorize(Roles = Roles.Admin)]
     [Route("api/[Controller]")]
     public class MediaController : Controller
     {

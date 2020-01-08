@@ -3,12 +3,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
-using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities.Address;
-using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -16,9 +14,9 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/countries")]
     public class CountryApiController : Controller
     {
-        private readonly IStormyRepository<Country> _countryRepository;
+        private readonly IRepositoryWithTypedId<Country,string> _countryRepository;
 
-        public CountryApiController(IStormyRepository<Country> countryRepository)
+        public CountryApiController(IRepositoryWithTypedId<Country,string> countryRepository)
         {
             _countryRepository = countryRepository;
         }
@@ -143,7 +141,8 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
                     IsDistrictEnabled = model.IsDistrictEnabled
             };
 
-                await _countryRepository.AddAsync(country);                
+                _countryRepository.Add(country);                
+                await _countryRepository.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(Get), new { id = country.Id }, null);
             }
@@ -162,7 +161,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 
             try
             {
-                _countryRepository.Delete(country);                
+                _countryRepository.Remove(country);                
             }
             catch (DbUpdateException)
             {

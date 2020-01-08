@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Web.SmartTable;
 using SimplCommerce.Module.Core.Areas.Core.ViewModels;
 using SimplCommerce.Module.Core.Models;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
@@ -19,10 +19,10 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Route("api/users")]
     public class UserApiController : Controller
     {
-        private readonly IStormyRepository<User> _userRepository;
+        private readonly IRepositoryWithTypedId<User,long> _userRepository;
         private readonly UserManager<User> _userManager;
 
-        public UserApiController(IStormyRepository<User> userRepository, UserManager<User> userManager)
+        public UserApiController(IRepositoryWithTypedId<User,long> userRepository, UserManager<User> userManager)
         {
             _userRepository = userRepository;
             _userManager = userManager;

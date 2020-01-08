@@ -118,7 +118,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
 
         [HttpPost("create")]
         [ValidateModel]
-        [Authorize(Roles.Admin)]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
         {                                       
             var model = _mapper.Map<Product>(_model);                                                                 
@@ -136,7 +136,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         #region Put Methods
         [HttpPut("edit")]
         [ValidateModel]
-        [Authorize(Roles.Admin)]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<IActionResult> EditProduct([FromBody]EditProductRequest _model)
         {                        
             try

@@ -24,9 +24,7 @@ namespace SimplCommerce.Module.Comments.Models
         [StringLength(450)]
         public string CommenterName { get; set; }
 
-        public CommentStatus Status { get; set; }
-
-        public DateTimeOffset CreatedOn { get; set; }
+        public CommentStatus Status { get; set; }        
 
         [StringLength(450)]
         public string EntityTypeId { get; set; }

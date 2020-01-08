@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Extensions;
-using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Orders.Areas.Orders.ViewModels;
 using SimplCommerce.Module.Orders.Services;
 using SimplCommerce.Module.ShippingPrices.Services;
@@ -17,6 +15,7 @@ using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Address;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 {
@@ -27,7 +26,7 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
     public class CheckoutController : Controller
     {
         private readonly IOrderService _orderService;
-        private readonly IStormyRepository<Country> _countryRepository;
+        private readonly IRepositoryWithTypedId<Country,string> _countryRepository;
         private readonly IStormyRepository<StateOrProvince> _stateOrProvinceRepository;
         private readonly IStormyRepository<CustomerAddress> _userAddressRepository;
         private readonly IShippingPriceService _shippingPriceService;
@@ -37,7 +36,7 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 
         public CheckoutController(
             IStormyRepository<StateOrProvince> stateOrProvinceRepository,
-            IStormyRepository<Country> countryRepository,
+            IRepositoryWithTypedId<Country,string> countryRepository,
             IStormyRepository<CustomerAddress> userAddressRepository,
             IShippingPriceService shippingPriceService,
             IOrderService orderService,
@@ -141,7 +140,7 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
                 {
                     UserAddressId = x.Id,
                     ContactName = x.WhoReceives,
-                    Phone = x.Details.Phone.FullNumber,
+                    Phone = x.Details.Phone.FullNumber(),
                     AddressLine1 = x.Details.AddressLine1,
                     CityName = x.Details.City,
                     ZipCode = x.Details.ZipCode,

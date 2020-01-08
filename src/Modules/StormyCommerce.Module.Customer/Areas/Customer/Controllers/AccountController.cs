@@ -62,7 +62,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             return Ok(Result.Ok(result));
         }     
         [HttpPost("add_shipping_address")]
-        [Authorize(Roles.Customer)]
+        [Authorize(Roles = Roles.Customer + ", " + Roles.Admin)]
         [ValidateModel]
         //TODO:Duplicated Logic, too much ifs, refactor this
         public async Task<IActionResult> AddDefaultShippingAddress([FromBody]CreateShippingAddressRequest model)
@@ -84,7 +84,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
                             
         }                
         [HttpPut("edit_account")]
-        [Authorize(Roles.Customer)]
+        [Authorize(Roles = Roles.Customer + ", " + Roles.Admin)]
         [ValidateModel]
         public async Task<IActionResult> EditAccount([FromBody]EditCustomerRequest request)
         {
@@ -95,7 +95,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             return Ok(result);
         }
         [HttpPut("edit_shipping_address")]
-        [Authorize(Roles.Customer)]
+        [Authorize(Roles = Roles.Customer + ", " + Roles.Admin)]
         [ValidateModel]
         public async Task<IActionResult> EditAddress([FromBody]EditCustomerAddressRequest request) 
         {
@@ -125,7 +125,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             return Ok(Result.Ok($"confirmation email was sended to {user.Email} at {DateTime.UtcNow}"));
         }
         [HttpGet("get_current_user")]
-        [Authorize(Roles.Customer)]
+        [Authorize(Roles = Roles.Customer + ", " + Roles.Admin)]
         public async Task<CustomerDto> GetCurrentCustomer()
         {
             var user = await GetCurrentUser();
@@ -134,7 +134,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
         }
         #region Delete Operations 
         [HttpDelete("delete")]
-        [Authorize(Roles.Customer)]
+        [Authorize(Roles = Roles.Customer + ", " + Roles.Admin)]
         public async Task<IActionResult> DeleteAccount(string password)
         {
             var currentUser = await GetCurrentUser();
@@ -146,7 +146,7 @@ namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
             return Ok(result);            
         }
         //[HttpDelete("delete_address")]
-        //[Authorize(Roles.Customer)]
+        //[Authorize(Roles = $"{Roles.Customer},{Roles.Admin}")]
         //public async Task<IActionResult> DeleteAddress(long addressId)
         //{
         //    var currentUser = await GetCurrentUser();

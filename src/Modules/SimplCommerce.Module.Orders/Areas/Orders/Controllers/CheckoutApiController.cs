@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Orders.Areas.Orders.ViewModels;
@@ -14,6 +13,7 @@ using SimplCommerce.Module.ShoppingCart.Services;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Customer;
 using StormyCommerce.Core.Interfaces;
+using StormyCommerce.Core.Interfaces.Infraestructure.Data;
 
 namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 {
@@ -87,7 +87,7 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
 
         // TODO might need to move to another place
         [HttpGet("api/users/{userId}/addresses")]
-        public async Task<IActionResult> UserAddress(long userId, [FromServices] IStormyRepository<CustomerAddress> userAddressRepository, [FromServices] IStormyRepository<User> userRepository)
+        public async Task<IActionResult> UserAddress(long userId, [FromServices] IStormyRepository<CustomerAddress> userAddressRepository, [FromServices] IRepositoryWithTypedId<User,long> userRepository)
         {
             var user = await userRepository.Query().FirstOrDefaultAsync(x => x.Id == userId);
             var defaultAddress = user.Addresses.FirstOrDefault(a => a.IsDefault);
@@ -104,7 +104,7 @@ namespace SimplCommerce.Module.Orders.Areas.Orders.Controllers
                 {
                     UserAddressId = x.Id,
                     ContactName = x.WhoReceives,
-                    Phone = x.Details.Phone.FullNumber,
+                    Phone = x.Details.Phone.FullNumber(),
                     AddressLine1 = x.Details.AddressLine1,
                     CityName = x.Details.City,
                     ZipCode = x.Details.ZipCode,

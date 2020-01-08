@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 namespace StormyCommerce.Core.Entities.Customer
 {
     public class Phone 
-    {        
+    {                
         public Phone()
         {
             
@@ -21,6 +21,6 @@ namespace StormyCommerce.Core.Entities.Customer
         public string DD { get; set; }
         public string DDI { get; set; }
         public string Number { get; set; }
-        public string FullNumber { get { return $"+{DDI} {DD} {Number}"; }  }
+        public string FullNumber() => $"+{DDI} {DD} {Number}";
     }
 }
