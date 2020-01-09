@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +17,6 @@ using StormyCommerce.Core.Interfaces;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Data.Repositories;
 using StormyCommerce.Infraestructure.Logging;
-using StormyCommerce.Module.Customer.Data;
 using SimplCommerce.Module.SampleData;
 using Swashbuckle.AspNetCore.Swagger;
 using System.IO;

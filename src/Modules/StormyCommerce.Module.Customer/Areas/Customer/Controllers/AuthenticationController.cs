@@ -15,6 +15,7 @@ using StormyCommerce.Module.Customer.Services;
 using System;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using static SimplCommerce.Module.Core.Areas.Core.Controllers.TokenApiController;
 
 namespace StormyCommerce.Module.Customer.Areas.Customer.Controllers
 {

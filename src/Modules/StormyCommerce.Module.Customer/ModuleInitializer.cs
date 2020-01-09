@@ -13,6 +13,7 @@ using StormyCommerce.Core.Entities;
 using StormyCommerce.Infraestructure.Data;
 using StormyCommerce.Infraestructure.Interfaces;
 using StormyCommerce.Infraestructure.Models;
+using StormyCommerce.Module.Customer.Models;
 using StormyCommerce.Module.Customer.Services;
 using System;
 using System.Text;
@@ -41,53 +42,75 @@ namespace StormyCommerce.Module.Customer
         //TODO: Move this to a extension method, like used on WebHost
         private void AddCustomizedIdentity(IServiceCollection services)
         {
-            services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<StormyDbContext>()                                
-                .AddRoles<Role>()                
-                .AddDefaultTokenProviders();            
-            var tokenConfigurations = new TokenConfigurations();
-            new ConfigureFromConfigurationOptions<TokenConfigurations>(
-                Container.Configuration.GetSection("Jwt"))
-                    .Configure(tokenConfigurations);
-            services.Configure<IdentityOptions>(options =>
+            // services.AddIdentity<User, Role>()
+            //     .AddEntityFrameworkStores<StormyDbContext>()                                
+            //     .AddRoles<Role>()                
+            //     .AddDefaultTokenProviders();            
+            // var tokenConfigurations = new TokenConfigurations();
+            // new ConfigureFromConfigurationOptions<TokenConfigurations>(
+            //     Container.Configuration.GetSection("Jwt"))
+            //         .Configure(tokenConfigurations);
+            // services.Configure<IdentityOptions>(options =>
+            // {
+            //     //Default Lockout settings
+            //     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            //     options.Lockout.MaxFailedAccessAttempts = 5;
+            //     options.Lockout.AllowedForNewUsers = true;
+            //     // Default Password settings.
+            //     options.Password.RequireDigit = false;
+            //     options.Password.RequireLowercase = true;
+            //     options.Password.RequireNonAlphanumeric = false;
+            //     options.Password.RequireUppercase = false;
+            //     options.Password.RequiredLength = 6;
+            //     options.Password.RequiredUniqueChars = 0;
+            //     //User Settings
+            //     options.User.AllowedUserNameCharacters =
+            //     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            //     options.User.RequireUniqueEmail = false;
+            //     //Sign In Settings
+            //     options.SignIn.RequireConfirmedEmail = false;
+            //     options.SignIn.RequireConfirmedPhoneNumber = false;
+            // });
+            // services.Configure<AuthMessageSenderOptions>(Container.Configuration);
+            // services.AddAuthentication(options => options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(options =>
+            //     {
+            //         options.TokenValidationParameters = new TokenValidationParameters
+            //         {
+            //             //TODO: you probably don't need of theses classes:SigningConfigurations and TokenConfigurations
+            //             ValidateIssuer = true,
+            //             ValidIssuer = Container.Configuration["Authentication:Jwt:Issuer"],
+            //             ValidateAudience = false,
+            //             ValidAudience = "Anyone",
+            //             ValidateIssuerSigningKey = true,
+            //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Authentication:Jwt:Key"])),
+            //             RequireExpirationTime = false,
+            //             ValidateLifetime = true,
+            //             ClockSkew = TimeSpan.Zero,
+            //         };
+            //     });                    
+            services.AddAuthorization(auth =>
             {
-                //Default Lockout settings
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
-                // Default Password settings.
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 0;
-                //User Settings
-                options.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
-                //Sign In Settings
-                options.SignIn.RequireConfirmedEmail = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
-            });
-            services.Configure<AuthMessageSenderOptions>(Container.Configuration);
-            services.AddAuthentication(options => options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        //TODO: you probably don't need of theses classes:SigningConfigurations and TokenConfigurations
-                        ValidateIssuer = true,
-                        ValidIssuer = Container.Configuration["Authentication:Jwt:Issuer"],
-                        ValidateAudience = false,
-                        ValidAudience = "Anyone",
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Container.Configuration["Authentication:Jwt:Key"])),
-                        RequireExpirationTime = false,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.Zero,
-                    };
-                });                     
+                // auth.AddPolicy("admin", policy => {
+                //    policy.RequireClaim(Roles.Admin);
+                //    policy.RequireRole(Roles.Admin);
+                //    })
+                //    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                //    .RequireAuthenticatedUser()
+                //    .Build();
+                auth.AddPolicy("customer",new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build());
+                auth.AddPolicy("admin", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build());
+                auth.AddPolicy("Guest", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build());                
+            });             
         }
     }
 }

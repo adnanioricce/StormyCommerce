@@ -46,8 +46,7 @@ namespace SimplCommerce.Module.Catalog.Models
         public string Sku { get; set; }
 
         [StringLength(450)]
-        public string Gtin { get; set; }
-        public string Name { get; set; }
+        public string Gtin { get; set; }        
         [StringLength(450)]
         public string NormalizedName { get; set; }
 

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using SimplCommerce.Infrastructure.Models;
+using StormyCommerce.Core.Entities;
 
 namespace SimplCommerce.Module.Catalog.Models
 {
@@ -15,9 +15,7 @@ namespace SimplCommerce.Module.Catalog.Models
 
         public string Description { get; set; }
 
-        public bool IsPublished { get; set; }
-
-        public bool IsDeleted { get; set; }
+        public bool IsPublished { get; set; }        
         public string Website { get; set; }
     }
 }

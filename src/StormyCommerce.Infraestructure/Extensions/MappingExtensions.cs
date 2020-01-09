@@ -24,7 +24,7 @@ namespace StormyCommerce.Infraestructure.Extensions
             });
         }
         //?Looks like a duplicated code, how I can 'fix' this?
-        public static void MapAddressDetail(this ReferenceOwnershipBuilder<CustomerAddress,AddressDetail> builder){
+        public static ReferenceOwnershipBuilder<CustomerAddress,AddressDetail> MapAddressDetail(this ReferenceOwnershipBuilder<CustomerAddress,AddressDetail> builder){
             builder.Property(prop => prop.AddressLine1).HasMaxLength(450);
             builder.Property(prop => prop.AddressLine2).HasMaxLength(450);
             builder.Property(prop => prop.City).HasMaxLength(450);
@@ -39,6 +39,7 @@ namespace StormyCommerce.Infraestructure.Extensions
                 _builder.Property(prop => prop.DDI).HasMaxLength(2);
                 _builder.Property(prop => prop.Number).HasMaxLength(11);                
             });
+            return builder;
         }
     }
 }

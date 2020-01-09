@@ -114,5 +114,9 @@
   {
     "id": "SimplCommerce.Module.Payments.PagarMe",
     "version": "1.0.0"
+  },
+  {
+    "id": "StormyCommerce.Module.Customer",
+    "version": "1.0.0"
   }
 ]

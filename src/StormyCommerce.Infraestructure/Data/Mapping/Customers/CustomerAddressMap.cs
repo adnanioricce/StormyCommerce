@@ -27,7 +27,7 @@ namespace StormyCommerce.Infraestructure.Data.Mapping.Customers
                     .HasForeignKey(prop => prop.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-                entity.OwnsOne(prop => prop.Details,MappingExtensions.MapAddressDetail);
+                entity.OwnsOne(prop => prop.Details,b => b.MapAddressDetail());
             });
         }
     }

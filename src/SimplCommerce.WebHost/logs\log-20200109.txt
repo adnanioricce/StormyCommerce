@@ -1,0 +1,660 @@
+2020-01-09 09:28:56.964 -03:00 [Warning] [Microsoft.EntityFrameworkCore.Model.Validation] [{ Id: 10400, Name: "Microsoft.EntityFrameworkCore.Infrastructure.SensitiveDataLoggingEnabledWarning" }] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-01-09 09:29:03.265 -03:00 [Fatal] [Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor] [{ Id: 9 }] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (Value cannot be null.
+Parameter name: entityType) ---> System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+
+2020-01-09 09:30:33.559 -03:00 [Error] [Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware] [{ Id: 1, Name: "EfDiagrams" }] Error in EfDiagramsMiddleware
+System.InvalidOperationException: The AuthorizationPolicy named: 'admin' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.GetTreeRouter()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Routing.RouteCollection.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+2020-01-09 09:30:33.570 -03:00 [Error] [Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware] [{ Id: 1, Name: "UnhandledException" }] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The AuthorizationPolicy named: 'admin' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.GetTreeRouter()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Routing.RouteCollection.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.MigrationsEndPointMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-01-09 09:32:23.366 -03:00 [Warning] [Microsoft.EntityFrameworkCore.Model.Validation] [{ Id: 10400, Name: "Microsoft.EntityFrameworkCore.Infrastructure.SensitiveDataLoggingEnabledWarning" }] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-01-09 09:32:23.538 -03:00 [Fatal] [Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor] [{ Id: 9 }] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (Value cannot be null.
+Parameter name: entityType) ---> System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+
+2020-01-09 09:32:41.978 -03:00 [Error] [Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware] [{ Id: 1, Name: "UnhandledException" }] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The AuthorizationPolicy named: 'admin' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.get_ApiDescriptionGroups()
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath, String[] schemes)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+2020-01-09 09:32:42.090 -03:00 [Error] [Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware] [{ Id: 3, Name: "Exception" }] An exception was thrown attempting to execute the error handler.
+System.InvalidOperationException: The AuthorizationPolicy named: 'admin' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.GetTreeRouter()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Routing.RouteCollection.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+2020-01-09 09:32:42.093 -03:00 [Error] [Microsoft.AspNetCore.Server.Kestrel] [{ Id: 13, Name: "ApplicationError" }] Connection id ""0HLSL002AMPGM"", Request id ""0HLSL002AMPGM:00000003"": An unhandled exception was thrown by the application.
+System.InvalidOperationException: The AuthorizationPolicy named: 'admin' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.get_ApiDescriptionGroups()
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath, String[] schemes)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2020-01-09 09:39:47.454 -03:00 [Warning] [Microsoft.EntityFrameworkCore.Model.Validation] [{ Id: 10400, Name: "Microsoft.EntityFrameworkCore.Infrastructure.SensitiveDataLoggingEnabledWarning" }] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-01-09 09:39:53.645 -03:00 [Fatal] [Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor] [{ Id: 9 }] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (Value cannot be null.
+Parameter name: entityType) ---> System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+
+2020-01-09 09:40:07.019 -03:00 [Error] [Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware] [{ Id: 1, Name: "EfDiagrams" }] Error in EfDiagramsMiddleware
+System.InvalidOperationException: The AuthorizationPolicy named: 'admin' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.GetTreeRouter()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Routing.RouteCollection.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+2020-01-09 09:40:07.027 -03:00 [Error] [Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware] [{ Id: 1, Name: "UnhandledException" }] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The AuthorizationPolicy named: 'admin' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.GetTreeRouter()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Routing.RouteCollection.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.MigrationsEndPointMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-01-09 09:40:07.356 -03:00 [Error] [Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware] [{ Id: 1, Name: "EfDiagrams" }] Error in EfDiagramsMiddleware
+System.InvalidOperationException: The AuthorizationPolicy named: 'admin' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.GetTreeRouter()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Routing.RouteCollection.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+2020-01-09 09:40:07.361 -03:00 [Error] [Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware] [{ Id: 1, Name: "UnhandledException" }] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The AuthorizationPolicy named: 'admin' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.GetTreeRouter()
+   at Microsoft.AspNetCore.Mvc.Internal.AttributeRoute.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Routing.RouteCollection.RouteAsync(RouteContext context)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.MigrationsEndPointMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-01-09 09:44:14.392 -03:00 [Warning] [Microsoft.EntityFrameworkCore.Model.Validation] [{ Id: 10400, Name: "Microsoft.EntityFrameworkCore.Infrastructure.SensitiveDataLoggingEnabledWarning" }] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-01-09 09:44:14.494 -03:00 [Fatal] [Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor] [{ Id: 9 }] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (Unable to resolve service for type 'Microsoft.AspNetCore.Identity.UserManager`1[StormyCommerce.Core.Entities.User]' while attempting to activate 'SimplCommerce.Module.Core.Extensions.WorkContext'.) ---> System.InvalidOperationException: Unable to resolve service for type 'Microsoft.AspNetCore.Identity.UserManager`1[StormyCommerce.Core.Entities.User]' while attempting to activate 'SimplCommerce.Module.Core.Extensions.WorkContext'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 37
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) System.InvalidOperationException: Unable to resolve service for type 'Microsoft.AspNetCore.Identity.UserManager`1[StormyCommerce.Core.Entities.User]' while attempting to activate 'SimplCommerce.Module.Core.Extensions.WorkContext'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 37
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+
+2020-01-09 09:48:45.612 -03:00 [Warning] [Microsoft.EntityFrameworkCore.Model.Validation] [{ Id: 10400, Name: "Microsoft.EntityFrameworkCore.Infrastructure.SensitiveDataLoggingEnabledWarning" }] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-01-09 09:48:51.914 -03:00 [Fatal] [Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor] [{ Id: 9 }] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (Unable to resolve service for type 'Microsoft.AspNetCore.Identity.IUserStore`1[StormyCommerce.Core.Entities.User]' while attempting to activate 'Microsoft.AspNetCore.Identity.UserManager`1[StormyCommerce.Core.Entities.User]'.) ---> System.InvalidOperationException: Unable to resolve service for type 'Microsoft.AspNetCore.Identity.IUserStore`1[StormyCommerce.Core.Entities.User]' while attempting to activate 'Microsoft.AspNetCore.Identity.UserManager`1[StormyCommerce.Core.Entities.User]'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 37
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) System.InvalidOperationException: Unable to resolve service for type 'Microsoft.AspNetCore.Identity.IUserStore`1[StormyCommerce.Core.Entities.User]' while attempting to activate 'Microsoft.AspNetCore.Identity.UserManager`1[StormyCommerce.Core.Entities.User]'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 37
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+
+2020-01-09 09:49:05.702 -03:00 [Error] [Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware] [{ Id: 1, Name: "EfDiagrams" }] Error in EfDiagramsMiddleware
+System.InvalidOperationException: The AuthorizationPolicy named: 'Guest' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.get_ApiDescriptionGroups()
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath, String[] schemes)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+2020-01-09 09:49:05.710 -03:00 [Error] [Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware] [{ Id: 1, Name: "UnhandledException" }] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: The AuthorizationPolicy named: 'Guest' was not found.
+   at Microsoft.AspNetCore.Authorization.AuthorizationPolicy.CombineAsync(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authorizeData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.GetFilter(IAuthorizationPolicyProvider policyProvider, IEnumerable`1 authData)
+   at Microsoft.AspNetCore.Mvc.Internal.AuthorizationApplicationModelProvider.OnProvidersExecuting(ApplicationModelProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.BuildModel()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.GetDescriptors()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionDescriptorProvider.OnProvidersExecuting(ActionDescriptorProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.UpdateCollection()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.Initialize()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.DefaultActionDescriptorCollectionProvider.get_ActionDescriptors()
+   at Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescriptionGroupCollectionProvider.get_ApiDescriptionGroups()
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath, String[] schemes)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.MigrationsEndPointMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-01-09 09:49:58.086 -03:00 [Warning] [Microsoft.EntityFrameworkCore.Model.Validation] [{ Id: 10400, Name: "Microsoft.EntityFrameworkCore.Infrastructure.SensitiveDataLoggingEnabledWarning" }] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-01-09 09:50:04.001 -03:00 [Fatal] [Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor] [{ Id: 9 }] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (Unable to resolve service for type 'Microsoft.AspNetCore.Identity.IUserStore`1[StormyCommerce.Core.Entities.User]' while attempting to activate 'Microsoft.AspNetCore.Identity.UserManager`1[StormyCommerce.Core.Entities.User]'.) ---> System.InvalidOperationException: Unable to resolve service for type 'Microsoft.AspNetCore.Identity.IUserStore`1[StormyCommerce.Core.Entities.User]' while attempting to activate 'Microsoft.AspNetCore.Identity.UserManager`1[StormyCommerce.Core.Entities.User]'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 37
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) System.InvalidOperationException: Unable to resolve service for type 'Microsoft.AspNetCore.Identity.IUserStore`1[StormyCommerce.Core.Entities.User]' while attempting to activate 'Microsoft.AspNetCore.Identity.UserManager`1[StormyCommerce.Core.Entities.User]'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(Type serviceType, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(Type serviceType, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(Type serviceType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.CreateServiceAccessor(Type serviceType)
+   at System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngine.GetService(Type serviceType, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 37
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+
+2020-01-09 09:50:58.793 -03:00 [Error] [Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware] [{ Id: 1, Name: "EfDiagrams" }] Error in EfDiagramsMiddleware
+System.InvalidOperationException: Conflicting schemaIds: Identical schemaIds detected for types SimplCommerce.Module.Catalog.Models.Dtos.CategoryDto and StormyCommerce.Module.Catalog.Models.Dtos.CategoryDto. See config settings - "CustomSchemaIds" for a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaIdManager.IdFor(Type type)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreateReferenceSchema(Type type, Queue`1 referencedTypes)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreatePropertySchema(JsonProperty jsonProperty, Queue`1 referencedTypes)
+   at System.Linq.Enumerable.ToDictionary[TSource,TKey,TElement](IEnumerable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreateObjectSchema(JsonObjectContract jsonContract, Queue`1 referencedTypes)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreateInlineSchema(Type type, Queue`1 referencedTypes)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.GetOrRegister(Type type)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateResponse(ApiResponseType apiResponseType, ISchemaRegistry schemaRegistry)
+   at System.Linq.Enumerable.ToDictionary[TSource,TKey,TElement](IEnumerable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateOperation(ApiDescription apiDescription, ISchemaRegistry schemaRegistry)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreatePathItem(IEnumerable`1 apiDescriptions, ISchemaRegistry schemaRegistry)
+   at System.Linq.Enumerable.ToDictionary[TSource,TKey,TElement](IEnumerable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath, String[] schemes)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+2020-01-09 09:50:58.803 -03:00 [Error] [Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware] [{ Id: 1, Name: "UnhandledException" }] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Conflicting schemaIds: Identical schemaIds detected for types SimplCommerce.Module.Catalog.Models.Dtos.CategoryDto and StormyCommerce.Module.Catalog.Models.Dtos.CategoryDto. See config settings - "CustomSchemaIds" for a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaIdManager.IdFor(Type type)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreateReferenceSchema(Type type, Queue`1 referencedTypes)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreatePropertySchema(JsonProperty jsonProperty, Queue`1 referencedTypes)
+   at System.Linq.Enumerable.ToDictionary[TSource,TKey,TElement](IEnumerable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreateObjectSchema(JsonObjectContract jsonContract, Queue`1 referencedTypes)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreateInlineSchema(Type type, Queue`1 referencedTypes)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.GetOrRegister(Type type)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateResponse(ApiResponseType apiResponseType, ISchemaRegistry schemaRegistry)
+   at System.Linq.Enumerable.ToDictionary[TSource,TKey,TElement](IEnumerable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateOperation(ApiDescription apiDescription, ISchemaRegistry schemaRegistry)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreatePathItem(IEnumerable`1 apiDescriptions, ISchemaRegistry schemaRegistry)
+   at System.Linq.Enumerable.ToDictionary[TSource,TKey,TElement](IEnumerable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath, String[] schemes)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.MigrationsEndPointMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-01-09 09:58:35.255 -03:00 [Warning] [Microsoft.EntityFrameworkCore.Model.Validation] [{ Id: 10400, Name: "Microsoft.EntityFrameworkCore.Infrastructure.SensitiveDataLoggingEnabledWarning" }] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-01-09 09:58:41.447 -03:00 [Fatal] [Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor] [{ Id: 9 }] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (Value cannot be null.
+Parameter name: entityType) ---> System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+
+2020-01-09 09:58:52.514 -03:00 [Error] [Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware] [{ Id: 1, Name: "EfDiagrams" }] Error in EfDiagramsMiddleware
+System.InvalidOperationException: Conflicting schemaIds: Identical schemaIds detected for types SimplCommerce.Module.Core.Areas.Core.Controllers.TokenApiController+RefreshTokenModel and StormyCommerce.Module.Customer.Areas.Customer.ViewModels.RefreshTokenModel. See config settings - "CustomSchemaIds" for a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaIdManager.IdFor(Type type)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreateReferenceSchema(Type type, Queue`1 referencedTypes)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.GetOrRegister(Type type)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateBodyParameter(ApiParameterDescription apiParameterDescription, String name, Boolean isRequired, ISchemaRegistry schemaRegistry)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateParameter(ApiDescription apiDescription, ApiParameterDescription apiParameterDescription, ISchemaRegistry schemaRegistry)
+   at System.Linq.Enumerable.WhereSelectListIterator`2.ToList()
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateOperation(ApiDescription apiDescription, ISchemaRegistry schemaRegistry)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreatePathItem(IEnumerable`1 apiDescriptions, ISchemaRegistry schemaRegistry)
+   at System.Linq.Enumerable.ToDictionary[TSource,TKey,TElement](IEnumerable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath, String[] schemes)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+2020-01-09 09:58:52.521 -03:00 [Error] [Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware] [{ Id: 1, Name: "UnhandledException" }] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Conflicting schemaIds: Identical schemaIds detected for types SimplCommerce.Module.Core.Areas.Core.Controllers.TokenApiController+RefreshTokenModel and StormyCommerce.Module.Customer.Areas.Customer.ViewModels.RefreshTokenModel. See config settings - "CustomSchemaIds" for a workaround
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaIdManager.IdFor(Type type)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.CreateReferenceSchema(Type type, Queue`1 referencedTypes)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRegistry.GetOrRegister(Type type)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateBodyParameter(ApiParameterDescription apiParameterDescription, String name, Boolean isRequired, ISchemaRegistry schemaRegistry)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateParameter(ApiDescription apiDescription, ApiParameterDescription apiParameterDescription, ISchemaRegistry schemaRegistry)
+   at System.Linq.Enumerable.WhereSelectListIterator`2.ToList()
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreateOperation(ApiDescription apiDescription, ISchemaRegistry schemaRegistry)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.CreatePathItem(IEnumerable`1 apiDescriptions, ISchemaRegistry schemaRegistry)
+   at System.Linq.Enumerable.ToDictionary[TSource,TKey,TElement](IEnumerable`1 source, Func`2 keySelector, Func`2 elementSelector, IEqualityComparer`1 comparer)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath, String[] schemes)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Builder.Extensions.MapWhenMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)
+   at Microsoft.Extensions.DependencyInjection.EfDiagramsMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.MigrationsEndPointMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2020-01-09 10:02:21.525 -03:00 [Warning] [Microsoft.EntityFrameworkCore.Model.Validation] [{ Id: 10400, Name: "Microsoft.EntityFrameworkCore.Infrastructure.SensitiveDataLoggingEnabledWarning" }] Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
+2020-01-09 10:02:27.704 -03:00 [Fatal] [Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor] [{ Id: 9 }] An error occurred starting the application
+System.AggregateException: One or more errors occurred. (Value cannot be null.
+Parameter name: entityType) ---> System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.StartAsync(CancellationToken token)
+---> (Inner Exception #0) System.ArgumentNullException: Value cannot be null.
+Parameter name: entityType
+   at Microsoft.EntityFrameworkCore.Utilities.Check.NotNull[T](T value, String parameterName)
+   at Microsoft.EntityFrameworkCore.EntityTypeExtensions.GetNavigations(IEntityType entityType)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.GetIncludePaths(DbContext context, Type clrEntityType)+MoveNext() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 27
+   at System.Linq.Enumerable.Aggregate[TSource,TAccumulate](IEnumerable`1 source, TAccumulate seed, Func`3 func)
+   at StormyCommerce.Infraestructure.Extensions.DbContextExtensions.Include[T](IQueryable`1 source, IEnumerable`1 navigationPropertyPaths) in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Extensions/DbContextExtensions.cs:line 16
+   at StormyCommerce.Infraestructure.Data.Repositories.StormyRepository`1.Query() in /home/adnanioricce/Dev/projects/StormyCommerce/src/StormyCommerce.Infraestructure/Data/Repositories/StormyRepository.cs:line 29
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.CancelFailedPaymentOrders(IStormyRepository`1 orderRepository, IOrderService orderService, IMediator mediator, CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 51
+   at SimplCommerce.Module.Orders.Services.OrderCancellationBackgroundService.ExecuteAsync(CancellationToken stoppingToken) in /home/adnanioricce/Dev/projects/StormyCommerce/src/Modules/SimplCommerce.Module.Orders/Services/OrderCancellationBackgroundService.cs:line 39
+   at Microsoft.AspNetCore.Hosting.Internal.HostedServiceExecutor.ExecuteAsync(Func`2 callback)<---
+

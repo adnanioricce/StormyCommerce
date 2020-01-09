@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using SimplCommerce.Module.Catalog.Models;
+using SimplCommerce.Module.Catalog.Models.Dtos;
 using StormyCommerce.Core.Entities;
 using StormyCommerce.Core.Entities.Media;
-using StormyCommerce.Core.Models;
 using StormyCommerce.Core.Models.Dtos.GatewayResponses.Catalog;
 using StormyCommerce.Core.Models.Requests;
 using StormyCommerce.Module.Catalog.Dtos;
-using StormyCommerce.Module.Catalog.Models.Dtos;
 
 namespace StormyCommerce.WebHost.Mappings
 {

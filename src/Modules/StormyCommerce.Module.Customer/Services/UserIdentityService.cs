@@ -49,8 +49,7 @@ namespace StormyCommerce.Module.Customer.Services
             }
             if (result.Errors.Any())
             {
-                var errorMessage = CreateErrorMessage(result);
-                result.Errors.ToList().ForEach(error => Console.WriteLine($"Error creating user: code:{error.Code},{error.Description}"));
+                var errorMessage = CreateErrorMessage(result);                
             }
             if (!result.Succeeded)
             {

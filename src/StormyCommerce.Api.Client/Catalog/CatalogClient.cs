@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using SimplCommerce.Module.Catalog.Models;
+using SimplCommerce.Module.Catalog.Models.Dtos;
 using StormyCommerce.Api.Client.Extensions;
 
 

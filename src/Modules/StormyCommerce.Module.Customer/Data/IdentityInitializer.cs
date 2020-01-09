@@ -72,11 +72,13 @@ namespace StormyCommerce.Module.Customer.Data
                     {
                         new CustomerAddress(new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","","")) 
                         { 
+                            Id = 0,
                             Type = AddressType.Billing,
                             IsDefault = true                        
                         },                        
                         new CustomerAddress(new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","",""))
                         {
+                            Id = 0,
                             Type = AddressType.Shipping,
                             IsDefault = true
                         }
@@ -97,11 +99,13 @@ namespace StormyCommerce.Module.Customer.Data
                     {
                         new CustomerAddress(new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","",""))
                         {
+                            Id = 0,
                             Type = AddressType.Billing,
                             IsDefault = true
                         },
                         new CustomerAddress(new AddressDetail("br", "São Paulo", "São Paulo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "Jardim Ipanema (Zona Sul)", "Rua Bento Correia de Figueiredo", "04784110", "640", "complemento","",""))
                         {
+                            Id = 0,
                             Type = AddressType.Shipping,
                             IsDefault = true
                         }
@@ -123,9 +127,12 @@ namespace StormyCommerce.Module.Customer.Data
         {
             if (_userManager.FindByNameAsync(user.UserName).Result == null)
             {
-                user.Roles.Add(new UserRole(_roleManager.Roles.FirstOrDefault(c => string.Equals(c.Name, initialRole, StringComparison.OrdinalIgnoreCase))));
-                //user.CustomerWishlist.User = user;
-                var resultado = _userManager.CreateAsync(user, password).Result;
+                // var role = new UserRole(_roleManager.Roles.FirstOrDefault(c => string.Equals(c.Name, initialRole, StringComparison.OrdinalIgnoreCase)));
+                // role.UserId = user.Id;                
+                // user.Roles.Add(role);                
+                // var resultado = _userManager.CreateAsync(user, password).Result;
+                var userCreateResult =_userManager.CreateAsync(user,password).Result;
+                var roleAddResult = _userManager.AddToRoleAsync(user,initialRole).Result;
             }
         }
     }

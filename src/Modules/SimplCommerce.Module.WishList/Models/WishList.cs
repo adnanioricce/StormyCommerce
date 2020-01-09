@@ -22,10 +22,6 @@ namespace SimplCommerce.Module.WishList.Models
         public string SharingCode { get; set; }
 
         public IList<WishListItem> Items { get; protected set; } = new List<WishListItem>();
-
-        public DateTimeOffset CreatedOn { get; set; }
-
-        public DateTimeOffset LatestUpdatedOn { get; set; }
 		/// <summary>
         /// Adds a product available on the catalog of the store on the Wishlist
         /// </summary>
