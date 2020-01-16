@@ -28,13 +28,40 @@ using SimplCommerce.Module.Core.Extensions;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.WebHost.IdentityServer;
 using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
+using StormyCommerce.Module.Catalog;
 
 namespace SimplCommerce.WebHost.Extensions
 {
     public static class ServiceCollectionExtensions
     {
         private static readonly IModuleConfigurationManager _modulesConfig = new ModuleConfigurationManager();
-
+        public static IServiceCollection AddSingleModule(this IServiceCollection services, string contentRootPath, string moduleId)
+        {
+            const string moduleManifestName = "module.json";
+            var module = _modulesConfig.GetSingleModule(contentRootPath,moduleId);
+            var moduleFolder = new DirectoryInfo(Path.Combine(contentRootPath, module.Id));
+            var moduleManifestPath = Path.Combine(moduleFolder.FullName, moduleManifestName);
+            if (!File.Exists(moduleManifestPath))
+            {
+                throw new MissingModuleManifestException($"The manifest for the module '{moduleFolder.Name}' was not found", module.Id);
+            }
+            if (!module.IsBundledWithHost)
+            {
+                TryLoadModuleAssembly(moduleFolder.FullName, module);
+                if (module.Assembly == null)
+                {
+                    throw new Exception($"Cannot find main assembly for module {module.Id}");
+                }
+                else
+                {
+                    module.Assembly = Assembly.Load(new AssemblyName(moduleFolder.Name));
+                }
+            }
+            GlobalConfiguration.Modules.Add(module);
+            RegisterModuleInitializerServices(module, ref services);
+            return services;
+        }
         public static IServiceCollection AddModules(this IServiceCollection services, string contentRootPath)
         {
             const string moduleManifestName = "module.json";
@@ -239,7 +266,7 @@ namespace SimplCommerce.WebHost.Extensions
         public static IServiceCollection AddCustomizedDataStore(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContextPool<SimplDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly("SimplCommerce.WebHost")));
             return services;
         }
@@ -286,7 +313,25 @@ namespace SimplCommerce.WebHost.Extensions
                 }
             }
         }
-
+        public static IServiceCollection AddMappings(this IServiceCollection services)
+        {
+            var config = new MapperConfiguration(mc => {
+                mc.AddProfile(new CatalogProfile());
+                
+            });
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+            return services;
+        } 
+        private static void RegisterModuleInitializerServices(ModuleInfo module, ref IServiceCollection services)
+        {
+            var moduleInitializerType = module.Assembly.GetTypes()
+                    .FirstOrDefault(t => typeof(IModuleInitializer).IsAssignableFrom(t));
+            if ((moduleInitializerType != null) && (moduleInitializerType != typeof(IModuleInitializer)))
+            {
+                services.AddSingleton(typeof(IModuleInitializer), moduleInitializerType);
+            }
+        }
         private static Task HandleRemoteLoginFailure(RemoteFailureContext ctx)
         {
             ctx.Response.Redirect("/login");

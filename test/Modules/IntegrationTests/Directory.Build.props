@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>  
+    <PackageReference Include="Xunit.DependencyInjection" Version="5.4.0" />
+  </ItemGroup>
+</Project>

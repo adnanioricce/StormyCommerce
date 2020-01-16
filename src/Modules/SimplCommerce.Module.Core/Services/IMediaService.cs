@@ -5,7 +5,7 @@ using SimplCommerce.Module.Core.Models;
 namespace SimplCommerce.Module.Core.Services
 {
     public interface IMediaService
-    {
+    {        
         string GetMediaUrl(Media media);
 
         string GetMediaUrl(string fileName);

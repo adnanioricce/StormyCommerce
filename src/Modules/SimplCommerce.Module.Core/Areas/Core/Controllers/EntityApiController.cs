@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
@@ -8,6 +9,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
     [Area("Core")]
     [Authorize(Roles = "admin")]
+    [EnableCors("Default")]
     [Route("api/entities")]
     public class EntityApiController : Controller
     {

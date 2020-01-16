@@ -5,5 +5,6 @@ namespace SimplCommerce.Infrastructure.Modules
     public interface IModuleConfigurationManager
     {
         IEnumerable<ModuleInfo> GetModules();
+        ModuleInfo GetSingleModule(string contentRootPath,string moduleId);
     }
 }

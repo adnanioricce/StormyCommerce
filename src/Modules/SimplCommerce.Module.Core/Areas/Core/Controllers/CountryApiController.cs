@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Infrastructure.Data;
@@ -11,6 +12,7 @@ using SimplCommerce.Module.Core.Models;
 namespace SimplCommerce.Module.Core.Areas.Core.Controllers
 {
     [Area("Core")]
+    [EnableCors("Default")]
     [Route("api/countries")]
     public class CountryApiController : Controller
     {

@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Modules;
@@ -39,7 +41,7 @@ namespace SimplCommerce.WebHost
         public void ConfigureServices(IServiceCollection services)
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
-            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;
+            GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;            
             services.AddModules(_hostingEnvironment.ContentRootPath);
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -88,6 +90,13 @@ namespace SimplCommerce.WebHost
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SimplCommerce API", Version = "v1" });
             });
+            services.AddCors(o => o.AddPolicy("Default", builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();   
+                builder.AllowCredentials();             
+            }));                               
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

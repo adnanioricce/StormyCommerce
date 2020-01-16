@@ -7,8 +7,7 @@ namespace SimplCommerce.Infrastructure.Modules
 {
     public class ModuleConfigurationManager : IModuleConfigurationManager
     {
-        public static readonly string ModulesFilename = "modules.json";
-
+        public static readonly string ModulesFilename = "modules.json";        
         public IEnumerable<ModuleInfo> GetModules()
         {
             var modulesPath = Path.Combine(GlobalConfiguration.ContentRootPath, ModulesFilename);
@@ -25,6 +24,22 @@ namespace SimplCommerce.Infrastructure.Modules
                     };
                 }
             }
+        }
+        public ModuleInfo GetSingleModule(string contentRootPath,string moduleId)
+        {
+            var manifestPath = Path.Combine(contentRootPath,moduleId,"module.json");
+            using (var reader = new StreamReader(manifestPath))
+            {
+                string content = reader.ReadToEnd();
+                dynamic module = JsonConvert.DeserializeObject(content);                                  
+                return new ModuleInfo
+                {
+                    Id = module.id,
+                    Version = Version.Parse(module.version.ToString())
+                };
+                
+            }
+            throw new DirectoryNotFoundException();
         }
     }
 }

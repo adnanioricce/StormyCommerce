@@ -10,8 +10,9 @@ namespace SimplCommerce.Module.Core.Services
         public CurrencyService(IConfiguration config)
         {
             _config = config;
-            var currencyCulture = _config.GetValue<string>("Global.CurrencyCulture");
-            CurrencyCulture = new CultureInfo(currencyCulture);
+            //var currencyCulture = _config.GetValue<string>("Global.CurrencyCulture");
+            //CurrencyCulture = new CultureInfo(currencyCulture);
+            CurrencyCulture = new CultureInfo("BR");
         }
 
         public CultureInfo CurrencyCulture { get; }

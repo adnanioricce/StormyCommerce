@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Tax.Models;
 
@@ -38,6 +39,7 @@ namespace SimplCommerce.Module.Catalog.Models
         public bool StockTrackingIsEnabled { get; set; }
 
         public int StockQuantity { get; set; }
+        public int UnitsOnOrder { get; set; }
 
         [StringLength(450)]
         public string Sku { get; set; }
@@ -79,11 +81,23 @@ namespace SimplCommerce.Module.Catalog.Models
         public long? TaxClassId { get; set; }
 
         public TaxClass TaxClass { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public double Length { get; set; }
+        public double Diameter { get; set; }
+        public double UnitWeight { get; set; }
 
         public void AddCategory(ProductCategory category)
         {
             category.Product = this;
             Categories.Add(category);
+        }
+        public void AddCategoryCollection(IEnumerable<ProductCategory> categories)
+        {
+            foreach (var category in categories)
+            {
+                AddCategory(category);
+            }
         }
 
         public void AddMedia(ProductMedia media)

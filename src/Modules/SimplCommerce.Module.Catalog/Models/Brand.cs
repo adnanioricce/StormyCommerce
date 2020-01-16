@@ -14,7 +14,7 @@ namespace SimplCommerce.Module.Catalog.Models
         public string Slug { get; set; }
 
         public string Description { get; set; }
-
+        public string Website { get; set; }        
         public bool IsPublished { get; set; }
 
         public bool IsDeleted { get; set; }

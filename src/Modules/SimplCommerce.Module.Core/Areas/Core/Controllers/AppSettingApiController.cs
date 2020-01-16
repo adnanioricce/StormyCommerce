@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ namespace SimplCommerce.Module.Core.Areas.Core.Controllers
     [Area("Core")]
     [Authorize(Roles = "admin")]
     [Route("api/appsettings")]
+    [EnableCors("Default")]
     [ApiController]
     public class AppSettingApiController : ControllerBase
     {
