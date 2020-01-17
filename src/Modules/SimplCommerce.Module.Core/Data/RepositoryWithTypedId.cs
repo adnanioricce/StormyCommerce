@@ -10,7 +10,7 @@ using SimplCommerce.Infrastructure.Models;
 
 namespace SimplCommerce.Module.Core.Data
 {
-    public class RepositoryWithTypedId<T, TId> : IRepositoryWithTypedId<T, TId> where T : class, IEntityWithTypedId<TId>
+    public class RepositoryWithTypedId<T, TId> : IRepositoryWithTypedId<T, TId> where T : class,IEntityWithTypedId<TId> where TId : IEquatable<TId>
     {
         public RepositoryWithTypedId(SimplDbContext context)
         {
@@ -57,24 +57,24 @@ namespace SimplCommerce.Module.Core.Data
             DbSet.Remove(entity);
         }
 
-        public async Task<T> GetByIdAsync(TId id)
-        {
+        public async Task<T> GetByIdAsync(TId id) 
+        {                        
             var entity = await DbSet.FindAsync(id);
             Context.Entry(entity).State = EntityState.Detached;
             return entity;
         }
 
         public async Task<T> GetByIdAsync(params object[] keyValues)
-        {
+        {            
             var entity = await DbSet.FindAsync(keyValues);
             Context.Entry(entity).State = EntityState.Detached;
             return entity;
         }
 
-        public async Task<IList<T>> GetAllByIdsAsync(TId[] ids)
-        {
+        public async Task<IList<T>> GetAllByIdsAsync(IEnumerable<TId> ids) 
+        {            
             if (ids == null) throw new ArgumentNullException("Given argument is null");                    
-            return await DbSet.Where(p => ids.Any(d => object.Equals(d,p.Id))).ToListAsync();
+            return await DbSet.Where(p => ids.Any(d => d.Equals(p.Id))).ToListAsync();
         }
 
         public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null)

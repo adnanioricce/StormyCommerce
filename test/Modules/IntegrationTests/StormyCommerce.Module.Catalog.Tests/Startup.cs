@@ -22,6 +22,8 @@ using Xunit.DependencyInjection;
 using System.IO;
 using System.Linq;
 using SimplCommerce.Infrastructure.Modules;
+using SimplCommerce.Module.SampleData.Extensions;
+using SimplCommerce.Module.SampleData.Data;
 
 [assembly: TestFramework("StormyCommerce.Module.Catalog.Tests.Startup", "StormyCommerce.Module.Catalog.Tests")]
 namespace StormyCommerce.Module.Catalog.Tests
@@ -58,13 +60,7 @@ namespace StormyCommerce.Module.Catalog.Tests
             }        
         }
         protected override void Configure(IServiceProvider provider){            
-           using (var scope = provider.CreateScope())
-            {
-                using (var dbContext = (SimplDbContext)scope.ServiceProvider.GetService<SimplDbContext>())
-                {                                        
-                    dbContext.Database.Migrate();                                                                                                       
-                }
-            }
+            BuildDbSchema(provider);                        
         }
         protected override IHostBuilder CreateHostBuilder(AssemblyName assemblyName) =>
             base.CreateHostBuilder(assemblyName)
@@ -73,5 +69,26 @@ namespace StormyCommerce.Module.Catalog.Tests
             var hasSource = Directory.Exists(path + "\\src");
             return hasSource ? path + "\\src" : GetSrcPath(Directory.GetParent(path).Name,Directory.GetParent(path).FullName);
         }
+        private void SeedDatabase(IServiceProvider provider)
+        {
+            var sqlRepository = (SqlRepository)provider.GetService<ISqlRepository>();
+            var filePath = Path.Combine(GlobalConfiguration.ContentRootPath,"Modules", "SimplCommerce.Module.SampleData", "SampleContent", "Fashion","ResetToSampleData_SQLite.sql");
+            var lines = File.ReadLines(filePath);
+            var commands = sqlRepository.PostgresCommands(lines);
+            sqlRepository.RunCommands(commands);
+        }
+        private void BuildDbSchema(IServiceProvider provider)
+        {
+            using (var scope = provider.CreateScope())
+            {
+                using (var dbContext = (SimplDbContext)scope.ServiceProvider.GetService<SimplDbContext>())
+                {                                                         
+                    if(dbContext.Database.GetPendingMigrations().Count() > 0){
+                        dbContext.Database.EnsureDeleted();                                
+                        dbContext.Database.EnsureCreated();
+                    }
+                }
+            }
+        }        
     }
 }

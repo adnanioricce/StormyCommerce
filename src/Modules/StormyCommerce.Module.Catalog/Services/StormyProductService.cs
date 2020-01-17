@@ -108,7 +108,7 @@ namespace StormyCommerce.Module.Catalog.Services
             .FirstOrDefaultAsync();
         }
 
-        public async Task<IList<Product>> GetProductsByIdsAsync(long[] productIds)
+        public async Task<IList<Product>> GetProductsByIdsAsync(IEnumerable<long> productIds)
         {
             return await _productRepository.GetAllByIdsAsync(productIds);
         }
@@ -123,7 +123,7 @@ namespace StormyCommerce.Module.Catalog.Services
 
         public int GetTotalStockQuantity()
         {
-            return _productRepository.Query().Sum(f => f.StockQuantity - f.UnitsOnOrder);
+            return _productRepository.Query().Sum(f => f.StockQuantity - f.UnitsOnOrder.Value);
         }
         public int GetTotalStockQuantityOfProduct(long productId)
         {
@@ -163,8 +163,7 @@ namespace StormyCommerce.Module.Catalog.Services
         public async Task InsertProductAsync(Product product)
         {            
             product.Slug = product.Name.Replace(' ','-');           
-            if(product.BrandId != 0) product.Brand = null;                                        
-            
+            if(product.BrandId != 0) product.Brand = null;                                                    
             await _productRepository.AddAsync(product);                        
         }
 

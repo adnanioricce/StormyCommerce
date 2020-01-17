@@ -42,8 +42,7 @@ namespace SimplCommerce.WebHost
         {
             GlobalConfiguration.WebRootPath = _hostingEnvironment.WebRootPath;
             GlobalConfiguration.ContentRootPath = _hostingEnvironment.ContentRootPath;            
-            services.AddModules(_hostingEnvironment.ContentRootPath);
-
+            services.AddModules(_hostingEnvironment.ContentRootPath);            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -97,10 +96,12 @@ namespace SimplCommerce.WebHost
                 builder.AllowAnyHeader();   
                 builder.AllowCredentials();             
             }));                               
+                        
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Container.Provider = app.ApplicationServices;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

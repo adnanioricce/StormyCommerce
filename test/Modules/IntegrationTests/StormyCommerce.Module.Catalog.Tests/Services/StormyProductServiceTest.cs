@@ -13,9 +13,11 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
     public class ProductServiceTests
     {
         private readonly IStormyProductService service;
-        public ProductServiceTests(IStormyProductService productService)
+        private readonly IRepository<Product> _productRepository;
+        public ProductServiceTests(IStormyProductService productService,IRepository<Product> productRepository)
         {
             service = productService;
+            _productRepository = productRepository;
         }
         [Fact]
         public async Task GetAllProductsByCategory_StateUnderTest_ExpectedBehavior()
@@ -87,7 +89,9 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         public void GetNumberOfProductsInCategory_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            IList<long> categoryIds = null;
+            IList<long> categoryIds = new List<long>{
+                1
+            };
 
             // Act
             var result = service.GetNumberOfProductsInCategory(categoryIds);
@@ -100,20 +104,23 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         public async Task GetProductByIdAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            long productId = 1;
+            Product product = ProductSeeder.InsertProductSeed();
+            _productRepository.Add(product);            
 
             // Act
-            var result = await service.GetProductByIdAsync(productId);
+            var result = await service.GetProductByIdAsync(product.Id);
 
             // Assert
-            Assert.Equal(productId, result.Id);
+            Assert.Equal(product.Id, result.Id);
         }
 
         [Fact]
         public async Task SearchProductsBySearchPattern_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange            
-            string searchPattern = "er";
+            // Arrange        
+            Product product = ProductSeeder.InsertProductSeed();    
+            _productRepository.Add(product);
+            string searchPattern = product.Name.Substring(product.Name.Length-3);
 
             // Act
             var result = await service.SearchProductsBySearchPattern(searchPattern);
@@ -126,23 +133,26 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         public async Task GetProductBySkuAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            string sku = null;
+            Product product = ProductSeeder.InsertProductSeed(); 
+            _productRepository.Add(product);                        
 
             // Act
-            var result = await service.GetProductBySkuAsync(sku);
+            var result = await service.GetProductBySkuAsync(product.Sku);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(product.Sku,result.Sku);
         }
 
         [Fact]
         public async Task GetProductsByIdsAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            long[] productIds = { 1,2};
+            var products = new List<Product>{
+                ProductSeeder.InsertProductSeed(),ProductSeeder.InsertProductSeed()
+            };            
 
             // Act
-            var result = await service.GetProductsByIdsAsync(productIds);
+            var result = await service.GetProductsByIdsAsync(products.Select(p => p.Id));
 
             // Assert
             Assert.Equal(2,result.Count);
@@ -151,14 +161,15 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         [Fact]
         public async Task GetProductByNameAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange            
-            string productName = null;
+            // Arrange           
+            Product product = ProductSeeder.InsertProductSeed(); 
+            _productRepository.Add(product);            
 
             // Act
-            var result = await service.GetProductByNameAsync(productName);
+            var result = await service.GetProductByNameAsync(product.Name);
 
             // Assert
-            Assert.True(false);
+            Assert.Equal(product.Name,result.Name);
         }
 
         [Fact]
@@ -203,56 +214,55 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         [Fact]
         public void GetTotalStockQuantityOfProduct_StateUnderTest_ExpectedBehavior1()
         {
-            // Arrange            
-            Product product = new Product();
-
+            // Arrange                        
+            long productId = 1;
             // Act
-            var result = service.GetTotalStockQuantityOfProduct(1);
+            var result = service.GetTotalStockQuantityOfProduct(productId);
 
             // Assert
-            Assert.True(false);
+            Assert.True(result > 0);
         }                
 
         [Fact]
         public async Task DeleteProductAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange            
-            Product product = new Product();
+            // Arrange                   
+            long productId = 8;     
+            Product product = await _productRepository.GetByIdAsync(productId);
 
             // Act
             await service.DeleteProductAsync(product);
 
             // Assert
-            Assert.True(false);
+            Assert.Null(await _productRepository.GetByIdAsync(productId));
         }      
         [Fact]
         public async Task InsertProductAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Product product = new Product();
+            Product product = ProductSeeder.InsertProductSeed();
 
             // Act
             await service.InsertProductAsync(product);
 
             // Assert
-            Assert.True(product.Id != 0);
-            Assert.NotNull(product.Brand);            
-            Assert.NotNull(product.Categories);
+            Assert.True(product.Id != 0 || product.Id > 0);           
         }
 
         [Fact]
         public async Task InsertProductsAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            IList<Product> products = null;
+            IList<Product> products = new List<Product>{
+                ProductSeeder.InsertProductSeed(),
+                ProductSeeder.InsertProductSeed()
+            };
 
             // Act
             await service.InsertProductsAsync(products);
 
             // Assert
-            Assert.True(products.All(p => p.Id != 0));
-            Assert.True(products.All(p => p.Brand != null));
-            Assert.True(products.All(p => p.Categories != null && p.Categories.Count > 0));            
+            Assert.True(products.All(p => p.Id != 0 && p.Id > 0));                      
         }
 
         [Fact]

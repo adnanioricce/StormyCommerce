@@ -24,7 +24,7 @@ namespace StormyCommerce.Module.Catalog.Interfaces
         
         Task<Product> GetProductByNameAsync(string productName);
 
-        Task<IList<Product>> GetProductsByIdsAsync(long[] productIds);
+        Task<IList<Product>> GetProductsByIdsAsync(IEnumerable<long> productIds);
         
         Task InsertProductAsync(Product product);
 

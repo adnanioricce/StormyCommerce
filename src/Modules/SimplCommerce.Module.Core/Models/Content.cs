@@ -57,7 +57,7 @@ namespace SimplCommerce.Module.Core.Models
 
         public DateTimeOffset CreatedOn { get; set; }
 
-        public DateTimeOffset LatestUpdatedOn { get; set; }
+        public DateTimeOffset LatestUpdatedOn { get; set; } = DateTime.UtcNow;
 
         public long LatestUpdatedById { get; set; }
 

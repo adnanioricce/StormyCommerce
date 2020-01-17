@@ -70,12 +70,12 @@ namespace StormyCommerce.Module.Catalog.Models.Dtos
         public bool IsVisibleIndividually { get; private set; }                
         public string Slug { get; private set; }          
         public decimal? SpecialPrice { get; private set; }    
-        public double Height { get; private set; }
-        public double Width { get; private set; }
-        public double Length { get; private set; }
-        public double UnitWeight { get; private set; }
+        public double? Height { get; private set; }
+        public double? Width { get; private set; }
+        public double? Length { get; private set; }
+        public double? UnitWeight { get; private set; }
         public int StockQuantity { get; private set; }
-        public int UnitsOnOrder { get; private set; }
+        public int? UnitsOnOrder { get; private set; }
         public decimal Price { get; private set; }
         public decimal? OldPrice { get; private set; }
         public string ThumbnailImage { get; private set; }

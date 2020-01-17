@@ -8,13 +8,13 @@ using SimplCommerce.Infrastructure.Models;
 
 namespace SimplCommerce.Infrastructure.Data
 {
-    public interface IRepositoryWithTypedId<T, TId> where T : IEntityWithTypedId<TId>
+    public interface IRepositoryWithTypedId<T, TId> where T : IEntityWithTypedId<TId> where TId : IEquatable<TId>
     {
         Task<T> GetByIdAsync(TId id);
 
         Task<T> GetByIdAsync(params object[] keyValues);
 
-        Task<IList<T>> GetAllByIdsAsync(TId[] ids);
+        Task<IList<T>> GetAllByIdsAsync(IEnumerable<TId> ids);
 
         Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null);                
                 

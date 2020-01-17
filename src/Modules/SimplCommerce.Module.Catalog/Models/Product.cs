@@ -39,7 +39,7 @@ namespace SimplCommerce.Module.Catalog.Models
         public bool StockTrackingIsEnabled { get; set; }
 
         public int StockQuantity { get; set; }
-        public int UnitsOnOrder { get; set; }
+        public int? UnitsOnOrder { get; set; }
 
         [StringLength(450)]
         public string Sku { get; set; }
@@ -81,11 +81,11 @@ namespace SimplCommerce.Module.Catalog.Models
         public long? TaxClassId { get; set; }
 
         public TaxClass TaxClass { get; set; }
-        public double Height { get; set; }
-        public double Width { get; set; }
-        public double Length { get; set; }
-        public double Diameter { get; set; }
-        public double UnitWeight { get; set; }
+        public double? Height { get; set; }
+        public double? Width { get; set; }
+        public double? Length { get; set; }
+        public double? Diameter { get; set; }
+        public double? UnitWeight { get; set; }
 
         public void AddCategory(ProductCategory category)
         {
