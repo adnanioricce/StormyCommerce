@@ -70,7 +70,7 @@ namespace SimplCommerce.WebHost
             if(!_hostingEnvironment.IsDevelopment()){
                 services.AddStormyDataStore(_configuration);
             } else {
-                services.AddDbContextPool<StormyDbContext>(options => {                    
+                services.AddDbContextPool<StormyDbContext>(options => {                                             
                     options.UseSqlite("DataSource=database.db",b => b.MigrationsAssembly("SimplCommerce.WebHost"));
                     options.UseLazyLoadingProxies();
                     options.EnableDetailedErrors();
@@ -189,10 +189,8 @@ namespace SimplCommerce.WebHost
                 {
                     if (dbContext.Database.IsSqlite())
                     {
-                        if (dbContext.Database.EnsureDeleted())
-                        {
-                            dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());
-                        }
+                        dbContext.Database.EnsureDeleted();                        
+                        dbContext.Database.ExecuteSqlCommand(dbContext.Database.GenerateCreateScript());                        
                     }
                     if (!dbContext.Database.IsSqlServer())
                     {

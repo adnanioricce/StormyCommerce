@@ -1,6 +1,6 @@
 # Rodando o Servidor 
 ## Pré requisitos 
-- .net core sdk 2.2.300 ou superior 
+- .net core sdk 2.2.401 ou superior 
 - postgresql 
 
 ## passos para rodar 

@@ -167,6 +167,8 @@ $RECYCLE.BIN/
 src/Modules/**/launchSettings.json
 PublishProfiles/
 logs/
+logs\
+logs\*
 
 # SimplCommerce.WebHost
 src/SimplCommerce.WebHost/Properties/PublishProfiles

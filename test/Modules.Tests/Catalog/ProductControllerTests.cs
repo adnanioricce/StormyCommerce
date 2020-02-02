@@ -16,8 +16,7 @@ using Xunit;
 namespace StormyCommerce.Modules.Test.Area.Controllers
 {
     public class ProductControllerTests
-    {
-        //! I think this will fail, define some logic to the mock
+    {        
         private readonly IStormyRepository<StormyProduct> _repository;
 
         private readonly ProductController _productController;
