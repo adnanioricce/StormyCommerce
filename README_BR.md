@@ -7,11 +7,11 @@ StormyCommerce é um sistema de ecommerce que funciona através de uma REST API.
 ## Requirements 
 - .NET Core SDK 2.2.401 or above
 ### Pelo CLI
--> va até src/SimplCommerce.WebHost digite ```dotnet run``` e tecle enter
--> acesse a documentação da API em http://localhost:numerodaporta/api
+- va até src/SimplCommerce.WebHost digite ```dotnet run``` e tecle enter
+- acesse a documentação da API em http://localhost:numerodaporta/api
 ### Pelo Visual Studio 
--> selecione src/SimplCommerce.WebHost como projeto de inicialização e pressione F5
--> acesse a documentação da API em http://localhost:numerodaporta/api
+- selecione src/SimplCommerce.WebHost como projeto de inicialização e pressione F5
+- acesse a documentação da API em http://localhost:numerodaporta/api
 # Frontend
 Um frontend tambem foi desenvolvido separadamente da API, você pode acessa-lo em https://whittoeft-store-site.now.sh e ver o código fonte no link [WitthoeftStore](https://github.com/danilexx/whittoeft-store-site) 
 # Licença
