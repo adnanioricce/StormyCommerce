@@ -14,7 +14,7 @@ namespace StormyCommerce.Module.Catalog.Interfaces
 
         Task<List<Product>> SearchProductsBySearchPattern(string searchPattern);
 
-        Task<Result<IList<Product>>> GetAllProductsByCategory(int categoryId, int limit = 15);
+        Task<Result<IList<Product>>> GetAllProductsByCategory(long categoryId, int limit = 15);
 
         Task<IList<Product>> GetAllProductsDisplayedOnHomepageAsync(int limit = 0);
 
@@ -36,7 +36,7 @@ namespace StormyCommerce.Module.Catalog.Interfaces
 
         Task<Product> GetProductBySkuAsync(string sku);
 
-        Task<IList<Product>> GetProductsBySkuAsync(string[] skuArray, int vendorId = 0);
+        Task<IList<Product>> GetProductsBySkuAsync(IEnumerable<string> skuArray);
 
         int GetNumberOfProducts();
 

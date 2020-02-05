@@ -31,7 +31,7 @@ namespace StormyCommerce.Module.Catalog
             CreateMap<Product, ProductDto>();                                                              
             CreateMap<Product, ProductSearchResponse>();                                    
             CreateMap<Product, ProductOverviewDto>();                                
-            CreateMap<CreateProductRequest,Product>();
+            CreateMap<CreateProductRequest,Product>();                              
             CreateMap<EditProductRequest, Product>()
                     .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<ProductDto, Product>();                                                                

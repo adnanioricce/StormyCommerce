@@ -7,6 +7,7 @@ using StormyCommerce.Module.Catalog.Interfaces;
 using StormyCommerce.Module.Catalog.Models.Requests;
 using StormyCommerce.Module.Catalog.Models.Responses;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -17,23 +18,29 @@ namespace StormyCommerce.Module.Catalog.Tests.Catalog
     public class ProductControllerTests
     {    
         private readonly ProductController _productController;        
-
-        public ProductControllerTests(IStormyProductService productService,IMapper mapper,IAppLogger<ProductController> logger,IRepository<Product> productRepository)
+        private readonly IRepository<Product> _productRepository;
+        public ProductControllerTests(IStormyProductService productService,
+        IMapper mapper,
+        IAppLogger<ProductController> logger,
+        IRepository<Product> productRepository)
         {            
-            _productController = new ProductController(productService,mapper,null,logger);            
-            productRepository.Add(ProductSeeder.InsertProductSeed());
-            productRepository.SaveChanges();
+            _productController = new ProductController(productService,mapper,null,logger); 
+            _productRepository = productRepository;
         }
         [Fact]        
         public async Task SearchProducts_ReceivesSearchPattern_ShouldReturnAllProductsWithGivenPattern()
         {
+            //Given 
+            Product testProduct = ProductSeeder.InsertProductSeed();
+            string searchPattern = testProduct.Name;                        
+            _productRepository.Add(testProduct);
+            _productRepository.SaveChanges();
             //When                        
-            string searchPattern = "a";            
+            
             var response = await _productController.SearchProducts(searchPattern);    
             var result = response.Value as List<ProductSearchResponse>;
             //Then            
-            Assert.True(result.All(p => p.ProductName.Contains(searchPattern) ||
-            p.ShortDescription.Contains(searchPattern)));
+            Assert.True(result.All(p => p.Name.Contains(searchPattern)));
         }        
 
         [Fact]
@@ -68,8 +75,8 @@ namespace StormyCommerce.Module.Catalog.Tests.Catalog
 
             // Assert
             Assert.Equal(2,products.Value[0].Id);
-            Assert.Equal(3,products.Value[0].Id);
-            Assert.Equal(4,products.Value[0].Id);
+            Assert.Equal(3,products.Value[1].Id);
+            Assert.Equal(4,products.Value[2].Id);
         }
 
         [Fact]
@@ -103,7 +110,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Catalog
         public async Task CreateProduct_GivenModelIsValidDto_CreateNewEntryOnDatabase()
         {
             // Arrange            
-            var model = new CreateProductRequest();
+            var model = GetCreateProductRequestModel(ProductSeeder.InsertProductSeed());
             // Act
             var result = await _productController.CreateProduct(model);
             // Assert
@@ -113,16 +120,19 @@ namespace StormyCommerce.Module.Catalog.Tests.Catalog
         private CreateProductRequest GetCreateProductRequestModel(Product product)
         {
             return new CreateProductRequest{
+                Name = product.Name,
+                MetaTitle = product.MetaTitle,            
+                MetaKeywords = product.MetaKeywords,    
                 Description = product.Description,
+                MetaDescription = product.MetaDescription,
                 ShortDescription = product.Description,
                 Sku = product.Sku,
                 Diameter = product.Diameter,
                 Height = product.Height.Value,
                 Length = product.Length.Value,
-                Width = product.Width.Value,                
-                Name = product.Name,
+                Width = product.Width.Value,                                
                 Brand = product.Brand,                                
-                UnitPrice = product.Price,
+                Price = product.Price,
                 UnitWeight = product.UnitWeight.Value,
                 StockQuantity = product.StockQuantity,                
                 ThumbnailImage = product.ThumbnailImage.FileName,                

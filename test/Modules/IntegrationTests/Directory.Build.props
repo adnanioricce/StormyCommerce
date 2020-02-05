@@ -6,6 +6,6 @@
 
   <ItemGroup>  
     <PackageReference Include="Xunit.DependencyInjection" Version="5.4.0" />
-    <PackageReference Include="Bogus"  />
+    <PackageReference Include="Bogus" Version="28.0.2" />
   </ItemGroup>
 </Project>

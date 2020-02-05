@@ -114,7 +114,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
         [Authorize(Roles = "admin")]
         public async Task<ActionResult> CreateProduct([FromBody]CreateProductRequest _model)
         {                                       
-            var model = _mapper.Map<Product>(_model);                                                                 
+            var model = _mapper.Map<CreateProductRequest,Product>(_model);                                                                 
             try
             {                
                 await _productService.InsertProductAsync(model);                                

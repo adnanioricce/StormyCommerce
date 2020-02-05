@@ -5,9 +5,11 @@ using StormyCommerce.Module.Catalog.Models;
 namespace StormyCommerce.Module.Catalog.Models.Requests
 {
     public class CreateProductRequest
-    {
+    {                
         [Required]
         public string Name { get; set; }
+        public string MetaTitle { get; set; }
+        public string MetaKeywords { get; set; }
         [Required]
         public string Sku { get; set; }       
         [Required]
@@ -19,13 +21,12 @@ namespace StormyCommerce.Module.Catalog.Models.Requests
         [Required]
         [StringLength(450)]
         public string ShortDescription { get; set; }
+        public string MetaDescription { get; set; }
         [Required]
         public string Description { get; set; }                
         [DataType(DataType.Currency)]
         [Required]
-        public decimal UnitPrice { get; set; }
-        [DataType(DataType.Currency)]
-        public Price Price { get; set; }
+        public decimal Price { get; set; }        
         public decimal Discount { get; set; }
         [Required]
         public double UnitWeight { get; set; }

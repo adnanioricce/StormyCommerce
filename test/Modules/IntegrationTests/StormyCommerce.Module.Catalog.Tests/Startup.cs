@@ -34,12 +34,17 @@ namespace StormyCommerce.Module.Catalog.Tests
 
         protected override void ConfigureServices(IServiceCollection services)
         {                       
-            GlobalConfiguration.ContentRootPath = GetSrcPath("",AppDomain.CurrentDomain.BaseDirectory) + "\\SimplCommerce.WebHost\\";                                                      
+            var configuration = GetIConfigurationRoot(GetSharedFolder(AppDomain.CurrentDomain.BaseDirectory));            
+            GlobalConfiguration.ContentRootPath = GetSrcPath(AppDomain.CurrentDomain.BaseDirectory) + "\\SimplCommerce.WebHost\\";                                                              
+            services.AddSingleton(configuration);
             services.AddModules(GlobalConfiguration.ContentRootPath);
             services.AddDbContextPool<SimplDbContext>(opt => {
                 opt.EnableSensitiveDataLogging();
                 opt.EnableDetailedErrors();
-                opt.UseSqlite("DataSource=testDb.db",m => m.MigrationsAssembly("StormyCommerce.Module.Catalog.Tests"));
+                // If you don't want to run a database
+                // opt.UseSqlite("DataSource=testDb.db",m => m.MigrationsAssembly("StormyCommerce.Module.Catalog.Tests"));
+                opt.UseNpgsql(configuration.GetConnectionString("DevConnection"),
+                m => m.MigrationsAssembly("StormyCommerce.Module.Catalog.Tests"));
             });                                                
             services.AddTransient<IStormyProductService, StormyProductService>();                                    
             services.AddTransient<IMediaService, MediaService>();                        
@@ -60,19 +65,33 @@ namespace StormyCommerce.Module.Catalog.Tests
             }        
         }
         protected override void Configure(IServiceProvider provider){            
-            BuildDbSchema(provider);                        
+            BuildDbSchema(provider); 
+            SeedDatabase(provider);                       
         }
         protected override IHostBuilder CreateHostBuilder(AssemblyName assemblyName) =>
             base.CreateHostBuilder(assemblyName)
                 .ConfigureHostConfiguration(builder => builder.AddInMemoryCollection(new Dictionary<string, string> { { HostDefaults.ApplicationKey, assemblyName.Name } }));
-        private string GetSrcPath(string currentFolder,string path){
-            var hasSource = Directory.Exists(path + "\\src");
-            return hasSource ? path + "\\src" : GetSrcPath(Directory.GetParent(path).Name,Directory.GetParent(path).FullName);
+        private IConfigurationRoot GetIConfigurationRoot(string outputPath)
+        {
+            return new ConfigurationBuilder()
+                .SetBasePath(outputPath)                
+                .AddUserSecrets("aspnet-Modular.WebHost-dca604fa-ee10-4a6c-8e7d-8cc79dca8c8f")
+                .AddEnvironmentVariables()
+                .Build();
         }
+        private string GetSrcPath(string path){
+            var hasSource = Directory.Exists(path + "\\src");
+            return hasSource ? path + "\\src" : GetSrcPath(Directory.GetParent(path).FullName);
+        }
+        private string GetSharedFolder(string path){
+            var folderExist = Directory.Exists(path + "\\Shared");
+            return folderExist ? path +"\\Shared" : GetSrcPath(Directory.GetParent(path).FullName);
+        }
+        //TODO:I don't really need this kind of seed data to test, should create a more specific for this test
         private void SeedDatabase(IServiceProvider provider)
         {
             var sqlRepository = (SqlRepository)provider.GetService<ISqlRepository>();
-            var filePath = Path.Combine(GlobalConfiguration.ContentRootPath,"Modules", "SimplCommerce.Module.SampleData", "SampleContent", "Fashion","ResetToSampleData_SQLite.sql");
+            var filePath = Path.Combine(GlobalConfiguration.ContentRootPath,"Modules", "SimplCommerce.Module.SampleData", "SampleContent", "Fashion","ResetToSampleData_Postgres.sql");
             var lines = File.ReadLines(filePath);
             var commands = sqlRepository.PostgresCommands(lines);
             sqlRepository.RunCommands(commands);
@@ -83,10 +102,10 @@ namespace StormyCommerce.Module.Catalog.Tests
             {
                 using (var dbContext = (SimplDbContext)scope.ServiceProvider.GetService<SimplDbContext>())
                 {                                                         
-                    if(dbContext.Database.GetPendingMigrations().Count() > 0){
+                    // if(dbContext.Database.GetPendingMigrations().Count() > 0){
                         dbContext.Database.EnsureDeleted();                                
                         dbContext.Database.EnsureCreated();
-                    }
+                    // }
                 }
             }
         }        

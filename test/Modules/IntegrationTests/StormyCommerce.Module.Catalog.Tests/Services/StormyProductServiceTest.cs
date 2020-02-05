@@ -1,3 +1,4 @@
+using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Models;
 using StormyCommerce.Module.Catalog.Interfaces;
@@ -13,11 +14,16 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
     public class ProductServiceTests
     {
         private readonly IStormyProductService service;
-        private readonly IRepository<Product> _productRepository;
-        public ProductServiceTests(IStormyProductService productService,IRepository<Product> productRepository)
+        private readonly IRepository<Product> _productRepository;        
+        public ProductServiceTests(IStormyProductService productService,IRepository<Product> productRepository,IRepository<Vendor> vendorRepository)
         {
             service = productService;
-            _productRepository = productRepository;
+            _productRepository = productRepository;            
+            vendorRepository.Add(new Vendor{
+                Name = "test vendor",
+                Slug = "test-vendor",                
+            });
+            vendorRepository.SaveChanges();
         }
         [Fact]
         public async Task GetAllProductsByCategory_StateUnderTest_ExpectedBehavior()
@@ -75,8 +81,10 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         [Fact]
         public void GetNumberOfProductsByVendorId_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange            
+            // Arrange       
+            Product product = ProductSeeder.InsertProductSeed();                 
             int vendorId = 1;
+            product.VendorId = vendorId;            
 
             // Act
             var result = service.GetNumberOfProductsByVendorId(vendorId);
@@ -106,7 +114,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
             // Arrange            
             Product product = ProductSeeder.InsertProductSeed();
             _productRepository.Add(product);            
-
+            _productRepository.SaveChanges();
             // Act
             var result = await service.GetProductByIdAsync(product.Id);
 
@@ -117,16 +125,14 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         [Fact]
         public async Task SearchProductsBySearchPattern_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange        
-            Product product = ProductSeeder.InsertProductSeed();    
-            _productRepository.Add(product);
-            string searchPattern = product.Name.Substring(product.Name.Length-3);
+            // Arrange                 
+            string searchPattern = "test";
 
             // Act
             var result = await service.SearchProductsBySearchPattern(searchPattern);
 
             // Assert
-            Assert.True(result.All(prop => prop.Name.Contains(searchPattern) || prop.ShortDescription.Contains(searchPattern)));
+            Assert.True(result.All(prop => prop.Name.Contains(searchPattern.ToLower())));
         }
 
         [Fact]
@@ -135,7 +141,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
             // Arrange            
             Product product = ProductSeeder.InsertProductSeed(); 
             _productRepository.Add(product);                        
-
+            _productRepository.SaveChanges();
             // Act
             var result = await service.GetProductBySkuAsync(product.Sku);
 
@@ -147,12 +153,10 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         public async Task GetProductsByIdsAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            var products = new List<Product>{
-                ProductSeeder.InsertProductSeed(),ProductSeeder.InsertProductSeed()
-            };            
+            var productIds = new long[] { 1L,2L };            
 
             // Act
-            var result = await service.GetProductsByIdsAsync(products.Select(p => p.Id));
+            var result = await service.GetProductsByIdsAsync(productIds);
 
             // Assert
             Assert.Equal(2,result.Count);
@@ -164,7 +168,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
             // Arrange           
             Product product = ProductSeeder.InsertProductSeed(); 
             _productRepository.Add(product);            
-
+            _productRepository.SaveChanges();
             // Act
             var result = await service.GetProductByNameAsync(product.Name);
 
@@ -176,21 +180,22 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         public async Task GetProductsBySkuAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            string[] skuArray = null;
-            int vendorId = 0;
+            var skuArray = _productRepository.Query().Select(p => p.Sku).Take(3).ToList();            
 
             // Act
-            var result = await service.GetProductsBySkuAsync(
-                skuArray,
-                vendorId);
+            var result = await service.GetProductsBySkuAsync(skuArray);
 
             // Assert
-            Assert.True(false);
+            Assert.NotEqual(skuArray,result.Select(p => p.Sku));
         }
 
         [Fact]
         public void GetTotalStockQuantity_StateUnderTest_ExpectedBehavior()
-        {            
+        {         
+            //Arrange 
+            Product product = ProductSeeder.InsertProductSeed();
+            _productRepository.Add(product);
+            _productRepository.SaveChanges();   
             // Act
             var result = service.GetTotalStockQuantity();
 
@@ -214,7 +219,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         [Fact]
         public void GetTotalStockQuantityOfProduct_StateUnderTest_ExpectedBehavior1()
         {
-            // Arrange                        
+            // Arrange                                    
             long productId = 1;
             // Act
             var result = service.GetTotalStockQuantityOfProduct(productId);
@@ -226,15 +231,17 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         [Fact]
         public async Task DeleteProductAsync_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange                   
-            long productId = 8;     
-            Product product = await _productRepository.GetByIdAsync(productId);
-
+            // Arrange        
+            var product = _productRepository.Query()
+                .Where(p => p.Id == _productRepository.Query().Count())
+                .FirstOrDefault();                                       
+            long id = product.Id;
             // Act
             await service.DeleteProductAsync(product);
 
             // Assert
-            Assert.Null(await _productRepository.GetByIdAsync(productId));
+            var result = await _productRepository.GetByIdAsync(id);
+            Assert.Null(result);
         }      
         [Fact]
         public async Task InsertProductAsync_StateUnderTest_ExpectedBehavior()
@@ -269,26 +276,31 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         public async Task UpdateProductAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            Product product = null;
-
+            const int productId = 1;
+            Product product = await _productRepository.GetByIdAsync(productId);
+            var oldName = product.Name;
+            product.Name += " Updated";
             // Act
             await service.UpdateProductAsync(product);
 
             // Assert
-            Assert.True(false);
+            Assert.NotEqual(oldName,product.Name);
         }
 
         [Fact]
         public async Task UpdateProductsAsync_StateUnderTest_ExpectedBehavior()
         {
             // Arrange            
-            IList<Product> products = null;
-
+            IList<Product> products = new List<Product>{
+                await _productRepository.GetByIdAsync(1),
+                await _productRepository.GetByIdAsync(2)
+            };            
+            products.ToList().ForEach(p => p.Name += " Updated");
             // Act
             await service.UpdateProductsAsync(products);
-
+            var actualProducts = await service.GetProductsByIdsAsync(products.Select(p => p.Id));
             // Assert
-            Assert.True(false);
-        }
+            Assert.True(actualProducts.ToList().Select(p => p.Name).All(p => p.Contains("Updated")));
+        }        
     }
 }

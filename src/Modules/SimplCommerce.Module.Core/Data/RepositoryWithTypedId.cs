@@ -60,6 +60,7 @@ namespace SimplCommerce.Module.Core.Data
         public async Task<T> GetByIdAsync(TId id) 
         {                        
             var entity = await DbSet.FindAsync(id);
+            if(entity == null) return entity;
             Context.Entry(entity).State = EntityState.Detached;
             return entity;
         }
@@ -67,6 +68,7 @@ namespace SimplCommerce.Module.Core.Data
         public async Task<T> GetByIdAsync(params object[] keyValues)
         {            
             var entity = await DbSet.FindAsync(keyValues);
+            if(entity == null) return entity;
             Context.Entry(entity).State = EntityState.Detached;
             return entity;
         }

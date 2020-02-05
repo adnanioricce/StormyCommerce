@@ -24,11 +24,12 @@ namespace StormyCommerce.Module.Catalog.Services
         }
         #region Read Methods
         //TODO:write failing test cases
-        public async Task<Result<IList<Product>>> GetAllProductsByCategory(int categoryId, int limit = 15)
+        public async Task<Result<IList<Product>>> GetAllProductsByCategory(long categoryId, int limit = 15)
         {
             return Result.Ok<IList<Product>>(await _productCategoryRepository.Query()
                 .Where(prop => prop.CategoryId == categoryId)
                 .Select(prop => prop.Product)
+                .Take(limit)
                 .ToListAsync());
         }
         public async Task<IList<Product>> GetAllProductsDisplayedOnHomepageAsync(int limit)
@@ -97,14 +98,15 @@ namespace StormyCommerce.Module.Catalog.Services
         }
         public async Task<List<Product>> SearchProductsBySearchPattern(string searchPattern)
         {
-            return await _productRepository.Query()
-                .Where(p => EF.Functions.Like(p.Name.ToLower(), "%" + searchPattern.ToLower() + "%"))
+            var products = await _productRepository.Query()
+                .Where(p => EF.Functions.Like(p.Name.ToLower(), "%" + searchPattern.ToLower() + "%"))                
                 .ToListAsync();
+            return products;
         }
         public async Task<Product> GetProductBySkuAsync(string sku)
         {
             return await _productRepository.Query()
-            .Where(p => p.Sku.Equals(sku, StringComparison.OrdinalIgnoreCase))
+            .Where(p => p.Sku == sku)
             .FirstOrDefaultAsync();
         }
 
@@ -114,22 +116,25 @@ namespace StormyCommerce.Module.Catalog.Services
         }
         public Task<Product> GetProductByNameAsync(string productName)
         {
-            return _productRepository.Query().Where(p => String.Equals(p.Name.Trim(), productName.Trim(), StringComparison.OrdinalIgnoreCase)).FirstOrDefaultAsync();
+            return _productRepository.Query()
+                .Where(p => p.Name.Trim() == productName.Trim())
+                .FirstOrDefaultAsync();
         }
-        public async Task<IList<Product>> GetProductsBySkuAsync(string[] skuArray, int vendorId = 0)
+        public async Task<IList<Product>> GetProductsBySkuAsync(IEnumerable<string> skuArray)
         {
             return await _productRepository.Query().Where(p => skuArray.Contains(p.Sku)).ToListAsync();            
         }
 
         public int GetTotalStockQuantity()
         {
-            return _productRepository.Query().Sum(f => f.StockQuantity - f.UnitsOnOrder.Value);
+            var result = _productRepository.Query().Sum(f => f.StockQuantity - f.UnitsOnOrder.Value);
+            return result;
         }
         public int GetTotalStockQuantityOfProduct(long productId)
         {
             return _productRepository.Query()
                 .Where(p => p.Id == productId)
-                .Sum(p => p.StockQuantity);
+                .Sum(p => p.StockQuantity - p.UnitsOnOrder.Value);
         }        
         #endregion
         #region Delete methods
@@ -149,7 +154,9 @@ namespace StormyCommerce.Module.Catalog.Services
             var entry = await _productRepository.GetByIdAsync(product.Id) ?? throw new ArgumentNullException("product don't exist");
             try{
                 _productRepository.Remove(entry);
-            } catch(Exception ex){                
+                _productRepository.SaveChanges();
+            } 
+            catch(Exception ex){                
                 throw ex; 
             }
 
