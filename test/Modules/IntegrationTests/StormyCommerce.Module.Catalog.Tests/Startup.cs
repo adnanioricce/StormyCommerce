@@ -24,6 +24,8 @@ using System.Linq;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Module.SampleData.Extensions;
 using SimplCommerce.Module.SampleData.Data;
+using SimplCommerce.Module.Catalog.Models;
+using GenFu;
 
 [assembly: TestFramework("StormyCommerce.Module.Catalog.Tests.Startup", "StormyCommerce.Module.Catalog.Tests")]
 namespace StormyCommerce.Module.Catalog.Tests
@@ -42,9 +44,9 @@ namespace StormyCommerce.Module.Catalog.Tests
                 opt.EnableSensitiveDataLogging();
                 opt.EnableDetailedErrors();
                 // If you don't want to run a database
-                // opt.UseSqlite("DataSource=testDb.db",m => m.MigrationsAssembly("StormyCommerce.Module.Catalog.Tests"));
-                opt.UseNpgsql(configuration.GetConnectionString("DevConnection"),
-                m => m.MigrationsAssembly("StormyCommerce.Module.Catalog.Tests"));
+                opt.UseSqlite("DataSource=testDb.db",m => m.MigrationsAssembly("StormyCommerce.Module.Catalog.Tests"));
+                // opt.UseNpgsql(configuration.GetConnectionString("DevConnection"),
+                // m => m.MigrationsAssembly("StormyCommerce.Module.Catalog.Tests"));
             });                                                
             services.AddTransient<IStormyProductService, StormyProductService>();                                    
             services.AddTransient<IMediaService, MediaService>();                        
@@ -65,8 +67,7 @@ namespace StormyCommerce.Module.Catalog.Tests
             }        
         }
         protected override void Configure(IServiceProvider provider){            
-            BuildDbSchema(provider); 
-            SeedDatabase(provider);                       
+            BuildDbSchema(provider);                         
         }
         protected override IHostBuilder CreateHostBuilder(AssemblyName assemblyName) =>
             base.CreateHostBuilder(assemblyName)
@@ -87,14 +88,12 @@ namespace StormyCommerce.Module.Catalog.Tests
             var folderExist = Directory.Exists(path + "\\Shared");
             return folderExist ? path +"\\Shared" : GetSrcPath(Directory.GetParent(path).FullName);
         }
-        //TODO:I don't really need this kind of seed data to test, should create a more specific for this test
+        //TODO:I don't really need this kind of seed data to test, should create a more specific for this test        
         private void SeedDatabase(IServiceProvider provider)
         {
-            var sqlRepository = (SqlRepository)provider.GetService<ISqlRepository>();
-            var filePath = Path.Combine(GlobalConfiguration.ContentRootPath,"Modules", "SimplCommerce.Module.SampleData", "SampleContent", "Fashion","ResetToSampleData_Postgres.sql");
-            var lines = File.ReadLines(filePath);
-            var commands = sqlRepository.PostgresCommands(lines);
-            sqlRepository.RunCommands(commands);
+            var dbContext = provider.GetService<SimplDbContext>();                                        
+            dbContext.AddRange(A.ListOf<Product>(25));
+            dbContext.SaveChanges();
         }
         private void BuildDbSchema(IServiceProvider provider)
         {

@@ -15,7 +15,7 @@ using SimplCommerce.Infrastructure.Data;
 
 namespace StormyCommerce.Module.Catalog.Tests.Catalog
 {
-    public class ProductControllerTests
+    public class ProductControllerTests : IClassFixture<TestBase>
     {    
         private readonly ProductController _productController;        
         private readonly IRepository<Product> _productRepository;

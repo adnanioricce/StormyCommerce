@@ -11,19 +11,14 @@ using Xunit;
 
 namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
 {
-    public class ProductServiceTests
+    public class ProductServiceTests : IClassFixture<TestBase>
     {
         private readonly IStormyProductService service;
         private readonly IRepository<Product> _productRepository;        
         public ProductServiceTests(IStormyProductService productService,IRepository<Product> productRepository,IRepository<Vendor> vendorRepository)
         {
             service = productService;
-            _productRepository = productRepository;            
-            vendorRepository.Add(new Vendor{
-                Name = "test vendor",
-                Slug = "test-vendor",                
-            });
-            vendorRepository.SaveChanges();
+            _productRepository = productRepository;                        
         }
         [Fact]
         public async Task GetAllProductsByCategory_StateUnderTest_ExpectedBehavior()
