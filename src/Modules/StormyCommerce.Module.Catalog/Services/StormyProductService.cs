@@ -31,15 +31,7 @@ namespace StormyCommerce.Module.Catalog.Services
                 .Select(prop => prop.Product)
                 .Take(limit)
                 .ToListAsync());
-        }
-        public async Task<IList<Product>> GetAllProductsDisplayedOnHomepageAsync(int limit)
-        {
-            return await _productRepository
-                .Query()
-                .OrderBy(p => p.Id)
-                .Take(limit)
-                .ToListAsync();
-        }
+        }        
         
         public async Task<IList<Product>> GetAllProductsAsync(long startIndex = 1, long endIndex = 15)
         {            
@@ -47,20 +39,7 @@ namespace StormyCommerce.Module.Catalog.Services
                 .Where(product => product.Id <= endIndex && product.Id >= startIndex)                
                 .ToListAsync();
         }
-
-        public async Task<IList<Product>> GetAllProductsIncludingAsync(long startIndex = 1, long endIndex = 15)
-        {
-            return await _productRepository.Query()
-                .Include(product => product.Brand)
-                .Include(product => product.Categories)
-                    .ThenInclude(p => p.Category) 
-                .Include(product => product.ProductLinks)
-                .Include(product => product.Medias)                    
-                    .ThenInclude(p => p.Media)
-                .Include(product => product.OptionValues)                
-                .Where(product => product.Id >= startIndex && product.Id <= endIndex)
-                .ToListAsync();            
-        }
+        
         public int GetNumberOfProducts()
         {
             return _productRepository.Query().Count();
@@ -113,13 +92,7 @@ namespace StormyCommerce.Module.Catalog.Services
         public async Task<IList<Product>> GetProductsByIdsAsync(IEnumerable<long> productIds)
         {
             return await _productRepository.GetAllByIdsAsync(productIds);
-        }
-        public Task<Product> GetProductByNameAsync(string productName)
-        {
-            return _productRepository.Query()
-                .Where(p => p.Name.Trim() == productName.Trim())
-                .FirstOrDefaultAsync();
-        }
+        }        
         public async Task<IList<Product>> GetProductsBySkuAsync(IEnumerable<string> skuArray)
         {
             return await _productRepository.Query().Where(p => skuArray.Contains(p.Sku)).ToListAsync();            
@@ -189,10 +162,6 @@ namespace StormyCommerce.Module.Catalog.Services
         {
             await _productRepository.UpdateCollectionAsync(products);
         }        
-        #endregion
-        private bool IsSlugValid(Product product,string brandName,string categoryName)
-        {
-            return product.Name.Contains(brandName) && product.Name.Contains(categoryName);
-        }        
+        #endregion               
     }
 }

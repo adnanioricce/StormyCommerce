@@ -15,7 +15,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
     {
         private readonly IStormyProductService service;
         private readonly IRepository<Product> _productRepository;        
-        public ProductServiceTests(IStormyProductService productService,IRepository<Product> productRepository,IRepository<Vendor> vendorRepository)
+        public ProductServiceTests(IStormyProductService productService,IRepository<Product> productRepository)
         {
             service = productService;
             _productRepository = productRepository;                        
@@ -32,20 +32,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
 
             // Assert
             Assert.True(result.Value.Count <= limit);
-        }
-
-        [Fact]
-        public async Task GetAllProductsDisplayedOnHomepageAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange            
-            int limit = 5;
-
-            // Act
-            var result = await service.GetAllProductsDisplayedOnHomepageAsync(limit);
-
-            // Assert
-            Assert.True(result.Count() <= limit);
-        }
+        }        
 
         [Fact]
         public async Task GetAllProductsAsync_StateUnderTest_ExpectedBehavior()
@@ -89,7 +76,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         }
 
         [Fact]
-        public void GetNumberOfProductsInCategory_StateUnderTest_ExpectedBehavior()
+        public void GetNumberOfProductsInCategory_ReceivesCollectionOfCategoryIds_ReturnAllProductsWithCategoryIdThatMatchGivenIds()
         {
             // Arrange            
             IList<long> categoryIds = new List<long>{
@@ -104,7 +91,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         }
 
         [Fact]
-        public async Task GetProductByIdAsync_StateUnderTest_ExpectedBehavior()
+        public async Task GetProductByIdAsync_ReceivesIdOfTypeLong_ReturnProductWithIdThatMatchesGivenId()
         {
             // Arrange            
             Product product = ProductSeeder.InsertProductSeed();
@@ -118,7 +105,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         }
 
         [Fact]
-        public async Task SearchProductsBySearchPattern_StateUnderTest_ExpectedBehavior()
+        public async Task SearchProductsBySearchPattern_ReceivesString_ReturnProductWithStringThatMatchesGivenString()
         {
             // Arrange                 
             string searchPattern = "test";
@@ -131,7 +118,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         }
 
         [Fact]
-        public async Task GetProductBySkuAsync_StateUnderTest_ExpectedBehavior()
+        public async Task GetProductBySkuAsync_ReceivesString_ReturnProductWithSkuThatMatchesGivenString()
         {
             // Arrange            
             Product product = ProductSeeder.InsertProductSeed(); 
@@ -139,13 +126,12 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
             _productRepository.SaveChanges();
             // Act
             var result = await service.GetProductBySkuAsync(product.Sku);
-
             // Assert
-            Assert.Equal(product.Sku,result.Sku);
+            Assert.True(string.Equals(product.Sku,result.Sku,StringComparison.CurrentCultureIgnoreCase));
         }
 
         [Fact]
-        public async Task GetProductsByIdsAsync_StateUnderTest_ExpectedBehavior()
+        public async Task GetProductsByIdsAsync_ReceivesArrayIdsOfTypeLong_ReturnAllProductsWithIdsThatMatchGivenIds()
         {
             // Arrange            
             var productIds = new long[] { 1L,2L };            
@@ -155,24 +141,10 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
 
             // Assert
             Assert.Equal(2,result.Count);
-        }
+        }        
 
         [Fact]
-        public async Task GetProductByNameAsync_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange           
-            Product product = ProductSeeder.InsertProductSeed(); 
-            _productRepository.Add(product);            
-            _productRepository.SaveChanges();
-            // Act
-            var result = await service.GetProductByNameAsync(product.Name);
-
-            // Assert
-            Assert.Equal(product.Name,result.Name);
-        }
-
-        [Fact]
-        public async Task GetProductsBySkuAsync_StateUnderTest_ExpectedBehavior()
+        public async Task GetProductsBySkuAsync_ReceivesArrayOfStrings_ReturnAllProductsWithSkuThatMatchGivenString()
         {
             // Arrange            
             var skuArray = _productRepository.Query().Select(p => p.Sku).Take(3).ToList();            
@@ -181,11 +153,13 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
             var result = await service.GetProductsBySkuAsync(skuArray);
 
             // Assert
-            Assert.NotEqual(skuArray,result.Select(p => p.Sku));
+            Assert.True(string.Equals(skuArray[0],result[0].Sku,StringComparison.CurrentCultureIgnoreCase));
+            Assert.True(string.Equals(skuArray[1],result[1].Sku,StringComparison.CurrentCultureIgnoreCase));
+            Assert.True(string.Equals(skuArray[2],result[2].Sku,StringComparison.CurrentCultureIgnoreCase));
         }
 
         [Fact]
-        public void GetTotalStockQuantity_StateUnderTest_ExpectedBehavior()
+        public void GetTotalStockQuantity_NoArgument_ReturnSumOfProductStockQuantity()
         {         
             //Arrange 
             Product product = ProductSeeder.InsertProductSeed();
@@ -199,7 +173,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         }
 
         [Fact]
-        public void GetTotalStockQuantityOfProduct_StateUnderTest_ExpectedBehavior()
+        public void GetTotalStockQuantityOfProduct_ReceivesLong_ReturnSumOfStockQuantityOfProductWithGivenId()
         {
             // Arrange            
             long productId = 1;
@@ -212,19 +186,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         }
 
         [Fact]
-        public void GetTotalStockQuantityOfProduct_StateUnderTest_ExpectedBehavior1()
-        {
-            // Arrange                                    
-            long productId = 1;
-            // Act
-            var result = service.GetTotalStockQuantityOfProduct(productId);
-
-            // Assert
-            Assert.True(result > 0);
-        }                
-
-        [Fact]
-        public async Task DeleteProductAsync_StateUnderTest_ExpectedBehavior()
+        public async Task DeleteProductAsync_ReceivesProduct_RemoveEntryOfGivenProductFromDatabase()
         {
             // Arrange        
             var product = _productRepository.Query()
@@ -239,7 +201,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
             Assert.Null(result);
         }      
         [Fact]
-        public async Task InsertProductAsync_StateUnderTest_ExpectedBehavior()
+        public async Task InsertProductAsync_ReceivesProduct_InsertGivenProductOnDatabase()
         {
             // Arrange            
             Product product = ProductSeeder.InsertProductSeed();
@@ -252,7 +214,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         }
 
         [Fact]
-        public async Task InsertProductsAsync_StateUnderTest_ExpectedBehavior()
+        public async Task InsertProductsAsync_ReceivesCollectionOfProducts_InsertEachElementOfCollectionOnDatabase()
         {
             // Arrange            
             IList<Product> products = new List<Product>{
@@ -268,7 +230,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         }
 
         [Fact]
-        public async Task UpdateProductAsync_StateUnderTest_ExpectedBehavior()
+        public async Task UpdateProductAsync_ReceivesProduct_WriteChangesOfGivenProductOnDatabase()
         {
             // Arrange            
             const int productId = 1;
@@ -283,7 +245,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Services.Catalog
         }
 
         [Fact]
-        public async Task UpdateProductsAsync_StateUnderTest_ExpectedBehavior()
+        public async Task UpdateProductsAsync_ReceivesCollectionOfProducts_WriteChangesOfGivenProductsOnDatabase()
         {
             // Arrange            
             IList<Product> products = new List<Product>{

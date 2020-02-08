@@ -77,21 +77,7 @@ namespace StormyCommerce.Module.Catalog.Tests.Catalog
             Assert.Equal(2,products.Value[0].Id);
             Assert.Equal(3,products.Value[1].Id);
             Assert.Equal(4,products.Value[2].Id);
-        }
-
-        [Fact]
-        public async Task GetAllProductsOnHomepage_LimitEqual15_ReturnProductsWhileRankingIsLessThanLimit()
-        {
-            // Arrange
-            int limit = 5;
-
-            // Act
-            var result = (await _productController.GetAllProductsOnHomepage(limit));
-            // Assert
-            Assert.NotNull(result);
-            //Yeah, the method start from zero, so the final result is 16, instead of 15
-            Assert.True(result.Value.Count <= limit && result.Value.Count > 0);
-        }
+        }        
 
         [Fact]
         public async Task GetProductById_GivenIdEqual1_ReturnEntityWithGivenId()

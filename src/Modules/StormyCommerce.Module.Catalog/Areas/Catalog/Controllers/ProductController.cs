@@ -45,14 +45,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
             var products = await _productService.SearchProductsBySearchPattern(searchPattern);
             var mappedProduct = _mapper.Map<List<Product>,List<ProductSearchResponse>>(products);
             return Result.Ok(mappedProduct);
-        }
-        [HttpGet("get_by_name")]
-        [ValidateModel]
-        [AllowAnonymous]        
-        public async Task<Product> GetProductByName(string productName)
-        {
-            return await _productService.GetProductByNameAsync(productName);
-        }
+        }        
         ///<summary>
         /// Get a more simplified version of a specified product
         ///</summary>
@@ -77,18 +70,7 @@ namespace StormyCommerce.Module.Catalog.Controllers
             var result = _mapper.Map<IList<Product>, IList<ProductDto>>(products);
             return result.ToList();
         }
-
-        [HttpGet("homepage")]
-        [ValidateModel]
-        [AllowAnonymous]
-        public async Task<ActionResult<IList<ProductDto>>> GetAllProductsOnHomepage(int limit)
-        {
-            var products = await _productService.GetAllProductsDisplayedOnHomepageAsync(limit);
-
-            if (products == null) return NotFound("Don't was possible to retrieve products");
-            var mappedProducts = _mapper.Map<IList<Product>, IList<ProductDto>>(products);
-            return mappedProducts.ToList();
-        }
+        
 
         [HttpGet("get")]
         [ValidateModel]

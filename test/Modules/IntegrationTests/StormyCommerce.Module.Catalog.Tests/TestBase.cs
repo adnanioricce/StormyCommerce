@@ -1,9 +1,8 @@
 using System;
 using System.Linq;
-using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Data;
-using GenFu;
 using SimplCommerce.Module.Core.Models;
+using SimplCommerce.Module.Catalog.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,23 +22,28 @@ namespace StormyCommerce.Module.Catalog.Tests
                 .EnableSensitiveDataLogging()
                 .UseInternalServiceProvider(serviceProvider);            
             _dbContext = new SimplDbContext(builder.Options);
-            var products = A.ListOf<Product>(24);
-            var vendors = A.ListOf<Vendor>(2);
-            _dbContext.AddRange(vendors);
-            _dbContext.SaveChanges();
-            // products.            
-            // for(int i = 0;i < (products.Count/2);++i){
-            //     products[i].VendorId = vendors.FirstOrDefault().Id;                
-            // }
-            // for(int j = products.Count/2;j < (products.Count/2);++j){
-            //     products[j].VendorId = vendors.Last().Id;
-            // }
+            var products = ProductSeeder.InsertProductSeed(10).ToArray();            
+            var vendor = new Vendor{
+                Name = "test vendor",
+                Slug = "test-vendor"                
+            };            
+            var category = CategorySeeder.InsertCategorySeed();
+            _dbContext.Add(vendor);
+            _dbContext.Add(category);
+            _dbContext.SaveChanges();            
+            for(int i = 0;i < products.Count();++i){
+                products[i].VendorId = vendor.Id;                
+                products[i].AddCategory(new ProductCategory{
+                    ProductId = products[i].Id,
+                    CategoryId = category.Id
+                });
+            }            
             _dbContext.AddRange(products);
             _dbContext.SaveChanges();
         }
         public void Dispose()
-        {
-            // _dbContext.
+        {                        
+            _dbContext.Dispose();
         }
     }
 }

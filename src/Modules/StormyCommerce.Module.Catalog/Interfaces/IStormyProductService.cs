@@ -14,20 +14,16 @@ namespace StormyCommerce.Module.Catalog.Interfaces
 
         Task<List<Product>> SearchProductsBySearchPattern(string searchPattern);
 
-        Task<Result<IList<Product>>> GetAllProductsByCategory(long categoryId, int limit = 15);
-
-        Task<IList<Product>> GetAllProductsDisplayedOnHomepageAsync(int limit = 0);
+        Task<Result<IList<Product>>> GetAllProductsByCategory(long categoryId, int limit = 15);        
 
         Task<IList<Product>> GetAllProductsAsync(long startIndex, long endIndex);
 
-        Task<Product> GetProductByIdAsync(long productId);
-        
-        Task<Product> GetProductByNameAsync(string productName);
+        Task<Product> GetProductByIdAsync(long productId);                
 
         Task<IList<Product>> GetProductsByIdsAsync(IEnumerable<long> productIds);
         
         Task InsertProductAsync(Product product);
-
+        Task InsertProductsAsync(IList<Product> products);
         Task UpdateProductAsync(Product product);
 
         Task UpdateProductsAsync(IList<Product> products);
@@ -46,6 +42,6 @@ namespace StormyCommerce.Module.Catalog.Interfaces
 
         int GetTotalStockQuantityOfProduct(long productId);
 
-        Task InsertProductsAsync(IList<Product> products);
+        
     }
 }
