@@ -1,2 +1,0 @@
-#Guia 
-Antes que comecemos
