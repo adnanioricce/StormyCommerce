@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,11 @@ namespace StormyCommerce.Module.Catalog
         }
 
         public void ConfigureServices(IServiceCollection serviceCollection)
-        {
+        {            
+            var mapper = new MapperConfiguration(mc => {
+                mc.AddProfile(new CatalogProfile());
+            }).CreateMapper();
+            serviceCollection.AddSingleton(mapper);
             serviceCollection.AddTransient<IStormyProductService, StormyProductService>();                                                                                    
         }
     }

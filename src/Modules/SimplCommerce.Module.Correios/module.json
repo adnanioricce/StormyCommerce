@@ -1,0 +1,6 @@
+{
+  "id": "SimplCommerce.Module.Correios",
+  "name": "SimplCommerce Correios API",
+  "isBundledWithHost": true,
+  "version": "1.0.0"
+}

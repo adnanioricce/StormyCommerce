@@ -3,7 +3,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
+  </ItemGroup>
   <ItemGroup>  
     <PackageReference Include="Xunit.DependencyInjection" Version="5.4.0" />
     <PackageReference Include="Bogus" Version="28.0.2" />

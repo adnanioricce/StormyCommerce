@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
+using SimplCommerce.Infrastructure.Logging;
 using SimplCommerce.Infrastructure.Modules;
 using SimplCommerce.Infrastructure.Web;
 using SimplCommerce.Module.Core.Data;
@@ -54,15 +55,13 @@ namespace SimplCommerce.WebHost
             services.AddHttpClient();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient(typeof(IRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
+            services.AddSingleton(typeof(IAppLogger<>),typeof(LoggerAdapter<>));
             services.AddScoped<SlugRouteValueTransformer>();
-
             services.AddCustomizedLocalization();
-
             services.AddCustomizedMvc(GlobalConfiguration.Modules);
             services.Configure<RazorViewEngineOptions>(
                 options => { options.ViewLocationExpanders.Add(new ThemeableViewLocationExpander()); });
-            services.Configure<WebEncoderOptions>(options =>
-            {
+            services.Configure<WebEncoderOptions>(options =>{
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
             });
             services.AddScoped<ITagHelperComponent, LanguageDirectionTagHelperComponent>();
@@ -81,20 +80,35 @@ namespace SimplCommerce.WebHost
                     moduleInitializer.ConfigureServices(services);
                 }
             }
-
             services.AddScoped<ServiceFactory>(p => p.GetService);
             services.AddScoped<IMediator, Mediator>();
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SimplCommerce API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer",new OpenApiSecurityScheme{
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    { 
+                        new OpenApiSecurityScheme { 
+                            Reference = new OpenApiReference { 
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer" 
+                            } 
+                        },
+                            new string[] { } 
+                        } 
+                    });
             });
             services.AddCors(o => o.AddPolicy("Default", builder =>
             {
                 builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();
                 builder.AllowAnyHeader();   
-                builder.AllowCredentials();             
+                // builder.AllowCredentials();             
             }));                               
                         
         }

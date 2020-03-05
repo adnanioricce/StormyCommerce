@@ -14,8 +14,7 @@ namespace StormyCommerce.Module.Catalog
             CreateMap<Brand, BrandDto>();                                                               
             CreateMap<BrandDto, Brand>();            
             CreateMap<Media, MediaDto>();
-            CreateMap<Media, ProductMediaDto>();                
-            
+            CreateMap<Media, ProductMediaDto>();                            
             CategoryMap();
             ProductMap();              
         }        
