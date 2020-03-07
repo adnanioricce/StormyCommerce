@@ -6,5 +6,6 @@ namespace SimplCommerce.Module.Shipments.Models.Responses
     {
         public DateTimeOffset DeliveryDate { get; set; }
         public decimal Price { get; set; }
+        public string ServiceName { get; set; }
     }
 }

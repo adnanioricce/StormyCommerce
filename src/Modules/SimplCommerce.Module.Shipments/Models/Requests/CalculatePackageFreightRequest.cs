@@ -2,7 +2,8 @@
 {
     public class CalculatePackageFreightRequest
     {
-        public string ZipCode { get; set; }
+        public string DestinationZipCode { get; set; }
         public int CartId { get; set; }
+        public string ShippingMethod { get; set; }        
     }
 }
