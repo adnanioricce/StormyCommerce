@@ -1,8 +1,8 @@
-using Moq;
-using SimplCommerce.Infrastructure.Data;
-using SimplCommerce.Module.Correios.Services;
-using SimplCommerce.Module.ShoppingCart.Models;
-using System;
+﻿
+using SimplCommerce.Module.Correios.Models;
+using SimplCommerce.Module.Shipments.Models;
+using SimplCommerce.Module.Shipments.Models.Requests;
+using SimplCommerce.Module.Shipments.Services;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -10,56 +10,27 @@ namespace SimplCommerce.Module.Correios.Tests.Services
 {
     public class CorreiosFreightCalculatorTests
     {
-        private MockRepository mockRepository;
-
-        private Mock<CorreiosService> mockCorreiosService;
-        private Mock<IRepository<Cart>> mockRepository;
-
-        public CorreiosFreightCalculatorTests()
+        private readonly IFreightCalculator _freightCalculator;
+        public CorreiosFreightCalculatorTests(IFreightCalculator freightCalculator)
         {
-            this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-            this.mockCorreiosService = this.mockRepository.Create<CorreiosService>();
-            this.mockRepository = this.mockRepository.Create<IRepository<Cart>>();
-        }
-
-        private CorreiosFreightCalculator CreateCorreiosFreightCalculator()
-        {
-            return new CorreiosFreightCalculator(
-                this.mockCorreiosService.Object,
-                this.mockRepository.Object);
-        }
-
-        [Fact]
-        public async Task CalculateFreightForItem_StateUnderTest_ExpectedBehavior()
-        {
-            // Arrange
-            var correiosFreightCalculator = this.CreateCorreiosFreightCalculator();
-            CalculateItemFreightRequest request = null;
-
-            // Act
-            var result = await correiosFreightCalculator.CalculateFreightForItem(
-                request);
-
-            // Assert
-            Assert.True(false);
-            this.mockRepository.VerifyAll();
-        }
+            _freightCalculator = freightCalculator;
+        }                
 
         [Fact]
         public async Task CalculateFreightForPackage_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
-            var correiosFreightCalculator = this.CreateCorreiosFreightCalculator();
-            CalculatePackageFreightRequest request = null;
+            // Arrange            
+            CalculatePackageFreightRequest request = new CalculatePackageFreightRequest { 
+                DestinationZipCode = "19190970",
+                ShippingMethod = ServiceCode.Sedex,
+                CartId = 1
+            };
 
             // Act
-            var result = await correiosFreightCalculator.CalculateFreightForPackage(
-                request);
+            var result = await _freightCalculator.CalculateFreightForPackage(request);
 
             // Assert
-            Assert.True(false);
-            this.mockRepository.VerifyAll();
+            Assert.True(result.Options.Count >= 1);            
         }
     }
 }

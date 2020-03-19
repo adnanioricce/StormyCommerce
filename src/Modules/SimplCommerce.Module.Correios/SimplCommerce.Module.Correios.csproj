@@ -13,5 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SimplCommerce.Module.Shipments\SimplCommerce.Module.Shipments.csproj" />
     <ProjectReference Include="..\SimplCommerce.Module.ShoppingCart\SimplCommerce.Module.ShoppingCart.csproj" />
+    <ProjectReference Include="..\SimplCommerce.Module.Catalog\SimplCommerce.Module.Catalog.csproj" />
   </ItemGroup>
 </Project>

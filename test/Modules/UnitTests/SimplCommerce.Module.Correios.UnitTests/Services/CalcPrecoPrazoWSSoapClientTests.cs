@@ -95,7 +95,7 @@
 //        public async Task CalcPrecoPrazoRestricaoAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 //            string nCdEmpresa = null;
 //            string sDsSenha = null;
 //            string nCdServico = null;
@@ -138,7 +138,7 @@
 //        public async Task CalcPrecoAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 //            string nCdEmpresa = null;
 //            string sDsSenha = null;
 //            string nCdServico = null;
@@ -179,7 +179,7 @@
 //        public async Task CalcPrecoDataAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 //            string nCdEmpresa = null;
 //            string sDsSenha = null;
 //            string nCdServico = null;
@@ -222,7 +222,7 @@
 //        public async Task CalcPrazoAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 //            string nCdServico = null;
 //            string sCepOrigem = null;
 //            string sCepDestino = null;
@@ -241,7 +241,7 @@
 //        public async Task CalcPrazoDataAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 //            string nCdServico = null;
 //            string sCepOrigem = null;
 //            string sCepDestino = null;
@@ -262,7 +262,7 @@
 //        public async Task CalcPrazoRestricaoAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 //            string nCdServico = null;
 //            string sCepOrigem = null;
 //            string sCepDestino = null;
@@ -283,7 +283,7 @@
 //        public async Task CalcPrecoFACAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 //            string nCdServico = null;
 //            string nVlPeso = null;
 //            string strDataCalculo = null;
@@ -302,7 +302,7 @@
 //        public async Task CalcDataMaximaAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 //            string codigoObjeto = null;
 
 //            // Act
@@ -317,7 +317,7 @@
 //        public async Task ListaServicosAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 
 //            // Act
 //            var result = await calcPrecoPrazoWSSoapClient.ListaServicosAsync();
@@ -330,7 +330,7 @@
 //        public async Task ListaServicosSTARAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 
 //            // Act
 //            var result = await calcPrecoPrazoWSSoapClient.ListaServicosSTARAsync();
@@ -343,7 +343,7 @@
 //        public async Task VerificaModalAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 //            string nCdServico = null;
 //            string sCepOrigem = null;
 //            string sCepDestino = null;
@@ -362,7 +362,7 @@
 //        public async Task getVersaoAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 
 //            // Act
 //            var result = await calcPrecoPrazoWSSoapClient.getVersaoAsync();
@@ -375,7 +375,7 @@
 //        public async Task OpenAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 
 //            // Act
 //            await calcPrecoPrazoWSSoapClient.OpenAsync();
@@ -388,7 +388,7 @@
 //        public async Task CloseAsync_StateUnderTest_ExpectedBehavior()
 //        {
 //            // Arrange
-//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient();
+//            var calcPrecoPrazoWSSoapClient = new CalcPrecoPrazoWSSoapClient(null);
 
 //            // Act
 //            await calcPrecoPrazoWSSoapClient.CloseAsync();

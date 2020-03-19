@@ -13,9 +13,4 @@
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\Modules\StormyCommerce.Module.Catalog\StormyCommerce.Module.Catalog.csproj" />
-    <ProjectReference Include="..\..\..\SimplCommerce.Tests\SimplCommerce.Tests.csproj" />
-  </ItemGroup>
-
 </Project>

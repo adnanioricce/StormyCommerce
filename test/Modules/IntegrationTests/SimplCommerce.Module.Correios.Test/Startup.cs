@@ -19,6 +19,8 @@ using SimplCommerce.Infrastructure.Modules;
 using Microsoft.EntityFrameworkCore;
 using SimplCommerce.Module.Core.Data;
 using SimplCommerce.WebHost.Extensions;
+using SimplCommerce.Module.Correios.Services;
+using SimplCommerce.Module.Correios.Interfaces;
 
 [assembly: TestFramework("SimplCommerce.Module.Correios.Tests.Startup", "SimplCommerce.Module.Correios.Tests")]
 namespace SimplCommerce.Module.Correios.Tests
@@ -41,6 +43,9 @@ namespace SimplCommerce.Module.Correios.Tests
                 // If you don't want to run a database
                 opt.UseSqlite("DataSource=testDb.db", m => m.MigrationsAssembly("StormyCommerce.Module.Catalog.Tests"));               
             });
+            services.AddTransient<CalcPrecoPrazoWSSoapClient>();
+            services.AddTransient<CorreiosService>();
+
         }
         //TODO: Generate classlib for common code
         private IConfigurationRoot GetIConfigurationRoot(string outputPath)

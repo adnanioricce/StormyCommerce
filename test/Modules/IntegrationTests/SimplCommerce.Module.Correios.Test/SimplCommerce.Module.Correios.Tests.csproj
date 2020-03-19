@@ -13,12 +13,14 @@
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="4.7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\Modules\SimplCommerce.Module.Core\SimplCommerce.Module.Core.csproj" />
     <ProjectReference Include="..\..\..\..\src\Modules\SimplCommerce.Module.Correios\SimplCommerce.Module.Correios.csproj" />
     <ProjectReference Include="..\..\..\..\src\SimplCommerce.WebHost\SimplCommerce.WebHost.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Modules\SimplCommerce.Module.ShoppingCart\SimplCommerce.Module.ShoppingCart.csproj" />
   </ItemGroup>
 
 </Project>

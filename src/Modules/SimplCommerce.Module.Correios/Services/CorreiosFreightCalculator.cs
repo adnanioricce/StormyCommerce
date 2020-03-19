@@ -29,11 +29,7 @@ namespace SimplCommerce.Module.Correios.Services
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;
             _packageBuilder = packageBuilder;
-        }
-        public async Task<CalculateFreightResponse> CalculateFreightForItem(CalculateItemFreightRequest request)
-        {
-            throw new NotImplementedException();            
-        }
+        }        
 
         public async Task<CalculateFreightResponse> CalculateFreightForPackage(CalculatePackageFreightRequest request)
         {

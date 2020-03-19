@@ -26,11 +26,11 @@ namespace SimplCommerce.Module.Core.Models
         public string AddressLine2 { get; set; }
 
         [StringLength(450)]
-        public string City { get; set; }
+        public string City { get; set; }        
 
         [StringLength(450)]
         public string ZipCode { get; set; }
-
+        public string Number { get; set; }
         public long? DistrictId { get; set; }
 
         public District District { get; set; }
