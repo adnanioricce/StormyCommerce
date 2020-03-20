@@ -13,8 +13,9 @@ namespace SimplCommerce.Module.Payments.Services
         private readonly IRepository<Payment> _paymentRepository;
         private readonly IPaymentProvider _paymentProvider;
         public ProcessTransactionResponse ProcessTransaction(ProcessTransactionRequest request)
-        {
-            throw new System.NotImplementedException();
+        {                        
+            var response = _paymentProvider.ProcessTransaction(request);            
+            return response;
         }
     }
 }   
