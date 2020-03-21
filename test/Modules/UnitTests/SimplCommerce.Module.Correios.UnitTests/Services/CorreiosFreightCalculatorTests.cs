@@ -8,6 +8,7 @@ using SimplCommerce.Module.ShoppingCart.Models;
 using SimplCommerce.Tests;
 using System.Threading.Tasks;
 using Xunit;
+using Moq;
 
 namespace SimplCommerce.Module.Correios.Tests.Services
 {
@@ -20,6 +21,7 @@ namespace SimplCommerce.Module.Correios.Tests.Services
         private CorreiosService CreateMockCorreiosService()
         {
             var mockService = new Mock<CorreiosService>();
+            return mockService.Object;
             
         }
         [Fact]
@@ -29,7 +31,7 @@ namespace SimplCommerce.Module.Correios.Tests.Services
             
             var repo = new FakeRepository<Cart>();
             
-            var _freightCalculator = new CorreiosFreightCalculator(,repo,null,new PackageBuilder());
+            var _freightCalculator = new CorreiosFreightCalculator(CreateMockCorreiosService(),repo,null,new PackageBuilder());
             var request = new CalculatePackageFreightRequest { 
                 DestinationZipCode = "19190970",
                 ShippingMethod = ServiceCode.Sedex,

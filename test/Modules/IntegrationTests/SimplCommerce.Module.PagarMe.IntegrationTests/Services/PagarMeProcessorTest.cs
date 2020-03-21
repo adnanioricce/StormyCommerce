@@ -34,7 +34,7 @@ namespace SimplCommerce.Module.PagarMe.IntegrationTests.Services
             //Then
             var payment = _paymentRepository.Query().FirstOrDefault(p => p.Id == response.PaymentId);
             Assert.True(response.Success);
-            Assert.Equal(275.35,payment.Amount);            
+            Assert.Equal(275.35m,payment.Amount);            
        }
        private void SetTestData(SimplDbContext dbContext)
        {
@@ -70,15 +70,15 @@ namespace SimplCommerce.Module.PagarMe.IntegrationTests.Services
                 BillingAddressId = 1,
                 OrderItems = new List<OrderItem>{
                     new OrderItem{
-                        ProductPrice = 120.0,
+                        ProductPrice = 120.0m,
                         ProductId = 1,
                         Quantity = 2                        
                     }
                 },
                 OrderStatus = OrderStatus.OnHold,
-                ShippingFeeAmount = 22.4,
+                ShippingFeeAmount = 22.4m,
                 PaymentMethod = "boleto",
-                PaymentFeeAmount = 12.99,
+                PaymentFeeAmount = 12.99m,
            };
        }       
        private District GetDefaultDistrict(){
@@ -89,21 +89,19 @@ namespace SimplCommerce.Module.PagarMe.IntegrationTests.Services
        }
        private StateOrProvince GetDefaultState()
        {
-           return new StateOrProvince{
-               Id = 1,
+           return new StateOrProvince{               
                CountryId = "Test",
                Name = "test state"
            };
        }
        private Country GetCountry(){
-           return new Country{
-               Name = "Test"
+           return new Country("Test"){
+               Name = "Test Country"
 
            };
        }
        private OrderAddress GetOrderAddress(){
-           return new OrderAddress{
-               Id = 1,
+           return new OrderAddress{               
                ContactName = "test name",
                Phone = "+5511996022222",
                AddressLine1 = "R.Test",
@@ -131,7 +129,7 @@ namespace SimplCommerce.Module.PagarMe.IntegrationTests.Services
        }
        private ProcessTransactionRequest GetProcessTransactionRequestData()
        {                      
-           var request = new ProcessTransactionRequest{
+           return new ProcessTransactionRequest{
                OrderId = 1,               
            };
        }

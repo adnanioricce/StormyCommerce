@@ -37,7 +37,7 @@ namespace SimplCommerce.Module.PagarMe.IntegrationTests
             });
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient(typeof(IRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
-            services.AddTransient<PagarMeProcessor,IPaymentProvider>();            
+            services.AddTransient<IPaymentProvider, PagarMeProcessor>();            
         }
         protected override void Configure(IServiceProvider provider){            
             BuildDbSchema(provider);                         
@@ -60,14 +60,7 @@ namespace SimplCommerce.Module.PagarMe.IntegrationTests
         private string GetSharedFolder(string path){
             var folderExist = Directory.Exists(path + "\\Shared");
             return folderExist ? path +"\\Shared" : GetSrcPath(Directory.GetParent(path).FullName);
-        }
-        //TODO:I don't really need this kind of seed data to test, should create a more specific for this test        
-        private void SeedDatabase(IServiceProvider provider)
-        {
-            var dbContext = provider.GetService<SimplDbContext>();                                        
-            dbContext.AddRange(A.ListOf<Product>(25));
-            dbContext.SaveChanges();
-        }
+        }        
         private void BuildDbSchema(IServiceProvider provider)
         {
             using (var scope = provider.CreateScope())
