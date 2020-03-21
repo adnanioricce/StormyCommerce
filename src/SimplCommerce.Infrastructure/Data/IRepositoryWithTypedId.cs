@@ -10,6 +10,7 @@ namespace SimplCommerce.Infrastructure.Data
 {
     public interface IRepositoryWithTypedId<T, TId> where T : IEntityWithTypedId<TId> where TId : IEquatable<TId>
     {
+        T GetById(TId id);
         Task<T> GetByIdAsync(TId id);
 
         Task<T> GetByIdAsync(params object[] keyValues);

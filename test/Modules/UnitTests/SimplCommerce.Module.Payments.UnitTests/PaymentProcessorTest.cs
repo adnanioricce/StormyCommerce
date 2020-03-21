@@ -20,8 +20,7 @@ namespace SimplCommerce.Module.Payments.Tests
             var request = new ProcessTransactionRequest {
                 CartId = 1,          
                 AddressId = 1,
-                UserId = 1,                      
-                DeliveryCost = 7.00m,
+                UserId = 1,                                      
                 PaymentMethod = "credit_card",
                 CardBrand = "visa",
                 CardCountry = "US",
@@ -56,8 +55,7 @@ namespace SimplCommerce.Module.Payments.Tests
             var request = new ProcessTransactionRequest{
                 CartId = 1,
                 AddressId = 1,
-                UserId = 1,
-                DeliveryCost = 7.00m,
+                UserId = 1,                
                 PaymentMethod = "boleto"                
             };
             var fakePaymentRepository = new FakeRepository<Payment>();            
@@ -71,7 +69,8 @@ namespace SimplCommerce.Module.Payments.Tests
             //Then
             var payment = fakePaymentRepository.Query().FirstOrDefault(p => p.Id == response.PaymentId);
             Assert.True(response.Success);
-            Assert.Equal(24.00m + request.DeliveryCost,payment.Amount);            
-        }                
+            Assert.Equal(24.00m ,payment.Amount);            
+        }    
+        
     }
 }

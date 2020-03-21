@@ -21,8 +21,7 @@ namespace SimplCommerce.Module.Correios.Tests.Services
         private CorreiosService CreateMockCorreiosService()
         {
             var mockService = new Mock<CorreiosService>();
-            return mockService.Object;
-            
+            return mockService.Object;            
         }
         [Fact]
         public async Task CalculateFreightForPackage_StateUnderTest_ExpectedBehavior()

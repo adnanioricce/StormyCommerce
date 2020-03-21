@@ -12,7 +12,7 @@ namespace SimplCommerce.Module.PagarMe
     {
         public void ConfigureServices(IServiceCollection serviceCollection)
         {            
-            serviceCollection.AddTransient<IPaymentProvider, PagarMeProcessor>();            
+            serviceCollection.AddTransient<IPaymentProvider, PagarMeProvider>();            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

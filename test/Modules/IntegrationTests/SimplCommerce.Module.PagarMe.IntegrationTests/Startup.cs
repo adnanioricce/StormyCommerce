@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,13 +11,15 @@ using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Models;
 using SimplCommerce.Module.Core.Data;
+using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.PagarMe.Services;
+using SimplCommerce.Module.PagarMe.Settings;
 using SimplCommerce.Module.Payments.Interfaces;
 using SimplCommerce.WebHost.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.DependencyInjection;
-
+using PagarMe;
 [assembly: TestFramework("SimplCommerce.Module.PagarMe.IntegrationTests.Startup","SimplCommerce.Module.PagarMe.IntegrationTests")]
 namespace SimplCommerce.Module.PagarMe.IntegrationTests
 {
@@ -25,7 +28,8 @@ namespace SimplCommerce.Module.PagarMe.IntegrationTests
         public Startup(IMessageSink messageSink) : base(messageSink){            }
         protected override void ConfigureServices(IServiceCollection services)
         {
-            var configuration = GetIConfigurationRoot(GetSharedFolder(AppDomain.CurrentDomain.BaseDirectory));            
+            var configuration = GetIConfigurationRoot(GetSharedFolder(AppDomain.CurrentDomain.BaseDirectory));
+            services.Configure<PagarMeAdditionalSettings>(configuration.GetSection("PagarMeKeys"));
             GlobalConfiguration.ContentRootPath = GetSrcPath(AppDomain.CurrentDomain.BaseDirectory) + "\\SimplCommerce.WebHost\\";
             services.AddSingleton(configuration);
             services.AddModules(GlobalConfiguration.ContentRootPath);
@@ -35,9 +39,17 @@ namespace SimplCommerce.Module.PagarMe.IntegrationTests
                 // If you don't want to run a database
                 opt.UseSqlite("DataSource=testDb.db", m => m.MigrationsAssembly("StormyCommerce.Module.Catalog.Tests")); 
             });
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<SimplDbContext>()
+                .AddUserManager<UserManager<User>>();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient(typeof(IRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
-            services.AddTransient<IPaymentProvider, PagarMeProcessor>();            
+            services.AddTransient<IPaymentProvider, PagarMeProvider>();
+            PagarMeService.DefaultApiKey = configuration["PagarMe:ApiKey"];
+            PagarMeService.DefaultEncryptionKey = configuration["PagarMe:EncryptedKey"];
+            var defaultPagarMe = PagarMeService.GetDefaultService();
+            services.AddSingleton(defaultPagarMe);
+            services.AddTransient<PagarMeWrapper>();
         }
         protected override void Configure(IServiceProvider provider){            
             BuildDbSchema(provider);                         

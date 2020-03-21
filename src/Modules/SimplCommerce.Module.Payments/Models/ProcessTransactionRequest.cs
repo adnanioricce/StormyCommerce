@@ -1,3 +1,7 @@
+﻿using System.Collections.Generic;
+using SimplCommerce.Module.Core.Models;
+using SimplCommerce.Module.Orders.Models;
+
 namespace SimplCommerce.Module.Payments.Models
 {
     public class ProcessTransactionRequest
@@ -6,8 +10,9 @@ namespace SimplCommerce.Module.Payments.Models
         public long UserId { get; set; }
         public long AddressId { get; set; }
         public long OrderId { get; set; }
-        //TODO:DeliveryCost not needed, cart alreadly has ShippingAmount with price of Delivery
-        public decimal DeliveryCost { get; set; }
+        public decimal TotalAmount { get; set; }                
+        public List<OrderItem> Items { get; set; }
+        public User User { get; set; }
         public string PaymentMethod { get; set; }
         public string CardBrand { get; set; }
         public string CardCountry { get; set; }

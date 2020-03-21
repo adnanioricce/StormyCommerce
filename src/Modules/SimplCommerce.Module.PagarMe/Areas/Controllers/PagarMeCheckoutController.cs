@@ -16,7 +16,7 @@ namespace SimplCommerce.Module.PagarMe.Areas.Controllers
         //TODO:Changue PaymentProvider for a web specific model and pass model for additional settings
         public void ConfigureProvider([FromBody]PaymentProvider options)
         {            
-            _paymentProvider.ConfigureProvider(options,null);            
+            _paymentProvider.SetProviderConfiguration(options,null);            
         }        
     }
 }

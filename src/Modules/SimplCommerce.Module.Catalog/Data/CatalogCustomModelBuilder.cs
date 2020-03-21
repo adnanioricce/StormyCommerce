@@ -34,7 +34,8 @@ namespace SimplCommerce.Module.Catalog.Data
                 .WithMany(t => t.ProductTemplates)
                 .HasForeignKey(pt => pt.ProductAttributeId)
                 .OnDelete(DeleteBehavior.Cascade);
-
+            //modelBuilder.Entity<Product>()
+                //.HasMany(p =)
             modelBuilder.Entity<AppSetting>().HasData(
                 new AppSetting("Catalog.ProductPageSize") { Module = "Catalog", IsVisibleInCommonSettingPage = true, Value = "10" },
                 new AppSetting("Catalog.IsProductPriceIncludeTax") { Module = "Catalog", IsVisibleInCommonSettingPage = true, Value = "true" }
@@ -56,6 +57,7 @@ namespace SimplCommerce.Module.Catalog.Data
                 new Widget("ProductWidget") { Name = "Product Widget", ViewComponentName = "ProductWidget", CreateUrl = "widget-product-create", EditUrl = "widget-product-edit", CreatedOn = new DateTimeOffset(new DateTime(2018, 5, 29, 4, 33, 39, 163, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)) },
                 new Widget("SimpleProductWidget") { Name = "Simple Product Widget", ViewComponentName = "SimpleProductWidget", CreateUrl = "widget-simple-product-create", EditUrl = "widget-simple-product-edit", CreatedOn = new DateTimeOffset(new DateTime(2018, 5, 29, 4, 33, 39, 163, DateTimeKind.Unspecified), new TimeSpan(0, 7, 0, 0, 0)) }
             );
+            
         }
     }
 }

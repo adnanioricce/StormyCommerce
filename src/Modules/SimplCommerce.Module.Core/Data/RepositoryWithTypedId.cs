@@ -56,7 +56,13 @@ namespace SimplCommerce.Module.Core.Data
         {
             DbSet.Remove(entity);
         }
-
+        public T GetById(TId id)
+        {
+            var entity = DbSet.Find(id);
+            if (entity is null) return entity;
+            Context.Entry(entity).State = EntityState.Detached;
+            return entity;
+        }
         public async Task<T> GetByIdAsync(TId id) 
         {                        
             var entity = await DbSet.FindAsync(id);
