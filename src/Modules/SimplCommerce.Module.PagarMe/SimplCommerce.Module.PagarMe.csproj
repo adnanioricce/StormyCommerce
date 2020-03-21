@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../SimplCommerce.Module.Payments/SimplCommerce.Module.Payments.csproj"/>
+    <ProjectReference Include="../SimplCommerce.Module.Payments/SimplCommerce.Module.Payments.csproj" />
+    <ProjectReference Include="..\..\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

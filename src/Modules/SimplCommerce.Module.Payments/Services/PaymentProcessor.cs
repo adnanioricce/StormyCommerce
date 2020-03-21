@@ -1,4 +1,4 @@
-using SimplCommerce.Infrastructure.Data;
+﻿using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Payments.Interfaces;
 using SimplCommerce.Module.Payments.Models;
@@ -8,10 +8,15 @@ namespace SimplCommerce.Module.Payments.Services
 {
     public class PaymentProcessor : IPaymentProcessor
     {
-        private readonly IRepository<Cart> _cartRepository;
-        private readonly IRepository<Address> _addressRepository;
+        private readonly IRepository<Cart> _cartRepository;        
         private readonly IRepository<Payment> _paymentRepository;
         private readonly IPaymentProvider _paymentProvider;
+        public PaymentProcessor(IPaymentProvider provider,IRepository<Payment> paymentRepository,IRepository<Cart> cartRepository)
+        {
+            _paymentProvider = provider;
+            _paymentRepository = paymentRepository;
+            _cartRepository = cartRepository;
+        }
         public ProcessTransactionResponse ProcessTransaction(ProcessTransactionRequest request)
         {                        
             var response = _paymentProvider.ProcessTransaction(request);            

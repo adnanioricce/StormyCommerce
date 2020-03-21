@@ -13,6 +13,6 @@ namespace SimplCommerce.Module.PagarMe.Areas.Controllers
         {
             _paymentProcessor.ConfigureProvider(options);
             return Ok();
-        }
+        }        
     }
 }

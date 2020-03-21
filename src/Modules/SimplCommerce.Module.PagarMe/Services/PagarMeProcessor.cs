@@ -1,10 +1,10 @@
-using SimplCommerce.Module.Payments.Interfaces;
+﻿using SimplCommerce.Module.Payments.Interfaces;
+using SimplCommerce.Infraestructure.Data;
 namespace SimplCommerce.Module.PagarMe.Services
 {
     public class PagarMeProcessor : IPaymentProvider
     {        
-        private readonly IRepository<Cart> _cartRepository;
-        private readonly IRepository<Address> _addressRepository;
+        private readonly IRepository<Order> _orderRepository;        
         // private readonly IRepository<>
         public PagarMeProcessor()
         {
@@ -12,9 +12,11 @@ namespace SimplCommerce.Module.PagarMe.Services
         }
         public ProcessTransactionResponse ProcessTransaction(ProcessTransactionRequest request)
         {
-            var cart = await _cartRepository.GetByIdAsync(request.CartId);
-            var amount = cart.Items.Sum(c => c.Quantity * c.Product.Price);
-            
+            //PaymentProcessor 
+            var order = _orderRepository.Query().FirstOrDefault(o => o.Id == request.OrderId);
+            return new ProcessTransactionResponse{
+                Success = false
+            };
         }
     }
 }

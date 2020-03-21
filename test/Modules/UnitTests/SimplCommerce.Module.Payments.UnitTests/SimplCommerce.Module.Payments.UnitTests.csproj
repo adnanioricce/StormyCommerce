@@ -13,4 +13,10 @@
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Modules\SimplCommerce.Module.PagarMe\SimplCommerce.Module.PagarMe.csproj" />
+    <ProjectReference Include="..\..\..\..\src\Modules\SimplCommerce.Module.Payments\SimplCommerce.Module.Payments.csproj" />
+    <ProjectReference Include="..\..\..\SimplCommerce.Tests\SimplCommerce.Tests.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,16 +1,20 @@
+﻿using System.Collections.Generic;
+using SimplCommerce.Module.Catalog.Models;
+using SimplCommerce.Module.Core.Models;
+using SimplCommerce.Module.ShoppingCart.Models;
+
 namespace SimplCommerce.Module.Payments.Tests
 {
     public class PaymentSeeder
     {
         public static Address GetAddress(){
-            return new Address{
-                Id = 1,
+            return new Address{               
                 Phone = "+551199765432",
                 ZipCode = "000000000",                
                 City = "city",
                 Number = "1245",
                 AddressLine1 = "R. Something",
-                State = new StateOrProvince{
+                StateOrProvince = new StateOrProvince{
                     Name = "Name of State",
                     Code = "NS"                    
                 },                
@@ -24,8 +28,7 @@ namespace SimplCommerce.Module.Payments.Tests
             };
         }
         public static Cart GetCart(){
-            return new Cart{
-                Id = 1,
+            return new Cart{                
                 Items = new List<CartItem>{
                     new CartItem{
                         Product = new Product{
