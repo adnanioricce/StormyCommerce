@@ -1,18 +1,22 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using SimplCommerce.Module.Payments.Interfaces;
+using SimplCommerce.Module.Payments.Models;
+
 namespace SimplCommerce.Module.PagarMe.Areas.Controllers
 {
-    public class PagarMeCheckoutController : BaseController
+    public class PagarMeCheckoutController : ControllerBase
     {
-        private readonly IPaymentProcessor _paymentProcessor;
-        public PagarMeCheckoutController(IPaymentProcessor paymentProcessor)
+        private readonly IPaymentProvider _paymentProvider;
+        public PagarMeCheckoutController(IPaymentProvider paymentProcessor)
         {
-            _paymentProcessor = paymentProcessor;
+            _paymentProvider = paymentProcessor;
         }
 
         [HttpPost("config")]
-        public void ConfigureProvider([FromBody]PaymentProviderOptions options)
-        {
-            _paymentProcessor.ConfigureProvider(options);
-            return Ok();
+        //TODO:Changue PaymentProvider for a web specific model and pass model for additional settings
+        public void ConfigureProvider([FromBody]PaymentProvider options)
+        {            
+            _paymentProvider.ConfigureProvider(options,null);            
         }        
     }
 }
