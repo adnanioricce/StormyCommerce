@@ -6,6 +6,22 @@ namespace SimplCommerce.Module.Orders.Models
 {
     public class OrderAddress : EntityBase
     {
+        public OrderAddress(){}
+        public OrderAddress(Address address)
+        {
+            ContactName = address.ContactName;
+            Phone = address.Phone;
+            AddressLine1 = address.AddressLine1;
+            AddressLine2 = address.AddressLine2;
+            City = address.City;
+            ZipCode = address.ZipCode;
+            if(address.Country == null || !string.IsNullOrEmpty(address.CountryId))
+                DistrictId = address.DistrictId;
+            if (address.StateOrProvince == null || address.StateOrProvinceId > 0)
+                StateOrProvinceId = address.StateOrProvinceId;
+            if (address.District == null || address.DistrictId > 0)
+                DistrictId = address.DistrictId;
+        }
         [StringLength(450)]
         public string ContactName { get; set; }
 

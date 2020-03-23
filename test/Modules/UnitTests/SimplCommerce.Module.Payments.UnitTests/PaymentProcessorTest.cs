@@ -53,16 +53,15 @@ namespace SimplCommerce.Module.Payments.Tests
         {
             //Given
             var request = new ProcessTransactionRequest{
-                CartId = 1,
-                AddressId = 1,
-                UserId = 1,                
+                OrderId = 1,
+                UserId = 1,
                 PaymentMethod = "boleto"                
             };
             var fakePaymentRepository = new FakeRepository<Payment>();            
             var fakeAddressRepo = new FakeRepository<Address>();
             var fakeCartRepository = new FakeRepository<Cart>();            
             fakeAddressRepo.Add(PaymentSeeder.GetAddress());            
-            var fakeProvider = new Mock<IPaymentProvider>().Object;
+            var fakeProvider = CreatePaymentProvider();
             var service = new PaymentProcessor(fakeProvider,fakePaymentRepository,fakeCartRepository);
             //when 
             var response = service.ProcessTransaction(request);
@@ -71,6 +70,17 @@ namespace SimplCommerce.Module.Payments.Tests
             Assert.True(response.Success);
             Assert.Equal(24.00m ,payment.Amount);            
         }    
-        
+        private IPaymentProvider CreatePaymentProvider()
+        {            
+            var mockProvider = new Mock<IPaymentProvider>();
+            mockProvider.Setup(p => p.ProcessTransaction(It.IsAny<ProcessTransactionRequest>()))
+                .Returns(new ProcessTransactionResponse
+                {
+                    Success = true,
+                    Message = "success message",
+                    PaymentId = 1
+                });
+            return mockProvider.Object;
+        }
     }
 }

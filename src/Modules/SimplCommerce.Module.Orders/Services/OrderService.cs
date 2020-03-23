@@ -35,7 +35,6 @@ namespace SimplCommerce.Module.Orders.Services
         public OrderService(IRepository<Order> orderRepository,
             IRepository<Cart> cartRepository,
             ICouponService couponService,
-
             IRepository<CartItem> cartItemRepository,
             IRepository<OrderItem> orderItemRepository,
             ITaxService taxService,
@@ -98,7 +97,10 @@ namespace SimplCommerce.Module.Orders.Services
             }
             else
             {
-                shippingAddress = _userAddressRepository.Query().Where(x => x.Id == shippingData.ShippingAddressId).Select(x => x.Address).First();
+                shippingAddress = _userAddressRepository.Query()
+                    .Where(x => x.Id == shippingData.ShippingAddressId)
+                    .Select(x => x.Address)
+                    .First();
             }
 
             if (shippingData.UseShippingAddressAsBillingAddress)

@@ -8,6 +8,10 @@ namespace SimplCommerce.Module.ShoppingCart.Models
 {
     public class Cart : EntityBase
     {
+        public Cart(long id)
+        {
+            Id = id;
+        }
         public Cart()
         {
             CreatedOn = DateTimeOffset.Now;

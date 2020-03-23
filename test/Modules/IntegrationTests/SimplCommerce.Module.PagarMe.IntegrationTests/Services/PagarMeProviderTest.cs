@@ -67,7 +67,7 @@ namespace SimplCommerce.Module.PagarMe.IntegrationTests.Services
             Assert.Equal(262.40m, payment.Amount);
         }
         private void SetTestData(SimplDbContext dbContext)
-       {
+        {
             var user = GetUserWithoutDefaultAddresses();
             var product = GetProduct();
             SetAddressData(dbContext);

@@ -55,7 +55,7 @@ namespace SimplCommerce.Tests
 
         public IDbContextTransaction BeginTransaction()
         {
-            throw new NotImplementedException();
+            return new FakeTransaction();
         }
 
         public Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null)

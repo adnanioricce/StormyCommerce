@@ -12,7 +12,8 @@ namespace SimplCommerce.Tests
 {
     public class FakeRepository<T> : IRepository<T> where T : EntityBase
     {
-        private readonly List<T> _dataSource;
+        private readonly List<T> _dataSource = new List<T>();
+        private int count = 0;
         public void Add(T entity)
         {
             if (entity == null)
@@ -20,8 +21,9 @@ namespace SimplCommerce.Tests
                 throw new ArgumentNullException("given entity is null");
             }
             if (!_dataSource.Contains(entity))
-            {
+            {                
                 _dataSource.Add(entity);
+                return;
             }
             throw new InvalidOperationException("the data source already have the given entity");
         }
@@ -47,7 +49,7 @@ namespace SimplCommerce.Tests
 
         public IDbContextTransaction BeginTransaction()
         {
-            throw new NotImplementedException();
+            return new FakeTransaction();
         }
 
         public Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null)
