@@ -10,7 +10,5 @@ StormyCommerce is a ecommerce system that works with a REST API. The project is 
 ### On Visual Studio 
 - select src/SimplCommerce.WebHost as a startup project and press F5
 - go to http://localhost:portnumber/api
-# Client application
-a client application was develop alongside with the project, you can see it in https://whittoeft-store-site.now.sh and find the source code on https://github.com/danilexx/whittoeft-store-site 
 # License
 the license used is Apache 2.0, the same used on the original project. See the file [License.txt](license.txt) for more details
