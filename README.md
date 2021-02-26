@@ -1,5 +1,6 @@
 # StormyCommerce 
 StormyCommerce is a ecommerce system that works as a REST API. The project is a fork of [SimplCommerce](http://github.com/simplCommerce/SimplCommerce).You can run the project with the following steps. Was develop as a final paper project. This project is not aimed(and shouldn't) to be used in production.
+If you want to see a demonstration, click in the link [Dev BUILD](http://stormycommerce.adnangonzagaci.com/api)
 # Steps to Run
 ## Requirements 
 - .NET Core SDK 2.2.401 or above
